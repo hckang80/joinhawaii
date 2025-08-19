@@ -1,11 +1,14 @@
 'use client';
 
+import { observable } from '@legendapp/state';
+import { use$ } from '@legendapp/state/react';
 import {
   Button,
   Card,
   Flex,
   Grid,
   Heading,
+  Radio,
   RadioCards,
   TextArea,
   TextField
@@ -39,7 +42,13 @@ const defaultClientValues = {
   notes: ''
 };
 
+const status$ = observable({
+  reservationIndex: 0
+});
+
 export default function ReservationsFormClient() {
+  const reservationIndex = use$(status$.reservationIndex);
+
   const {
     register,
     handleSubmit,
@@ -72,6 +81,10 @@ export default function ReservationsFormClient() {
     setValue('clients', [...getValues('clients'), defaultClientValues]);
   };
 
+  const handleChangeReservation = (event: React.ChangeEvent<HTMLInputElement>) => {
+    status$.reservationIndex.set(() => +event.target.value);
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Card asChild size='3'>
@@ -81,65 +94,79 @@ export default function ReservationsFormClient() {
           </Heading>
 
           <div>
+            reservationIndex: {reservationIndex}
             {getValues('clients').map((client, i) => {
               return (
-                <Grid key={client.residentId} columns='100px 1fr' gap='3' className={styles.client}>
-                  <span>이름</span>
-                  <TextField.Root
-                    size='3'
-                    {...register(`clients.${i}.koreanName`, { required: true })}
-                  />
+                <span key={client.residentId}>
+                  <Flex asChild justify='end' align='center' gap='1'>
+                    <label>
+                      예약자
+                      <Radio
+                        name='reservation'
+                        value={'' + i}
+                        defaultChecked={i === reservationIndex}
+                        onChange={handleChangeReservation}
+                      />
+                    </label>
+                  </Flex>
+                  <Grid columns='100px 1fr' gap='3' className={styles.client}>
+                    <span>이름</span>
+                    <TextField.Root
+                      size='3'
+                      {...register(`clients.${i}.koreanName`, { required: true })}
+                    />
 
-                  <span>이름(영문)</span>
-                  <TextField.Root
-                    size='3'
-                    {...register(`clients.${i}.englishName`, { required: true })}
-                  />
+                    <span>이름(영문)</span>
+                    <TextField.Root
+                      size='3'
+                      {...register(`clients.${i}.englishName`, { required: true })}
+                    />
 
-                  <span>성별</span>
-                  <Controller
-                    name={`clients.${i}.gender`}
-                    control={control}
-                    render={({ field }) => (
-                      <RadioCards.Root
-                        size='1'
-                        value={field.value}
-                        onValueChange={value => {
-                          field.onChange(value);
-                        }}
-                        name={field.name}
-                        columns='repeat(auto-fit, minmax(100px, auto))'
-                      >
-                        {GENDER_TYPE.map(value => (
-                          <RadioCards.Item value={value} key={value}>
-                            {value}
-                          </RadioCards.Item>
-                        ))}
-                      </RadioCards.Root>
-                    )}
-                  ></Controller>
+                    <span>성별</span>
+                    <Controller
+                      name={`clients.${i}.gender`}
+                      control={control}
+                      render={({ field }) => (
+                        <RadioCards.Root
+                          size='1'
+                          value={field.value}
+                          onValueChange={value => {
+                            field.onChange(value);
+                          }}
+                          name={field.name}
+                          columns='repeat(auto-fit, minmax(100px, auto))'
+                        >
+                          {GENDER_TYPE.map(value => (
+                            <RadioCards.Item value={value} key={value}>
+                              {value}
+                            </RadioCards.Item>
+                          ))}
+                        </RadioCards.Root>
+                      )}
+                    ></Controller>
 
-                  <span>주민번호</span>
-                  <TextField.Root
-                    size='3'
-                    {...register(`clients.${i}.residentId`, { required: true })}
-                  />
+                    <span>주민번호</span>
+                    <TextField.Root
+                      size='3'
+                      {...register(`clients.${i}.residentId`, { required: true })}
+                    />
 
-                  <span>연락처</span>
-                  <TextField.Root
-                    size='3'
-                    {...register(`clients.${i}.phoneNumber`, { required: true })}
-                  />
+                    <span>연락처</span>
+                    <TextField.Root
+                      size='3'
+                      {...register(`clients.${i}.phoneNumber`, { required: true })}
+                    />
 
-                  <span>이메일</span>
-                  <TextField.Root
-                    size='3'
-                    {...register(`clients.${i}.email`, { required: true })}
-                  />
+                    <span>이메일</span>
+                    <TextField.Root
+                      size='3'
+                      {...register(`clients.${i}.email`, { required: true })}
+                    />
 
-                  <span>비고</span>
-                  <TextArea {...register(`clients.${i}.notes`)} />
-                </Grid>
+                    <span>비고</span>
+                    <TextArea {...register(`clients.${i}.notes`)} />
+                  </Grid>
+                </span>
               );
             })}
           </div>
