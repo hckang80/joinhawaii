@@ -39,7 +39,7 @@ interface FormData {
   clients: Client[];
   flight: {
     international: Flight;
-    domestic: Flight;
+    domestic: Flight[];
   };
 }
 
@@ -53,6 +53,14 @@ const defaultClientValues = {
   phoneNumber: '',
   email: '',
   notes: ''
+};
+
+const defaultFlightValues = {
+  flightNumber: '',
+  departureDatetime: '',
+  departureCity: '',
+  arrivalDatetime: '',
+  arrivalCity: ''
 };
 
 const status$ = observable({
@@ -72,7 +80,11 @@ export default function ReservationsFormClient() {
     control
   } = useForm<FormData>({
     defaultValues: {
-      clients: [defaultClientValues]
+      clients: [defaultClientValues],
+      flight: {
+        international: defaultFlightValues,
+        domestic: []
+      }
     }
   });
 
@@ -86,6 +98,10 @@ export default function ReservationsFormClient() {
 
   const handleChangeReservation = (event: React.ChangeEvent<HTMLInputElement>) => {
     status$.reservationIndex.set(() => +event.target.value);
+  };
+
+  const addDomesticFlight = () => {
+    setValue('flight.domestic', [...getValues('flight.domestic'), defaultFlightValues]);
   };
 
   return (
@@ -182,7 +198,7 @@ export default function ReservationsFormClient() {
               <Flex justify='end' mt='4'>
                 <Button type='button' variant='surface' onClick={addClient}>
                   <PlusIcon size='20' />
-                  인원추가
+                  인원 추가
                 </Button>
               </Flex>
             </section>
@@ -193,43 +209,107 @@ export default function ReservationsFormClient() {
               <Heading as='h3' mb='4'>
                 항공정보
               </Heading>
-              <section>
-                <Heading as='h4' mb='4' size='5'>
-                  국제선
-                </Heading>
-                <Grid columns='100px 1fr' gap='3'>
-                  <span>항공편명</span>
-                  <TextField.Root
-                    size='3'
-                    {...register('flight.international.flightNumber', { required: true })}
-                  />
-                  <span>출발 시간</span>
-                  <TextField.Root
-                    size='3'
-                    type='datetime-local'
-                    {...register('flight.international.departureDatetime', { required: true })}
-                  ></TextField.Root>
-                  <span>출발지</span>
-                  <TextField.Root
-                    size='3'
-                    value='인천'
-                    readOnly
-                    {...register('flight.international.departureCity', { required: true })}
-                  />
-                  <span>도착 시간</span>
-                  <TextField.Root
-                    size='3'
-                    type='datetime-local'
-                    {...register('flight.international.arrivalDatetime', { required: true })}
-                  ></TextField.Root>
-                  <span>도착지</span>
-                  <TextField.Root
-                    size='3'
-                    value=''
-                    {...register('flight.international.arrivalCity', { required: true })}
-                  />
-                </Grid>
-              </section>
+
+              <Flex direction='column' gap='5'>
+                <section>
+                  <Heading as='h4' mb='4' size='5'>
+                    국제선
+                  </Heading>
+                  <Grid columns='100px 1fr' gap='3'>
+                    <span>항공편명</span>
+                    <TextField.Root
+                      size='3'
+                      {...register('flight.international.flightNumber', { required: true })}
+                    />
+                    <span>출발 시간</span>
+                    <TextField.Root
+                      size='3'
+                      type='datetime-local'
+                      {...register('flight.international.departureDatetime', { required: true })}
+                    ></TextField.Root>
+                    <span>출발지</span>
+                    <TextField.Root
+                      size='3'
+                      value='인천'
+                      readOnly
+                      {...register('flight.international.departureCity', { required: true })}
+                    />
+                    <span>도착 시간</span>
+                    <TextField.Root
+                      size='3'
+                      type='datetime-local'
+                      {...register('flight.international.arrivalDatetime', { required: true })}
+                    ></TextField.Root>
+                    <span>도착지</span>
+                    <TextField.Root
+                      size='3'
+                      {...register('flight.international.arrivalCity', { required: true })}
+                    />
+                  </Grid>
+                </section>
+
+                {!!getValues('flight.domestic').length && (
+                  <section>
+                    <Heading as='h4' mb='4' size='5'>
+                      주내선
+                    </Heading>
+                    <div>
+                      {getValues('flight.domestic').map((_flight, i) => {
+                        return (
+                          <div key={i} className={styles.client}>
+                            <Grid columns='100px 1fr' gap='3'>
+                              <span>항공편명</span>
+                              <TextField.Root
+                                size='3'
+                                {...register(`flight.domestic.${i}.flightNumber`, {
+                                  required: true
+                                })}
+                              />
+                              <span>출발 시간</span>
+                              <TextField.Root
+                                size='3'
+                                type='datetime-local'
+                                {...register(`flight.domestic.${i}.departureDatetime`, {
+                                  required: true
+                                })}
+                              ></TextField.Root>
+                              <span>출발지</span>
+                              <TextField.Root
+                                size='3'
+                                {...register(`flight.domestic.${i}.departureCity`, {
+                                  required: true
+                                })}
+                              />
+                              <span>도착 시간</span>
+                              <TextField.Root
+                                size='3'
+                                type='datetime-local'
+                                {...register(`flight.domestic.${i}.arrivalDatetime`, {
+                                  required: true
+                                })}
+                              ></TextField.Root>
+                              <span>도착지</span>
+                              <TextField.Root
+                                size='3'
+                                {...register(`flight.domestic.${i}.arrivalCity`, {
+                                  required: true
+                                })}
+                              />
+                            </Grid>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </section>
+                )}
+              </Flex>
+
+              <Flex justify='end' mt='4'>
+                <Button type='button' variant='surface' onClick={addDomesticFlight}>
+                  <PlusIcon size='20' />
+                  주내선 추가
+                </Button>
+              </Flex>
             </section>
           </Card>
 
