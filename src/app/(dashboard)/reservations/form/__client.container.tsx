@@ -52,9 +52,12 @@ const defaultFlightValues = {
     adult: 1,
     children: 0
   },
-  ticket_price: {
+  price: {
     adult: 0,
-    children: 0
+    children: 0,
+    deposit: 0,
+    balance: 0,
+    total: 0
   }
 };
 
@@ -270,7 +273,7 @@ export default function ReservationsFormClientContainer() {
                         type='number'
                         min='0'
                         size='3'
-                        {...register('flight.international.ticket_price.adult', {
+                        {...register('flight.international.price.adult', {
                           required: true,
                           valueAsNumber: true
                         })}
@@ -280,12 +283,46 @@ export default function ReservationsFormClientContainer() {
                         type='number'
                         min='0'
                         size='3'
-                        {...register('flight.international.ticket_price.children', {
+                        {...register('flight.international.price.children', {
                           required: true,
                           valueAsNumber: true
                         })}
                       />
                     </Grid>
+
+                    <Text weight='medium'>요금 상세</Text>
+                    <Flex align='center' gap='3'>
+                      <Text wrap='nowrap'>예약금</Text>
+                      <TextField.Root
+                        type='number'
+                        min='0'
+                        size='3'
+                        {...register('flight.international.price.deposit', {
+                          required: true,
+                          valueAsNumber: true
+                        })}
+                      />
+                      <Text wrap='nowrap'>잔금</Text>
+                      <TextField.Root
+                        type='number'
+                        min='0'
+                        size='3'
+                        {...register('flight.international.price.balance', {
+                          required: true,
+                          valueAsNumber: true
+                        })}
+                      />
+                      <Text wrap='nowrap'>합계</Text>
+                      <TextField.Root
+                        type='number'
+                        min='0'
+                        size='3'
+                        {...register('flight.international.price.total', {
+                          required: true,
+                          valueAsNumber: true
+                        })}
+                      />
+                    </Flex>
                   </Grid>
                 </section>
 
