@@ -73,10 +73,16 @@ export default function ReservationsFormClient() {
           return (
             <Grid key={client.residentId} columns='100px 1fr' gap='3'>
               <span>이름</span>
-              <TextField.Root {...register(`clients.${i}.koreanName`, { required: true })} />
+              <TextField.Root
+                size='3'
+                {...register(`clients.${i}.koreanName`, { required: true })}
+              />
 
               <span>이름(영문)</span>
-              <TextField.Root {...register(`clients.${i}.englishName`, { required: true })} />
+              <TextField.Root
+                size='3'
+                {...register(`clients.${i}.englishName`, { required: true })}
+              />
 
               <span>성별</span>
               <Controller
@@ -102,13 +108,19 @@ export default function ReservationsFormClient() {
               ></Controller>
 
               <span>주민번호</span>
-              <TextField.Root {...register(`clients.${i}.residentId`, { required: true })} />
+              <TextField.Root
+                size='3'
+                {...register(`clients.${i}.residentId`, { required: true })}
+              />
 
               <span>연락처</span>
-              <TextField.Root {...register(`clients.${i}.phoneNumber`, { required: true })} />
+              <TextField.Root
+                size='3'
+                {...register(`clients.${i}.phoneNumber`, { required: true })}
+              />
 
               <span>이메일</span>
-              <TextField.Root {...register(`clients.${i}.email`, { required: true })} />
+              <TextField.Root size='3' {...register(`clients.${i}.email`, { required: true })} />
 
               <span>비고</span>
               <TextArea {...register(`clients.${i}.notes`)} />
