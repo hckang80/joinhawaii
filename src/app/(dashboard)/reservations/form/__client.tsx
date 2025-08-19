@@ -1,7 +1,7 @@
 'use client';
 
-import { Button, Flex, Grid, Heading, TextArea, TextField } from '@radix-ui/themes';
-import { type SubmitHandler, useForm } from 'react-hook-form';
+import { Button, Flex, Grid, Heading, RadioCards, TextArea, TextField } from '@radix-ui/themes';
+import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 
 interface Client {
   koreanName: string;
@@ -17,10 +17,13 @@ interface FormData {
   clients: Client[];
 }
 
+export const GENDER_TYPE = ['MR', 'MS'] as const;
+
 export default function ReservationsFormClient() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { isSubmitting, isDirty },
     control
   } = useForm<FormData>({
@@ -29,7 +32,7 @@ export default function ReservationsFormClient() {
         {
           koreanName: '홍길동',
           englishName: 'Gildong Hong',
-          gender: 'male',
+          gender: '',
           residentId: '901231-1234567',
           phoneNumber: '010-1234-5678',
           email: 'hong.gildong@example.com',
@@ -58,7 +61,27 @@ export default function ReservationsFormClient() {
           <TextField.Root {...register('clients.0.englishName', { required: true })} />
 
           <span>성별</span>
-          <TextField.Root />
+          <Controller
+            name='clients.0.gender'
+            control={control}
+            render={({ field }) => (
+              <RadioCards.Root
+                size='1'
+                value={field.value}
+                onValueChange={value => {
+                  field.onChange(value);
+                }}
+                name={field.name}
+                columns='repeat(auto-fit, minmax(100px, auto))'
+              >
+                {GENDER_TYPE.map(value => (
+                  <RadioCards.Item value={value} key={value}>
+                    {value}
+                  </RadioCards.Item>
+                ))}
+              </RadioCards.Root>
+            )}
+          ></Controller>
 
           <span>주민번호</span>
           <TextField.Root {...register('clients.0.residentId', { required: true })} />
@@ -77,6 +100,8 @@ export default function ReservationsFormClient() {
       <Flex justify='end' mt='4'>
         <Button size='3'>확인</Button>
       </Flex>
+
+      <pre>{JSON.stringify(watch(), null, 2)}</pre>
     </form>
   );
 }
