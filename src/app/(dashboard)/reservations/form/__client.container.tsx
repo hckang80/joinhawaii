@@ -373,6 +373,88 @@ export default function ReservationsFormClientContainer() {
                                   required: true
                                 })}
                               />
+
+                              <Text weight='medium'>인원</Text>
+                              <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
+                                <span>성인</span>
+                                <TextField.Root
+                                  type='number'
+                                  min='0'
+                                  size='3'
+                                  {...register(`flight.domestic.${i}.capacity.adult`, {
+                                    required: true,
+                                    valueAsNumber: true
+                                  })}
+                                />
+                                <span>소아</span>
+                                <TextField.Root
+                                  type='number'
+                                  min='0'
+                                  size='3'
+                                  {...register(`flight.domestic.${i}.capacity.children`, {
+                                    required: true,
+                                    valueAsNumber: true
+                                  })}
+                                />
+                              </Grid>
+
+                              <Text weight='medium'>요금</Text>
+                              <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
+                                <span>성인</span>
+                                <TextField.Root
+                                  type='number'
+                                  min='0'
+                                  size='3'
+                                  {...register(`flight.domestic.${i}.price.adult`, {
+                                    required: true,
+                                    valueAsNumber: true
+                                  })}
+                                />
+                                <span>소아</span>
+                                <TextField.Root
+                                  type='number'
+                                  min='0'
+                                  size='3'
+                                  {...register(`flight.domestic.${i}.price.children`, {
+                                    required: true,
+                                    valueAsNumber: true
+                                  })}
+                                />
+                              </Grid>
+
+                              <Text weight='medium'>요금 상세</Text>
+                              <Flex align='center' gap='3'>
+                                <Text wrap='nowrap'>예약금</Text>
+                                <TextField.Root
+                                  type='number'
+                                  min='0'
+                                  size='3'
+                                  {...register(`flight.domestic.${i}.price.deposit`, {
+                                    required: true,
+                                    valueAsNumber: true
+                                  })}
+                                />
+                                <Text wrap='nowrap'>잔금</Text>
+                                <TextField.Root
+                                  type='number'
+                                  min='0'
+                                  size='3'
+                                  {...register(`flight.domestic.${i}.price.balance`, {
+                                    required: true,
+                                    valueAsNumber: true
+                                  })}
+                                />
+                                <Text wrap='nowrap'>합계</Text>
+                                <TextField.Root
+                                  type='number'
+                                  min='0'
+                                  size='3'
+                                  {...register(`flight.domestic.${i}.price.total`, {
+                                    required: true,
+                                    valueAsNumber: true
+                                  })}
+                                />
+                              </Flex>
                             </Grid>
                           </div>
                         );
