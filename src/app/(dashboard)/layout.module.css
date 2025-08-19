@@ -1,0 +1,23 @@
+.root {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.aside {
+  padding: 1.25rem 0.5rem;
+  border-right: 1px solid var(--gray-5);
+}
+
+.logo {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  background: var(--background);
+  border-radius: 100%;
+}
+
+.main {
+  flex-grow: 1;
+  padding: 1.5rem;
+}
