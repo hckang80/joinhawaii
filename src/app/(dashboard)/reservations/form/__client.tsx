@@ -17,23 +17,9 @@ import { PlusIcon } from 'lucide-react';
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import styles from './page.module.css';
 
-interface Client {
-  koreanName: string;
-  englishName: string;
-  gender: string;
-  residentId: string;
-  phoneNumber: string;
-  email: string;
-  notes: string;
-}
+type Client = typeof defaultClientValues;
 
-interface Flight {
-  flightNumber: string;
-  departureDatetime: string;
-  departureCity: string;
-  arrivalDatetime: string;
-  arrivalCity: string;
-}
+type Flight = typeof defaultFlightValues;
 
 interface FormData {
   clients: Client[];
@@ -43,7 +29,7 @@ interface FormData {
   };
 }
 
-export const GENDER_TYPE = ['MR', 'MS'] as const;
+const GENDER_TYPE = ['MR', 'MS'] as const;
 
 const defaultClientValues = {
   koreanName: '',
