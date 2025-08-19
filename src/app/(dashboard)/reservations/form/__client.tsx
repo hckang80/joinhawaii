@@ -59,17 +59,7 @@ export default function ReservationsFormClient() {
     control
   } = useForm<FormData>({
     defaultValues: {
-      clients: [
-        {
-          koreanName: '홍길동',
-          englishName: 'Gildong Hong',
-          gender: '',
-          residentId: '901231-1234567',
-          phoneNumber: '010-1234-5678',
-          email: 'hong.gildong@example.com',
-          notes: '추가 사항: VIP 고객'
-        }
-      ]
+      clients: [defaultClientValues]
     }
   });
 
