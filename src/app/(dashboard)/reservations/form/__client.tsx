@@ -84,9 +84,9 @@ export default function ReservationsFormClient() {
           </Heading>
 
           <div>
-            {getValues('clients').map((client, i) => {
+            {getValues('clients').map((_client, i) => {
               return (
-                <div key={client.residentId} className={styles.client}>
+                <div key={i} className={styles.client}>
                   <Flex asChild justify='end' align='center' gap='1' mb='2'>
                     <label>
                       예약자
