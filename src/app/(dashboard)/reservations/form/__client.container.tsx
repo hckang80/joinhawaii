@@ -28,10 +28,7 @@ type Hotel = typeof defaultHotelValues;
 
 interface FormData {
   clients: Client[];
-  flight: {
-    international: Flight;
-    domestic: Flight[];
-  };
+  flight: Flight[];
   hotels: Hotel[];
 }
 
@@ -101,10 +98,7 @@ export default function ReservationsFormClientContainer() {
   } = useForm<FormData>({
     defaultValues: {
       clients: [defaultClientValues],
-      flight: {
-        international: defaultFlightValues,
-        domestic: []
-      },
+      flight: [defaultFlightValues],
       hotels: [defaultHotelValues]
     }
   });
@@ -122,7 +116,7 @@ export default function ReservationsFormClientContainer() {
   };
 
   const addDomesticFlight = () => {
-    setValue('flight.domestic', [...getValues('flight.domestic'), defaultFlightValues]);
+    setValue('flight', [...getValues('flight'), defaultFlightValues]);
   };
 
   return (
@@ -238,270 +232,131 @@ export default function ReservationsFormClientContainer() {
               </Heading>
 
               <Flex direction='column' gap='5'>
-                <section>
-                  <Heading as='h4' mb='4' size='5'>
-                    국제선
-                  </Heading>
+                {getValues('flight').map((_flight, i) => (
+                  <div key={i} className={styles.client}>
+                    <Grid align='center' columns='60px 1fr 60px 1fr' gap='3'>
+                      <Container gridColumn='1 / -1'>
+                        <Grid align='center' columns='60px 1fr' gap='3'>
+                          <Text weight='medium'>항공편명</Text>
+                          <TextField.Root
+                            size='3'
+                            {...register(`flight.${i}.flight_number`, { required: true })}
+                          />
+                        </Grid>
+                      </Container>
 
-                  <Grid align='center' columns='60px 1fr 60px 1fr' gap='3'>
-                    <Container gridColumn='1 / -1'>
-                      <Grid align='center' columns='60px 1fr' gap='3'>
-                        <Text weight='medium'>항공편명</Text>
+                      <Text weight='medium'>출발 시간</Text>
+                      <TextField.Root
+                        size='3'
+                        type='datetime-local'
+                        {...register(`flight.${i}.departure_datetime`, { required: true })}
+                      ></TextField.Root>
+                      <Text weight='medium'>출발지</Text>
+                      <TextField.Root
+                        size='3'
+                        value={!i ? '인천' : ''}
+                        readOnly={!i}
+                        {...register(`flight.${i}.departure_city`, { required: true })}
+                      />
+                      <Text weight='medium'>도착 시간</Text>
+                      <TextField.Root
+                        size='3'
+                        type='datetime-local'
+                        {...register(`flight.${i}.arrival_datetime`, { required: true })}
+                      ></TextField.Root>
+                      <Text weight='medium'>도착지</Text>
+                      <TextField.Root
+                        size='3'
+                        {...register(`flight.${i}.arrival_city`, { required: true })}
+                      />
+                      <Text weight='medium'>인원</Text>
+                      <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
+                        <span>성인</span>
                         <TextField.Root
+                          type='number'
+                          min='0'
                           size='3'
-                          {...register('flight.international.flight_number', { required: true })}
+                          {...register(`flight.${i}.capacity.adult`, {
+                            required: true,
+                            valueAsNumber: true
+                          })}
+                        />
+                        <span>소아</span>
+                        <TextField.Root
+                          type='number'
+                          min='0'
+                          size='3'
+                          {...register(`flight.${i}.capacity.children`, {
+                            required: true,
+                            valueAsNumber: true
+                          })}
                         />
                       </Grid>
-                    </Container>
 
-                    <Text weight='medium'>출발 시간</Text>
-                    <TextField.Root
-                      size='3'
-                      type='datetime-local'
-                      {...register('flight.international.departure_datetime', { required: true })}
-                    ></TextField.Root>
-                    <Text weight='medium'>출발지</Text>
-                    <TextField.Root
-                      size='3'
-                      value='인천'
-                      readOnly
-                      {...register('flight.international.departure_city', { required: true })}
-                    />
-                    <Text weight='medium'>도착 시간</Text>
-                    <TextField.Root
-                      size='3'
-                      type='datetime-local'
-                      {...register('flight.international.arrival_datetime', { required: true })}
-                    ></TextField.Root>
-                    <Text weight='medium'>도착지</Text>
-                    <TextField.Root
-                      size='3'
-                      {...register('flight.international.arrival_city', { required: true })}
-                    />
-                    <Text weight='medium'>인원</Text>
-                    <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
-                      <span>성인</span>
-                      <TextField.Root
-                        type='number'
-                        min='0'
-                        size='3'
-                        {...register('flight.international.capacity.adult', {
-                          required: true,
-                          valueAsNumber: true
-                        })}
-                      />
-                      <span>소아</span>
-                      <TextField.Root
-                        type='number'
-                        min='0'
-                        size='3'
-                        {...register('flight.international.capacity.children', {
-                          required: true,
-                          valueAsNumber: true
-                        })}
-                      />
-                    </Grid>
-
-                    <Text weight='medium'>요금</Text>
-                    <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
-                      <span>성인</span>
-                      <TextField.Root
-                        type='number'
-                        min='0'
-                        size='3'
-                        {...register('flight.international.price.adult', {
-                          required: true,
-                          valueAsNumber: true
-                        })}
-                      />
-                      <span>소아</span>
-                      <TextField.Root
-                        type='number'
-                        min='0'
-                        size='3'
-                        {...register('flight.international.price.children', {
-                          required: true,
-                          valueAsNumber: true
-                        })}
-                      />
-                    </Grid>
-
-                    <Container gridColumn='1 / -1'>
-                      <Grid align='center' columns='60px 1fr' gap='3'>
-                        <Text weight='medium'>요금 상세</Text>
-                        <Flex align='center' gap='3'>
-                          <Text wrap='nowrap'>예약금</Text>
-                          <TextField.Root
-                            type='number'
-                            min='0'
-                            size='3'
-                            {...register('flight.international.price.deposit', {
-                              required: true,
-                              valueAsNumber: true
-                            })}
-                          />
-                          <Text wrap='nowrap'>잔금</Text>
-                          <TextField.Root
-                            type='number'
-                            min='0'
-                            size='3'
-                            {...register('flight.international.price.balance', {
-                              required: true,
-                              valueAsNumber: true
-                            })}
-                          />
-                          <Text wrap='nowrap'>합계</Text>
-                          <TextField.Root
-                            type='number'
-                            min='0'
-                            size='3'
-                            {...register('flight.international.price.total', {
-                              required: true,
-                              valueAsNumber: true
-                            })}
-                          />
-                        </Flex>
+                      <Text weight='medium'>요금</Text>
+                      <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
+                        <span>성인</span>
+                        <TextField.Root
+                          type='number'
+                          min='0'
+                          size='3'
+                          {...register(`flight.${i}.price.adult`, {
+                            required: true,
+                            valueAsNumber: true
+                          })}
+                        />
+                        <span>소아</span>
+                        <TextField.Root
+                          type='number'
+                          min='0'
+                          size='3'
+                          {...register(`flight.${i}.price.children`, {
+                            required: true,
+                            valueAsNumber: true
+                          })}
+                        />
                       </Grid>
-                    </Container>
-                  </Grid>
-                </section>
 
-                {!!getValues('flight.domestic').length && (
-                  <section>
-                    <Heading as='h4' mb='4' size='5'>
-                      주내선
-                    </Heading>
-                    <div>
-                      {getValues('flight.domestic').map((_flight, i) => {
-                        return (
-                          <div key={i} className={styles.client}>
-                            <Grid align='center' columns='100px 1fr' gap='3'>
-                              <Text weight='medium'>항공편명</Text>
-                              <TextField.Root
-                                size='3'
-                                {...register(`flight.domestic.${i}.flight_number`, {
-                                  required: true
-                                })}
-                              />
-                              <Text weight='medium'>출발 시간</Text>
-                              <TextField.Root
-                                size='3'
-                                type='datetime-local'
-                                {...register(`flight.domestic.${i}.departure_datetime`, {
-                                  required: true
-                                })}
-                              ></TextField.Root>
-                              <Text weight='medium'>출발지</Text>
-                              <TextField.Root
-                                size='3'
-                                {...register(`flight.domestic.${i}.departure_city`, {
-                                  required: true
-                                })}
-                              />
-                              <Text weight='medium'>도착 시간</Text>
-                              <TextField.Root
-                                size='3'
-                                type='datetime-local'
-                                {...register(`flight.domestic.${i}.arrival_datetime`, {
-                                  required: true
-                                })}
-                              ></TextField.Root>
-                              <Text weight='medium'>도착지</Text>
-                              <TextField.Root
-                                size='3'
-                                {...register(`flight.domestic.${i}.arrival_city`, {
-                                  required: true
-                                })}
-                              />
-
-                              <Text weight='medium'>인원</Text>
-                              <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
-                                <span>성인</span>
-                                <TextField.Root
-                                  type='number'
-                                  min='0'
-                                  size='3'
-                                  {...register(`flight.domestic.${i}.capacity.adult`, {
-                                    required: true,
-                                    valueAsNumber: true
-                                  })}
-                                />
-                                <span>소아</span>
-                                <TextField.Root
-                                  type='number'
-                                  min='0'
-                                  size='3'
-                                  {...register(`flight.domestic.${i}.capacity.children`, {
-                                    required: true,
-                                    valueAsNumber: true
-                                  })}
-                                />
-                              </Grid>
-
-                              <Text weight='medium'>요금</Text>
-                              <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
-                                <span>성인</span>
-                                <TextField.Root
-                                  type='number'
-                                  min='0'
-                                  size='3'
-                                  {...register(`flight.domestic.${i}.price.adult`, {
-                                    required: true,
-                                    valueAsNumber: true
-                                  })}
-                                />
-                                <span>소아</span>
-                                <TextField.Root
-                                  type='number'
-                                  min='0'
-                                  size='3'
-                                  {...register(`flight.domestic.${i}.price.children`, {
-                                    required: true,
-                                    valueAsNumber: true
-                                  })}
-                                />
-                              </Grid>
-
-                              <Text weight='medium'>요금 상세</Text>
-                              <Flex align='center' gap='3'>
-                                <Text wrap='nowrap'>예약금</Text>
-                                <TextField.Root
-                                  type='number'
-                                  min='0'
-                                  size='3'
-                                  {...register(`flight.domestic.${i}.price.deposit`, {
-                                    required: true,
-                                    valueAsNumber: true
-                                  })}
-                                />
-                                <Text wrap='nowrap'>잔금</Text>
-                                <TextField.Root
-                                  type='number'
-                                  min='0'
-                                  size='3'
-                                  {...register(`flight.domestic.${i}.price.balance`, {
-                                    required: true,
-                                    valueAsNumber: true
-                                  })}
-                                />
-                                <Text wrap='nowrap'>합계</Text>
-                                <TextField.Root
-                                  type='number'
-                                  min='0'
-                                  size='3'
-                                  {...register(`flight.domestic.${i}.price.total`, {
-                                    required: true,
-                                    valueAsNumber: true
-                                  })}
-                                />
-                              </Flex>
-                            </Grid>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </section>
-                )}
+                      <Container gridColumn='1 / -1'>
+                        <Grid align='center' columns='60px 1fr' gap='3'>
+                          <Text weight='medium'>요금 상세</Text>
+                          <Flex align='center' gap='3'>
+                            <Text wrap='nowrap'>예약금</Text>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              size='3'
+                              {...register(`flight.${i}.price.deposit`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
+                            <Text wrap='nowrap'>잔금</Text>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              size='3'
+                              {...register(`flight.${i}.price.balance`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
+                            <Text wrap='nowrap'>합계</Text>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              size='3'
+                              {...register(`flight.${i}.price.total`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                        </Grid>
+                      </Container>
+                    </Grid>
+                  </div>
+                ))}
               </Flex>
 
               <Flex justify='end' mt='4'>
