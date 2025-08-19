@@ -1,0 +1,7 @@
+.client {
+  &:not(:first-child) {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 2px solid var(--gray-5);
+  }
+}
