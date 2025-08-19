@@ -10,6 +10,7 @@ import {
   Heading,
   Radio,
   RadioCards,
+  Text,
   TextArea,
   TextField
 } from '@radix-ui/themes';
@@ -124,19 +125,19 @@ export default function ReservationsFormClientContainer() {
                         </label>
                       </Flex>
                       <Grid align='center' columns='100px 1fr' gap='3'>
-                        <span>이름</span>
+                        <Text weight='medium'>이름</Text>
                         <TextField.Root
                           size='3'
                           {...register(`clients.${i}.koreanName`, { required: true })}
                         />
 
-                        <span>이름(영문)</span>
+                        <Text weight='medium'>이름(영문)</Text>
                         <TextField.Root
                           size='3'
                           {...register(`clients.${i}.englishName`, { required: true })}
                         />
 
-                        <span>성별</span>
+                        <Text weight='medium'>성별</Text>
                         <Controller
                           name={`clients.${i}.gender`}
                           control={control}
@@ -159,25 +160,25 @@ export default function ReservationsFormClientContainer() {
                           )}
                         ></Controller>
 
-                        <span>주민번호</span>
+                        <Text weight='medium'>주민번호</Text>
                         <TextField.Root
                           size='3'
                           {...register(`clients.${i}.residentId`, { required: true })}
                         />
 
-                        <span>연락처</span>
+                        <Text weight='medium'>연락처</Text>
                         <TextField.Root
                           size='3'
                           {...register(`clients.${i}.phoneNumber`, { required: true })}
                         />
 
-                        <span>이메일</span>
+                        <Text weight='medium'>이메일</Text>
                         <TextField.Root
                           size='3'
                           {...register(`clients.${i}.email`, { required: true })}
                         />
 
-                        <span>비고</span>
+                        <Text weight='medium'>비고</Text>
                         <TextArea {...register(`clients.${i}.notes`)} />
                       </Grid>
                     </div>
@@ -206,36 +207,36 @@ export default function ReservationsFormClientContainer() {
                     국제선
                   </Heading>
                   <Grid align='center' columns='100px 1fr' gap='3'>
-                    <span>항공편명</span>
+                    <Text weight='medium'>항공편명</Text>
                     <TextField.Root
                       size='3'
                       {...register('flight.international.flightNumber', { required: true })}
                     />
-                    <span>출발 시간</span>
+                    <Text weight='medium'>출발 시간</Text>
                     <TextField.Root
                       size='3'
                       type='datetime-local'
                       {...register('flight.international.departureDatetime', { required: true })}
                     ></TextField.Root>
-                    <span>출발지</span>
+                    <Text weight='medium'>출발지</Text>
                     <TextField.Root
                       size='3'
                       value='인천'
                       readOnly
                       {...register('flight.international.departureCity', { required: true })}
                     />
-                    <span>도착 시간</span>
+                    <Text weight='medium'>도착 시간</Text>
                     <TextField.Root
                       size='3'
                       type='datetime-local'
                       {...register('flight.international.arrivalDatetime', { required: true })}
                     ></TextField.Root>
-                    <span>도착지</span>
+                    <Text weight='medium'>도착지</Text>
                     <TextField.Root
                       size='3'
                       {...register('flight.international.arrivalCity', { required: true })}
                     />
-                    <span>인원</span>
+                    <Text weight='medium'>인원</Text>
                     <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
                       <span>성인</span>
                       <TextField.Root
@@ -269,14 +270,14 @@ export default function ReservationsFormClientContainer() {
                         return (
                           <div key={i} className={styles.client}>
                             <Grid align='center' columns='100px 1fr' gap='3'>
-                              <span>항공편명</span>
+                              <Text weight='medium'>항공편명</Text>
                               <TextField.Root
                                 size='3'
                                 {...register(`flight.domestic.${i}.flightNumber`, {
                                   required: true
                                 })}
                               />
-                              <span>출발 시간</span>
+                              <Text weight='medium'>출발 시간</Text>
                               <TextField.Root
                                 size='3'
                                 type='datetime-local'
@@ -284,14 +285,14 @@ export default function ReservationsFormClientContainer() {
                                   required: true
                                 })}
                               ></TextField.Root>
-                              <span>출발지</span>
+                              <Text weight='medium'>출발지</Text>
                               <TextField.Root
                                 size='3'
                                 {...register(`flight.domestic.${i}.departureCity`, {
                                   required: true
                                 })}
                               />
-                              <span>도착 시간</span>
+                              <Text weight='medium'>도착 시간</Text>
                               <TextField.Root
                                 size='3'
                                 type='datetime-local'
@@ -299,7 +300,7 @@ export default function ReservationsFormClientContainer() {
                                   required: true
                                 })}
                               ></TextField.Root>
-                              <span>도착지</span>
+                              <Text weight='medium'>도착지</Text>
                               <TextField.Root
                                 size='3'
                                 {...register(`flight.domestic.${i}.arrivalCity`, {
