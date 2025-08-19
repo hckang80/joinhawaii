@@ -94,11 +94,10 @@ export default function ReservationsFormClient() {
           </Heading>
 
           <div>
-            reservationIndex: {reservationIndex}
             {getValues('clients').map((client, i) => {
               return (
-                <span key={client.residentId}>
-                  <Flex asChild justify='end' align='center' gap='1'>
+                <div key={client.residentId} className={styles.client}>
+                  <Flex asChild justify='end' align='center' gap='1' mb='2'>
                     <label>
                       예약자
                       <Radio
@@ -109,7 +108,7 @@ export default function ReservationsFormClient() {
                       />
                     </label>
                   </Flex>
-                  <Grid columns='100px 1fr' gap='3' className={styles.client}>
+                  <Grid columns='100px 1fr' gap='3'>
                     <span>이름</span>
                     <TextField.Root
                       size='3'
@@ -166,7 +165,7 @@ export default function ReservationsFormClient() {
                     <span>비고</span>
                     <TextArea {...register(`clients.${i}.notes`)} />
                   </Grid>
-                </span>
+                </div>
               );
             })}
           </div>
