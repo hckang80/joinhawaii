@@ -123,7 +123,7 @@ export default function ReservationsFormClientContainer() {
                           />
                         </label>
                       </Flex>
-                      <Grid columns='100px 1fr' gap='3'>
+                      <Grid align='center' columns='100px 1fr' gap='3'>
                         <span>이름</span>
                         <TextField.Root
                           size='3'
@@ -205,7 +205,7 @@ export default function ReservationsFormClientContainer() {
                   <Heading as='h4' mb='4' size='5'>
                     국제선
                   </Heading>
-                  <Grid columns='100px 1fr' gap='3'>
+                  <Grid align='center' columns='100px 1fr' gap='3'>
                     <span>항공편명</span>
                     <TextField.Root
                       size='3'
@@ -236,7 +236,7 @@ export default function ReservationsFormClientContainer() {
                       {...register('flight.international.arrivalCity', { required: true })}
                     />
                     <span>인원</span>
-                    <Grid columns='30px 100px 30px 100px' gap='3'>
+                    <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
                       <span>성인</span>
                       <TextField.Root
                         type='number'
@@ -268,7 +268,7 @@ export default function ReservationsFormClientContainer() {
                       {getValues('flight.domestic').map((_flight, i) => {
                         return (
                           <div key={i} className={styles.client}>
-                            <Grid columns='100px 1fr' gap='3'>
+                            <Grid align='center' columns='100px 1fr' gap='3'>
                               <span>항공편명</span>
                               <TextField.Root
                                 size='3'
