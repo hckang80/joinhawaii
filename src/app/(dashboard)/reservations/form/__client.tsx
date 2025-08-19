@@ -13,6 +13,7 @@ import {
   TextArea,
   TextField
 } from '@radix-ui/themes';
+import { PlusIcon } from 'lucide-react';
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import styles from './page.module.css';
 
@@ -162,6 +163,7 @@ export default function ReservationsFormClient() {
 
           <Flex justify='end' mt='4'>
             <Button type='button' variant='surface' onClick={addClient}>
+              <PlusIcon size='20' />
               인원추가
             </Button>
           </Flex>
