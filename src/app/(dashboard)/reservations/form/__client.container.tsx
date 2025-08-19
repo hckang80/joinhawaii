@@ -46,7 +46,11 @@ const defaultFlightValues = {
   departureDatetime: '',
   departureCity: '',
   arrivalDatetime: '',
-  arrivalCity: ''
+  arrivalCity: '',
+  capacity: {
+    adult: 1,
+    children: 0
+  }
 };
 
 const status$ = observable({
@@ -231,6 +235,27 @@ export default function ReservationsFormClientContainer() {
                       size='3'
                       {...register('flight.international.arrivalCity', { required: true })}
                     />
+                    <span>인원</span>
+                    <Grid columns='30px 100px 30px 100px' gap='3'>
+                      <span>성인</span>
+                      <TextField.Root
+                        type='number'
+                        size='3'
+                        {...register('flight.international.capacity.adult', {
+                          required: true,
+                          valueAsNumber: true
+                        })}
+                      />
+                      <span>소아</span>
+                      <TextField.Root
+                        type='number'
+                        size='3'
+                        {...register('flight.international.capacity.children', {
+                          required: true,
+                          valueAsNumber: true
+                        })}
+                      />
+                    </Grid>
                   </Grid>
                 </section>
 
