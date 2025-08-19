@@ -245,6 +245,7 @@ export default function ReservationsFormClientContainer() {
                       <span>성인</span>
                       <TextField.Root
                         type='number'
+                        min='0'
                         size='3'
                         {...register('flight.international.capacity.adult', {
                           required: true,
@@ -254,6 +255,7 @@ export default function ReservationsFormClientContainer() {
                       <span>소아</span>
                       <TextField.Root
                         type='number'
+                        min='0'
                         size='3'
                         {...register('flight.international.capacity.children', {
                           required: true,
@@ -266,6 +268,7 @@ export default function ReservationsFormClientContainer() {
                       <span>성인</span>
                       <TextField.Root
                         type='number'
+                        min='0'
                         size='3'
                         {...register('flight.international.ticket_price.adult', {
                           required: true,
@@ -275,6 +278,7 @@ export default function ReservationsFormClientContainer() {
                       <span>소아</span>
                       <TextField.Root
                         type='number'
+                        min='0'
                         size='3'
                         {...register('flight.international.ticket_price.children', {
                           required: true,
