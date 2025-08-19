@@ -6,6 +6,7 @@ import {
   Button,
   Card,
   Checkbox,
+  Container,
   Flex,
   Grid,
   Heading,
@@ -513,11 +514,22 @@ export default function ReservationsFormClientContainer() {
                         />
 
                         <Text weight='medium'>날짜</Text>
-                        <TextField.Root
-                          type='date'
-                          size='3'
-                          {...register(`hotels.${i}.check_in_date`, { required: true })}
-                        />
+                        <Flex gap='2'>
+                          <Container flexGrow='1'>
+                            <TextField.Root
+                              type='date'
+                              size='3'
+                              {...register(`hotels.${i}.check_in_date`, { required: true })}
+                            />
+                          </Container>
+                          <Container flexGrow='1'>
+                            <TextField.Root
+                              type='date'
+                              size='3'
+                              {...register(`hotels.${i}.check_out_date`, { required: true })}
+                            />
+                          </Container>
+                        </Flex>
 
                         <Text weight='medium'>호텔명</Text>
                         <TextField.Root
