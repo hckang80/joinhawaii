@@ -28,7 +28,7 @@ type Hotel = typeof defaultHotelValues;
 
 interface FormData {
   clients: Client[];
-  flight: Flight[];
+  flights: Flight[];
   hotels: Hotel[];
 }
 
@@ -98,7 +98,7 @@ export default function ReservationsFormClientContainer() {
   } = useForm<FormData>({
     defaultValues: {
       clients: [defaultClientValues],
-      flight: [defaultFlightValues],
+      flights: [defaultFlightValues],
       hotels: [defaultHotelValues]
     }
   });
@@ -116,7 +116,7 @@ export default function ReservationsFormClientContainer() {
   };
 
   const addDomesticFlight = () => {
-    setValue('flight', [...getValues('flight'), defaultFlightValues]);
+    setValue('flights', [...getValues('flights'), defaultFlightValues]);
   };
 
   const addHotel = () => {
@@ -236,7 +236,7 @@ export default function ReservationsFormClientContainer() {
               </Heading>
 
               <Flex direction='column' gap='5'>
-                {getValues('flight').map((_flight, i) => (
+                {getValues('flights').map((_flight, i) => (
                   <div key={i} className={styles.client}>
                     <Grid align='center' columns='60px 1fr 60px 1fr' gap='3'>
                       <Container gridColumn='1 / -1'>
@@ -244,7 +244,7 @@ export default function ReservationsFormClientContainer() {
                           <Text weight='medium'>항공편명</Text>
                           <TextField.Root
                             size='3'
-                            {...register(`flight.${i}.flight_number`, { required: true })}
+                            {...register(`flights.${i}.flight_number`, { required: true })}
                           />
                         </Grid>
                       </Container>
@@ -253,25 +253,25 @@ export default function ReservationsFormClientContainer() {
                       <TextField.Root
                         size='3'
                         type='datetime-local'
-                        {...register(`flight.${i}.departure_datetime`, { required: true })}
+                        {...register(`flights.${i}.departure_datetime`, { required: true })}
                       ></TextField.Root>
                       <Text weight='medium'>출발지</Text>
                       <TextField.Root
                         size='3'
                         value={!i ? '인천' : ''}
                         readOnly={!i}
-                        {...register(`flight.${i}.departure_city`, { required: true })}
+                        {...register(`flights.${i}.departure_city`, { required: true })}
                       />
                       <Text weight='medium'>도착 시간</Text>
                       <TextField.Root
                         size='3'
                         type='datetime-local'
-                        {...register(`flight.${i}.arrival_datetime`, { required: true })}
+                        {...register(`flights.${i}.arrival_datetime`, { required: true })}
                       ></TextField.Root>
                       <Text weight='medium'>도착지</Text>
                       <TextField.Root
                         size='3'
-                        {...register(`flight.${i}.arrival_city`, { required: true })}
+                        {...register(`flights.${i}.arrival_city`, { required: true })}
                       />
                       <Text weight='medium'>인원</Text>
                       <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
@@ -280,7 +280,7 @@ export default function ReservationsFormClientContainer() {
                           type='number'
                           min='0'
                           size='3'
-                          {...register(`flight.${i}.capacity.adult`, {
+                          {...register(`flights.${i}.capacity.adult`, {
                             required: true,
                             valueAsNumber: true
                           })}
@@ -290,7 +290,7 @@ export default function ReservationsFormClientContainer() {
                           type='number'
                           min='0'
                           size='3'
-                          {...register(`flight.${i}.capacity.children`, {
+                          {...register(`flights.${i}.capacity.children`, {
                             required: true,
                             valueAsNumber: true
                           })}
@@ -304,7 +304,7 @@ export default function ReservationsFormClientContainer() {
                           type='number'
                           min='0'
                           size='3'
-                          {...register(`flight.${i}.price.adult`, {
+                          {...register(`flights.${i}.price.adult`, {
                             required: true,
                             valueAsNumber: true
                           })}
@@ -314,7 +314,7 @@ export default function ReservationsFormClientContainer() {
                           type='number'
                           min='0'
                           size='3'
-                          {...register(`flight.${i}.price.children`, {
+                          {...register(`flights.${i}.price.children`, {
                             required: true,
                             valueAsNumber: true
                           })}
@@ -330,7 +330,7 @@ export default function ReservationsFormClientContainer() {
                               type='number'
                               min='0'
                               size='3'
-                              {...register(`flight.${i}.price.deposit`, {
+                              {...register(`flights.${i}.price.deposit`, {
                                 required: true,
                                 valueAsNumber: true
                               })}
@@ -340,7 +340,7 @@ export default function ReservationsFormClientContainer() {
                               type='number'
                               min='0'
                               size='3'
-                              {...register(`flight.${i}.price.balance`, {
+                              {...register(`flights.${i}.price.balance`, {
                                 required: true,
                                 valueAsNumber: true
                               })}
@@ -350,7 +350,7 @@ export default function ReservationsFormClientContainer() {
                               type='number'
                               min='0'
                               size='3'
-                              {...register(`flight.${i}.price.total`, {
+                              {...register(`flights.${i}.price.total`, {
                                 required: true,
                                 valueAsNumber: true
                               })}
