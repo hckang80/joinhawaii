@@ -33,26 +33,26 @@ interface FormData {
 const GENDER_TYPE = ['MR', 'MS'] as const;
 
 const defaultClientValues = {
-  koreanName: '',
-  englishName: '',
+  korean_name: '',
+  english_name: '',
   gender: '',
-  residentId: '',
-  phoneNumber: '',
+  resident_id: '',
+  phone_number: '',
   email: '',
   notes: ''
 };
 
 const defaultFlightValues = {
-  flightNumber: '',
-  departureDatetime: '',
-  departureCity: '',
-  arrivalDatetime: '',
-  arrivalCity: '',
+  flight_number: '',
+  departure_datetime: '',
+  departure_city: '',
+  arrival_datetime: '',
+  arrival_city: '',
   capacity: {
     adult: 1,
     children: 0
   },
-  ticketPrice: {
+  ticket_price: {
     adult: 0,
     children: 0
   }
@@ -132,13 +132,13 @@ export default function ReservationsFormClientContainer() {
                         <Text weight='medium'>이름</Text>
                         <TextField.Root
                           size='3'
-                          {...register(`clients.${i}.koreanName`, { required: true })}
+                          {...register(`clients.${i}.korean_name`, { required: true })}
                         />
 
                         <Text weight='medium'>이름(영문)</Text>
                         <TextField.Root
                           size='3'
-                          {...register(`clients.${i}.englishName`, { required: true })}
+                          {...register(`clients.${i}.english_name`, { required: true })}
                         />
 
                         <Text weight='medium'>성별</Text>
@@ -167,13 +167,13 @@ export default function ReservationsFormClientContainer() {
                         <Text weight='medium'>주민번호</Text>
                         <TextField.Root
                           size='3'
-                          {...register(`clients.${i}.residentId`, { required: true })}
+                          {...register(`clients.${i}.resident_id`, { required: true })}
                         />
 
                         <Text weight='medium'>연락처</Text>
                         <TextField.Root
                           size='3'
-                          {...register(`clients.${i}.phoneNumber`, { required: true })}
+                          {...register(`clients.${i}.phone_number`, { required: true })}
                         />
 
                         <Text weight='medium'>이메일</Text>
@@ -214,31 +214,31 @@ export default function ReservationsFormClientContainer() {
                     <Text weight='medium'>항공편명</Text>
                     <TextField.Root
                       size='3'
-                      {...register('flight.international.flightNumber', { required: true })}
+                      {...register('flight.international.flight_number', { required: true })}
                     />
                     <Text weight='medium'>출발 시간</Text>
                     <TextField.Root
                       size='3'
                       type='datetime-local'
-                      {...register('flight.international.departureDatetime', { required: true })}
+                      {...register('flight.international.departure_datetime', { required: true })}
                     ></TextField.Root>
                     <Text weight='medium'>출발지</Text>
                     <TextField.Root
                       size='3'
                       value='인천'
                       readOnly
-                      {...register('flight.international.departureCity', { required: true })}
+                      {...register('flight.international.departure_city', { required: true })}
                     />
                     <Text weight='medium'>도착 시간</Text>
                     <TextField.Root
                       size='3'
                       type='datetime-local'
-                      {...register('flight.international.arrivalDatetime', { required: true })}
+                      {...register('flight.international.arrival_datetime', { required: true })}
                     ></TextField.Root>
                     <Text weight='medium'>도착지</Text>
                     <TextField.Root
                       size='3'
-                      {...register('flight.international.arrivalCity', { required: true })}
+                      {...register('flight.international.arrival_city', { required: true })}
                     />
                     <Text weight='medium'>인원</Text>
                     <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
@@ -267,7 +267,7 @@ export default function ReservationsFormClientContainer() {
                       <TextField.Root
                         type='number'
                         size='3'
-                        {...register('flight.international.ticketPrice.adult', {
+                        {...register('flight.international.ticket_price.adult', {
                           required: true,
                           valueAsNumber: true
                         })}
@@ -276,7 +276,7 @@ export default function ReservationsFormClientContainer() {
                       <TextField.Root
                         type='number'
                         size='3'
-                        {...register('flight.international.ticketPrice.children', {
+                        {...register('flight.international.ticket_price.children', {
                           required: true,
                           valueAsNumber: true
                         })}
@@ -298,7 +298,7 @@ export default function ReservationsFormClientContainer() {
                               <Text weight='medium'>항공편명</Text>
                               <TextField.Root
                                 size='3'
-                                {...register(`flight.domestic.${i}.flightNumber`, {
+                                {...register(`flight.domestic.${i}.flight_number`, {
                                   required: true
                                 })}
                               />
@@ -306,14 +306,14 @@ export default function ReservationsFormClientContainer() {
                               <TextField.Root
                                 size='3'
                                 type='datetime-local'
-                                {...register(`flight.domestic.${i}.departureDatetime`, {
+                                {...register(`flight.domestic.${i}.departure_datetime`, {
                                   required: true
                                 })}
                               ></TextField.Root>
                               <Text weight='medium'>출발지</Text>
                               <TextField.Root
                                 size='3'
-                                {...register(`flight.domestic.${i}.departureCity`, {
+                                {...register(`flight.domestic.${i}.departure_city`, {
                                   required: true
                                 })}
                               />
@@ -321,14 +321,14 @@ export default function ReservationsFormClientContainer() {
                               <TextField.Root
                                 size='3'
                                 type='datetime-local'
-                                {...register(`flight.domestic.${i}.arrivalDatetime`, {
+                                {...register(`flight.domestic.${i}.arrival_datetime`, {
                                   required: true
                                 })}
                               ></TextField.Root>
                               <Text weight='medium'>도착지</Text>
                               <TextField.Root
                                 size='3'
-                                {...register(`flight.domestic.${i}.arrivalCity`, {
+                                {...register(`flight.domestic.${i}.arrival_city`, {
                                   required: true
                                 })}
                               />
