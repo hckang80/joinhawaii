@@ -5,6 +5,7 @@ import { use$ } from '@legendapp/state/react';
 import {
   Button,
   Card,
+  Checkbox,
   Flex,
   Grid,
   Heading,
@@ -22,12 +23,15 @@ type Client = typeof defaultClientValues;
 
 type Flight = typeof defaultFlightValues;
 
+type Hotel = typeof defaultHotelValues;
+
 interface FormData {
   clients: Client[];
   flight: {
     international: Flight;
     domestic: Flight[];
   };
+  hotels: Hotel[];
 }
 
 const GENDER_TYPE = ['MR', 'MS'] as const;
@@ -61,6 +65,23 @@ const defaultFlightValues = {
   }
 };
 
+const defaultHotelValues = {
+  region: '',
+  check_in_date: '',
+  check_out_date: '',
+  name: '',
+  room_type: '',
+  is_breakfast_included: false,
+  is_resort_fee: false,
+  nights: 1,
+  price: {
+    nightly: 0,
+    deposit: 0,
+    balance: 0,
+    total: 0
+  }
+};
+
 const status$ = observable({
   reservationIndex: 0
 });
@@ -82,7 +103,8 @@ export default function ReservationsFormClientContainer() {
       flight: {
         international: defaultFlightValues,
         domestic: []
-      }
+      },
+      hotels: [defaultHotelValues]
     }
   });
 
@@ -468,6 +490,117 @@ export default function ReservationsFormClientContainer() {
                 <Button type='button' variant='surface' onClick={addDomesticFlight}>
                   <PlusIcon size='20' />
                   주내선 추가
+                </Button>
+              </Flex>
+            </section>
+          </Card>
+
+          <Card asChild size='3'>
+            <section>
+              <Heading as='h3' mb='4'>
+                호텔
+              </Heading>
+
+              <div>
+                {getValues('hotels').map((_hotel, i) => {
+                  return (
+                    <div key={i} className={styles.client}>
+                      <Grid align='center' columns='100px 1fr' gap='3'>
+                        <Text weight='medium'>지역</Text>
+                        <TextField.Root
+                          size='3'
+                          {...register(`hotels.${i}.region`, { required: true })}
+                        />
+
+                        <Text weight='medium'>날짜</Text>
+                        <TextField.Root
+                          type='date'
+                          size='3'
+                          {...register(`hotels.${i}.check_in_date`, { required: true })}
+                        />
+
+                        <Text weight='medium'>호텔명</Text>
+                        <TextField.Root
+                          size='3'
+                          {...register(`hotels.${i}.name`, { required: true })}
+                        />
+
+                        <Text weight='medium'>객실타입</Text>
+                        <TextField.Root
+                          size='3'
+                          {...register(`hotels.${i}.room_type`, { required: true })}
+                        />
+
+                        <Text weight='medium'>조식</Text>
+                        <Checkbox {...register(`hotels.${i}.is_breakfast_included`)} />
+
+                        <Text weight='medium'>리조트피</Text>
+                        <Checkbox {...register(`hotels.${i}.is_resort_fee`)} />
+
+                        <Text weight='medium'>숙박일</Text>
+                        <TextField.Root
+                          type='number'
+                          min='1'
+                          size='3'
+                          {...register(`hotels.${i}.nights`, {
+                            required: true,
+                            valueAsNumber: true
+                          })}
+                        />
+
+                        <Text weight='medium'>요금 상세</Text>
+                        <Flex align='center' gap='3'>
+                          <Text wrap='nowrap'>1박요금</Text>
+                          <TextField.Root
+                            type='number'
+                            min='0'
+                            size='3'
+                            {...register(`hotels.${i}.price.nightly`, {
+                              required: true,
+                              valueAsNumber: true
+                            })}
+                          />
+                          <Text wrap='nowrap'>예약금</Text>
+                          <TextField.Root
+                            type='number'
+                            min='0'
+                            size='3'
+                            {...register(`hotels.${i}.price.deposit`, {
+                              required: true,
+                              valueAsNumber: true
+                            })}
+                          />
+                          <Text wrap='nowrap'>잔금</Text>
+                          <TextField.Root
+                            type='number'
+                            min='0'
+                            size='3'
+                            {...register(`hotels.${i}.price.balance`, {
+                              required: true,
+                              valueAsNumber: true
+                            })}
+                          />
+                          <Text wrap='nowrap'>합계</Text>
+                          <TextField.Root
+                            type='number'
+                            min='0'
+                            size='3'
+                            {...register(`hotels.${i}.price.total`, {
+                              required: true,
+                              valueAsNumber: true
+                            })}
+                          />
+                        </Flex>
+                      </Grid>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <Flex justify='end' mt='4'>
+                <Button type='button' variant='surface' onClick={addClient}>
+                  <PlusIcon size='20' />
+                  인원 추가
                 </Button>
               </Flex>
             </section>
