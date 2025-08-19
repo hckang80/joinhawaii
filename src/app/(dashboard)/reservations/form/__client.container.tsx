@@ -119,6 +119,10 @@ export default function ReservationsFormClientContainer() {
     setValue('flight', [...getValues('flight'), defaultFlightValues]);
   };
 
+  const addHotel = () => {
+    setValue('hotels', [...getValues('hotels'), defaultHotelValues]);
+  };
+
   return (
     <div className={styles.root}>
       <Heading as='h2' mb='4' size='7'>
@@ -502,9 +506,9 @@ export default function ReservationsFormClientContainer() {
               </div>
 
               <Flex justify='end' mt='4'>
-                <Button type='button' variant='surface' onClick={addClient}>
+                <Button type='button' variant='surface' onClick={addHotel}>
                   <PlusIcon size='20' />
-                  인원 추가
+                  호텔 추가
                 </Button>
               </Flex>
             </section>
