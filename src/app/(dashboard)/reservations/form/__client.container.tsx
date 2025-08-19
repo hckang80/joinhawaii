@@ -445,10 +445,32 @@ export default function ReservationsFormClientContainer() {
                         <Container gridColumn='1/ -1'>
                           <Grid align='center' columns='60px 20px 80px 60px 20px' gap='3'>
                             <Text weight='medium'>조식</Text>
-                            <Checkbox {...register(`hotels.${i}.is_breakfast_included`)} />
+                            <Controller
+                              name={`hotels.${i}.is_breakfast_included`}
+                              control={control}
+                              render={({ field }) => (
+                                <Checkbox
+                                  checked={field.value}
+                                  onCheckedChange={value => {
+                                    field.onChange(value);
+                                  }}
+                                />
+                              )}
+                            ></Controller>
                             <span></span>
                             <Text weight='medium'>리조트피</Text>
-                            <Checkbox {...register(`hotels.${i}.is_resort_fee`)} />
+                            <Controller
+                              name={`hotels.${i}.is_resort_fee`}
+                              control={control}
+                              render={({ field }) => (
+                                <Checkbox
+                                  checked={field.value}
+                                  onCheckedChange={value => {
+                                    field.onChange(value);
+                                  }}
+                                />
+                              )}
+                            ></Controller>
                           </Grid>
                         </Container>
 
