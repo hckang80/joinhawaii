@@ -51,6 +51,10 @@ const defaultFlightValues = {
   capacity: {
     adult: 1,
     children: 0
+  },
+  ticketPrice: {
+    adult: 0,
+    children: 0
   }
 };
 
@@ -252,6 +256,27 @@ export default function ReservationsFormClientContainer() {
                         type='number'
                         size='3'
                         {...register('flight.international.capacity.children', {
+                          required: true,
+                          valueAsNumber: true
+                        })}
+                      />
+                    </Grid>
+                    <Text weight='medium'>요금</Text>
+                    <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
+                      <span>성인</span>
+                      <TextField.Root
+                        type='number'
+                        size='3'
+                        {...register('flight.international.ticketPrice.adult', {
+                          required: true,
+                          valueAsNumber: true
+                        })}
+                      />
+                      <span>소아</span>
+                      <TextField.Root
+                        type='number'
+                        size='3'
+                        {...register('flight.international.ticketPrice.children', {
                           required: true,
                           valueAsNumber: true
                         })}
