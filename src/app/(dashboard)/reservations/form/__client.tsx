@@ -19,6 +19,16 @@ interface FormData {
 
 export const GENDER_TYPE = ['MR', 'MS'] as const;
 
+const defaultClientValues = {
+  koreanName: '',
+  englishName: '',
+  gender: '',
+  residentId: '',
+  phoneNumber: '',
+  email: '',
+  notes: ''
+};
+
 export default function ReservationsFormClient() {
   const {
     register,
@@ -26,6 +36,7 @@ export default function ReservationsFormClient() {
     watch,
     formState: { isSubmitting, isDirty },
     getValues,
+    setValue,
     control
   } = useForm<FormData>({
     defaultValues: {
@@ -45,6 +56,10 @@ export default function ReservationsFormClient() {
 
   const onSubmit: SubmitHandler<FormData> = data => {
     console.log({ data });
+  };
+
+  const addClient = () => {
+    setValue('clients', [...getValues('clients'), defaultClientValues]);
   };
 
   return (
@@ -100,6 +115,12 @@ export default function ReservationsFormClient() {
             </Grid>
           );
         })}
+
+        <Flex justify='end' mt='4'>
+          <Button type='button' variant='surface' onClick={addClient}>
+            인원추가
+          </Button>
+        </Flex>
       </div>
 
       <Flex justify='end' mt='4'>
