@@ -1,5 +1,5 @@
-import ReservationsFormClient from './__client';
+import ReservationsFormClientContainer from './__client.container';
 
 export default function ReservationsFormPage() {
-  return <ReservationsFormClient />;
+  return <ReservationsFormClientContainer />;
 }

@@ -53,7 +53,7 @@ const status$ = observable({
   reservationIndex: 0
 });
 
-export default function ReservationsFormClient() {
+export default function ReservationsFormClientContainer() {
   const reservationIndex = use$(status$.reservationIndex);
 
   const {
