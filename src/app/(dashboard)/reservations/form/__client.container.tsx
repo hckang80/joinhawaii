@@ -154,7 +154,7 @@ export default function ReservationsFormClientContainer() {
                           />
                         </label>
                       </Flex>
-                      <Grid align='center' columns='100px 1fr' gap='3'>
+                      <Grid align='center' columns='60px 1fr 70px 1fr' gap='3'>
                         <Text weight='medium'>이름</Text>
                         <TextField.Root
                           size='3'
@@ -208,8 +208,14 @@ export default function ReservationsFormClientContainer() {
                           {...register(`clients.${i}.email`, { required: true })}
                         />
 
-                        <Text weight='medium'>비고</Text>
-                        <TextArea {...register(`clients.${i}.notes`)} />
+                        <Container gridColumn='1 / -1'>
+                          <Grid align='center' columns='60px 1fr' gap='3'>
+                            <Text weight='medium' mb='2'>
+                              비고
+                            </Text>
+                            <TextArea {...register(`clients.${i}.notes`)} />
+                          </Grid>
+                        </Container>
                       </Grid>
                     </div>
                   );
@@ -236,12 +242,18 @@ export default function ReservationsFormClientContainer() {
                   <Heading as='h4' mb='4' size='5'>
                     국제선
                   </Heading>
-                  <Grid align='center' columns='100px 1fr' gap='3'>
-                    <Text weight='medium'>항공편명</Text>
-                    <TextField.Root
-                      size='3'
-                      {...register('flight.international.flight_number', { required: true })}
-                    />
+
+                  <Grid align='center' columns='60px 1fr 60px 1fr' gap='3'>
+                    <Container gridColumn='1 / -1'>
+                      <Grid align='center' columns='60px 1fr' gap='3'>
+                        <Text weight='medium'>항공편명</Text>
+                        <TextField.Root
+                          size='3'
+                          {...register('flight.international.flight_number', { required: true })}
+                        />
+                      </Grid>
+                    </Container>
+
                     <Text weight='medium'>출발 시간</Text>
                     <TextField.Root
                       size='3'
@@ -289,6 +301,7 @@ export default function ReservationsFormClientContainer() {
                         })}
                       />
                     </Grid>
+
                     <Text weight='medium'>요금</Text>
                     <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
                       <span>성인</span>
@@ -313,39 +326,43 @@ export default function ReservationsFormClientContainer() {
                       />
                     </Grid>
 
-                    <Text weight='medium'>요금 상세</Text>
-                    <Flex align='center' gap='3'>
-                      <Text wrap='nowrap'>예약금</Text>
-                      <TextField.Root
-                        type='number'
-                        min='0'
-                        size='3'
-                        {...register('flight.international.price.deposit', {
-                          required: true,
-                          valueAsNumber: true
-                        })}
-                      />
-                      <Text wrap='nowrap'>잔금</Text>
-                      <TextField.Root
-                        type='number'
-                        min='0'
-                        size='3'
-                        {...register('flight.international.price.balance', {
-                          required: true,
-                          valueAsNumber: true
-                        })}
-                      />
-                      <Text wrap='nowrap'>합계</Text>
-                      <TextField.Root
-                        type='number'
-                        min='0'
-                        size='3'
-                        {...register('flight.international.price.total', {
-                          required: true,
-                          valueAsNumber: true
-                        })}
-                      />
-                    </Flex>
+                    <Container gridColumn='1 / -1'>
+                      <Grid align='center' columns='60px 1fr' gap='3'>
+                        <Text weight='medium'>요금 상세</Text>
+                        <Flex align='center' gap='3'>
+                          <Text wrap='nowrap'>예약금</Text>
+                          <TextField.Root
+                            type='number'
+                            min='0'
+                            size='3'
+                            {...register('flight.international.price.deposit', {
+                              required: true,
+                              valueAsNumber: true
+                            })}
+                          />
+                          <Text wrap='nowrap'>잔금</Text>
+                          <TextField.Root
+                            type='number'
+                            min='0'
+                            size='3'
+                            {...register('flight.international.price.balance', {
+                              required: true,
+                              valueAsNumber: true
+                            })}
+                          />
+                          <Text wrap='nowrap'>합계</Text>
+                          <TextField.Root
+                            type='number'
+                            min='0'
+                            size='3'
+                            {...register('flight.international.price.total', {
+                              required: true,
+                              valueAsNumber: true
+                            })}
+                          />
+                        </Flex>
+                      </Grid>
+                    </Container>
                   </Grid>
                 </section>
 
@@ -506,48 +523,54 @@ export default function ReservationsFormClientContainer() {
                 {getValues('hotels').map((_hotel, i) => {
                   return (
                     <div key={i} className={styles.client}>
-                      <Grid align='center' columns='100px 1fr' gap='3'>
-                        <Text weight='medium'>지역</Text>
-                        <TextField.Root
-                          size='3'
-                          {...register(`hotels.${i}.region`, { required: true })}
-                        />
-
-                        <Text weight='medium'>날짜</Text>
-                        <Flex gap='2'>
-                          <Container flexGrow='1'>
+                      <Grid align='center' columns='60px 1fr 60px 1fr' gap='3'>
+                        <Container gridColumn='1/ -1'>
+                          <Grid align='center' columns='60px 1fr' gap='3'>
+                            <Text weight='medium'>지역</Text>
                             <TextField.Root
-                              type='date'
                               size='3'
-                              {...register(`hotels.${i}.check_in_date`, { required: true })}
+                              {...register(`hotels.${i}.region`, { required: true })}
                             />
-                          </Container>
-                          <Container flexGrow='1'>
-                            <TextField.Root
-                              type='date'
-                              size='3'
-                              {...register(`hotels.${i}.check_out_date`, { required: true })}
-                            />
-                          </Container>
-                        </Flex>
+                          </Grid>
+                        </Container>
 
-                        <Text weight='medium'>호텔명</Text>
-                        <TextField.Root
-                          size='3'
-                          {...register(`hotels.${i}.name`, { required: true })}
-                        />
+                        <Container gridColumn='1/ -1'>
+                          <Grid align='center' columns='60px 1fr' gap='3'>
+                            <Text weight='medium'>날짜</Text>
+                            <Flex gap='2'>
+                              <Container flexGrow='1'>
+                                <TextField.Root
+                                  type='date'
+                                  size='3'
+                                  {...register(`hotels.${i}.check_in_date`, { required: true })}
+                                />
+                              </Container>
+                              <Container flexGrow='1'>
+                                <TextField.Root
+                                  type='date'
+                                  size='3'
+                                  {...register(`hotels.${i}.check_out_date`, { required: true })}
+                                />
+                              </Container>
+                            </Flex>
+                          </Grid>
+                        </Container>
+
+                        <Container gridColumn='1/ -1'>
+                          <Grid align='center' columns='60px 1fr' gap='3'>
+                            <Text weight='medium'>호텔명</Text>
+                            <TextField.Root
+                              size='3'
+                              {...register(`hotels.${i}.name`, { required: true })}
+                            />
+                          </Grid>
+                        </Container>
 
                         <Text weight='medium'>객실타입</Text>
                         <TextField.Root
                           size='3'
                           {...register(`hotels.${i}.room_type`, { required: true })}
                         />
-
-                        <Text weight='medium'>조식</Text>
-                        <Checkbox {...register(`hotels.${i}.is_breakfast_included`)} />
-
-                        <Text weight='medium'>리조트피</Text>
-                        <Checkbox {...register(`hotels.${i}.is_resort_fee`)} />
 
                         <Text weight='medium'>숙박일</Text>
                         <TextField.Root
@@ -560,49 +583,63 @@ export default function ReservationsFormClientContainer() {
                           })}
                         />
 
-                        <Text weight='medium'>요금 상세</Text>
-                        <Flex align='center' gap='3'>
-                          <Text wrap='nowrap'>1박요금</Text>
-                          <TextField.Root
-                            type='number'
-                            min='0'
-                            size='3'
-                            {...register(`hotels.${i}.price.nightly`, {
-                              required: true,
-                              valueAsNumber: true
-                            })}
-                          />
-                          <Text wrap='nowrap'>예약금</Text>
-                          <TextField.Root
-                            type='number'
-                            min='0'
-                            size='3'
-                            {...register(`hotels.${i}.price.deposit`, {
-                              required: true,
-                              valueAsNumber: true
-                            })}
-                          />
-                          <Text wrap='nowrap'>잔금</Text>
-                          <TextField.Root
-                            type='number'
-                            min='0'
-                            size='3'
-                            {...register(`hotels.${i}.price.balance`, {
-                              required: true,
-                              valueAsNumber: true
-                            })}
-                          />
-                          <Text wrap='nowrap'>합계</Text>
-                          <TextField.Root
-                            type='number'
-                            min='0'
-                            size='3'
-                            {...register(`hotels.${i}.price.total`, {
-                              required: true,
-                              valueAsNumber: true
-                            })}
-                          />
-                        </Flex>
+                        <Container gridColumn='1/ -1'>
+                          <Grid align='center' columns='60px 20px 80px 60px 20px' gap='3'>
+                            <Text weight='medium'>조식</Text>
+                            <Checkbox {...register(`hotels.${i}.is_breakfast_included`)} />
+                            <span></span>
+                            <Text weight='medium'>리조트피</Text>
+                            <Checkbox {...register(`hotels.${i}.is_resort_fee`)} />
+                          </Grid>
+                        </Container>
+
+                        <Container gridColumn='1/ -1'>
+                          <Grid align='center' columns='60px 1fr' gap='3'>
+                            <Text weight='medium'>요금 상세</Text>
+                            <Flex align='center' gap='3'>
+                              <Text wrap='nowrap'>1박요금</Text>
+                              <TextField.Root
+                                type='number'
+                                min='0'
+                                size='3'
+                                {...register(`hotels.${i}.price.nightly`, {
+                                  required: true,
+                                  valueAsNumber: true
+                                })}
+                              />
+                              <Text wrap='nowrap'>예약금</Text>
+                              <TextField.Root
+                                type='number'
+                                min='0'
+                                size='3'
+                                {...register(`hotels.${i}.price.deposit`, {
+                                  required: true,
+                                  valueAsNumber: true
+                                })}
+                              />
+                              <Text wrap='nowrap'>잔금</Text>
+                              <TextField.Root
+                                type='number'
+                                min='0'
+                                size='3'
+                                {...register(`hotels.${i}.price.balance`, {
+                                  required: true,
+                                  valueAsNumber: true
+                                })}
+                              />
+                              <Text wrap='nowrap'>합계</Text>
+                              <TextField.Root
+                                type='number'
+                                min='0'
+                                size='3'
+                                {...register(`hotels.${i}.price.total`, {
+                                  required: true,
+                                  valueAsNumber: true
+                                })}
+                              />
+                            </Flex>
+                          </Grid>
+                        </Container>
                       </Grid>
                     </div>
                   );
