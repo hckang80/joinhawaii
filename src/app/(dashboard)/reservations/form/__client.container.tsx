@@ -113,7 +113,7 @@ const defaultCarValues = {
   driver: '',
   pickup_location: '',
   pickup_time: '',
-  rental_days: 0,
+  rental_days: 1,
   price: {
     nightly: 0,
     deposit: 0,
@@ -430,6 +430,14 @@ export default function ReservationsFormClientContainer() {
                 호텔
               </Heading>
 
+              <Flex asChild justify='end' align='center' gap='1' mb='2'>
+                <label>
+                  호텔 없음
+                  <Checkbox
+                    onCheckedChange={value => setValue('hotels', value ? [] : [defaultHotelValues])}
+                  />
+                </label>
+              </Flex>
               <div>
                 {getValues('hotels').map((_hotel, i) => {
                   return (
@@ -579,12 +587,14 @@ export default function ReservationsFormClientContainer() {
                 })}
               </div>
 
-              <Flex justify='end' mt='4'>
-                <Button type='button' variant='surface' onClick={addHotel}>
-                  <PlusIcon size='20' />
-                  호텔 추가
-                </Button>
-              </Flex>
+              {!!getValues('hotels').length && (
+                <Flex justify='end' mt='4'>
+                  <Button type='button' variant='surface' onClick={addHotel}>
+                    <PlusIcon size='20' />
+                    호텔 추가
+                  </Button>
+                </Flex>
+              )}
             </section>
           </Card>
 
@@ -594,6 +604,14 @@ export default function ReservationsFormClientContainer() {
                 선택관광
               </Heading>
 
+              <Flex asChild justify='end' align='center' gap='1' mb='2'>
+                <label>
+                  선택관광 없음
+                  <Checkbox
+                    onCheckedChange={value => setValue('tours', value ? [] : [defaultTourValues])}
+                  />
+                </label>
+              </Flex>
               <Flex direction='column' gap='5'>
                 {getValues('tours').map((_tour, i) => (
                   <div key={i} className={styles.client}>
@@ -714,12 +732,14 @@ export default function ReservationsFormClientContainer() {
                 ))}
               </Flex>
 
-              <Flex justify='end' mt='4'>
-                <Button type='button' variant='surface' onClick={addTour}>
-                  <PlusIcon size='20' />
-                  선택관광 추가
-                </Button>
-              </Flex>
+              {!!getValues('tours').length && (
+                <Flex justify='end' mt='4'>
+                  <Button type='button' variant='surface' onClick={addTour}>
+                    <PlusIcon size='20' />
+                    선택관광 추가
+                  </Button>
+                </Flex>
+              )}
             </section>
           </Card>
 
@@ -729,6 +749,14 @@ export default function ReservationsFormClientContainer() {
                 렌터카
               </Heading>
 
+              <Flex asChild justify='end' align='center' gap='1' mb='2'>
+                <label>
+                  렌터카 없음
+                  <Checkbox
+                    onCheckedChange={value => setValue('cars', value ? [] : [defaultCarValues])}
+                  />
+                </label>
+              </Flex>
               <div>
                 {getValues('cars').map((_hotel, i) => {
                   return (
@@ -864,12 +892,14 @@ export default function ReservationsFormClientContainer() {
                 })}
               </div>
 
-              <Flex justify='end' mt='4'>
-                <Button type='button' variant='surface' onClick={addCar}>
-                  <PlusIcon size='20' />
-                  렌터카 추가
-                </Button>
-              </Flex>
+              {!!getValues('cars').length && (
+                <Flex justify='end' mt='4'>
+                  <Button type='button' variant='surface' onClick={addCar}>
+                    <PlusIcon size='20' />
+                    렌터카 추가
+                  </Button>
+                </Flex>
+              )}
             </section>
           </Card>
 
