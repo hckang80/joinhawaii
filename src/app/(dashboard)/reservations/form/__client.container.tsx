@@ -400,6 +400,8 @@ export default function ReservationsFormClientContainer() {
                   인원 추가
                 </Button>
               </Flex>
+
+              <pre>{JSON.stringify(watch('clients'), null, 2)}</pre>
             </section>
           </Card>
 
@@ -547,6 +549,8 @@ export default function ReservationsFormClientContainer() {
                   주내선 추가
                 </Button>
               </Flex>
+
+              <pre>{JSON.stringify(watch('flights'), null, 2)}</pre>
             </section>
           </Card>
 
@@ -722,6 +726,8 @@ export default function ReservationsFormClientContainer() {
                   </Button>
                 </Flex>
               )}
+
+              <pre>{JSON.stringify(watch('hotels'), null, 2)}</pre>
             </section>
           </Card>
 
@@ -868,6 +874,8 @@ export default function ReservationsFormClientContainer() {
                   </Button>
                 </Flex>
               )}
+
+              <pre>{JSON.stringify(watch('tours'), null, 2)}</pre>
             </section>
           </Card>
 
@@ -1030,14 +1038,14 @@ export default function ReservationsFormClientContainer() {
                   </Button>
                 </Flex>
               )}
+
+              <pre>{JSON.stringify(watch('cars'), null, 2)}</pre>
             </section>
           </Card>
 
           <Flex justify='end' mt='4'>
             <Button size='3'>확인</Button>
           </Flex>
-
-          <pre>{JSON.stringify(watch(), null, 2)}</pre>
         </form>
       </Flex>
     </div>
