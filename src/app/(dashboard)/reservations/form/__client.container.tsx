@@ -28,11 +28,14 @@ type Hotel = typeof defaultHotelValues;
 
 type Tour = typeof defaultTourValues;
 
+type Car = typeof defaultCarValues;
+
 interface FormData {
   clients: Client[];
   flights: Flight[];
   hotels: Hotel[];
   tours: Tour[];
+  cars: Car[];
 }
 
 const GENDER_TYPE = ['MR', 'MS'] as const;
@@ -101,6 +104,24 @@ const defaultTourValues = {
   }
 };
 
+const defaultCarValues = {
+  region: '',
+  pickup_date: '',
+  return_date: '',
+  model: '',
+  options: '',
+  driver: '',
+  pickup_location: '',
+  pickup_time: '',
+  rental_days: 0,
+  price: {
+    nightly: 0,
+    deposit: 0,
+    balance: 0,
+    total: 0
+  }
+};
+
 const status$ = observable({
   reservationIndex: 0
 });
@@ -121,7 +142,8 @@ export default function ReservationsFormClientContainer() {
       clients: [defaultClientValues],
       flights: [defaultFlightValues],
       hotels: [defaultHotelValues],
-      tours: [defaultTourValues]
+      tours: [defaultTourValues],
+      cars: [defaultCarValues]
     }
   });
 
@@ -147,6 +169,10 @@ export default function ReservationsFormClientContainer() {
 
   const addTour = () => {
     setValue('tours', [...getValues('tours'), defaultTourValues]);
+  };
+
+  const addCar = () => {
+    setValue('cars', [...getValues('cars'), defaultCarValues]);
   };
 
   return (
@@ -692,6 +718,156 @@ export default function ReservationsFormClientContainer() {
                 <Button type='button' variant='surface' onClick={addTour}>
                   <PlusIcon size='20' />
                   선택관광 추가
+                </Button>
+              </Flex>
+            </section>
+          </Card>
+
+          <Card asChild size='3'>
+            <section>
+              <Heading as='h3' mb='4'>
+                렌터카
+              </Heading>
+
+              <div>
+                {getValues('cars').map((_hotel, i) => {
+                  return (
+                    <div key={i} className={styles.client}>
+                      <Grid align='center' columns='60px 1fr 60px 1fr' gap='3'>
+                        <Container gridColumn='1/ -1'>
+                          <Grid align='center' columns='60px 1fr' gap='3'>
+                            <Text weight='medium'>지역</Text>
+                            <TextField.Root
+                              size='3'
+                              {...register(`cars.${i}.region`, { required: true })}
+                            />
+                          </Grid>
+                        </Container>
+
+                        <Container gridColumn='1/ -1'>
+                          <Grid align='center' columns='60px 1fr' gap='3'>
+                            <Text weight='medium'>날짜</Text>
+                            <Flex gap='2'>
+                              <Container flexGrow='1'>
+                                <TextField.Root
+                                  type='date'
+                                  size='3'
+                                  {...register(`cars.${i}.pickup_date`, { required: true })}
+                                />
+                              </Container>
+                              <Container flexGrow='1'>
+                                <TextField.Root
+                                  type='date'
+                                  size='3'
+                                  {...register(`cars.${i}.return_date`, { required: true })}
+                                />
+                              </Container>
+                            </Flex>
+                          </Grid>
+                        </Container>
+                        <Text weight='medium'>차종</Text>
+                        <TextField.Root
+                          size='3'
+                          {...register(`cars.${i}.model`, { required: true })}
+                        />
+
+                        <Text weight='medium'>운전자</Text>
+                        <TextField.Root
+                          size='3'
+                          {...register(`cars.${i}.driver`, { required: true })}
+                        />
+
+                        <Container gridColumn='1/ -1'>
+                          <Grid align='center' columns='60px 1fr' gap='3'>
+                            <Text weight='medium'>조건</Text>
+                            <TextField.Root
+                              size='3'
+                              {...register(`cars.${i}.options`, { required: true })}
+                            />
+                          </Grid>
+                        </Container>
+
+                        <Text weight='medium'>픽업 장소</Text>
+                        <TextField.Root
+                          size='3'
+                          {...register(`cars.${i}.pickup_location`, { required: true })}
+                        />
+
+                        <Text weight='medium'>픽업 시간</Text>
+                        <TextField.Root
+                          type='time'
+                          size='3'
+                          {...register(`cars.${i}.pickup_date`, { required: true })}
+                        />
+
+                        <Text weight='medium'>대여일</Text>
+                        <TextField.Root
+                          type='number'
+                          min='1'
+                          size='3'
+                          {...register(`cars.${i}.rental_days`, {
+                            required: true,
+                            valueAsNumber: true
+                          })}
+                        />
+
+                        <Container gridColumn='1/ -1'>
+                          <Grid align='center' columns='60px 1fr' gap='3'>
+                            <Text weight='medium'>요금 상세</Text>
+                            <Flex align='center' gap='3'>
+                              <Text wrap='nowrap'>1일요금</Text>
+                              <TextField.Root
+                                type='number'
+                                min='0'
+                                size='3'
+                                {...register(`cars.${i}.price.nightly`, {
+                                  required: true,
+                                  valueAsNumber: true
+                                })}
+                              />
+                              <Text wrap='nowrap'>예약금</Text>
+                              <TextField.Root
+                                type='number'
+                                min='0'
+                                size='3'
+                                {...register(`cars.${i}.price.deposit`, {
+                                  required: true,
+                                  valueAsNumber: true
+                                })}
+                              />
+                              <Text wrap='nowrap'>잔금</Text>
+                              <TextField.Root
+                                type='number'
+                                min='0'
+                                size='3'
+                                {...register(`cars.${i}.price.balance`, {
+                                  required: true,
+                                  valueAsNumber: true
+                                })}
+                              />
+                              <Text wrap='nowrap'>합계</Text>
+                              <TextField.Root
+                                type='number'
+                                min='0'
+                                size='3'
+                                {...register(`cars.${i}.price.total`, {
+                                  required: true,
+                                  valueAsNumber: true
+                                })}
+                              />
+                            </Flex>
+                          </Grid>
+                        </Container>
+                      </Grid>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <Flex justify='end' mt='4'>
+                <Button type='button' variant='surface' onClick={addCar}>
+                  <PlusIcon size='20' />
+                  렌터카 추가
                 </Button>
               </Flex>
             </section>
