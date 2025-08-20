@@ -17,17 +17,21 @@ import {
   TextField
 } from '@radix-ui/themes';
 import { PlusIcon } from 'lucide-react';
-import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
+import { useEffect } from 'react';
+import {
+  type Control,
+  Controller,
+  type SubmitHandler,
+  useForm,
+  type UseFormSetValue,
+  useWatch
+} from 'react-hook-form';
 import styles from './page.module.css';
 
 type Client = typeof defaultClientValues;
-
 type Flight = typeof defaultFlightValues;
-
 type Hotel = typeof defaultHotelValues;
-
 type Tour = typeof defaultTourValues;
-
 type Car = typeof defaultCarValues;
 
 interface FormData {
@@ -125,6 +129,108 @@ const defaultCarValues = {
 const status$ = observable({
   reservationIndex: 0
 });
+
+function FlightTotalCalculator({
+  index,
+  setValue,
+  control
+}: {
+  index: number;
+  setValue: UseFormSetValue<FormData>;
+  control: Control<FormData, unknown, FormData>;
+}) {
+  const watchedValues = useWatch({
+    control,
+    name: [
+      `flights.${index}.capacity.adult`,
+      `flights.${index}.capacity.children`,
+      `flights.${index}.price.adult`,
+      `flights.${index}.price.children`
+    ]
+  });
+
+  useEffect(() => {
+    const [adultCapacity, childrenCapacity, adultPrice, childrenPrice] = watchedValues;
+    const total = adultCapacity * adultPrice + childrenCapacity * childrenPrice;
+    setValue(`flights.${index}.price.total`, total, { shouldValidate: true });
+  }, [watchedValues, setValue, index]);
+
+  return null;
+}
+
+function HotelTotalCalculator({
+  index,
+  setValue,
+  control
+}: {
+  index: number;
+  setValue: UseFormSetValue<FormData>;
+  control: Control<FormData, unknown, FormData>;
+}) {
+  const watchedValues = useWatch({
+    control,
+    name: [`hotels.${index}.price.nightly`, `hotels.${index}.nights`]
+  });
+
+  useEffect(() => {
+    const [nightly, nights] = watchedValues;
+    const total = nightly * nights;
+    setValue(`hotels.${index}.price.total`, total, { shouldValidate: true });
+  }, [watchedValues, setValue, index]);
+
+  return null;
+}
+
+function TourTotalCalculator({
+  index,
+  setValue,
+  control
+}: {
+  index: number;
+  setValue: UseFormSetValue<FormData>;
+  control: Control<FormData, unknown, FormData>;
+}) {
+  const watchedValues = useWatch({
+    control,
+    name: [
+      `tours.${index}.participant.adult`,
+      `tours.${index}.participant.children`,
+      `tours.${index}.price.adult`,
+      `tours.${index}.price.children`
+    ]
+  });
+
+  useEffect(() => {
+    const [adultParticipant, childrenParticipant, adultPrice, childrenPrice] = watchedValues;
+    const total = adultParticipant * adultPrice + childrenParticipant * childrenPrice;
+    setValue(`tours.${index}.price.total`, total, { shouldValidate: true });
+  }, [watchedValues, setValue, index]);
+
+  return null;
+}
+
+function CarTotalCalculator({
+  index,
+  setValue,
+  control
+}: {
+  index: number;
+  setValue: UseFormSetValue<FormData>;
+  control: Control<FormData, unknown, FormData>;
+}) {
+  const watchedValues = useWatch({
+    control,
+    name: [`cars.${index}.price.nightly`, `cars.${index}.rental_days`]
+  });
+
+  useEffect(() => {
+    const [nightly, rentalDays] = watchedValues;
+    const total = nightly * rentalDays;
+    setValue(`cars.${index}.price.total`, total, { shouldValidate: true });
+  }, [watchedValues, setValue, index]);
+
+  return null;
+}
 
 export default function ReservationsFormClientContainer() {
   const reservationIndex = use$(status$.reservationIndex);
@@ -290,6 +396,8 @@ export default function ReservationsFormClientContainer() {
               <Flex direction='column' gap='5'>
                 {getValues('flights').map((_flight, i) => (
                   <div key={i} className={styles.client}>
+                    <FlightTotalCalculator index={i} setValue={setValue} control={control} />
+
                     <Grid align='center' columns='60px 1fr 60px 1fr' gap='3'>
                       <Container gridColumn='1 / -1'>
                         <Grid align='center' columns='60px 1fr' gap='3'>
@@ -306,7 +414,8 @@ export default function ReservationsFormClientContainer() {
                         size='3'
                         type='datetime-local'
                         {...register(`flights.${i}.departure_datetime`, { required: true })}
-                      ></TextField.Root>
+                      />
+
                       <Text weight='medium'>출발지</Text>
                       <TextField.Root
                         size='3'
@@ -314,17 +423,20 @@ export default function ReservationsFormClientContainer() {
                         readOnly={!i}
                         {...register(`flights.${i}.departure_city`, { required: true })}
                       />
+
                       <Text weight='medium'>도착 시간</Text>
                       <TextField.Root
                         size='3'
                         type='datetime-local'
                         {...register(`flights.${i}.arrival_datetime`, { required: true })}
-                      ></TextField.Root>
+                      />
+
                       <Text weight='medium'>도착지</Text>
                       <TextField.Root
                         size='3'
                         {...register(`flights.${i}.arrival_city`, { required: true })}
                       />
+
                       <Text weight='medium'>인원</Text>
                       <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
                         <span>성인</span>
@@ -400,10 +512,9 @@ export default function ReservationsFormClientContainer() {
                             <Text wrap='nowrap'>합계</Text>
                             <TextField.Root
                               type='number'
-                              min='0'
                               size='3'
+                              readOnly
                               {...register(`flights.${i}.price.total`, {
-                                required: true,
                                 valueAsNumber: true
                               })}
                             />
@@ -438,10 +549,13 @@ export default function ReservationsFormClientContainer() {
                   />
                 </label>
               </Flex>
+
               <div>
                 {getValues('hotels').map((_hotel, i) => {
                   return (
                     <div key={i} className={styles.client}>
+                      <HotelTotalCalculator index={i} setValue={setValue} control={control} />
+
                       <Grid align='center' columns='60px 1fr 60px 1fr' gap='3'>
                         <Container gridColumn='1/ -1'>
                           <Grid align='center' columns='60px 1fr' gap='3'>
@@ -516,7 +630,7 @@ export default function ReservationsFormClientContainer() {
                                   }}
                                 />
                               )}
-                            ></Controller>
+                            />
                             <span></span>
                             <Text weight='medium'>리조트피</Text>
                             <Controller
@@ -530,7 +644,7 @@ export default function ReservationsFormClientContainer() {
                                   }}
                                 />
                               )}
-                            ></Controller>
+                            />
                           </Grid>
                         </Container>
 
@@ -571,10 +685,9 @@ export default function ReservationsFormClientContainer() {
                               <Text wrap='nowrap'>합계</Text>
                               <TextField.Root
                                 type='number'
-                                min='0'
                                 size='3'
+                                readOnly
                                 {...register(`hotels.${i}.price.total`, {
-                                  required: true,
                                   valueAsNumber: true
                                 })}
                               />
@@ -612,9 +725,12 @@ export default function ReservationsFormClientContainer() {
                   />
                 </label>
               </Flex>
+
               <Flex direction='column' gap='5'>
                 {getValues('tours').map((_tour, i) => (
                   <div key={i} className={styles.client}>
+                    <TourTotalCalculator index={i} setValue={setValue} control={control} />
+
                     <Grid align='center' columns='60px 1fr 60px 1fr' gap='3'>
                       <Text weight='medium'>지역</Text>
                       <TextField.Root
@@ -633,14 +749,14 @@ export default function ReservationsFormClientContainer() {
                         size='3'
                         type='datetime-local'
                         {...register(`tours.${i}.start_date`, { required: true })}
-                      ></TextField.Root>
+                      />
 
                       <Text weight='medium'>도착 시간</Text>
                       <TextField.Root
                         size='3'
                         type='datetime-local'
                         {...register(`tours.${i}.end_date`, { required: true })}
-                      ></TextField.Root>
+                      />
 
                       <Text weight='medium'>인원</Text>
                       <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
@@ -717,10 +833,9 @@ export default function ReservationsFormClientContainer() {
                             <Text wrap='nowrap'>합계</Text>
                             <TextField.Root
                               type='number'
-                              min='0'
                               size='3'
+                              readOnly
                               {...register(`tours.${i}.price.total`, {
-                                required: true,
                                 valueAsNumber: true
                               })}
                             />
@@ -757,10 +872,13 @@ export default function ReservationsFormClientContainer() {
                   />
                 </label>
               </Flex>
+
               <div>
-                {getValues('cars').map((_hotel, i) => {
+                {getValues('cars').map((_car, i) => {
                   return (
                     <div key={i} className={styles.client}>
+                      <CarTotalCalculator index={i} setValue={setValue} control={control} />
+
                       <Grid align='center' columns='60px 1fr 60px 1fr' gap='3'>
                         <Container gridColumn='1/ -1'>
                           <Grid align='center' columns='60px 1fr' gap='3'>
@@ -793,6 +911,7 @@ export default function ReservationsFormClientContainer() {
                             </Flex>
                           </Grid>
                         </Container>
+
                         <Text weight='medium'>차종</Text>
                         <TextField.Root
                           size='3'
@@ -825,7 +944,7 @@ export default function ReservationsFormClientContainer() {
                         <TextField.Root
                           type='time'
                           size='3'
-                          {...register(`cars.${i}.pickup_date`, { required: true })}
+                          {...register(`cars.${i}.pickup_time`, { required: true })}
                         />
 
                         <Text weight='medium'>대여일</Text>
@@ -876,10 +995,9 @@ export default function ReservationsFormClientContainer() {
                               <Text wrap='nowrap'>합계</Text>
                               <TextField.Root
                                 type='number'
-                                min='0'
                                 size='3'
+                                readOnly
                                 {...register(`cars.${i}.price.total`, {
-                                  required: true,
                                   valueAsNumber: true
                                 })}
                               />
