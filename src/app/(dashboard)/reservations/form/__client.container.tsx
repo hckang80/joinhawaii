@@ -145,14 +145,17 @@ function FlightTotalCalculator({
       `flights.${index}.capacity.adult`,
       `flights.${index}.capacity.children`,
       `flights.${index}.price.adult`,
-      `flights.${index}.price.children`
+      `flights.${index}.price.children`,
+      `flights.${index}.price.deposit`
     ]
   });
 
   useEffect(() => {
-    const [adultCapacity, childrenCapacity, adultPrice, childrenPrice] = watchedValues;
+    const [adultCapacity, childrenCapacity, adultPrice, childrenPrice, depositPrice] =
+      watchedValues;
     const total = adultCapacity * adultPrice + childrenCapacity * childrenPrice;
     setValue(`flights.${index}.price.total`, total, { shouldValidate: true });
+    setValue(`flights.${index}.price.balance`, total - depositPrice, { shouldValidate: true });
   }, [watchedValues, setValue, index]);
 
   return null;
@@ -169,13 +172,18 @@ function HotelTotalCalculator({
 }) {
   const watchedValues = useWatch({
     control,
-    name: [`hotels.${index}.price.nightly`, `hotels.${index}.nights`]
+    name: [
+      `hotels.${index}.price.nightly`,
+      `hotels.${index}.nights`,
+      `hotels.${index}.price.deposit`
+    ]
   });
 
   useEffect(() => {
-    const [nightly, nights] = watchedValues;
+    const [nightly, nights, depositPrice] = watchedValues;
     const total = nightly * nights;
     setValue(`hotels.${index}.price.total`, total, { shouldValidate: true });
+    setValue(`hotels.${index}.price.balance`, total - depositPrice, { shouldValidate: true });
   }, [watchedValues, setValue, index]);
 
   return null;
@@ -196,14 +204,17 @@ function TourTotalCalculator({
       `tours.${index}.participant.adult`,
       `tours.${index}.participant.children`,
       `tours.${index}.price.adult`,
-      `tours.${index}.price.children`
+      `tours.${index}.price.children`,
+      `tours.${index}.price.deposit`
     ]
   });
 
   useEffect(() => {
-    const [adultParticipant, childrenParticipant, adultPrice, childrenPrice] = watchedValues;
+    const [adultParticipant, childrenParticipant, adultPrice, childrenPrice, depositPrice] =
+      watchedValues;
     const total = adultParticipant * adultPrice + childrenParticipant * childrenPrice;
     setValue(`tours.${index}.price.total`, total, { shouldValidate: true });
+    setValue(`tours.${index}.price.balance`, total - depositPrice, { shouldValidate: true });
   }, [watchedValues, setValue, index]);
 
   return null;
@@ -220,13 +231,18 @@ function CarTotalCalculator({
 }) {
   const watchedValues = useWatch({
     control,
-    name: [`cars.${index}.price.nightly`, `cars.${index}.rental_days`]
+    name: [
+      `cars.${index}.price.nightly`,
+      `cars.${index}.rental_days`,
+      `cars.${index}.price.deposit`
+    ]
   });
 
   useEffect(() => {
-    const [nightly, rentalDays] = watchedValues;
+    const [nightly, rentalDays, depositPrice] = watchedValues;
     const total = nightly * rentalDays;
     setValue(`cars.${index}.price.total`, total, { shouldValidate: true });
+    setValue(`cars.${index}.price.balance`, total - depositPrice, { shouldValidate: true });
   }, [watchedValues, setValue, index]);
 
   return null;
@@ -502,10 +518,9 @@ export default function ReservationsFormClientContainer() {
                             <Text wrap='nowrap'>잔금</Text>
                             <TextField.Root
                               type='number'
-                              min='0'
                               size='3'
+                              readOnly
                               {...register(`flights.${i}.price.balance`, {
-                                required: true,
                                 valueAsNumber: true
                               })}
                             />
@@ -675,10 +690,9 @@ export default function ReservationsFormClientContainer() {
                               <Text wrap='nowrap'>잔금</Text>
                               <TextField.Root
                                 type='number'
-                                min='0'
                                 size='3'
+                                readOnly
                                 {...register(`hotels.${i}.price.balance`, {
-                                  required: true,
                                   valueAsNumber: true
                                 })}
                               />
@@ -823,10 +837,9 @@ export default function ReservationsFormClientContainer() {
                             <Text wrap='nowrap'>잔금</Text>
                             <TextField.Root
                               type='number'
-                              min='0'
                               size='3'
+                              readOnly
                               {...register(`tours.${i}.price.balance`, {
-                                required: true,
                                 valueAsNumber: true
                               })}
                             />
@@ -985,10 +998,9 @@ export default function ReservationsFormClientContainer() {
                               <Text wrap='nowrap'>잔금</Text>
                               <TextField.Root
                                 type='number'
-                                min='0'
                                 size='3'
+                                readOnly
                                 {...register(`cars.${i}.price.balance`, {
-                                  required: true,
                                   valueAsNumber: true
                                 })}
                               />
