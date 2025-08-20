@@ -26,10 +26,13 @@ type Flight = typeof defaultFlightValues;
 
 type Hotel = typeof defaultHotelValues;
 
+type Tour = typeof defaultTourValues;
+
 interface FormData {
   clients: Client[];
   flights: Flight[];
   hotels: Hotel[];
+  tours: Tour[];
 }
 
 const GENDER_TYPE = ['MR', 'MS'] as const;
@@ -80,6 +83,24 @@ const defaultHotelValues = {
   }
 };
 
+const defaultTourValues = {
+  region: '',
+  start_date: '',
+  end_date: '',
+  name: '',
+  participant: {
+    adult: 1,
+    children: 0
+  },
+  price: {
+    adult: 0,
+    children: 0,
+    deposit: 0,
+    balance: 0,
+    total: 0
+  }
+};
+
 const status$ = observable({
   reservationIndex: 0
 });
@@ -99,7 +120,8 @@ export default function ReservationsFormClientContainer() {
     defaultValues: {
       clients: [defaultClientValues],
       flights: [defaultFlightValues],
-      hotels: [defaultHotelValues]
+      hotels: [defaultHotelValues],
+      tours: [defaultTourValues]
     }
   });
 
@@ -121,6 +143,10 @@ export default function ReservationsFormClientContainer() {
 
   const addHotel = () => {
     setValue('hotels', [...getValues('hotels'), defaultHotelValues]);
+  };
+
+  const addTour = () => {
+    setValue('tours', [...getValues('tours'), defaultTourValues]);
   };
 
   return (
@@ -531,6 +557,141 @@ export default function ReservationsFormClientContainer() {
                 <Button type='button' variant='surface' onClick={addHotel}>
                   <PlusIcon size='20' />
                   호텔 추가
+                </Button>
+              </Flex>
+            </section>
+          </Card>
+
+          <Card asChild size='3'>
+            <section>
+              <Heading as='h3' mb='4'>
+                선택관광
+              </Heading>
+
+              <Flex direction='column' gap='5'>
+                {getValues('tours').map((_tour, i) => (
+                  <div key={i} className={styles.client}>
+                    <Grid align='center' columns='60px 1fr 60px 1fr' gap='3'>
+                      <Text weight='medium'>지역</Text>
+                      <TextField.Root
+                        size='3'
+                        {...register(`tours.${i}.region`, { required: true })}
+                      />
+
+                      <Text weight='medium'>상품명</Text>
+                      <TextField.Root
+                        size='3'
+                        {...register(`tours.${i}.name`, { required: true })}
+                      />
+
+                      <Text weight='medium'>출발 시간</Text>
+                      <TextField.Root
+                        size='3'
+                        type='datetime-local'
+                        {...register(`tours.${i}.start_date`, { required: true })}
+                      ></TextField.Root>
+
+                      <Text weight='medium'>도착 시간</Text>
+                      <TextField.Root
+                        size='3'
+                        type='datetime-local'
+                        {...register(`tours.${i}.end_date`, { required: true })}
+                      ></TextField.Root>
+
+                      <Text weight='medium'>인원</Text>
+                      <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
+                        <span>성인</span>
+                        <TextField.Root
+                          type='number'
+                          min='0'
+                          size='3'
+                          {...register(`tours.${i}.participant.adult`, {
+                            required: true,
+                            valueAsNumber: true
+                          })}
+                        />
+                        <span>소아</span>
+                        <TextField.Root
+                          type='number'
+                          min='0'
+                          size='3'
+                          {...register(`tours.${i}.participant.children`, {
+                            required: true,
+                            valueAsNumber: true
+                          })}
+                        />
+                      </Grid>
+
+                      <Text weight='medium'>요금</Text>
+                      <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
+                        <span>성인</span>
+                        <TextField.Root
+                          type='number'
+                          min='0'
+                          size='3'
+                          {...register(`tours.${i}.price.adult`, {
+                            required: true,
+                            valueAsNumber: true
+                          })}
+                        />
+                        <span>소아</span>
+                        <TextField.Root
+                          type='number'
+                          min='0'
+                          size='3'
+                          {...register(`tours.${i}.price.children`, {
+                            required: true,
+                            valueAsNumber: true
+                          })}
+                        />
+                      </Grid>
+
+                      <Container gridColumn='1 / -1'>
+                        <Grid align='center' columns='60px 1fr' gap='3'>
+                          <Text weight='medium'>요금 상세</Text>
+                          <Flex align='center' gap='3'>
+                            <Text wrap='nowrap'>예약금</Text>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              size='3'
+                              {...register(`tours.${i}.price.deposit`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
+                            <Text wrap='nowrap'>잔금</Text>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              size='3'
+                              {...register(`tours.${i}.price.balance`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
+                            <Text wrap='nowrap'>합계</Text>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              size='3'
+                              {...register(`tours.${i}.price.total`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                        </Grid>
+                      </Container>
+                    </Grid>
+                  </div>
+                ))}
+              </Flex>
+
+              <Flex justify='end' mt='4'>
+                <Button type='button' variant='surface' onClick={addTour}>
+                  <PlusIcon size='20' />
+                  선택관광 추가
                 </Button>
               </Flex>
             </section>
