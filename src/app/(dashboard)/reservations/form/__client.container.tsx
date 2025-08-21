@@ -269,8 +269,29 @@ export default function ReservationsFormClientContainer() {
     }
   });
 
-  const onSubmit: SubmitHandler<FormData> = data => {
-    console.log({ data });
+  const onSubmit: SubmitHandler<FormData> = async data => {
+    try {
+      const response = await fetch('/api/reservation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          ...data,
+          reservationIndex: status$.reservationIndex.get()
+        })
+      });
+
+      const result = await response.json();
+
+      if (!result.success) {
+        throw new Error(result.error);
+      }
+
+      console.log('예약이 완료되었습니다:', result.data.reservationId);
+    } catch (error) {
+      console.error('예약 중 오류가 발생했습니다:', error);
+    }
   };
 
   const addClient = () => {
