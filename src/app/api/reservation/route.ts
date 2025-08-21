@@ -2,7 +2,7 @@ import type { ReservationFormData } from '@/types';
 import { createClient } from '@/utils/supabase/server';
 import { NextResponse } from 'next/server';
 
-type ReservationRequest = { reservationIndex: number } & ReservationFormData;
+type ReservationRequest = { mainClientName: string } & ReservationFormData;
 
 export async function POST(request: Request) {
   try {
@@ -27,7 +27,7 @@ export async function POST(request: Request) {
       p_reservation_id: reservationId,
       p_clients: body.clients,
       p_flights: body.flights,
-      p_reservation_index: body.reservationIndex,
+      p_main_client_name: body.mainClientName,
       p_hotels: body.hotels,
       p_tours: body.tours,
       p_cars: body.cars

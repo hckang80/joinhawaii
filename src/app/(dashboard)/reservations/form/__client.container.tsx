@@ -161,8 +161,6 @@ function CarTotalCalculator({
 }
 
 export default function ReservationsFormClientContainer() {
-  const reservationIndex = use$(status$.reservationIndex);
-
   const {
     register,
     handleSubmit,
@@ -186,6 +184,9 @@ export default function ReservationsFormClientContainer() {
     }
   });
 
+  const reservationIndex = use$(status$.reservationIndex);
+  const mainClientName = getValues('clients')[reservationIndex].korean_name;
+
   const onSubmit: SubmitHandler<ReservationFormData> = async data => {
     try {
       const response = await fetch('/api/reservation', {
@@ -195,7 +196,7 @@ export default function ReservationsFormClientContainer() {
         },
         body: JSON.stringify({
           ...data,
-          reservationIndex: status$.reservationIndex.get()
+          mainClientName
         })
       });
 
