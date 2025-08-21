@@ -25,9 +25,9 @@ export async function POST(request: Request) {
 
     const { data, error } = await supabase.rpc('create_reservation', {
       p_reservation_id: reservationId,
-      p_main_client_index: body.reservationIndex,
       p_clients: body.clients,
       p_flights: body.flights,
+      p_reservation_index: body.reservationIndex,
       p_hotels: body.hotels,
       p_tours: body.tours,
       p_cars: body.cars
