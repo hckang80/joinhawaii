@@ -1,8 +1,6 @@
-import type { ReservationFormData } from '@/types';
+import type { ReservationRequest } from '@/types';
 import { createClient } from '@/utils/supabase/server';
 import { NextResponse } from 'next/server';
-
-type ReservationRequest = { mainClientName: string } & ReservationFormData;
 
 export async function POST(request: Request) {
   try {

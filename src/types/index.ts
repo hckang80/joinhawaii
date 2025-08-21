@@ -19,3 +19,5 @@ export interface ReservationFormData {
   tours: Tour[];
   cars: Car[];
 }
+
+export type ReservationRequest = { mainClientName: string } & ReservationFormData;
