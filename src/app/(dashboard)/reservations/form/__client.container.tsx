@@ -339,11 +339,12 @@ export default function ReservationsFormClientContainer() {
               </div>
 
               <Flex justify='end' mt='4' gap='1'>
-                <Button type='button' color='red' onClick={addClient}>
+                <Button title='인원 추가' type='button' color='red' onClick={addClient}>
                   <UserPlus />
                 </Button>
                 {getValues('clients').length > 1 && (
                   <Button
+                    title='인원 추가'
                     type='button'
                     color='red'
                     variant='soft'
