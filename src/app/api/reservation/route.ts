@@ -45,7 +45,11 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error('Reservation creation error:', error);
     return NextResponse.json(
-      { success: false, error: 'Failed to create reservation' },
+      {
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to create reservation',
+        details: process.env.NODE_ENV === 'development' ? error : undefined
+      },
       { status: 500 }
     );
   }
