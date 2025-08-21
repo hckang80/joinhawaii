@@ -24,7 +24,7 @@ import {
   TextArea,
   TextField
 } from '@radix-ui/themes';
-import { PlusIcon, UserMinus } from 'lucide-react';
+import { PlusIcon, UserMinus, UserPlus } from 'lucide-react';
 import { useEffect } from 'react';
 import {
   type Control,
@@ -338,13 +338,17 @@ export default function ReservationsFormClientContainer() {
                 })}
               </div>
 
-              <Flex justify='end' mt='4' gap='2'>
-                <Button type='button' variant='surface' onClick={addClient}>
-                  <PlusIcon size='20' />
-                  인원 추가
+              <Flex justify='end' mt='4' gap='1'>
+                <Button type='button' color='red' onClick={addClient}>
+                  <UserPlus />
                 </Button>
                 {getValues('clients').length > 1 && (
-                  <Button type='button' variant='soft' onClick={() => removeItem('clients')}>
+                  <Button
+                    type='button'
+                    color='red'
+                    variant='soft'
+                    onClick={() => removeItem('clients')}
+                  >
                     <UserMinus />
                   </Button>
                 )}
