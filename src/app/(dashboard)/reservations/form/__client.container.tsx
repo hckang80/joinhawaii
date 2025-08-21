@@ -1,5 +1,13 @@
 'use client';
 
+import {
+  defaultCarValues,
+  defaultClientValues,
+  defaultFlightValues,
+  defaultHotelValues,
+  defaultTourValues
+} from '@/constants';
+import type { ReservationFormData } from '@/types';
 import { observable } from '@legendapp/state';
 import { use$ } from '@legendapp/state/react';
 import {
@@ -16,7 +24,7 @@ import {
   TextArea,
   TextField
 } from '@radix-ui/themes';
-import { PlusIcon } from 'lucide-react';
+import { PlusIcon, UserMinus, UserPlus } from 'lucide-react';
 import { useEffect } from 'react';
 import {
   type Control,
@@ -28,103 +36,7 @@ import {
 } from 'react-hook-form';
 import styles from './page.module.css';
 
-type Client = typeof defaultClientValues;
-type Flight = typeof defaultFlightValues;
-type Hotel = typeof defaultHotelValues;
-type Tour = typeof defaultTourValues;
-type Car = typeof defaultCarValues;
-
-interface FormData {
-  clients: Client[];
-  flights: Flight[];
-  hotels: Hotel[];
-  tours: Tour[];
-  cars: Car[];
-}
-
 const GENDER_TYPE = ['MR', 'MS'] as const;
-
-const defaultClientValues = {
-  korean_name: '',
-  english_name: '',
-  gender: '',
-  resident_id: '',
-  phone_number: '',
-  email: '',
-  notes: ''
-};
-
-const defaultFlightValues = {
-  flight_number: '',
-  departure_datetime: '',
-  departure_city: '',
-  arrival_datetime: '',
-  arrival_city: '',
-  capacity: {
-    adult: 1,
-    children: 0
-  },
-  price: {
-    adult: 0,
-    children: 0,
-    deposit: 0,
-    balance: 0,
-    total: 0
-  }
-};
-
-const defaultHotelValues = {
-  region: '',
-  check_in_date: '',
-  check_out_date: '',
-  name: '',
-  room_type: '',
-  is_breakfast_included: false,
-  is_resort_fee: false,
-  nights: 1,
-  price: {
-    nightly: 0,
-    deposit: 0,
-    balance: 0,
-    total: 0
-  }
-};
-
-const defaultTourValues = {
-  region: '',
-  start_date: '',
-  end_date: '',
-  name: '',
-  participant: {
-    adult: 1,
-    children: 0
-  },
-  price: {
-    adult: 0,
-    children: 0,
-    deposit: 0,
-    balance: 0,
-    total: 0
-  }
-};
-
-const defaultCarValues = {
-  region: '',
-  pickup_date: '',
-  return_date: '',
-  model: '',
-  options: '',
-  driver: '',
-  pickup_location: '',
-  pickup_time: '',
-  rental_days: 1,
-  price: {
-    nightly: 0,
-    deposit: 0,
-    balance: 0,
-    total: 0
-  }
-};
 
 const status$ = observable({
   reservationIndex: 0
@@ -136,8 +48,8 @@ function FlightTotalCalculator({
   control
 }: {
   index: number;
-  setValue: UseFormSetValue<FormData>;
-  control: Control<FormData, unknown, FormData>;
+  setValue: UseFormSetValue<ReservationFormData>;
+  control: Control<ReservationFormData, unknown, ReservationFormData>;
 }) {
   const watchedValues = useWatch({
     control,
@@ -167,8 +79,8 @@ function HotelTotalCalculator({
   control
 }: {
   index: number;
-  setValue: UseFormSetValue<FormData>;
-  control: Control<FormData, unknown, FormData>;
+  setValue: UseFormSetValue<ReservationFormData>;
+  control: Control<ReservationFormData, unknown, ReservationFormData>;
 }) {
   const watchedValues = useWatch({
     control,
@@ -195,8 +107,8 @@ function TourTotalCalculator({
   control
 }: {
   index: number;
-  setValue: UseFormSetValue<FormData>;
-  control: Control<FormData, unknown, FormData>;
+  setValue: UseFormSetValue<ReservationFormData>;
+  control: Control<ReservationFormData, unknown, ReservationFormData>;
 }) {
   const watchedValues = useWatch({
     control,
@@ -226,8 +138,8 @@ function CarTotalCalculator({
   control
 }: {
   index: number;
-  setValue: UseFormSetValue<FormData>;
-  control: Control<FormData, unknown, FormData>;
+  setValue: UseFormSetValue<ReservationFormData>;
+  control: Control<ReservationFormData, unknown, ReservationFormData>;
 }) {
   const watchedValues = useWatch({
     control,
@@ -249,8 +161,6 @@ function CarTotalCalculator({
 }
 
 export default function ReservationsFormClientContainer() {
-  const reservationIndex = use$(status$.reservationIndex);
-
   const {
     register,
     handleSubmit,
@@ -259,18 +169,52 @@ export default function ReservationsFormClientContainer() {
     getValues,
     setValue,
     control
-  } = useForm<FormData>({
+  } = useForm<ReservationFormData>({
     defaultValues: {
       clients: [defaultClientValues],
-      flights: [defaultFlightValues],
+      flights: [
+        {
+          ...defaultFlightValues,
+          departure_city: '인천'
+        }
+      ],
       hotels: [defaultHotelValues],
       tours: [defaultTourValues],
       cars: [defaultCarValues]
     }
   });
 
-  const onSubmit: SubmitHandler<FormData> = data => {
-    console.log({ data });
+  const reservationIndex = use$(status$.reservationIndex);
+  const mainClientName = getValues('clients')[reservationIndex].korean_name;
+
+  const onSubmit: SubmitHandler<ReservationFormData> = async data => {
+    try {
+      const response = await fetch('/api/reservation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          ...data,
+          mainClientName
+        })
+      });
+
+      const result = await response.json();
+
+      if (!result.success) {
+        throw new Error(result.error);
+      }
+
+      console.log('예약이 완료되었습니다:', result.data.reservationId);
+    } catch (error) {
+      console.error('예약 중 오류가 발생했습니다:', error);
+    }
+  };
+
+  const removeItem = (key: keyof ReservationFormData) => {
+    getValues(key).pop();
+    setValue(key, getValues(key));
   };
 
   const addClient = () => {
@@ -394,11 +338,21 @@ export default function ReservationsFormClientContainer() {
                 })}
               </div>
 
-              <Flex justify='end' mt='4'>
-                <Button type='button' variant='surface' onClick={addClient}>
-                  <PlusIcon size='20' />
-                  인원 추가
+              <Flex justify='end' mt='4' gap='1'>
+                <Button title='인원 추가' type='button' color='red' onClick={addClient}>
+                  <UserPlus />
                 </Button>
+                {getValues('clients').length > 1 && (
+                  <Button
+                    title='인원 추가'
+                    type='button'
+                    color='red'
+                    variant='soft'
+                    onClick={() => removeItem('clients')}
+                  >
+                    <UserMinus />
+                  </Button>
+                )}
               </Flex>
 
               <pre>{JSON.stringify(watch('clients'), null, 2)}</pre>
@@ -437,7 +391,6 @@ export default function ReservationsFormClientContainer() {
                       <Text weight='medium'>출발지</Text>
                       <TextField.Root
                         size='3'
-                        value={!i ? '인천' : ''}
                         readOnly={!i}
                         {...register(`flights.${i}.departure_city`, { required: true })}
                       />
