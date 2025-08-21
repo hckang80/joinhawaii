@@ -262,7 +262,12 @@ export default function ReservationsFormClientContainer() {
   } = useForm<FormData>({
     defaultValues: {
       clients: [defaultClientValues],
-      flights: [defaultFlightValues],
+      flights: [
+        {
+          ...defaultFlightValues,
+          departure_city: '인천'
+        }
+      ],
       hotels: [defaultHotelValues],
       tours: [defaultTourValues],
       cars: [defaultCarValues]
@@ -458,7 +463,6 @@ export default function ReservationsFormClientContainer() {
                       <Text weight='medium'>출발지</Text>
                       <TextField.Root
                         size='3'
-                        value={!i ? '인천' : ''}
                         readOnly={!i}
                         {...register(`flights.${i}.departure_city`, { required: true })}
                       />
