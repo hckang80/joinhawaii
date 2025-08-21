@@ -343,9 +343,11 @@ export default function ReservationsFormClientContainer() {
                   <PlusIcon size='20' />
                   인원 추가
                 </Button>
-                <Button type='button' variant='soft' onClick={() => removeItem('clients')}>
-                  <UserMinus />
-                </Button>
+                {getValues('clients').length > 1 && (
+                  <Button type='button' variant='soft' onClick={() => removeItem('clients')}>
+                    <UserMinus />
+                  </Button>
+                )}
               </Flex>
 
               <pre>{JSON.stringify(watch('clients'), null, 2)}</pre>
