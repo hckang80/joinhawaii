@@ -1,9 +1,12 @@
+import type { ReservationFormData } from '@/types';
 import { createClient } from '@/utils/supabase/server';
 import { NextResponse } from 'next/server';
 
+type ReservationRequest = { reservationIndex: number } & ReservationFormData;
+
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    const body: ReservationRequest = await request.json();
 
     const today = new Date().toISOString().slice(0, 10).replace(/-/g, '');
     const supabase = await createClient();
