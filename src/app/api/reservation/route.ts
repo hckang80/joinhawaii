@@ -52,3 +52,46 @@ export async function POST(request: Request) {
     );
   }
 }
+
+export async function GET(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const reservationId = searchParams.get('reservationId');
+    const supabase = await createClient();
+
+    let query = supabase.from('reservations').select(`
+        *,
+        clients!clients_reservation_id_fkey (*),
+        flights!flights_reservation_id_fkey (*),
+        hotels!hotels_reservation_id_fkey (*),
+        tours!tours_reservation_id_fkey (*),
+        rental_cars!rental_cars_reservation_id_fkey (*)
+    `);
+
+    if (reservationId) {
+      query = query.eq('reservation_id', reservationId);
+    }
+
+    const { data, error } = await query.order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Query error:', error);
+      throw error;
+    }
+
+    return NextResponse.json({
+      success: true,
+      data: data || []
+    });
+  } catch (error) {
+    console.error('Reservation fetch error:', error);
+    return NextResponse.json(
+      {
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to fetch reservations',
+        details: process.env.NODE_ENV === 'development' ? error : undefined
+      },
+      { status: 500 }
+    );
+  }
+}
