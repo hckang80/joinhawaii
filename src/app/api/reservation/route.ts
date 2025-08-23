@@ -8,21 +8,18 @@ export async function POST(request: Request) {
     const today = new Date().toISOString().slice(0, 10).replace(/-/g, '');
     const supabase = await createClient();
 
-    const { data: reservations } = await supabase
+    const { data: lastReservation } = await supabase
       .from('reservations')
       .select('reservation_id')
-      .like('reservation_id', `${today}-%`);
-
-    const usedSequences = (reservations || [])
-      .map(r => {
-        const match = r.reservation_id.match(/-JH(\d{3})$/);
-        return match ? parseInt(match[1], 10) : 0;
-      })
-      .filter(n => !isNaN(n));
+      .like('reservation_id', `${today}-%`)
+      .order('reservation_id', { ascending: false })
+      .limit(1)
+      .single();
 
     let sequence = 1;
-    while (usedSequences.includes(sequence)) {
-      sequence++;
+    if (lastReservation?.reservation_id) {
+      const match = lastReservation.reservation_id.match(/-JH(\d{3})$/);
+      sequence = match ? parseInt(match[1], 10) + 1 : 1;
     }
 
     const reservationId = `${today}-JH${String(sequence).padStart(3, '0')}`;
