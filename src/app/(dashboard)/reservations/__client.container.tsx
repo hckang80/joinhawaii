@@ -1,7 +1,8 @@
-import type { ReservationResponse } from '@/types';
+import type { AllProducts } from '@/types';
 import { Heading, Table } from '@radix-ui/themes';
 
-export default function ReservationsClientContainer({ data }: { data: ReservationResponse[] }) {
+export default function ReservationsClientContainer({ data }: { data: AllProducts[] }) {
+  console.log({ data });
   return (
     <div>
       <Heading as='h2' mb='4' size='7'>

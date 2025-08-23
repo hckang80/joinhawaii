@@ -166,8 +166,3 @@ export interface AllProducts {
   type: 'flight' | 'hotel' | 'tour' | 'rental_car';
   [key: string]: unknown;
 }
-
-export interface ProductsResponse {
-  success: boolean;
-  data: AllProducts[];
-}
