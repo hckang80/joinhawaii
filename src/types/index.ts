@@ -158,3 +158,16 @@ export interface ReservationProducts {
 export type ReservationResponse = Reservation & { products: ReservationProducts };
 
 export type ReservationQueryResponse = Reservation & ReservationProducts;
+
+export interface AllProducts {
+  id: number;
+  reservation_id: number;
+  created_at: string;
+  type: 'flight' | 'hotel' | 'tour' | 'rental_car';
+  [key: string]: unknown;
+}
+
+export interface ProductsResponse {
+  success: boolean;
+  data: AllProducts[];
+}
