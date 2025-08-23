@@ -5,7 +5,7 @@ export default function SettlementClientContainer({ data }: { data: ReservationR
   return (
     <div>
       <Heading as='h2' mb='4' size='7'>
-        예약관리
+        정산관리
       </Heading>
 
       <Table.Root variant='surface' size='3'>

@@ -1,12 +1,10 @@
 import type { ReservationResponse } from '@/types';
-import ReservationsClientContainer from './__client.container';
+import SettlementClientContainer from './__client.container';
 
 const fetchReservation = async (id?: string): Promise<ReservationResponse[]> => {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    const url = id
-      ? `${baseUrl}/api/reservation?reservationId=${id}`
-      : `${baseUrl}/api/reservation`;
+    const url = id ? `${baseUrl}/api/settlement?reservationId=${id}` : `${baseUrl}/api/settlement`;
 
     const response = await fetch(url, {
       method: 'GET',
@@ -36,5 +34,5 @@ export default async function SettlementPage() {
   const data = await fetchReservation();
   console.log({ data });
 
-  return <ReservationsClientContainer data={data} />;
+  return <SettlementClientContainer data={data} />;
 }
