@@ -1,5 +1,6 @@
-import { Flex } from '@radix-ui/themes';
+import { Container, Flex } from '@radix-ui/themes';
 import Image from 'next/image';
+import Header from './Header';
 import styles from './layout.module.css';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -10,7 +11,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <Image src='/vercel.svg' width='12' height='12' alt='my service name'></Image>
         </h1>
       </aside>
-      <main className={styles.main}>{children}</main>
+      <Container>
+        <Header />
+
+        <main className={styles.main}>{children}</main>
+      </Container>
     </Flex>
   );
 }
