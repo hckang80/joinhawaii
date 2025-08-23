@@ -137,3 +137,24 @@ export type TablesRow<T extends keyof Database['public']['Tables']> =
   Database['public']['Tables'][T]['Row'];
 
 export type ReservationRow = TablesRow<'reservations'>;
+
+export interface Reservation {
+  id: number;
+  reservation_id: string;
+  status: string;
+  created_at: string;
+  main_client_name: string;
+  total_amount?: number;
+  clients: TablesRow<'clients'>[];
+}
+
+export interface ReservationProducts {
+  flights: TablesRow<'flights'>[];
+  hotels: TablesRow<'hotels'>[];
+  tours: TablesRow<'tours'>[];
+  rental_cars: TablesRow<'cars'>[];
+}
+
+export type ReservationResponse = Reservation & { products: ReservationProducts };
+
+export type ReservationQueryResponse = Reservation & ReservationProducts;
