@@ -1,4 +1,4 @@
-import type { ReservationRequest } from '@/types';
+import type { Database, ReservationRequest, ReservationRow } from '@/types';
 import { createClient } from '@/utils/supabase/server';
 import { NextResponse } from 'next/server';
 
@@ -6,7 +6,7 @@ export async function POST(request: Request) {
   try {
     const body: ReservationRequest = await request.json();
     const today = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-    const supabase = await createClient();
+    const supabase = await createClient<Database>();
 
     const { data: lastReservation } = await supabase
       .from('reservations')
@@ -14,7 +14,7 @@ export async function POST(request: Request) {
       .like('reservation_id', `${today}-%`)
       .order('reservation_id', { ascending: false })
       .limit(1)
-      .single();
+      .single<Pick<ReservationRow, 'reservation_id'>>();
 
     let sequence = 1;
     if (lastReservation?.reservation_id) {
