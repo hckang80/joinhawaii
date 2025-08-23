@@ -1,4 +1,4 @@
-import { Button, Flex, Link } from '@radix-ui/themes';
+import { Button, Flex } from '@radix-ui/themes';
 import { User } from '@supabase/supabase-js';
 
 export default function Header({ user }: { user: User }) {
@@ -6,7 +6,6 @@ export default function Header({ user }: { user: User }) {
     <header>
       <Flex justify='end' gap='2' p='4'>
         {user.email}
-        <Link>login</Link>
         <Button variant='ghost' size='3'>
           logout
         </Button>
