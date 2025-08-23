@@ -1,7 +1,7 @@
 import type { ReservationResponse } from '@/types';
 import { Heading } from '@radix-ui/themes';
 
-export default function ReservationsClientContainer({ data }: { data: ReservationResponse }) {
+export default function ReservationsClientContainer({ data }: { data: ReservationResponse[] }) {
   return (
     <div>
       <Heading as='h2' mb='4' size='7'>
