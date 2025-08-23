@@ -25,7 +25,7 @@ export function useAuth() {
     return () => {
       subscription.unsubscribe();
     };
-  }, []);
+  }, [supabase.auth]);
 
   const login = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
