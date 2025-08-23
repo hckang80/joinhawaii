@@ -63,11 +63,9 @@ export interface Database {
         Row: BaseRow & Client;
         Insert: Omit<Client, 'id'> & {
           reservation_id: number;
-          created_at?: string;
         };
         Update: Partial<Client> & {
           reservation_id?: number;
-          created_at?: string;
         };
       };
       flights: {
