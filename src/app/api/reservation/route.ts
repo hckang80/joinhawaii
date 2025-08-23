@@ -67,10 +67,11 @@ export async function GET() {
     ]);
 
     const allProducts = [
-      ...(flights.data?.map(f => ({ ...f, type: 'flight' as const })) ?? []),
-      ...(hotels.data?.map(h => ({ ...h, type: 'hotel' as const })) ?? []),
-      ...(tours.data?.map(t => ({ ...t, type: 'tour' as const })) ?? []),
-      ...(rental_cars.data?.map(r => ({ ...r, type: 'rental_car' as const })) ?? [])
+      ...(flights.data?.map(flight => ({ ...flight, type: 'flight' as const })) ?? []),
+      ...(hotels.data?.map(hotel => ({ ...hotel, type: 'hotel' as const })) ?? []),
+      ...(tours.data?.map(tour => ({ ...tour, type: 'tour' as const })) ?? []),
+      ...(rental_cars.data?.map(rental_car => ({ ...rental_car, type: 'rental_car' as const })) ??
+        [])
     ].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 
     return NextResponse.json({
