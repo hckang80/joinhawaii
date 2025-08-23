@@ -25,19 +25,21 @@ export default function ReservationsClientContainer({ data }: { data: Reservatio
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          <Table.Row>
-            <Table.Cell>-</Table.Cell>
-            <Table.Cell>-</Table.Cell>
-            <Table.Cell>-</Table.Cell>
-            <Table.Cell>-</Table.Cell>
-            <Table.Cell>-</Table.Cell>
-            <Table.Cell>-</Table.Cell>
-            <Table.Cell>-</Table.Cell>
-            <Table.Cell>-</Table.Cell>
-            <Table.Cell>-</Table.Cell>
-            <Table.Cell>-</Table.Cell>
-            <Table.Cell>-</Table.Cell>
-          </Table.Row>
+          {data.map(item => (
+            <Table.Row key={item.id}>
+              <Table.Cell>{item.reservation_id}</Table.Cell>
+              <Table.Cell>{item.created_at}</Table.Cell>
+              <Table.Cell>-</Table.Cell>
+              <Table.Cell>{item.main_client_name}</Table.Cell>
+              <Table.Cell>-</Table.Cell>
+              <Table.Cell>-</Table.Cell>
+              <Table.Cell>-</Table.Cell>
+              <Table.Cell>-</Table.Cell>
+              <Table.Cell>-</Table.Cell>
+              <Table.Cell>-</Table.Cell>
+              <Table.Cell>-</Table.Cell>
+            </Table.Row>
+          ))}
         </Table.Body>
       </Table.Root>
 
