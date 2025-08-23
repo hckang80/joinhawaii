@@ -16,11 +16,9 @@ export async function POST(request: Request) {
       .limit(1)
       .single<Pick<ReservationRow, 'reservation_id'>>();
 
-    let sequence = 1;
-    if (lastReservation?.reservation_id) {
-      const match = lastReservation.reservation_id.match(/-JH(\d{3})$/);
-      sequence = match ? parseInt(match[1], 10) + 1 : 1;
-    }
+    const sequence = lastReservation?.reservation_id
+      ? parseInt(lastReservation.reservation_id.match(/-JH(\d{3})$/)?.[1] ?? '0', 10) + 1
+      : 1;
 
     const reservationId = `${today}-JH${String(sequence).padStart(3, '0')}`;
 
