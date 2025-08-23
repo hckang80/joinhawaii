@@ -1,9 +1,19 @@
+import { createClient } from '@/utils/supabase/server';
 import { Container, Flex } from '@radix-ui/themes';
 import Image from 'next/image';
 import Header from './Header';
 import styles from './layout.module.css';
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
+  const supabase = await createClient();
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    throw new Error('Unauthorized');
+  }
+
   return (
     <Flex className={styles.root}>
       <aside className={styles.aside}>
@@ -12,7 +22,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </h1>
       </aside>
       <Container>
-        <Header />
+        <Header user={user} />
 
         <main className={styles.main}>{children}</main>
       </Container>
