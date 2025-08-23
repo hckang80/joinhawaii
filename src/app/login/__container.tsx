@@ -1,55 +1,18 @@
 'use client';
 
-import { createClient } from '@/utils/supabase/client';
+import { useAuth } from '@/hooks';
 import { Button, Card, Grid, Text } from '@radix-ui/themes';
-import type { User } from '@supabase/supabase-js';
-import { useEffect, useState } from 'react';
 import styles from './page.module.css';
 
 export default function LoginContainer() {
-  const [user, setUser] = useState<User | null>(null);
-  const supabase = createClient();
+  const { user, login, logout } = useAuth();
 
-  const handleGoogleLogin = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/api/auth/callback`
-      }
-    });
-    if (error) {
-      console.error('Google OAuth login error:', error);
-    }
+  const handleGoogleLogin = () => {
+    login();
   };
 
-  useEffect(() => {
-    const checkUser = async () => {
-      const {
-        data: { user }
-      } = await supabase.auth.getUser();
-      setUser(user);
-    };
-    checkUser();
-
-    const {
-      data: { subscription }
-    } = supabase.auth.onAuthStateChange((event, session) => {
-      console.log('Auth state changed:', event);
-      setUser(session?.user ?? null);
-    });
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [supabase.auth]);
-
-  const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      console.error('Logout error:', error);
-    } else {
-      console.info('You have been logged out.');
-    }
+  const handleLogout = () => {
+    logout();
   };
 
   return (
