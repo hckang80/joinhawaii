@@ -20,6 +20,12 @@ export interface ReservationFormData {
   cars: Car[];
 }
 
+export type BaseRow = {
+  id: number;
+  reservation_id: number;
+  created_at: string;
+};
+
 export type ReservationRequest = { mainClientName: string } & ReservationFormData;
 
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
@@ -51,6 +57,61 @@ export interface Database {
           created_at?: string;
           main_client_name?: string;
           total_amount?: number;
+        };
+      };
+      clients: {
+        Row: BaseRow & Client;
+        Insert: Omit<Client, 'id'> & {
+          reservation_id: number;
+          created_at?: string;
+        };
+        Update: Partial<Client> & {
+          reservation_id?: number;
+          created_at?: string;
+        };
+      };
+      flights: {
+        Row: BaseRow & Flight;
+        Insert: Omit<Flight, 'id'> & {
+          reservation_id: number;
+          created_at?: string;
+        };
+        Update: Partial<Flight> & {
+          reservation_id?: number;
+          created_at?: string;
+        };
+      };
+      hotels: {
+        Row: BaseRow & Hotel;
+        Insert: Omit<Hotel, 'id'> & {
+          reservation_id: number;
+          created_at?: string;
+        };
+        Update: Partial<Hotel> & {
+          reservation_id?: number;
+          created_at?: string;
+        };
+      };
+      tours: {
+        Row: BaseRow & Tour;
+        Insert: Omit<Tour, 'id'> & {
+          reservation_id: number;
+          created_at?: string;
+        };
+        Update: Partial<Tour> & {
+          reservation_id?: number;
+          created_at?: string;
+        };
+      };
+      cars: {
+        Row: BaseRow & Car;
+        Insert: Omit<Car, 'id'> & {
+          reservation_id: number;
+          created_at?: string;
+        };
+        Update: Partial<Car> & {
+          reservation_id?: number;
+          created_at?: string;
         };
       };
     };

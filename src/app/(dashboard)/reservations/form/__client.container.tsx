@@ -206,7 +206,7 @@ export default function ReservationsFormClientContainer() {
         throw new Error(result.error);
       }
 
-      console.log('예약이 완료되었습니다:', result.data.reservationId);
+      console.log('예약이 완료되었습니다:', result.data.reservation_id);
     } catch (error) {
       console.error('예약 중 오류가 발생했습니다:', error);
     }
