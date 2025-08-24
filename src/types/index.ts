@@ -161,7 +161,7 @@ export type ReservationQueryResponse = Reservation & ReservationProducts;
 
 export interface AllProducts {
   id: number;
-  reservation_id: number;
+  reservation_id: string;
   created_at: string;
   event_date: string;
   main_client_name: string;
