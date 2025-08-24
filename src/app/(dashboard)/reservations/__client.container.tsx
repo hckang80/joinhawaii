@@ -1,6 +1,6 @@
 import type { AllProducts } from '@/types';
+import { toReadableDate } from '@/utils';
 import { Heading, Table } from '@radix-ui/themes';
-import { toReadableDate } from '../../../utils';
 
 export default function ReservationsClientContainer({ data }: { data: AllProducts[] }) {
   const statusLabel = (balance: number) => {
