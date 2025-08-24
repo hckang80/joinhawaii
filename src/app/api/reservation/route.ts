@@ -96,21 +96,25 @@ export async function GET() {
       ...(flights.data?.map(({ reservations, ...flight }) => ({
         ...flight,
         main_client_name: reservations.main_client_name,
+        product_name: `${flight.flight_number} / ${flight.departure_city}`,
         type: 'flight' as const
       })) ?? []),
       ...(hotels.data?.map(({ reservations, ...hotel }) => ({
         ...hotel,
         main_client_name: reservations.main_client_name,
+        product_name: `${hotel.region} ${hotel.name} / ${hotel.room_type}`,
         type: 'hotel' as const
       })) ?? []),
       ...(tours.data?.map(({ reservations, ...tour }) => ({
         ...tour,
         main_client_name: reservations.main_client_name,
+        product_name: `${tour.region} / ${tour.name}`,
         type: 'tour' as const
       })) ?? []),
       ...(rental_cars.data?.map(({ reservations, ...rentalCar }) => ({
         ...rentalCar,
         main_client_name: reservations.main_client_name,
+        product_name: `${rentalCar.region} / ${rentalCar.model}`,
         type: 'rental_car' as const
       })) ?? [])
     ].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
