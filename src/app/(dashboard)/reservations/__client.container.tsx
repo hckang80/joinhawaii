@@ -1,5 +1,6 @@
 import type { AllProducts } from '@/types';
 import { Heading, Table } from '@radix-ui/themes';
+import { toReadableDate } from '../../../utils';
 
 export default function ReservationsClientContainer({ data }: { data: AllProducts[] }) {
   console.log({ data });
@@ -31,7 +32,7 @@ export default function ReservationsClientContainer({ data }: { data: AllProduct
               <Table.Cell>{item.main_client_name}</Table.Cell>
               <Table.Cell>{item.product_name}</Table.Cell>
               <Table.Cell>-</Table.Cell>
-              <Table.Cell>{item.created_at}</Table.Cell>
+              <Table.Cell>{toReadableDate(new Date(item.created_at))}</Table.Cell>
               <Table.Cell>-</Table.Cell>
               <Table.Cell>-</Table.Cell>
               <Table.Cell>-</Table.Cell>
