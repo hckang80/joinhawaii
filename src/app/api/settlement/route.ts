@@ -142,3 +142,44 @@ export async function GET(request: Request) {
     );
   }
 }
+
+export async function PATCH(request: Request) {
+  try {
+    const { reservation_id, ...updates } = await request.json();
+    const supabase = await createClient<Database>();
+
+    if (!reservation_id) {
+      throw new Error('예약번호는 필수입니다.');
+    }
+
+    const { data, error } = await supabase
+      .from('reservations')
+      .update(updates)
+      .eq('reservation_id', reservation_id)
+      .select()
+      .single();
+
+    if (error) {
+      console.error('예약 업데이트 실패:', {
+        예약번호: reservation_id,
+        에러: error
+      });
+      throw error;
+    }
+
+    return NextResponse.json({
+      success: true,
+      data
+    });
+  } catch (error) {
+    console.error('예약 업데이트 에러:', error);
+    return NextResponse.json(
+      {
+        success: false,
+        error: error instanceof Error ? error.message : '예약 업데이트 실패',
+        details: process.env.NODE_ENV === 'development' ? error : undefined
+      },
+      { status: 500 }
+    );
+  }
+}
