@@ -1,6 +1,6 @@
 import type { ReservationResponse } from '@/types';
 
-export const fetchSettlement = async (id?: string): Promise<ReservationResponse[]> => {
+export const fetchSettlement = async <T = ReservationResponse[]>(id?: string): Promise<T> => {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     const url = id ? `${baseUrl}/api/settlement?reservationId=${id}` : `${baseUrl}/api/settlement`;
@@ -25,6 +25,7 @@ export const fetchSettlement = async (id?: string): Promise<ReservationResponse[
     return result.data;
   } catch (error) {
     console.error('예약 조회 중 에러 발생:', error);
-    return [];
+    const result = id ? {} : [];
+    return result as T;
   }
 };
