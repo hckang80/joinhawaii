@@ -8,6 +8,67 @@ export async function GET(request: Request) {
     const reservationId = searchParams.get('reservationId');
     const supabase = await createClient<Database>();
 
+    if (reservationId) {
+      const { data: reservation, error: reservationError } = await supabase
+        .from('reservations')
+        .select<string, ReservationQueryResponse>(
+          `
+          id,
+          reservation_id,
+          status,
+          created_at,
+          main_client_name,
+          total_amount,
+          clients!clients_reservation_id_fkey (
+            id,
+            korean_name,
+            english_name,
+            gender,
+            resident_id,
+            phone_number,
+            email,
+            notes
+          ),
+          flights!flights_reservation_id_fkey (*),
+          hotels!hotels_reservation_id_fkey (*),
+          tours!tours_reservation_id_fkey (*),
+          rental_cars!rental_cars_reservation_id_fkey (*)
+        `
+        )
+        .eq('reservation_id', reservationId)
+        .single();
+
+      if (reservationError) {
+        console.error('예약 조회 실패:', {
+          에러: reservationError,
+          예약번호: reservationId
+        });
+        throw reservationError;
+      }
+
+      if (!reservation) {
+        return NextResponse.json({
+          success: true,
+          data: null
+        });
+      }
+
+      const { flights, hotels, tours, rental_cars, ...rest } = reservation;
+
+      return NextResponse.json({
+        success: true,
+        data: {
+          ...rest,
+          products: {
+            flights,
+            hotels,
+            tours,
+            rental_cars
+          }
+        }
+      });
+    }
+
     let query = supabase.from('reservations').select<string, ReservationQueryResponse>(`
       id,
       reservation_id,
