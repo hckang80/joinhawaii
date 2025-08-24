@@ -25,6 +25,7 @@ import {
   TextField
 } from '@radix-ui/themes';
 import { PlusIcon, UserMinus, UserPlus } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import {
   type Control,
@@ -161,6 +162,8 @@ function CarTotalCalculator({
 }
 
 export default function ReservationsFormClientContainer() {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -205,6 +208,8 @@ export default function ReservationsFormClientContainer() {
       if (!result.success) {
         throw new Error(result.error);
       }
+
+      router.push('/dashboard/reservations');
 
       console.log('예약이 완료되었습니다:', result.data.reservation_id);
     } catch (error) {
