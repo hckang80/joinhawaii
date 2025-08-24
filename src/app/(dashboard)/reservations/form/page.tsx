@@ -5,9 +5,9 @@ import ReservationsFormClientContainer from './__client.container';
 export default async function ReservationsFormPage({
   searchParams
 }: {
-  searchParams: { reservation_id?: string };
+  searchParams: Promise<{ reservation_id?: string }>;
 }) {
-  const reservation_id = searchParams.reservation_id;
+  const reservation_id = (await searchParams).reservation_id;
 
   if (reservation_id) {
     const data = await fetchSettlement<ReservationResponse>(reservation_id);
