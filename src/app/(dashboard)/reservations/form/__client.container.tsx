@@ -571,7 +571,7 @@ export default function ReservationsFormClientContainer() {
                             <Text weight='medium'>호텔명</Text>
                             <TextField.Root
                               size='3'
-                              {...register(`hotels.${i}.name`, { required: true })}
+                              {...register(`hotels.${i}.hotel_name`, { required: true })}
                             />
                           </Grid>
                         </Container>
