@@ -95,24 +95,28 @@ export async function GET() {
     const allProducts = [
       ...(flights.data?.map(({ reservations, ...flight }) => ({
         ...flight,
+        event_date: flight.departure_datetime,
         main_client_name: reservations.main_client_name,
         product_name: `${flight.flight_number} / ${flight.departure_city}`,
         type: 'flight' as const
       })) ?? []),
       ...(hotels.data?.map(({ reservations, ...hotel }) => ({
         ...hotel,
+        event_date: hotel.check_in_date,
         main_client_name: reservations.main_client_name,
         product_name: `${hotel.region} ${hotel.name} / ${hotel.room_type}`,
         type: 'hotel' as const
       })) ?? []),
       ...(tours.data?.map(({ reservations, ...tour }) => ({
         ...tour,
+        event_date: tour.start_date,
         main_client_name: reservations.main_client_name,
         product_name: `${tour.region} / ${tour.name}`,
         type: 'tour' as const
       })) ?? []),
       ...(rental_cars.data?.map(({ reservations, ...rentalCar }) => ({
         ...rentalCar,
+        event_date: rentalCar.pickup_date,
         main_client_name: reservations.main_client_name,
         product_name: `${rentalCar.region} / ${rentalCar.model}`,
         type: 'rental_car' as const
