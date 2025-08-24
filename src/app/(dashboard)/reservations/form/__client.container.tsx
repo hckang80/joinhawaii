@@ -209,7 +209,7 @@ export default function ReservationsFormClientContainer() {
         throw new Error(result.error);
       }
 
-      router.push('/dashboard/reservations');
+      router.push('/reservations');
 
       console.log('예약이 완료되었습니다:', result.data.reservation_id);
     } catch (error) {
