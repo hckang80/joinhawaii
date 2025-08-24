@@ -163,6 +163,7 @@ export interface AllProducts {
   id: number;
   reservation_id: number;
   created_at: string;
+  main_client_name: string;
   type: 'flight' | 'hotel' | 'tour' | 'rental_car';
   [key: string]: unknown;
 }

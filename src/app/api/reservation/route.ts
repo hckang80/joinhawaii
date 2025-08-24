@@ -60,18 +60,53 @@ export async function GET() {
     const supabase = await createClient<Database>();
 
     const [flights, hotels, tours, rental_cars] = await Promise.all([
-      supabase.from('flights').select('*'),
-      supabase.from('hotels').select('*'),
-      supabase.from('tours').select('*'),
-      supabase.from('rental_cars').select('*')
+      supabase.from('flights').select(`
+          *,
+          reservations!flights_reservation_id_fkey (
+            main_client_name
+          )
+        `),
+      supabase.from('hotels').select(`
+          *,
+          reservations!hotels_reservation_id_fkey (
+            main_client_name
+          )
+        `),
+      supabase.from('tours').select(`
+          *,
+          reservations!tours_reservation_id_fkey (
+            main_client_name
+          )
+        `),
+      supabase.from('rental_cars').select(`
+          *,
+          reservations!rental_cars_reservation_id_fkey (
+            main_client_name
+          )
+        `)
     ]);
 
     const allProducts = [
-      ...(flights.data?.map(flight => ({ ...flight, type: 'flight' as const })) ?? []),
-      ...(hotels.data?.map(hotel => ({ ...hotel, type: 'hotel' as const })) ?? []),
-      ...(tours.data?.map(tour => ({ ...tour, type: 'tour' as const })) ?? []),
-      ...(rental_cars.data?.map(rental_car => ({ ...rental_car, type: 'rental_car' as const })) ??
-        [])
+      ...(flights.data?.map(({ reservations, ...flight }) => ({
+        ...flight,
+        main_client_name: reservations.main_client_name,
+        type: 'flight' as const
+      })) ?? []),
+      ...(hotels.data?.map(({ reservations, ...hotel }) => ({
+        ...hotel,
+        main_client_name: reservations.main_client_name,
+        type: 'hotel' as const
+      })) ?? []),
+      ...(tours.data?.map(({ reservations, ...tour }) => ({
+        ...tour,
+        main_client_name: reservations.main_client_name,
+        type: 'tour' as const
+      })) ?? []),
+      ...(rental_cars.data?.map(({ reservations, ...rentalCar }) => ({
+        ...rentalCar,
+        main_client_name: reservations.main_client_name,
+        type: 'rental_car' as const
+      })) ?? [])
     ].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 
     return NextResponse.json({

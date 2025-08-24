@@ -28,7 +28,7 @@ export default function ReservationsClientContainer({ data }: { data: AllProduct
             <Table.Row key={item.id}>
               <Table.Cell>{item.id}</Table.Cell>
               <Table.Cell>{item.type}</Table.Cell>
-              <Table.Cell>-</Table.Cell>
+              <Table.Cell>{item.main_client_name}</Table.Cell>
               <Table.Cell>-</Table.Cell>
               <Table.Cell>-</Table.Cell>
               <Table.Cell>{item.created_at}</Table.Cell>
