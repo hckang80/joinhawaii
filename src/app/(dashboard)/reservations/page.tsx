@@ -1,7 +1,7 @@
-import type { ReservationResponse } from '@/types';
+import type { AllProducts } from '@/types';
 import ReservationsClientContainer from './__client.container';
 
-const fetchReservation = async (id?: string): Promise<ReservationResponse[]> => {
+const fetchReservation = async (id?: string): Promise<AllProducts[]> => {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     const url = id
@@ -34,7 +34,6 @@ const fetchReservation = async (id?: string): Promise<ReservationResponse[]> => 
 
 export default async function ReservationsPage() {
   const data = await fetchReservation();
-  console.log({ data });
 
   return <ReservationsClientContainer data={data} />;
 }

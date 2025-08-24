@@ -1,9 +1,9 @@
 import type {
   Database,
-  ReservationQueryResponse,
+  ProductWithReservation,
   ReservationRequest,
-  ReservationResponse,
-  ReservationRow
+  ReservationRow,
+  TablesRow
 } from '@/types';
 import { createClient } from '@/utils/supabase/server';
 import { NextResponse } from 'next/server';
@@ -61,80 +61,78 @@ export async function POST(request: Request) {
   }
 }
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
-    const { searchParams } = new URL(request.url);
-    const reservationId = searchParams.get('reservationId');
     const supabase = await createClient<Database>();
 
-    let query = supabase.from('reservations').select<string, ReservationQueryResponse>(`
-      id,
-      reservation_id,
-      status,
-      created_at,
-      main_client_name,
-      total_amount,
-      clients!clients_reservation_id_fkey (
-        id,
-        korean_name,
-        english_name,
-        gender,
-        resident_id,
-        phone_number,
-        email,
-        notes
-      ),
-      flights!flights_reservation_id_fkey (*),
-      hotels!hotels_reservation_id_fkey (*),
-      tours!tours_reservation_id_fkey (*),
-      rental_cars!rental_cars_reservation_id_fkey (*)
-    `);
+    const [flights, hotels, tours, rental_cars] = await Promise.all([
+      supabase.from('flights').select<string, ProductWithReservation<TablesRow<'flights'>>>(`
+          *,
+          reservations!flights_reservation_id_fkey (
+            main_client_name
+          )
+        `),
+      supabase.from('hotels').select<string, ProductWithReservation<TablesRow<'hotels'>>>(`
+          *,
+          reservations!hotels_reservation_id_fkey (
+            main_client_name
+          )
+        `),
+      supabase.from('tours').select<string, ProductWithReservation<TablesRow<'tours'>>>(`
+          *,
+          reservations!tours_reservation_id_fkey (
+            main_client_name
+          )
+        `),
+      supabase.from('rental_cars').select<string, ProductWithReservation<TablesRow<'cars'>>>(`
+          *,
+          reservations!rental_cars_reservation_id_fkey (
+            main_client_name
+          )
+        `)
+    ]);
 
-    if (reservationId) {
-      query = query.eq('reservation_id', reservationId);
-    }
-
-    const { data, error } = await query.order('created_at', { ascending: false });
-
-    if (error) {
-      console.error('예약 조회 실패:', {
-        에러: error,
-        조회조건: { reservationId }
-      });
-      throw error;
-    }
-
-    if (!data) {
-      return NextResponse.json({
-        success: true,
-        data: []
-      });
-    }
-
-    const transformedData = data.map(reservation => {
-      const { flights, hotels, tours, rental_cars, ...rest } = reservation;
-
-      return {
-        ...rest,
-        products: {
-          flights,
-          hotels,
-          tours,
-          rental_cars
-        }
-      };
-    }) as ReservationResponse[];
+    const allProducts = [
+      ...(flights.data?.map(({ reservations, ...flight }) => ({
+        ...flight,
+        event_date: flight.departure_datetime,
+        main_client_name: reservations.main_client_name,
+        product_name: `${flight.flight_number} / ${flight.departure_city}`,
+        type: 'flight' as const
+      })) ?? []),
+      ...(hotels.data?.map(({ reservations, ...hotel }) => ({
+        ...hotel,
+        event_date: hotel.check_in_date,
+        main_client_name: reservations.main_client_name,
+        product_name: `${hotel.region} ${hotel.name} / ${hotel.room_type}`,
+        type: 'hotel' as const
+      })) ?? []),
+      ...(tours.data?.map(({ reservations, ...tour }) => ({
+        ...tour,
+        event_date: tour.start_date,
+        main_client_name: reservations.main_client_name,
+        product_name: `${tour.region} / ${tour.name}`,
+        type: 'tour' as const
+      })) ?? []),
+      ...(rental_cars.data?.map(({ reservations, ...rentalCar }) => ({
+        ...rentalCar,
+        event_date: rentalCar.pickup_date,
+        main_client_name: reservations.main_client_name,
+        product_name: `${rentalCar.region} / ${rentalCar.model}`,
+        type: 'rental_car' as const
+      })) ?? [])
+    ].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 
     return NextResponse.json({
       success: true,
-      data: transformedData
+      data: allProducts
     });
   } catch (error) {
-    console.error('Reservation fetch error:', error);
+    console.error('상품 조회 에러:', error);
     return NextResponse.json(
       {
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to fetch reservations'
+        error: error instanceof Error ? error.message : '상품 조회 실패'
       },
       { status: 500 }
     );
