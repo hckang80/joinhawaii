@@ -31,7 +31,7 @@ export default function ReservationsClientContainer({ data }: { data: AllProduct
         </Table.Header>
         <Table.Body>
           {data.map(item => (
-            <Table.Row key={item.id}>
+            <Table.Row key={item.id + item.type}>
               <Table.Cell>{item.id}</Table.Cell>
               <Table.Cell>{item.type}</Table.Cell>
               <Table.Cell>{item.main_client_name}</Table.Cell>
