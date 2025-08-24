@@ -1,4 +1,10 @@
-import type { Database, ReservationQueryResponse, ReservationResponse } from '@/types';
+import type {
+  Database,
+  ReservationQueryResponse,
+  ReservationResponse,
+  ReservationUpdateRequest,
+  TablesRow
+} from '@/types';
 import { createClient } from '@/utils/supabase/server';
 import { NextResponse } from 'next/server';
 
@@ -145,31 +151,91 @@ export async function GET(request: Request) {
 
 export async function PATCH(request: Request) {
   try {
-    const { reservation_id, ...updates } = await request.json();
+    const { reservation_id, clients, flights, hotels, tours, cars, ...updates } =
+      (await request.json()) as ReservationUpdateRequest;
+
     const supabase = await createClient<Database>();
 
     if (!reservation_id) {
       throw new Error('예약번호는 필수입니다.');
     }
 
-    const { data, error } = await supabase
+    // 1. 예약 기본 정보 업데이트
+    const { data: updatedReservation, error: reservationError } = await supabase
       .from('reservations')
       .update(updates)
       .eq('reservation_id', reservation_id)
-      .select()
+      .select<string, TablesRow<'reservations'>>()
       .single();
 
-    if (error) {
-      console.error('예약 업데이트 실패:', {
-        예약번호: reservation_id,
-        에러: error
-      });
-      throw error;
+    if (reservationError) throw reservationError;
+    if (!updatedReservation) throw new Error('예약 정보를 찾을 수 없습니다.');
+
+    // 2. 고객 정보 업데이트
+    if (clients?.length) {
+      const { error: clientsError } = await supabase.from('clients').upsert(
+        clients.map(client => ({
+          ...client,
+          reservation_id: reservation_id
+        }))
+      );
+
+      if (clientsError) throw clientsError;
+    }
+
+    // 3. 항공 정보 업데이트
+    if (flights?.length) {
+      const { error: flightsError } = await supabase.from('flights').upsert(
+        flights.map(flight => ({
+          ...flight,
+          reservation_id: updatedReservation.id
+        }))
+      );
+
+      if (flightsError) throw flightsError;
+    }
+
+    // 4. 호텔 정보 업데이트
+    if (hotels?.length) {
+      const { error: hotelsError } = await supabase.from('hotels').upsert(
+        hotels.map(hotel => ({
+          ...hotel,
+          reservation_id: updatedReservation.id
+        }))
+      );
+
+      if (hotelsError) throw hotelsError;
+    }
+
+    // 5. 투어 정보 업데이트
+    if (tours?.length) {
+      const { error: toursError } = await supabase.from('tours').upsert(
+        tours.map(tour => ({
+          ...tour,
+          reservation_id: updatedReservation.id
+        }))
+      );
+
+      if (toursError) throw toursError;
+    }
+
+    // 6. 렌터카 정보 업데이트
+    if (cars?.length) {
+      const { error: carsError } = await supabase.from('rental_cars').upsert(
+        cars.map(car => ({
+          ...car,
+          reservation_id: updatedReservation.id
+        }))
+      );
+
+      if (carsError) throw carsError;
     }
 
     return NextResponse.json({
       success: true,
-      data
+      data: {
+        ...updatedReservation
+      }
     });
   } catch (error) {
     console.error('예약 업데이트 에러:', error);
@@ -177,7 +243,7 @@ export async function PATCH(request: Request) {
       {
         success: false,
         error: error instanceof Error ? error.message : '예약 업데이트 실패',
-        details: process.env.NODE_ENV === 'development' ? error : undefined
+        details: error
       },
       { status: 500 }
     );

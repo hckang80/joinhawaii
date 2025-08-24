@@ -26,7 +26,7 @@ export type BaseRow = {
   created_at: string;
 };
 
-export type ReservationRequest = { mainClientName: string } & ReservationFormData;
+export type ReservationRequest = { main_client_name: string } & ReservationFormData;
 
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
@@ -175,3 +175,15 @@ export type ProductWithReservation<T> = {
     main_client_name: string;
   };
 } & T;
+
+export interface ReservationUpdateRequest {
+  reservation_id: string;
+  status?: string;
+  main_client_name?: string;
+  total_amount?: number;
+  clients?: Array<Partial<TablesRow<'clients'>> & { id?: number }>;
+  flights?: Array<Partial<TablesRow<'flights'>> & { id?: number }>;
+  hotels?: Array<Partial<TablesRow<'hotels'>> & { id?: number }>;
+  tours?: Array<Partial<TablesRow<'tours'>> & { id?: number }>;
+  cars?: Array<Partial<TablesRow<'cars'>> & { id?: number }>;
+}

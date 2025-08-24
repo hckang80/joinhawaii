@@ -7,13 +7,12 @@ import {
   defaultHotelValues,
   defaultTourValues
 } from '@/constants';
-import type { ReservationFormData } from '@/types';
+import type { ReservationFormData, ReservationResponse } from '@/types';
 import { observable } from '@legendapp/state';
 import { use$ } from '@legendapp/state/react';
 import {
   Button,
   Card,
-  Checkbox,
   Container,
   Flex,
   Grid,
@@ -24,7 +23,7 @@ import {
   TextArea,
   TextField
 } from '@radix-ui/themes';
-import { PlusIcon, UserMinus, UserPlus } from 'lucide-react';
+import { UserMinus, UserPlus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import {
@@ -161,7 +160,13 @@ function CarTotalCalculator({
   return null;
 }
 
-export default function ReservationsFormClientContainer() {
+export default function ReservationsFormClientContainer({
+  data
+}: {
+  data: ReservationResponse | null;
+}) {
+  const isModify = !!data;
+
   const router = useRouter();
 
   const {
@@ -174,16 +179,19 @@ export default function ReservationsFormClientContainer() {
     control
   } = useForm<ReservationFormData>({
     defaultValues: {
-      clients: [defaultClientValues],
-      flights: [
-        {
-          ...defaultFlightValues,
-          departure_city: '인천'
-        }
-      ],
-      hotels: [defaultHotelValues],
-      tours: [defaultTourValues],
-      cars: [defaultCarValues]
+      ...(isModify && {
+        reservation_id: data.reservation_id
+      }),
+      clients: data?.clients || [defaultClientValues]
+      // flights: [
+      //   {
+      //     ...defaultFlightValues,
+      //     departure_city: '인천'
+      //   }
+      // ],
+      // hotels: [defaultHotelValues],
+      // tours: [defaultTourValues],
+      // cars: [defaultCarValues]
     }
   });
 
@@ -192,14 +200,14 @@ export default function ReservationsFormClientContainer() {
 
   const onSubmit: SubmitHandler<ReservationFormData> = async data => {
     try {
-      const response = await fetch('/api/reservation', {
-        method: 'POST',
+      const response = await fetch('/api/settlement', {
+        method: isModify ? 'PATCH' : 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           ...data,
-          mainClientName
+          main_client_name: mainClientName
         })
       });
 
@@ -364,7 +372,7 @@ export default function ReservationsFormClientContainer() {
             </section>
           </Card>
 
-          <Card asChild size='3'>
+          {/* <Card asChild size='3'>
             <section>
               <Heading as='h3' mb='4'>
                 항공정보
@@ -999,7 +1007,7 @@ export default function ReservationsFormClientContainer() {
 
               <pre>{JSON.stringify(watch('cars'), null, 2)}</pre>
             </section>
-          </Card>
+          </Card> */}
 
           <Flex justify='end' mt='4'>
             <Button size='3'>확인</Button>

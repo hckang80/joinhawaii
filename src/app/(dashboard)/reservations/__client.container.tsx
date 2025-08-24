@@ -1,6 +1,7 @@
 import type { AllProducts } from '@/types';
 import { toReadableDate } from '@/utils';
 import { Heading, Table } from '@radix-ui/themes';
+import Link from 'next/link';
 
 export default function ReservationsClientContainer({ data }: { data: AllProducts[] }) {
   const statusLabel = (balance: number) => {
@@ -35,7 +36,16 @@ export default function ReservationsClientContainer({ data }: { data: AllProduct
               <Table.Cell>{item.id}</Table.Cell>
               <Table.Cell>{item.type}</Table.Cell>
               <Table.Cell>{item.main_client_name}</Table.Cell>
-              <Table.Cell>{item.product_name}</Table.Cell>
+              <Table.Cell>
+                <Link
+                  href={{
+                    pathname: '/reservations/forms',
+                    query: { reservation_id: item.reservation_id }
+                  }}
+                >
+                  {item.product_name}
+                </Link>
+              </Table.Cell>
               <Table.Cell>{toReadableDate(new Date(item.event_date))}</Table.Cell>
               <Table.Cell>{toReadableDate(new Date(item.created_at))}</Table.Cell>
               <Table.Cell>-</Table.Cell>

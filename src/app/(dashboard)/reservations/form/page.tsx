@@ -8,11 +8,11 @@ export default async function ReservationsFormPage({
   searchParams: Promise<{ reservation_id?: string }>;
 }) {
   const reservation_id = (await searchParams).reservation_id;
+  let data: ReservationResponse | null = null;
 
   if (reservation_id) {
-    const data = await fetchSettlement<ReservationResponse>(reservation_id);
-    console.log({ data });
+    data = await fetchSettlement<ReservationResponse>(reservation_id);
   }
 
-  return <ReservationsFormClientContainer />;
+  return <ReservationsFormClientContainer data={data} />;
 }
