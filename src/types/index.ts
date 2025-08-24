@@ -167,3 +167,9 @@ export interface AllProducts {
   type: 'flight' | 'hotel' | 'tour' | 'rental_car';
   [key: string]: unknown;
 }
+
+export type ProductWithReservation<T> = {
+  reservations: {
+    main_client_name: string;
+  };
+} & T;

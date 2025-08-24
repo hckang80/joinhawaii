@@ -1,4 +1,10 @@
-import type { Database, ReservationRequest, ReservationRow } from '@/types';
+import type {
+  Database,
+  ProductWithReservation,
+  ReservationRequest,
+  ReservationRow,
+  TablesRow
+} from '@/types';
 import { createClient } from '@/utils/supabase/server';
 import { NextResponse } from 'next/server';
 
@@ -60,25 +66,25 @@ export async function GET() {
     const supabase = await createClient<Database>();
 
     const [flights, hotels, tours, rental_cars] = await Promise.all([
-      supabase.from('flights').select(`
+      supabase.from('flights').select<string, ProductWithReservation<TablesRow<'flights'>>>(`
           *,
           reservations!flights_reservation_id_fkey (
             main_client_name
           )
         `),
-      supabase.from('hotels').select(`
+      supabase.from('hotels').select<string, ProductWithReservation<TablesRow<'hotels'>>>(`
           *,
           reservations!hotels_reservation_id_fkey (
             main_client_name
           )
         `),
-      supabase.from('tours').select(`
+      supabase.from('tours').select<string, ProductWithReservation<TablesRow<'tours'>>>(`
           *,
           reservations!tours_reservation_id_fkey (
             main_client_name
           )
         `),
-      supabase.from('rental_cars').select(`
+      supabase.from('rental_cars').select<string, ProductWithReservation<TablesRow<'cars'>>>(`
           *,
           reservations!rental_cars_reservation_id_fkey (
             main_client_name
