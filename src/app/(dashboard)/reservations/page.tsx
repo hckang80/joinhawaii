@@ -34,7 +34,6 @@ const fetchReservation = async (id?: string): Promise<AllProducts[]> => {
 
 export default async function ReservationsPage() {
   const data = await fetchReservation();
-  console.log({ data });
 
   return <ReservationsClientContainer data={data} />;
 }

@@ -32,7 +32,6 @@ const fetchReservation = async (id?: string): Promise<ReservationResponse[]> => 
 
 export default async function SettlementPage() {
   const data = await fetchReservation();
-  console.log({ data });
 
   return <SettlementClientContainer data={data} />;
 }

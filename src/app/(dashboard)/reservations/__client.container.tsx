@@ -3,7 +3,6 @@ import { Heading, Table } from '@radix-ui/themes';
 import { toReadableDate } from '../../../utils';
 
 export default function ReservationsClientContainer({ data }: { data: AllProducts[] }) {
-  console.log({ data });
   return (
     <div>
       <Heading as='h2' mb='4' size='7'>
