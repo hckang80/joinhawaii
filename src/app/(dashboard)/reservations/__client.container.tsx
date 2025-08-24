@@ -3,6 +3,12 @@ import { Heading, Table } from '@radix-ui/themes';
 import { toReadableDate } from '../../../utils';
 
 export default function ReservationsClientContainer({ data }: { data: AllProducts[] }) {
+  const statusLabel = (balance: number) => {
+    if (balance === 0) return '완불';
+    if (balance > 0) return '예약금';
+    return '-';
+  };
+
   return (
     <div>
       <Heading as='h2' mb='4' size='7'>
@@ -33,7 +39,9 @@ export default function ReservationsClientContainer({ data }: { data: AllProduct
               <Table.Cell>{toReadableDate(new Date(item.event_date))}</Table.Cell>
               <Table.Cell>{toReadableDate(new Date(item.created_at))}</Table.Cell>
               <Table.Cell>-</Table.Cell>
-              <Table.Cell>-</Table.Cell>
+              <Table.Cell>
+                {typeof item.balance === 'number' && statusLabel(item.balance)}
+              </Table.Cell>
               <Table.Cell>-</Table.Cell>
             </Table.Row>
           ))}
