@@ -1,12 +1,10 @@
 import type { AllProducts } from '@/types';
 import ReservationsClientContainer from './__client.container';
 
-const fetchReservation = async (id?: string): Promise<AllProducts[]> => {
+const fetchProducts = async (): Promise<AllProducts[]> => {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    const url = id
-      ? `${baseUrl}/api/reservation?reservationId=${id}`
-      : `${baseUrl}/api/reservation`;
+    const url = `${baseUrl}/api/products`;
 
     const response = await fetch(url, {
       method: 'GET',
@@ -33,7 +31,7 @@ const fetchReservation = async (id?: string): Promise<AllProducts[]> => {
 };
 
 export default async function ReservationsPage() {
-  const data = await fetchReservation();
+  const data = await fetchProducts();
 
   return <ReservationsClientContainer data={data} />;
 }
