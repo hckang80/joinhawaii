@@ -58,11 +58,11 @@ function FlightTotalCalculator({
   const watchedValues = useWatch({
     control,
     name: [
-      `flights.${index}.capacity.adult`,
-      `flights.${index}.capacity.children`,
-      `flights.${index}.price.adult`,
-      `flights.${index}.price.children`,
-      `flights.${index}.price.deposit`
+      `flights.${index}.adult_count`,
+      `flights.${index}.children_count`,
+      `flights.${index}.adult_price`,
+      `flights.${index}.children_price`,
+      `flights.${index}.deposit`
     ]
   });
 
@@ -70,8 +70,8 @@ function FlightTotalCalculator({
     const [adultCapacity, childrenCapacity, adultPrice, childrenPrice, depositPrice] =
       watchedValues;
     const total = adultCapacity * adultPrice + childrenCapacity * childrenPrice;
-    setValue(`flights.${index}.price.total`, total, { shouldValidate: true });
-    setValue(`flights.${index}.price.balance`, total - depositPrice, { shouldValidate: true });
+    setValue(`flights.${index}.total_amount`, total, { shouldValidate: true });
+    setValue(`flights.${index}.balance`, total - depositPrice, { shouldValidate: true });
   }, [watchedValues, setValue, index]);
 
   return null;
@@ -113,11 +113,11 @@ function TourTotalCalculator({
   const watchedValues = useWatch({
     control,
     name: [
-      `tours.${index}.participant.adult`,
-      `tours.${index}.participant.children`,
-      `tours.${index}.price.adult`,
-      `tours.${index}.price.children`,
-      `tours.${index}.price.deposit`
+      `tours.${index}.adult_count`,
+      `tours.${index}.children_count`,
+      `tours.${index}.adult_price`,
+      `tours.${index}.children_price`,
+      `tours.${index}.deposit`
     ]
   });
 
@@ -125,8 +125,8 @@ function TourTotalCalculator({
     const [adultParticipant, childrenParticipant, adultPrice, childrenPrice, depositPrice] =
       watchedValues;
     const total = adultParticipant * adultPrice + childrenParticipant * childrenPrice;
-    setValue(`tours.${index}.price.total`, total, { shouldValidate: true });
-    setValue(`tours.${index}.price.balance`, total - depositPrice, { shouldValidate: true });
+    setValue(`tours.${index}.total_amount`, total, { shouldValidate: true });
+    setValue(`tours.${index}.balance`, total - depositPrice, { shouldValidate: true });
   }, [watchedValues, setValue, index]);
 
   return null;
@@ -143,18 +143,14 @@ function CarTotalCalculator({
 }) {
   const watchedValues = useWatch({
     control,
-    name: [
-      `cars.${index}.price.nightly`,
-      `cars.${index}.rental_days`,
-      `cars.${index}.price.deposit`
-    ]
+    name: [`cars.${index}.daily_rate`, `cars.${index}.rental_days`, `cars.${index}.deposit`]
   });
 
   useEffect(() => {
     const [nightly, rentalDays, depositPrice] = watchedValues;
     const total = nightly * rentalDays;
-    setValue(`cars.${index}.price.total`, total, { shouldValidate: true });
-    setValue(`cars.${index}.price.balance`, total - depositPrice, { shouldValidate: true });
+    setValue(`cars.${index}.total_amount`, total, { shouldValidate: true });
+    setValue(`cars.${index}.balance`, total - depositPrice, { shouldValidate: true });
   }, [watchedValues, setValue, index]);
 
   return null;
@@ -166,7 +162,6 @@ export default function ReservationsFormClientContainer({
   data: ReservationResponse | null;
 }) {
   const isModify = !!data;
-
   const router = useRouter();
 
   const {
@@ -190,7 +185,7 @@ export default function ReservationsFormClientContainer({
           departure_city: '인천'
         }
       ],
-      hotels: [defaultHotelValues],
+      hotels: data?.products.hotels || [defaultHotelValues],
       tours: [defaultTourValues],
       cars: [defaultCarValues]
     }
@@ -454,7 +449,7 @@ export default function ReservationsFormClientContainer({
                           type='number'
                           min='0'
                           size='3'
-                          {...register(`flights.${i}.capacity.adult`, {
+                          {...register(`flights.${i}.adult_count`, {
                             required: isDirtyField('flights') && true,
                             valueAsNumber: true
                           })}
@@ -464,7 +459,7 @@ export default function ReservationsFormClientContainer({
                           type='number'
                           min='0'
                           size='3'
-                          {...register(`flights.${i}.capacity.children`, {
+                          {...register(`flights.${i}.children_count`, {
                             required: isDirtyField('flights') && true,
                             valueAsNumber: true
                           })}
@@ -478,7 +473,7 @@ export default function ReservationsFormClientContainer({
                           type='number'
                           min='0'
                           size='3'
-                          {...register(`flights.${i}.price.adult`, {
+                          {...register(`flights.${i}.adult_price`, {
                             required: isDirtyField('flights') && true,
                             valueAsNumber: true
                           })}
@@ -488,7 +483,7 @@ export default function ReservationsFormClientContainer({
                           type='number'
                           min='0'
                           size='3'
-                          {...register(`flights.${i}.price.children`, {
+                          {...register(`flights.${i}.children_price`, {
                             required: isDirtyField('flights') && true,
                             valueAsNumber: true
                           })}
@@ -504,7 +499,7 @@ export default function ReservationsFormClientContainer({
                               type='number'
                               min='0'
                               size='3'
-                              {...register(`flights.${i}.price.deposit`, {
+                              {...register(`flights.${i}.deposit`, {
                                 required: true,
                                 valueAsNumber: true
                               })}
@@ -514,7 +509,7 @@ export default function ReservationsFormClientContainer({
                               type='number'
                               size='3'
                               readOnly
-                              {...register(`flights.${i}.price.balance`, {
+                              {...register(`flights.${i}.balance`, {
                                 valueAsNumber: true
                               })}
                             />
@@ -523,7 +518,7 @@ export default function ReservationsFormClientContainer({
                               type='number'
                               size='3'
                               readOnly
-                              {...register(`flights.${i}.price.total`, {
+                              {...register(`flights.${i}.total_amount`, {
                                 valueAsNumber: true
                               })}
                             />
@@ -787,7 +782,7 @@ export default function ReservationsFormClientContainer({
                           type='number'
                           min='0'
                           size='3'
-                          {...register(`tours.${i}.participant.adult`, {
+                          {...register(`tours.${i}.adult_count`, {
                             required: isDirtyField('tours') && true,
                             valueAsNumber: true
                           })}
@@ -797,7 +792,7 @@ export default function ReservationsFormClientContainer({
                           type='number'
                           min='0'
                           size='3'
-                          {...register(`tours.${i}.participant.children`, {
+                          {...register(`tours.${i}.children_count`, {
                             required: isDirtyField('tours') && true,
                             valueAsNumber: true
                           })}
@@ -811,7 +806,7 @@ export default function ReservationsFormClientContainer({
                           type='number'
                           min='0'
                           size='3'
-                          {...register(`tours.${i}.price.adult`, {
+                          {...register(`tours.${i}.adult_price`, {
                             required: isDirtyField('tours') && true,
                             valueAsNumber: true
                           })}
@@ -821,7 +816,7 @@ export default function ReservationsFormClientContainer({
                           type='number'
                           min='0'
                           size='3'
-                          {...register(`tours.${i}.price.children`, {
+                          {...register(`tours.${i}.children_price`, {
                             required: isDirtyField('tours') && true,
                             valueAsNumber: true
                           })}
@@ -837,7 +832,7 @@ export default function ReservationsFormClientContainer({
                               type='number'
                               min='0'
                               size='3'
-                              {...register(`tours.${i}.price.deposit`, {
+                              {...register(`tours.${i}.deposit`, {
                                 required: isDirtyField('tours') && true,
                                 valueAsNumber: true
                               })}
@@ -847,7 +842,7 @@ export default function ReservationsFormClientContainer({
                               type='number'
                               size='3'
                               readOnly
-                              {...register(`tours.${i}.price.balance`, {
+                              {...register(`tours.${i}.balance`, {
                                 valueAsNumber: true
                               })}
                             />
@@ -856,7 +851,7 @@ export default function ReservationsFormClientContainer({
                               type='number'
                               size='3'
                               readOnly
-                              {...register(`tours.${i}.price.total`, {
+                              {...register(`tours.${i}.total_amount`, {
                                 valueAsNumber: true
                               })}
                             />
@@ -999,7 +994,7 @@ export default function ReservationsFormClientContainer({
                                 type='number'
                                 min='0'
                                 size='3'
-                                {...register(`cars.${i}.price.nightly`, {
+                                {...register(`cars.${i}.daily_rate`, {
                                   required: isDirtyField('cars') && true,
                                   valueAsNumber: true
                                 })}
@@ -1009,7 +1004,7 @@ export default function ReservationsFormClientContainer({
                                 type='number'
                                 min='0'
                                 size='3'
-                                {...register(`cars.${i}.price.deposit`, {
+                                {...register(`cars.${i}.deposit`, {
                                   required: isDirtyField('cars') && true,
                                   valueAsNumber: true
                                 })}
@@ -1019,7 +1014,7 @@ export default function ReservationsFormClientContainer({
                                 type='number'
                                 size='3'
                                 readOnly
-                                {...register(`cars.${i}.price.balance`, {
+                                {...register(`cars.${i}.balance`, {
                                   valueAsNumber: true
                                 })}
                               />
@@ -1028,7 +1023,7 @@ export default function ReservationsFormClientContainer({
                                 type='number'
                                 size='3'
                                 readOnly
-                                {...register(`cars.${i}.price.total`, {
+                                {...register(`cars.${i}.total_amount`, {
                                   valueAsNumber: true
                                 })}
                               />
