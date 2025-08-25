@@ -39,6 +39,7 @@ import {
   type UseFormSetValue,
   useWatch
 } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import styles from './page.module.css';
 
 const status$ = observable({
@@ -205,7 +206,7 @@ export default function ReservationsFormClientContainer({
   const mainClientName = getValues('clients')[reservationIndex].korean_name;
 
   const onSubmit: SubmitHandler<ReservationFormData> = async data => {
-    if (!isDirty) return console.info('변경된 내용이 없습니다.');
+    if (!isDirty) return toast.info('변경된 내용이 없습니다.');
 
     try {
       const response = await fetch('/api/reservation', {
@@ -231,9 +232,10 @@ export default function ReservationsFormClientContainer({
 
       router.push('/reservations');
 
-      console.log('예약이 완료되었습니다:', result.data.reservation_id);
+      toast.success(`예약이 완료되었습니다: ${result.data.reservation_id}`);
     } catch (error) {
       console.error('예약 중 오류가 발생했습니다:', error);
+      toast.error('예약 중 오류가 발생했습니다.');
     }
   };
 
