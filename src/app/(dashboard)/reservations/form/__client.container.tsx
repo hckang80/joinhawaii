@@ -7,7 +7,7 @@ import {
   defaultHotelValues,
   defaultTourValues
 } from '@/constants';
-import type { ReservationFormData, ReservationResponse } from '@/types';
+import type { ReservationFormData, ReservationRequest, ReservationResponse } from '@/types';
 import { observable } from '@legendapp/state';
 import { use$ } from '@legendapp/state/react';
 import {
@@ -49,8 +49,8 @@ function FlightTotalCalculator({
   control
 }: {
   index: number;
-  setValue: UseFormSetValue<ReservationFormData>;
-  control: Control<ReservationFormData, unknown, ReservationFormData>;
+  setValue: UseFormSetValue<ReservationRequest>;
+  control: Control<ReservationRequest, unknown, ReservationRequest>;
 }) {
   const watchedValues = useWatch({
     control,
@@ -80,8 +80,8 @@ function HotelTotalCalculator({
   control
 }: {
   index: number;
-  setValue: UseFormSetValue<ReservationFormData>;
-  control: Control<ReservationFormData, unknown, ReservationFormData>;
+  setValue: UseFormSetValue<ReservationRequest>;
+  control: Control<ReservationRequest, unknown, ReservationRequest>;
 }) {
   const watchedValues = useWatch({
     control,
@@ -108,8 +108,8 @@ function TourTotalCalculator({
   control
 }: {
   index: number;
-  setValue: UseFormSetValue<ReservationFormData>;
-  control: Control<ReservationFormData, unknown, ReservationFormData>;
+  setValue: UseFormSetValue<ReservationRequest>;
+  control: Control<ReservationRequest, unknown, ReservationRequest>;
 }) {
   const watchedValues = useWatch({
     control,
@@ -139,8 +139,8 @@ function CarTotalCalculator({
   control
 }: {
   index: number;
-  setValue: UseFormSetValue<ReservationFormData>;
-  control: Control<ReservationFormData, unknown, ReservationFormData>;
+  setValue: UseFormSetValue<ReservationRequest>;
+  control: Control<ReservationRequest, unknown, ReservationRequest>;
 }) {
   const watchedValues = useWatch({
     control,
@@ -178,8 +178,9 @@ export default function ReservationsFormClientContainer({
     getValues,
     setValue,
     control
-  } = useForm<ReservationFormData>({
+  } = useForm<ReservationRequest>({
     defaultValues: {
+      main_client_name: data?.main_client_name || '',
       ...(isModify && {
         reservation_id: data.reservation_id
       }),
@@ -272,7 +273,7 @@ export default function ReservationsFormClientContainer({
                 고객정보
               </Heading>
               <div>
-                {getValues('clients').map((_client, i) => {
+                {getValues('clients').map((client, i) => {
                   return (
                     <div key={i} className={styles.client}>
                       <Flex asChild justify='end' align='center' gap='1' mb='2'>
@@ -281,7 +282,10 @@ export default function ReservationsFormClientContainer({
                           <Radio
                             name='reservation'
                             value={'' + i}
-                            defaultChecked={i === reservationIndex}
+                            defaultChecked={
+                              getValues('main_client_name') === client.korean_name ||
+                              i === reservationIndex
+                            }
                             onChange={handleChangeReservation}
                           />
                         </label>
