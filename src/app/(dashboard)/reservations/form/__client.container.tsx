@@ -163,7 +163,7 @@ export default function ReservationsFormClientContainer({
 }) {
   const isModify = !!data;
   const router = useRouter();
-
+  console.log({ data });
   const {
     register,
     handleSubmit,
@@ -179,15 +179,17 @@ export default function ReservationsFormClientContainer({
         reservation_id: data.reservation_id
       }),
       clients: data?.clients || [defaultClientValues],
-      flights: data?.products.flights || [
-        {
-          ...defaultFlightValues,
-          departure_city: '인천'
-        }
-      ],
-      hotels: data?.products.hotels || [defaultHotelValues],
-      tours: data?.products.tours || [defaultTourValues],
-      cars: data?.products.rental_cars || [defaultCarValues]
+      flights: data?.products.flights.length
+        ? data.products.flights
+        : [
+            {
+              ...defaultFlightValues,
+              departure_city: '인천'
+            }
+          ],
+      hotels: data?.products.hotels.length ? data.products.hotels : [defaultHotelValues],
+      tours: data?.products.tours.length ? data.products.tours : [defaultTourValues],
+      cars: data?.products.rental_cars.length ? data.products.rental_cars : [defaultCarValues]
     }
   });
 
