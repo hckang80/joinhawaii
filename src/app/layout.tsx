@@ -2,6 +2,7 @@ import { Theme } from '@radix-ui/themes';
 import '@radix-ui/themes/styles.css';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import { Slide, ToastContainer } from 'react-toastify';
 import './globals.css';
 
 const geistSans = Geist({
@@ -28,6 +29,7 @@ export default function RootLayout({
     <html lang='en'>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Theme>{children}</Theme>
+        <ToastContainer position='top-center' hideProgressBar transition={Slide} theme='colored' />
       </body>
     </html>
   );
