@@ -31,7 +31,7 @@ export const defaultHotelValues = {
   region: '',
   check_in_date: '',
   check_out_date: '',
-  name: '',
+  hotel_name: '',
   room_type: '',
   is_breakfast_included: false,
   is_resort_fee: false,
