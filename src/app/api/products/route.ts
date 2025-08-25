@@ -65,13 +65,7 @@ export async function GET() {
   try {
     const supabase = await createClient<Database>();
 
-    const [flights, hotels, tours, rental_cars] = await Promise.all([
-      supabase.from('flights').select<string, ProductWithReservation<TablesRow<'flights'>>>(`
-          *,
-          reservations!flights_reservation_id_fkey (
-            main_client_name
-          )
-        `),
+    const [hotels, tours, rental_cars] = await Promise.all([
       supabase.from('hotels').select<string, ProductWithReservation<TablesRow<'hotels'>>>(`
           *,
           reservations!hotels_reservation_id_fkey (
@@ -93,13 +87,6 @@ export async function GET() {
     ]);
 
     const allProducts = [
-      ...(flights.data?.map(({ reservations, ...flight }) => ({
-        ...flight,
-        event_date: flight.departure_datetime,
-        main_client_name: reservations.main_client_name,
-        product_name: `${flight.flight_number} / ${flight.departure_city}`,
-        type: 'flight' as const
-      })) ?? []),
       ...(hotels.data?.map(({ reservations, ...hotel }) => ({
         ...hotel,
         event_date: hotel.check_in_date,
