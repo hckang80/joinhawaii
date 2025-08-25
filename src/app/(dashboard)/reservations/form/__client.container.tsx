@@ -12,6 +12,7 @@ import type { ReservationFormData, ReservationRequest, ReservationResponse } fro
 import { observable } from '@legendapp/state';
 import { use$ } from '@legendapp/state/react';
 import {
+  Box,
   Button,
   Card,
   Checkbox,
@@ -21,6 +22,7 @@ import {
   Heading,
   Radio,
   RadioCards,
+  Section,
   Text,
   TextArea,
   TextField
@@ -268,12 +270,12 @@ export default function ReservationsFormClientContainer({
       <Flex asChild direction='column' gap='5'>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Card asChild size='3'>
-            <section>
+            <Section>
               <Heading as='h3' mb='4'>
                 고객정보
               </Heading>
               {JSON.stringify(watch('main_client_name'), null, 2)}
-              <div>
+              <Flex direction='column' gap='5'>
                 {getValues('clients').map((client, i) => {
                   return (
                     <div key={i} className={styles.client}>
@@ -357,19 +359,19 @@ export default function ReservationsFormClientContainer({
                           {...register(`clients.${i}.email`, { required: true })}
                         />
 
-                        <Container gridColumn='1 / -1'>
+                        <Box gridColumn='1 / -1'>
                           <Grid align='center' columns='60px 1fr' gap='3'>
                             <Text weight='medium' mb='2'>
                               비고
                             </Text>
                             <TextArea {...register(`clients.${i}.notes`)} />
                           </Grid>
-                        </Container>
+                        </Box>
                       </Grid>
                     </div>
                   );
                 })}
-              </div>
+              </Flex>
               <Flex justify='end' mt='4' gap='1'>
                 <Button title='인원 추가' type='button' color='red' onClick={addClient}>
                   <UserPlus />
@@ -378,11 +380,11 @@ export default function ReservationsFormClientContainer({
               <pre>
                 {JSON.stringify({ isDirty: isDirtyField('clients'), ...watch('clients') }, null, 2)}
               </pre>
-            </section>
+            </Section>
           </Card>
 
           <Card asChild size='3'>
-            <section>
+            <Section>
               <Heading as='h3' mb='4'>
                 항공정보
               </Heading>
@@ -393,7 +395,7 @@ export default function ReservationsFormClientContainer({
                     <FlightTotalCalculator index={i} setValue={setValue} control={control} />
 
                     <Grid align='center' columns='60px 1fr 60px 1fr' gap='3'>
-                      <Container gridColumn='1 / -1'>
+                      <Box gridColumn='1 / -1'>
                         <Grid align='center' columns='60px 1fr' gap='3'>
                           <Text weight='medium'>항공편명</Text>
                           <TextField.Root
@@ -403,7 +405,7 @@ export default function ReservationsFormClientContainer({
                             })}
                           />
                         </Grid>
-                      </Container>
+                      </Box>
 
                       <Text weight='medium'>출발 시간</Text>
                       <TextField.Root
@@ -538,23 +540,23 @@ export default function ReservationsFormClientContainer({
               <pre>
                 {JSON.stringify({ isDirty: isDirtyField('flights'), ...watch('flights') }, null, 2)}
               </pre>
-            </section>
+            </Section>
           </Card>
 
           <Card asChild size='3'>
-            <section>
+            <Section>
               <Heading as='h3' mb='4'>
                 호텔
               </Heading>
 
-              <div>
+              <Flex direction='column' gap='5'>
                 {getValues('hotels').map((_hotel, i) => {
                   return (
                     <div key={i} className={styles.client}>
                       <HotelTotalCalculator index={i} setValue={setValue} control={control} />
 
                       <Grid align='center' columns='60px 1fr 60px 1fr' gap='3'>
-                        <Container gridColumn='1/ -1'>
+                        <Box gridColumn='1/ -1'>
                           <Grid align='center' columns='60px 1fr' gap='3'>
                             <Text weight='medium'>지역</Text>
                             <TextField.Root
@@ -564,9 +566,9 @@ export default function ReservationsFormClientContainer({
                               })}
                             />
                           </Grid>
-                        </Container>
+                        </Box>
 
-                        <Container gridColumn='1/ -1'>
+                        <Box gridColumn='1/ -1'>
                           <Grid align='center' columns='60px 1fr' gap='3'>
                             <Text weight='medium'>날짜</Text>
                             <Flex gap='2'>
@@ -590,9 +592,9 @@ export default function ReservationsFormClientContainer({
                               </Container>
                             </Flex>
                           </Grid>
-                        </Container>
+                        </Box>
 
-                        <Container gridColumn='1/ -1'>
+                        <Box gridColumn='1/ -1'>
                           <Grid align='center' columns='60px 1fr' gap='3'>
                             <Text weight='medium'>호텔명</Text>
                             <TextField.Root
@@ -602,7 +604,7 @@ export default function ReservationsFormClientContainer({
                               })}
                             />
                           </Grid>
-                        </Container>
+                        </Box>
 
                         <Text weight='medium'>객실타입</Text>
                         <TextField.Root
@@ -623,7 +625,7 @@ export default function ReservationsFormClientContainer({
                           })}
                         />
 
-                        <Container gridColumn='1/ -1'>
+                        <Box gridColumn='1/ -1'>
                           <Grid align='center' columns='60px 20px 80px 60px 20px' gap='3'>
                             <Text weight='medium'>조식</Text>
                             <Controller
@@ -653,9 +655,9 @@ export default function ReservationsFormClientContainer({
                               )}
                             />
                           </Grid>
-                        </Container>
+                        </Box>
 
-                        <Container gridColumn='1/ -1'>
+                        <Box gridColumn='1/ -1'>
                           <Grid align='center' columns='60px 1fr' gap='3'>
                             <Text weight='medium'>요금 상세</Text>
                             <Flex align='center' gap='3'>
@@ -699,12 +701,12 @@ export default function ReservationsFormClientContainer({
                               />
                             </Flex>
                           </Grid>
-                        </Container>
+                        </Box>
                       </Grid>
                     </div>
                   );
                 })}
-              </div>
+              </Flex>
 
               <Flex justify='end' mt='4'>
                 <Button type='button' variant='surface' onClick={addHotel}>
@@ -716,11 +718,11 @@ export default function ReservationsFormClientContainer({
               <pre>
                 {JSON.stringify({ isDirty: isDirtyField('hotels'), ...watch('hotels') }, null, 2)}
               </pre>
-            </section>
+            </Section>
           </Card>
 
           <Card asChild size='3'>
-            <section>
+            <Section>
               <Heading as='h3' mb='4'>
                 선택관광
               </Heading>
@@ -813,7 +815,7 @@ export default function ReservationsFormClientContainer({
                         />
                       </Grid>
 
-                      <Container gridColumn='1 / -1'>
+                      <Box gridColumn='1 / -1'>
                         <Grid align='center' columns='60px 1fr' gap='3'>
                           <Text weight='medium'>요금 상세</Text>
                           <Flex align='center' gap='3'>
@@ -847,7 +849,7 @@ export default function ReservationsFormClientContainer({
                             />
                           </Flex>
                         </Grid>
-                      </Container>
+                      </Box>
                     </Grid>
                   </div>
                 ))}
@@ -863,23 +865,23 @@ export default function ReservationsFormClientContainer({
               <pre>
                 {JSON.stringify({ isDirty: isDirtyField('tours'), ...watch('tours') }, null, 2)}
               </pre>
-            </section>
+            </Section>
           </Card>
 
           <Card asChild size='3'>
-            <section>
+            <Section>
               <Heading as='h3' mb='4'>
                 렌터카
               </Heading>
 
-              <div>
+              <Flex direction='column' gap='5'>
                 {getValues('cars').map((_car, i) => {
                   return (
                     <div key={i} className={styles.client}>
                       <CarTotalCalculator index={i} setValue={setValue} control={control} />
 
                       <Grid align='center' columns='60px 1fr 60px 1fr' gap='3'>
-                        <Container gridColumn='1/ -1'>
+                        <Box gridColumn='1/ -1'>
                           <Grid align='center' columns='60px 1fr' gap='3'>
                             <Text weight='medium'>지역</Text>
                             <TextField.Root
@@ -889,9 +891,9 @@ export default function ReservationsFormClientContainer({
                               })}
                             />
                           </Grid>
-                        </Container>
+                        </Box>
 
-                        <Container gridColumn='1/ -1'>
+                        <Box gridColumn='1/ -1'>
                           <Grid align='center' columns='60px 1fr' gap='3'>
                             <Text weight='medium'>날짜</Text>
                             <Flex gap='2'>
@@ -915,7 +917,7 @@ export default function ReservationsFormClientContainer({
                               </Container>
                             </Flex>
                           </Grid>
-                        </Container>
+                        </Box>
 
                         <Text weight='medium'>차종</Text>
                         <TextField.Root
@@ -933,7 +935,7 @@ export default function ReservationsFormClientContainer({
                           })}
                         />
 
-                        <Container gridColumn='1/ -1'>
+                        <Box gridColumn='1/ -1'>
                           <Grid align='center' columns='60px 1fr' gap='3'>
                             <Text weight='medium'>조건</Text>
                             <TextField.Root
@@ -943,7 +945,7 @@ export default function ReservationsFormClientContainer({
                               })}
                             />
                           </Grid>
-                        </Container>
+                        </Box>
 
                         <Text weight='medium'>픽업 장소</Text>
                         <TextField.Root
@@ -973,7 +975,7 @@ export default function ReservationsFormClientContainer({
                           })}
                         />
 
-                        <Container gridColumn='1/ -1'>
+                        <Box gridColumn='1/ -1'>
                           <Grid align='center' columns='60px 1fr' gap='3'>
                             <Text weight='medium'>요금 상세</Text>
                             <Flex align='center' gap='3'>
@@ -1017,12 +1019,12 @@ export default function ReservationsFormClientContainer({
                               />
                             </Flex>
                           </Grid>
-                        </Container>
+                        </Box>
                       </Grid>
                     </div>
                   );
                 })}
-              </div>
+              </Flex>
 
               <Flex justify='end' mt='4'>
                 <Button type='button' variant='surface' onClick={addCar}>
@@ -1034,10 +1036,10 @@ export default function ReservationsFormClientContainer({
               <pre>
                 {JSON.stringify({ isDirty: isDirtyField('cars'), ...watch('cars') }, null, 2)}
               </pre>
-            </section>
+            </Section>
           </Card>
 
-          <Flex justify='end' mt='4'>
+          <Flex justify='end'>
             <Button size='3'>확인</Button>
           </Flex>
         </form>
