@@ -1,3 +1,6 @@
+import { getReservation, updateReservationProducts } from '@/lib/supabase/queries/reservation';
+import { RESERVATION_SELECT_QUERY } from '@/lib/supabase/schema';
+import { createClient } from '@/lib/supabase/server';
 import type {
   Database,
   ReservationQueryResponse,
@@ -5,9 +8,6 @@ import type {
   ReservationRow,
   ReservationUpdateRequest
 } from '@/types';
-import { getReservation, updateReservationProducts } from '@/utils/supabase/queries/reservation';
-import { RESERVATION_SELECT_QUERY } from '@/utils/supabase/schema';
-import { createClient } from '@/utils/supabase/server';
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {

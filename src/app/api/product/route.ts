@@ -1,5 +1,5 @@
+import { createClient } from '@/lib/supabase/server';
 import type { Database, ProductWithReservation, TablesRow } from '@/types';
-import { createClient } from '@/utils/supabase/server';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
