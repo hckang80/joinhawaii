@@ -13,6 +13,7 @@ import { use$ } from '@legendapp/state/react';
 import {
   Button,
   Card,
+  Checkbox,
   Container,
   Flex,
   Grid,
@@ -23,7 +24,7 @@ import {
   TextArea,
   TextField
 } from '@radix-ui/themes';
-import { UserMinus, UserPlus } from 'lucide-react';
+import { PlusIcon, UserMinus, UserPlus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import {
@@ -173,7 +174,7 @@ export default function ReservationsFormClientContainer({
     register,
     handleSubmit,
     watch,
-    formState: { isSubmitting, isDirty },
+    formState: { isSubmitting, isDirty, dirtyFields },
     getValues,
     setValue,
     control
@@ -182,18 +183,24 @@ export default function ReservationsFormClientContainer({
       ...(isModify && {
         reservation_id: data.reservation_id
       }),
-      clients: data?.clients || [defaultClientValues]
-      // flights: [
-      //   {
-      //     ...defaultFlightValues,
-      //     departure_city: '인천'
-      //   }
-      // ],
-      // hotels: [defaultHotelValues],
-      // tours: [defaultTourValues],
-      // cars: [defaultCarValues]
+      clients: data?.clients || [defaultClientValues],
+      flights: [
+        {
+          ...defaultFlightValues,
+          departure_city: '인천'
+        }
+      ],
+      hotels: [defaultHotelValues],
+      tours: [defaultTourValues],
+      cars: [defaultCarValues]
     }
   });
+
+  const isClientsDirty = !!dirtyFields.clients?.length;
+  const isFlightsDirty = !!dirtyFields.flights?.length;
+  const isHotelsDirty = !!dirtyFields.hotels?.length;
+  const isToursDirty = !!dirtyFields.tours?.length;
+  const isCarsDirty = !!dirtyFields.cars?.length;
 
   const reservationIndex = use$(status$.reservationIndex);
   const mainClientName = getValues('clients')[reservationIndex].korean_name;
@@ -267,7 +274,6 @@ export default function ReservationsFormClientContainer({
               <Heading as='h3' mb='4'>
                 고객정보
               </Heading>
-
               <div>
                 {getValues('clients').map((_client, i) => {
                   return (
@@ -350,7 +356,6 @@ export default function ReservationsFormClientContainer({
                   );
                 })}
               </div>
-
               <Flex justify='end' mt='4' gap='1'>
                 <Button title='인원 추가' type='button' color='red' onClick={addClient}>
                   <UserPlus />
@@ -367,12 +372,11 @@ export default function ReservationsFormClientContainer({
                   </Button>
                 )}
               </Flex>
-
-              <pre>{JSON.stringify(watch('clients'), null, 2)}</pre>
+              <pre>{JSON.stringify({ isDirty: isClientsDirty, ...watch('clients') }, null, 2)}</pre>
             </section>
           </Card>
 
-          {/* <Card asChild size='3'>
+          <Card asChild size='3'>
             <section>
               <Heading as='h3' mb='4'>
                 항공정보
@@ -516,7 +520,7 @@ export default function ReservationsFormClientContainer({
                 </Button>
               </Flex>
 
-              <pre>{JSON.stringify(watch('flights'), null, 2)}</pre>
+              <pre>{JSON.stringify({ isDirty: isFlightsDirty, ...watch('flights') }, null, 2)}</pre>
             </section>
           </Card>
 
@@ -693,7 +697,7 @@ export default function ReservationsFormClientContainer({
                 </Flex>
               )}
 
-              <pre>{JSON.stringify(watch('hotels'), null, 2)}</pre>
+              <pre>{JSON.stringify({ isDirty: isHotelsDirty, ...watch('hotels') }, null, 2)}</pre>
             </section>
           </Card>
 
@@ -841,7 +845,7 @@ export default function ReservationsFormClientContainer({
                 </Flex>
               )}
 
-              <pre>{JSON.stringify(watch('tours'), null, 2)}</pre>
+              <pre>{JSON.stringify({ isDirty: isToursDirty, ...watch('tours') }, null, 2)}</pre>
             </section>
           </Card>
 
@@ -1005,9 +1009,9 @@ export default function ReservationsFormClientContainer({
                 </Flex>
               )}
 
-              <pre>{JSON.stringify(watch('cars'), null, 2)}</pre>
+              <pre>{JSON.stringify({ isDirty: isCarsDirty, ...watch('cars') }, null, 2)}</pre>
             </section>
-          </Card> */}
+          </Card>
 
           <Flex justify='end' mt='4'>
             <Button size='3'>확인</Button>
