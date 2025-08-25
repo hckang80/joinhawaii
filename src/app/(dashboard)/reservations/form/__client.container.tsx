@@ -200,7 +200,7 @@ export default function ReservationsFormClientContainer({
 
   const onSubmit: SubmitHandler<ReservationFormData> = async data => {
     try {
-      const response = await fetch('/api/settlement', {
+      const response = await fetch('/api/reservation', {
         method: isModify ? 'PATCH' : 'POST',
         headers: {
           'Content-Type': 'application/json'
