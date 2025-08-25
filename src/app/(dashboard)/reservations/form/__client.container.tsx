@@ -241,6 +241,7 @@ export default function ReservationsFormClientContainer({
 
   const handleChangeReservation = (event: React.ChangeEvent<HTMLInputElement>) => {
     status$.reservationIndex.set(() => +event.target.value);
+    setValue('main_client_name', getValues('clients')[+event.target.value].korean_name);
   };
 
   const addDomesticFlight = () => {
@@ -272,6 +273,7 @@ export default function ReservationsFormClientContainer({
               <Heading as='h3' mb='4'>
                 고객정보
               </Heading>
+              {JSON.stringify(watch('main_client_name'), null, 2)}
               <div>
                 {getValues('clients').map((client, i) => {
                   return (
