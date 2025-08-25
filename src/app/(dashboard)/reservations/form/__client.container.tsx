@@ -5,14 +5,16 @@ import {
   defaultClientValues,
   defaultFlightValues,
   defaultHotelValues,
-  defaultTourValues
+  defaultTourValues,
+  GENDER_TYPE
 } from '@/constants';
-import type { ReservationFormData, ReservationResponse } from '@/types';
+import type { ReservationFormData, ReservationRequest, ReservationResponse } from '@/types';
 import { observable } from '@legendapp/state';
 import { use$ } from '@legendapp/state/react';
 import {
   Button,
   Card,
+  Checkbox,
   Container,
   Flex,
   Grid,
@@ -23,7 +25,7 @@ import {
   TextArea,
   TextField
 } from '@radix-ui/themes';
-import { UserMinus, UserPlus } from 'lucide-react';
+import { PlusIcon, UserPlus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import {
@@ -36,8 +38,6 @@ import {
 } from 'react-hook-form';
 import styles from './page.module.css';
 
-const GENDER_TYPE = ['MR', 'MS'] as const;
-
 const status$ = observable({
   reservationIndex: 0
 });
@@ -48,8 +48,8 @@ function FlightTotalCalculator({
   control
 }: {
   index: number;
-  setValue: UseFormSetValue<ReservationFormData>;
-  control: Control<ReservationFormData, unknown, ReservationFormData>;
+  setValue: UseFormSetValue<ReservationRequest>;
+  control: Control<ReservationRequest, unknown, ReservationRequest>;
 }) {
   const watchedValues = useWatch({
     control,
@@ -79,8 +79,8 @@ function HotelTotalCalculator({
   control
 }: {
   index: number;
-  setValue: UseFormSetValue<ReservationFormData>;
-  control: Control<ReservationFormData, unknown, ReservationFormData>;
+  setValue: UseFormSetValue<ReservationRequest>;
+  control: Control<ReservationRequest, unknown, ReservationRequest>;
 }) {
   const watchedValues = useWatch({
     control,
@@ -107,8 +107,8 @@ function TourTotalCalculator({
   control
 }: {
   index: number;
-  setValue: UseFormSetValue<ReservationFormData>;
-  control: Control<ReservationFormData, unknown, ReservationFormData>;
+  setValue: UseFormSetValue<ReservationRequest>;
+  control: Control<ReservationRequest, unknown, ReservationRequest>;
 }) {
   const watchedValues = useWatch({
     control,
@@ -138,8 +138,8 @@ function CarTotalCalculator({
   control
 }: {
   index: number;
-  setValue: UseFormSetValue<ReservationFormData>;
-  control: Control<ReservationFormData, unknown, ReservationFormData>;
+  setValue: UseFormSetValue<ReservationRequest>;
+  control: Control<ReservationRequest, unknown, ReservationRequest>;
 }) {
   const watchedValues = useWatch({
     control,
@@ -173,32 +173,37 @@ export default function ReservationsFormClientContainer({
     register,
     handleSubmit,
     watch,
-    formState: { isSubmitting, isDirty },
+    formState: { isSubmitting, isDirty, dirtyFields },
     getValues,
     setValue,
     control
-  } = useForm<ReservationFormData>({
+  } = useForm<ReservationRequest>({
     defaultValues: {
+      main_client_name: data?.main_client_name || '',
       ...(isModify && {
         reservation_id: data.reservation_id
       }),
-      clients: data?.clients || [defaultClientValues]
-      // flights: [
-      //   {
-      //     ...defaultFlightValues,
-      //     departure_city: '인천'
-      //   }
-      // ],
-      // hotels: [defaultHotelValues],
-      // tours: [defaultTourValues],
-      // cars: [defaultCarValues]
+      clients: data?.clients || [defaultClientValues],
+      flights: [
+        {
+          ...defaultFlightValues,
+          departure_city: '인천'
+        }
+      ],
+      hotels: [defaultHotelValues],
+      tours: [defaultTourValues],
+      cars: [defaultCarValues]
     }
   });
+
+  const isDirtyField = (field: keyof ReservationFormData) => !!dirtyFields[field]?.length;
 
   const reservationIndex = use$(status$.reservationIndex);
   const mainClientName = getValues('clients')[reservationIndex].korean_name;
 
   const onSubmit: SubmitHandler<ReservationFormData> = async data => {
+    if (!isDirty) return console.info('변경된 내용이 없습니다.');
+
     try {
       const response = await fetch('/api/reservation', {
         method: isModify ? 'PATCH' : 'POST',
@@ -207,6 +212,10 @@ export default function ReservationsFormClientContainer({
         },
         body: JSON.stringify({
           ...data,
+          flights: isDirtyField('flights') ? data.flights : [],
+          hotels: isDirtyField('hotels') ? data.hotels : [],
+          tours: isDirtyField('tours') ? data.tours : [],
+          cars: isDirtyField('cars') ? data.cars : [],
           main_client_name: mainClientName
         })
       });
@@ -225,17 +234,13 @@ export default function ReservationsFormClientContainer({
     }
   };
 
-  const removeItem = (key: keyof ReservationFormData) => {
-    getValues(key).pop();
-    setValue(key, getValues(key));
-  };
-
   const addClient = () => {
     setValue('clients', [...getValues('clients'), defaultClientValues]);
   };
 
   const handleChangeReservation = (event: React.ChangeEvent<HTMLInputElement>) => {
     status$.reservationIndex.set(() => +event.target.value);
+    setValue('main_client_name', getValues('clients')[+event.target.value].korean_name);
   };
 
   const addDomesticFlight = () => {
@@ -267,9 +272,9 @@ export default function ReservationsFormClientContainer({
               <Heading as='h3' mb='4'>
                 고객정보
               </Heading>
-
+              {JSON.stringify(watch('main_client_name'), null, 2)}
               <div>
-                {getValues('clients').map((_client, i) => {
+                {getValues('clients').map((client, i) => {
                   return (
                     <div key={i} className={styles.client}>
                       <Flex asChild justify='end' align='center' gap='1' mb='2'>
@@ -278,16 +283,31 @@ export default function ReservationsFormClientContainer({
                           <Radio
                             name='reservation'
                             value={'' + i}
-                            defaultChecked={i === reservationIndex}
+                            defaultChecked={
+                              getValues('main_client_name') === client.korean_name ||
+                              i === reservationIndex
+                            }
                             onChange={handleChangeReservation}
                           />
                         </label>
                       </Flex>
                       <Grid align='center' columns='60px 1fr 70px 1fr' gap='3'>
                         <Text weight='medium'>이름</Text>
-                        <TextField.Root
-                          size='3'
-                          {...register(`clients.${i}.korean_name`, { required: true })}
+                        <Controller
+                          name={`clients.${i}.korean_name`}
+                          control={control}
+                          render={({ field }) => (
+                            <TextField.Root
+                              size='3'
+                              value={field.value}
+                              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                field.onChange(e.target.value);
+                                if (i === reservationIndex) {
+                                  setValue('main_client_name', e.target.value);
+                                }
+                              }}
+                            />
+                          )}
                         />
 
                         <Text weight='medium'>이름(영문)</Text>
@@ -308,7 +328,7 @@ export default function ReservationsFormClientContainer({
                                 field.onChange(value);
                               }}
                               name={field.name}
-                              columns='repeat(auto-fit, minmax(100px, auto))'
+                              columns='repeat(auto-fit, 80px)'
                             >
                               {GENDER_TYPE.map(value => (
                                 <RadioCards.Item value={value} key={value}>
@@ -350,29 +370,18 @@ export default function ReservationsFormClientContainer({
                   );
                 })}
               </div>
-
               <Flex justify='end' mt='4' gap='1'>
                 <Button title='인원 추가' type='button' color='red' onClick={addClient}>
                   <UserPlus />
                 </Button>
-                {getValues('clients').length > 1 && (
-                  <Button
-                    title='인원 추가'
-                    type='button'
-                    color='red'
-                    variant='soft'
-                    onClick={() => removeItem('clients')}
-                  >
-                    <UserMinus />
-                  </Button>
-                )}
               </Flex>
-
-              <pre>{JSON.stringify(watch('clients'), null, 2)}</pre>
+              <pre>
+                {JSON.stringify({ isDirty: isDirtyField('clients'), ...watch('clients') }, null, 2)}
+              </pre>
             </section>
           </Card>
 
-          {/* <Card asChild size='3'>
+          <Card asChild size='3'>
             <section>
               <Heading as='h3' mb='4'>
                 항공정보
@@ -389,7 +398,9 @@ export default function ReservationsFormClientContainer({
                           <Text weight='medium'>항공편명</Text>
                           <TextField.Root
                             size='3'
-                            {...register(`flights.${i}.flight_number`, { required: true })}
+                            {...register(`flights.${i}.flight_number`, {
+                              required: isDirtyField('flights') && true
+                            })}
                           />
                         </Grid>
                       </Container>
@@ -398,27 +409,35 @@ export default function ReservationsFormClientContainer({
                       <TextField.Root
                         size='3'
                         type='datetime-local'
-                        {...register(`flights.${i}.departure_datetime`, { required: true })}
+                        {...register(`flights.${i}.departure_datetime`, {
+                          required: isDirtyField('flights') && true
+                        })}
                       />
 
                       <Text weight='medium'>출발지</Text>
                       <TextField.Root
                         size='3'
                         readOnly={!i}
-                        {...register(`flights.${i}.departure_city`, { required: true })}
+                        {...register(`flights.${i}.departure_city`, {
+                          required: isDirtyField('flights') && true
+                        })}
                       />
 
                       <Text weight='medium'>도착 시간</Text>
                       <TextField.Root
                         size='3'
                         type='datetime-local'
-                        {...register(`flights.${i}.arrival_datetime`, { required: true })}
+                        {...register(`flights.${i}.arrival_datetime`, {
+                          required: isDirtyField('flights') && true
+                        })}
                       />
 
                       <Text weight='medium'>도착지</Text>
                       <TextField.Root
                         size='3'
-                        {...register(`flights.${i}.arrival_city`, { required: true })}
+                        {...register(`flights.${i}.arrival_city`, {
+                          required: isDirtyField('flights') && true
+                        })}
                       />
 
                       <Text weight='medium'>인원</Text>
@@ -429,7 +448,7 @@ export default function ReservationsFormClientContainer({
                           min='0'
                           size='3'
                           {...register(`flights.${i}.capacity.adult`, {
-                            required: true,
+                            required: isDirtyField('flights') && true,
                             valueAsNumber: true
                           })}
                         />
@@ -439,7 +458,7 @@ export default function ReservationsFormClientContainer({
                           min='0'
                           size='3'
                           {...register(`flights.${i}.capacity.children`, {
-                            required: true,
+                            required: isDirtyField('flights') && true,
                             valueAsNumber: true
                           })}
                         />
@@ -453,7 +472,7 @@ export default function ReservationsFormClientContainer({
                           min='0'
                           size='3'
                           {...register(`flights.${i}.price.adult`, {
-                            required: true,
+                            required: isDirtyField('flights') && true,
                             valueAsNumber: true
                           })}
                         />
@@ -463,7 +482,7 @@ export default function ReservationsFormClientContainer({
                           min='0'
                           size='3'
                           {...register(`flights.${i}.price.children`, {
-                            required: true,
+                            required: isDirtyField('flights') && true,
                             valueAsNumber: true
                           })}
                         />
@@ -516,7 +535,9 @@ export default function ReservationsFormClientContainer({
                 </Button>
               </Flex>
 
-              <pre>{JSON.stringify(watch('flights'), null, 2)}</pre>
+              <pre>
+                {JSON.stringify({ isDirty: isDirtyField('flights'), ...watch('flights') }, null, 2)}
+              </pre>
             </section>
           </Card>
 
@@ -525,15 +546,6 @@ export default function ReservationsFormClientContainer({
               <Heading as='h3' mb='4'>
                 호텔
               </Heading>
-
-              <Flex asChild justify='end' align='center' gap='1' mb='2'>
-                <label>
-                  호텔 없음
-                  <Checkbox
-                    onCheckedChange={value => setValue('hotels', value ? [] : [defaultHotelValues])}
-                  />
-                </label>
-              </Flex>
 
               <div>
                 {getValues('hotels').map((_hotel, i) => {
@@ -547,7 +559,9 @@ export default function ReservationsFormClientContainer({
                             <Text weight='medium'>지역</Text>
                             <TextField.Root
                               size='3'
-                              {...register(`hotels.${i}.region`, { required: true })}
+                              {...register(`hotels.${i}.region`, {
+                                required: isDirtyField('hotels') && true
+                              })}
                             />
                           </Grid>
                         </Container>
@@ -560,14 +574,18 @@ export default function ReservationsFormClientContainer({
                                 <TextField.Root
                                   type='date'
                                   size='3'
-                                  {...register(`hotels.${i}.check_in_date`, { required: true })}
+                                  {...register(`hotels.${i}.check_in_date`, {
+                                    required: isDirtyField('hotels') && true
+                                  })}
                                 />
                               </Container>
                               <Container flexGrow='1'>
                                 <TextField.Root
                                   type='date'
                                   size='3'
-                                  {...register(`hotels.${i}.check_out_date`, { required: true })}
+                                  {...register(`hotels.${i}.check_out_date`, {
+                                    required: isDirtyField('hotels') && true
+                                  })}
                                 />
                               </Container>
                             </Flex>
@@ -579,7 +597,9 @@ export default function ReservationsFormClientContainer({
                             <Text weight='medium'>호텔명</Text>
                             <TextField.Root
                               size='3'
-                              {...register(`hotels.${i}.hotel_name`, { required: true })}
+                              {...register(`hotels.${i}.hotel_name`, {
+                                required: isDirtyField('hotels') && true
+                              })}
                             />
                           </Grid>
                         </Container>
@@ -587,7 +607,9 @@ export default function ReservationsFormClientContainer({
                         <Text weight='medium'>객실타입</Text>
                         <TextField.Root
                           size='3'
-                          {...register(`hotels.${i}.room_type`, { required: true })}
+                          {...register(`hotels.${i}.room_type`, {
+                            required: isDirtyField('hotels') && true
+                          })}
                         />
 
                         <Text weight='medium'>숙박일</Text>
@@ -596,7 +618,7 @@ export default function ReservationsFormClientContainer({
                           min='1'
                           size='3'
                           {...register(`hotels.${i}.nights`, {
-                            required: true,
+                            required: isDirtyField('hotels') && true,
                             valueAsNumber: true
                           })}
                         />
@@ -643,7 +665,7 @@ export default function ReservationsFormClientContainer({
                                 min='0'
                                 size='3'
                                 {...register(`hotels.${i}.price.nightly`, {
-                                  required: true,
+                                  required: isDirtyField('hotels') && true,
                                   valueAsNumber: true
                                 })}
                               />
@@ -653,7 +675,7 @@ export default function ReservationsFormClientContainer({
                                 min='0'
                                 size='3'
                                 {...register(`hotels.${i}.price.deposit`, {
-                                  required: true,
+                                  required: isDirtyField('hotels') && true,
                                   valueAsNumber: true
                                 })}
                               />
@@ -684,16 +706,16 @@ export default function ReservationsFormClientContainer({
                 })}
               </div>
 
-              {!!getValues('hotels').length && (
-                <Flex justify='end' mt='4'>
-                  <Button type='button' variant='surface' onClick={addHotel}>
-                    <PlusIcon size='20' />
-                    호텔 추가
-                  </Button>
-                </Flex>
-              )}
+              <Flex justify='end' mt='4'>
+                <Button type='button' variant='surface' onClick={addHotel}>
+                  <PlusIcon size='20' />
+                  호텔 추가
+                </Button>
+              </Flex>
 
-              <pre>{JSON.stringify(watch('hotels'), null, 2)}</pre>
+              <pre>
+                {JSON.stringify({ isDirty: isDirtyField('hotels'), ...watch('hotels') }, null, 2)}
+              </pre>
             </section>
           </Card>
 
@@ -702,15 +724,6 @@ export default function ReservationsFormClientContainer({
               <Heading as='h3' mb='4'>
                 선택관광
               </Heading>
-
-              <Flex asChild justify='end' align='center' gap='1' mb='2'>
-                <label>
-                  선택관광 없음
-                  <Checkbox
-                    onCheckedChange={value => setValue('tours', value ? [] : [defaultTourValues])}
-                  />
-                </label>
-              </Flex>
 
               <Flex direction='column' gap='5'>
                 {getValues('tours').map((_tour, i) => (
@@ -721,27 +734,35 @@ export default function ReservationsFormClientContainer({
                       <Text weight='medium'>지역</Text>
                       <TextField.Root
                         size='3'
-                        {...register(`tours.${i}.region`, { required: true })}
+                        {...register(`tours.${i}.region`, {
+                          required: isDirtyField('tours') && true
+                        })}
                       />
 
                       <Text weight='medium'>상품명</Text>
                       <TextField.Root
                         size='3'
-                        {...register(`tours.${i}.name`, { required: true })}
+                        {...register(`tours.${i}.name`, {
+                          required: isDirtyField('tours') && true
+                        })}
                       />
 
                       <Text weight='medium'>출발 시간</Text>
                       <TextField.Root
                         size='3'
                         type='datetime-local'
-                        {...register(`tours.${i}.start_date`, { required: true })}
+                        {...register(`tours.${i}.start_date`, {
+                          required: isDirtyField('tours') && true
+                        })}
                       />
 
                       <Text weight='medium'>도착 시간</Text>
                       <TextField.Root
                         size='3'
                         type='datetime-local'
-                        {...register(`tours.${i}.end_date`, { required: true })}
+                        {...register(`tours.${i}.end_date`, {
+                          required: isDirtyField('tours') && true
+                        })}
                       />
 
                       <Text weight='medium'>인원</Text>
@@ -752,7 +773,7 @@ export default function ReservationsFormClientContainer({
                           min='0'
                           size='3'
                           {...register(`tours.${i}.participant.adult`, {
-                            required: true,
+                            required: isDirtyField('tours') && true,
                             valueAsNumber: true
                           })}
                         />
@@ -762,7 +783,7 @@ export default function ReservationsFormClientContainer({
                           min='0'
                           size='3'
                           {...register(`tours.${i}.participant.children`, {
-                            required: true,
+                            required: isDirtyField('tours') && true,
                             valueAsNumber: true
                           })}
                         />
@@ -776,7 +797,7 @@ export default function ReservationsFormClientContainer({
                           min='0'
                           size='3'
                           {...register(`tours.${i}.price.adult`, {
-                            required: true,
+                            required: isDirtyField('tours') && true,
                             valueAsNumber: true
                           })}
                         />
@@ -786,7 +807,7 @@ export default function ReservationsFormClientContainer({
                           min='0'
                           size='3'
                           {...register(`tours.${i}.price.children`, {
-                            required: true,
+                            required: isDirtyField('tours') && true,
                             valueAsNumber: true
                           })}
                         />
@@ -802,7 +823,7 @@ export default function ReservationsFormClientContainer({
                               min='0'
                               size='3'
                               {...register(`tours.${i}.price.deposit`, {
-                                required: true,
+                                required: isDirtyField('tours') && true,
                                 valueAsNumber: true
                               })}
                             />
@@ -832,16 +853,16 @@ export default function ReservationsFormClientContainer({
                 ))}
               </Flex>
 
-              {!!getValues('tours').length && (
-                <Flex justify='end' mt='4'>
-                  <Button type='button' variant='surface' onClick={addTour}>
-                    <PlusIcon size='20' />
-                    선택관광 추가
-                  </Button>
-                </Flex>
-              )}
+              <Flex justify='end' mt='4'>
+                <Button type='button' variant='surface' onClick={addTour}>
+                  <PlusIcon size='20' />
+                  선택관광 추가
+                </Button>
+              </Flex>
 
-              <pre>{JSON.stringify(watch('tours'), null, 2)}</pre>
+              <pre>
+                {JSON.stringify({ isDirty: isDirtyField('tours'), ...watch('tours') }, null, 2)}
+              </pre>
             </section>
           </Card>
 
@@ -850,15 +871,6 @@ export default function ReservationsFormClientContainer({
               <Heading as='h3' mb='4'>
                 렌터카
               </Heading>
-
-              <Flex asChild justify='end' align='center' gap='1' mb='2'>
-                <label>
-                  렌터카 없음
-                  <Checkbox
-                    onCheckedChange={value => setValue('cars', value ? [] : [defaultCarValues])}
-                  />
-                </label>
-              </Flex>
 
               <div>
                 {getValues('cars').map((_car, i) => {
@@ -872,7 +884,9 @@ export default function ReservationsFormClientContainer({
                             <Text weight='medium'>지역</Text>
                             <TextField.Root
                               size='3'
-                              {...register(`cars.${i}.region`, { required: true })}
+                              {...register(`cars.${i}.region`, {
+                                required: isDirtyField('cars') && true
+                              })}
                             />
                           </Grid>
                         </Container>
@@ -885,14 +899,18 @@ export default function ReservationsFormClientContainer({
                                 <TextField.Root
                                   type='date'
                                   size='3'
-                                  {...register(`cars.${i}.pickup_date`, { required: true })}
+                                  {...register(`cars.${i}.pickup_date`, {
+                                    required: isDirtyField('cars') && true
+                                  })}
                                 />
                               </Container>
                               <Container flexGrow='1'>
                                 <TextField.Root
                                   type='date'
                                   size='3'
-                                  {...register(`cars.${i}.return_date`, { required: true })}
+                                  {...register(`cars.${i}.return_date`, {
+                                    required: isDirtyField('cars') && true
+                                  })}
                                 />
                               </Container>
                             </Flex>
@@ -902,13 +920,17 @@ export default function ReservationsFormClientContainer({
                         <Text weight='medium'>차종</Text>
                         <TextField.Root
                           size='3'
-                          {...register(`cars.${i}.model`, { required: true })}
+                          {...register(`cars.${i}.model`, {
+                            required: isDirtyField('cars') && true
+                          })}
                         />
 
                         <Text weight='medium'>운전자</Text>
                         <TextField.Root
                           size='3'
-                          {...register(`cars.${i}.driver`, { required: true })}
+                          {...register(`cars.${i}.driver`, {
+                            required: isDirtyField('cars') && true
+                          })}
                         />
 
                         <Container gridColumn='1/ -1'>
@@ -916,7 +938,9 @@ export default function ReservationsFormClientContainer({
                             <Text weight='medium'>조건</Text>
                             <TextField.Root
                               size='3'
-                              {...register(`cars.${i}.options`, { required: true })}
+                              {...register(`cars.${i}.options`, {
+                                required: isDirtyField('cars') && true
+                              })}
                             />
                           </Grid>
                         </Container>
@@ -924,14 +948,18 @@ export default function ReservationsFormClientContainer({
                         <Text weight='medium'>픽업 장소</Text>
                         <TextField.Root
                           size='3'
-                          {...register(`cars.${i}.pickup_location`, { required: true })}
+                          {...register(`cars.${i}.pickup_location`, {
+                            required: isDirtyField('cars') && true
+                          })}
                         />
 
                         <Text weight='medium'>픽업 시간</Text>
                         <TextField.Root
                           type='time'
                           size='3'
-                          {...register(`cars.${i}.pickup_time`, { required: true })}
+                          {...register(`cars.${i}.pickup_time`, {
+                            required: isDirtyField('cars') && true
+                          })}
                         />
 
                         <Text weight='medium'>대여일</Text>
@@ -940,7 +968,7 @@ export default function ReservationsFormClientContainer({
                           min='1'
                           size='3'
                           {...register(`cars.${i}.rental_days`, {
-                            required: true,
+                            required: isDirtyField('cars') && true,
                             valueAsNumber: true
                           })}
                         />
@@ -955,7 +983,7 @@ export default function ReservationsFormClientContainer({
                                 min='0'
                                 size='3'
                                 {...register(`cars.${i}.price.nightly`, {
-                                  required: true,
+                                  required: isDirtyField('cars') && true,
                                   valueAsNumber: true
                                 })}
                               />
@@ -965,7 +993,7 @@ export default function ReservationsFormClientContainer({
                                 min='0'
                                 size='3'
                                 {...register(`cars.${i}.price.deposit`, {
-                                  required: true,
+                                  required: isDirtyField('cars') && true,
                                   valueAsNumber: true
                                 })}
                               />
@@ -996,18 +1024,18 @@ export default function ReservationsFormClientContainer({
                 })}
               </div>
 
-              {!!getValues('cars').length && (
-                <Flex justify='end' mt='4'>
-                  <Button type='button' variant='surface' onClick={addCar}>
-                    <PlusIcon size='20' />
-                    렌터카 추가
-                  </Button>
-                </Flex>
-              )}
+              <Flex justify='end' mt='4'>
+                <Button type='button' variant='surface' onClick={addCar}>
+                  <PlusIcon size='20' />
+                  렌터카 추가
+                </Button>
+              </Flex>
 
-              <pre>{JSON.stringify(watch('cars'), null, 2)}</pre>
+              <pre>
+                {JSON.stringify({ isDirty: isDirtyField('cars'), ...watch('cars') }, null, 2)}
+              </pre>
             </section>
-          </Card> */}
+          </Card>
 
           <Flex justify='end' mt='4'>
             <Button size='3'>확인</Button>
