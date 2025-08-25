@@ -1060,7 +1060,7 @@ export default function ReservationsFormClientContainer({
             </Section>
           </Card>
 
-          <Flex justify='end'>
+          <Flex justify='end' position='sticky' bottom='5'>
             <Button size='3' color='ruby'>
               <Upload />
               등록
