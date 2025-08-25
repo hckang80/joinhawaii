@@ -190,9 +190,9 @@ export default function ReservationsFormClientContainer({
           departure_city: '인천'
         }
       ],
-      hotels: [defaultHotelValues],
-      tours: [defaultTourValues],
-      cars: [defaultCarValues]
+      hotels: [],
+      tours: [],
+      cars: []
     }
   });
 
@@ -540,15 +540,6 @@ export default function ReservationsFormClientContainer({
                 호텔
               </Heading>
 
-              <Flex asChild justify='end' align='center' gap='1' mb='2'>
-                <label>
-                  호텔 없음
-                  <Checkbox
-                    onCheckedChange={value => setValue('hotels', value ? [] : [defaultHotelValues])}
-                  />
-                </label>
-              </Flex>
-
               <div>
                 {getValues('hotels').map((_hotel, i) => {
                   return (
@@ -698,14 +689,12 @@ export default function ReservationsFormClientContainer({
                 })}
               </div>
 
-              {!!getValues('hotels').length && (
-                <Flex justify='end' mt='4'>
-                  <Button type='button' variant='surface' onClick={addHotel}>
-                    <PlusIcon size='20' />
-                    호텔 추가
-                  </Button>
-                </Flex>
-              )}
+              <Flex justify='end' mt='4'>
+                <Button type='button' variant='surface' onClick={addHotel}>
+                  <PlusIcon size='20' />
+                  호텔 추가
+                </Button>
+              </Flex>
 
               <pre>
                 {JSON.stringify({ isDirty: isDirtyField('hotels'), ...watch('hotels') }, null, 2)}
@@ -718,15 +707,6 @@ export default function ReservationsFormClientContainer({
               <Heading as='h3' mb='4'>
                 선택관광
               </Heading>
-
-              <Flex asChild justify='end' align='center' gap='1' mb='2'>
-                <label>
-                  선택관광 없음
-                  <Checkbox
-                    onCheckedChange={value => setValue('tours', value ? [] : [defaultTourValues])}
-                  />
-                </label>
-              </Flex>
 
               <Flex direction='column' gap='5'>
                 {getValues('tours').map((_tour, i) => (
@@ -848,14 +828,12 @@ export default function ReservationsFormClientContainer({
                 ))}
               </Flex>
 
-              {!!getValues('tours').length && (
-                <Flex justify='end' mt='4'>
-                  <Button type='button' variant='surface' onClick={addTour}>
-                    <PlusIcon size='20' />
-                    선택관광 추가
-                  </Button>
-                </Flex>
-              )}
+              <Flex justify='end' mt='4'>
+                <Button type='button' variant='surface' onClick={addTour}>
+                  <PlusIcon size='20' />
+                  선택관광 추가
+                </Button>
+              </Flex>
 
               <pre>
                 {JSON.stringify({ isDirty: isDirtyField('tours'), ...watch('tours') }, null, 2)}
@@ -868,15 +846,6 @@ export default function ReservationsFormClientContainer({
               <Heading as='h3' mb='4'>
                 렌터카
               </Heading>
-
-              <Flex asChild justify='end' align='center' gap='1' mb='2'>
-                <label>
-                  렌터카 없음
-                  <Checkbox
-                    onCheckedChange={value => setValue('cars', value ? [] : [defaultCarValues])}
-                  />
-                </label>
-              </Flex>
 
               <div>
                 {getValues('cars').map((_car, i) => {
@@ -1014,14 +983,12 @@ export default function ReservationsFormClientContainer({
                 })}
               </div>
 
-              {!!getValues('cars').length && (
-                <Flex justify='end' mt='4'>
-                  <Button type='button' variant='surface' onClick={addCar}>
-                    <PlusIcon size='20' />
-                    렌터카 추가
-                  </Button>
-                </Flex>
-              )}
+              <Flex justify='end' mt='4'>
+                <Button type='button' variant='surface' onClick={addCar}>
+                  <PlusIcon size='20' />
+                  렌터카 추가
+                </Button>
+              </Flex>
 
               <pre>
                 {JSON.stringify({ isDirty: isDirtyField('cars'), ...watch('cars') }, null, 2)}
