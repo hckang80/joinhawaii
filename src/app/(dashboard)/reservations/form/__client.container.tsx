@@ -28,7 +28,7 @@ import {
   TextArea,
   TextField
 } from '@radix-ui/themes';
-import { PlusIcon, UserPlus } from 'lucide-react';
+import { Binoculars, Car, Hotel, Plane, Upload, UserPlus } from 'lucide-react';
 import { useRouter } from 'nextjs-toploader/app';
 import { useEffect } from 'react';
 import {
@@ -376,7 +376,7 @@ export default function ReservationsFormClientContainer({
                 })}
               </Flex>
               <Flex justify='end' mt='4' gap='1'>
-                <Button title='인원 추가' type='button' color='red' onClick={addClient}>
+                <Button title='인원 추가' type='button' color='ruby' onClick={addClient}>
                   <UserPlus />
                 </Button>
               </Flex>
@@ -540,8 +540,8 @@ export default function ReservationsFormClientContainer({
               </Flex>
 
               <Flex justify='end' mt='4'>
-                <Button type='button' variant='surface' onClick={addDomesticFlight}>
-                  <PlusIcon size='20' />
+                <Button type='button' color='ruby' onClick={addDomesticFlight}>
+                  <Plane size='20' />
                   주내선 추가
                 </Button>
               </Flex>
@@ -724,8 +724,8 @@ export default function ReservationsFormClientContainer({
               </Flex>
 
               <Flex justify='end' mt='4'>
-                <Button type='button' variant='surface' onClick={addHotel}>
-                  <PlusIcon size='20' />
+                <Button type='button' color='ruby' onClick={addHotel}>
+                  <Hotel size='20' />
                   호텔 추가
                 </Button>
               </Flex>
@@ -873,8 +873,8 @@ export default function ReservationsFormClientContainer({
               </Flex>
 
               <Flex justify='end' mt='4'>
-                <Button type='button' variant='surface' onClick={addTour}>
-                  <PlusIcon size='20' />
+                <Button type='button' color='ruby' onClick={addTour}>
+                  <Binoculars size='20' />
                   선택관광 추가
                 </Button>
               </Flex>
@@ -1046,8 +1046,8 @@ export default function ReservationsFormClientContainer({
               </Flex>
 
               <Flex justify='end' mt='4'>
-                <Button type='button' variant='surface' onClick={addCar}>
-                  <PlusIcon size='20' />
+                <Button type='button' color='ruby' onClick={addCar}>
+                  <Car size='20' />
                   렌터카 추가
                 </Button>
               </Flex>
@@ -1061,7 +1061,10 @@ export default function ReservationsFormClientContainer({
           </Card>
 
           <Flex justify='end'>
-            <Button size='3'>확인</Button>
+            <Button size='3' color='ruby'>
+              <Upload />
+              등록
+            </Button>
           </Flex>
         </form>
       </Flex>
