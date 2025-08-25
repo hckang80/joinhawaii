@@ -1,63 +1,6 @@
-import type {
-  Database,
-  ProductWithReservation,
-  ReservationRequest,
-  ReservationRow,
-  TablesRow
-} from '@/types';
+import type { Database, ProductWithReservation, TablesRow } from '@/types';
 import { createClient } from '@/utils/supabase/server';
 import { NextResponse } from 'next/server';
-
-export async function POST(request: Request) {
-  try {
-    const body: ReservationRequest = await request.json();
-    const today = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-    const supabase = await createClient<Database>();
-
-    const { data: lastReservation } = await supabase
-      .from('reservations')
-      .select('reservation_id')
-      .like('reservation_id', `${today}-%`)
-      .order('reservation_id', { ascending: false })
-      .limit(1)
-      .single<Pick<ReservationRow, 'reservation_id'>>();
-
-    const sequence = lastReservation?.reservation_id
-      ? parseInt(lastReservation.reservation_id.match(/-JH(\d{3})$/)?.[1] ?? '0', 10) + 1
-      : 1;
-
-    const reservationId = `${today}-JH${String(sequence).padStart(3, '0')}`;
-
-    const { data, error } = await supabase.rpc('create_reservation', {
-      p_reservation_id: reservationId,
-      p_clients: body.clients,
-      p_main_client_name: body.main_client_name,
-      p_flights: body.flights || [],
-      p_hotels: body.hotels || [],
-      p_tours: body.tours || [],
-      p_cars: body.cars || []
-    });
-
-    if (error) {
-      console.error('예약 생성 실패:', error);
-      throw error;
-    }
-
-    return NextResponse.json({
-      success: true,
-      data
-    });
-  } catch (error) {
-    console.error('Reservation creation error:', error);
-    return NextResponse.json(
-      {
-        success: false,
-        error: error instanceof Error ? error.message : 'Failed to create reservation'
-      },
-      { status: 500 }
-    );
-  }
-}
 
 export async function GET() {
   try {
