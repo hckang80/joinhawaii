@@ -1,7 +1,6 @@
 import type { AllProducts } from '@/types';
 import { isDev, toReadableDate } from '@/utils';
-import { Heading, Table } from '@radix-ui/themes';
-import Link from 'next/link';
+import { Heading, Link, Table } from '@radix-ui/themes';
 
 export default function ReservationsClientContainer({ data }: { data: AllProducts[] }) {
   const statusLabel = (balance: number) => {
@@ -37,12 +36,7 @@ export default function ReservationsClientContainer({ data }: { data: AllProduct
               <Table.Cell>{item.type}</Table.Cell>
               <Table.Cell>{item.main_client_name}</Table.Cell>
               <Table.Cell>
-                <Link
-                  href={{
-                    pathname: '/reservations/form',
-                    query: { reservation_id: item.reservation_id }
-                  }}
-                >
+                <Link href={`/reservations/form?reservation_id=${item.reservation_id}`}>
                   {item.product_name}
                 </Link>
               </Table.Cell>
