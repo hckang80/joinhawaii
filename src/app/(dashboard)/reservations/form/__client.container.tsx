@@ -273,7 +273,7 @@ export default function ReservationsFormClientContainer({
                 고객정보
               </Heading>
               {JSON.stringify(watch('main_client_name'), null, 2)}
-              <div>
+              <Flex direction='column' gap='5'>
                 {getValues('clients').map((client, i) => {
                   return (
                     <div key={i} className={styles.client}>
@@ -369,7 +369,7 @@ export default function ReservationsFormClientContainer({
                     </div>
                   );
                 })}
-              </div>
+              </Flex>
               <Flex justify='end' mt='4' gap='1'>
                 <Button title='인원 추가' type='button' color='red' onClick={addClient}>
                   <UserPlus />
@@ -547,7 +547,7 @@ export default function ReservationsFormClientContainer({
                 호텔
               </Heading>
 
-              <div>
+              <Flex direction='column' gap='5'>
                 {getValues('hotels').map((_hotel, i) => {
                   return (
                     <div key={i} className={styles.client}>
@@ -704,7 +704,7 @@ export default function ReservationsFormClientContainer({
                     </div>
                   );
                 })}
-              </div>
+              </Flex>
 
               <Flex justify='end' mt='4'>
                 <Button type='button' variant='surface' onClick={addHotel}>
@@ -872,7 +872,7 @@ export default function ReservationsFormClientContainer({
                 렌터카
               </Heading>
 
-              <div>
+              <Flex direction='column' gap='5'>
                 {getValues('cars').map((_car, i) => {
                   return (
                     <div key={i} className={styles.client}>
@@ -1022,7 +1022,7 @@ export default function ReservationsFormClientContainer({
                     </div>
                   );
                 })}
-              </div>
+              </Flex>
 
               <Flex justify='end' mt='4'>
                 <Button type='button' variant='surface' onClick={addCar}>
@@ -1037,7 +1037,7 @@ export default function ReservationsFormClientContainer({
             </section>
           </Card>
 
-          <Flex justify='end' mt='4'>
+          <Flex justify='end'>
             <Button size='3'>확인</Button>
           </Flex>
         </form>

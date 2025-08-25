@@ -1,4 +1,4 @@
-import { Container, Flex } from '@radix-ui/themes';
+import { Box, Flex } from '@radix-ui/themes';
 import Image from 'next/image';
 import Header from './Header';
 import styles from './layout.module.css';
@@ -11,11 +11,11 @@ export default async function DashboardLayout({ children }: { children: React.Re
           <Image src='/vercel.svg' width='12' height='12' alt='my service name'></Image>
         </h1>
       </aside>
-      <Container>
+      <Box flexGrow='1'>
         <Header />
 
         <main className={styles.main}>{children}</main>
-      </Container>
+      </Box>
     </Flex>
   );
 }
