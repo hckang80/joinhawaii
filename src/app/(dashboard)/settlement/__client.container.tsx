@@ -1,5 +1,6 @@
 import type { ReservationResponse } from '@/types';
 import { Heading, Table } from '@radix-ui/themes';
+import { toReadableDate } from '../../../utils';
 
 export default function SettlementClientContainer({ data }: { data: ReservationResponse[] }) {
   return (
@@ -28,7 +29,7 @@ export default function SettlementClientContainer({ data }: { data: ReservationR
           {data.map(item => (
             <Table.Row key={item.id}>
               <Table.Cell>{item.reservation_id}</Table.Cell>
-              <Table.Cell>{item.created_at}</Table.Cell>
+              <Table.Cell>{toReadableDate(new Date(item.created_at))}</Table.Cell>
               <Table.Cell>-</Table.Cell>
               <Table.Cell>{item.main_client_name}</Table.Cell>
               <Table.Cell>-</Table.Cell>
