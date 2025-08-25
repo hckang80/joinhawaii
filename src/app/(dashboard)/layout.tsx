@@ -1,4 +1,3 @@
-import Logo from '@/assets/images/logo.png';
 import { Box, Flex } from '@radix-ui/themes';
 import Image from 'next/image';
 import Header from './Header';
@@ -10,7 +9,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
     <Flex className={styles.root}>
       <aside className={styles.aside}>
         <h1 className={styles.logo}>
-          <Image src={Logo} width='90' height='40' alt='조인하와이'></Image>
+          <Image src='/images/logo.png' width='90' height='40' alt='조인하와이'></Image>
         </h1>
         <Navigation />
       </aside>
