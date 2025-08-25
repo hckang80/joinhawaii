@@ -29,7 +29,7 @@ import {
   TextField
 } from '@radix-ui/themes';
 import { PlusIcon, UserPlus } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'nextjs-toploader/app';
 import { useEffect } from 'react';
 import {
   type Control,
