@@ -4,7 +4,7 @@ import ReservationsClientContainer from './__client.container';
 const fetchProducts = async (): Promise<AllProducts[]> => {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    const url = `${baseUrl}/api/products`;
+    const url = `${baseUrl}/api/product`;
 
     const response = await fetch(url, {
       method: 'GET',
