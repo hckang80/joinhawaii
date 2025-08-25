@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/client';
 import type { User } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null);
@@ -44,7 +45,7 @@ export function useAuth() {
     if (error) {
       console.error('Logout error:', error);
     } else {
-      console.info('You have been logged out.');
+      toast.info('You have been logged out.');
     }
   };
 

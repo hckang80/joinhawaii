@@ -39,7 +39,7 @@ export default function ReservationsClientContainer({ data }: { data: AllProduct
               <Table.Cell>
                 <Link
                   href={{
-                    pathname: '/reservations/forms',
+                    pathname: '/reservations/form',
                     query: { reservation_id: item.reservation_id }
                   }}
                 >
