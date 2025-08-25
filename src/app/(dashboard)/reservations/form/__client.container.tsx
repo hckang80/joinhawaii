@@ -12,6 +12,7 @@ import type { ReservationFormData, ReservationRequest, ReservationResponse } fro
 import { observable } from '@legendapp/state';
 import { use$ } from '@legendapp/state/react';
 import {
+  Box,
   Button,
   Card,
   Checkbox,
@@ -358,14 +359,14 @@ export default function ReservationsFormClientContainer({
                           {...register(`clients.${i}.email`, { required: true })}
                         />
 
-                        <Container gridColumn='1 / -1'>
+                        <Box gridColumn='1 / -1'>
                           <Grid align='center' columns='60px 1fr' gap='3'>
                             <Text weight='medium' mb='2'>
                               비고
                             </Text>
                             <TextArea {...register(`clients.${i}.notes`)} />
                           </Grid>
-                        </Container>
+                        </Box>
                       </Grid>
                     </div>
                   );
@@ -394,7 +395,7 @@ export default function ReservationsFormClientContainer({
                     <FlightTotalCalculator index={i} setValue={setValue} control={control} />
 
                     <Grid align='center' columns='60px 1fr 60px 1fr' gap='3'>
-                      <Container gridColumn='1 / -1'>
+                      <Box gridColumn='1 / -1'>
                         <Grid align='center' columns='60px 1fr' gap='3'>
                           <Text weight='medium'>항공편명</Text>
                           <TextField.Root
@@ -404,7 +405,7 @@ export default function ReservationsFormClientContainer({
                             })}
                           />
                         </Grid>
-                      </Container>
+                      </Box>
 
                       <Text weight='medium'>출발 시간</Text>
                       <TextField.Root
@@ -555,7 +556,7 @@ export default function ReservationsFormClientContainer({
                       <HotelTotalCalculator index={i} setValue={setValue} control={control} />
 
                       <Grid align='center' columns='60px 1fr 60px 1fr' gap='3'>
-                        <Container gridColumn='1/ -1'>
+                        <Box gridColumn='1/ -1'>
                           <Grid align='center' columns='60px 1fr' gap='3'>
                             <Text weight='medium'>지역</Text>
                             <TextField.Root
@@ -565,9 +566,9 @@ export default function ReservationsFormClientContainer({
                               })}
                             />
                           </Grid>
-                        </Container>
+                        </Box>
 
-                        <Container gridColumn='1/ -1'>
+                        <Box gridColumn='1/ -1'>
                           <Grid align='center' columns='60px 1fr' gap='3'>
                             <Text weight='medium'>날짜</Text>
                             <Flex gap='2'>
@@ -591,9 +592,9 @@ export default function ReservationsFormClientContainer({
                               </Container>
                             </Flex>
                           </Grid>
-                        </Container>
+                        </Box>
 
-                        <Container gridColumn='1/ -1'>
+                        <Box gridColumn='1/ -1'>
                           <Grid align='center' columns='60px 1fr' gap='3'>
                             <Text weight='medium'>호텔명</Text>
                             <TextField.Root
@@ -603,7 +604,7 @@ export default function ReservationsFormClientContainer({
                               })}
                             />
                           </Grid>
-                        </Container>
+                        </Box>
 
                         <Text weight='medium'>객실타입</Text>
                         <TextField.Root
@@ -624,7 +625,7 @@ export default function ReservationsFormClientContainer({
                           })}
                         />
 
-                        <Container gridColumn='1/ -1'>
+                        <Box gridColumn='1/ -1'>
                           <Grid align='center' columns='60px 20px 80px 60px 20px' gap='3'>
                             <Text weight='medium'>조식</Text>
                             <Controller
@@ -654,9 +655,9 @@ export default function ReservationsFormClientContainer({
                               )}
                             />
                           </Grid>
-                        </Container>
+                        </Box>
 
-                        <Container gridColumn='1/ -1'>
+                        <Box gridColumn='1/ -1'>
                           <Grid align='center' columns='60px 1fr' gap='3'>
                             <Text weight='medium'>요금 상세</Text>
                             <Flex align='center' gap='3'>
@@ -700,7 +701,7 @@ export default function ReservationsFormClientContainer({
                               />
                             </Flex>
                           </Grid>
-                        </Container>
+                        </Box>
                       </Grid>
                     </div>
                   );
@@ -814,7 +815,7 @@ export default function ReservationsFormClientContainer({
                         />
                       </Grid>
 
-                      <Container gridColumn='1 / -1'>
+                      <Box gridColumn='1 / -1'>
                         <Grid align='center' columns='60px 1fr' gap='3'>
                           <Text weight='medium'>요금 상세</Text>
                           <Flex align='center' gap='3'>
@@ -848,7 +849,7 @@ export default function ReservationsFormClientContainer({
                             />
                           </Flex>
                         </Grid>
-                      </Container>
+                      </Box>
                     </Grid>
                   </div>
                 ))}
@@ -880,7 +881,7 @@ export default function ReservationsFormClientContainer({
                       <CarTotalCalculator index={i} setValue={setValue} control={control} />
 
                       <Grid align='center' columns='60px 1fr 60px 1fr' gap='3'>
-                        <Container gridColumn='1/ -1'>
+                        <Box gridColumn='1/ -1'>
                           <Grid align='center' columns='60px 1fr' gap='3'>
                             <Text weight='medium'>지역</Text>
                             <TextField.Root
@@ -890,9 +891,9 @@ export default function ReservationsFormClientContainer({
                               })}
                             />
                           </Grid>
-                        </Container>
+                        </Box>
 
-                        <Container gridColumn='1/ -1'>
+                        <Box gridColumn='1/ -1'>
                           <Grid align='center' columns='60px 1fr' gap='3'>
                             <Text weight='medium'>날짜</Text>
                             <Flex gap='2'>
@@ -916,7 +917,7 @@ export default function ReservationsFormClientContainer({
                               </Container>
                             </Flex>
                           </Grid>
-                        </Container>
+                        </Box>
 
                         <Text weight='medium'>차종</Text>
                         <TextField.Root
@@ -934,7 +935,7 @@ export default function ReservationsFormClientContainer({
                           })}
                         />
 
-                        <Container gridColumn='1/ -1'>
+                        <Box gridColumn='1/ -1'>
                           <Grid align='center' columns='60px 1fr' gap='3'>
                             <Text weight='medium'>조건</Text>
                             <TextField.Root
@@ -944,7 +945,7 @@ export default function ReservationsFormClientContainer({
                               })}
                             />
                           </Grid>
-                        </Container>
+                        </Box>
 
                         <Text weight='medium'>픽업 장소</Text>
                         <TextField.Root
@@ -974,7 +975,7 @@ export default function ReservationsFormClientContainer({
                           })}
                         />
 
-                        <Container gridColumn='1/ -1'>
+                        <Box gridColumn='1/ -1'>
                           <Grid align='center' columns='60px 1fr' gap='3'>
                             <Text weight='medium'>요금 상세</Text>
                             <Flex align='center' gap='3'>
@@ -1018,7 +1019,7 @@ export default function ReservationsFormClientContainer({
                               />
                             </Flex>
                           </Grid>
-                        </Container>
+                        </Box>
                       </Grid>
                     </div>
                   );
