@@ -44,7 +44,7 @@ export default function ReservationsClientContainer({ data }: { data: AllProduct
               <Table.Cell>{item.main_client_name}</Table.Cell>
               <Table.Cell>
                 <StyledLink
-                  href={`/reservations/form?reservation_id=${item.reservation_id}`}
+                  href={`/reservations/form?reservation_id=${item.reservation_id}#${item.type}`}
                   underline='always'
                   weight='medium'
                 >
