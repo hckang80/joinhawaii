@@ -1,6 +1,7 @@
 import type { AllProducts } from '@/types';
 import { isDev, toReadableDate } from '@/utils';
-import { Heading, Link, Table } from '@radix-ui/themes';
+import { Button, Flex, Heading, Link as StyledLink, Table } from '@radix-ui/themes';
+import Link from 'next/link';
 
 export default function ReservationsClientContainer({ data }: { data: AllProducts[] }) {
   const statusLabel = (balance: number) => {
@@ -14,6 +15,12 @@ export default function ReservationsClientContainer({ data }: { data: AllProduct
       <Heading as='h2' mb='4' size='7'>
         예약관리
       </Heading>
+
+      <Flex mb='4' justify='end'>
+        <Button asChild color='ruby'>
+          <Link href='/reservations/form'>예약등록</Link>
+        </Button>
+      </Flex>
 
       <Table.Root variant='surface' size='3'>
         <Table.Header>
@@ -36,13 +43,13 @@ export default function ReservationsClientContainer({ data }: { data: AllProduct
               <Table.Cell>{item.type}</Table.Cell>
               <Table.Cell>{item.main_client_name}</Table.Cell>
               <Table.Cell>
-                <Link
+                <StyledLink
                   href={`/reservations/form?reservation_id=${item.reservation_id}`}
                   underline='always'
                   weight='medium'
                 >
                   {item.product_name}
-                </Link>
+                </StyledLink>
               </Table.Cell>
               <Table.Cell>{toReadableDate(new Date(item.event_date))}</Table.Cell>
               <Table.Cell>{toReadableDate(new Date(item.created_at))}</Table.Cell>
