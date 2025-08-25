@@ -389,7 +389,7 @@ export default function ReservationsFormClientContainer({
           </Card>
 
           <Card asChild size='3'>
-            <Section>
+            <Section id='flight'>
               <Heading as='h3' mb='4'>
                 항공정보
               </Heading>
@@ -555,7 +555,7 @@ export default function ReservationsFormClientContainer({
           </Card>
 
           <Card asChild size='3'>
-            <Section>
+            <Section id='hotel'>
               <Heading as='h3' mb='4'>
                 호텔
               </Heading>
@@ -735,7 +735,7 @@ export default function ReservationsFormClientContainer({
           </Card>
 
           <Card asChild size='3'>
-            <Section>
+            <Section id='tour'>
               <Heading as='h3' mb='4'>
                 선택관광
               </Heading>
@@ -884,7 +884,7 @@ export default function ReservationsFormClientContainer({
           </Card>
 
           <Card asChild size='3'>
-            <Section>
+            <Section id='rental_car'>
               <Heading as='h3' mb='4'>
                 렌터카
               </Heading>
