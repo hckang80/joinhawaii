@@ -45,9 +45,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       success: true,
-      data: {
-        ...data
-      }
+      data
     });
   } catch (error) {
     console.error('Reservation creation error:', error);
@@ -91,7 +89,7 @@ export async function GET() {
         ...hotel,
         event_date: hotel.check_in_date,
         main_client_name: reservations.main_client_name,
-        product_name: `${hotel.region} ${hotel.hotel_name} / ${hotel.room_type}`,
+        product_name: `${hotel.region} / ${hotel.hotel_name} / ${hotel.room_type}`,
         type: 'hotel' as const
       })) ?? []),
       ...(tours.data?.map(({ reservations, ...tour }) => ({
