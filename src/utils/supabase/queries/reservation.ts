@@ -1,0 +1,75 @@
+import type { Database, ReservationQueryResponse, TablesRow } from '@/types';
+import { SupabaseClient } from '@supabase/supabase-js';
+import { RESERVATION_SELECT_QUERY } from '../schema';
+
+export const getReservation = async (supabase: SupabaseClient<Database>, reservationId: string) => {
+  const { data, error } = await supabase
+    .from('reservations')
+    .select<string, ReservationQueryResponse>(RESERVATION_SELECT_QUERY)
+    .eq('reservation_id', reservationId)
+    .single();
+
+  if (error) throw error;
+  return data;
+};
+
+export const updateReservationProducts = async (
+  supabase: SupabaseClient<Database>,
+  reservationId: string,
+  products: {
+    clients?: Array<Partial<TablesRow<'clients'>>>;
+    flights?: Array<Partial<TablesRow<'flights'>>>;
+    hotels?: Array<Partial<TablesRow<'hotels'>>>;
+    tours?: Array<Partial<TablesRow<'tours'>>>;
+    cars?: Array<Partial<TablesRow<'cars'>>>;
+  }
+) => {
+  const updates = [];
+
+  if (products.clients?.length) {
+    updates.push(
+      supabase.from('clients').upsert(
+        products.clients.map(client => ({
+          ...client,
+          reservation_id: reservationId
+        }))
+      )
+    );
+  }
+
+  const { data: reservation } = await supabase
+    .from('reservations')
+    .select('id')
+    .eq('reservation_id', reservationId)
+    .single();
+
+  if (!reservation) throw new Error('예약을 찾을 수 없습니다.');
+
+  const productTables = {
+    flights: 'flights',
+    hotels: 'hotels',
+    tours: 'tours',
+    cars: 'rental_cars'
+  } as const;
+
+  Object.entries(productTables).forEach(([key, table]) => {
+    const items = products[key as keyof typeof productTables];
+    if (items?.length) {
+      updates.push(
+        supabase.from(table).upsert(
+          items.map(item => ({
+            ...item,
+            reservation_id: reservation.id
+          }))
+        )
+      );
+    }
+  });
+
+  const results = await Promise.all(updates);
+  const errors = results.map(r => r.error).filter(Boolean);
+
+  if (errors.length) {
+    throw errors[0];
+  }
+};
