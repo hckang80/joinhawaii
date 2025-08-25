@@ -17,17 +17,13 @@ export const defaultFlightValues = {
   departure_city: '',
   arrival_datetime: '',
   arrival_city: '',
-  capacity: {
-    adult: 1,
-    children: 0
-  },
-  price: {
-    adult: 0,
-    children: 0,
-    deposit: 0,
-    balance: 0,
-    total: 0
-  }
+  adult_count: 1,
+  children_count: 0,
+  adult_price: 0,
+  children_price: 0,
+  deposit: 0,
+  balance: 0,
+  total_amount: 0
 };
 
 export const defaultHotelValues = {
@@ -39,12 +35,10 @@ export const defaultHotelValues = {
   is_breakfast_included: false,
   is_resort_fee: false,
   nights: 1,
-  price: {
-    nightly: 0,
-    deposit: 0,
-    balance: 0,
-    total: 0
-  }
+  nightly_rate: 0,
+  deposit: 0,
+  balance: 0,
+  total_amount: 0
 };
 
 export const defaultTourValues = {
@@ -52,17 +46,13 @@ export const defaultTourValues = {
   start_date: '',
   end_date: '',
   name: '',
-  participant: {
-    adult: 1,
-    children: 0
-  },
-  price: {
-    adult: 0,
-    children: 0,
-    deposit: 0,
-    balance: 0,
-    total: 0
-  }
+  adult_count: 1,
+  children_count: 0,
+  adult_price: 0,
+  children_price: 0,
+  deposit: 0,
+  balance: 0,
+  total_amount: 0
 };
 
 export const defaultCarValues = {
@@ -75,10 +65,8 @@ export const defaultCarValues = {
   pickup_location: '',
   pickup_time: '',
   rental_days: 1,
-  price: {
-    nightly: 0,
-    deposit: 0,
-    balance: 0,
-    total: 0
-  }
+  daily_rate: 0,
+  deposit: 0,
+  balance: 0,
+  total_amount: 0
 };
