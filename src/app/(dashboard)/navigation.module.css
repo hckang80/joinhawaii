@@ -1,0 +1,13 @@
+.nav {
+}
+
+.ul {
+  margin-top: 20px;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 0;
+}
