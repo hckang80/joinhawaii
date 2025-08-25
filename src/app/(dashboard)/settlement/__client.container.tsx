@@ -1,6 +1,6 @@
 import type { ReservationResponse } from '@/types';
+import { isDev, toReadableDate } from '@/utils';
 import { Heading, Table } from '@radix-ui/themes';
-import { toReadableDate } from '../../../utils';
 
 export default function SettlementClientContainer({ data }: { data: ReservationResponse[] }) {
   return (
@@ -44,7 +44,7 @@ export default function SettlementClientContainer({ data }: { data: ReservationR
         </Table.Body>
       </Table.Root>
 
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      {isDev() && <pre>{JSON.stringify(data, null, 2)}</pre>}
     </div>
   );
 }
