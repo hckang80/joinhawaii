@@ -36,7 +36,11 @@ export default function ReservationsClientContainer({ data }: { data: AllProduct
               <Table.Cell>{item.type}</Table.Cell>
               <Table.Cell>{item.main_client_name}</Table.Cell>
               <Table.Cell>
-                <Link href={`/reservations/form?reservation_id=${item.reservation_id}`}>
+                <Link
+                  href={`/reservations/form?reservation_id=${item.reservation_id}`}
+                  underline='always'
+                  weight='medium'
+                >
                   {item.product_name}
                 </Link>
               </Table.Cell>
