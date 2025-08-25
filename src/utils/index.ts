@@ -3,3 +3,7 @@ export function toReadableDate(date: Date, includeTime = false) {
 
   return date[rule]('ko-KR');
 }
+
+export function isDev() {
+  return process.env.NODE_ENV === 'development';
+}

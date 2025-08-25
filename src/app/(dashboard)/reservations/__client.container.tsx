@@ -1,5 +1,5 @@
 import type { AllProducts } from '@/types';
-import { toReadableDate } from '@/utils';
+import { isDev, toReadableDate } from '@/utils';
 import { Heading, Table } from '@radix-ui/themes';
 import Link from 'next/link';
 
@@ -58,7 +58,7 @@ export default function ReservationsClientContainer({ data }: { data: AllProduct
         </Table.Body>
       </Table.Root>
 
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      {isDev() && <pre>{JSON.stringify(data, null, 2)}</pre>}
     </div>
   );
 }
