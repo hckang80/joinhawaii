@@ -24,7 +24,7 @@ import {
   TextArea,
   TextField
 } from '@radix-ui/themes';
-import { PlusIcon, UserMinus, UserPlus } from 'lucide-react';
+import { PlusIcon, UserPlus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import {
@@ -235,11 +235,6 @@ export default function ReservationsFormClientContainer({
     }
   };
 
-  const removeItem = (key: keyof ReservationFormData) => {
-    getValues(key).pop();
-    setValue(key, getValues(key));
-  };
-
   const addClient = () => {
     setValue('clients', [...getValues('clients'), defaultClientValues]);
   };
@@ -380,17 +375,6 @@ export default function ReservationsFormClientContainer({
                 <Button title='인원 추가' type='button' color='red' onClick={addClient}>
                   <UserPlus />
                 </Button>
-                {getValues('clients').length > 1 && (
-                  <Button
-                    title='인원 추가'
-                    type='button'
-                    color='red'
-                    variant='soft'
-                    onClick={() => removeItem('clients')}
-                  >
-                    <UserMinus />
-                  </Button>
-                )}
               </Flex>
               <pre>
                 {JSON.stringify({ isDirty: isDirtyField('clients'), ...watch('clients') }, null, 2)}
