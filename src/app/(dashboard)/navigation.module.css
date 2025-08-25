@@ -2,15 +2,12 @@
 }
 
 .ul {
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
-.li {
-  display: grid;
-  place-items: center;
-  height: 32px;
-
-  &:not(:first-child) {
-    margin-top: 15px;
-  }
+.link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 0;
 }

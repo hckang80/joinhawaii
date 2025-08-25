@@ -7,13 +7,13 @@ export default function Navigation() {
     <nav className={styles.nav}>
       <ul className={styles.ul}>
         <li className={styles.li}>
-          <Link href='/reservations' title='예약관리'>
-            <NotebookPen />
+          <Link className={styles.link} href='/reservations'>
+            <NotebookPen /> 예약관리
           </Link>
         </li>
         <li className={styles.li}>
-          <Link href='/settlement' title='정산관리'>
-            <Sigma />
+          <Link className={styles.link} href='/settlement'>
+            <Sigma /> 정산관리
           </Link>
         </li>
       </ul>
