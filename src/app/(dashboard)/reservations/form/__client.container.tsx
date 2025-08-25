@@ -179,15 +179,15 @@ export default function ReservationsFormClientContainer({
         reservation_id: data.reservation_id
       }),
       clients: data?.clients || [defaultClientValues],
-      flights: [
+      flights: data?.products.flights || [
         {
           ...defaultFlightValues,
           departure_city: '인천'
         }
       ],
       hotels: data?.products.hotels || [defaultHotelValues],
-      tours: [defaultTourValues],
-      cars: [defaultCarValues]
+      tours: data?.products.tours || [defaultTourValues],
+      cars: data?.products.rental_cars || [defaultCarValues]
     }
   });
 
