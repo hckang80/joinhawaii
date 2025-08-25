@@ -203,6 +203,8 @@ export default function ReservationsFormClientContainer({
   const mainClientName = getValues('clients')[reservationIndex].korean_name;
 
   const onSubmit: SubmitHandler<ReservationFormData> = async data => {
+    if (!isDirty) return console.info('변경된 내용이 없습니다.');
+
     try {
       const response = await fetch('/api/reservation', {
         method: isModify ? 'PATCH' : 'POST',
