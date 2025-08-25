@@ -5,7 +5,8 @@ import {
   defaultClientValues,
   defaultFlightValues,
   defaultHotelValues,
-  defaultTourValues
+  defaultTourValues,
+  GENDER_TYPE
 } from '@/constants';
 import type { ReservationFormData, ReservationRequest, ReservationResponse } from '@/types';
 import { observable } from '@legendapp/state';
@@ -36,8 +37,6 @@ import {
   useWatch
 } from 'react-hook-form';
 import styles from './page.module.css';
-
-const GENDER_TYPE = ['MR', 'MS'] as const;
 
 const status$ = observable({
   reservationIndex: 0
@@ -329,7 +328,7 @@ export default function ReservationsFormClientContainer({
                                 field.onChange(value);
                               }}
                               name={field.name}
-                              columns='repeat(auto-fit, minmax(100px, auto))'
+                              columns='repeat(auto-fit, 80px)'
                             >
                               {GENDER_TYPE.map(value => (
                                 <RadioCards.Item value={value} key={value}>
