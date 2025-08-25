@@ -39,12 +39,10 @@ export const defaultHotelValues = {
   is_breakfast_included: false,
   is_resort_fee: false,
   nights: 1,
-  price: {
-    nightly: 0,
-    deposit: 0,
-    balance: 0,
-    total: 0
-  }
+  nightly_rate: 0,
+  deposit: 0,
+  balance: 0,
+  total_amount: 0
 };
 
 export const defaultTourValues = {

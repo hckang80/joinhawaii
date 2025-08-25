@@ -88,18 +88,14 @@ function HotelTotalCalculator({
 }) {
   const watchedValues = useWatch({
     control,
-    name: [
-      `hotels.${index}.price.nightly`,
-      `hotels.${index}.nights`,
-      `hotels.${index}.price.deposit`
-    ]
+    name: [`hotels.${index}.nightly_rate`, `hotels.${index}.nights`, `hotels.${index}.deposit`]
   });
 
   useEffect(() => {
     const [nightly, nights, depositPrice] = watchedValues;
     const total = nightly * nights;
-    setValue(`hotels.${index}.price.total`, total, { shouldValidate: true });
-    setValue(`hotels.${index}.price.balance`, total - depositPrice, { shouldValidate: true });
+    setValue(`hotels.${index}.total_amount`, total, { shouldValidate: true });
+    setValue(`hotels.${index}.balance`, total - depositPrice, { shouldValidate: true });
   }, [watchedValues, setValue, index]);
 
   return null;
@@ -681,7 +677,7 @@ export default function ReservationsFormClientContainer({
                                 type='number'
                                 min='0'
                                 size='3'
-                                {...register(`hotels.${i}.price.nightly`, {
+                                {...register(`hotels.${i}.nightly_rate`, {
                                   required: isDirtyField('hotels') && true,
                                   valueAsNumber: true
                                 })}
@@ -691,7 +687,7 @@ export default function ReservationsFormClientContainer({
                                 type='number'
                                 min='0'
                                 size='3'
-                                {...register(`hotels.${i}.price.deposit`, {
+                                {...register(`hotels.${i}.deposit`, {
                                   required: isDirtyField('hotels') && true,
                                   valueAsNumber: true
                                 })}
@@ -701,7 +697,7 @@ export default function ReservationsFormClientContainer({
                                 type='number'
                                 size='3'
                                 readOnly
-                                {...register(`hotels.${i}.price.balance`, {
+                                {...register(`hotels.${i}.balance`, {
                                   valueAsNumber: true
                                 })}
                               />
@@ -710,7 +706,7 @@ export default function ReservationsFormClientContainer({
                                 type='number'
                                 size='3'
                                 readOnly
-                                {...register(`hotels.${i}.price.total`, {
+                                {...register(`hotels.${i}.total_amount`, {
                                   valueAsNumber: true
                                 })}
                               />
