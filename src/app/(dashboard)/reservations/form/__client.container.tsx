@@ -294,9 +294,21 @@ export default function ReservationsFormClientContainer({
                       </Flex>
                       <Grid align='center' columns='60px 1fr 70px 1fr' gap='3'>
                         <Text weight='medium'>이름</Text>
-                        <TextField.Root
-                          size='3'
-                          {...register(`clients.${i}.korean_name`, { required: true })}
+                        <Controller
+                          name={`clients.${i}.korean_name`}
+                          control={control}
+                          render={({ field }) => (
+                            <TextField.Root
+                              size='3'
+                              value={field.value}
+                              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                field.onChange(e.target.value);
+                                if (i === reservationIndex) {
+                                  setValue('main_client_name', e.target.value);
+                                }
+                              }}
+                            />
+                          )}
                         />
 
                         <Text weight='medium'>이름(영문)</Text>
