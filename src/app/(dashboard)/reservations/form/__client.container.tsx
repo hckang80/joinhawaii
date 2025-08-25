@@ -196,11 +196,7 @@ export default function ReservationsFormClientContainer({
     }
   });
 
-  const isClientsDirty = !!dirtyFields.clients?.length;
-  const isFlightsDirty = !!dirtyFields.flights?.length;
-  const isHotelsDirty = !!dirtyFields.hotels?.length;
-  const isToursDirty = !!dirtyFields.tours?.length;
-  const isCarsDirty = !!dirtyFields.cars?.length;
+  const isDirtyField = (field: keyof ReservationFormData) => !!dirtyFields[field]?.length;
 
   const reservationIndex = use$(status$.reservationIndex);
   const mainClientName = getValues('clients')[reservationIndex].korean_name;
@@ -372,7 +368,9 @@ export default function ReservationsFormClientContainer({
                   </Button>
                 )}
               </Flex>
-              <pre>{JSON.stringify({ isDirty: isClientsDirty, ...watch('clients') }, null, 2)}</pre>
+              <pre>
+                {JSON.stringify({ isDirty: isDirtyField('clients'), ...watch('clients') }, null, 2)}
+              </pre>
             </section>
           </Card>
 
@@ -393,7 +391,9 @@ export default function ReservationsFormClientContainer({
                           <Text weight='medium'>항공편명</Text>
                           <TextField.Root
                             size='3'
-                            {...register(`flights.${i}.flight_number`, { required: true })}
+                            {...register(`flights.${i}.flight_number`, {
+                              required: isDirtyField('flights') && true
+                            })}
                           />
                         </Grid>
                       </Container>
@@ -402,27 +402,35 @@ export default function ReservationsFormClientContainer({
                       <TextField.Root
                         size='3'
                         type='datetime-local'
-                        {...register(`flights.${i}.departure_datetime`, { required: true })}
+                        {...register(`flights.${i}.departure_datetime`, {
+                          required: isDirtyField('flights') && true
+                        })}
                       />
 
                       <Text weight='medium'>출발지</Text>
                       <TextField.Root
                         size='3'
                         readOnly={!i}
-                        {...register(`flights.${i}.departure_city`, { required: true })}
+                        {...register(`flights.${i}.departure_city`, {
+                          required: isDirtyField('flights') && true
+                        })}
                       />
 
                       <Text weight='medium'>도착 시간</Text>
                       <TextField.Root
                         size='3'
                         type='datetime-local'
-                        {...register(`flights.${i}.arrival_datetime`, { required: true })}
+                        {...register(`flights.${i}.arrival_datetime`, {
+                          required: isDirtyField('flights') && true
+                        })}
                       />
 
                       <Text weight='medium'>도착지</Text>
                       <TextField.Root
                         size='3'
-                        {...register(`flights.${i}.arrival_city`, { required: true })}
+                        {...register(`flights.${i}.arrival_city`, {
+                          required: isDirtyField('flights') && true
+                        })}
                       />
 
                       <Text weight='medium'>인원</Text>
@@ -433,7 +441,7 @@ export default function ReservationsFormClientContainer({
                           min='0'
                           size='3'
                           {...register(`flights.${i}.capacity.adult`, {
-                            required: true,
+                            required: isDirtyField('flights') && true,
                             valueAsNumber: true
                           })}
                         />
@@ -443,7 +451,7 @@ export default function ReservationsFormClientContainer({
                           min='0'
                           size='3'
                           {...register(`flights.${i}.capacity.children`, {
-                            required: true,
+                            required: isDirtyField('flights') && true,
                             valueAsNumber: true
                           })}
                         />
@@ -457,7 +465,7 @@ export default function ReservationsFormClientContainer({
                           min='0'
                           size='3'
                           {...register(`flights.${i}.price.adult`, {
-                            required: true,
+                            required: isDirtyField('flights') && true,
                             valueAsNumber: true
                           })}
                         />
@@ -467,7 +475,7 @@ export default function ReservationsFormClientContainer({
                           min='0'
                           size='3'
                           {...register(`flights.${i}.price.children`, {
-                            required: true,
+                            required: isDirtyField('flights') && true,
                             valueAsNumber: true
                           })}
                         />
@@ -520,7 +528,9 @@ export default function ReservationsFormClientContainer({
                 </Button>
               </Flex>
 
-              <pre>{JSON.stringify({ isDirty: isFlightsDirty, ...watch('flights') }, null, 2)}</pre>
+              <pre>
+                {JSON.stringify({ isDirty: isDirtyField('flights'), ...watch('flights') }, null, 2)}
+              </pre>
             </section>
           </Card>
 
@@ -697,7 +707,9 @@ export default function ReservationsFormClientContainer({
                 </Flex>
               )}
 
-              <pre>{JSON.stringify({ isDirty: isHotelsDirty, ...watch('hotels') }, null, 2)}</pre>
+              <pre>
+                {JSON.stringify({ isDirty: isDirtyField('hotels'), ...watch('hotels') }, null, 2)}
+              </pre>
             </section>
           </Card>
 
@@ -845,7 +857,9 @@ export default function ReservationsFormClientContainer({
                 </Flex>
               )}
 
-              <pre>{JSON.stringify({ isDirty: isToursDirty, ...watch('tours') }, null, 2)}</pre>
+              <pre>
+                {JSON.stringify({ isDirty: isDirtyField('tours'), ...watch('tours') }, null, 2)}
+              </pre>
             </section>
           </Card>
 
@@ -1009,7 +1023,9 @@ export default function ReservationsFormClientContainer({
                 </Flex>
               )}
 
-              <pre>{JSON.stringify({ isDirty: isCarsDirty, ...watch('cars') }, null, 2)}</pre>
+              <pre>
+                {JSON.stringify({ isDirty: isDirtyField('cars'), ...watch('cars') }, null, 2)}
+              </pre>
             </section>
           </Card>
 
