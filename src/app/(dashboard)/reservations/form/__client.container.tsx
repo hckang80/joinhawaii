@@ -21,6 +21,7 @@ import {
   Heading,
   Radio,
   RadioCards,
+  Section,
   Text,
   TextArea,
   TextField
@@ -268,7 +269,7 @@ export default function ReservationsFormClientContainer({
       <Flex asChild direction='column' gap='5'>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Card asChild size='3'>
-            <section>
+            <Section>
               <Heading as='h3' mb='4'>
                 고객정보
               </Heading>
@@ -378,11 +379,11 @@ export default function ReservationsFormClientContainer({
               <pre>
                 {JSON.stringify({ isDirty: isDirtyField('clients'), ...watch('clients') }, null, 2)}
               </pre>
-            </section>
+            </Section>
           </Card>
 
           <Card asChild size='3'>
-            <section>
+            <Section>
               <Heading as='h3' mb='4'>
                 항공정보
               </Heading>
@@ -538,11 +539,11 @@ export default function ReservationsFormClientContainer({
               <pre>
                 {JSON.stringify({ isDirty: isDirtyField('flights'), ...watch('flights') }, null, 2)}
               </pre>
-            </section>
+            </Section>
           </Card>
 
           <Card asChild size='3'>
-            <section>
+            <Section>
               <Heading as='h3' mb='4'>
                 호텔
               </Heading>
@@ -716,11 +717,11 @@ export default function ReservationsFormClientContainer({
               <pre>
                 {JSON.stringify({ isDirty: isDirtyField('hotels'), ...watch('hotels') }, null, 2)}
               </pre>
-            </section>
+            </Section>
           </Card>
 
           <Card asChild size='3'>
-            <section>
+            <Section>
               <Heading as='h3' mb='4'>
                 선택관광
               </Heading>
@@ -863,11 +864,11 @@ export default function ReservationsFormClientContainer({
               <pre>
                 {JSON.stringify({ isDirty: isDirtyField('tours'), ...watch('tours') }, null, 2)}
               </pre>
-            </section>
+            </Section>
           </Card>
 
           <Card asChild size='3'>
-            <section>
+            <Section>
               <Heading as='h3' mb='4'>
                 렌터카
               </Heading>
@@ -1034,7 +1035,7 @@ export default function ReservationsFormClientContainer({
               <pre>
                 {JSON.stringify({ isDirty: isDirtyField('cars'), ...watch('cars') }, null, 2)}
               </pre>
-            </section>
+            </Section>
           </Card>
 
           <Flex justify='end'>
