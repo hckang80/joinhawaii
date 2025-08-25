@@ -27,14 +27,30 @@ export const updateReservationProducts = async (
   const updates = [];
 
   if (products.clients?.length) {
-    updates.push(
-      supabase.from('clients').upsert(
-        products.clients.map(client => ({
-          ...client,
-          reservation_id: reservationId
-        }))
-      )
-    );
+    const existingClients = products.clients.filter(client => client.id);
+    const newClients = products.clients.filter(client => !client.id);
+
+    if (existingClients.length) {
+      updates.push(
+        supabase.from('clients').upsert(
+          existingClients.map(client => ({
+            ...client,
+            reservation_id: reservationId
+          }))
+        )
+      );
+    }
+
+    if (newClients.length) {
+      updates.push(
+        supabase.from('clients').insert(
+          newClients.map(client => ({
+            ...client,
+            reservation_id: reservationId
+          }))
+        )
+      );
+    }
   }
 
   const { data: reservation } = await supabase
@@ -55,14 +71,30 @@ export const updateReservationProducts = async (
   Object.entries(productTables).forEach(([key, table]) => {
     const items = products[key as keyof typeof productTables];
     if (items?.length) {
-      updates.push(
-        supabase.from(table).upsert(
-          items.map(item => ({
-            ...item,
-            reservation_id: reservation.id
-          }))
-        )
-      );
+      const existingItems = items.filter(item => item.id);
+      const newItems = items.filter(item => !item.id);
+
+      if (existingItems.length) {
+        updates.push(
+          supabase.from(table).upsert(
+            existingItems.map(item => ({
+              ...item,
+              reservation_id: reservation.id
+            }))
+          )
+        );
+      }
+
+      if (newItems.length) {
+        updates.push(
+          supabase.from(table).insert(
+            newItems.map(item => ({
+              ...item,
+              reservation_id: reservation.id
+            }))
+          )
+        );
+      }
     }
   });
 

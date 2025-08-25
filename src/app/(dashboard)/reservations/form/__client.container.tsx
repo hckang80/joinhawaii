@@ -210,6 +210,7 @@ export default function ReservationsFormClientContainer({
         },
         body: JSON.stringify({
           ...data,
+          flights: isDirtyField('flights') ? data.flights : [],
           main_client_name: mainClientName
         })
       });
