@@ -495,7 +495,7 @@ export default function ReservationsFormClientContainer({
                         />
                       </Grid>
 
-                      <Container gridColumn='1 / -1'>
+                      <Box gridColumn='1 / -1'>
                         <Grid align='center' columns='60px 1fr' gap='3'>
                           <Text weight='medium'>요금 상세</Text>
                           <Flex align='center' gap='3'>
@@ -529,7 +529,7 @@ export default function ReservationsFormClientContainer({
                             />
                           </Flex>
                         </Grid>
-                      </Container>
+                      </Box>
                     </Grid>
                   </div>
                 ))}
