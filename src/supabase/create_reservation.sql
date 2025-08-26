@@ -14,6 +14,10 @@ AS $$
 DECLARE
     v_id BIGINT;
     v_total_amount INTEGER := 0;
+    v_flights_total INTEGER := 0;
+    v_hotels_total INTEGER := 0;
+    v_tours_total INTEGER := 0;
+    v_cars_total INTEGER := 0;
 BEGIN
     -- 예약 생성
     INSERT INTO reservations (
@@ -51,6 +55,26 @@ BEGIN
         (value->>'email')::TEXT,
         (value->>'notes')::TEXT
     FROM jsonb_array_elements(p_clients);
+
+    -- 먼저 입력 데이터에서 total_amount 계산
+    SELECT COALESCE(SUM((value->>'total_amount')::INTEGER), 0)
+    INTO v_flights_total
+    FROM jsonb_array_elements(p_flights);
+
+    SELECT COALESCE(SUM((value->>'total_amount')::INTEGER), 0)
+    INTO v_hotels_total
+    FROM jsonb_array_elements(p_hotels);
+
+    SELECT COALESCE(SUM((value->>'total_amount')::INTEGER), 0)
+    INTO v_tours_total
+    FROM jsonb_array_elements(p_tours);
+
+    SELECT COALESCE(SUM((value->>'total_amount')::INTEGER), 0)
+    INTO v_cars_total
+    FROM jsonb_array_elements(p_cars);
+
+    -- 전체 합계 계산
+    v_total_amount := v_flights_total + v_hotels_total + v_tours_total + v_cars_total;
 
     -- 항공권 정보 입력
     IF jsonb_array_length(p_flights) > 0 THEN
@@ -224,34 +248,10 @@ BEGIN
         FROM jsonb_array_elements(p_cars);
     END IF;
     
-    -- 항공권 합계
-    SELECT COALESCE(SUM(f.total_amount), 0)
-    INTO v_total_amount
-    FROM flights f
-    WHERE f.reservation_id = p_reservation_id;
-
-    -- 호텔 합계 추가
-    SELECT v_total_amount + COALESCE(SUM(h.total_amount), 0)
-    INTO v_total_amount
-    FROM hotels h
-    WHERE h.reservation_id = p_reservation_id;
-
-    -- 투어 합계 추가
-    SELECT v_total_amount + COALESCE(SUM(t.total_amount), 0)
-    INTO v_total_amount
-    FROM tours t
-    WHERE t.reservation_id = p_reservation_id;
-
-    -- 렌터카 합계 추가
-    SELECT v_total_amount + COALESCE(SUM(c.total_amount), 0)
-    INTO v_total_amount
-    FROM rental_cars c
-    WHERE c.reservation_id = p_reservation_id;
-
-    -- 예약 총액 업데이트
+    -- reservations 테이블 total_amount 업데이트
     UPDATE reservations 
     SET total_amount = v_total_amount
-    WHERE reservation_id = p_reservation_id;
+    WHERE id = v_id;
 
     RETURN jsonb_build_object(
         'id', v_id,
