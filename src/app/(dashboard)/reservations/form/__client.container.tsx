@@ -190,7 +190,6 @@ export default function ReservationsFormClientContainer({
       ...(isModify && {
         reservation_id: data.reservation_id
       }),
-      total_amount: data?.total_amount || 0,
       clients: data?.clients || [defaultClientValues],
       flights: data?.products.flights.length
         ? data.products.flights
@@ -286,7 +285,7 @@ export default function ReservationsFormClientContainer({
               <Heading as='h3' mb='4'>
                 고객정보
               </Heading>
-              {isDev() && JSON.stringify(watch('total_amount'), null, 2)}
+              {isDev() && JSON.stringify(data?.total_amount, null, 2)}
               <br />
               {isDev() && JSON.stringify(watch('main_client_name'), null, 2)}
               <br />
