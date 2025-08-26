@@ -4,6 +4,14 @@ export function toReadableDate(date: Date, includeTime = false) {
   return date[rule]('ko-KR');
 }
 
+export function toReadableAmount(
+  amount: number,
+  locales: Intl.LocalesArgument = 'en-US',
+  currency: string = 'USD'
+) {
+  return amount.toLocaleString(locales, { style: 'currency', currency });
+}
+
 export function isDev() {
   return process.env.NODE_ENV === 'development';
 }

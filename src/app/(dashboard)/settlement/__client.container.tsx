@@ -1,5 +1,5 @@
 import type { AllProducts } from '@/types';
-import { isDev, statusLabel, toReadableDate } from '@/utils';
+import { isDev, statusLabel, toReadableAmount, toReadableDate } from '@/utils';
 import { Heading, Table } from '@radix-ui/themes';
 
 export default function SettlementClientContainer({ data }: { data: AllProducts[] }) {
@@ -37,10 +37,10 @@ export default function SettlementClientContainer({ data }: { data: AllProducts[
               <Table.Cell>
                 {typeof item.balance === 'number' && statusLabel(item.balance)}
               </Table.Cell>
+              <Table.Cell>{toReadableAmount(item.total_cost)}</Table.Cell>
+              <Table.Cell>{toReadableAmount(item.total_amount)}</Table.Cell>
               <Table.Cell>-</Table.Cell>
-              <Table.Cell>-</Table.Cell>
-              <Table.Cell>-</Table.Cell>
-              <Table.Cell>-</Table.Cell>
+              <Table.Cell>{toReadableAmount(item.total_amount - item.total_cost)}</Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>

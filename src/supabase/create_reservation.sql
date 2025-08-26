@@ -14,6 +14,10 @@ AS $$
 DECLARE
     v_id BIGINT;
     v_total_amount INTEGER := 0;
+    v_flights_total INTEGER := 0;
+    v_hotels_total INTEGER := 0;
+    v_tours_total INTEGER := 0;
+    v_cars_total INTEGER := 0;
 BEGIN
     -- 예약 생성
     INSERT INTO reservations (
@@ -52,6 +56,26 @@ BEGIN
         (value->>'notes')::TEXT
     FROM jsonb_array_elements(p_clients);
 
+    -- 먼저 입력 데이터에서 total_amount 계산
+    SELECT COALESCE(SUM((value->>'total_amount')::INTEGER), 0)
+    INTO v_flights_total
+    FROM jsonb_array_elements(p_flights);
+
+    SELECT COALESCE(SUM((value->>'total_amount')::INTEGER), 0)
+    INTO v_hotels_total
+    FROM jsonb_array_elements(p_hotels);
+
+    SELECT COALESCE(SUM((value->>'total_amount')::INTEGER), 0)
+    INTO v_tours_total
+    FROM jsonb_array_elements(p_tours);
+
+    SELECT COALESCE(SUM((value->>'total_amount')::INTEGER), 0)
+    INTO v_cars_total
+    FROM jsonb_array_elements(p_cars);
+
+    -- 전체 합계 계산
+    v_total_amount := v_flights_total + v_hotels_total + v_tours_total + v_cars_total;
+
     -- 항공권 정보 입력
     IF jsonb_array_length(p_flights) > 0 THEN
         INSERT INTO flights (
@@ -65,9 +89,14 @@ BEGIN
             children_count,
             adult_price,
             children_price,
-            deposit,
-            balance,
-            total_amount
+            adult_cost,
+            children_cost,
+            total_amount,
+            total_cost,
+            additional_item_name,
+            additional_item_cost,
+            additional_item_price,
+            notes
         )
         SELECT 
             p_reservation_id,
@@ -80,9 +109,14 @@ BEGIN
             (value->>'children_count')::INTEGER,
             (value->>'adult_price')::INTEGER,
             (value->>'children_price')::INTEGER,
-            (value->>'deposit')::INTEGER,
-            (value->>'balance')::INTEGER,
-            (value->>'total_amount')::INTEGER
+            (value->>'adult_cost')::INTEGER,
+            (value->>'children_cost')::INTEGER,
+            (value->>'total_amount')::INTEGER,
+            (value->>'total_cost')::INTEGER,
+            (value->>'additional_item_name')::TEXT,
+            (value->>'additional_item_cost')::INTEGER,
+            (value->>'additional_item_price')::INTEGER,
+            (value->>'notes')::TEXT
         FROM jsonb_array_elements(p_flights);
     END IF;
 
@@ -99,9 +133,13 @@ BEGIN
             is_resort_fee,
             nights,
             nightly_rate,
-            deposit,
-            balance,
-            total_amount
+            total_amount,
+            cost,
+            total_cost,
+            additional_item_name,
+            additional_item_cost,
+            additional_item_price,
+            notes
         )
         SELECT 
             p_reservation_id,
@@ -114,9 +152,13 @@ BEGIN
             (value->>'is_resort_fee')::BOOLEAN,
             (value->>'nights')::INTEGER,
             (value->>'nightly_rate')::INTEGER,
-            (value->>'deposit')::INTEGER,
-            (value->>'balance')::INTEGER,
-            (value->>'total_amount')::INTEGER
+            (value->>'total_amount')::INTEGER,
+            (value->>'cost')::INTEGER,
+            (value->>'total_cost')::INTEGER,
+            (value->>'additional_item_name')::TEXT,
+            (value->>'additional_item_cost')::INTEGER,
+            (value->>'additional_item_price')::INTEGER,
+            (value->>'notes')::TEXT
         FROM jsonb_array_elements(p_hotels);
     END IF;
 
@@ -132,9 +174,14 @@ BEGIN
             children_count,
             adult_price,
             children_price,
-            deposit,
-            balance,
-            total_amount
+            adult_cost,
+            children_cost,
+            total_amount,
+            total_cost,
+            additional_item_name,
+            additional_item_cost,
+            additional_item_price,
+            notes
         )
         SELECT 
             p_reservation_id,
@@ -146,9 +193,14 @@ BEGIN
             (value->>'children_count')::INTEGER,
             (value->>'adult_price')::INTEGER,
             (value->>'children_price')::INTEGER,
-            (value->>'deposit')::INTEGER,
-            (value->>'balance')::INTEGER,
-            (value->>'total_amount')::INTEGER
+            (value->>'adult_cost')::INTEGER,
+            (value->>'children_cost')::INTEGER,
+            (value->>'total_amount')::INTEGER,
+            (value->>'total_cost')::INTEGER,
+            (value->>'additional_item_name')::TEXT,
+            (value->>'additional_item_cost')::INTEGER,
+            (value->>'additional_item_price')::INTEGER,
+            (value->>'notes')::TEXT
         FROM jsonb_array_elements(p_tours);
     END IF;
 
@@ -166,9 +218,13 @@ BEGIN
             pickup_time,
             rental_days,
             daily_rate,
-            deposit,
-            balance,
-            total_amount
+            total_amount,
+            cost,
+            total_cost,
+            additional_item_name,
+            additional_item_cost,
+            additional_item_price,
+            notes
         )
         SELECT 
             p_reservation_id,
@@ -182,27 +238,17 @@ BEGIN
             (value->>'pickup_time')::TIME,
             (value->>'rental_days')::INTEGER,
             (value->>'daily_rate')::INTEGER,
-            (value->>'deposit')::INTEGER,
-            (value->>'balance')::INTEGER,
-            (value->>'total_amount')::INTEGER
+            (value->>'total_amount')::INTEGER,
+            (value->>'cost')::INTEGER,
+            (value->>'total_amount')::INTEGER,
+            (value->>'additional_item_name')::TEXT,
+            (value->>'additional_item_cost')::INTEGER,
+            (value->>'additional_item_price')::INTEGER,
+            (value->>'notes')::TEXT
         FROM jsonb_array_elements(p_cars);
     END IF;
     
-    SELECT COALESCE(SUM(amount), 0) INTO v_total_amount 
-    FROM (
-        SELECT (value->>'total_amount')::INTEGER as amount 
-        FROM jsonb_array_elements(p_flights)
-        UNION ALL
-        SELECT (value->>'total_amount')::INTEGER as amount 
-        FROM jsonb_array_elements(p_hotels)
-        UNION ALL
-        SELECT (value->>'total_amount')::INTEGER as amount 
-        FROM jsonb_array_elements(p_tours)
-        UNION ALL
-        SELECT (value->>'total_amount')::INTEGER as amount 
-        FROM jsonb_array_elements(p_cars)
-    ) amounts;
-
+    -- reservations 테이블 total_amount 업데이트
     UPDATE reservations 
     SET total_amount = v_total_amount
     WHERE id = v_id;
