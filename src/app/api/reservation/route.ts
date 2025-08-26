@@ -124,16 +124,6 @@ export async function PATCH(request: Request) {
 
     const supabase = await createClient<Database>();
 
-    const { data: updatedReservation, error } = await supabase
-      .from('reservations')
-      .update(updates)
-      .eq('reservation_id', reservation_id)
-      .select()
-      .single();
-
-    if (error) throw error;
-    if (!updatedReservation) throw new Error('예약 정보를 찾을 수 없습니다.');
-
     await updateReservationProducts(supabase, reservation_id, {
       clients,
       flights,
@@ -141,6 +131,23 @@ export async function PATCH(request: Request) {
       tours,
       cars
     });
+
+    const { data: totalAmounts } = await supabase.rpc('calculate_reservation_total', {
+      p_reservation_id: reservation_id
+    });
+
+    const { data: updatedReservation, error } = await supabase
+      .from('reservations')
+      .update({
+        ...updates,
+        total_amount: totalAmounts.total_amount
+      })
+      .eq('reservation_id', reservation_id)
+      .select()
+      .single();
+
+    if (error) throw error;
+    if (!updatedReservation) throw new Error('예약 정보를 찾을 수 없습니다.');
 
     return NextResponse.json({
       success: true,
