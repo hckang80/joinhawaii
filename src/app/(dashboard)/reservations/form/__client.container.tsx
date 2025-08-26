@@ -533,6 +533,35 @@ export default function ReservationsFormClientContainer({
 
                       <Box gridColumn='1 / -1'>
                         <Grid align='center' columns='60px 1fr' gap='3'>
+                          <Text weight='medium'>추가 요금</Text>
+                          <Flex align='center' gap='3'>
+                            <Text wrap='nowrap'>항목명</Text>
+                            <TextField.Root
+                              size='3'
+                              {...register(`flights.${i}.additional_item_name`)}
+                            />
+                            <Text wrap='nowrap'>원가</Text>
+                            <TextField.Root
+                              type='number'
+                              size='3'
+                              {...register(`flights.${i}.additional_item_cost`, {
+                                valueAsNumber: true
+                              })}
+                            />
+                            <Text wrap='nowrap'>판매가</Text>
+                            <TextField.Root
+                              type='number'
+                              size='3'
+                              {...register(`flights.${i}.additional_item_price`, {
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                        </Grid>
+                      </Box>
+
+                      <Box gridColumn='1 / -1'>
+                        <Grid align='center' columns='60px 1fr' gap='3'>
                           <Text weight='medium' mb='2'>
                             비고
                           </Text>
@@ -725,6 +754,35 @@ export default function ReservationsFormClientContainer({
 
                         <Box gridColumn='1 / -1'>
                           <Grid align='center' columns='60px 1fr' gap='3'>
+                            <Text weight='medium'>추가 요금</Text>
+                            <Flex align='center' gap='3'>
+                              <Text wrap='nowrap'>항목명</Text>
+                              <TextField.Root
+                                size='3'
+                                {...register(`hotels.${i}.additional_item_name`)}
+                              />
+                              <Text wrap='nowrap'>원가</Text>
+                              <TextField.Root
+                                type='number'
+                                size='3'
+                                {...register(`hotels.${i}.additional_item_cost`, {
+                                  valueAsNumber: true
+                                })}
+                              />
+                              <Text wrap='nowrap'>판매가</Text>
+                              <TextField.Root
+                                type='number'
+                                size='3'
+                                {...register(`hotels.${i}.additional_item_price`, {
+                                  valueAsNumber: true
+                                })}
+                              />
+                            </Flex>
+                          </Grid>
+                        </Box>
+
+                        <Box gridColumn='1 / -1'>
+                          <Grid align='center' columns='60px 1fr' gap='3'>
                             <Text weight='medium' mb='2'>
                               비고
                             </Text>
@@ -875,6 +933,35 @@ export default function ReservationsFormClientContainer({
                               size='3'
                               readOnly
                               {...register(`tours.${i}.total_amount`, {
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                        </Grid>
+                      </Box>
+
+                      <Box gridColumn='1 / -1'>
+                        <Grid align='center' columns='60px 1fr' gap='3'>
+                          <Text weight='medium'>추가 요금</Text>
+                          <Flex align='center' gap='3'>
+                            <Text wrap='nowrap'>항목명</Text>
+                            <TextField.Root
+                              size='3'
+                              {...register(`tours.${i}.additional_item_name`)}
+                            />
+                            <Text wrap='nowrap'>원가</Text>
+                            <TextField.Root
+                              type='number'
+                              size='3'
+                              {...register(`tours.${i}.additional_item_cost`, {
+                                valueAsNumber: true
+                              })}
+                            />
+                            <Text wrap='nowrap'>판매가</Text>
+                            <TextField.Root
+                              type='number'
+                              size='3'
+                              {...register(`tours.${i}.additional_item_price`, {
                                 valueAsNumber: true
                               })}
                             />
@@ -1056,6 +1143,35 @@ export default function ReservationsFormClientContainer({
                                 size='3'
                                 readOnly
                                 {...register(`cars.${i}.total_amount`, {
+                                  valueAsNumber: true
+                                })}
+                              />
+                            </Flex>
+                          </Grid>
+                        </Box>
+
+                        <Box gridColumn='1 / -1'>
+                          <Grid align='center' columns='60px 1fr' gap='3'>
+                            <Text weight='medium'>추가 요금</Text>
+                            <Flex align='center' gap='3'>
+                              <Text wrap='nowrap'>항목명</Text>
+                              <TextField.Root
+                                size='3'
+                                {...register(`cars.${i}.additional_item_name`)}
+                              />
+                              <Text wrap='nowrap'>원가</Text>
+                              <TextField.Root
+                                type='number'
+                                size='3'
+                                {...register(`cars.${i}.additional_item_cost`, {
+                                  valueAsNumber: true
+                                })}
+                              />
+                              <Text wrap='nowrap'>판매가</Text>
+                              <TextField.Root
+                                type='number'
+                                size='3'
+                                {...register(`cars.${i}.additional_item_price`, {
                                   valueAsNumber: true
                                 })}
                               />
