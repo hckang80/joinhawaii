@@ -40,7 +40,7 @@ export default function SettlementClientContainer({ data }: { data: AllProducts[
               <Table.Cell>{toReadableAmount(item.total_cost)}</Table.Cell>
               <Table.Cell>{toReadableAmount(item.total_amount)}</Table.Cell>
               <Table.Cell>-</Table.Cell>
-              <Table.Cell>-</Table.Cell>
+              <Table.Cell>{toReadableAmount(item.total_amount - item.total_cost)}</Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
