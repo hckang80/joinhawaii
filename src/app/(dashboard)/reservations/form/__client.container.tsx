@@ -683,7 +683,17 @@ export default function ReservationsFormClientContainer({
                           <Grid align='center' columns='60px 1fr' gap='3'>
                             <Text weight='medium'>요금 상세</Text>
                             <Flex align='center' gap='3'>
-                              <Text wrap='nowrap'>1박요금</Text>
+                              <Text wrap='nowrap'>원가</Text>
+                              <TextField.Root
+                                type='number'
+                                min='0'
+                                size='3'
+                                {...register(`hotels.${i}.cost`, {
+                                  required: isDirtyField('hotels') && true,
+                                  valueAsNumber: true
+                                })}
+                              />
+                              <Text wrap='nowrap'>판매가(1박요금)</Text>
                               <TextField.Root
                                 type='number'
                                 min='0'
