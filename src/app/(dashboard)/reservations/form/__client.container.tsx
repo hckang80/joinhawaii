@@ -530,6 +530,15 @@ export default function ReservationsFormClientContainer({
                           </Flex>
                         </Grid>
                       </Box>
+
+                      <Box gridColumn='1 / -1'>
+                        <Grid align='center' columns='60px 1fr' gap='3'>
+                          <Text weight='medium' mb='2'>
+                            비고
+                          </Text>
+                          <TextArea {...register(`flights.${i}.notes`)} />
+                        </Grid>
+                      </Box>
                     </Grid>
                   </div>
                 ))}
@@ -713,6 +722,15 @@ export default function ReservationsFormClientContainer({
                             </Flex>
                           </Grid>
                         </Box>
+
+                        <Box gridColumn='1 / -1'>
+                          <Grid align='center' columns='60px 1fr' gap='3'>
+                            <Text weight='medium' mb='2'>
+                              비고
+                            </Text>
+                            <TextArea {...register(`hotels.${i}.notes`)} />
+                          </Grid>
+                        </Box>
                       </Grid>
                     </div>
                   );
@@ -861,6 +879,15 @@ export default function ReservationsFormClientContainer({
                               })}
                             />
                           </Flex>
+                        </Grid>
+                      </Box>
+
+                      <Box gridColumn='1 / -1'>
+                        <Grid align='center' columns='60px 1fr' gap='3'>
+                          <Text weight='medium' mb='2'>
+                            비고
+                          </Text>
+                          <TextArea {...register(`tours.${i}.notes`)} />
                         </Grid>
                       </Box>
                     </Grid>
@@ -1033,6 +1060,15 @@ export default function ReservationsFormClientContainer({
                                 })}
                               />
                             </Flex>
+                          </Grid>
+                        </Box>
+
+                        <Box gridColumn='1 / -1'>
+                          <Grid align='center' columns='60px 1fr' gap='3'>
+                            <Text weight='medium' mb='2'>
+                              비고
+                            </Text>
+                            <TextArea {...register(`cars.${i}.notes`)} />
                           </Grid>
                         </Box>
                       </Grid>
