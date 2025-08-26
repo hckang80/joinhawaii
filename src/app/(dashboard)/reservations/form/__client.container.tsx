@@ -233,7 +233,7 @@ export default function ReservationsFormClientContainer({
   };
 
   const addClient = () => {
-    setValue('clients', [...getValues('clients'), defaultClientValues]);
+    setValue('clients', [...watch('clients'), defaultClientValues]);
   };
 
   const handleChangeReservation = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -245,19 +245,19 @@ export default function ReservationsFormClientContainer({
   };
 
   const addDomesticFlight = () => {
-    setValue('flights', [...getValues('flights'), defaultFlightValues]);
+    setValue('flights', [...watch('flights'), defaultFlightValues]);
   };
 
   const addHotel = () => {
-    setValue('hotels', [...getValues('hotels'), defaultHotelValues]);
+    setValue('hotels', [...watch('hotels'), defaultHotelValues]);
   };
 
   const addTour = () => {
-    setValue('tours', [...getValues('tours'), defaultTourValues]);
+    setValue('tours', [...watch('tours'), defaultTourValues]);
   };
 
   const addCar = () => {
-    setValue('cars', [...getValues('cars'), defaultCarValues]);
+    setValue('cars', [...watch('cars'), defaultCarValues]);
   };
 
   return (
