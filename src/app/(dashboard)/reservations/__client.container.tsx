@@ -1,15 +1,9 @@
 import type { AllProducts } from '@/types';
-import { isDev, toReadableDate } from '@/utils';
+import { isDev, statusLabel, toReadableDate } from '@/utils';
 import { Button, Flex, Heading, Link as StyledLink, Table } from '@radix-ui/themes';
 import Link from 'next/link';
 
 export default function ReservationsClientContainer({ data }: { data: AllProducts[] }) {
-  const statusLabel = (balance: number) => {
-    if (balance === 0) return '완불';
-    if (balance > 0) return '예약금';
-    return '-';
-  };
-
   return (
     <div>
       <Heading as='h2' mb='4' size='7'>
@@ -39,7 +33,7 @@ export default function ReservationsClientContainer({ data }: { data: AllProduct
         <Table.Body>
           {data.map(item => (
             <Table.Row key={item.id + item.type}>
-              <Table.Cell>{item.id}</Table.Cell>
+              <Table.Cell>{item.reservation_id}</Table.Cell>
               <Table.Cell>{item.type}</Table.Cell>
               <Table.Cell>{item.main_client_name}</Table.Cell>
               <Table.Cell>

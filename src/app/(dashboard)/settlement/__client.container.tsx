@@ -1,8 +1,8 @@
-import type { ReservationResponse } from '@/types';
-import { isDev, toReadableDate } from '@/utils';
+import type { AllProducts } from '@/types';
+import { isDev, statusLabel, toReadableDate } from '@/utils';
 import { Heading, Table } from '@radix-ui/themes';
 
-export default function SettlementClientContainer({ data }: { data: ReservationResponse[] }) {
+export default function SettlementClientContainer({ data }: { data: AllProducts[] }) {
   return (
     <div>
       <Heading as='h2' mb='4' size='7'>
@@ -32,9 +32,11 @@ export default function SettlementClientContainer({ data }: { data: ReservationR
               <Table.Cell>{toReadableDate(new Date(item.created_at))}</Table.Cell>
               <Table.Cell>-</Table.Cell>
               <Table.Cell>{item.main_client_name}</Table.Cell>
+              <Table.Cell>{item.product_name}</Table.Cell>
               <Table.Cell>-</Table.Cell>
-              <Table.Cell>-</Table.Cell>
-              <Table.Cell>-</Table.Cell>
+              <Table.Cell>
+                {typeof item.balance === 'number' && statusLabel(item.balance)}
+              </Table.Cell>
               <Table.Cell>-</Table.Cell>
               <Table.Cell>-</Table.Cell>
               <Table.Cell>-</Table.Cell>
