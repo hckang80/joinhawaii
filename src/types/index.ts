@@ -169,6 +169,7 @@ export interface AllProducts {
   product_name: string;
   type: 'flight' | 'hotel' | 'tour' | 'rental_car';
   total_amount: number;
+  total_cost: number;
   [key: string]: unknown;
 }
 
