@@ -61,14 +61,19 @@ function FlightTotalCalculator({
       `flights.${index}.adult_count`,
       `flights.${index}.children_count`,
       `flights.${index}.adult_price`,
-      `flights.${index}.children_price`
+      `flights.${index}.children_price`,
+      `flights.${index}.adult_cost`,
+      `flights.${index}.children_cost`
     ]
   });
 
   useEffect(() => {
-    const [adultCapacity, childrenCapacity, adultPrice, childrenPrice] = watchedValues;
+    const [adultCapacity, childrenCapacity, adultPrice, childrenPrice, adultCost, childrenCost] =
+      watchedValues;
     const total = adultCapacity * adultPrice + childrenCapacity * childrenPrice;
+    const totalCost = adultCapacity * adultCost + childrenCapacity * childrenCost;
     setValue(`flights.${index}.total_amount`, total, { shouldValidate: true });
+    setValue(`flights.${index}.total_cost`, totalCost, { shouldValidate: true });
   }, [watchedValues, setValue, index]);
 
   return null;
@@ -85,13 +90,15 @@ function HotelTotalCalculator({
 }) {
   const watchedValues = useWatch({
     control,
-    name: [`hotels.${index}.nightly_rate`, `hotels.${index}.nights`]
+    name: [`hotels.${index}.nightly_rate`, `hotels.${index}.nights`, `hotels.${index}.cost`]
   });
 
   useEffect(() => {
-    const [nightly, nights] = watchedValues;
+    const [nightly, nights, cost] = watchedValues;
     const total = nightly * nights;
+    const totalCost = cost * nights;
     setValue(`hotels.${index}.total_amount`, total, { shouldValidate: true });
+    setValue(`hotels.${index}.total_cost`, totalCost, { shouldValidate: true });
   }, [watchedValues, setValue, index]);
 
   return null;
@@ -112,14 +119,25 @@ function TourTotalCalculator({
       `tours.${index}.adult_count`,
       `tours.${index}.children_count`,
       `tours.${index}.adult_price`,
-      `tours.${index}.children_price`
+      `tours.${index}.children_price`,
+      `tours.${index}.adult_cost`,
+      `tours.${index}.children_cost`
     ]
   });
 
   useEffect(() => {
-    const [adultParticipant, childrenParticipant, adultPrice, childrenPrice] = watchedValues;
+    const [
+      adultParticipant,
+      childrenParticipant,
+      adultPrice,
+      childrenPrice,
+      adultCost,
+      childrenCost
+    ] = watchedValues;
     const total = adultParticipant * adultPrice + childrenParticipant * childrenPrice;
+    const totalCost = adultParticipant * adultCost + childrenParticipant * childrenCost;
     setValue(`tours.${index}.total_amount`, total, { shouldValidate: true });
+    setValue(`tours.${index}.total_cost`, totalCost, { shouldValidate: true });
   }, [watchedValues, setValue, index]);
 
   return null;
@@ -136,13 +154,15 @@ function CarTotalCalculator({
 }) {
   const watchedValues = useWatch({
     control,
-    name: [`cars.${index}.daily_rate`, `cars.${index}.rental_days`]
+    name: [`cars.${index}.daily_rate`, `cars.${index}.rental_days`, `cars.${index}.cost`]
   });
 
   useEffect(() => {
-    const [nightly, rentalDays] = watchedValues;
+    const [nightly, rentalDays, cost] = watchedValues;
     const total = nightly * rentalDays;
+    const totalCost = cost * rentalDays;
     setValue(`cars.${index}.total_amount`, total, { shouldValidate: true });
+    setValue(`cars.${index}.total_cost`, totalCost, { shouldValidate: true });
   }, [watchedValues, setValue, index]);
 
   return null;
