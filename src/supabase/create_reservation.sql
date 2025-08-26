@@ -65,9 +65,14 @@ BEGIN
             children_count,
             adult_price,
             children_price,
-            deposit,
-            balance,
-            total_amount
+            adult_cost,
+            children_cost,
+            total_amount,
+            total_cost,
+            additional_item_name,
+            additional_item_cost,
+            additional_item_price,
+            notes
         )
         SELECT 
             p_reservation_id,
@@ -80,9 +85,14 @@ BEGIN
             (value->>'children_count')::INTEGER,
             (value->>'adult_price')::INTEGER,
             (value->>'children_price')::INTEGER,
-            (value->>'deposit')::INTEGER,
-            (value->>'balance')::INTEGER,
-            (value->>'total_amount')::INTEGER
+            (value->>'adult_cost')::INTEGER,
+            (value->>'children_cost')::INTEGER,
+            (value->>'total_amount')::INTEGER,
+            (value->>'total_cost')::INTEGER,
+            (value->>'additional_item_name')::TEXT,
+            (value->>'additional_item_cost')::INTEGER,
+            (value->>'additional_item_price')::INTEGER,
+            (value->>'notes')::TEXT
         FROM jsonb_array_elements(p_flights);
     END IF;
 
@@ -99,9 +109,13 @@ BEGIN
             is_resort_fee,
             nights,
             nightly_rate,
-            deposit,
-            balance,
-            total_amount
+            total_amount,
+            cost,
+            total_cost,
+            additional_item_name,
+            additional_item_cost,
+            additional_item_price,
+            notes
         )
         SELECT 
             p_reservation_id,
@@ -114,9 +128,13 @@ BEGIN
             (value->>'is_resort_fee')::BOOLEAN,
             (value->>'nights')::INTEGER,
             (value->>'nightly_rate')::INTEGER,
-            (value->>'deposit')::INTEGER,
-            (value->>'balance')::INTEGER,
-            (value->>'total_amount')::INTEGER
+            (value->>'total_amount')::INTEGER,
+            (value->>'cost')::INTEGER,
+            (value->>'total_cost')::INTEGER,
+            (value->>'additional_item_name')::TEXT,
+            (value->>'additional_item_cost')::INTEGER,
+            (value->>'additional_item_price')::INTEGER,
+            (value->>'notes')::TEXT
         FROM jsonb_array_elements(p_hotels);
     END IF;
 
@@ -132,9 +150,14 @@ BEGIN
             children_count,
             adult_price,
             children_price,
-            deposit,
-            balance,
-            total_amount
+            adult_cost,
+            children_cost,
+            total_amount,
+            total_cost,
+            additional_item_name,
+            additional_item_cost,
+            additional_item_price,
+            notes
         )
         SELECT 
             p_reservation_id,
@@ -146,9 +169,14 @@ BEGIN
             (value->>'children_count')::INTEGER,
             (value->>'adult_price')::INTEGER,
             (value->>'children_price')::INTEGER,
-            (value->>'deposit')::INTEGER,
-            (value->>'balance')::INTEGER,
-            (value->>'total_amount')::INTEGER
+            (value->>'adult_cost')::INTEGER,
+            (value->>'children_cost')::INTEGER,
+            (value->>'total_amount')::INTEGER,
+            (value->>'total_cost')::INTEGER,
+            (value->>'additional_item_name')::TEXT,
+            (value->>'additional_item_cost')::INTEGER,
+            (value->>'additional_item_price')::INTEGER,
+            (value->>'notes')::TEXT
         FROM jsonb_array_elements(p_tours);
     END IF;
 
@@ -166,9 +194,13 @@ BEGIN
             pickup_time,
             rental_days,
             daily_rate,
-            deposit,
-            balance,
-            total_amount
+            total_amount,
+            cost,
+            total_cost,
+            additional_item_name,
+            additional_item_cost,
+            additional_item_price,
+            notes
         )
         SELECT 
             p_reservation_id,
@@ -182,30 +214,44 @@ BEGIN
             (value->>'pickup_time')::TIME,
             (value->>'rental_days')::INTEGER,
             (value->>'daily_rate')::INTEGER,
-            (value->>'deposit')::INTEGER,
-            (value->>'balance')::INTEGER,
-            (value->>'total_amount')::INTEGER
+            (value->>'total_amount')::INTEGER,
+            (value->>'cost')::INTEGER,
+            (value->>'total_amount')::INTEGER,
+            (value->>'additional_item_name')::TEXT,
+            (value->>'additional_item_cost')::INTEGER,
+            (value->>'additional_item_price')::INTEGER,
+            (value->>'notes')::TEXT
         FROM jsonb_array_elements(p_cars);
     END IF;
     
-    SELECT COALESCE(SUM(amount), 0) INTO v_total_amount 
-    FROM (
-        SELECT (value->>'total_amount')::INTEGER as amount 
-        FROM jsonb_array_elements(p_flights)
-        UNION ALL
-        SELECT (value->>'total_amount')::INTEGER as amount 
-        FROM jsonb_array_elements(p_hotels)
-        UNION ALL
-        SELECT (value->>'total_amount')::INTEGER as amount 
-        FROM jsonb_array_elements(p_tours)
-        UNION ALL
-        SELECT (value->>'total_amount')::INTEGER as amount 
-        FROM jsonb_array_elements(p_cars)
-    ) amounts;
+    -- 항공권 합계
+    SELECT COALESCE(SUM(f.total_amount), 0)
+    INTO v_total_amount
+    FROM flights f
+    WHERE f.reservation_id = p_reservation_id;
 
+    -- 호텔 합계 추가
+    SELECT v_total_amount + COALESCE(SUM(h.total_amount), 0)
+    INTO v_total_amount
+    FROM hotels h
+    WHERE h.reservation_id = p_reservation_id;
+
+    -- 투어 합계 추가
+    SELECT v_total_amount + COALESCE(SUM(t.total_amount), 0)
+    INTO v_total_amount
+    FROM tours t
+    WHERE t.reservation_id = p_reservation_id;
+
+    -- 렌터카 합계 추가
+    SELECT v_total_amount + COALESCE(SUM(c.total_amount), 0)
+    INTO v_total_amount
+    FROM rental_cars c
+    WHERE c.reservation_id = p_reservation_id;
+
+    -- 예약 총액 업데이트
     UPDATE reservations 
     SET total_amount = v_total_amount
-    WHERE id = v_id;
+    WHERE reservation_id = p_reservation_id;
 
     RETURN jsonb_build_object(
         'id', v_id,
