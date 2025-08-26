@@ -61,17 +61,14 @@ function FlightTotalCalculator({
       `flights.${index}.adult_count`,
       `flights.${index}.children_count`,
       `flights.${index}.adult_price`,
-      `flights.${index}.children_price`,
-      `flights.${index}.deposit`
+      `flights.${index}.children_price`
     ]
   });
 
   useEffect(() => {
-    const [adultCapacity, childrenCapacity, adultPrice, childrenPrice, depositPrice] =
-      watchedValues;
+    const [adultCapacity, childrenCapacity, adultPrice, childrenPrice] = watchedValues;
     const total = adultCapacity * adultPrice + childrenCapacity * childrenPrice;
     setValue(`flights.${index}.total_amount`, total, { shouldValidate: true });
-    setValue(`flights.${index}.balance`, total - depositPrice, { shouldValidate: true });
   }, [watchedValues, setValue, index]);
 
   return null;
@@ -88,14 +85,13 @@ function HotelTotalCalculator({
 }) {
   const watchedValues = useWatch({
     control,
-    name: [`hotels.${index}.nightly_rate`, `hotels.${index}.nights`, `hotels.${index}.deposit`]
+    name: [`hotels.${index}.nightly_rate`, `hotels.${index}.nights`]
   });
 
   useEffect(() => {
-    const [nightly, nights, depositPrice] = watchedValues;
+    const [nightly, nights] = watchedValues;
     const total = nightly * nights;
     setValue(`hotels.${index}.total_amount`, total, { shouldValidate: true });
-    setValue(`hotels.${index}.balance`, total - depositPrice, { shouldValidate: true });
   }, [watchedValues, setValue, index]);
 
   return null;
@@ -116,17 +112,14 @@ function TourTotalCalculator({
       `tours.${index}.adult_count`,
       `tours.${index}.children_count`,
       `tours.${index}.adult_price`,
-      `tours.${index}.children_price`,
-      `tours.${index}.deposit`
+      `tours.${index}.children_price`
     ]
   });
 
   useEffect(() => {
-    const [adultParticipant, childrenParticipant, adultPrice, childrenPrice, depositPrice] =
-      watchedValues;
+    const [adultParticipant, childrenParticipant, adultPrice, childrenPrice] = watchedValues;
     const total = adultParticipant * adultPrice + childrenParticipant * childrenPrice;
     setValue(`tours.${index}.total_amount`, total, { shouldValidate: true });
-    setValue(`tours.${index}.balance`, total - depositPrice, { shouldValidate: true });
   }, [watchedValues, setValue, index]);
 
   return null;
@@ -143,14 +136,13 @@ function CarTotalCalculator({
 }) {
   const watchedValues = useWatch({
     control,
-    name: [`cars.${index}.daily_rate`, `cars.${index}.rental_days`, `cars.${index}.deposit`]
+    name: [`cars.${index}.daily_rate`, `cars.${index}.rental_days`]
   });
 
   useEffect(() => {
-    const [nightly, rentalDays, depositPrice] = watchedValues;
+    const [nightly, rentalDays] = watchedValues;
     const total = nightly * rentalDays;
     setValue(`cars.${index}.total_amount`, total, { shouldValidate: true });
-    setValue(`cars.${index}.balance`, total - depositPrice, { shouldValidate: true });
   }, [watchedValues, setValue, index]);
 
   return null;
@@ -447,6 +439,30 @@ export default function ReservationsFormClientContainer({
                         })}
                       />
 
+                      <Text weight='medium'>원가</Text>
+                      <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
+                        <span>성인</span>
+                        <TextField.Root
+                          type='number'
+                          min='0'
+                          size='3'
+                          {...register(`flights.${i}.adult_cost`, {
+                            required: isDirtyField('flights') && true,
+                            valueAsNumber: true
+                          })}
+                        />
+                        <span>소아</span>
+                        <TextField.Root
+                          type='number'
+                          min='0'
+                          size='3'
+                          {...register(`flights.${i}.children_cost`, {
+                            required: isDirtyField('flights') && true,
+                            valueAsNumber: true
+                          })}
+                        />
+                      </Grid>
+
                       <Text weight='medium'>인원</Text>
                       <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
                         <span>성인</span>
@@ -499,25 +515,6 @@ export default function ReservationsFormClientContainer({
                         <Grid align='center' columns='60px 1fr' gap='3'>
                           <Text weight='medium'>요금 상세</Text>
                           <Flex align='center' gap='3'>
-                            <Text wrap='nowrap'>예약금</Text>
-                            <TextField.Root
-                              type='number'
-                              min='0'
-                              size='3'
-                              {...register(`flights.${i}.deposit`, {
-                                required: true,
-                                valueAsNumber: true
-                              })}
-                            />
-                            <Text wrap='nowrap'>잔금</Text>
-                            <TextField.Root
-                              type='number'
-                              size='3'
-                              readOnly
-                              {...register(`flights.${i}.balance`, {
-                                valueAsNumber: true
-                              })}
-                            />
                             <Text wrap='nowrap'>합계</Text>
                             <TextField.Root
                               type='number'
@@ -528,6 +525,44 @@ export default function ReservationsFormClientContainer({
                               })}
                             />
                           </Flex>
+                        </Grid>
+                      </Box>
+
+                      <Box gridColumn='1 / -1'>
+                        <Grid align='center' columns='60px 1fr' gap='3'>
+                          <Text weight='medium'>추가 요금</Text>
+                          <Flex align='center' gap='3'>
+                            <Text wrap='nowrap'>항목명</Text>
+                            <TextField.Root
+                              size='3'
+                              {...register(`flights.${i}.additional_item_name`)}
+                            />
+                            <Text wrap='nowrap'>원가</Text>
+                            <TextField.Root
+                              type='number'
+                              size='3'
+                              {...register(`flights.${i}.additional_item_cost`, {
+                                valueAsNumber: true
+                              })}
+                            />
+                            <Text wrap='nowrap'>판매가</Text>
+                            <TextField.Root
+                              type='number'
+                              size='3'
+                              {...register(`flights.${i}.additional_item_price`, {
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                        </Grid>
+                      </Box>
+
+                      <Box gridColumn='1 / -1'>
+                        <Grid align='center' columns='60px 1fr' gap='3'>
+                          <Text weight='medium' mb='2'>
+                            비고
+                          </Text>
+                          <TextArea {...register(`flights.${i}.notes`)} />
                         </Grid>
                       </Box>
                     </Grid>
@@ -672,32 +707,23 @@ export default function ReservationsFormClientContainer({
                           <Grid align='center' columns='60px 1fr' gap='3'>
                             <Text weight='medium'>요금 상세</Text>
                             <Flex align='center' gap='3'>
-                              <Text wrap='nowrap'>1박요금</Text>
+                              <Text wrap='nowrap'>원가</Text>
+                              <TextField.Root
+                                type='number'
+                                min='0'
+                                size='3'
+                                {...register(`hotels.${i}.cost`, {
+                                  required: isDirtyField('hotels') && true,
+                                  valueAsNumber: true
+                                })}
+                              />
+                              <Text wrap='nowrap'>판매가(1박요금)</Text>
                               <TextField.Root
                                 type='number'
                                 min='0'
                                 size='3'
                                 {...register(`hotels.${i}.nightly_rate`, {
                                   required: isDirtyField('hotels') && true,
-                                  valueAsNumber: true
-                                })}
-                              />
-                              <Text wrap='nowrap'>예약금</Text>
-                              <TextField.Root
-                                type='number'
-                                min='0'
-                                size='3'
-                                {...register(`hotels.${i}.deposit`, {
-                                  required: isDirtyField('hotels') && true,
-                                  valueAsNumber: true
-                                })}
-                              />
-                              <Text wrap='nowrap'>잔금</Text>
-                              <TextField.Root
-                                type='number'
-                                size='3'
-                                readOnly
-                                {...register(`hotels.${i}.balance`, {
                                   valueAsNumber: true
                                 })}
                               />
@@ -711,6 +737,44 @@ export default function ReservationsFormClientContainer({
                                 })}
                               />
                             </Flex>
+                          </Grid>
+                        </Box>
+
+                        <Box gridColumn='1 / -1'>
+                          <Grid align='center' columns='60px 1fr' gap='3'>
+                            <Text weight='medium'>추가 요금</Text>
+                            <Flex align='center' gap='3'>
+                              <Text wrap='nowrap'>항목명</Text>
+                              <TextField.Root
+                                size='3'
+                                {...register(`hotels.${i}.additional_item_name`)}
+                              />
+                              <Text wrap='nowrap'>원가</Text>
+                              <TextField.Root
+                                type='number'
+                                size='3'
+                                {...register(`hotels.${i}.additional_item_cost`, {
+                                  valueAsNumber: true
+                                })}
+                              />
+                              <Text wrap='nowrap'>판매가</Text>
+                              <TextField.Root
+                                type='number'
+                                size='3'
+                                {...register(`hotels.${i}.additional_item_price`, {
+                                  valueAsNumber: true
+                                })}
+                              />
+                            </Flex>
+                          </Grid>
+                        </Box>
+
+                        <Box gridColumn='1 / -1'>
+                          <Grid align='center' columns='60px 1fr' gap='3'>
+                            <Text weight='medium' mb='2'>
+                              비고
+                            </Text>
+                            <TextArea {...register(`hotels.${i}.notes`)} />
                           </Grid>
                         </Box>
                       </Grid>
@@ -780,6 +844,30 @@ export default function ReservationsFormClientContainer({
                         })}
                       />
 
+                      <Text weight='medium'>원가</Text>
+                      <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
+                        <span>성인</span>
+                        <TextField.Root
+                          type='number'
+                          min='0'
+                          size='3'
+                          {...register(`tours.${i}.adult_cost`, {
+                            required: isDirtyField('tours') && true,
+                            valueAsNumber: true
+                          })}
+                        />
+                        <span>소아</span>
+                        <TextField.Root
+                          type='number'
+                          min='0'
+                          size='3'
+                          {...register(`tours.${i}.children_cost`, {
+                            required: isDirtyField('tours') && true,
+                            valueAsNumber: true
+                          })}
+                        />
+                      </Grid>
+
                       <Text weight='medium'>인원</Text>
                       <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
                         <span>성인</span>
@@ -832,25 +920,6 @@ export default function ReservationsFormClientContainer({
                         <Grid align='center' columns='60px 1fr' gap='3'>
                           <Text weight='medium'>요금 상세</Text>
                           <Flex align='center' gap='3'>
-                            <Text wrap='nowrap'>예약금</Text>
-                            <TextField.Root
-                              type='number'
-                              min='0'
-                              size='3'
-                              {...register(`tours.${i}.deposit`, {
-                                required: isDirtyField('tours') && true,
-                                valueAsNumber: true
-                              })}
-                            />
-                            <Text wrap='nowrap'>잔금</Text>
-                            <TextField.Root
-                              type='number'
-                              size='3'
-                              readOnly
-                              {...register(`tours.${i}.balance`, {
-                                valueAsNumber: true
-                              })}
-                            />
                             <Text wrap='nowrap'>합계</Text>
                             <TextField.Root
                               type='number'
@@ -861,6 +930,44 @@ export default function ReservationsFormClientContainer({
                               })}
                             />
                           </Flex>
+                        </Grid>
+                      </Box>
+
+                      <Box gridColumn='1 / -1'>
+                        <Grid align='center' columns='60px 1fr' gap='3'>
+                          <Text weight='medium'>추가 요금</Text>
+                          <Flex align='center' gap='3'>
+                            <Text wrap='nowrap'>항목명</Text>
+                            <TextField.Root
+                              size='3'
+                              {...register(`tours.${i}.additional_item_name`)}
+                            />
+                            <Text wrap='nowrap'>원가</Text>
+                            <TextField.Root
+                              type='number'
+                              size='3'
+                              {...register(`tours.${i}.additional_item_cost`, {
+                                valueAsNumber: true
+                              })}
+                            />
+                            <Text wrap='nowrap'>판매가</Text>
+                            <TextField.Root
+                              type='number'
+                              size='3'
+                              {...register(`tours.${i}.additional_item_price`, {
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                        </Grid>
+                      </Box>
+
+                      <Box gridColumn='1 / -1'>
+                        <Grid align='center' columns='60px 1fr' gap='3'>
+                          <Text weight='medium' mb='2'>
+                            비고
+                          </Text>
+                          <TextArea {...register(`tours.${i}.notes`)} />
                         </Grid>
                       </Box>
                     </Grid>
@@ -994,6 +1101,16 @@ export default function ReservationsFormClientContainer({
                           <Grid align='center' columns='60px 1fr' gap='3'>
                             <Text weight='medium'>요금 상세</Text>
                             <Flex align='center' gap='3'>
+                              <Text wrap='nowrap'>원가</Text>
+                              <TextField.Root
+                                type='number'
+                                min='0'
+                                size='3'
+                                {...register(`cars.${i}.cost`, {
+                                  required: isDirtyField('cars') && true,
+                                  valueAsNumber: true
+                                })}
+                              />
                               <Text wrap='nowrap'>1일요금</Text>
                               <TextField.Root
                                 type='number'
@@ -1001,25 +1118,6 @@ export default function ReservationsFormClientContainer({
                                 size='3'
                                 {...register(`cars.${i}.daily_rate`, {
                                   required: isDirtyField('cars') && true,
-                                  valueAsNumber: true
-                                })}
-                              />
-                              <Text wrap='nowrap'>예약금</Text>
-                              <TextField.Root
-                                type='number'
-                                min='0'
-                                size='3'
-                                {...register(`cars.${i}.deposit`, {
-                                  required: isDirtyField('cars') && true,
-                                  valueAsNumber: true
-                                })}
-                              />
-                              <Text wrap='nowrap'>잔금</Text>
-                              <TextField.Root
-                                type='number'
-                                size='3'
-                                readOnly
-                                {...register(`cars.${i}.balance`, {
                                   valueAsNumber: true
                                 })}
                               />
@@ -1033,6 +1131,44 @@ export default function ReservationsFormClientContainer({
                                 })}
                               />
                             </Flex>
+                          </Grid>
+                        </Box>
+
+                        <Box gridColumn='1 / -1'>
+                          <Grid align='center' columns='60px 1fr' gap='3'>
+                            <Text weight='medium'>추가 요금</Text>
+                            <Flex align='center' gap='3'>
+                              <Text wrap='nowrap'>항목명</Text>
+                              <TextField.Root
+                                size='3'
+                                {...register(`cars.${i}.additional_item_name`)}
+                              />
+                              <Text wrap='nowrap'>원가</Text>
+                              <TextField.Root
+                                type='number'
+                                size='3'
+                                {...register(`cars.${i}.additional_item_cost`, {
+                                  valueAsNumber: true
+                                })}
+                              />
+                              <Text wrap='nowrap'>판매가</Text>
+                              <TextField.Root
+                                type='number'
+                                size='3'
+                                {...register(`cars.${i}.additional_item_price`, {
+                                  valueAsNumber: true
+                                })}
+                              />
+                            </Flex>
+                          </Grid>
+                        </Box>
+
+                        <Box gridColumn='1 / -1'>
+                          <Grid align='center' columns='60px 1fr' gap='3'>
+                            <Text weight='medium' mb='2'>
+                              비고
+                            </Text>
+                            <TextArea {...register(`cars.${i}.notes`)} />
                           </Grid>
                         </Box>
                       </Grid>
