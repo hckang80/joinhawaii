@@ -23,7 +23,12 @@ export const defaultFlightValues = {
   children_price: 0,
   deposit: 0,
   balance: 0,
-  total_amount: 0
+  total_amount: 0,
+  cost: 0,
+  additional_item_name: '',
+  additional_item_cost: 0,
+  additional_item_price: 0,
+  notes: ''
 };
 
 export const defaultHotelValues = {
@@ -38,7 +43,12 @@ export const defaultHotelValues = {
   nightly_rate: 0,
   deposit: 0,
   balance: 0,
-  total_amount: 0
+  total_amount: 0,
+  cost: 0,
+  additional_item_name: '',
+  additional_item_cost: 0,
+  additional_item_price: 0,
+  notes: ''
 };
 
 export const defaultTourValues = {
@@ -52,7 +62,12 @@ export const defaultTourValues = {
   children_price: 0,
   deposit: 0,
   balance: 0,
-  total_amount: 0
+  total_amount: 0,
+  cost: 0,
+  additional_item_name: '',
+  additional_item_cost: 0,
+  additional_item_price: 0,
+  notes: ''
 };
 
 export const defaultCarValues = {
@@ -68,5 +83,10 @@ export const defaultCarValues = {
   daily_rate: 0,
   deposit: 0,
   balance: 0,
-  total_amount: 0
+  total_amount: 0,
+  cost: 0,
+  additional_item_name: '',
+  additional_item_cost: 0,
+  additional_item_price: 0,
+  notes: ''
 };
