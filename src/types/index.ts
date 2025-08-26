@@ -27,7 +27,10 @@ export type BaseRow = {
   created_at: string;
 };
 
-export type ReservationRequest = { main_client_name: string } & ReservationFormData;
+export type ReservationRequest = {
+  main_client_name: string;
+  total_amount: number;
+} & ReservationFormData;
 
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
