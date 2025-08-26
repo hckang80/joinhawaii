@@ -439,6 +439,30 @@ export default function ReservationsFormClientContainer({
                         })}
                       />
 
+                      <Text weight='medium'>원가</Text>
+                      <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
+                        <span>성인</span>
+                        <TextField.Root
+                          type='number'
+                          min='0'
+                          size='3'
+                          {...register(`flights.${i}.adult_cost`, {
+                            required: isDirtyField('flights') && true,
+                            valueAsNumber: true
+                          })}
+                        />
+                        <span>소아</span>
+                        <TextField.Root
+                          type='number'
+                          min='0'
+                          size='3'
+                          {...register(`flights.${i}.children_cost`, {
+                            required: isDirtyField('flights') && true,
+                            valueAsNumber: true
+                          })}
+                        />
+                      </Grid>
+
                       <Text weight='medium'>인원</Text>
                       <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
                         <span>성인</span>
@@ -819,6 +843,30 @@ export default function ReservationsFormClientContainer({
                           required: isDirtyField('tours') && true
                         })}
                       />
+
+                      <Text weight='medium'>원가</Text>
+                      <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
+                        <span>성인</span>
+                        <TextField.Root
+                          type='number'
+                          min='0'
+                          size='3'
+                          {...register(`tours.${i}.adult_cost`, {
+                            required: isDirtyField('tours') && true,
+                            valueAsNumber: true
+                          })}
+                        />
+                        <span>소아</span>
+                        <TextField.Root
+                          type='number'
+                          min='0'
+                          size='3'
+                          {...register(`tours.${i}.children_cost`, {
+                            required: isDirtyField('tours') && true,
+                            valueAsNumber: true
+                          })}
+                        />
+                      </Grid>
 
                       <Text weight='medium'>인원</Text>
                       <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
