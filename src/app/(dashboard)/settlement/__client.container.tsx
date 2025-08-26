@@ -17,7 +17,7 @@ export default function SettlementClientContainer({ data }: { data: AllProducts[
             <Table.ColumnHeaderCell>예약회사</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>고객명</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>상품명</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>상품상태</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>상품상세</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>결제상태</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>원가</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>판매가</Table.ColumnHeaderCell>
