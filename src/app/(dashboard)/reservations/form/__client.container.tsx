@@ -537,23 +537,6 @@ export default function ReservationsFormClientContainer({
 
                       <Box gridColumn='1 / -1'>
                         <Grid align='center' columns='60px 1fr' gap='3'>
-                          <Text weight='medium'>요금 상세</Text>
-                          <Flex align='center' gap='3'>
-                            <Text wrap='nowrap'>합계</Text>
-                            <TextField.Root
-                              type='number'
-                              size='3'
-                              readOnly
-                              {...register(`flights.${i}.total_amount`, {
-                                valueAsNumber: true
-                              })}
-                            />
-                          </Flex>
-                        </Grid>
-                      </Box>
-
-                      <Box gridColumn='1 / -1'>
-                        <Grid align='center' columns='60px 1fr' gap='3'>
                           <Text weight='medium'>추가 요금</Text>
                           <Flex align='center' gap='3'>
                             <Text wrap='nowrap'>항목명</Text>
@@ -751,15 +734,6 @@ export default function ReservationsFormClientContainer({
                                   valueAsNumber: true
                                 })}
                               />
-                              <Text wrap='nowrap'>합계</Text>
-                              <TextField.Root
-                                type='number'
-                                size='3'
-                                readOnly
-                                {...register(`hotels.${i}.total_amount`, {
-                                  valueAsNumber: true
-                                })}
-                              />
                             </Flex>
                           </Grid>
                         </Box>
@@ -939,23 +913,6 @@ export default function ReservationsFormClientContainer({
                           })}
                         />
                       </Grid>
-
-                      <Box gridColumn='1 / -1'>
-                        <Grid align='center' columns='60px 1fr' gap='3'>
-                          <Text weight='medium'>요금 상세</Text>
-                          <Flex align='center' gap='3'>
-                            <Text wrap='nowrap'>합계</Text>
-                            <TextField.Root
-                              type='number'
-                              size='3'
-                              readOnly
-                              {...register(`tours.${i}.total_amount`, {
-                                valueAsNumber: true
-                              })}
-                            />
-                          </Flex>
-                        </Grid>
-                      </Box>
 
                       <Box gridColumn='1 / -1'>
                         <Grid align='center' columns='60px 1fr' gap='3'>
@@ -1142,15 +1099,6 @@ export default function ReservationsFormClientContainer({
                                 size='3'
                                 {...register(`cars.${i}.daily_rate`, {
                                   required: isDirtyField('cars') && true,
-                                  valueAsNumber: true
-                                })}
-                              />
-                              <Text wrap='nowrap'>합계</Text>
-                              <TextField.Root
-                                type='number'
-                                size='3'
-                                readOnly
-                                {...register(`cars.${i}.total_amount`, {
                                   valueAsNumber: true
                                 })}
                               />
