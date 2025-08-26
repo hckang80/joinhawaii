@@ -38,7 +38,7 @@ export default function SettlementClientContainer({ data }: { data: AllProducts[
                 {typeof item.balance === 'number' && statusLabel(item.balance)}
               </Table.Cell>
               <Table.Cell>-</Table.Cell>
-              <Table.Cell>-</Table.Cell>
+              <Table.Cell>{item.total_amount}</Table.Cell>
               <Table.Cell>-</Table.Cell>
               <Table.Cell>-</Table.Cell>
             </Table.Row>
