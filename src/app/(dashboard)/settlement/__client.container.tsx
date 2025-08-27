@@ -1,6 +1,6 @@
 import type { AllProducts } from '@/types';
 import { isDev, statusLabel, toReadableAmount, toReadableDate } from '@/utils';
-import { Heading, Table } from '@radix-ui/themes';
+import { Heading, Link as StyledLink, Table } from '@radix-ui/themes';
 
 export default function SettlementClientContainer({ data }: { data: AllProducts[] }) {
   return (
@@ -32,7 +32,15 @@ export default function SettlementClientContainer({ data }: { data: AllProducts[
               <Table.Cell>{toReadableDate(new Date(item.created_at))}</Table.Cell>
               <Table.Cell>{item.booking_platform}</Table.Cell>
               <Table.Cell>{item.main_client_name}</Table.Cell>
-              <Table.Cell>{item.product_name}</Table.Cell>
+              <Table.Cell>
+                <StyledLink
+                  href={`/reservations/form?reservation_id=${item.reservation_id}#${item.type}`}
+                  underline='always'
+                  weight='medium'
+                >
+                  {item.product_name}
+                </StyledLink>
+              </Table.Cell>
               <Table.Cell>-</Table.Cell>
               <Table.Cell>
                 {typeof item.balance === 'number' && statusLabel(item.balance)}
