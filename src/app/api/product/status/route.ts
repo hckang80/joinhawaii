@@ -1,29 +1,14 @@
 import { createClient } from '@/lib/supabase/server';
-import type { Database, ProductStatus, ProductType } from '@/types';
+import type { Database, UpdateProductStatusParams } from '@/types';
 import { NextResponse } from 'next/server';
 
 export async function PATCH(request: Request) {
   try {
-    const body = await request.json();
-    const {
-      reservationId,
-      productType,
-      productId,
-      status
-    }: {
-      reservationId: string;
-      productType: ProductType;
-      productId: number;
-      status: ProductStatus;
-    } = body;
-
+    const params: UpdateProductStatusParams = await request.json();
     const supabase = await createClient<Database>();
 
     const { data, error } = await supabase.rpc('update_product_status', {
-      p_reservation_id: reservationId,
-      p_product_type: productType,
-      p_product_id: productId,
-      p_status: status
+      payload: params
     });
 
     if (error) throw error;

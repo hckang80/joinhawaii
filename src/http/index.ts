@@ -1,4 +1,4 @@
-import type { AllProducts, ProductStatus, ProductType, ReservationResponse } from '@/types';
+import type { AllProducts, ReservationResponse, UpdateProductStatusParams } from '@/types';
 
 export const fetchSettlement = async <T = ReservationResponse[]>(id?: string): Promise<T> => {
   try {
@@ -61,23 +61,13 @@ export const fetchProducts = async (): Promise<AllProducts[]> => {
   }
 };
 
-export const updateProductStatus = async (
-  reservationId: string,
-  productType: ProductType,
-  productId: number,
-  status: ProductStatus
-) => {
+export const updateProductStatus = async (params: UpdateProductStatusParams) => {
   const response = await fetch('/api/product/status', {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({
-      reservationId,
-      productType,
-      productId,
-      status
-    })
+    body: JSON.stringify(params)
   });
 
   if (!response.ok) {

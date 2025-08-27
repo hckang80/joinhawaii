@@ -25,3 +25,10 @@ export interface AllProducts {
 }
 
 export type ProductType = 'flight' | 'hotel' | 'tour' | 'rental_car';
+
+export interface UpdateProductStatusParams {
+  reservation_id: string;
+  product_type: ProductType;
+  product_id: number;
+  status: ProductStatus;
+}
