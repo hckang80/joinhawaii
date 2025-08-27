@@ -1,7 +1,9 @@
-import { ProductStatus } from '@/constants';
-import type { AllProducts } from '@/types';
+'use client';
+
+import { updateProductStatus } from '@/http';
+import { type AllProducts, ProductStatus } from '@/types';
 import { isDev, statusLabel, toReadableDate } from '@/utils';
-import { Button, Flex, Heading, Link as StyledLink, Table } from '@radix-ui/themes';
+import { Button, Flex, Heading, Select, Link as StyledLink, Table } from '@radix-ui/themes';
 import Link from 'next/link';
 
 export default function ReservationsClientContainer({ data }: { data: AllProducts[] }) {
@@ -48,7 +50,31 @@ export default function ReservationsClientContainer({ data }: { data: AllProduct
               </Table.Cell>
               <Table.Cell>{toReadableDate(new Date(item.event_date))}</Table.Cell>
               <Table.Cell>{toReadableDate(new Date(item.created_at))}</Table.Cell>
-              <Table.Cell>{ProductStatus[item.status]}</Table.Cell>
+              <Table.Cell>
+                <Flex direction='column' width='120px'>
+                  <Select.Root
+                    value={item.status}
+                    size='3'
+                    onValueChange={(value: ProductStatus) =>
+                      updateProductStatus({
+                        reservation_id: item.reservation_id,
+                        product_type: item.type,
+                        product_id: item.id,
+                        status: value
+                      })
+                    }
+                  >
+                    <Select.Trigger />
+                    <Select.Content>
+                      {Object.entries(ProductStatus).map(([key, label]) => (
+                        <Select.Item key={key} value={key}>
+                          {label}
+                        </Select.Item>
+                      ))}
+                    </Select.Content>
+                  </Select.Root>
+                </Flex>
+              </Table.Cell>
               <Table.Cell>
                 {typeof item.balance === 'number' && statusLabel(item.balance)}
               </Table.Cell>

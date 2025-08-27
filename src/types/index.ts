@@ -4,10 +4,10 @@ import {
   defaultFlightValues,
   defaultHotelValues,
   defaultTourValues,
-  ProductStatus,
   type Gender
 } from '../constants';
 
+export * from './product';
 export type Client = typeof defaultClientValues & { gender: Gender };
 export type Flight = typeof defaultFlightValues;
 export type Hotel = typeof defaultHotelValues;
@@ -166,21 +166,6 @@ export interface ReservationProducts {
 export type ReservationResponse = Reservation & { products: ReservationProducts };
 
 export type ReservationQueryResponse = Reservation & ReservationProducts;
-
-export interface AllProducts {
-  id: number;
-  reservation_id: string;
-  created_at: string;
-  event_date: string;
-  booking_platform: string;
-  main_client_name: string;
-  status: keyof typeof ProductStatus;
-  product_name: string;
-  type: 'flight' | 'hotel' | 'tour' | 'rental_car';
-  total_amount: number;
-  total_cost: number;
-  [key: string]: unknown;
-}
 
 export type ProductWithReservation<T> = {
   reservations: {

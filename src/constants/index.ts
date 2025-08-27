@@ -76,14 +76,3 @@ export const defaultCarValues = {
   cost: 0,
   notes: ''
 };
-
-export enum ProductStatus {
-  Pending = '예약요청',
-  InProgress = '예약진행',
-  Confirmed = '예약완료',
-  ChangeRequested = '변경요청',
-  CancelRequested = '취소요청',
-  Cancelled = '취소완료',
-  RefundRequested = '환불요청',
-  Refunded = '환불완료'
-}
