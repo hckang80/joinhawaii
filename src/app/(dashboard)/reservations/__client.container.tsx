@@ -1,3 +1,4 @@
+import { ProductStatus } from '@/constants';
 import type { AllProducts } from '@/types';
 import { isDev, statusLabel, toReadableDate } from '@/utils';
 import { Button, Flex, Heading, Link as StyledLink, Table } from '@radix-ui/themes';
@@ -47,7 +48,7 @@ export default function ReservationsClientContainer({ data }: { data: AllProduct
               </Table.Cell>
               <Table.Cell>{toReadableDate(new Date(item.event_date))}</Table.Cell>
               <Table.Cell>{toReadableDate(new Date(item.created_at))}</Table.Cell>
-              <Table.Cell>-</Table.Cell>
+              <Table.Cell>{ProductStatus[item.status]}</Table.Cell>
               <Table.Cell>
                 {typeof item.balance === 'number' && statusLabel(item.balance)}
               </Table.Cell>
