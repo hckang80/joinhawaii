@@ -13,7 +13,15 @@ export type Hotel = typeof defaultHotelValues;
 export type Tour = typeof defaultTourValues;
 export type Car = typeof defaultCarValues;
 
-export interface ReservationFormData {
+export type ReservationFormData = ReservationBaseInfo & ReservationItem;
+
+export interface ReservationBaseInfo {
+  booking_platform: string;
+  main_client_name: string;
+  total_amount: number;
+}
+
+export interface ReservationItem {
   clients: Client[];
   flights: Flight[];
   hotels: Hotel[];
@@ -27,10 +35,7 @@ export type BaseRow = {
   created_at: string;
 };
 
-export type ReservationRequest = {
-  main_client_name: string;
-  total_amount: number;
-} & ReservationFormData;
+export type ReservationRequest = ReservationFormData;
 
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
@@ -142,13 +147,11 @@ export type TablesRow<T extends keyof Database['public']['Tables']> =
 
 export type ReservationRow = TablesRow<'reservations'>;
 
-export interface Reservation {
+export interface Reservation extends ReservationBaseInfo {
   id: number;
   reservation_id: string;
   status: string;
   created_at: string;
-  main_client_name: string;
-  total_amount?: number;
   clients: TablesRow<'clients'>[];
 }
 
