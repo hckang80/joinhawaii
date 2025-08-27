@@ -1,5 +1,6 @@
 'use client';
 
+import { PRODUCT_STATUS_COLOR } from '@/constants';
 import { fetchProducts, updateProductStatus } from '@/http';
 import { ProductStatus, UpdateProductStatusParams } from '@/types';
 import { handleApiError, handleApiSuccess, isDev, statusLabel, toReadableDate } from '@/utils';
@@ -106,7 +107,7 @@ export default function ReservationsClientContainer() {
                       })
                     }
                   >
-                    <Select.Trigger />
+                    <Select.Trigger color={PRODUCT_STATUS_COLOR[item.status]} variant='soft' />
                     <Select.Content>
                       {Object.entries(ProductStatus).map(([key, label]) => (
                         <Select.Item key={key} value={key}>
