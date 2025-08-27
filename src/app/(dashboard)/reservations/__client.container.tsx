@@ -1,6 +1,6 @@
 'use client';
 
-import { PRODUCT_STATUS_COLOR } from '@/constants';
+import { PRODUCT_STATUS_COLOR, QUERY_KEYS } from '@/constants';
 import { fetchProducts, updateProductStatus } from '@/http';
 import { ProductStatus, UpdateProductStatusParams } from '@/types';
 import { handleApiError, handleApiSuccess, isDev, statusLabel, toReadableDate } from '@/utils';
@@ -8,13 +8,11 @@ import { Button, Flex, Heading, Select, Link as StyledLink, Table } from '@radix
 import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
-const QUERY_KEYS = ['product', 'list'];
-
 export default function ReservationsClientContainer() {
   const queryClient = useQueryClient();
 
   const { data } = useSuspenseQuery({
-    queryKey: QUERY_KEYS,
+    queryKey: QUERY_KEYS.products.all,
     queryFn: fetchProducts
   });
 
@@ -23,9 +21,9 @@ export default function ReservationsClientContainer() {
       return updateProductStatus(data);
     },
     onMutate: async newData => {
-      const previousProducts = queryClient.getQueryData(QUERY_KEYS);
+      const previousProducts = queryClient.getQueryData(QUERY_KEYS.products.all);
 
-      queryClient.setQueryData(QUERY_KEYS, (old: typeof data) => {
+      queryClient.setQueryData(QUERY_KEYS.products.all, (old: typeof data) => {
         return old.map(item => {
           if (item.id === newData.product_id && item.type === newData.product_type) {
             return {
@@ -41,7 +39,7 @@ export default function ReservationsClientContainer() {
     },
     onSuccess: handleApiSuccess,
     onError: (error, _newData, context) => {
-      queryClient.setQueryData(QUERY_KEYS, context?.previousProducts);
+      queryClient.setQueryData(QUERY_KEYS.products.all, context?.previousProducts);
       handleApiError(error);
     }
   });
