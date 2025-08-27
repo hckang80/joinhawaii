@@ -18,7 +18,7 @@ export interface ReservationFormData {
   flights: Flight[];
   hotels: Hotel[];
   tours: Tour[];
-  cars: Car[];
+  rental_cars: Car[];
 }
 
 export type BaseRow = {
@@ -105,7 +105,7 @@ export interface Database {
           created_at?: string;
         };
       };
-      cars: {
+      rental_cars: {
         Row: BaseRow & Car;
         Insert: Omit<Car, 'id'> & {
           reservation_id: number;
@@ -156,7 +156,7 @@ export interface ReservationProducts {
   flights: TablesRow<'flights'>[];
   hotels: TablesRow<'hotels'>[];
   tours: TablesRow<'tours'>[];
-  rental_cars: TablesRow<'cars'>[];
+  rental_cars: TablesRow<'rental_cars'>[];
 }
 
 export type ReservationResponse = Reservation & { products: ReservationProducts };
@@ -191,5 +191,5 @@ export interface ReservationUpdateRequest {
   flights?: Array<Partial<TablesRow<'flights'>> & { id?: number }>;
   hotels?: Array<Partial<TablesRow<'hotels'>> & { id?: number }>;
   tours?: Array<Partial<TablesRow<'tours'>> & { id?: number }>;
-  cars?: Array<Partial<TablesRow<'cars'>> & { id?: number }>;
+  rental_cars?: Array<Partial<TablesRow<'rental_cars'>> & { id?: number }>;
 }

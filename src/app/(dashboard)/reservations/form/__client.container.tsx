@@ -154,15 +154,19 @@ function CarTotalCalculator({
 }) {
   const watchedValues = useWatch({
     control,
-    name: [`cars.${index}.daily_rate`, `cars.${index}.rental_days`, `cars.${index}.cost`]
+    name: [
+      `rental_cars.${index}.daily_rate`,
+      `rental_cars.${index}.rental_days`,
+      `rental_cars.${index}.cost`
+    ]
   });
 
   useEffect(() => {
     const [nightly, rentalDays, cost] = watchedValues;
     const total = nightly * rentalDays;
     const totalCost = cost * rentalDays;
-    setValue(`cars.${index}.total_amount`, total, { shouldValidate: true });
-    setValue(`cars.${index}.total_cost`, totalCost, { shouldValidate: true });
+    setValue(`rental_cars.${index}.total_amount`, total, { shouldValidate: true });
+    setValue(`rental_cars.${index}.total_cost`, totalCost, { shouldValidate: true });
   }, [watchedValues, setValue, index]);
 
   return null;
@@ -201,7 +205,9 @@ export default function ReservationsFormClientContainer({
           ],
       hotels: data?.products.hotels.length ? data.products.hotels : [defaultHotelValues],
       tours: data?.products.tours.length ? data.products.tours : [defaultTourValues],
-      cars: data?.products.rental_cars.length ? data.products.rental_cars : [defaultCarValues]
+      rental_cars: data?.products.rental_cars.length
+        ? data.products.rental_cars
+        : [defaultCarValues]
     }
   });
 
@@ -224,7 +230,7 @@ export default function ReservationsFormClientContainer({
           flights: isDirtyField('flights') ? data.flights : [],
           hotels: isDirtyField('hotels') ? data.hotels : [],
           tours: isDirtyField('tours') ? data.tours : [],
-          cars: isDirtyField('cars') ? data.cars : [],
+          rental_cars: isDirtyField('rental_cars') ? data.rental_cars : [],
           main_client_name: mainClientName
         })
       });
@@ -269,7 +275,7 @@ export default function ReservationsFormClientContainer({
   };
 
   const addCar = () => {
-    setValue('cars', [...watch('cars'), defaultCarValues]);
+    setValue('rental_cars', [...watch('rental_cars'), defaultCarValues]);
   };
 
   return (
@@ -977,7 +983,7 @@ export default function ReservationsFormClientContainer({
               </Heading>
 
               <Flex direction='column' gap='5'>
-                {getValues('cars').map((_car, i) => {
+                {getValues('rental_cars').map((_car, i) => {
                   return (
                     <div key={i} className={styles.client}>
                       <CarTotalCalculator index={i} setValue={setValue} control={control} />
@@ -988,8 +994,8 @@ export default function ReservationsFormClientContainer({
                             <Text weight='medium'>지역</Text>
                             <TextField.Root
                               size='3'
-                              {...register(`cars.${i}.region`, {
-                                required: isDirtyField('cars') && true
+                              {...register(`rental_cars.${i}.region`, {
+                                required: isDirtyField('rental_cars') && true
                               })}
                             />
                           </Grid>
@@ -1003,8 +1009,8 @@ export default function ReservationsFormClientContainer({
                                 <TextField.Root
                                   type='date'
                                   size='3'
-                                  {...register(`cars.${i}.pickup_date`, {
-                                    required: isDirtyField('cars') && true
+                                  {...register(`rental_cars.${i}.pickup_date`, {
+                                    required: isDirtyField('rental_cars') && true
                                   })}
                                 />
                               </Container>
@@ -1012,8 +1018,8 @@ export default function ReservationsFormClientContainer({
                                 <TextField.Root
                                   type='date'
                                   size='3'
-                                  {...register(`cars.${i}.return_date`, {
-                                    required: isDirtyField('cars') && true
+                                  {...register(`rental_cars.${i}.return_date`, {
+                                    required: isDirtyField('rental_cars') && true
                                   })}
                                 />
                               </Container>
@@ -1024,16 +1030,16 @@ export default function ReservationsFormClientContainer({
                         <Text weight='medium'>차종</Text>
                         <TextField.Root
                           size='3'
-                          {...register(`cars.${i}.model`, {
-                            required: isDirtyField('cars') && true
+                          {...register(`rental_cars.${i}.model`, {
+                            required: isDirtyField('rental_cars') && true
                           })}
                         />
 
                         <Text weight='medium'>운전자</Text>
                         <TextField.Root
                           size='3'
-                          {...register(`cars.${i}.driver`, {
-                            required: isDirtyField('cars') && true
+                          {...register(`rental_cars.${i}.driver`, {
+                            required: isDirtyField('rental_cars') && true
                           })}
                         />
 
@@ -1042,8 +1048,8 @@ export default function ReservationsFormClientContainer({
                             <Text weight='medium'>조건</Text>
                             <TextField.Root
                               size='3'
-                              {...register(`cars.${i}.options`, {
-                                required: isDirtyField('cars') && true
+                              {...register(`rental_cars.${i}.options`, {
+                                required: isDirtyField('rental_cars') && true
                               })}
                             />
                           </Grid>
@@ -1052,8 +1058,8 @@ export default function ReservationsFormClientContainer({
                         <Text weight='medium'>픽업 장소</Text>
                         <TextField.Root
                           size='3'
-                          {...register(`cars.${i}.pickup_location`, {
-                            required: isDirtyField('cars') && true
+                          {...register(`rental_cars.${i}.pickup_location`, {
+                            required: isDirtyField('rental_cars') && true
                           })}
                         />
 
@@ -1061,8 +1067,8 @@ export default function ReservationsFormClientContainer({
                         <TextField.Root
                           type='time'
                           size='3'
-                          {...register(`cars.${i}.pickup_time`, {
-                            required: isDirtyField('cars') && true
+                          {...register(`rental_cars.${i}.pickup_time`, {
+                            required: isDirtyField('rental_cars') && true
                           })}
                         />
 
@@ -1071,8 +1077,8 @@ export default function ReservationsFormClientContainer({
                           type='number'
                           min='1'
                           size='3'
-                          {...register(`cars.${i}.rental_days`, {
-                            required: isDirtyField('cars') && true,
+                          {...register(`rental_cars.${i}.rental_days`, {
+                            required: isDirtyField('rental_cars') && true,
                             valueAsNumber: true
                           })}
                         />
@@ -1086,8 +1092,8 @@ export default function ReservationsFormClientContainer({
                                 type='number'
                                 min='0'
                                 size='3'
-                                {...register(`cars.${i}.cost`, {
-                                  required: isDirtyField('cars') && true,
+                                {...register(`rental_cars.${i}.cost`, {
+                                  required: isDirtyField('rental_cars') && true,
                                   valueAsNumber: true
                                 })}
                               />
@@ -1096,8 +1102,8 @@ export default function ReservationsFormClientContainer({
                                 type='number'
                                 min='0'
                                 size='3'
-                                {...register(`cars.${i}.daily_rate`, {
-                                  required: isDirtyField('cars') && true,
+                                {...register(`rental_cars.${i}.daily_rate`, {
+                                  required: isDirtyField('rental_cars') && true,
                                   valueAsNumber: true
                                 })}
                               />
@@ -1112,13 +1118,13 @@ export default function ReservationsFormClientContainer({
                               <Text wrap='nowrap'>항목명</Text>
                               <TextField.Root
                                 size='3'
-                                {...register(`cars.${i}.additional_item_name`)}
+                                {...register(`rental_cars.${i}.additional_item_name`)}
                               />
                               <Text wrap='nowrap'>원가</Text>
                               <TextField.Root
                                 type='number'
                                 size='3'
-                                {...register(`cars.${i}.additional_item_cost`, {
+                                {...register(`rental_cars.${i}.additional_item_cost`, {
                                   valueAsNumber: true
                                 })}
                               />
@@ -1126,7 +1132,7 @@ export default function ReservationsFormClientContainer({
                               <TextField.Root
                                 type='number'
                                 size='3'
-                                {...register(`cars.${i}.additional_item_price`, {
+                                {...register(`rental_cars.${i}.additional_item_price`, {
                                   valueAsNumber: true
                                 })}
                               />
@@ -1139,7 +1145,7 @@ export default function ReservationsFormClientContainer({
                             <Text weight='medium' mb='2'>
                               비고
                             </Text>
-                            <TextArea {...register(`cars.${i}.notes`)} />
+                            <TextArea {...register(`rental_cars.${i}.notes`)} />
                           </Grid>
                         </Box>
                       </Grid>
@@ -1157,7 +1163,11 @@ export default function ReservationsFormClientContainer({
 
               {isDev() && (
                 <pre>
-                  {JSON.stringify({ isDirty: isDirtyField('cars'), ...watch('cars') }, null, 2)}
+                  {JSON.stringify(
+                    { isDirty: isDirtyField('rental_cars'), ...watch('rental_cars') },
+                    null,
+                    2
+                  )}
                 </pre>
               )}
             </Section>
