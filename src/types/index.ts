@@ -171,6 +171,7 @@ export interface AllProducts {
   reservation_id: string;
   created_at: string;
   event_date: string;
+  booking_platform: string;
   main_client_name: string;
   product_name: string;
   type: 'flight' | 'hotel' | 'tour' | 'rental_car';
