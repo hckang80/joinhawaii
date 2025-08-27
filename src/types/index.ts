@@ -4,6 +4,7 @@ import {
   defaultFlightValues,
   defaultHotelValues,
   defaultTourValues,
+  ProductStatus,
   type Gender
 } from '../constants';
 
@@ -173,6 +174,7 @@ export interface AllProducts {
   event_date: string;
   booking_platform: string;
   main_client_name: string;
+  status: keyof typeof ProductStatus;
   product_name: string;
   type: 'flight' | 'hotel' | 'tour' | 'rental_car';
   total_amount: number;
