@@ -23,14 +23,12 @@ BEGIN
     -- 예약 생성
     INSERT INTO reservations (
         reservation_id,
-        status,
         created_at,
         main_client_name,
         booking_platform
     )
     VALUES (
         p_reservation_id,
-        'pending',
         NOW(),
         p_main_client_name,
         p_booking_platform
@@ -96,6 +94,7 @@ BEGIN
             children_cost,
             total_amount,
             total_cost,
+            status,
             notes
         )
         SELECT 
@@ -113,6 +112,7 @@ BEGIN
             (value->>'children_cost')::INTEGER,
             (value->>'total_amount')::INTEGER,
             (value->>'total_cost')::INTEGER,
+            'Pending'::product_status,
             (value->>'notes')::TEXT
         FROM jsonb_array_elements(p_flights);
     END IF;
@@ -133,6 +133,7 @@ BEGIN
             total_amount,
             cost,
             total_cost,
+            status,
             notes
         )
         SELECT 
@@ -149,6 +150,7 @@ BEGIN
             (value->>'total_amount')::INTEGER,
             (value->>'cost')::INTEGER,
             (value->>'total_cost')::INTEGER,
+            'Pending'::product_status,
             (value->>'notes')::TEXT
         FROM jsonb_array_elements(p_hotels);
     END IF;
@@ -169,6 +171,7 @@ BEGIN
             children_cost,
             total_amount,
             total_cost,
+            status,
             notes
         )
         SELECT 
@@ -185,6 +188,7 @@ BEGIN
             (value->>'children_cost')::INTEGER,
             (value->>'total_amount')::INTEGER,
             (value->>'total_cost')::INTEGER,
+            'Pending'::product_status,
             (value->>'notes')::TEXT
         FROM jsonb_array_elements(p_tours);
     END IF;
@@ -206,6 +210,7 @@ BEGIN
             total_amount,
             cost,
             total_cost,
+            status,
             notes
         )
         SELECT 
@@ -223,6 +228,7 @@ BEGIN
             (value->>'total_amount')::INTEGER,
             (value->>'cost')::INTEGER,
             (value->>'total_amount')::INTEGER,
+            'Pending'::product_status,
             (value->>'notes')::TEXT
         FROM jsonb_array_elements(p_cars);
     END IF;
