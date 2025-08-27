@@ -105,7 +105,9 @@ export default function ReservationsClientContainer() {
                       })
                     }
                   >
-                    <Select.Trigger color={PRODUCT_STATUS_COLOR[item.status]} variant='soft' />
+                    <Select.Trigger color={PRODUCT_STATUS_COLOR[item.status]} variant='soft'>
+                      {ProductStatus[item.status]}
+                    </Select.Trigger>
                     <Select.Content>
                       {Object.entries(ProductStatus).map(([key, label]) => (
                         <Select.Item key={key} value={key}>
