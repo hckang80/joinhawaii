@@ -27,7 +27,7 @@ export default function SettlementClientContainer({ data }: { data: AllProducts[
         </Table.Header>
         <Table.Body>
           {data.map(item => (
-            <Table.Row key={item.id}>
+            <Table.Row key={item.id + item.type}>
               <Table.Cell>{item.reservation_id}</Table.Cell>
               <Table.Cell>{toReadableDate(new Date(item.created_at))}</Table.Cell>
               <Table.Cell>{item.booking_platform}</Table.Cell>
