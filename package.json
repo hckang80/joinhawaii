@@ -18,6 +18,7 @@
     "@legendapp/state": "beta",
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.55.0",
+    "@tanstack/react-query": "^5.85.5",
     "lucide-react": "^0.540.0",
     "next": "15.4.6",
     "nextjs-toploader": "^3.8.16",
