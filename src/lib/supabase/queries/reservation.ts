@@ -21,7 +21,7 @@ export const updateReservationProducts = async (
     flights?: Array<Partial<TablesRow<'flights'>>>;
     hotels?: Array<Partial<TablesRow<'hotels'>>>;
     tours?: Array<Partial<TablesRow<'tours'>>>;
-    cars?: Array<Partial<TablesRow<'cars'>>>;
+    rental_cars?: Array<Partial<TablesRow<'rental_cars'>>>;
   }
 ) => {
   const updates = [];
@@ -65,7 +65,7 @@ export const updateReservationProducts = async (
     flights: 'flights',
     hotels: 'hotels',
     tours: 'tours',
-    cars: 'rental_cars'
+    rental_cars: 'rental_cars'
   } as const;
 
   Object.entries(productTables).forEach(([key, table]) => {

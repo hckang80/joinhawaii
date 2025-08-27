@@ -19,7 +19,10 @@ export async function GET() {
             main_client_name
           )
         `),
-      supabase.from('rental_cars').select<string, ProductWithReservation<TablesRow<'cars'>>>(`
+      supabase.from('rental_cars').select<
+        string,
+        ProductWithReservation<TablesRow<'rental_cars'>>
+      >(`
           *,
           reservations!rental_cars_reservation_id_fkey (
             main_client_name

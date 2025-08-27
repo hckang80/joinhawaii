@@ -37,7 +37,7 @@ export async function POST(request: Request) {
       p_flights: body.flights || [],
       p_hotels: body.hotels || [],
       p_tours: body.tours || [],
-      p_cars: body.cars || []
+      p_cars: body.rental_cars || []
     });
 
     if (error) {
@@ -115,7 +115,7 @@ export async function GET(request: Request) {
 
 export async function PATCH(request: Request) {
   try {
-    const { reservation_id, clients, flights, hotels, tours, cars, ...updates } =
+    const { reservation_id, clients, flights, hotels, tours, rental_cars, ...updates } =
       (await request.json()) as ReservationUpdateRequest;
 
     if (!reservation_id) {
@@ -129,7 +129,7 @@ export async function PATCH(request: Request) {
       flights,
       hotels,
       tours,
-      cars
+      rental_cars
     });
 
     const { data: totalAmounts } = await supabase.rpc('calculate_reservation_total', {
