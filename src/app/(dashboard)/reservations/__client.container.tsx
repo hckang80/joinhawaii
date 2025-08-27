@@ -1,5 +1,6 @@
 'use client';
 
+import { updateProductStatus } from '@/http';
 import { type AllProducts, ProductStatus } from '@/types';
 import { isDev, statusLabel, toReadableDate } from '@/utils';
 import { Button, Flex, Heading, Select, Link as StyledLink, Table } from '@radix-ui/themes';
@@ -51,7 +52,18 @@ export default function ReservationsClientContainer({ data }: { data: AllProduct
               <Table.Cell>{toReadableDate(new Date(item.created_at))}</Table.Cell>
               <Table.Cell>
                 <Flex direction='column' width='120px'>
-                  <Select.Root value={item.status} size='3'>
+                  <Select.Root
+                    value={item.status}
+                    size='3'
+                    onValueChange={(value: ProductStatus) =>
+                      updateProductStatus({
+                        reservation_id: item.reservation_id,
+                        product_type: item.type,
+                        product_id: item.id,
+                        status: value
+                      })
+                    }
+                  >
                     <Select.Trigger />
                     <Select.Content>
                       {Object.entries(ProductStatus).map(([key, label]) => (
