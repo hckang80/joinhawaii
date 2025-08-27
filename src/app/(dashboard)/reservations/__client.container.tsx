@@ -2,27 +2,18 @@
 
 import { updateProductStatus } from '@/http';
 import { type AllProducts, ProductStatus, UpdateProductStatusParams } from '@/types';
-import { isDev, statusLabel, toReadableDate } from '@/utils';
+import { handleApiError, handleApiSuccess, isDev, statusLabel, toReadableDate } from '@/utils';
 import { Button, Flex, Heading, Select, Link as StyledLink, Table } from '@radix-ui/themes';
 import { useMutation } from '@tanstack/react-query';
 import Link from 'next/link';
-import { toast } from 'react-toastify';
 
 export default function ReservationsClientContainer({ data }: { data: AllProducts[] }) {
   const updateMutation = useMutation({
     mutationFn: (data: UpdateProductStatusParams) => {
       return updateProductStatus(data);
     },
-    onSuccess: (data: unknown) => {
-      const message =
-        typeof data === 'object' && !!data && 'message' in data && typeof data.message === 'string'
-          ? data.message
-          : '요청에 성공했습니다.';
-      toast(message, { type: 'success' });
-    },
-    onError: error => {
-      console.error(error);
-    }
+    onSuccess: handleApiSuccess,
+    onError: handleApiError
   });
 
   const handleUpdateStatus = (data: UpdateProductStatusParams) => {

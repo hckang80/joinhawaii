@@ -1,3 +1,5 @@
+import { toast } from 'react-toastify';
+
 export function toReadableDate(date: Date, includeTime = false) {
   const rule = includeTime ? 'toLocaleString' : 'toLocaleDateString';
 
@@ -20,4 +22,16 @@ export const statusLabel = (balance: number) => {
   if (balance === 0) return '완불';
   if (balance > 0) return '예약금';
   return '-';
+};
+
+export const handleApiSuccess = (data: unknown) => {
+  const message =
+    typeof data === 'object' && !!data && 'message' in data && typeof data.message === 'string'
+      ? data.message
+      : '요청에 성공했습니다.';
+  toast(message, { type: 'success' });
+};
+
+export const handleApiError = (error: Error) => {
+  console.error(error);
 };
