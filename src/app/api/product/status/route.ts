@@ -1,6 +1,5 @@
-import { ProductStatus } from '@/constants';
 import { createClient } from '@/lib/supabase/server';
-import type { Database } from '@/types';
+import type { Database, ProductStatus, ProductType } from '@/types';
 import { NextResponse } from 'next/server';
 
 export async function PATCH(request: Request) {
@@ -13,7 +12,7 @@ export async function PATCH(request: Request) {
       status
     }: {
       reservationId: string;
-      productType: 'flight' | 'hotel' | 'tour' | 'rental_car';
+      productType: ProductType;
       productId: number;
       status: ProductStatus;
     } = body;

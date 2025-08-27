@@ -1,5 +1,4 @@
-import { ProductStatus } from '@/constants';
-import type { AllProducts } from '@/types';
+import { type AllProducts, ProductStatus } from '@/types';
 import { isDev, statusLabel, toReadableDate } from '@/utils';
 import { Button, Flex, Heading, Link as StyledLink, Table } from '@radix-ui/themes';
 import Link from 'next/link';
