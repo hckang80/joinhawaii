@@ -1091,7 +1091,7 @@ export default function ReservationsFormClientContainer({
                                   valueAsNumber: true
                                 })}
                               />
-                              <Text wrap='nowrap'>1일요금</Text>
+                              <Text wrap='nowrap'>판매가(1일요금)</Text>
                               <TextField.Root
                                 type='number'
                                 min='0'
