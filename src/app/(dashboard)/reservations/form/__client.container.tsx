@@ -24,6 +24,7 @@ import {
   Radio,
   RadioCards,
   Section,
+  Select,
   Text,
   TextArea,
   TextField
@@ -287,6 +288,39 @@ export default function ReservationsFormClientContainer({
 
       <Flex asChild direction='column' gap='5'>
         <form onSubmit={handleSubmit(onSubmit)}>
+          <Card asChild size='3'>
+            <Section>
+              <Heading as='h3' mb='4'>
+                기본정보
+              </Heading>
+
+              <Grid align='center' columns='60px 1fr 70px 1fr' gap='3'>
+                <Text weight='medium'>예약회사</Text>
+                <Controller
+                  name='booking_platform'
+                  control={control}
+                  render={({ field }) => (
+                    <Select.Root
+                      size='3'
+                      value={field.value}
+                      onValueChange={value => {
+                        field.onChange(value);
+                      }}
+                      name={field.name}
+                    >
+                      <Select.Trigger placeholder='예약회사 선택' />
+                      <Select.Content>
+                        <Select.Item value='마이리얼트립'>마이리얼트립</Select.Item>
+                        <Select.Item value='크리에이트립'>크리에이트립</Select.Item>
+                        <Select.Item value='와그'>와그</Select.Item>
+                      </Select.Content>
+                    </Select.Root>
+                  )}
+                />
+              </Grid>
+            </Section>
+          </Card>
+
           <Card asChild size='3'>
             <Section>
               <Heading as='h3' mb='4'>
