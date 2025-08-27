@@ -1,12 +1,29 @@
 'use client';
 
 import { updateProductStatus } from '@/http';
-import { type AllProducts, ProductStatus } from '@/types';
+import { type AllProducts, ProductStatus, UpdateProductStatusParams } from '@/types';
 import { isDev, statusLabel, toReadableDate } from '@/utils';
 import { Button, Flex, Heading, Select, Link as StyledLink, Table } from '@radix-ui/themes';
+import { useMutation } from '@tanstack/react-query';
 import Link from 'next/link';
 
 export default function ReservationsClientContainer({ data }: { data: AllProducts[] }) {
+  const updateMutation = useMutation({
+    mutationFn: (data: UpdateProductStatusParams) => {
+      return updateProductStatus(data);
+    },
+    onSuccess: ({ data }) => {
+      console.log({ data });
+    },
+    onError: error => {
+      console.error(error);
+    }
+  });
+
+  const handleUpdateStatus = (data: UpdateProductStatusParams) => {
+    updateMutation.mutateAsync(data);
+  };
+
   return (
     <div>
       <Heading as='h2' mb='4' size='7'>
@@ -56,7 +73,7 @@ export default function ReservationsClientContainer({ data }: { data: AllProduct
                     value={item.status}
                     size='3'
                     onValueChange={(value: ProductStatus) =>
-                      updateProductStatus({
+                      handleUpdateStatus({
                         reservation_id: item.reservation_id,
                         product_type: item.type,
                         product_id: item.id,

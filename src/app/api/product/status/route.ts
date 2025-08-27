@@ -13,10 +13,7 @@ export async function PATCH(request: Request) {
 
     if (error) throw error;
 
-    return NextResponse.json({
-      success: true,
-      data: data
-    });
+    return NextResponse.json(data);
   } catch (error) {
     console.error('상품 상태 업데이트 에러:', error);
     return NextResponse.json(
