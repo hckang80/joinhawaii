@@ -7,11 +7,13 @@ import { Button, Flex, Heading, Select, Link as StyledLink, Table } from '@radix
 import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
+const QUERY_KEYS = ['product', 'list'];
+
 export default function ReservationsClientContainer() {
   const queryClient = useQueryClient();
 
   const { data } = useSuspenseQuery({
-    queryKey: ['product', 'list'],
+    queryKey: QUERY_KEYS,
     queryFn: async () => fetchProducts()
   });
 
@@ -20,9 +22,9 @@ export default function ReservationsClientContainer() {
       return updateProductStatus(data);
     },
     onMutate: async newData => {
-      const previousProducts = queryClient.getQueryData(['product', 'list']);
+      const previousProducts = queryClient.getQueryData(QUERY_KEYS);
 
-      queryClient.setQueryData(['product', 'list'], (old: typeof data) => {
+      queryClient.setQueryData(QUERY_KEYS, (old: typeof data) => {
         return old.map(item => {
           if (item.id === newData.product_id && item.type === newData.product_type) {
             return {
@@ -38,7 +40,7 @@ export default function ReservationsClientContainer() {
     },
     onSuccess: handleApiSuccess,
     onError: (error, _newData, context) => {
-      queryClient.setQueryData(['product', 'list'], context?.previousProducts);
+      queryClient.setQueryData(QUERY_KEYS, context?.previousProducts);
       handleApiError(error);
     }
   });
