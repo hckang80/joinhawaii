@@ -34,6 +34,7 @@ export async function POST(request: Request) {
       p_reservation_id: reservationId,
       p_clients: body.clients,
       p_main_client_name: body.main_client_name,
+      p_booking_platform: body.booking_platform,
       p_flights: body.flights || [],
       p_hotels: body.hotels || [],
       p_tours: body.tours || [],

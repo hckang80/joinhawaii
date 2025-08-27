@@ -51,7 +51,7 @@ export default function ReservationsClientContainer({ data }: { data: AllProduct
               <Table.Cell>
                 {typeof item.balance === 'number' && statusLabel(item.balance)}
               </Table.Cell>
-              <Table.Cell>-</Table.Cell>
+              <Table.Cell>{item.booking_platform}</Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>

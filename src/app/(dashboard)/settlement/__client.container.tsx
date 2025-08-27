@@ -30,7 +30,7 @@ export default function SettlementClientContainer({ data }: { data: AllProducts[
             <Table.Row key={item.id}>
               <Table.Cell>{item.reservation_id}</Table.Cell>
               <Table.Cell>{toReadableDate(new Date(item.created_at))}</Table.Cell>
-              <Table.Cell>-</Table.Cell>
+              <Table.Cell>{item.booking_platform}</Table.Cell>
               <Table.Cell>{item.main_client_name}</Table.Cell>
               <Table.Cell>{item.product_name}</Table.Cell>
               <Table.Cell>-</Table.Cell>

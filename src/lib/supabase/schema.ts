@@ -4,6 +4,7 @@ export const RESERVATION_SELECT_QUERY = `
   status,
   created_at,
   main_client_name,
+  booking_platform,
   total_amount,
   clients!clients_reservation_id_fkey (
     id,
