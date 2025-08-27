@@ -25,9 +25,6 @@ export const defaultFlightValues = {
   children_cost: 0,
   total_amount: 0,
   total_cost: 0,
-  additional_item_name: '',
-  additional_item_cost: 0,
-  additional_item_price: 0,
   notes: ''
 };
 
@@ -44,9 +41,6 @@ export const defaultHotelValues = {
   total_amount: 0,
   total_cost: 0,
   cost: 0,
-  additional_item_name: '',
-  additional_item_cost: 0,
-  additional_item_price: 0,
   notes: ''
 };
 
@@ -63,9 +57,6 @@ export const defaultTourValues = {
   children_cost: 0,
   total_amount: 0,
   total_cost: 0,
-  additional_item_name: '',
-  additional_item_cost: 0,
-  additional_item_price: 0,
   notes: ''
 };
 
@@ -83,8 +74,5 @@ export const defaultCarValues = {
   total_amount: 0,
   total_cost: 0,
   cost: 0,
-  additional_item_name: '',
-  additional_item_cost: 0,
-  additional_item_price: 0,
   notes: ''
 };
