@@ -198,7 +198,11 @@ export default function ReservationsFormClientContainer({
       }),
       clients: data?.clients || [defaultClientValues],
       flights: data?.products.flights.length
-        ? data.products.flights
+        ? data.products.flights.map(flight => ({
+            ...flight,
+            arrival_datetime: new Date(flight.arrival_datetime).toISOString().slice(0, 16),
+            departure_datetime: new Date(flight.departure_datetime).toISOString().slice(0, 16)
+          }))
         : [
             {
               ...defaultFlightValues,
@@ -206,7 +210,13 @@ export default function ReservationsFormClientContainer({
             }
           ],
       hotels: data?.products.hotels.length ? data.products.hotels : [defaultHotelValues],
-      tours: data?.products.tours.length ? data.products.tours : [defaultTourValues],
+      tours: data?.products.tours.length
+        ? data.products.tours.map(tour => ({
+            ...tour,
+            start_date: new Date(tour.start_date).toISOString().slice(0, 16),
+            end_date: new Date(tour.end_date).toISOString().slice(0, 16)
+          }))
+        : [defaultTourValues],
       rental_cars: data?.products.rental_cars.length
         ? data.products.rental_cars
         : [defaultCarValues]
