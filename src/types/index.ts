@@ -182,6 +182,7 @@ export interface AllProducts {
 export type ProductWithReservation<T> = {
   reservations: {
     main_client_name: string;
+    booking_platform: string;
   };
 } & T;
 

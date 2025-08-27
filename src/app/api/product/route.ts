@@ -10,13 +10,15 @@ export async function GET() {
       supabase.from('hotels').select<string, ProductWithReservation<TablesRow<'hotels'>>>(`
           *,
           reservations!hotels_reservation_id_fkey (
-            main_client_name
+            main_client_name,
+            booking_platform
           )
         `),
       supabase.from('tours').select<string, ProductWithReservation<TablesRow<'tours'>>>(`
           *,
           reservations!tours_reservation_id_fkey (
-            main_client_name
+            main_client_name,
+            booking_platform
           )
         `),
       supabase.from('rental_cars').select<
@@ -25,7 +27,8 @@ export async function GET() {
       >(`
           *,
           reservations!rental_cars_reservation_id_fkey (
-            main_client_name
+            main_client_name,
+            booking_platform
           )
         `)
     ]);
@@ -35,6 +38,7 @@ export async function GET() {
         ...hotel,
         event_date: hotel.check_in_date,
         main_client_name: reservations.main_client_name,
+        booking_platform: reservations.booking_platform,
         product_name: `${hotel.region} / ${hotel.hotel_name} / ${hotel.room_type}`,
         type: 'hotel' as const
       })) ?? []),
@@ -42,6 +46,7 @@ export async function GET() {
         ...tour,
         event_date: tour.start_date,
         main_client_name: reservations.main_client_name,
+        booking_platform: reservations.booking_platform,
         product_name: `${tour.region} / ${tour.name}`,
         type: 'tour' as const
       })) ?? []),
@@ -49,6 +54,7 @@ export async function GET() {
         ...rentalCar,
         event_date: rentalCar.pickup_date,
         main_client_name: reservations.main_client_name,
+        booking_platform: reservations.booking_platform,
         product_name: `${rentalCar.region} / ${rentalCar.model}`,
         type: 'rental_car' as const
       })) ?? [])
