@@ -1,7 +1,6 @@
 export const RESERVATION_SELECT_QUERY = `
   id,
   reservation_id,
-  status,
   created_at,
   main_client_name,
   booking_platform,
