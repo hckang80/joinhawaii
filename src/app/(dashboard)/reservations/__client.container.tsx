@@ -4,11 +4,13 @@ import { fetchProducts, updateProductStatus } from '@/http';
 import { ProductStatus, UpdateProductStatusParams } from '@/types';
 import { handleApiError, handleApiSuccess, isDev, statusLabel, toReadableDate } from '@/utils';
 import { Button, Flex, Heading, Select, Link as StyledLink, Table } from '@radix-ui/themes';
-import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
+import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
 export default function ReservationsClientContainer() {
-  const { data, refetch } = useSuspenseQuery({
+  const queryClient = useQueryClient();
+
+  const { data } = useSuspenseQuery({
     queryKey: ['product', 'list'],
     queryFn: async () => fetchProducts()
   });
@@ -17,15 +19,32 @@ export default function ReservationsClientContainer() {
     mutationFn: (data: UpdateProductStatusParams) => {
       return updateProductStatus(data);
     },
-    onSuccess: (data: unknown) => {
-      handleApiSuccess(data);
-      refetch();
+    onMutate: async newData => {
+      const previousProducts = queryClient.getQueryData(['product', 'list']);
+
+      queryClient.setQueryData(['product', 'list'], (old: typeof data) => {
+        return old.map(item => {
+          if (item.id === newData.product_id && item.type === newData.product_type) {
+            return {
+              ...item,
+              status: newData.status
+            };
+          }
+          return item;
+        });
+      });
+
+      return { previousProducts };
     },
-    onError: handleApiError
+    onSuccess: handleApiSuccess,
+    onError: (error, _newData, context) => {
+      queryClient.setQueryData(['product', 'list'], context?.previousProducts);
+      handleApiError(error);
+    }
   });
 
   const handleUpdateStatus = (data: UpdateProductStatusParams) => {
-    updateMutation.mutateAsync(data);
+    updateMutation.mutate(data);
   };
 
   return (
