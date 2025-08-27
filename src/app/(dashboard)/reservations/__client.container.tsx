@@ -1,12 +1,53 @@
 'use client';
 
-import { updateProductStatus } from '@/http';
-import { type AllProducts, ProductStatus } from '@/types';
-import { isDev, statusLabel, toReadableDate } from '@/utils';
+import { PRODUCT_STATUS_COLOR, QUERY_KEYS } from '@/constants';
+import { fetchProducts, updateProductStatus } from '@/http';
+import { ProductStatus, UpdateProductStatusParams } from '@/types';
+import { handleApiError, handleApiSuccess, isDev, statusLabel, toReadableDate } from '@/utils';
 import { Button, Flex, Heading, Select, Link as StyledLink, Table } from '@radix-ui/themes';
+import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
-export default function ReservationsClientContainer({ data }: { data: AllProducts[] }) {
+export default function ReservationsClientContainer() {
+  const queryClient = useQueryClient();
+
+  const { data } = useSuspenseQuery({
+    queryKey: QUERY_KEYS.products.all,
+    queryFn: fetchProducts
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: (data: UpdateProductStatusParams) => {
+      return updateProductStatus(data);
+    },
+    onMutate: async newData => {
+      const previousProducts = queryClient.getQueryData(QUERY_KEYS.products.all);
+
+      queryClient.setQueryData(QUERY_KEYS.products.all, (old: typeof data) => {
+        return old.map(item => {
+          if (item.id === newData.product_id && item.type === newData.product_type) {
+            return {
+              ...item,
+              status: newData.status
+            };
+          }
+          return item;
+        });
+      });
+
+      return { previousProducts };
+    },
+    onSuccess: handleApiSuccess,
+    onError: (error, _newData, context) => {
+      queryClient.setQueryData(QUERY_KEYS.products.all, context?.previousProducts);
+      handleApiError(error);
+    }
+  });
+
+  const handleUpdateStatus = (data: UpdateProductStatusParams) => {
+    updateMutation.mutate(data);
+  };
+
   return (
     <div>
       <Heading as='h2' mb='4' size='7'>
@@ -56,7 +97,7 @@ export default function ReservationsClientContainer({ data }: { data: AllProduct
                     value={item.status}
                     size='3'
                     onValueChange={(value: ProductStatus) =>
-                      updateProductStatus({
+                      handleUpdateStatus({
                         reservation_id: item.reservation_id,
                         product_type: item.type,
                         product_id: item.id,
@@ -64,7 +105,9 @@ export default function ReservationsClientContainer({ data }: { data: AllProduct
                       })
                     }
                   >
-                    <Select.Trigger />
+                    <Select.Trigger color={PRODUCT_STATUS_COLOR[item.status]} variant='soft'>
+                      {ProductStatus[item.status]}
+                    </Select.Trigger>
                     <Select.Content>
                       {Object.entries(ProductStatus).map(([key, label]) => (
                         <Select.Item key={key} value={key}>

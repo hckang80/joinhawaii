@@ -5,6 +5,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import { Slide, ToastContainer } from 'react-toastify';
 import './globals.css';
 import { ProgressBar } from './ProgressBar';
+import QueryProvider from './QueryProvider';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -29,7 +30,9 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <Theme>{children}</Theme>
+        <QueryProvider>
+          <Theme>{children}</Theme>
+        </QueryProvider>
         <ToastContainer position='top-center' hideProgressBar transition={Slide} theme='colored' />
         <ProgressBar />
       </body>

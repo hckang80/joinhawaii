@@ -14,8 +14,8 @@ export async function PATCH(request: Request) {
     if (error) throw error;
 
     return NextResponse.json({
-      success: true,
-      data: data
+      ...data,
+      message: '상품 상태가 업데이트되었습니다.'
     });
   } catch (error) {
     console.error('상품 상태 업데이트 에러:', error);
