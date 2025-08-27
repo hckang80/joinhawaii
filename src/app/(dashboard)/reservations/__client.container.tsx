@@ -1,18 +1,26 @@
 'use client';
 
-import { updateProductStatus } from '@/http';
-import { type AllProducts, ProductStatus, UpdateProductStatusParams } from '@/types';
+import { fetchProducts, updateProductStatus } from '@/http';
+import { ProductStatus, UpdateProductStatusParams } from '@/types';
 import { handleApiError, handleApiSuccess, isDev, statusLabel, toReadableDate } from '@/utils';
 import { Button, Flex, Heading, Select, Link as StyledLink, Table } from '@radix-ui/themes';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
-export default function ReservationsClientContainer({ data }: { data: AllProducts[] }) {
+export default function ReservationsClientContainer() {
+  const { data, refetch } = useSuspenseQuery({
+    queryKey: ['product', 'list'],
+    queryFn: async () => fetchProducts()
+  });
+
   const updateMutation = useMutation({
     mutationFn: (data: UpdateProductStatusParams) => {
       return updateProductStatus(data);
     },
-    onSuccess: handleApiSuccess,
+    onSuccess: (data: unknown) => {
+      handleApiSuccess(data);
+      refetch();
+    },
     onError: handleApiError
   });
 
