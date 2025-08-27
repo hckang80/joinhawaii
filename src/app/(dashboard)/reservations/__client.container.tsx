@@ -15,7 +15,7 @@ export default function ReservationsClientContainer() {
 
   const { data } = useSuspenseQuery({
     queryKey: QUERY_KEYS,
-    queryFn: async () => fetchProducts()
+    queryFn: fetchProducts
   });
 
   const updateMutation = useMutation({
