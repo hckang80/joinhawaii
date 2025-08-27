@@ -2,10 +2,11 @@ CREATE OR REPLACE FUNCTION create_reservation(
     p_reservation_id TEXT,
     p_clients JSONB,
     p_main_client_name TEXT,
-    p_flights JSONB DEFAULT '[]'::jsonb,
-    p_hotels JSONB DEFAULT '[]'::jsonb,
-    p_tours JSONB DEFAULT '[]'::jsonb,
-    p_cars JSONB DEFAULT '[]'::jsonb
+    p_booking_platform TEXT,
+    p_flights JSONB,
+    p_hotels JSONB,
+    p_tours JSONB,
+    p_cars JSONB
 )
 RETURNS JSONB
 LANGUAGE plpgsql
@@ -24,13 +25,15 @@ BEGIN
         reservation_id,
         status,
         created_at,
-        main_client_name
+        main_client_name,
+        booking_platform
     )
     VALUES (
         p_reservation_id,
         'pending',
         NOW(),
-        p_main_client_name
+        p_main_client_name,
+        p_booking_platform
     )
     RETURNING id INTO v_id;
 
@@ -93,9 +96,6 @@ BEGIN
             children_cost,
             total_amount,
             total_cost,
-            additional_item_name,
-            additional_item_cost,
-            additional_item_price,
             notes
         )
         SELECT 
@@ -113,9 +113,6 @@ BEGIN
             (value->>'children_cost')::INTEGER,
             (value->>'total_amount')::INTEGER,
             (value->>'total_cost')::INTEGER,
-            (value->>'additional_item_name')::TEXT,
-            (value->>'additional_item_cost')::INTEGER,
-            (value->>'additional_item_price')::INTEGER,
             (value->>'notes')::TEXT
         FROM jsonb_array_elements(p_flights);
     END IF;
@@ -136,9 +133,6 @@ BEGIN
             total_amount,
             cost,
             total_cost,
-            additional_item_name,
-            additional_item_cost,
-            additional_item_price,
             notes
         )
         SELECT 
@@ -155,9 +149,6 @@ BEGIN
             (value->>'total_amount')::INTEGER,
             (value->>'cost')::INTEGER,
             (value->>'total_cost')::INTEGER,
-            (value->>'additional_item_name')::TEXT,
-            (value->>'additional_item_cost')::INTEGER,
-            (value->>'additional_item_price')::INTEGER,
             (value->>'notes')::TEXT
         FROM jsonb_array_elements(p_hotels);
     END IF;
@@ -178,9 +169,6 @@ BEGIN
             children_cost,
             total_amount,
             total_cost,
-            additional_item_name,
-            additional_item_cost,
-            additional_item_price,
             notes
         )
         SELECT 
@@ -197,9 +185,6 @@ BEGIN
             (value->>'children_cost')::INTEGER,
             (value->>'total_amount')::INTEGER,
             (value->>'total_cost')::INTEGER,
-            (value->>'additional_item_name')::TEXT,
-            (value->>'additional_item_cost')::INTEGER,
-            (value->>'additional_item_price')::INTEGER,
             (value->>'notes')::TEXT
         FROM jsonb_array_elements(p_tours);
     END IF;
@@ -221,9 +206,6 @@ BEGIN
             total_amount,
             cost,
             total_cost,
-            additional_item_name,
-            additional_item_cost,
-            additional_item_price,
             notes
         )
         SELECT 
@@ -241,9 +223,6 @@ BEGIN
             (value->>'total_amount')::INTEGER,
             (value->>'cost')::INTEGER,
             (value->>'total_amount')::INTEGER,
-            (value->>'additional_item_name')::TEXT,
-            (value->>'additional_item_cost')::INTEGER,
-            (value->>'additional_item_price')::INTEGER,
             (value->>'notes')::TEXT
         FROM jsonb_array_elements(p_cars);
     END IF;
@@ -256,6 +235,7 @@ BEGIN
     RETURN jsonb_build_object(
         'id', v_id,
         'reservation_id', p_reservation_id,
+        'booking_platform', p_booking_platform,
         'total_amount', v_total_amount,
         'created_at', NOW()
     );
