@@ -1,5 +1,5 @@
 import type { selectTriggerPropDefs } from '@radix-ui/themes/components/select.props';
-import { ProductStatus } from '../types';
+import { ProductStatus, ProductType } from '../types';
 
 export * from './query-keys';
 
@@ -94,4 +94,11 @@ export const PRODUCT_STATUS_COLOR: Record<
   Cancelled: 'ruby',
   RefundRequested: 'blue',
   Refunded: 'blue'
+};
+
+export const PRODUCT_LABEL: Record<ProductType, string> = {
+  flight: '항공',
+  hotel: '호텔',
+  tour: '선택관광',
+  rental_car: '렌터카'
 };

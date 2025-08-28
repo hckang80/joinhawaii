@@ -1,6 +1,6 @@
 'use client';
 
-import { PRODUCT_STATUS_COLOR, QUERY_KEYS } from '@/constants';
+import { PRODUCT_LABEL, PRODUCT_STATUS_COLOR, QUERY_KEYS } from '@/constants';
 import { fetchProducts, updateProductStatus } from '@/http';
 import { ProductStatus, UpdateProductStatusParams } from '@/types';
 import { handleApiError, handleApiSuccess, isDev, statusLabel, toReadableDate } from '@/utils';
@@ -78,7 +78,7 @@ export default function ReservationsClientContainer() {
           {data.map(item => (
             <Table.Row key={item.id + item.type}>
               <Table.Cell>{item.reservation_id}</Table.Cell>
-              <Table.Cell>{item.type}</Table.Cell>
+              <Table.Cell>{PRODUCT_LABEL[item.type]}</Table.Cell>
               <Table.Cell>{item.main_client_name}</Table.Cell>
               <Table.Cell>
                 <StyledLink
