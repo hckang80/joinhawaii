@@ -17,7 +17,6 @@ export default function SettlementClientContainer({ data }: { data: AllProducts[
             <Table.ColumnHeaderCell width='120px'>예약회사</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell width='100px'>고객명</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell width='300px'>상품명</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell width='120px'>상품상세</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell width='100px'>결제상태</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell width='120px'>원가</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell width='120px'>판매가</Table.ColumnHeaderCell>
@@ -41,7 +40,6 @@ export default function SettlementClientContainer({ data }: { data: AllProducts[
                   {item.product_name}
                 </StyledLink>
               </Table.Cell>
-              <Table.Cell>-</Table.Cell>
               <Table.Cell>
                 {typeof item.balance === 'number' && statusLabel(item.balance)}
               </Table.Cell>
