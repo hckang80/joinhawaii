@@ -12,17 +12,17 @@ export default function SettlementClientContainer({ data }: { data: AllProducts[
       <Table.Root variant='surface' size='3'>
         <Table.Header>
           <Table.Row>
-            <Table.ColumnHeaderCell>예약번호</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>날짜</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>예약회사</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>고객명</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>상품명</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>상품상세</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>결제상태</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>원가</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>판매가</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>환불</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>수익</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell width='180px'>예약번호</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell width='120px'>날짜</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell width='120px'>예약회사</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell width='100px'>고객명</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell minWidth='300px'>상품명</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell width='120px'>상품상세</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell width='100px'>결제상태</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell width='120px'>원가</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell width='120px'>판매가</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell width='120px'>환불</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell width='120px'>수익</Table.ColumnHeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
