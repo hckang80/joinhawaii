@@ -1,20 +1,38 @@
+'use client';
+
+import { Link as StyledLink } from '@radix-ui/themes';
 import { NotebookPen, Sigma } from 'lucide-react';
-import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import styles from './navigation.module.css';
 
 export default function Navigation() {
+  const pathname = usePathname();
+  const isActive = (path: string) => pathname.startsWith(path);
+
   return (
     <nav className={styles.nav}>
       <ul className={styles.ul}>
         <li className={styles.li}>
-          <Link className={styles.link} href='/reservations'>
+          <StyledLink
+            className={styles.link}
+            href='/reservations'
+            color='gray'
+            highContrast
+            weight={isActive('/reservations') ? 'bold' : 'regular'}
+          >
             <NotebookPen /> 예약관리
-          </Link>
+          </StyledLink>
         </li>
         <li className={styles.li}>
-          <Link className={styles.link} href='/settlement'>
+          <StyledLink
+            className={styles.link}
+            href='/settlement'
+            color='gray'
+            highContrast
+            weight={isActive('/settlement') ? 'bold' : 'regular'}
+          >
             <Sigma /> 정산관리
-          </Link>
+          </StyledLink>
         </li>
       </ul>
     </nav>
