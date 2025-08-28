@@ -94,7 +94,6 @@ export default function ReservationsClientContainer() {
               <Table.Cell>
                 <Select.Root
                   value={item.status}
-                  size='3'
                   onValueChange={(value: ProductStatus) =>
                     handleUpdateStatus({
                       reservation_id: item.reservation_id,
