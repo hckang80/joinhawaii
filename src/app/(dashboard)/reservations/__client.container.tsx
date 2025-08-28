@@ -7,9 +7,12 @@ import { handleApiError, handleApiSuccess, isDev, statusLabel, toReadableDate } 
 import { Button, Flex, Heading, Select, Link as StyledLink, Table } from '@radix-ui/themes';
 import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function ReservationsClientContainer() {
   const queryClient = useQueryClient();
+
+  const pathname = usePathname();
 
   const { data } = useSuspenseQuery({
     queryKey: QUERY_KEYS.products.all,
@@ -82,7 +85,7 @@ export default function ReservationsClientContainer() {
               <Table.Cell>{item.main_client_name}</Table.Cell>
               <Table.Cell>
                 <StyledLink
-                  href={`/reservations/form?reservation_id=${item.reservation_id}#${item.type}`}
+                  href={`/reservations/form?reservation_id=${item.reservation_id}&from=${pathname}#${item.type}`}
                   underline='always'
                   weight='medium'
                 >

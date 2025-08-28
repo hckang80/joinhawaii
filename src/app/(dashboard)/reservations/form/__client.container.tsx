@@ -32,6 +32,7 @@ import {
 } from '@radix-ui/themes';
 import { useMutation } from '@tanstack/react-query';
 import { Binoculars, Car, Hotel, Plane, Upload, UserPlus } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
 import { useEffect } from 'react';
 import {
@@ -182,6 +183,7 @@ export default function ReservationsFormClientContainer({
 }) {
   const isModify = !!data;
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const {
     register,
@@ -245,7 +247,9 @@ export default function ReservationsFormClientContainer({
     },
     onSuccess: (result: unknown) => {
       handleApiSuccess(result);
-      router.push('/reservations');
+
+      const fromPath = searchParams.get('from');
+      if (fromPath) router.push(fromPath);
     },
     onError: handleApiError
   });

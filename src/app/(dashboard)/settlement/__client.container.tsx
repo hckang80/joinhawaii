@@ -1,8 +1,13 @@
+'use client';
+
 import type { AllProducts } from '@/types';
 import { isDev, statusLabel, toReadableAmount, toReadableDate } from '@/utils';
 import { Heading, Link as StyledLink, Table } from '@radix-ui/themes';
+import { usePathname } from 'next/navigation';
 
 export default function SettlementClientContainer({ data }: { data: AllProducts[] }) {
+  const pathname = usePathname();
+
   return (
     <div>
       <Heading as='h2' mb='4' size='7'>
@@ -33,7 +38,7 @@ export default function SettlementClientContainer({ data }: { data: AllProducts[
               <Table.Cell>{item.main_client_name}</Table.Cell>
               <Table.Cell>
                 <StyledLink
-                  href={`/reservations/form?reservation_id=${item.reservation_id}#${item.type}`}
+                  href={`/reservations/form?reservation_id=${item.reservation_id}&from=${pathname}#${item.type}`}
                   underline='always'
                   weight='medium'
                 >
