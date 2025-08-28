@@ -255,41 +255,6 @@ export default function ReservationsFormClientContainer({
     mutation.mutate(formData);
   };
 
-  // const onSubmit: SubmitHandler<ReservationFormData> = async data => {
-  //   if (!isDirty) return toast.info('변경된 내용이 없습니다.');
-
-  //   try {
-  //     const response = await fetch('/api/reservation', {
-  //       method: isModify ? 'PATCH' : 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json'
-  //       },
-  //       body: JSON.stringify({
-  //         ...data,
-  //         flights: isDirtyField('flights') ? data.flights : [],
-  //         hotels: isDirtyField('hotels') ? data.hotels : [],
-  //         tours: isDirtyField('tours') ? data.tours : [],
-  //         rental_cars: isDirtyField('rental_cars') ? data.rental_cars : [],
-  //         main_client_name: mainClientName
-  //       })
-  //     });
-
-  //     const result = await response.json();
-
-  //     if (!result.success) {
-  //       throw new Error(result.error);
-  //     }
-
-  //     router.push('/reservations');
-
-  //     const message = isModify ? '예약이 변경되었습니다' : '예약이 등록되었습니다';
-  //     toast.success(`${message}: ${result.data.reservation_id}`);
-  //   } catch (error) {
-  //     console.error('예약 중 오류가 발생했습니다:', error);
-  //     toast.error('예약 중 오류가 발생했습니다.');
-  //   }
-  // };
-
   const addClient = () => {
     setValue('clients', [...watch('clients'), defaultClientValues]);
   };
