@@ -66,7 +66,7 @@ export default function ReservationsClientContainer() {
             <Table.ColumnHeaderCell width='180px'>예약번호</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell width='100px'>상품구분</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell width='100px'>고객명</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell minWidth='300px'>상품명</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell width='300px'>상품명</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell width='120px'>행사일</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell width='120px'>접수일</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell width='140px'>진행상태</Table.ColumnHeaderCell>

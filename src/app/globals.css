@@ -1,3 +1,9 @@
+.radix-themes {
+  .rt-TableRootTable {
+    table-layout: fixed;
+  }
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
