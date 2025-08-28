@@ -63,15 +63,15 @@ export default function ReservationsClientContainer() {
       <Table.Root variant='surface' size='3'>
         <Table.Header>
           <Table.Row>
-            <Table.ColumnHeaderCell>번호</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>상품구분</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>고객명</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>상품명</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>행사일</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>접수일</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>진행상태</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>결제상태</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>예약회사</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell width='180px'>예약번호</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell width='100px'>상품구분</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell width='100px'>고객명</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell minWidth='300px'>상품명</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell width='120px'>행사일</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell width='120px'>접수일</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell width='140px'>진행상태</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell width='100px'>결제상태</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell width='120px'>예약회사</Table.ColumnHeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -92,31 +92,29 @@ export default function ReservationsClientContainer() {
               <Table.Cell>{toReadableDate(new Date(item.event_date))}</Table.Cell>
               <Table.Cell>{toReadableDate(new Date(item.created_at))}</Table.Cell>
               <Table.Cell>
-                <Flex direction='column' width='120px'>
-                  <Select.Root
-                    value={item.status}
-                    size='3'
-                    onValueChange={(value: ProductStatus) =>
-                      handleUpdateStatus({
-                        reservation_id: item.reservation_id,
-                        product_type: item.type,
-                        product_id: item.id,
-                        status: value
-                      })
-                    }
-                  >
-                    <Select.Trigger color={PRODUCT_STATUS_COLOR[item.status]} variant='soft'>
-                      {ProductStatus[item.status]}
-                    </Select.Trigger>
-                    <Select.Content>
-                      {Object.entries(ProductStatus).map(([key, label]) => (
-                        <Select.Item key={key} value={key}>
-                          {label}
-                        </Select.Item>
-                      ))}
-                    </Select.Content>
-                  </Select.Root>
-                </Flex>
+                <Select.Root
+                  value={item.status}
+                  size='3'
+                  onValueChange={(value: ProductStatus) =>
+                    handleUpdateStatus({
+                      reservation_id: item.reservation_id,
+                      product_type: item.type,
+                      product_id: item.id,
+                      status: value
+                    })
+                  }
+                >
+                  <Select.Trigger color={PRODUCT_STATUS_COLOR[item.status]} variant='soft'>
+                    {ProductStatus[item.status]}
+                  </Select.Trigger>
+                  <Select.Content>
+                    {Object.entries(ProductStatus).map(([key, label]) => (
+                      <Select.Item key={key} value={key}>
+                        {label}
+                      </Select.Item>
+                    ))}
+                  </Select.Content>
+                </Select.Root>
               </Table.Cell>
               <Table.Cell>
                 {typeof item.balance === 'number' && statusLabel(item.balance)}
