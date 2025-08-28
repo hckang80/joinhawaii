@@ -30,7 +30,7 @@ import {
   TextArea,
   TextField
 } from '@radix-ui/themes';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { Binoculars, Car, Hotel, Plane, Upload, UserPlus } from 'lucide-react';
 import { useRouter } from 'nextjs-toploader/app';
 import { useEffect } from 'react';
@@ -182,13 +182,12 @@ export default function ReservationsFormClientContainer({
 }) {
   const isModify = !!data;
   const router = useRouter();
-  const queryClient = useQueryClient();
 
   const {
     register,
     handleSubmit,
     watch,
-    formState: { isSubmitting, isDirty, dirtyFields },
+    formState: { isDirty, dirtyFields },
     getValues,
     setValue,
     control
@@ -246,9 +245,6 @@ export default function ReservationsFormClientContainer({
     },
     onSuccess: (result: unknown) => {
       handleApiSuccess(result);
-
-      // 예약 목록 데이터 무효화
-      // queryClient.invalidateQueries({ queryKey: ['reservations'] });
       router.push('/reservations');
     },
     onError: handleApiError
@@ -1135,7 +1131,7 @@ export default function ReservationsFormClientContainer({
           </Card>
 
           <Flex justify='end' position='sticky' bottom='5'>
-            <Button size='3' color='ruby'>
+            <Button disabled={mutation.isPending} size='3' color='ruby'>
               <Upload />
               등록
             </Button>
