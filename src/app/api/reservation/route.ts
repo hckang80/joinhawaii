@@ -47,6 +47,7 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({
+      message: `[${data.reservation_id}] 예약이 등록되었습니다`,
       success: true,
       data: {
         ...data
@@ -151,6 +152,7 @@ export async function PATCH(request: Request) {
     if (!updatedReservation) throw new Error('예약 정보를 찾을 수 없습니다.');
 
     return NextResponse.json({
+      message: `[${updatedReservation.reservation_id}] 예약이 변경되었습니다`,
       success: true,
       data: updatedReservation
     });

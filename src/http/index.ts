@@ -1,4 +1,9 @@
-import type { AllProducts, ReservationResponse, UpdateProductStatusParams } from '@/types';
+import type {
+  AllProducts,
+  ReservationFormData,
+  ReservationResponse,
+  UpdateProductStatusParams
+} from '@/types';
 
 export const fetchSettlement = async <T = ReservationResponse[]>(id?: string): Promise<T> => {
   try {
@@ -72,6 +77,38 @@ export const updateProductStatus = async (params: UpdateProductStatusParams) => 
 
   if (!response.ok) {
     throw new Error('상품 상태 업데이트에 실패했습니다.');
+  }
+
+  return response.json();
+};
+
+export const createReservation = async (data: ReservationFormData) => {
+  const response = await fetch('/api/reservation', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  });
+
+  if (!response.ok) {
+    throw new Error('예약 등록 중 오류가 발생했습니다.');
+  }
+
+  return response.json();
+};
+
+export const updateReservation = async (data: ReservationFormData) => {
+  const response = await fetch('/api/reservation', {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  });
+
+  if (!response.ok) {
+    throw new Error('예약 변경 중 오류가 발생했습니다.');
   }
 
   return response.json();
