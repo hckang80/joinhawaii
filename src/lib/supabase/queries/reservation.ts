@@ -16,6 +16,7 @@ export const getReservation = async (supabase: SupabaseClient<Database>, reserva
 export const updateReservationProducts = async (
   supabase: SupabaseClient<Database>,
   reservationId: string,
+  exchange_rate: number,
   products: {
     clients?: Array<Partial<TablesRow<'clients'>>>;
     flights?: Array<Partial<TablesRow<'flights'>>>;
@@ -25,6 +26,12 @@ export const updateReservationProducts = async (
   }
 ) => {
   const updates = [];
+
+  if (exchange_rate) {
+    updates.push(
+      supabase.from('reservations').update({ exchange_rate }).eq('reservation_id', reservationId)
+    );
+  }
 
   if (products.clients?.length) {
     const existingClients = products.clients.filter(client => client.id);
@@ -79,7 +86,11 @@ export const updateReservationProducts = async (
           supabase.from(table).upsert(
             existingItems.map(item => ({
               ...item,
-              reservation_id: reservationId
+              reservation_id: reservationId,
+              ...(exchange_rate && {
+                exchange_rate,
+                local_currency: Math.round(Number(item.total_amount) * exchange_rate)
+              })
             }))
           )
         );
@@ -90,7 +101,11 @@ export const updateReservationProducts = async (
           supabase.from(table).insert(
             newItems.map(item => ({
               ...item,
-              reservation_id: reservationId
+              reservation_id: reservationId,
+              ...(exchange_rate && {
+                exchange_rate,
+                local_currency: Math.round(Number(item.total_amount) * exchange_rate)
+              })
             }))
           )
         );
