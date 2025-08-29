@@ -195,6 +195,7 @@ export default function ReservationsFormClientContainer({
     control
   } = useForm<ReservationFormData>({
     defaultValues: {
+      exchange_rate: 0,
       booking_platform: data?.booking_platform || '',
       main_client_name: data?.main_client_name || '',
       ...(isModify && {
@@ -1099,7 +1100,17 @@ export default function ReservationsFormClientContainer({
             </Section>
           </Card>
 
-          <Flex justify='end' position='sticky' bottom='5'>
+          <Flex justify='end' align='center' gap='2' position='sticky' bottom='5'>
+            <label>현재 환율</label>
+            <TextField.Root
+              type='number'
+              min='0'
+              size='3'
+              {...register('exchange_rate', {
+                required: true,
+                valueAsNumber: true
+              })}
+            />
             <Button disabled={mutation.isPending} size='3' color='ruby'>
               <Upload />
               등록
