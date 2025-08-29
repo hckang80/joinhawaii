@@ -8,6 +8,7 @@ import type {
   ReservationRow,
   ReservationUpdateRequest
 } from '@/types';
+import { isPostgrestError } from '@/utils';
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
@@ -161,7 +162,7 @@ export async function PATCH(request: Request) {
     return NextResponse.json(
       {
         success: false,
-        error: error instanceof Error ? error.message : '예약 업데이트 실패',
+        error: isPostgrestError(error) ? error.message : '예약 변경 중 오류가 발생했습니다.',
         details: error
       },
       { status: 500 }
