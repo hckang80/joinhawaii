@@ -77,39 +77,41 @@ export const updateReservationProducts = async (
 
   Object.entries(productTables).forEach(([key, table]) => {
     const items = products[key as keyof typeof productTables];
-    if (items?.length) {
-      const existingItems = items.filter(item => item.id);
-      const newItems = items.filter(item => !item.id);
+    if (!items?.length) return;
 
-      if (existingItems.length) {
-        updates.push(
-          supabase.from(table).upsert(
-            existingItems.map(item => ({
-              ...item,
-              reservation_id: reservationId,
-              ...(exchange_rate && {
-                exchange_rate,
+    const existingItems = items.filter(item => item.id);
+    const newItems = items.filter(item => !item.id);
+
+    if (existingItems.length) {
+      updates.push(
+        supabase.from(table).upsert(
+          existingItems.map(item => ({
+            ...item,
+            reservation_id: reservationId,
+            // 기존 상품 중 환율이 0인 경우에만 새 환율 적용
+            ...(exchange_rate &&
+              (!item.exchange_rate || item.exchange_rate === 0) && {
+                exchange_rate: Math.round(exchange_rate),
                 local_currency: Math.round(Number(item.total_amount) * exchange_rate)
               })
-            }))
-          )
-        );
-      }
+          }))
+        )
+      );
+    }
 
-      if (newItems.length) {
-        updates.push(
-          supabase.from(table).insert(
-            newItems.map(item => ({
-              ...item,
-              reservation_id: reservationId,
-              ...(exchange_rate && {
-                exchange_rate,
-                local_currency: Math.round(Number(item.total_amount) * exchange_rate)
-              })
-            }))
-          )
-        );
-      }
+    if (newItems.length) {
+      updates.push(
+        supabase.from(table).insert(
+          newItems.map(item => ({
+            ...item,
+            reservation_id: reservationId,
+            ...(exchange_rate && {
+              exchange_rate: Math.round(exchange_rate),
+              local_currency: Math.round(Number(item.total_amount) * exchange_rate)
+            })
+          }))
+        )
+      );
     }
   });
 
