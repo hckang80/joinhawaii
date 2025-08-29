@@ -16,6 +16,12 @@ export const defaultClientValues = {
   notes: ''
 };
 
+export const defaultProductValues = {
+  total_amount: 0,
+  total_cost: 0,
+  notes: ''
+};
+
 export const defaultFlightValues = {
   flight_number: '',
   departure_datetime: '',
@@ -28,9 +34,7 @@ export const defaultFlightValues = {
   children_price: 0,
   adult_cost: 0,
   children_cost: 0,
-  total_amount: 0,
-  total_cost: 0,
-  notes: ''
+  ...defaultProductValues
 };
 
 export const defaultHotelValues = {
@@ -43,10 +47,8 @@ export const defaultHotelValues = {
   is_resort_fee: false,
   nights: 1,
   nightly_rate: 0,
-  total_amount: 0,
-  total_cost: 0,
   cost: 0,
-  notes: ''
+  ...defaultProductValues
 };
 
 export const defaultTourValues = {
@@ -60,9 +62,7 @@ export const defaultTourValues = {
   children_price: 0,
   adult_cost: 0,
   children_cost: 0,
-  total_amount: 0,
-  total_cost: 0,
-  notes: ''
+  ...defaultProductValues
 };
 
 export const defaultCarValues = {
@@ -76,10 +76,8 @@ export const defaultCarValues = {
   pickup_time: '',
   rental_days: 1,
   daily_rate: 0,
-  total_amount: 0,
-  total_cost: 0,
   cost: 0,
-  notes: ''
+  ...defaultProductValues
 };
 
 export const PRODUCT_STATUS_COLOR: Record<
