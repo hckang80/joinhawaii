@@ -1,3 +1,4 @@
+import type { PostgrestError } from '@supabase/supabase-js';
 import { toast } from 'react-toastify';
 
 export function toReadableDate(date: Date, includeTime = false) {
@@ -34,4 +35,16 @@ export const handleApiSuccess = (data: unknown) => {
 
 export const handleApiError = (error: Error) => {
   console.error(error);
+  toast(error.message, { type: 'error' });
+};
+
+export const isPostgrestError = (error: unknown): error is PostgrestError => {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'code' in error &&
+    'details' in error &&
+    'hint' in error &&
+    'message' in error
+  );
 };

@@ -1,5 +1,6 @@
 import type {
   AllProducts,
+  ApiResponse,
   ReservationFormData,
   ReservationResponse,
   UpdateProductStatusParams
@@ -107,9 +108,11 @@ export const updateReservation = async (data: ReservationFormData) => {
     body: JSON.stringify(data)
   });
 
-  if (!response.ok) {
-    throw new Error('예약 변경 중 오류가 발생했습니다.');
+  const result = (await response.json()) as ApiResponse<ReservationResponse>;
+
+  if (!response.ok || !result.success) {
+    throw new Error(result.error);
   }
 
-  return response.json();
+  return result;
 };
