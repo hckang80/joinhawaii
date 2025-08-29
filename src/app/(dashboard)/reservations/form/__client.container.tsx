@@ -1121,7 +1121,7 @@ export default function ReservationsFormClientContainer({
                       ? `${integer.slice(0, 4)}.${decimal.slice(0, 2)}`
                       : integer.slice(0, 4);
 
-                    field.onChange(formattedValue);
+                    field.onChange(+formattedValue);
                   }}
                 />
               )}
