@@ -35,6 +35,7 @@ export const handleApiSuccess = (data: unknown) => {
 
 export const handleApiError = (error: Error) => {
   console.error(error);
+  toast(error.message, { type: 'error' });
 };
 
 export const isPostgrestError = (error: unknown): error is PostgrestError => {

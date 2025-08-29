@@ -185,3 +185,10 @@ export interface ReservationUpdateRequest {
   tours?: Array<Partial<TablesRow<'tours'>> & { id?: number }>;
   rental_cars?: Array<Partial<TablesRow<'rental_cars'>> & { id?: number }>;
 }
+
+export interface ApiResponse<T> {
+  success: boolean;
+  data?: T;
+  error?: string;
+  details?: unknown;
+}
