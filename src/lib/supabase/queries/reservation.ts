@@ -88,7 +88,6 @@ export const updateReservationProducts = async (
           existingItems.map(item => ({
             ...item,
             reservation_id: reservationId,
-            // 기존 상품 중 환율이 0인 경우에만 새 환율 적용
             ...(exchange_rate &&
               (!item.exchange_rate || item.exchange_rate === 0) && {
                 exchange_rate: Math.round(exchange_rate),
