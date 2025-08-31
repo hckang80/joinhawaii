@@ -2,7 +2,7 @@
 
 import type { AllProducts } from '@/types';
 import { isDev, statusLabel, toReadableAmount, toReadableDate } from '@/utils';
-import { Heading, Link as StyledLink, Table } from '@radix-ui/themes';
+import { Grid, Heading, Link as StyledLink, Table } from '@radix-ui/themes';
 import { usePathname } from 'next/navigation';
 
 export default function SettlementClientContainer({ data }: { data: AllProducts[] }) {
@@ -49,7 +49,12 @@ export default function SettlementClientContainer({ data }: { data: AllProducts[
                 {typeof item.balance === 'number' && statusLabel(item.balance)}
               </Table.Cell>
               <Table.Cell>{toReadableAmount(item.total_cost)}</Table.Cell>
-              <Table.Cell>{toReadableAmount(item.total_amount)}</Table.Cell>
+              <Table.Cell>
+                <Grid>
+                  <span>{toReadableAmount(item.total_amount)}</span>
+                  <span>{toReadableAmount(item.local_currency, 'ko-KR', 'KRW')}</span>
+                </Grid>
+              </Table.Cell>
               <Table.Cell>-</Table.Cell>
               <Table.Cell>{toReadableAmount(item.total_amount - item.total_cost)}</Table.Cell>
             </Table.Row>

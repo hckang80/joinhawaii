@@ -17,6 +17,8 @@ export type Car = typeof defaultCarValues;
 export type ReservationFormData = ReservationBaseInfo & ReservationItem;
 
 export interface ReservationBaseInfo {
+  exchange_rate: number;
+  local_currency: number;
   booking_platform: string;
   main_client_name: string;
   total_amount: number;
@@ -176,6 +178,7 @@ export type ProductWithReservation<T> = {
 
 export interface ReservationUpdateRequest {
   reservation_id: string;
+  exchange_rate: number;
   status?: string;
   main_client_name?: string;
   total_amount?: number;

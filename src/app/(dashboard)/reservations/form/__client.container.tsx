@@ -94,15 +94,28 @@ function HotelTotalCalculator({
 }) {
   const watchedValues = useWatch({
     control,
-    name: [`hotels.${index}.nightly_rate`, `hotels.${index}.nights`, `hotels.${index}.cost`]
+    name: [
+      `hotels.${index}.nightly_rate`,
+      `hotels.${index}.nights`,
+      `hotels.${index}.cost`,
+      `hotels.${index}.local_currency`,
+      'exchange_rate'
+    ]
   });
 
   useEffect(() => {
-    const [nightly, nights, cost] = watchedValues;
+    const [nightly, nights, cost, localCurrency, exchangeRate] = watchedValues;
     const total = nightly * nights;
     const totalCost = cost * nights;
     setValue(`hotels.${index}.total_amount`, total, { shouldValidate: true });
     setValue(`hotels.${index}.total_cost`, totalCost, { shouldValidate: true });
+
+    if (nightly && !localCurrency) {
+      setValue(`rental_cars.${index}.exchange_rate`, exchangeRate, {
+        shouldDirty: true,
+        shouldTouch: true
+      });
+    }
   }, [watchedValues, setValue, index]);
 
   return null;
@@ -125,7 +138,9 @@ function TourTotalCalculator({
       `tours.${index}.adult_price`,
       `tours.${index}.children_price`,
       `tours.${index}.adult_cost`,
-      `tours.${index}.children_cost`
+      `tours.${index}.children_cost`,
+      `tours.${index}.local_currency`,
+      'exchange_rate'
     ]
   });
 
@@ -136,12 +151,21 @@ function TourTotalCalculator({
       adultPrice,
       childrenPrice,
       adultCost,
-      childrenCost
+      childrenCost,
+      localCurrency,
+      exchangeRate
     ] = watchedValues;
     const total = adultParticipant * adultPrice + childrenParticipant * childrenPrice;
     const totalCost = adultParticipant * adultCost + childrenParticipant * childrenCost;
     setValue(`tours.${index}.total_amount`, total, { shouldValidate: true });
     setValue(`tours.${index}.total_cost`, totalCost, { shouldValidate: true });
+
+    if (adultPrice && !localCurrency) {
+      setValue(`tours.${index}.exchange_rate`, exchangeRate, {
+        shouldDirty: true,
+        shouldTouch: true
+      });
+    }
   }, [watchedValues, setValue, index]);
 
   return null;
@@ -161,16 +185,25 @@ function CarTotalCalculator({
     name: [
       `rental_cars.${index}.daily_rate`,
       `rental_cars.${index}.rental_days`,
-      `rental_cars.${index}.cost`
+      `rental_cars.${index}.cost`,
+      `rental_cars.${index}.local_currency`,
+      'exchange_rate'
     ]
   });
 
   useEffect(() => {
-    const [nightly, rentalDays, cost] = watchedValues;
+    const [nightly, rentalDays, cost, localCurrency, exchangeRate] = watchedValues;
     const total = nightly * rentalDays;
     const totalCost = cost * rentalDays;
     setValue(`rental_cars.${index}.total_amount`, total, { shouldValidate: true });
     setValue(`rental_cars.${index}.total_cost`, totalCost, { shouldValidate: true });
+
+    if (nightly && !localCurrency) {
+      setValue(`rental_cars.${index}.exchange_rate`, exchangeRate, {
+        shouldDirty: true,
+        shouldTouch: true
+      });
+    }
   }, [watchedValues, setValue, index]);
 
   return null;
@@ -195,6 +228,7 @@ export default function ReservationsFormClientContainer({
     control
   } = useForm<ReservationFormData>({
     defaultValues: {
+      exchange_rate: 0,
       booking_platform: data?.booking_platform || '',
       main_client_name: data?.main_client_name || '',
       ...(isModify && {
@@ -1099,7 +1133,33 @@ export default function ReservationsFormClientContainer({
             </Section>
           </Card>
 
-          <Flex justify='end' position='sticky' bottom='5'>
+          <Flex justify='end' align='center' gap='2' position='sticky' bottom='5'>
+            <label>현재 환율</label>
+            <Controller
+              name='exchange_rate'
+              control={control}
+              render={({ field }) => (
+                <TextField.Root
+                  type='number'
+                  min='0'
+                  size='3'
+                  step='0.01'
+                  value={field.value}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    const { value } = e.target;
+                    if (!value) return field.onChange(value);
+
+                    const [integer, decimal] = value.split('.');
+                    const formattedValue = decimal
+                      ? `${integer.slice(0, 4)}.${decimal.slice(0, 2)}`
+                      : integer.slice(0, 4);
+
+                    field.onChange(+formattedValue);
+                  }}
+                />
+              )}
+            />
+
             <Button disabled={mutation.isPending} size='3' color='ruby'>
               <Upload />
               등록

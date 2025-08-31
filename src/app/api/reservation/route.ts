@@ -118,8 +118,16 @@ export async function GET(request: Request) {
 
 export async function PATCH(request: Request) {
   try {
-    const { reservation_id, clients, flights, hotels, tours, rental_cars, ...updates } =
-      (await request.json()) as ReservationUpdateRequest;
+    const {
+      reservation_id,
+      exchange_rate,
+      clients,
+      flights,
+      hotels,
+      tours,
+      rental_cars,
+      ...updates
+    } = (await request.json()) as ReservationUpdateRequest;
 
     if (!reservation_id) {
       throw new Error('예약번호는 필수입니다.');
@@ -127,7 +135,7 @@ export async function PATCH(request: Request) {
 
     const supabase = await createClient<Database>();
 
-    await updateReservationProducts(supabase, reservation_id, {
+    await updateReservationProducts(supabase, reservation_id, exchange_rate, {
       clients,
       flights,
       hotels,

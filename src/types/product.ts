@@ -21,6 +21,7 @@ export interface AllProducts {
   type: ProductType;
   total_amount: number;
   total_cost: number;
+  local_currency: number;
   [key: string]: unknown;
 }
 
