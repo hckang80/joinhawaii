@@ -31,6 +31,7 @@ import {
   TextField
 } from '@radix-ui/themes';
 import { useMutation } from '@tanstack/react-query';
+import clsx from 'clsx';
 import { Binoculars, Car, Hotel, Plane, Upload, UserPlus } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
@@ -329,7 +330,11 @@ export default function ReservationsFormClientContainer({
 
       <Flex asChild direction='column' gap='5'>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Card asChild size='3'>
+          <Card
+            asChild
+            size='3'
+            className={clsx(dirtyFields.booking_platform && styles['is-dirty'])}
+          >
             <Section>
               <Heading as='h3' mb='4'>
                 기본정보
@@ -374,7 +379,13 @@ export default function ReservationsFormClientContainer({
               <Flex direction='column' gap='5'>
                 {getValues('clients').map((client, i) => {
                   return (
-                    <div key={i} className={styles.client}>
+                    <div
+                      key={i}
+                      className={clsx(
+                        dirtyFields.clients?.[i] && styles['is-dirty'],
+                        styles.client
+                      )}
+                    >
                       <Flex asChild justify='end' align='center' gap='1' mb='2'>
                         <label>
                           예약자
@@ -493,7 +504,10 @@ export default function ReservationsFormClientContainer({
 
               <Flex direction='column' gap='5'>
                 {getValues('flights').map((_flight, i) => (
-                  <div key={i} className={styles.client}>
+                  <div
+                    key={i}
+                    className={clsx(dirtyFields.flights?.[i] && styles['is-dirty'], styles.client)}
+                  >
                     <FlightTotalCalculator index={i} setValue={setValue} control={control} />
 
                     <Grid align='center' columns='60px 1fr 60px 1fr' gap='3'>
@@ -657,7 +671,10 @@ export default function ReservationsFormClientContainer({
               <Flex direction='column' gap='5'>
                 {getValues('hotels').map((_hotel, i) => {
                   return (
-                    <div key={i} className={styles.client}>
+                    <div
+                      key={i}
+                      className={clsx(dirtyFields.hotels?.[i] && styles['is-dirty'], styles.client)}
+                    >
                       <HotelTotalCalculator index={i} setValue={setValue} control={control} />
 
                       <Grid align='center' columns='60px 1fr 60px 1fr' gap='3'>
@@ -831,7 +848,10 @@ export default function ReservationsFormClientContainer({
 
               <Flex direction='column' gap='5'>
                 {getValues('tours').map((_tour, i) => (
-                  <div key={i} className={styles.client}>
+                  <div
+                    key={i}
+                    className={clsx(dirtyFields.tours?.[i] && styles['is-dirty'], styles.client)}
+                  >
                     <TourTotalCalculator index={i} setValue={setValue} control={control} />
 
                     <Grid align='center' columns='60px 1fr 60px 1fr' gap='3'>
@@ -982,7 +1002,13 @@ export default function ReservationsFormClientContainer({
               <Flex direction='column' gap='5'>
                 {getValues('rental_cars').map((_car, i) => {
                   return (
-                    <div key={i} className={styles.client}>
+                    <div
+                      key={i}
+                      className={clsx(
+                        dirtyFields.rental_cars?.[i] && styles['is-dirty'],
+                        styles.client
+                      )}
+                    >
                       <CarTotalCalculator index={i} setValue={setValue} control={control} />
 
                       <Grid align='center' columns='60px 1fr 60px 1fr' gap='3'>

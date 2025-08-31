@@ -5,3 +5,7 @@
     border-top: 2px solid var(--gray-5);
   }
 }
+
+.is-dirty {
+  background-color: var(--accent-9);
+}
