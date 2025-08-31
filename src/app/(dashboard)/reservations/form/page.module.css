@@ -1,4 +1,6 @@
 .form-field-group {
+  padding: 5px;
+
   &:not(:first-child) {
     margin-top: 16px;
     padding-top: 16px;
@@ -7,5 +9,5 @@
 }
 
 .is-dirty {
-  background-color: var(--accent-9);
+  background-color: var(--gray-5);
 }
