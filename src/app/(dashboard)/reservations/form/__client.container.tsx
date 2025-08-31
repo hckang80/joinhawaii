@@ -94,15 +94,28 @@ function HotelTotalCalculator({
 }) {
   const watchedValues = useWatch({
     control,
-    name: [`hotels.${index}.nightly_rate`, `hotels.${index}.nights`, `hotels.${index}.cost`]
+    name: [
+      `hotels.${index}.nightly_rate`,
+      `hotels.${index}.nights`,
+      `hotels.${index}.cost`,
+      `hotels.${index}.local_currency`,
+      'exchange_rate'
+    ]
   });
 
   useEffect(() => {
-    const [nightly, nights, cost] = watchedValues;
+    const [nightly, nights, cost, localCurrency, exchangeRate] = watchedValues;
     const total = nightly * nights;
     const totalCost = cost * nights;
     setValue(`hotels.${index}.total_amount`, total, { shouldValidate: true });
     setValue(`hotels.${index}.total_cost`, totalCost, { shouldValidate: true });
+
+    if (nightly && !localCurrency) {
+      setValue(`rental_cars.${index}.exchange_rate`, exchangeRate, {
+        shouldDirty: true,
+        shouldTouch: true
+      });
+    }
   }, [watchedValues, setValue, index]);
 
   return null;
@@ -125,7 +138,9 @@ function TourTotalCalculator({
       `tours.${index}.adult_price`,
       `tours.${index}.children_price`,
       `tours.${index}.adult_cost`,
-      `tours.${index}.children_cost`
+      `tours.${index}.children_cost`,
+      `tours.${index}.local_currency`,
+      'exchange_rate'
     ]
   });
 
@@ -136,12 +151,21 @@ function TourTotalCalculator({
       adultPrice,
       childrenPrice,
       adultCost,
-      childrenCost
+      childrenCost,
+      localCurrency,
+      exchangeRate
     ] = watchedValues;
     const total = adultParticipant * adultPrice + childrenParticipant * childrenPrice;
     const totalCost = adultParticipant * adultCost + childrenParticipant * childrenCost;
     setValue(`tours.${index}.total_amount`, total, { shouldValidate: true });
     setValue(`tours.${index}.total_cost`, totalCost, { shouldValidate: true });
+
+    if (adultPrice && !localCurrency) {
+      setValue(`tours.${index}.exchange_rate`, exchangeRate, {
+        shouldDirty: true,
+        shouldTouch: true
+      });
+    }
   }, [watchedValues, setValue, index]);
 
   return null;
@@ -161,16 +185,25 @@ function CarTotalCalculator({
     name: [
       `rental_cars.${index}.daily_rate`,
       `rental_cars.${index}.rental_days`,
-      `rental_cars.${index}.cost`
+      `rental_cars.${index}.cost`,
+      `rental_cars.${index}.local_currency`,
+      'exchange_rate'
     ]
   });
 
   useEffect(() => {
-    const [nightly, rentalDays, cost] = watchedValues;
+    const [nightly, rentalDays, cost, localCurrency, exchangeRate] = watchedValues;
     const total = nightly * rentalDays;
     const totalCost = cost * rentalDays;
     setValue(`rental_cars.${index}.total_amount`, total, { shouldValidate: true });
     setValue(`rental_cars.${index}.total_cost`, totalCost, { shouldValidate: true });
+
+    if (nightly && !localCurrency) {
+      setValue(`rental_cars.${index}.exchange_rate`, exchangeRate, {
+        shouldDirty: true,
+        shouldTouch: true
+      });
+    }
   }, [watchedValues, setValue, index]);
 
   return null;

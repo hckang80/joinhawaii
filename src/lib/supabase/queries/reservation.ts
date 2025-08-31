@@ -90,7 +90,7 @@ export const updateReservationProducts = async (
             reservation_id: reservationId,
             ...(exchange_rate &&
               (!item.exchange_rate || item.exchange_rate === 0) && {
-                exchange_rate: Math.round(exchange_rate),
+                exchange_rate,
                 local_currency: Math.round(Number(item.total_amount) * exchange_rate)
               })
           }))
@@ -105,7 +105,7 @@ export const updateReservationProducts = async (
             ...item,
             reservation_id: reservationId,
             ...(exchange_rate && {
-              exchange_rate: Math.round(exchange_rate),
+              exchange_rate,
               local_currency: Math.round(Number(item.total_amount) * exchange_rate)
             })
           }))
