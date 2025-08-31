@@ -261,7 +261,7 @@ export default function ReservationsFormClientContainer({
     }
   });
 
-  const isDirtyField = (field: keyof ReservationItem) => !!dirtyFields[field]?.length;
+  const isDirtyProductItem = (field: keyof ReservationItem) => !!dirtyFields[field]?.length;
 
   const reservationIndex = use$(status$.reservationIndex);
   const mainClientName = getValues('clients')[reservationIndex].korean_name;
@@ -270,10 +270,10 @@ export default function ReservationsFormClientContainer({
     mutationFn: (formData: ReservationFormData) => {
       const payload = {
         ...formData,
-        flights: isDirtyField('flights') ? formData.flights : [],
-        hotels: isDirtyField('hotels') ? formData.hotels : [],
-        tours: isDirtyField('tours') ? formData.tours : [],
-        rental_cars: isDirtyField('rental_cars') ? formData.rental_cars : [],
+        flights: isDirtyProductItem('flights') ? formData.flights : [],
+        hotels: isDirtyProductItem('hotels') ? formData.hotels : [],
+        tours: isDirtyProductItem('tours') ? formData.tours : [],
+        rental_cars: isDirtyProductItem('rental_cars') ? formData.rental_cars : [],
         main_client_name: mainClientName
       };
 
@@ -476,7 +476,7 @@ export default function ReservationsFormClientContainer({
               {isDev() && (
                 <pre>
                   {JSON.stringify(
-                    { isDirty: isDirtyField('clients'), ...watch('clients') },
+                    { isDirty: isDirtyProductItem('clients'), ...watch('clients') },
                     null,
                     2
                   )}
@@ -503,7 +503,7 @@ export default function ReservationsFormClientContainer({
                           <TextField.Root
                             size='3'
                             {...register(`flights.${i}.flight_number`, {
-                              required: isDirtyField('flights') && true
+                              required: isDirtyProductItem('flights') && true
                             })}
                           />
                         </Grid>
@@ -514,7 +514,7 @@ export default function ReservationsFormClientContainer({
                         size='3'
                         type='datetime-local'
                         {...register(`flights.${i}.departure_datetime`, {
-                          required: isDirtyField('flights') && true
+                          required: isDirtyProductItem('flights') && true
                         })}
                       />
 
@@ -523,7 +523,7 @@ export default function ReservationsFormClientContainer({
                         size='3'
                         readOnly={!i}
                         {...register(`flights.${i}.departure_city`, {
-                          required: isDirtyField('flights') && true
+                          required: isDirtyProductItem('flights') && true
                         })}
                       />
 
@@ -532,7 +532,7 @@ export default function ReservationsFormClientContainer({
                         size='3'
                         type='datetime-local'
                         {...register(`flights.${i}.arrival_datetime`, {
-                          required: isDirtyField('flights') && true
+                          required: isDirtyProductItem('flights') && true
                         })}
                       />
 
@@ -540,7 +540,7 @@ export default function ReservationsFormClientContainer({
                       <TextField.Root
                         size='3'
                         {...register(`flights.${i}.arrival_city`, {
-                          required: isDirtyField('flights') && true
+                          required: isDirtyProductItem('flights') && true
                         })}
                       />
 
@@ -552,7 +552,7 @@ export default function ReservationsFormClientContainer({
                           min='0'
                           size='3'
                           {...register(`flights.${i}.adult_cost`, {
-                            required: isDirtyField('flights') && true,
+                            required: isDirtyProductItem('flights') && true,
                             valueAsNumber: true
                           })}
                         />
@@ -562,7 +562,7 @@ export default function ReservationsFormClientContainer({
                           min='0'
                           size='3'
                           {...register(`flights.${i}.children_cost`, {
-                            required: isDirtyField('flights') && true,
+                            required: isDirtyProductItem('flights') && true,
                             valueAsNumber: true
                           })}
                         />
@@ -576,7 +576,7 @@ export default function ReservationsFormClientContainer({
                           min='0'
                           size='3'
                           {...register(`flights.${i}.adult_count`, {
-                            required: isDirtyField('flights') && true,
+                            required: isDirtyProductItem('flights') && true,
                             valueAsNumber: true
                           })}
                         />
@@ -586,7 +586,7 @@ export default function ReservationsFormClientContainer({
                           min='0'
                           size='3'
                           {...register(`flights.${i}.children_count`, {
-                            required: isDirtyField('flights') && true,
+                            required: isDirtyProductItem('flights') && true,
                             valueAsNumber: true
                           })}
                         />
@@ -600,7 +600,7 @@ export default function ReservationsFormClientContainer({
                           min='0'
                           size='3'
                           {...register(`flights.${i}.adult_price`, {
-                            required: isDirtyField('flights') && true,
+                            required: isDirtyProductItem('flights') && true,
                             valueAsNumber: true
                           })}
                         />
@@ -610,7 +610,7 @@ export default function ReservationsFormClientContainer({
                           min='0'
                           size='3'
                           {...register(`flights.${i}.children_price`, {
-                            required: isDirtyField('flights') && true,
+                            required: isDirtyProductItem('flights') && true,
                             valueAsNumber: true
                           })}
                         />
@@ -639,7 +639,7 @@ export default function ReservationsFormClientContainer({
               {isDev() && (
                 <pre>
                   {JSON.stringify(
-                    { isDirty: isDirtyField('flights'), ...watch('flights') },
+                    { isDirty: isDirtyProductItem('flights'), ...watch('flights') },
                     null,
                     2
                   )}
@@ -667,7 +667,7 @@ export default function ReservationsFormClientContainer({
                             <TextField.Root
                               size='3'
                               {...register(`hotels.${i}.region`, {
-                                required: isDirtyField('hotels') && true
+                                required: isDirtyProductItem('hotels') && true
                               })}
                             />
                           </Grid>
@@ -682,7 +682,7 @@ export default function ReservationsFormClientContainer({
                                   type='date'
                                   size='3'
                                   {...register(`hotels.${i}.check_in_date`, {
-                                    required: isDirtyField('hotels') && true
+                                    required: isDirtyProductItem('hotels') && true
                                   })}
                                 />
                               </Container>
@@ -691,7 +691,7 @@ export default function ReservationsFormClientContainer({
                                   type='date'
                                   size='3'
                                   {...register(`hotels.${i}.check_out_date`, {
-                                    required: isDirtyField('hotels') && true
+                                    required: isDirtyProductItem('hotels') && true
                                   })}
                                 />
                               </Container>
@@ -705,7 +705,7 @@ export default function ReservationsFormClientContainer({
                             <TextField.Root
                               size='3'
                               {...register(`hotels.${i}.hotel_name`, {
-                                required: isDirtyField('hotels') && true
+                                required: isDirtyProductItem('hotels') && true
                               })}
                             />
                           </Grid>
@@ -715,7 +715,7 @@ export default function ReservationsFormClientContainer({
                         <TextField.Root
                           size='3'
                           {...register(`hotels.${i}.room_type`, {
-                            required: isDirtyField('hotels') && true
+                            required: isDirtyProductItem('hotels') && true
                           })}
                         />
 
@@ -725,7 +725,7 @@ export default function ReservationsFormClientContainer({
                           min='1'
                           size='3'
                           {...register(`hotels.${i}.nights`, {
-                            required: isDirtyField('hotels') && true,
+                            required: isDirtyProductItem('hotels') && true,
                             valueAsNumber: true
                           })}
                         />
@@ -772,7 +772,7 @@ export default function ReservationsFormClientContainer({
                                 min='0'
                                 size='3'
                                 {...register(`hotels.${i}.cost`, {
-                                  required: isDirtyField('hotels') && true,
+                                  required: isDirtyProductItem('hotels') && true,
                                   valueAsNumber: true
                                 })}
                               />
@@ -782,7 +782,7 @@ export default function ReservationsFormClientContainer({
                                 min='0'
                                 size='3'
                                 {...register(`hotels.${i}.nightly_rate`, {
-                                  required: isDirtyField('hotels') && true,
+                                  required: isDirtyProductItem('hotels') && true,
                                   valueAsNumber: true
                                 })}
                               />
@@ -813,7 +813,11 @@ export default function ReservationsFormClientContainer({
 
               {isDev() && (
                 <pre>
-                  {JSON.stringify({ isDirty: isDirtyField('hotels'), ...watch('hotels') }, null, 2)}
+                  {JSON.stringify(
+                    { isDirty: isDirtyProductItem('hotels'), ...watch('hotels') },
+                    null,
+                    2
+                  )}
                 </pre>
               )}
             </Section>
@@ -835,7 +839,7 @@ export default function ReservationsFormClientContainer({
                       <TextField.Root
                         size='3'
                         {...register(`tours.${i}.region`, {
-                          required: isDirtyField('tours') && true
+                          required: isDirtyProductItem('tours') && true
                         })}
                       />
 
@@ -843,7 +847,7 @@ export default function ReservationsFormClientContainer({
                       <TextField.Root
                         size='3'
                         {...register(`tours.${i}.name`, {
-                          required: isDirtyField('tours') && true
+                          required: isDirtyProductItem('tours') && true
                         })}
                       />
 
@@ -852,7 +856,7 @@ export default function ReservationsFormClientContainer({
                         size='3'
                         type='datetime-local'
                         {...register(`tours.${i}.start_date`, {
-                          required: isDirtyField('tours') && true
+                          required: isDirtyProductItem('tours') && true
                         })}
                       />
 
@@ -861,7 +865,7 @@ export default function ReservationsFormClientContainer({
                         size='3'
                         type='datetime-local'
                         {...register(`tours.${i}.end_date`, {
-                          required: isDirtyField('tours') && true
+                          required: isDirtyProductItem('tours') && true
                         })}
                       />
 
@@ -873,7 +877,7 @@ export default function ReservationsFormClientContainer({
                           min='0'
                           size='3'
                           {...register(`tours.${i}.adult_cost`, {
-                            required: isDirtyField('tours') && true,
+                            required: isDirtyProductItem('tours') && true,
                             valueAsNumber: true
                           })}
                         />
@@ -883,7 +887,7 @@ export default function ReservationsFormClientContainer({
                           min='0'
                           size='3'
                           {...register(`tours.${i}.children_cost`, {
-                            required: isDirtyField('tours') && true,
+                            required: isDirtyProductItem('tours') && true,
                             valueAsNumber: true
                           })}
                         />
@@ -897,7 +901,7 @@ export default function ReservationsFormClientContainer({
                           min='0'
                           size='3'
                           {...register(`tours.${i}.adult_count`, {
-                            required: isDirtyField('tours') && true,
+                            required: isDirtyProductItem('tours') && true,
                             valueAsNumber: true
                           })}
                         />
@@ -907,7 +911,7 @@ export default function ReservationsFormClientContainer({
                           min='0'
                           size='3'
                           {...register(`tours.${i}.children_count`, {
-                            required: isDirtyField('tours') && true,
+                            required: isDirtyProductItem('tours') && true,
                             valueAsNumber: true
                           })}
                         />
@@ -921,7 +925,7 @@ export default function ReservationsFormClientContainer({
                           min='0'
                           size='3'
                           {...register(`tours.${i}.adult_price`, {
-                            required: isDirtyField('tours') && true,
+                            required: isDirtyProductItem('tours') && true,
                             valueAsNumber: true
                           })}
                         />
@@ -931,7 +935,7 @@ export default function ReservationsFormClientContainer({
                           min='0'
                           size='3'
                           {...register(`tours.${i}.children_price`, {
-                            required: isDirtyField('tours') && true,
+                            required: isDirtyProductItem('tours') && true,
                             valueAsNumber: true
                           })}
                         />
@@ -959,7 +963,11 @@ export default function ReservationsFormClientContainer({
 
               {isDev() && (
                 <pre>
-                  {JSON.stringify({ isDirty: isDirtyField('tours'), ...watch('tours') }, null, 2)}
+                  {JSON.stringify(
+                    { isDirty: isDirtyProductItem('tours'), ...watch('tours') },
+                    null,
+                    2
+                  )}
                 </pre>
               )}
             </Section>
@@ -984,7 +992,7 @@ export default function ReservationsFormClientContainer({
                             <TextField.Root
                               size='3'
                               {...register(`rental_cars.${i}.region`, {
-                                required: isDirtyField('rental_cars') && true
+                                required: isDirtyProductItem('rental_cars') && true
                               })}
                             />
                           </Grid>
@@ -999,7 +1007,7 @@ export default function ReservationsFormClientContainer({
                                   type='date'
                                   size='3'
                                   {...register(`rental_cars.${i}.pickup_date`, {
-                                    required: isDirtyField('rental_cars') && true
+                                    required: isDirtyProductItem('rental_cars') && true
                                   })}
                                 />
                               </Container>
@@ -1008,7 +1016,7 @@ export default function ReservationsFormClientContainer({
                                   type='date'
                                   size='3'
                                   {...register(`rental_cars.${i}.return_date`, {
-                                    required: isDirtyField('rental_cars') && true
+                                    required: isDirtyProductItem('rental_cars') && true
                                   })}
                                 />
                               </Container>
@@ -1020,7 +1028,7 @@ export default function ReservationsFormClientContainer({
                         <TextField.Root
                           size='3'
                           {...register(`rental_cars.${i}.model`, {
-                            required: isDirtyField('rental_cars') && true
+                            required: isDirtyProductItem('rental_cars') && true
                           })}
                         />
 
@@ -1028,7 +1036,7 @@ export default function ReservationsFormClientContainer({
                         <TextField.Root
                           size='3'
                           {...register(`rental_cars.${i}.driver`, {
-                            required: isDirtyField('rental_cars') && true
+                            required: isDirtyProductItem('rental_cars') && true
                           })}
                         />
 
@@ -1038,7 +1046,7 @@ export default function ReservationsFormClientContainer({
                             <TextField.Root
                               size='3'
                               {...register(`rental_cars.${i}.options`, {
-                                required: isDirtyField('rental_cars') && true
+                                required: isDirtyProductItem('rental_cars') && true
                               })}
                             />
                           </Grid>
@@ -1048,7 +1056,7 @@ export default function ReservationsFormClientContainer({
                         <TextField.Root
                           size='3'
                           {...register(`rental_cars.${i}.pickup_location`, {
-                            required: isDirtyField('rental_cars') && true
+                            required: isDirtyProductItem('rental_cars') && true
                           })}
                         />
 
@@ -1057,7 +1065,7 @@ export default function ReservationsFormClientContainer({
                           type='time'
                           size='3'
                           {...register(`rental_cars.${i}.pickup_time`, {
-                            required: isDirtyField('rental_cars') && true
+                            required: isDirtyProductItem('rental_cars') && true
                           })}
                         />
 
@@ -1067,7 +1075,7 @@ export default function ReservationsFormClientContainer({
                           min='1'
                           size='3'
                           {...register(`rental_cars.${i}.rental_days`, {
-                            required: isDirtyField('rental_cars') && true,
+                            required: isDirtyProductItem('rental_cars') && true,
                             valueAsNumber: true
                           })}
                         />
@@ -1082,7 +1090,7 @@ export default function ReservationsFormClientContainer({
                                 min='0'
                                 size='3'
                                 {...register(`rental_cars.${i}.cost`, {
-                                  required: isDirtyField('rental_cars') && true,
+                                  required: isDirtyProductItem('rental_cars') && true,
                                   valueAsNumber: true
                                 })}
                               />
@@ -1092,7 +1100,7 @@ export default function ReservationsFormClientContainer({
                                 min='0'
                                 size='3'
                                 {...register(`rental_cars.${i}.daily_rate`, {
-                                  required: isDirtyField('rental_cars') && true,
+                                  required: isDirtyProductItem('rental_cars') && true,
                                   valueAsNumber: true
                                 })}
                               />
@@ -1124,7 +1132,7 @@ export default function ReservationsFormClientContainer({
               {isDev() && (
                 <pre>
                   {JSON.stringify(
-                    { isDirty: isDirtyField('rental_cars'), ...watch('rental_cars') },
+                    { isDirty: isDirtyProductItem('rental_cars'), ...watch('rental_cars') },
                     null,
                     2
                   )}
