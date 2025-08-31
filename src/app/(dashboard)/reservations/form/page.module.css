@@ -1,4 +1,4 @@
-.client {
+.form-field-group {
   &:not(:first-child) {
     margin-top: 16px;
     padding-top: 16px;

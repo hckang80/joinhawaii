@@ -383,7 +383,7 @@ export default function ReservationsFormClientContainer({
                       key={i}
                       className={clsx(
                         dirtyFields.clients?.[i] && styles['is-dirty'],
-                        styles.client
+                        styles['form-field-group']
                       )}
                     >
                       <Flex asChild justify='end' align='center' gap='1' mb='2'>
@@ -506,7 +506,10 @@ export default function ReservationsFormClientContainer({
                 {getValues('flights').map((_flight, i) => (
                   <div
                     key={i}
-                    className={clsx(dirtyFields.flights?.[i] && styles['is-dirty'], styles.client)}
+                    className={clsx(
+                      dirtyFields.flights?.[i] && styles['is-dirty'],
+                      styles['form-field-group']
+                    )}
                   >
                     <FlightTotalCalculator index={i} setValue={setValue} control={control} />
 
@@ -673,7 +676,10 @@ export default function ReservationsFormClientContainer({
                   return (
                     <div
                       key={i}
-                      className={clsx(dirtyFields.hotels?.[i] && styles['is-dirty'], styles.client)}
+                      className={clsx(
+                        dirtyFields.hotels?.[i] && styles['is-dirty'],
+                        styles['form-field-group']
+                      )}
                     >
                       <HotelTotalCalculator index={i} setValue={setValue} control={control} />
 
@@ -850,7 +856,10 @@ export default function ReservationsFormClientContainer({
                 {getValues('tours').map((_tour, i) => (
                   <div
                     key={i}
-                    className={clsx(dirtyFields.tours?.[i] && styles['is-dirty'], styles.client)}
+                    className={clsx(
+                      dirtyFields.tours?.[i] && styles['is-dirty'],
+                      styles['form-field-group']
+                    )}
                   >
                     <TourTotalCalculator index={i} setValue={setValue} control={control} />
 
@@ -1006,7 +1015,7 @@ export default function ReservationsFormClientContainer({
                       key={i}
                       className={clsx(
                         dirtyFields.rental_cars?.[i] && styles['is-dirty'],
-                        styles.client
+                        styles['form-field-group']
                       )}
                     >
                       <CarTotalCalculator index={i} setValue={setValue} control={control} />
