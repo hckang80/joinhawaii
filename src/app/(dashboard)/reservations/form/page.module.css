@@ -1,7 +1,13 @@
-.client {
+.form-field-group {
+  padding: 5px;
+
   &:not(:first-child) {
     margin-top: 16px;
     padding-top: 16px;
     border-top: 2px solid var(--gray-5);
   }
+}
+
+.is-dirty {
+  background-color: var(--gray-5);
 }
