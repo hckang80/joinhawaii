@@ -747,7 +747,7 @@ export default function ReservationsFormClientContainer({
                           type='number'
                           min='1'
                           size='3'
-                          disabled={!!getValues(`hotels.${i}.exchange_rate`)}
+                          disabled={!!getValues(`hotels.${i}.local_currency`)}
                           {...register(`hotels.${i}.nights`, {
                             required: isDirtyProductItem('hotels') && true,
                             valueAsNumber: true
@@ -930,7 +930,7 @@ export default function ReservationsFormClientContainer({
                           type='number'
                           min='0'
                           size='3'
-                          disabled={!!getValues(`tours.${i}.exchange_rate`)}
+                          disabled={!!getValues(`tours.${i}.local_currency`)}
                           {...register(`tours.${i}.adult_count`, {
                             required: isDirtyProductItem('tours') && true,
                             valueAsNumber: true
@@ -941,7 +941,7 @@ export default function ReservationsFormClientContainer({
                           type='number'
                           min='0'
                           size='3'
-                          disabled={!!getValues(`tours.${i}.exchange_rate`)}
+                          disabled={!!getValues(`tours.${i}.local_currency`)}
                           {...register(`tours.${i}.children_count`, {
                             required: isDirtyProductItem('tours') && true,
                             valueAsNumber: true
@@ -1112,7 +1112,7 @@ export default function ReservationsFormClientContainer({
                           type='number'
                           min='1'
                           size='3'
-                          disabled={!!getValues(`rental_cars.${i}.exchange_rate`)}
+                          disabled={!!getValues(`rental_cars.${i}.local_currency`)}
                           {...register(`rental_cars.${i}.rental_days`, {
                             required: isDirtyProductItem('rental_cars') && true,
                             valueAsNumber: true
