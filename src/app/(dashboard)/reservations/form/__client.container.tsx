@@ -112,7 +112,7 @@ function HotelTotalCalculator({
     setValue(`hotels.${index}.total_cost`, totalCost, { shouldValidate: true });
 
     if (nightly && !localCurrency) {
-      setValue(`rental_cars.${index}.exchange_rate`, exchangeRate, {
+      setValue(`hotels.${index}.exchange_rate`, exchangeRate, {
         shouldDirty: true,
         shouldTouch: true
       });
