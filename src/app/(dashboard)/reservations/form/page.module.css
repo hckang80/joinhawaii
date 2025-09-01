@@ -1,5 +1,6 @@
 .form-field-group {
   padding: 5px;
+  border-radius: 12px;
 
   &:not(:first-child) {
     margin-top: 16px;
