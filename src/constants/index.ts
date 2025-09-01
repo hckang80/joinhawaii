@@ -9,7 +9,7 @@ export type Gender = (typeof GENDER_TYPE)[number] | (string & {});
 export const defaultClientValues = {
   korean_name: '',
   english_name: '',
-  gender: '',
+  gender: 'Mr.',
   resident_id: '',
   phone_number: '',
   email: '',
