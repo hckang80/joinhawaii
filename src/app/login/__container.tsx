@@ -37,6 +37,7 @@ export default function LoginContainer() {
 
         <Grid gap='2'>
           <Button
+            disabled={isLoggedIn}
             onClick={handleGoogleLogin}
             mt='5'
             color='tomato'
