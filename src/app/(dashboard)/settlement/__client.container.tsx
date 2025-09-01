@@ -48,15 +48,35 @@ export default function SettlementClientContainer({ data }: { data: AllProducts[
               <Table.Cell>
                 {typeof item.balance === 'number' && statusLabel(item.balance)}
               </Table.Cell>
-              <Table.Cell>{toReadableAmount(item.total_cost)}</Table.Cell>
+              <Table.Cell>
+                <Grid>
+                  <span>{toReadableAmount(item.total_cost)}</span>
+                  <span>
+                    {toReadableAmount(item.total_cost * item.exchange_rate, 'ko-KR', 'KRW')}
+                  </span>
+                </Grid>
+              </Table.Cell>
               <Table.Cell>
                 <Grid>
                   <span>{toReadableAmount(item.total_amount)}</span>
-                  <span>{toReadableAmount(item.local_currency, 'ko-KR', 'KRW')}</span>
+                  <span>
+                    {toReadableAmount(item.total_amount * item.exchange_rate, 'ko-KR', 'KRW')}
+                  </span>
                 </Grid>
               </Table.Cell>
               <Table.Cell>-</Table.Cell>
-              <Table.Cell>{toReadableAmount(item.total_amount - item.total_cost)}</Table.Cell>
+              <Table.Cell>
+                <Grid>
+                  <span>{toReadableAmount(item.total_amount - item.total_cost)}</span>
+                  <span>
+                    {toReadableAmount(
+                      item.total_amount * item.exchange_rate - item.total_cost * item.exchange_rate,
+                      'ko-KR',
+                      'KRW'
+                    )}
+                  </span>
+                </Grid>
+              </Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
