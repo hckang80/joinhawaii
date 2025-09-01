@@ -1,19 +1,29 @@
 'use client';
 
 import { useAuth } from '@/hooks';
+import { observable } from '@legendapp/state';
+import { use$ } from '@legendapp/state/react';
 import { Button, Card, Grid, Text } from '@radix-ui/themes';
+import { Loader } from 'lucide-react';
 import styles from './page.module.css';
+
+const status$ = observable({
+  isLoggedIn: false
+});
 
 export default function LoginContainer() {
   const { user, login, logout } = useAuth();
 
   const handleGoogleLogin = () => {
+    status$.isLoggedIn.set(() => true);
     login();
   };
 
   const handleLogout = () => {
     logout();
   };
+
+  const isLoggedIn = use$(status$.isLoggedIn);
 
   return (
     <Grid align='center' className={styles.root} p='5'>
@@ -27,13 +37,14 @@ export default function LoginContainer() {
 
         <Grid gap='2'>
           <Button
+            disabled={isLoggedIn}
             onClick={handleGoogleLogin}
             mt='5'
             color='tomato'
             size='3'
             className={styles.button}
           >
-            Google
+            {isLoggedIn ? <Loader className='animate-spin' /> : 'Google'}
           </Button>
 
           {!!user && (
