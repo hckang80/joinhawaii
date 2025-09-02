@@ -55,7 +55,7 @@ export default function LoginContainer() {
           </Button>
 
           {!!user && (
-            <Button onClick={handleLogout} size='3' variant='outline'>
+            <Button onClick={handleLogout} size='3' variant='soft'>
               Logout
             </Button>
           )}
