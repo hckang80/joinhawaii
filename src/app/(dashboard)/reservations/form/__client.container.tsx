@@ -1213,6 +1213,9 @@ export default function ReservationsFormClientContainer({
                 등록
               </Button>
             </Flex>
+            <Text as='p' align='right' mt='2' weight='bold'>
+              정산되지 않은 항목에만 환율이 적용됩니다.
+            </Text>
           </Box>
         </form>
       </Flex>
