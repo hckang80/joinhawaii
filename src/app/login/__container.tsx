@@ -32,7 +32,7 @@ export default function LoginContainer() {
           Login
         </Text>
         <Text as='div' color='gray' size='2'>
-          This demo uses Google for authentication.
+          구글 인증을 통해 관리자 로그인이 가능합니다.
         </Text>
 
         <Grid gap='2'>
