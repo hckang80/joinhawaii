@@ -1180,38 +1180,40 @@ export default function ReservationsFormClientContainer({
             </Section>
           </Card>
 
-          <Flex justify='end' align='center' gap='2' position='sticky' bottom='5'>
-            <label>현재 환율</label>
-            <Controller
-              name='exchange_rate'
-              control={control}
-              render={({ field }) => (
-                <TextField.Root
-                  type='number'
-                  min='0'
-                  size='3'
-                  step='0.01'
-                  value={field.value}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    const { value } = e.target;
-                    if (!value) return field.onChange(value);
+          <Box position='sticky' bottom='5' className={styles['exchange-rate-card']}>
+            <Flex justify='end' align='center' gap='2'>
+              <label>현재 환율</label>
+              <Controller
+                name='exchange_rate'
+                control={control}
+                render={({ field }) => (
+                  <TextField.Root
+                    type='number'
+                    min='0'
+                    size='3'
+                    step='0.01'
+                    value={field.value}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      const { value } = e.target;
+                      if (!value) return field.onChange(value);
 
-                    const [integer, decimal] = value.split('.');
-                    const formattedValue = decimal
-                      ? `${integer.slice(0, 4)}.${decimal.slice(0, 2)}`
-                      : integer.slice(0, 4);
+                      const [integer, decimal] = value.split('.');
+                      const formattedValue = decimal
+                        ? `${integer.slice(0, 4)}.${decimal.slice(0, 2)}`
+                        : integer.slice(0, 4);
 
-                    field.onChange(+formattedValue);
-                  }}
-                />
-              )}
-            />
+                      field.onChange(+formattedValue);
+                    }}
+                  />
+                )}
+              />
 
-            <Button disabled={mutation.isPending} size='3' color='ruby'>
-              <Upload />
-              등록
-            </Button>
-          </Flex>
+              <Button disabled={mutation.isPending} size='3' color='ruby'>
+                <Upload />
+                등록
+              </Button>
+            </Flex>
+          </Box>
         </form>
       </Flex>
     </div>
