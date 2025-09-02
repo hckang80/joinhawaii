@@ -1182,7 +1182,9 @@ export default function ReservationsFormClientContainer({
 
           <Box position='sticky' bottom='5' className={styles['exchange-rate-card']}>
             <Flex justify='end' align='center' gap='2'>
-              <label>현재 환율</label>
+              <Text as='label' weight='medium'>
+                환율
+              </Text>
               <Controller
                 name='exchange_rate'
                 control={control}
