@@ -5,6 +5,7 @@ import { observable } from '@legendapp/state';
 import { use$ } from '@legendapp/state/react';
 import { Button, Card, Grid, Text } from '@radix-ui/themes';
 import { Loader } from 'lucide-react';
+import Image from 'next/image';
 import styles from './page.module.css';
 
 const status$ = observable({
@@ -40,15 +41,21 @@ export default function LoginContainer() {
             disabled={isLoggedIn}
             onClick={handleGoogleLogin}
             mt='5'
-            color='tomato'
             size='3'
-            className={styles.button}
+            className={styles['google-button']}
           >
-            {isLoggedIn ? <Loader className='animate-spin' /> : 'Google'}
+            {isLoggedIn ? (
+              <Loader className='animate-spin' />
+            ) : (
+              <>
+                <Image src='/images/google.svg' width='20' height='20' alt='' />
+                Sign in with Google
+              </>
+            )}
           </Button>
 
           {!!user && (
-            <Button onClick={handleLogout} size='3' variant='outline' className={styles.button}>
+            <Button onClick={handleLogout} size='3' variant='outline'>
               Logout
             </Button>
           )}
