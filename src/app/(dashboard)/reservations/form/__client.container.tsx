@@ -1185,6 +1185,7 @@ export default function ReservationsFormClientContainer({
               <Text as='label' weight='medium'>
                 환율
               </Text>
+              {/* TODO: 정산되지 않은 항목이 입력된 경우에만 required 적용 필요 */}
               <Controller
                 name='exchange_rate'
                 control={control}
