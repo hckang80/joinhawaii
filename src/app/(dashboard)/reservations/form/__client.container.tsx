@@ -372,10 +372,13 @@ export default function ReservationsFormClientContainer({
               <Heading as='h3' mb='4'>
                 고객정보
               </Heading>
-              {isDev() && JSON.stringify(data?.total_amount, null, 2)}
-              <br />
-              {isDev() && JSON.stringify(watch('main_client_name'), null, 2)}
-              <br />
+              {isDev() && (
+                <div>
+                  {data?.total_amount}
+                  <br />
+                  {watch('main_client_name')}
+                </div>
+              )}
               <Flex direction='column' gap='5'>
                 {getValues('clients').map((client, i) => {
                   return (
