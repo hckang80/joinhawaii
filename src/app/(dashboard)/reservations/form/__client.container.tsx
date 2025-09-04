@@ -419,6 +419,7 @@ export default function ReservationsFormClientContainer({
                                     setValue('main_client_name', e.target.value);
                                   }
                                 }}
+                                placeholder='홍길동'
                               />
                             )}
                           />
@@ -429,6 +430,7 @@ export default function ReservationsFormClientContainer({
                           <TextField.Root
                             size='3'
                             {...register(`clients.${i}.english_name`, { required: true })}
+                            placeholder='HONG GILDONG'
                           />
                         </Flex>
 
@@ -437,6 +439,7 @@ export default function ReservationsFormClientContainer({
                           <TextField.Root
                             size='3'
                             {...register(`clients.${i}.resident_id`, { required: true })}
+                            placeholder='000000-0000000'
                           />
                         </Flex>
 
@@ -445,6 +448,7 @@ export default function ReservationsFormClientContainer({
                           <TextField.Root
                             size='3'
                             {...register(`clients.${i}.phone_number`, { required: true })}
+                            placeholder='010-0000-0000'
                           />
                         </Flex>
 
@@ -453,6 +457,7 @@ export default function ReservationsFormClientContainer({
                           <TextField.Root
                             size='3'
                             {...register(`clients.${i}.email`, { required: true })}
+                            placeholder='joinhawaii@gmail.com'
                           />
                         </Flex>
 
@@ -532,6 +537,7 @@ export default function ReservationsFormClientContainer({
                           {...register(`flights.${i}.flight_number`, {
                             required: isDirtyProductItem('flights') && true
                           })}
+                          placeholder='KE001'
                         />
                       </Flex>
 
@@ -575,14 +581,15 @@ export default function ReservationsFormClientContainer({
                           {...register(`flights.${i}.arrival_city`, {
                             required: isDirtyProductItem('flights') && true
                           })}
+                          placeholder='호놀룰루'
                         />
                       </Flex>
 
                       <Flex gridColumn={'1 / -1'} gap='3' wrap='wrap'>
                         <Flex direction='column'>
-                          <Text weight='medium'>원가</Text>
-                          <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
-                            <span>성인</span>
+                          <Text weight='medium'>💸 원가</Text>
+                          <Grid align='center' columns='50px 100px 50px 100px' gap='3'>
+                            <span>🧑 성인</span>
                             <TextField.Root
                               type='number'
                               min='0'
@@ -592,7 +599,7 @@ export default function ReservationsFormClientContainer({
                                 valueAsNumber: true
                               })}
                             />
-                            <span>소아</span>
+                            <span>🧒 소아</span>
                             <TextField.Root
                               type='number'
                               min='0'
@@ -606,9 +613,9 @@ export default function ReservationsFormClientContainer({
                         </Flex>
 
                         <Flex direction='column'>
-                          <Text weight='medium'>인원</Text>
-                          <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
-                            <span>성인</span>
+                          <Text weight='medium'>🧑‍🤝‍🧑 인원</Text>
+                          <Grid align='center' columns='50px 100px 50px 100px' gap='3'>
+                            <span>🧑 성인</span>
                             <TextField.Root
                               type='number'
                               min='0'
@@ -618,7 +625,7 @@ export default function ReservationsFormClientContainer({
                                 valueAsNumber: true
                               })}
                             />
-                            <span>소아</span>
+                            <span>🧒 소아</span>
                             <TextField.Root
                               type='number'
                               min='0'
@@ -632,9 +639,9 @@ export default function ReservationsFormClientContainer({
                         </Flex>
 
                         <Flex direction='column'>
-                          <Text weight='medium'>요금</Text>
-                          <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
-                            <span>성인</span>
+                          <Text weight='medium'>💰 요금</Text>
+                          <Grid align='center' columns='50px 100px 50px 100px' gap='3'>
+                            <span>🧑 성인</span>
                             <TextField.Root
                               type='number'
                               min='0'
@@ -644,7 +651,7 @@ export default function ReservationsFormClientContainer({
                                 valueAsNumber: true
                               })}
                             />
-                            <span>소아</span>
+                            <span>🧒 소아</span>
                             <TextField.Root
                               type='number'
                               min='0'
