@@ -524,134 +524,146 @@ export default function ReservationsFormClientContainer({
                   >
                     <FlightTotalCalculator index={i} setValue={setValue} control={control} />
 
-                    <Grid align='center' columns='60px 1fr 60px 1fr' gap='3'>
-                      <Box gridColumn='1 / -1'>
-                        <Grid align='center' columns='60px 1fr' gap='3'>
-                          <Text weight='medium'>항공편명</Text>
-                          <TextField.Root
-                            size='3'
-                            {...register(`flights.${i}.flight_number`, {
-                              required: isDirtyProductItem('flights') && true
-                            })}
-                          />
-                        </Grid>
-                      </Box>
-
-                      <Text weight='medium'>출발 시간</Text>
-                      <TextField.Root
-                        size='3'
-                        type='datetime-local'
-                        {...register(`flights.${i}.departure_datetime`, {
-                          required: isDirtyProductItem('flights') && true
-                        })}
-                      />
-
-                      <Text weight='medium'>출발지</Text>
-                      <TextField.Root
-                        size='3'
-                        readOnly={!i}
-                        {...register(`flights.${i}.departure_city`, {
-                          required: isDirtyProductItem('flights') && true
-                        })}
-                      />
-
-                      <Text weight='medium'>도착 시간</Text>
-                      <TextField.Root
-                        size='3'
-                        type='datetime-local'
-                        {...register(`flights.${i}.arrival_datetime`, {
-                          required: isDirtyProductItem('flights') && true
-                        })}
-                      />
-
-                      <Text weight='medium'>도착지</Text>
-                      <TextField.Root
-                        size='3'
-                        {...register(`flights.${i}.arrival_city`, {
-                          required: isDirtyProductItem('flights') && true
-                        })}
-                      />
-
-                      <Text weight='medium'>원가</Text>
-                      <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
-                        <span>성인</span>
+                    <Grid align='center' columns='repeat(auto-fit, minmax(160px, auto))' gap='3'>
+                      <Flex direction='column'>
+                        <Text weight='medium'>항공편명</Text>
                         <TextField.Root
-                          type='number'
-                          min='0'
                           size='3'
-                          {...register(`flights.${i}.adult_cost`, {
-                            required: isDirtyProductItem('flights') && true,
-                            valueAsNumber: true
+                          {...register(`flights.${i}.flight_number`, {
+                            required: isDirtyProductItem('flights') && true
                           })}
                         />
-                        <span>소아</span>
-                        <TextField.Root
-                          type='number'
-                          min='0'
-                          size='3'
-                          {...register(`flights.${i}.children_cost`, {
-                            required: isDirtyProductItem('flights') && true,
-                            valueAsNumber: true
-                          })}
-                        />
-                      </Grid>
+                      </Flex>
 
-                      <Text weight='medium'>인원</Text>
-                      <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
-                        <span>성인</span>
+                      <Flex direction='column'>
+                        <Text weight='medium'>출발 시간</Text>
                         <TextField.Root
-                          type='number'
-                          min='0'
                           size='3'
-                          {...register(`flights.${i}.adult_count`, {
-                            required: isDirtyProductItem('flights') && true,
-                            valueAsNumber: true
+                          type='datetime-local'
+                          {...register(`flights.${i}.departure_datetime`, {
+                            required: isDirtyProductItem('flights') && true
                           })}
                         />
-                        <span>소아</span>
-                        <TextField.Root
-                          type='number'
-                          min='0'
-                          size='3'
-                          {...register(`flights.${i}.children_count`, {
-                            required: isDirtyProductItem('flights') && true,
-                            valueAsNumber: true
-                          })}
-                        />
-                      </Grid>
+                      </Flex>
 
-                      <Text weight='medium'>요금</Text>
-                      <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
-                        <span>성인</span>
+                      <Flex direction='column'>
+                        <Text weight='medium'>출발지</Text>
                         <TextField.Root
-                          type='number'
-                          min='0'
                           size='3'
-                          {...register(`flights.${i}.adult_price`, {
-                            required: isDirtyProductItem('flights') && true,
-                            valueAsNumber: true
+                          readOnly={!i}
+                          {...register(`flights.${i}.departure_city`, {
+                            required: isDirtyProductItem('flights') && true
                           })}
                         />
-                        <span>소아</span>
-                        <TextField.Root
-                          type='number'
-                          min='0'
-                          size='3'
-                          {...register(`flights.${i}.children_price`, {
-                            required: isDirtyProductItem('flights') && true,
-                            valueAsNumber: true
-                          })}
-                        />
-                      </Grid>
+                      </Flex>
 
-                      <Box gridColumn='1 / -1'>
-                        <Grid align='center' columns='60px 1fr' gap='3'>
-                          <Text weight='medium' mb='2'>
-                            비고
-                          </Text>
-                          <TextArea {...register(`flights.${i}.notes`)} />
-                        </Grid>
-                      </Box>
+                      <Flex direction='column'>
+                        <Text weight='medium'>도착 시간</Text>
+                        <TextField.Root
+                          size='3'
+                          type='datetime-local'
+                          {...register(`flights.${i}.arrival_datetime`, {
+                            required: isDirtyProductItem('flights') && true
+                          })}
+                        />
+                      </Flex>
+
+                      <Flex direction='column'>
+                        <Text weight='medium'>도착지</Text>
+                        <TextField.Root
+                          size='3'
+                          {...register(`flights.${i}.arrival_city`, {
+                            required: isDirtyProductItem('flights') && true
+                          })}
+                        />
+                      </Flex>
+
+                      <Flex gridColumn={'1 / -1'} gap='3' wrap='wrap'>
+                        <Flex direction='column'>
+                          <Text weight='medium'>원가</Text>
+                          <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
+                            <span>성인</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              size='3'
+                              {...register(`flights.${i}.adult_cost`, {
+                                required: isDirtyProductItem('flights') && true,
+                                valueAsNumber: true
+                              })}
+                            />
+                            <span>소아</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              size='3'
+                              {...register(`flights.${i}.children_cost`, {
+                                required: isDirtyProductItem('flights') && true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Grid>
+                        </Flex>
+
+                        <Flex direction='column'>
+                          <Text weight='medium'>인원</Text>
+                          <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
+                            <span>성인</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              size='3'
+                              {...register(`flights.${i}.adult_count`, {
+                                required: isDirtyProductItem('flights') && true,
+                                valueAsNumber: true
+                              })}
+                            />
+                            <span>소아</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              size='3'
+                              {...register(`flights.${i}.children_count`, {
+                                required: isDirtyProductItem('flights') && true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Grid>
+                        </Flex>
+
+                        <Flex direction='column'>
+                          <Text weight='medium'>요금</Text>
+                          <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
+                            <span>성인</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              size='3'
+                              {...register(`flights.${i}.adult_price`, {
+                                required: isDirtyProductItem('flights') && true,
+                                valueAsNumber: true
+                              })}
+                            />
+                            <span>소아</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              size='3'
+                              {...register(`flights.${i}.children_price`, {
+                                required: isDirtyProductItem('flights') && true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Grid>
+                        </Flex>
+                      </Flex>
+
+                      <Flex direction='column' gridColumn={'1 / -1'}>
+                        <Text weight='medium' mb='2'>
+                          비고
+                        </Text>
+                        <TextArea {...register(`flights.${i}.notes`)} />
+                      </Flex>
                     </Grid>
                   </div>
                 ))}
