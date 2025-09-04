@@ -706,145 +706,140 @@ export default function ReservationsFormClientContainer({
                     >
                       <HotelTotalCalculator index={i} setValue={setValue} control={control} />
 
-                      <Grid align='center' columns='60px 1fr 60px 1fr' gap='3'>
-                        <Box gridColumn='1/ -1'>
-                          <Grid align='center' columns='60px 1fr' gap='3'>
-                            <Text weight='medium'>지역</Text>
-                            <TextField.Root
-                              size='3'
-                              {...register(`hotels.${i}.region`, {
-                                required: isDirtyProductItem('hotels') && true
-                              })}
-                            />
-                          </Grid>
-                        </Box>
+                      <Grid align='center' columns='repeat(auto-fit, minmax(160px, auto))' gap='3'>
+                        <Flex direction='column'>
+                          <Text weight='medium'>지역</Text>
+                          <TextField.Root
+                            size='3'
+                            {...register(`hotels.${i}.region`, {
+                              required: isDirtyProductItem('hotels') && true
+                            })}
+                          />
+                        </Flex>
 
-                        <Box gridColumn='1/ -1'>
-                          <Grid align='center' columns='60px 1fr' gap='3'>
-                            <Text weight='medium'>날짜</Text>
-                            <Flex gap='2'>
-                              <Container flexGrow='1'>
-                                <TextField.Root
-                                  type='date'
-                                  size='3'
-                                  {...register(`hotels.${i}.check_in_date`, {
-                                    required: isDirtyProductItem('hotels') && true
-                                  })}
-                                />
-                              </Container>
-                              <Container flexGrow='1'>
-                                <TextField.Root
-                                  type='date'
-                                  size='3'
-                                  {...register(`hotels.${i}.check_out_date`, {
-                                    required: isDirtyProductItem('hotels') && true
-                                  })}
-                                />
-                              </Container>
-                            </Flex>
-                          </Grid>
-                        </Box>
+                        <Flex direction='column'>
+                          <Text weight='medium'>체크인</Text>
+                          <TextField.Root
+                            type='date'
+                            size='3'
+                            {...register(`hotels.${i}.check_in_date`, {
+                              required: isDirtyProductItem('hotels') && true
+                            })}
+                          />
+                        </Flex>
 
-                        <Box gridColumn='1/ -1'>
-                          <Grid align='center' columns='60px 1fr' gap='3'>
-                            <Text weight='medium'>호텔명</Text>
-                            <TextField.Root
-                              size='3'
-                              {...register(`hotels.${i}.hotel_name`, {
-                                required: isDirtyProductItem('hotels') && true
-                              })}
-                            />
-                          </Grid>
-                        </Box>
+                        <Flex direction='column'>
+                          <Text weight='medium'>체크아웃</Text>
+                          <TextField.Root
+                            type='date'
+                            size='3'
+                            {...register(`hotels.${i}.check_out_date`, {
+                              required: isDirtyProductItem('hotels') && true
+                            })}
+                          />
+                        </Flex>
 
-                        <Text weight='medium'>객실타입</Text>
-                        <TextField.Root
-                          size='3'
-                          {...register(`hotels.${i}.room_type`, {
-                            required: isDirtyProductItem('hotels') && true
-                          })}
-                        />
+                        <Flex direction='column'>
+                          <Text weight='medium'>호텔명</Text>
+                          <TextField.Root
+                            size='3'
+                            {...register(`hotels.${i}.hotel_name`, {
+                              required: isDirtyProductItem('hotels') && true
+                            })}
+                          />
+                        </Flex>
 
-                        <Text weight='medium'>숙박일</Text>
-                        <TextField.Root
-                          type='number'
-                          min='1'
-                          size='3'
-                          disabled={!!getValues(`hotels.${i}.local_currency`)}
-                          {...register(`hotels.${i}.nights`, {
-                            required: isDirtyProductItem('hotels') && true,
-                            valueAsNumber: true
-                          })}
-                        />
+                        <Flex direction='column'>
+                          <Text weight='medium'>객실타입</Text>
+                          <TextField.Root
+                            size='3'
+                            {...register(`hotels.${i}.room_type`, {
+                              required: isDirtyProductItem('hotels') && true
+                            })}
+                          />
+                        </Flex>
 
-                        <Box gridColumn='1/ -1'>
-                          <Grid align='center' columns='60px 20px 80px 60px 20px' gap='3'>
-                            <Text weight='medium'>조식</Text>
-                            <Controller
-                              name={`hotels.${i}.is_breakfast_included`}
-                              control={control}
-                              render={({ field }) => (
-                                <Checkbox
-                                  checked={field.value}
-                                  onCheckedChange={value => {
-                                    field.onChange(value);
-                                  }}
-                                />
-                              )}
-                            />
-                            <span></span>
-                            <Text weight='medium'>리조트피</Text>
-                            <Controller
-                              name={`hotels.${i}.is_resort_fee`}
-                              control={control}
-                              render={({ field }) => (
-                                <Checkbox
-                                  checked={field.value}
-                                  onCheckedChange={value => {
-                                    field.onChange(value);
-                                  }}
-                                />
-                              )}
-                            />
-                          </Grid>
-                        </Box>
+                        <Flex direction='column'>
+                          <Text weight='medium'>숙박일</Text>
+                          <TextField.Root
+                            type='number'
+                            min='1'
+                            size='3'
+                            disabled={!!getValues(`hotels.${i}.local_currency`)}
+                            {...register(`hotels.${i}.nights`, {
+                              required: isDirtyProductItem('hotels') && true,
+                              valueAsNumber: true
+                            })}
+                          />
+                        </Flex>
 
-                        <Box gridColumn='1/ -1'>
-                          <Grid align='center' columns='60px 1fr' gap='3'>
-                            <Text weight='medium'>요금 상세</Text>
-                            <Flex align='center' gap='3'>
-                              <Text wrap='nowrap'>원가</Text>
-                              <TextField.Root
-                                type='number'
-                                min='0'
+                        <Flex direction='column'>
+                          {' '}
+                          <Text wrap='nowrap'>원가</Text>
+                          <TextField.Root
+                            type='number'
+                            min='0'
+                            size='3'
+                            {...register(`hotels.${i}.cost`, {
+                              required: isDirtyProductItem('hotels') && true,
+                              valueAsNumber: true
+                            })}
+                          />
+                        </Flex>
+
+                        <Flex direction='column'>
+                          <Text wrap='nowrap'>1박요금</Text>
+                          <TextField.Root
+                            type='number'
+                            min='0'
+                            size='3'
+                            {...register(`hotels.${i}.nightly_rate`, {
+                              required: isDirtyProductItem('hotels') && true,
+                              valueAsNumber: true
+                            })}
+                          />
+                        </Flex>
+
+                        <Flex direction='column' align='start'>
+                          <Text weight='medium'>조식</Text>
+                          <Controller
+                            name={`hotels.${i}.is_breakfast_included`}
+                            control={control}
+                            render={({ field }) => (
+                              <Checkbox
                                 size='3'
-                                {...register(`hotels.${i}.cost`, {
-                                  required: isDirtyProductItem('hotels') && true,
-                                  valueAsNumber: true
-                                })}
+                                checked={field.value}
+                                onCheckedChange={value => {
+                                  field.onChange(value);
+                                }}
                               />
-                              <Text wrap='nowrap'>1박요금</Text>
-                              <TextField.Root
-                                type='number'
-                                min='0'
-                                size='3'
-                                {...register(`hotels.${i}.nightly_rate`, {
-                                  required: isDirtyProductItem('hotels') && true,
-                                  valueAsNumber: true
-                                })}
-                              />
-                            </Flex>
-                          </Grid>
-                        </Box>
+                            )}
+                          />
+                        </Flex>
 
-                        <Box gridColumn='1 / -1'>
-                          <Grid align='center' columns='60px 1fr' gap='3'>
-                            <Text weight='medium' mb='2'>
-                              비고
-                            </Text>
-                            <TextArea {...register(`hotels.${i}.notes`)} />
-                          </Grid>
-                        </Box>
+                        <Flex direction='column' align='start'>
+                          <Text weight='medium'>리조트피</Text>
+                          <Controller
+                            name={`hotels.${i}.is_resort_fee`}
+                            control={control}
+                            render={({ field }) => (
+                              <Checkbox
+                                size='3'
+                                checked={field.value}
+                                onCheckedChange={value => {
+                                  field.onChange(value);
+                                }}
+                              />
+                            )}
+                          />
+                        </Flex>
+
+                        <Flex direction='column' gridColumn={'1 / -1'}>
+                          <Text weight='medium' mb='2'>
+                            비고
+                          </Text>
+                          <TextArea {...register(`hotels.${i}.notes`)} />
+                        </Flex>
                       </Grid>
                     </div>
                   );
