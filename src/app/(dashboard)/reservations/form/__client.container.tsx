@@ -403,80 +403,88 @@ export default function ReservationsFormClientContainer({
                           />
                         </label>
                       </Flex>
-                      <Grid align='center' columns='60px 1fr 70px 1fr' gap='3'>
-                        <Text weight='medium'>이름</Text>
-                        <Controller
-                          name={`clients.${i}.korean_name`}
-                          control={control}
-                          render={({ field }) => (
-                            <TextField.Root
-                              size='3'
-                              value={field.value}
-                              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                field.onChange(e.target.value);
-                                if (i === reservationIndex) {
-                                  setValue('main_client_name', e.target.value);
-                                }
-                              }}
-                            />
-                          )}
-                        />
+                      <Grid align='center' columns='repeat(auto-fit, minmax(160px, auto))' gap='3'>
+                        <Flex direction='column'>
+                          <Text weight='medium'>이름</Text>
+                          <Controller
+                            name={`clients.${i}.korean_name`}
+                            control={control}
+                            render={({ field }) => (
+                              <TextField.Root
+                                size='3'
+                                value={field.value}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                  field.onChange(e.target.value);
+                                  if (i === reservationIndex) {
+                                    setValue('main_client_name', e.target.value);
+                                  }
+                                }}
+                              />
+                            )}
+                          />
+                        </Flex>
 
-                        <Text weight='medium'>이름(영문)</Text>
-                        <TextField.Root
-                          size='3'
-                          {...register(`clients.${i}.english_name`, { required: true })}
-                        />
+                        <Flex direction='column'>
+                          <Text weight='medium'>이름(영문)</Text>
+                          <TextField.Root
+                            size='3'
+                            {...register(`clients.${i}.english_name`, { required: true })}
+                          />
+                        </Flex>
 
-                        <Text weight='medium'>성별</Text>
-                        <Controller
-                          name={`clients.${i}.gender`}
-                          control={control}
-                          render={({ field }) => (
-                            <RadioCards.Root
-                              size='1'
-                              value={field.value}
-                              onValueChange={value => {
-                                field.onChange(value);
-                              }}
-                              name={field.name}
-                              columns='repeat(auto-fit, 80px)'
-                            >
-                              {GENDER_TYPE.map(value => (
-                                <RadioCards.Item value={value} key={value}>
-                                  {value}
-                                </RadioCards.Item>
-                              ))}
-                            </RadioCards.Root>
-                          )}
-                        ></Controller>
+                        <Flex direction='column'>
+                          <Text weight='medium'>주민번호</Text>
+                          <TextField.Root
+                            size='3'
+                            {...register(`clients.${i}.resident_id`, { required: true })}
+                          />
+                        </Flex>
 
-                        <Text weight='medium'>주민번호</Text>
-                        <TextField.Root
-                          size='3'
-                          {...register(`clients.${i}.resident_id`, { required: true })}
-                        />
+                        <Flex direction='column'>
+                          <Text weight='medium'>연락처</Text>
+                          <TextField.Root
+                            size='3'
+                            {...register(`clients.${i}.phone_number`, { required: true })}
+                          />
+                        </Flex>
 
-                        <Text weight='medium'>연락처</Text>
-                        <TextField.Root
-                          size='3'
-                          {...register(`clients.${i}.phone_number`, { required: true })}
-                        />
+                        <Flex direction='column'>
+                          <Text weight='medium'>이메일</Text>
+                          <TextField.Root
+                            size='3'
+                            {...register(`clients.${i}.email`, { required: true })}
+                          />
+                        </Flex>
 
-                        <Text weight='medium'>이메일</Text>
-                        <TextField.Root
-                          size='3'
-                          {...register(`clients.${i}.email`, { required: true })}
-                        />
+                        <Flex direction='column'>
+                          <Text weight='medium'>성별</Text>
+                          <Controller
+                            name={`clients.${i}.gender`}
+                            control={control}
+                            render={({ field }) => (
+                              <RadioCards.Root
+                                size='1'
+                                value={field.value}
+                                onValueChange={value => {
+                                  field.onChange(value);
+                                }}
+                                name={field.name}
+                                columns='repeat(4, 60px)'
+                              >
+                                {GENDER_TYPE.map(value => (
+                                  <RadioCards.Item value={value} key={value}>
+                                    {value}
+                                  </RadioCards.Item>
+                                ))}
+                              </RadioCards.Root>
+                            )}
+                          ></Controller>
+                        </Flex>
 
-                        <Box gridColumn='1 / -1'>
-                          <Grid align='center' columns='60px 1fr' gap='3'>
-                            <Text weight='medium' mb='2'>
-                              비고
-                            </Text>
-                            <TextArea {...register(`clients.${i}.notes`)} />
-                          </Grid>
-                        </Box>
+                        <Flex direction='column' gridColumn={'1 / -1'}>
+                          <Text weight='medium'>비고</Text>
+                          <TextArea {...register(`clients.${i}.notes`)} />
+                        </Flex>
                       </Grid>
                     </div>
                   );
