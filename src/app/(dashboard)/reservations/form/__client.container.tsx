@@ -26,6 +26,7 @@ import {
   RadioCards,
   Section,
   Select,
+  Table,
   Text,
   TextArea,
   TextField
@@ -379,19 +380,25 @@ export default function ReservationsFormClientContainer({
                   {watch('main_client_name')}
                 </div>
               )}
-              <Flex direction='column' gap='5'>
-                {getValues('clients').map((client, i) => {
-                  return (
-                    <div
-                      key={i}
-                      className={clsx(
-                        dirtyFields.clients?.[i] && styles['is-dirty'],
-                        styles['form-field-group']
-                      )}
-                    >
-                      <Flex asChild justify='end' align='center' gap='1' mb='2'>
+
+              <Table.Root size='1'>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.ColumnHeaderCell width='60px'>예약자</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='100px'>이름</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='160px'>영문</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='100px'>성별</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='150px'>주민번호</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='140px'>연락처</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='180px'>이메일</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell>비고</Table.ColumnHeaderCell>
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                  {getValues('clients').map((client, i) => (
+                    <Table.Row key={i}>
+                      <Table.Cell>
                         <label>
-                          예약자
                           <Radio
                             name='reservation'
                             value={'' + i}
@@ -402,99 +409,80 @@ export default function ReservationsFormClientContainer({
                             onChange={handleChangeReservation}
                           />
                         </label>
-                      </Flex>
-                      <Grid align='center' columns='repeat(auto-fit, minmax(160px, auto))' gap='3'>
-                        <Flex direction='column'>
-                          <Text weight='medium'>이름</Text>
-                          <Controller
-                            name={`clients.${i}.korean_name`}
-                            control={control}
-                            render={({ field }) => (
-                              <TextField.Root
-                                size='3'
-                                value={field.value}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                  field.onChange(e.target.value);
-                                  if (i === reservationIndex) {
-                                    setValue('main_client_name', e.target.value);
-                                  }
-                                }}
-                                placeholder='홍길동'
-                              />
-                            )}
-                          />
-                        </Flex>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Controller
+                          name={`clients.${i}.korean_name`}
+                          control={control}
+                          render={({ field }) => (
+                            <TextField.Root
+                              value={field.value}
+                              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                field.onChange(e.target.value);
+                                if (i === reservationIndex) {
+                                  setValue('main_client_name', e.target.value);
+                                }
+                              }}
+                              placeholder='홍길동'
+                            />
+                          )}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <TextField.Root
+                          {...register(`clients.${i}.english_name`, { required: true })}
+                          placeholder='HONG GILDONG'
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Controller
+                          name={`clients.${i}.gender`}
+                          control={control}
+                          render={({ field }) => (
+                            <RadioCards.Root
+                              size='1'
+                              value={field.value}
+                              onValueChange={value => {
+                                field.onChange(value);
+                              }}
+                              name={field.name}
+                              columns='repeat(4, 60px)'
+                            >
+                              {GENDER_TYPE.map(value => (
+                                <RadioCards.Item value={value} key={value}>
+                                  {value}
+                                </RadioCards.Item>
+                              ))}
+                            </RadioCards.Root>
+                          )}
+                        ></Controller>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <TextField.Root
+                          {...register(`clients.${i}.resident_id`, { required: true })}
+                          placeholder='000000-0000000'
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <TextField.Root
+                          {...register(`clients.${i}.phone_number`, { required: true })}
+                          placeholder='010-0000-0000'
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <TextField.Root
+                          {...register(`clients.${i}.email`, { required: true })}
+                          placeholder='joinhawaii@gmail.com'
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <TextArea {...register(`clients.${i}.notes`)} />
+                      </Table.Cell>
+                    </Table.Row>
+                  ))}
+                </Table.Body>
+              </Table.Root>
 
-                        <Flex direction='column'>
-                          <Text weight='medium'>이름(영문)</Text>
-                          <TextField.Root
-                            size='3'
-                            {...register(`clients.${i}.english_name`, { required: true })}
-                            placeholder='HONG GILDONG'
-                          />
-                        </Flex>
-
-                        <Flex direction='column'>
-                          <Text weight='medium'>주민번호</Text>
-                          <TextField.Root
-                            size='3'
-                            {...register(`clients.${i}.resident_id`, { required: true })}
-                            placeholder='000000-0000000'
-                          />
-                        </Flex>
-
-                        <Flex direction='column'>
-                          <Text weight='medium'>연락처</Text>
-                          <TextField.Root
-                            size='3'
-                            {...register(`clients.${i}.phone_number`, { required: true })}
-                            placeholder='010-0000-0000'
-                          />
-                        </Flex>
-
-                        <Flex direction='column'>
-                          <Text weight='medium'>이메일</Text>
-                          <TextField.Root
-                            size='3'
-                            {...register(`clients.${i}.email`, { required: true })}
-                            placeholder='joinhawaii@gmail.com'
-                          />
-                        </Flex>
-
-                        <Flex direction='column'>
-                          <Text weight='medium'>성별</Text>
-                          <Controller
-                            name={`clients.${i}.gender`}
-                            control={control}
-                            render={({ field }) => (
-                              <RadioCards.Root
-                                size='1'
-                                value={field.value}
-                                onValueChange={value => {
-                                  field.onChange(value);
-                                }}
-                                name={field.name}
-                                columns='repeat(4, 60px)'
-                              >
-                                {GENDER_TYPE.map(value => (
-                                  <RadioCards.Item value={value} key={value}>
-                                    {value}
-                                  </RadioCards.Item>
-                                ))}
-                              </RadioCards.Root>
-                            )}
-                          ></Controller>
-                        </Flex>
-
-                        <Flex direction='column' gridColumn={'1 / -1'}>
-                          <Text weight='medium'>비고</Text>
-                          <TextArea {...register(`clients.${i}.notes`)} />
-                        </Flex>
-                      </Grid>
-                    </div>
-                  );
-                })}
-              </Flex>
               <Flex justify='end' mt='4' gap='1'>
                 <Button title='인원 추가' type='button' color='ruby' onClick={addClient}>
                   <UserPlus />
