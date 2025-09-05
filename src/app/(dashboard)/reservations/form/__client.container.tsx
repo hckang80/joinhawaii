@@ -514,9 +514,9 @@ export default function ReservationsFormClientContainer({
                   <Table.Row>
                     <Table.ColumnHeaderCell width='80px'>티켓</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='100px'>항공편</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='220px'>출발시간</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='240px'>출발시간</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='100px'>출발지</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='220px'>도착시간</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='240px'>도착시간</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='100px'>도착지</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='80px'>💸 원가</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='80px'>💰 요금</Table.ColumnHeaderCell>
@@ -530,7 +530,6 @@ export default function ReservationsFormClientContainer({
                       <Table.Cell>{/* 개별진행, 그룹항공, 블럭항공, 인디비 */}</Table.Cell>
                       <Table.Cell>
                         <TextField.Root
-                          size='3'
                           {...register(`flights.${i}.flight_number`, {
                             required: isDirtyProductItem('flights') && true
                           })}
@@ -539,7 +538,6 @@ export default function ReservationsFormClientContainer({
                       </Table.Cell>
                       <Table.Cell>
                         <TextField.Root
-                          size='3'
                           type='datetime-local'
                           {...register(`flights.${i}.departure_datetime`, {
                             required: isDirtyProductItem('flights') && true
@@ -548,7 +546,6 @@ export default function ReservationsFormClientContainer({
                       </Table.Cell>
                       <Table.Cell>
                         <TextField.Root
-                          size='3'
                           readOnly={!i}
                           {...register(`flights.${i}.departure_city`, {
                             required: isDirtyProductItem('flights') && true
@@ -557,7 +554,6 @@ export default function ReservationsFormClientContainer({
                       </Table.Cell>
                       <Table.Cell>
                         <TextField.Root
-                          size='3'
                           type='datetime-local'
                           {...register(`flights.${i}.arrival_datetime`, {
                             required: isDirtyProductItem('flights') && true
@@ -566,7 +562,6 @@ export default function ReservationsFormClientContainer({
                       </Table.Cell>
                       <Table.Cell>
                         <TextField.Root
-                          size='3'
                           {...register(`flights.${i}.arrival_city`, {
                             required: isDirtyProductItem('flights') && true
                           })}
@@ -580,7 +575,6 @@ export default function ReservationsFormClientContainer({
                             <TextField.Root
                               type='number'
                               min='0'
-                              size='3'
                               {...register(`flights.${i}.adult_cost`, {
                                 required: isDirtyProductItem('flights') && true,
                                 valueAsNumber: true
@@ -592,7 +586,6 @@ export default function ReservationsFormClientContainer({
                             <TextField.Root
                               type='number'
                               min='0'
-                              size='3'
                               {...register(`flights.${i}.children_cost`, {
                                 required: isDirtyProductItem('flights') && true,
                                 valueAsNumber: true
@@ -611,7 +604,6 @@ export default function ReservationsFormClientContainer({
                             <TextField.Root
                               type='number'
                               min='0'
-                              size='3'
                               {...register(`flights.${i}.adult_price`, {
                                 required: isDirtyProductItem('flights') && true,
                                 valueAsNumber: true
@@ -623,7 +615,6 @@ export default function ReservationsFormClientContainer({
                             <TextField.Root
                               type='number'
                               min='0'
-                              size='3'
                               {...register(`flights.${i}.children_price`, {
                                 required: isDirtyProductItem('flights') && true,
                                 valueAsNumber: true
@@ -642,7 +633,6 @@ export default function ReservationsFormClientContainer({
                             <TextField.Root
                               type='number'
                               min='0'
-                              size='3'
                               {...register(`flights.${i}.adult_count`, {
                                 required: isDirtyProductItem('flights') && true,
                                 valueAsNumber: true
@@ -654,7 +644,6 @@ export default function ReservationsFormClientContainer({
                             <TextField.Root
                               type='number'
                               min='0'
-                              size='3'
                               {...register(`flights.${i}.children_count`, {
                                 required: isDirtyProductItem('flights') && true,
                                 valueAsNumber: true
@@ -701,6 +690,35 @@ export default function ReservationsFormClientContainer({
               <Heading as='h3' mb='4'>
                 호텔
               </Heading>
+
+              <Table.Root size='1'>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.ColumnHeaderCell width='80px'>섬</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='100px'>날짜</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='220px'>숙박일</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='100px'>호텔</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='220px'>객실타입</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='100px'>조식</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='80px'>리조트피</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='80px'>1박요금</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='80px'>수량</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell>CF#/VC#</Table.ColumnHeaderCell>
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                  {getValues('hotels').map((_hotel, i) => (
+                    <Table.Row key={i}>
+                      <Table.Cell></Table.Cell>
+                      <Table.Cell>-</Table.Cell>
+                      <Table.Cell>-</Table.Cell>
+                      <Table.Cell>-</Table.Cell>
+                      <Table.Cell>-</Table.Cell>
+                      <Table.Cell>-</Table.Cell>
+                    </Table.Row>
+                  ))}
+                </Table.Body>
+              </Table.Root>
 
               <Flex direction='column' gap='5'>
                 {getValues('hotels').map((_hotel, i) => {
