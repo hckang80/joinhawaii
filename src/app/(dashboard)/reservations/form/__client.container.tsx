@@ -509,20 +509,26 @@ export default function ReservationsFormClientContainer({
                 항공정보
               </Heading>
 
-              <Flex direction='column' gap='5'>
-                {getValues('flights').map((_flight, i) => (
-                  <div
-                    key={i}
-                    className={clsx(
-                      dirtyFields.flights?.[i] && styles['is-dirty'],
-                      styles['form-field-group']
-                    )}
-                  >
-                    <FlightTotalCalculator index={i} setValue={setValue} control={control} />
-
-                    <Grid align='center' columns='repeat(auto-fit, minmax(160px, auto))' gap='3'>
-                      <Flex direction='column'>
-                        <Text weight='medium'>항공편명</Text>
+              <Table.Root size='1'>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.ColumnHeaderCell width='80px'>티켓</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='100px'>항공편</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='220px'>출발시간</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='100px'>출발지</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='220px'>도착시간</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='100px'>도착지</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='80px'>💸 원가</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='80px'>💰 요금</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='80px'>🧑‍🤝‍🧑 인원</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell>비고</Table.ColumnHeaderCell>
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                  {getValues('flights').map((_flight, i) => (
+                    <Table.Row key={i}>
+                      <Table.Cell>-</Table.Cell>
+                      <Table.Cell>
                         <TextField.Root
                           size='3'
                           {...register(`flights.${i}.flight_number`, {
@@ -530,10 +536,8 @@ export default function ReservationsFormClientContainer({
                           })}
                           placeholder='KE001'
                         />
-                      </Flex>
-
-                      <Flex direction='column'>
-                        <Text weight='medium'>출발 시간</Text>
+                      </Table.Cell>
+                      <Table.Cell>
                         <TextField.Root
                           size='3'
                           type='datetime-local'
@@ -541,10 +545,8 @@ export default function ReservationsFormClientContainer({
                             required: isDirtyProductItem('flights') && true
                           })}
                         />
-                      </Flex>
-
-                      <Flex direction='column'>
-                        <Text weight='medium'>출발지</Text>
+                      </Table.Cell>
+                      <Table.Cell>
                         <TextField.Root
                           size='3'
                           readOnly={!i}
@@ -552,10 +554,8 @@ export default function ReservationsFormClientContainer({
                             required: isDirtyProductItem('flights') && true
                           })}
                         />
-                      </Flex>
-
-                      <Flex direction='column'>
-                        <Text weight='medium'>도착 시간</Text>
+                      </Table.Cell>
+                      <Table.Cell>
                         <TextField.Root
                           size='3'
                           type='datetime-local'
@@ -563,10 +563,8 @@ export default function ReservationsFormClientContainer({
                             required: isDirtyProductItem('flights') && true
                           })}
                         />
-                      </Flex>
-
-                      <Flex direction='column'>
-                        <Text weight='medium'>도착지</Text>
+                      </Table.Cell>
+                      <Table.Cell>
                         <TextField.Root
                           size='3'
                           {...register(`flights.${i}.arrival_city`, {
@@ -574,12 +572,10 @@ export default function ReservationsFormClientContainer({
                           })}
                           placeholder='호놀룰루'
                         />
-                      </Flex>
-
-                      <Flex gridColumn={'1 / -1'} gap='3' wrap='wrap'>
-                        <Flex direction='column'>
-                          <Text weight='medium'>💸 원가</Text>
-                          <Grid align='center' columns='50px 100px 50px 100px' gap='3'>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Grid gap='2'>
+                          <Flex direction='column'>
                             <span>🧑 성인</span>
                             <TextField.Root
                               type='number'
@@ -590,6 +586,8 @@ export default function ReservationsFormClientContainer({
                                 valueAsNumber: true
                               })}
                             />
+                          </Flex>
+                          <Flex direction='column'>
                             <span>🧒 소아</span>
                             <TextField.Root
                               type='number'
@@ -600,38 +598,12 @@ export default function ReservationsFormClientContainer({
                                 valueAsNumber: true
                               })}
                             />
-                          </Grid>
-                        </Flex>
-
-                        <Flex direction='column'>
-                          <Text weight='medium'>🧑‍🤝‍🧑 인원</Text>
-                          <Grid align='center' columns='50px 100px 50px 100px' gap='3'>
-                            <span>🧑 성인</span>
-                            <TextField.Root
-                              type='number'
-                              min='0'
-                              size='3'
-                              {...register(`flights.${i}.adult_count`, {
-                                required: isDirtyProductItem('flights') && true,
-                                valueAsNumber: true
-                              })}
-                            />
-                            <span>🧒 소아</span>
-                            <TextField.Root
-                              type='number'
-                              min='0'
-                              size='3'
-                              {...register(`flights.${i}.children_count`, {
-                                required: isDirtyProductItem('flights') && true,
-                                valueAsNumber: true
-                              })}
-                            />
-                          </Grid>
-                        </Flex>
-
-                        <Flex direction='column'>
-                          <Text weight='medium'>💰 요금</Text>
-                          <Grid align='center' columns='50px 100px 50px 100px' gap='3'>
+                          </Flex>
+                        </Grid>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Grid gap='2'>
+                          <Flex direction='column'>
                             <span>🧑 성인</span>
                             <TextField.Root
                               type='number'
@@ -642,6 +614,8 @@ export default function ReservationsFormClientContainer({
                                 valueAsNumber: true
                               })}
                             />
+                          </Flex>
+                          <Flex direction='column'>
                             <span>🧒 소아</span>
                             <TextField.Root
                               type='number'
@@ -652,20 +626,47 @@ export default function ReservationsFormClientContainer({
                                 valueAsNumber: true
                               })}
                             />
-                          </Grid>
-                        </Flex>
-                      </Flex>
-
-                      <Flex direction='column' gridColumn={'1 / -1'}>
-                        <Text weight='medium' mb='2'>
-                          비고
-                        </Text>
-                        <TextArea {...register(`flights.${i}.notes`)} />
-                      </Flex>
-                    </Grid>
-                  </div>
-                ))}
-              </Flex>
+                          </Flex>
+                        </Grid>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Grid gap='2'>
+                          <Flex direction='column'>
+                            <span>🧑 성인</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              size='3'
+                              {...register(`flights.${i}.adult_count`, {
+                                required: isDirtyProductItem('flights') && true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                          <Flex direction='column'>
+                            <span>🧒 소아</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              size='3'
+                              {...register(`flights.${i}.children_count`, {
+                                required: isDirtyProductItem('flights') && true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                        </Grid>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <TextField.Root {...register(`flights.${i}.notes`)} />
+                      </Table.Cell>
+                      <Table.Cell hidden>
+                        <FlightTotalCalculator index={i} setValue={setValue} control={control} />
+                      </Table.Cell>
+                    </Table.Row>
+                  ))}
+                </Table.Body>
+              </Table.Root>
 
               <Flex justify='end' mt='4'>
                 <Button type='button' color='ruby' onClick={addDomesticFlight}>
