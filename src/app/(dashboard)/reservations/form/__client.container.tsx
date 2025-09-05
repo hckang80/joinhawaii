@@ -383,7 +383,9 @@ export default function ReservationsFormClientContainer({
               <Table.Root size='1'>
                 <Table.Header>
                   <Table.Row>
-                    <Table.ColumnHeaderCell width='60px'>예약자</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='60px' align='center'>
+                      예약자
+                    </Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='80px'>이름</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='160px'>영문</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='80px'>성별</Table.ColumnHeaderCell>
@@ -396,9 +398,10 @@ export default function ReservationsFormClientContainer({
                 <Table.Body>
                   {getValues('clients').map((client, i) => (
                     <Table.Row key={i}>
-                      <Table.Cell>
+                      <Table.Cell align='center'>
                         <label>
                           <Radio
+                            size='3'
                             name='reservation'
                             value={'' + i}
                             defaultChecked={
