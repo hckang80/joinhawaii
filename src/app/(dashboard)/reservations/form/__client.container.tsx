@@ -387,8 +387,8 @@ export default function ReservationsFormClientContainer({
                     <Table.ColumnHeaderCell width='80px'>이름</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='160px'>영문</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='80px'>성별</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='140px'>주민번호</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='130px'>연락처</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='150px'>주민번호</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='140px'>연락처</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='180px'>이메일</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell>비고</Table.ColumnHeaderCell>
                   </Table.Row>
