@@ -476,7 +476,7 @@ export default function ReservationsFormClientContainer({
                         />
                       </Table.Cell>
                       <Table.Cell>
-                        <TextArea {...register(`clients.${i}.notes`)} />
+                        <TextField.Root {...register(`clients.${i}.notes`)} />
                       </Table.Cell>
                     </Table.Row>
                   ))}
