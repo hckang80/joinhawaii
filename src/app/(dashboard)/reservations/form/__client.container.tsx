@@ -527,7 +527,7 @@ export default function ReservationsFormClientContainer({
                 <Table.Body>
                   {getValues('flights').map((_flight, i) => (
                     <Table.Row key={i}>
-                      <Table.Cell>-</Table.Cell>
+                      <Table.Cell>{/* 개별진행, 그룹항공, 블럭항공, 인디비 */}</Table.Cell>
                       <Table.Cell>
                         <TextField.Root
                           size='3'
@@ -599,6 +599,9 @@ export default function ReservationsFormClientContainer({
                               })}
                             />
                           </Flex>
+                          <Flex direction='column'>
+                            <span>👶 유아</span>
+                          </Flex>
                         </Grid>
                       </Table.Cell>
                       <Table.Cell>
@@ -627,6 +630,9 @@ export default function ReservationsFormClientContainer({
                               })}
                             />
                           </Flex>
+                          <Flex direction='column'>
+                            <span>👶 유아</span>
+                          </Flex>
                         </Grid>
                       </Table.Cell>
                       <Table.Cell>
@@ -654,6 +660,9 @@ export default function ReservationsFormClientContainer({
                                 valueAsNumber: true
                               })}
                             />
+                          </Flex>
+                          <Flex direction='column'>
+                            <span>👶 유아</span>
                           </Flex>
                         </Grid>
                       </Table.Cell>
