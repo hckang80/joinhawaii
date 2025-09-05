@@ -23,7 +23,6 @@ import {
   Grid,
   Heading,
   Radio,
-  RadioCards,
   Section,
   Select,
   Table,
@@ -439,23 +438,24 @@ export default function ReservationsFormClientContainer({
                           name={`clients.${i}.gender`}
                           control={control}
                           render={({ field }) => (
-                            <RadioCards.Root
-                              size='1'
+                            <Select.Root
                               value={field.value}
                               onValueChange={value => {
                                 field.onChange(value);
                               }}
                               name={field.name}
-                              columns='repeat(4, 60px)'
                             >
-                              {GENDER_TYPE.map(value => (
-                                <RadioCards.Item value={value} key={value}>
-                                  {value}
-                                </RadioCards.Item>
-                              ))}
-                            </RadioCards.Root>
+                              <Select.Trigger placeholder='성별 선택' />
+                              <Select.Content>
+                                {GENDER_TYPE.map(value => (
+                                  <Select.Item value={value} key={value}>
+                                    {value}
+                                  </Select.Item>
+                                ))}
+                              </Select.Content>
+                            </Select.Root>
                           )}
-                        ></Controller>
+                        />
                       </Table.Cell>
                       <Table.Cell>
                         <TextField.Root
