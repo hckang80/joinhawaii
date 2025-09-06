@@ -6,7 +6,8 @@ import {
   defaultFlightValues,
   defaultHotelValues,
   defaultTourValues,
-  GENDER_TYPE
+  GENDER_TYPE,
+  REGIONS
 } from '@/constants';
 import { createReservation, updateReservation } from '@/http';
 import type { ReservationFormData, ReservationItem, ReservationResponse } from '@/types';
@@ -694,183 +695,149 @@ export default function ReservationsFormClientContainer({
               <Table.Root size='1'>
                 <Table.Header>
                   <Table.Row>
-                    <Table.ColumnHeaderCell width='80px'>섬</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='100px'>날짜</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='220px'>숙박일</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='100px'>호텔</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='220px'>객실타입</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='100px'>조식</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='80px'>리조트피</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='80px'>1박요금</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='80px'>수량</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell>CF#/VC#</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='120px'>지역</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='170px'>날짜</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='60px'>숙박일</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='240px'>호텔</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='120px'>객실타입</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='60px'>조식</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='70px'>리조트피</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='80px'>💸 원가</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='80px'>💰 1박 요금</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='70px'>수량</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='90px'>CF#/VC#</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell>비고</Table.ColumnHeaderCell>
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
                   {getValues('hotels').map((_hotel, i) => (
                     <Table.Row key={i}>
-                      <Table.Cell></Table.Cell>
-                      <Table.Cell>-</Table.Cell>
-                      <Table.Cell>-</Table.Cell>
-                      <Table.Cell>-</Table.Cell>
-                      <Table.Cell>-</Table.Cell>
-                      <Table.Cell>-</Table.Cell>
+                      <Table.Cell>
+                        <Controller
+                          name={`hotels.${i}.region`}
+                          control={control}
+                          render={({ field }) => (
+                            <Select.Root
+                              value={field.value}
+                              onValueChange={value => {
+                                field.onChange(value);
+                              }}
+                              name={field.name}
+                            >
+                              <Select.Trigger placeholder='지역 선택' />
+                              <Select.Content>
+                                {REGIONS.map(value => (
+                                  <Select.Item value={value} key={value}>
+                                    {value}
+                                  </Select.Item>
+                                ))}
+                              </Select.Content>
+                            </Select.Root>
+                          )}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <TextField.Root
+                          type='date'
+                          {...register(`hotels.${i}.check_in_date`, {
+                            required: isDirtyProductItem('hotels') && true
+                          })}
+                        />
+                        ~
+                        <TextField.Root
+                          type='date'
+                          {...register(`hotels.${i}.check_out_date`, {
+                            required: isDirtyProductItem('hotels') && true
+                          })}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <TextField.Root
+                          type='number'
+                          min='1'
+                          disabled={!!getValues(`hotels.${i}.local_currency`)}
+                          {...register(`hotels.${i}.nights`, {
+                            required: isDirtyProductItem('hotels') && true,
+                            valueAsNumber: true
+                          })}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        {/* TODO: 드랍다운으로 변경 필요 */}
+                        <TextField.Root
+                          {...register(`hotels.${i}.hotel_name`, {
+                            required: isDirtyProductItem('hotels') && true
+                          })}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <TextField.Root
+                          {...register(`hotels.${i}.room_type`, {
+                            required: isDirtyProductItem('hotels') && true
+                          })}
+                        />
+                        {/* TODO: 1BED, 2BED, 1BED/2BED, 2BED/3BED, 3BED, 4BED */}
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Controller
+                          name={`hotels.${i}.is_breakfast_included`}
+                          control={control}
+                          render={({ field }) => (
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={value => {
+                                field.onChange(value);
+                              }}
+                            />
+                          )}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Controller
+                          name={`hotels.${i}.is_resort_fee`}
+                          control={control}
+                          render={({ field }) => (
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={value => {
+                                field.onChange(value);
+                              }}
+                            />
+                          )}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <TextField.Root
+                          type='number'
+                          min='0'
+                          {...register(`hotels.${i}.cost`, {
+                            required: isDirtyProductItem('hotels') && true,
+                            valueAsNumber: true
+                          })}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <TextField.Root
+                          type='number'
+                          min='0'
+                          {...register(`hotels.${i}.nightly_rate`, {
+                            required: isDirtyProductItem('hotels') && true,
+                            valueAsNumber: true
+                          })}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>???</Table.Cell>
+                      <Table.Cell>바우처 조회</Table.Cell>
+                      <Table.Cell>
+                        <TextField.Root {...register(`hotels.${i}.notes`)} />
+                      </Table.Cell>
+                      <Table.Cell hidden>
+                        <HotelTotalCalculator index={i} setValue={setValue} control={control} />
+                      </Table.Cell>
                     </Table.Row>
                   ))}
                 </Table.Body>
               </Table.Root>
-
-              <Flex direction='column' gap='5'>
-                {getValues('hotels').map((_hotel, i) => {
-                  return (
-                    <div
-                      key={i}
-                      className={clsx(
-                        dirtyFields.hotels?.[i] && styles['is-dirty'],
-                        styles['form-field-group']
-                      )}
-                    >
-                      <HotelTotalCalculator index={i} setValue={setValue} control={control} />
-
-                      <Grid align='center' columns='repeat(auto-fit, minmax(160px, auto))' gap='3'>
-                        <Flex direction='column'>
-                          <Text weight='medium'>지역</Text>
-                          <TextField.Root
-                            size='3'
-                            {...register(`hotels.${i}.region`, {
-                              required: isDirtyProductItem('hotels') && true
-                            })}
-                          />
-                        </Flex>
-
-                        <Flex direction='column'>
-                          <Text weight='medium'>체크인</Text>
-                          <TextField.Root
-                            type='date'
-                            size='3'
-                            {...register(`hotels.${i}.check_in_date`, {
-                              required: isDirtyProductItem('hotels') && true
-                            })}
-                          />
-                        </Flex>
-
-                        <Flex direction='column'>
-                          <Text weight='medium'>체크아웃</Text>
-                          <TextField.Root
-                            type='date'
-                            size='3'
-                            {...register(`hotels.${i}.check_out_date`, {
-                              required: isDirtyProductItem('hotels') && true
-                            })}
-                          />
-                        </Flex>
-
-                        <Flex direction='column'>
-                          <Text weight='medium'>호텔명</Text>
-                          <TextField.Root
-                            size='3'
-                            {...register(`hotels.${i}.hotel_name`, {
-                              required: isDirtyProductItem('hotels') && true
-                            })}
-                          />
-                        </Flex>
-
-                        <Flex direction='column'>
-                          <Text weight='medium'>객실타입</Text>
-                          <TextField.Root
-                            size='3'
-                            {...register(`hotels.${i}.room_type`, {
-                              required: isDirtyProductItem('hotels') && true
-                            })}
-                          />
-                        </Flex>
-
-                        <Flex direction='column'>
-                          <Text weight='medium'>숙박일</Text>
-                          <TextField.Root
-                            type='number'
-                            min='1'
-                            size='3'
-                            disabled={!!getValues(`hotels.${i}.local_currency`)}
-                            {...register(`hotels.${i}.nights`, {
-                              required: isDirtyProductItem('hotels') && true,
-                              valueAsNumber: true
-                            })}
-                          />
-                        </Flex>
-
-                        <Flex direction='column'>
-                          {' '}
-                          <Text wrap='nowrap'>원가</Text>
-                          <TextField.Root
-                            type='number'
-                            min='0'
-                            size='3'
-                            {...register(`hotels.${i}.cost`, {
-                              required: isDirtyProductItem('hotels') && true,
-                              valueAsNumber: true
-                            })}
-                          />
-                        </Flex>
-
-                        <Flex direction='column'>
-                          <Text wrap='nowrap'>1박요금</Text>
-                          <TextField.Root
-                            type='number'
-                            min='0'
-                            size='3'
-                            {...register(`hotels.${i}.nightly_rate`, {
-                              required: isDirtyProductItem('hotels') && true,
-                              valueAsNumber: true
-                            })}
-                          />
-                        </Flex>
-
-                        <Flex direction='column' align='start'>
-                          <Text weight='medium'>조식</Text>
-                          <Controller
-                            name={`hotels.${i}.is_breakfast_included`}
-                            control={control}
-                            render={({ field }) => (
-                              <Checkbox
-                                size='3'
-                                checked={field.value}
-                                onCheckedChange={value => {
-                                  field.onChange(value);
-                                }}
-                              />
-                            )}
-                          />
-                        </Flex>
-
-                        <Flex direction='column' align='start'>
-                          <Text weight='medium'>리조트피</Text>
-                          <Controller
-                            name={`hotels.${i}.is_resort_fee`}
-                            control={control}
-                            render={({ field }) => (
-                              <Checkbox
-                                size='3'
-                                checked={field.value}
-                                onCheckedChange={value => {
-                                  field.onChange(value);
-                                }}
-                              />
-                            )}
-                          />
-                        </Flex>
-
-                        <Flex direction='column' gridColumn={'1 / -1'}>
-                          <Text weight='medium' mb='2'>
-                            비고
-                          </Text>
-                          <TextArea {...register(`hotels.${i}.notes`)} />
-                        </Flex>
-                      </Grid>
-                    </div>
-                  );
-                })}
-              </Flex>
 
               <Flex justify='end' mt='4'>
                 <Button type='button' color='ruby' onClick={addHotel}>
