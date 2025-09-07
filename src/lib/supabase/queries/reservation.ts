@@ -87,7 +87,10 @@ export const updateReservationProducts = async (
         supabase.from(table).upsert(
           existingItems.map(item => ({
             ...item,
-            reservation_id: reservationId
+            reservation_id: reservationId,
+            ...(item.is_updated_exchange_rate && {
+              exchange_rate
+            })
           }))
         )
       );
@@ -98,7 +101,10 @@ export const updateReservationProducts = async (
         supabase.from(table).insert(
           newItems.map(item => ({
             ...item,
-            reservation_id: reservationId
+            reservation_id: reservationId,
+            ...(item.is_updated_exchange_rate && {
+              exchange_rate
+            })
           }))
         )
       );
