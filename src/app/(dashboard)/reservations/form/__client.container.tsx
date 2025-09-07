@@ -773,6 +773,7 @@ export default function ReservationsFormClientContainer({
                           control={control}
                           render={({ field }) => (
                             <Checkbox
+                              size='3'
                               checked={field.value}
                               onCheckedChange={value => {
                                 field.onChange(value);
@@ -787,6 +788,7 @@ export default function ReservationsFormClientContainer({
                           control={control}
                           render={({ field }) => (
                             <Checkbox
+                              size='3'
                               checked={field.value}
                               onCheckedChange={value => {
                                 field.onChange(value);
