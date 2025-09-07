@@ -27,12 +27,6 @@ export const updateReservationProducts = async (
 ) => {
   const updates = [];
 
-  if (exchange_rate) {
-    updates.push(
-      supabase.from('reservations').update({ exchange_rate }).eq('reservation_id', reservationId)
-    );
-  }
-
   if (products.clients?.length) {
     const existingClients = products.clients.filter(client => client.id);
     const newClients = products.clients.filter(client => !client.id);
