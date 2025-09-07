@@ -94,28 +94,15 @@ function HotelTotalCalculator({
 }) {
   const watchedValues = useWatch({
     control,
-    name: [
-      `hotels.${index}.nightly_rate`,
-      `hotels.${index}.nights`,
-      `hotels.${index}.cost`,
-      `hotels.${index}.local_currency`,
-      'exchange_rate'
-    ]
+    name: [`hotels.${index}.nightly_rate`, `hotels.${index}.nights`, `hotels.${index}.cost`]
   });
 
   useEffect(() => {
-    const [nightly, nights, cost, localCurrency, exchangeRate] = watchedValues;
+    const [nightly, nights, cost] = watchedValues;
     const total = nightly * nights;
     const totalCost = cost * nights;
     setValue(`hotels.${index}.total_amount`, total, { shouldValidate: true });
     setValue(`hotels.${index}.total_cost`, totalCost, { shouldValidate: true });
-
-    if (nightly && !localCurrency) {
-      setValue(`hotels.${index}.exchange_rate`, exchangeRate, {
-        shouldDirty: true,
-        shouldTouch: true
-      });
-    }
   }, [watchedValues, setValue, index]);
 
   return null;
@@ -138,9 +125,7 @@ function TourTotalCalculator({
       `tours.${index}.adult_price`,
       `tours.${index}.children_price`,
       `tours.${index}.adult_cost`,
-      `tours.${index}.children_cost`,
-      `tours.${index}.local_currency`,
-      'exchange_rate'
+      `tours.${index}.children_cost`
     ]
   });
 
@@ -151,21 +136,12 @@ function TourTotalCalculator({
       adultPrice,
       childrenPrice,
       adultCost,
-      childrenCost,
-      localCurrency,
-      exchangeRate
+      childrenCost
     ] = watchedValues;
     const total = adultParticipant * adultPrice + childrenParticipant * childrenPrice;
     const totalCost = adultParticipant * adultCost + childrenParticipant * childrenCost;
     setValue(`tours.${index}.total_amount`, total, { shouldValidate: true });
     setValue(`tours.${index}.total_cost`, totalCost, { shouldValidate: true });
-
-    if (adultPrice && !localCurrency) {
-      setValue(`tours.${index}.exchange_rate`, exchangeRate, {
-        shouldDirty: true,
-        shouldTouch: true
-      });
-    }
   }, [watchedValues, setValue, index]);
 
   return null;
@@ -185,25 +161,16 @@ function CarTotalCalculator({
     name: [
       `rental_cars.${index}.daily_rate`,
       `rental_cars.${index}.rental_days`,
-      `rental_cars.${index}.cost`,
-      `rental_cars.${index}.local_currency`,
-      'exchange_rate'
+      `rental_cars.${index}.cost`
     ]
   });
 
   useEffect(() => {
-    const [nightly, rentalDays, cost, localCurrency, exchangeRate] = watchedValues;
+    const [nightly, rentalDays, cost] = watchedValues;
     const total = nightly * rentalDays;
     const totalCost = cost * rentalDays;
     setValue(`rental_cars.${index}.total_amount`, total, { shouldValidate: true });
     setValue(`rental_cars.${index}.total_cost`, totalCost, { shouldValidate: true });
-
-    if (nightly && !localCurrency) {
-      setValue(`rental_cars.${index}.exchange_rate`, exchangeRate, {
-        shouldDirty: true,
-        shouldTouch: true
-      });
-    }
   }, [watchedValues, setValue, index]);
 
   return null;
@@ -753,7 +720,6 @@ export default function ReservationsFormClientContainer({
                         <TextField.Root
                           type='number'
                           min='1'
-                          disabled={!!getValues(`hotels.${i}.local_currency`)}
                           {...register(`hotels.${i}.nights`, {
                             required: isDirtyProductItem('hotels') && true,
                             valueAsNumber: true
@@ -1162,7 +1128,6 @@ export default function ReservationsFormClientContainer({
                         <TextField.Root
                           type='number'
                           min='1'
-                          disabled={!!getValues(`rental_cars.${i}.local_currency`)}
                           {...register(`rental_cars.${i}.rental_days`, {
                             required: isDirtyProductItem('rental_cars') && true,
                             valueAsNumber: true
