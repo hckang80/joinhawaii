@@ -31,7 +31,7 @@ import {
 } from '@radix-ui/themes';
 import { useMutation } from '@tanstack/react-query';
 import clsx from 'clsx';
-import { Binoculars, Car, Hotel, Plane, Upload, UserPlus } from 'lucide-react';
+import { Binoculars, BookText, Car, Hotel, Plane, Upload, UserPlus } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
 import { useEffect } from 'react';
@@ -1196,6 +1196,48 @@ export default function ReservationsFormClientContainer({
                   )}
                 </pre>
               )}
+            </Section>
+          </Card>
+
+          <Card asChild size='3'>
+            <Section id='rental_car'>
+              <Heading as='h3' mb='4'>
+                보험사
+              </Heading>
+
+              <Table.Root size='1'>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.ColumnHeaderCell width='120px'>보험사</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='170px'>날짜</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='70px'>여행일수</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='300px'>내용</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='80px'>💸 원가</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='80px'>💰 요금</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='70px'>수량</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell>비고</Table.ColumnHeaderCell>
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                  <Table.Row>
+                    <Table.Cell></Table.Cell>
+                    <Table.Cell></Table.Cell>
+                    <Table.Cell></Table.Cell>
+                    <Table.Cell></Table.Cell>
+                    <Table.Cell></Table.Cell>
+                    <Table.Cell></Table.Cell>
+                    <Table.Cell></Table.Cell>
+                    <Table.Cell></Table.Cell>
+                  </Table.Row>
+                </Table.Body>
+              </Table.Root>
+
+              <Flex justify='end' mt='4'>
+                <Button type='button' color='ruby'>
+                  <BookText size='20' />
+                  보험 추가
+                </Button>
+              </Flex>
             </Section>
           </Card>
 
