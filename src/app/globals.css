@@ -2,6 +2,10 @@
   .rt-TableRootTable {
     table-layout: fixed;
   }
+
+  .rt-TableCell {
+    vertical-align: middle;
+  }
 }
 
 :root {
