@@ -94,28 +94,15 @@ function HotelTotalCalculator({
 }) {
   const watchedValues = useWatch({
     control,
-    name: [
-      `hotels.${index}.nightly_rate`,
-      `hotels.${index}.nights`,
-      `hotels.${index}.cost`,
-      `hotels.${index}.local_currency`,
-      'exchange_rate'
-    ]
+    name: [`hotels.${index}.nightly_rate`, `hotels.${index}.nights`, `hotels.${index}.cost`]
   });
 
   useEffect(() => {
-    const [nightly, nights, cost, localCurrency, exchangeRate] = watchedValues;
+    const [nightly, nights, cost] = watchedValues;
     const total = nightly * nights;
     const totalCost = cost * nights;
     setValue(`hotels.${index}.total_amount`, total, { shouldValidate: true });
     setValue(`hotels.${index}.total_cost`, totalCost, { shouldValidate: true });
-
-    if (nightly && !localCurrency) {
-      setValue(`hotels.${index}.exchange_rate`, exchangeRate, {
-        shouldDirty: true,
-        shouldTouch: true
-      });
-    }
   }, [watchedValues, setValue, index]);
 
   return null;
@@ -138,9 +125,7 @@ function TourTotalCalculator({
       `tours.${index}.adult_price`,
       `tours.${index}.children_price`,
       `tours.${index}.adult_cost`,
-      `tours.${index}.children_cost`,
-      `tours.${index}.local_currency`,
-      'exchange_rate'
+      `tours.${index}.children_cost`
     ]
   });
 
@@ -151,21 +136,12 @@ function TourTotalCalculator({
       adultPrice,
       childrenPrice,
       adultCost,
-      childrenCost,
-      localCurrency,
-      exchangeRate
+      childrenCost
     ] = watchedValues;
     const total = adultParticipant * adultPrice + childrenParticipant * childrenPrice;
     const totalCost = adultParticipant * adultCost + childrenParticipant * childrenCost;
     setValue(`tours.${index}.total_amount`, total, { shouldValidate: true });
     setValue(`tours.${index}.total_cost`, totalCost, { shouldValidate: true });
-
-    if (adultPrice && !localCurrency) {
-      setValue(`tours.${index}.exchange_rate`, exchangeRate, {
-        shouldDirty: true,
-        shouldTouch: true
-      });
-    }
   }, [watchedValues, setValue, index]);
 
   return null;
@@ -185,25 +161,16 @@ function CarTotalCalculator({
     name: [
       `rental_cars.${index}.daily_rate`,
       `rental_cars.${index}.rental_days`,
-      `rental_cars.${index}.cost`,
-      `rental_cars.${index}.local_currency`,
-      'exchange_rate'
+      `rental_cars.${index}.cost`
     ]
   });
 
   useEffect(() => {
-    const [nightly, rentalDays, cost, localCurrency, exchangeRate] = watchedValues;
+    const [nightly, rentalDays, cost] = watchedValues;
     const total = nightly * rentalDays;
     const totalCost = cost * rentalDays;
     setValue(`rental_cars.${index}.total_amount`, total, { shouldValidate: true });
     setValue(`rental_cars.${index}.total_cost`, totalCost, { shouldValidate: true });
-
-    if (nightly && !localCurrency) {
-      setValue(`rental_cars.${index}.exchange_rate`, exchangeRate, {
-        shouldDirty: true,
-        shouldTouch: true
-      });
-    }
   }, [watchedValues, setValue, index]);
 
   return null;
@@ -320,6 +287,15 @@ export default function ReservationsFormClientContainer({
   const addCar = () => {
     setValue('rental_cars', [...watch('rental_cars'), defaultCarValues]);
   };
+
+  function hasUpdatedExchangeRate(watch: (field: string) => unknown[]) {
+    const fields: Array<keyof ReservationItem> = ['flights', 'hotels', 'tours', 'rental_cars'];
+    return fields.some(field =>
+      (watch(field) as Array<{ is_updated_exchange_rate: boolean }>)?.some(
+        item => item.is_updated_exchange_rate
+      )
+    );
+  }
 
   return (
     <div className={styles.root}>
@@ -693,6 +669,7 @@ export default function ReservationsFormClientContainer({
               <Table.Root size='1'>
                 <Table.Header>
                   <Table.Row>
+                    <Table.ColumnHeaderCell width='50px'>환율 적용</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='120px'>지역</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='170px'>날짜</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='60px'>숙박일</Table.ColumnHeaderCell>
@@ -710,6 +687,21 @@ export default function ReservationsFormClientContainer({
                 <Table.Body>
                   {getValues('hotels').map((_hotel, i) => (
                     <Table.Row key={i}>
+                      <Table.Cell>
+                        <Controller
+                          name={`hotels.${i}.is_updated_exchange_rate`}
+                          control={control}
+                          render={({ field }) => (
+                            <Checkbox
+                              size='3'
+                              checked={field.value}
+                              onCheckedChange={value => {
+                                field.onChange(value);
+                              }}
+                            />
+                          )}
+                        />
+                      </Table.Cell>
                       <Table.Cell>
                         <Controller
                           name={`hotels.${i}.region`}
@@ -753,7 +745,6 @@ export default function ReservationsFormClientContainer({
                         <TextField.Root
                           type='number'
                           min='1'
-                          disabled={!!getValues(`hotels.${i}.local_currency`)}
                           {...register(`hotels.${i}.nights`, {
                             required: isDirtyProductItem('hotels') && true,
                             valueAsNumber: true
@@ -782,6 +773,7 @@ export default function ReservationsFormClientContainer({
                           control={control}
                           render={({ field }) => (
                             <Checkbox
+                              size='3'
                               checked={field.value}
                               onCheckedChange={value => {
                                 field.onChange(value);
@@ -796,6 +788,7 @@ export default function ReservationsFormClientContainer({
                           control={control}
                           render={({ field }) => (
                             <Checkbox
+                              size='3'
                               checked={field.value}
                               onCheckedChange={value => {
                                 field.onChange(value);
@@ -865,6 +858,7 @@ export default function ReservationsFormClientContainer({
               <Table.Root size='1'>
                 <Table.Header>
                   <Table.Row>
+                    <Table.ColumnHeaderCell width='50px'>환율 적용</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='120px'>지역</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='240px'>날짜</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='240px'>상품명</Table.ColumnHeaderCell>
@@ -877,6 +871,21 @@ export default function ReservationsFormClientContainer({
                 <Table.Body>
                   {getValues('tours').map((_tour, i) => (
                     <Table.Row key={i}>
+                      <Table.Cell>
+                        <Controller
+                          name={`tours.${i}.is_updated_exchange_rate`}
+                          control={control}
+                          render={({ field }) => (
+                            <Checkbox
+                              size='3'
+                              checked={field.value}
+                              onCheckedChange={value => {
+                                field.onChange(value);
+                              }}
+                            />
+                          )}
+                        />
+                      </Table.Cell>
                       <Table.Cell>
                         <Controller
                           name={`tours.${i}.region`}
@@ -1049,6 +1058,7 @@ export default function ReservationsFormClientContainer({
               <Table.Root size='1'>
                 <Table.Header>
                   <Table.Row>
+                    <Table.ColumnHeaderCell width='50px'>환율 적용</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='120px'>지역</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='240px'>날짜</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='120px'>픽업장소</Table.ColumnHeaderCell>
@@ -1064,6 +1074,21 @@ export default function ReservationsFormClientContainer({
                 <Table.Body>
                   {getValues('rental_cars').map((_car, i) => (
                     <Table.Row key={i}>
+                      <Table.Cell>
+                        <Controller
+                          name={`rental_cars.${i}.is_updated_exchange_rate`}
+                          control={control}
+                          render={({ field }) => (
+                            <Checkbox
+                              size='3'
+                              checked={field.value}
+                              onCheckedChange={value => {
+                                field.onChange(value);
+                              }}
+                            />
+                          )}
+                        />
+                      </Table.Cell>
                       <Table.Cell>
                         <Controller
                           name={`rental_cars.${i}.region`}
@@ -1162,7 +1187,6 @@ export default function ReservationsFormClientContainer({
                         <TextField.Root
                           type='number'
                           min='1'
-                          disabled={!!getValues(`rental_cars.${i}.local_currency`)}
                           {...register(`rental_cars.${i}.rental_days`, {
                             required: isDirtyProductItem('rental_cars') && true,
                             valueAsNumber: true
@@ -1272,13 +1296,17 @@ export default function ReservationsFormClientContainer({
                 )}
               />
 
-              <Button disabled={mutation.isPending} size='3' color='ruby'>
+              <Button
+                disabled={mutation.isPending || !hasUpdatedExchangeRate(watch)}
+                size='3'
+                color='ruby'
+              >
                 <Upload />
                 등록
               </Button>
             </Flex>
             <Text as='p' align='right' mt='2' weight='bold' color='ruby'>
-              입력된 환율은 정산되지 않은 상품에만 적용됩니다.
+              환율 적용에 체크된 상품에만 적용됩니다.
             </Text>
           </Box>
         </form>

@@ -22,7 +22,6 @@ export interface AllProducts {
   total_amount: number;
   total_cost: number;
   exchange_rate: number;
-  local_currency: number;
   [key: string]: unknown;
 }
 

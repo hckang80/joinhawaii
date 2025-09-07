@@ -27,12 +27,6 @@ export const updateReservationProducts = async (
 ) => {
   const updates = [];
 
-  if (exchange_rate) {
-    updates.push(
-      supabase.from('reservations').update({ exchange_rate }).eq('reservation_id', reservationId)
-    );
-  }
-
   if (products.clients?.length) {
     const existingClients = products.clients.filter(client => client.id);
     const newClients = products.clients.filter(client => !client.id);
@@ -75,41 +69,40 @@ export const updateReservationProducts = async (
     rental_cars: 'rental_cars'
   } as const;
 
+  function makeProductPayload<T extends object>(
+    items: Array<T & { is_updated_exchange_rate?: boolean }>,
+    reservationId: string,
+    exchange_rate: number
+  ): Array<
+    Omit<T, 'is_updated_exchange_rate'> & { reservation_id: string; exchange_rate?: number }
+  > {
+    return items.map(item => {
+      const { is_updated_exchange_rate, ...rest } = item;
+      return {
+        ...rest,
+        reservation_id: reservationId,
+        ...(is_updated_exchange_rate && { exchange_rate })
+      };
+    });
+  }
+
   Object.entries(productTables).forEach(([key, table]) => {
-    const items = products[key as keyof typeof productTables];
-    if (!items?.length) return;
+    const items = products[key as keyof typeof products] ?? [];
+
+    if (!items.length) return;
 
     const existingItems = items.filter(item => item.id);
     const newItems = items.filter(item => !item.id);
 
     if (existingItems.length) {
       updates.push(
-        supabase.from(table).upsert(
-          existingItems.map(item => ({
-            ...item,
-            reservation_id: reservationId,
-            ...(exchange_rate &&
-              (!item.exchange_rate || item.exchange_rate === 0) && {
-                exchange_rate,
-                local_currency: Math.round(Number(item.total_amount) * exchange_rate)
-              })
-          }))
-        )
+        supabase.from(table).upsert(makeProductPayload(existingItems, reservationId, exchange_rate))
       );
     }
 
     if (newItems.length) {
       updates.push(
-        supabase.from(table).insert(
-          newItems.map(item => ({
-            ...item,
-            reservation_id: reservationId,
-            ...(exchange_rate && {
-              exchange_rate,
-              local_currency: Math.round(Number(item.total_amount) * exchange_rate)
-            })
-          }))
-        )
+        supabase.from(table).insert(makeProductPayload(newItems, reservationId, exchange_rate))
       );
     }
   });
