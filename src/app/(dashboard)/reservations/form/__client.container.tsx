@@ -19,7 +19,6 @@ import {
   Button,
   Card,
   Checkbox,
-  Container,
   Flex,
   Grid,
   Heading,
@@ -28,7 +27,6 @@ import {
   Select,
   Table,
   Text,
-  TextArea,
   TextField
 } from '@radix-ui/themes';
 import { useMutation } from '@tanstack/react-query';
@@ -515,7 +513,7 @@ export default function ReservationsFormClientContainer({
                   <Table.Row>
                     <Table.ColumnHeaderCell width='80px'>티켓</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='100px'>항공편</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='240px'>출발시간</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='170px'>출발시간</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='100px'>출발지</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='240px'>도착시간</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='100px'>도착지</Table.ColumnHeaderCell>
@@ -1048,155 +1046,139 @@ export default function ReservationsFormClientContainer({
                 렌터카
               </Heading>
 
-              <Flex direction='column' gap='5'>
-                {getValues('rental_cars').map((_car, i) => {
-                  return (
-                    <div
-                      key={i}
-                      className={clsx(
-                        dirtyFields.rental_cars?.[i] && styles['is-dirty'],
-                        styles['form-field-group']
-                      )}
-                    >
-                      <CarTotalCalculator index={i} setValue={setValue} control={control} />
-
-                      <Grid align='center' columns='60px 1fr 60px 1fr' gap='3'>
-                        <Box gridColumn='1/ -1'>
-                          <Grid align='center' columns='60px 1fr' gap='3'>
-                            <Text weight='medium'>지역</Text>
-                            <TextField.Root
-                              size='3'
-                              {...register(`rental_cars.${i}.region`, {
-                                required: isDirtyProductItem('rental_cars') && true
-                              })}
-                            />
-                          </Grid>
-                        </Box>
-
-                        <Box gridColumn='1/ -1'>
-                          <Grid align='center' columns='60px 1fr' gap='3'>
-                            <Text weight='medium'>날짜</Text>
-                            <Flex gap='2'>
-                              <Container flexGrow='1'>
-                                <TextField.Root
-                                  type='date'
-                                  size='3'
-                                  {...register(`rental_cars.${i}.pickup_date`, {
-                                    required: isDirtyProductItem('rental_cars') && true
-                                  })}
-                                />
-                              </Container>
-                              <Container flexGrow='1'>
-                                <TextField.Root
-                                  type='date'
-                                  size='3'
-                                  {...register(`rental_cars.${i}.return_date`, {
-                                    required: isDirtyProductItem('rental_cars') && true
-                                  })}
-                                />
-                              </Container>
-                            </Flex>
-                          </Grid>
-                        </Box>
-
-                        <Text weight='medium'>차종</Text>
+              <Table.Root size='1'>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.ColumnHeaderCell width='120px'>지역</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='240px'>날짜</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='120px'>픽업장소</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='160px'>차종</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='160px'>운전자</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='160px'>조건</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='80px'>💸 원가</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='80px'>💰 1일 요금</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='70px'>대여일</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell>비고</Table.ColumnHeaderCell>
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                  {getValues('rental_cars').map((_car, i) => (
+                    <Table.Row key={i}>
+                      <Table.Cell>
+                        <Controller
+                          name={`rental_cars.${i}.region`}
+                          control={control}
+                          render={({ field }) => (
+                            <Select.Root
+                              value={field.value}
+                              onValueChange={value => {
+                                field.onChange(value);
+                              }}
+                              name={field.name}
+                            >
+                              <Select.Trigger placeholder='지역 선택' />
+                              <Select.Content>
+                                {REGIONS.map(value => (
+                                  <Select.Item value={value} key={value}>
+                                    {value}
+                                  </Select.Item>
+                                ))}
+                              </Select.Content>
+                            </Select.Root>
+                          )}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
                         <TextField.Root
-                          size='3'
-                          {...register(`rental_cars.${i}.model`, {
+                          type='date'
+                          {...register(`rental_cars.${i}.pickup_date`, {
                             required: isDirtyProductItem('rental_cars') && true
                           })}
                         />
-
-                        <Text weight='medium'>운전자</Text>
+                        ~
                         <TextField.Root
-                          size='3'
-                          {...register(`rental_cars.${i}.driver`, {
+                          type='date'
+                          {...register(`rental_cars.${i}.return_date`, {
                             required: isDirtyProductItem('rental_cars') && true
                           })}
                         />
-
-                        <Box gridColumn='1/ -1'>
-                          <Grid align='center' columns='60px 1fr' gap='3'>
-                            <Text weight='medium'>조건</Text>
-                            <TextField.Root
-                              size='3'
-                              {...register(`rental_cars.${i}.options`, {
-                                required: isDirtyProductItem('rental_cars') && true
-                              })}
-                            />
-                          </Grid>
-                        </Box>
-
-                        <Text weight='medium'>픽업 장소</Text>
+                      </Table.Cell>
+                      <Table.Cell>
                         <TextField.Root
-                          size='3'
                           {...register(`rental_cars.${i}.pickup_location`, {
                             required: isDirtyProductItem('rental_cars') && true
                           })}
                         />
-
-                        <Text weight='medium'>픽업 시간</Text>
+                        <br />
                         <TextField.Root
                           type='time'
-                          size='3'
                           {...register(`rental_cars.${i}.pickup_time`, {
                             required: isDirtyProductItem('rental_cars') && true
                           })}
                         />
-
-                        <Text weight='medium'>대여일</Text>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <TextField.Root
+                          {...register(`rental_cars.${i}.model`, {
+                            required: isDirtyProductItem('rental_cars') && true
+                          })}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <TextField.Root
+                          {...register(`rental_cars.${i}.driver`, {
+                            required: isDirtyProductItem('rental_cars') && true
+                          })}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <TextField.Root
+                          {...register(`rental_cars.${i}.options`, {
+                            required: isDirtyProductItem('rental_cars') && true
+                          })}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <TextField.Root
+                          type='number'
+                          min='0'
+                          {...register(`rental_cars.${i}.cost`, {
+                            required: isDirtyProductItem('rental_cars') && true,
+                            valueAsNumber: true
+                          })}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <TextField.Root
+                          type='number'
+                          min='0'
+                          {...register(`rental_cars.${i}.daily_rate`, {
+                            required: isDirtyProductItem('rental_cars') && true,
+                            valueAsNumber: true
+                          })}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
                         <TextField.Root
                           type='number'
                           min='1'
-                          size='3'
                           disabled={!!getValues(`rental_cars.${i}.local_currency`)}
                           {...register(`rental_cars.${i}.rental_days`, {
                             required: isDirtyProductItem('rental_cars') && true,
                             valueAsNumber: true
                           })}
                         />
-
-                        <Box gridColumn='1/ -1'>
-                          <Grid align='center' columns='60px 1fr' gap='3'>
-                            <Text weight='medium'>요금 상세</Text>
-                            <Flex align='center' gap='3'>
-                              <Text wrap='nowrap'>원가</Text>
-                              <TextField.Root
-                                type='number'
-                                min='0'
-                                size='3'
-                                {...register(`rental_cars.${i}.cost`, {
-                                  required: isDirtyProductItem('rental_cars') && true,
-                                  valueAsNumber: true
-                                })}
-                              />
-                              <Text wrap='nowrap'>1일요금</Text>
-                              <TextField.Root
-                                type='number'
-                                min='0'
-                                size='3'
-                                {...register(`rental_cars.${i}.daily_rate`, {
-                                  required: isDirtyProductItem('rental_cars') && true,
-                                  valueAsNumber: true
-                                })}
-                              />
-                            </Flex>
-                          </Grid>
-                        </Box>
-
-                        <Box gridColumn='1 / -1'>
-                          <Grid align='center' columns='60px 1fr' gap='3'>
-                            <Text weight='medium' mb='2'>
-                              비고
-                            </Text>
-                            <TextArea {...register(`rental_cars.${i}.notes`)} />
-                          </Grid>
-                        </Box>
-                      </Grid>
-                    </div>
-                  );
-                })}
-              </Flex>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <TextField.Root {...register(`rental_cars.${i}.notes`)} />
+                      </Table.Cell>
+                      <Table.Cell hidden>
+                        <CarTotalCalculator index={i} setValue={setValue} control={control} />
+                      </Table.Cell>
+                    </Table.Row>
+                  ))}
+                </Table.Body>
+              </Table.Root>
 
               <Flex justify='end' mt='4'>
                 <Button type='button' color='ruby' onClick={addCar}>
