@@ -17,6 +17,7 @@ export const defaultClientValues = {
 };
 
 export const defaultProductValues = {
+  is_updated_exchange_rate: false,
   exchange_rate: 0,
   total_amount: 0,
   total_cost: 0,

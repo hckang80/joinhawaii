@@ -660,6 +660,7 @@ export default function ReservationsFormClientContainer({
               <Table.Root size='1'>
                 <Table.Header>
                   <Table.Row>
+                    <Table.ColumnHeaderCell width='50px'>환율 적용</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='120px'>지역</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='170px'>날짜</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='60px'>숙박일</Table.ColumnHeaderCell>
@@ -677,6 +678,21 @@ export default function ReservationsFormClientContainer({
                 <Table.Body>
                   {getValues('hotels').map((_hotel, i) => (
                     <Table.Row key={i}>
+                      <Table.Cell>
+                        <Controller
+                          name={`hotels.${i}.is_updated_exchange_rate`}
+                          control={control}
+                          render={({ field }) => (
+                            <Checkbox
+                              size='3'
+                              checked={field.value}
+                              onCheckedChange={value => {
+                                field.onChange(value);
+                              }}
+                            />
+                          )}
+                        />
+                      </Table.Cell>
                       <Table.Cell>
                         <Controller
                           name={`hotels.${i}.region`}
@@ -831,6 +847,7 @@ export default function ReservationsFormClientContainer({
               <Table.Root size='1'>
                 <Table.Header>
                   <Table.Row>
+                    <Table.ColumnHeaderCell width='50px'>환율 적용</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='120px'>지역</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='240px'>날짜</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='240px'>상품명</Table.ColumnHeaderCell>
@@ -843,6 +860,21 @@ export default function ReservationsFormClientContainer({
                 <Table.Body>
                   {getValues('tours').map((_tour, i) => (
                     <Table.Row key={i}>
+                      <Table.Cell>
+                        <Controller
+                          name={`tours.${i}.is_updated_exchange_rate`}
+                          control={control}
+                          render={({ field }) => (
+                            <Checkbox
+                              size='3'
+                              checked={field.value}
+                              onCheckedChange={value => {
+                                field.onChange(value);
+                              }}
+                            />
+                          )}
+                        />
+                      </Table.Cell>
                       <Table.Cell>
                         <Controller
                           name={`tours.${i}.region`}
@@ -1015,6 +1047,7 @@ export default function ReservationsFormClientContainer({
               <Table.Root size='1'>
                 <Table.Header>
                   <Table.Row>
+                    <Table.ColumnHeaderCell width='50px'>환율 적용</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='120px'>지역</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='240px'>날짜</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='120px'>픽업장소</Table.ColumnHeaderCell>
@@ -1030,6 +1063,21 @@ export default function ReservationsFormClientContainer({
                 <Table.Body>
                   {getValues('rental_cars').map((_car, i) => (
                     <Table.Row key={i}>
+                      <Table.Cell>
+                        <Controller
+                          name={`rental_cars.${i}.is_updated_exchange_rate`}
+                          control={control}
+                          render={({ field }) => (
+                            <Checkbox
+                              size='3'
+                              checked={field.value}
+                              onCheckedChange={value => {
+                                field.onChange(value);
+                              }}
+                            />
+                          )}
+                        />
+                      </Table.Cell>
                       <Table.Cell>
                         <Controller
                           name={`rental_cars.${i}.region`}
