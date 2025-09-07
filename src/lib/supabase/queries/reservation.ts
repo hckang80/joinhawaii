@@ -85,13 +85,14 @@ export const updateReservationProducts = async (
     if (existingItems.length) {
       updates.push(
         supabase.from(table).upsert(
-          existingItems.map(item => ({
-            ...item,
-            reservation_id: reservationId,
-            ...(item.is_updated_exchange_rate && {
-              exchange_rate
-            })
-          }))
+          existingItems.map(item => {
+            const { is_updated_exchange_rate, ...rest } = item;
+            return {
+              ...rest,
+              reservation_id: reservationId,
+              ...(is_updated_exchange_rate && { exchange_rate })
+            };
+          })
         )
       );
     }
@@ -99,13 +100,14 @@ export const updateReservationProducts = async (
     if (newItems.length) {
       updates.push(
         supabase.from(table).insert(
-          newItems.map(item => ({
-            ...item,
-            reservation_id: reservationId,
-            ...(item.is_updated_exchange_rate && {
-              exchange_rate
-            })
-          }))
+          newItems.map(item => {
+            const { is_updated_exchange_rate, ...rest } = item;
+            return {
+              ...rest,
+              reservation_id: reservationId,
+              ...(is_updated_exchange_rate && { exchange_rate })
+            };
+          })
         )
       );
     }
