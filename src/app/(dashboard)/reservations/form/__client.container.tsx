@@ -864,138 +864,164 @@ export default function ReservationsFormClientContainer({
                 선택관광
               </Heading>
 
-              <Flex direction='column' gap='5'>
-                {getValues('tours').map((_tour, i) => (
-                  <div
-                    key={i}
-                    className={clsx(
-                      dirtyFields.tours?.[i] && styles['is-dirty'],
-                      styles['form-field-group']
-                    )}
-                  >
-                    <TourTotalCalculator index={i} setValue={setValue} control={control} />
-
-                    <Grid align='center' columns='60px 1fr 60px 1fr' gap='3'>
-                      <Text weight='medium'>지역</Text>
-                      <TextField.Root
-                        size='3'
-                        {...register(`tours.${i}.region`, {
-                          required: isDirtyProductItem('tours') && true
-                        })}
-                      />
-
-                      <Text weight='medium'>상품명</Text>
-                      <TextField.Root
-                        size='3'
-                        {...register(`tours.${i}.name`, {
-                          required: isDirtyProductItem('tours') && true
-                        })}
-                      />
-
-                      <Text weight='medium'>출발 시간</Text>
-                      <TextField.Root
-                        size='3'
-                        type='datetime-local'
-                        {...register(`tours.${i}.start_date`, {
-                          required: isDirtyProductItem('tours') && true
-                        })}
-                      />
-
-                      <Text weight='medium'>도착 시간</Text>
-                      <TextField.Root
-                        size='3'
-                        type='datetime-local'
-                        {...register(`tours.${i}.end_date`, {
-                          required: isDirtyProductItem('tours') && true
-                        })}
-                      />
-
-                      <Text weight='medium'>원가</Text>
-                      <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
-                        <span>성인</span>
+              <Table.Root size='1'>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.ColumnHeaderCell width='120px'>지역</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='240px'>날짜</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='240px'>상품명</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='80px'>💸 원가</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='80px'>💰 요금</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='70px'>수량</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell>비고</Table.ColumnHeaderCell>
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                  {getValues('tours').map((_tour, i) => (
+                    <Table.Row key={i}>
+                      <Table.Cell>
+                        <Controller
+                          name={`tours.${i}.region`}
+                          control={control}
+                          render={({ field }) => (
+                            <Select.Root
+                              value={field.value}
+                              onValueChange={value => {
+                                field.onChange(value);
+                              }}
+                              name={field.name}
+                            >
+                              <Select.Trigger placeholder='지역 선택' />
+                              <Select.Content>
+                                {REGIONS.map(value => (
+                                  <Select.Item value={value} key={value}>
+                                    {value}
+                                  </Select.Item>
+                                ))}
+                              </Select.Content>
+                            </Select.Root>
+                          )}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
                         <TextField.Root
-                          type='number'
-                          min='0'
-                          size='3'
-                          {...register(`tours.${i}.adult_cost`, {
-                            required: isDirtyProductItem('tours') && true,
-                            valueAsNumber: true
+                          type='datetime-local'
+                          {...register(`tours.${i}.start_date`, {
+                            required: isDirtyProductItem('tours') && true
                           })}
                         />
-                        <span>소아</span>
+                        ~
                         <TextField.Root
-                          type='number'
-                          min='0'
-                          size='3'
-                          {...register(`tours.${i}.children_cost`, {
-                            required: isDirtyProductItem('tours') && true,
-                            valueAsNumber: true
+                          type='datetime-local'
+                          {...register(`tours.${i}.end_date`, {
+                            required: isDirtyProductItem('tours') && true
                           })}
                         />
-                      </Grid>
-
-                      <Text weight='medium'>인원</Text>
-                      <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
-                        <span>성인</span>
+                      </Table.Cell>
+                      <Table.Cell>
                         <TextField.Root
-                          type='number'
-                          min='0'
-                          size='3'
-                          disabled={!!getValues(`tours.${i}.local_currency`)}
-                          {...register(`tours.${i}.adult_count`, {
-                            required: isDirtyProductItem('tours') && true,
-                            valueAsNumber: true
+                          {...register(`tours.${i}.name`, {
+                            required: isDirtyProductItem('tours') && true
                           })}
                         />
-                        <span>소아</span>
-                        <TextField.Root
-                          type='number'
-                          min='0'
-                          size='3'
-                          disabled={!!getValues(`tours.${i}.local_currency`)}
-                          {...register(`tours.${i}.children_count`, {
-                            required: isDirtyProductItem('tours') && true,
-                            valueAsNumber: true
-                          })}
-                        />
-                      </Grid>
-
-                      <Text weight='medium'>요금</Text>
-                      <Grid align='center' columns='30px 100px 30px 100px' gap='3'>
-                        <span>성인</span>
-                        <TextField.Root
-                          type='number'
-                          min='0'
-                          size='3'
-                          {...register(`tours.${i}.adult_price`, {
-                            required: isDirtyProductItem('tours') && true,
-                            valueAsNumber: true
-                          })}
-                        />
-                        <span>소아</span>
-                        <TextField.Root
-                          type='number'
-                          min='0'
-                          size='3'
-                          {...register(`tours.${i}.children_price`, {
-                            required: isDirtyProductItem('tours') && true,
-                            valueAsNumber: true
-                          })}
-                        />
-                      </Grid>
-
-                      <Box gridColumn='1 / -1'>
-                        <Grid align='center' columns='60px 1fr' gap='3'>
-                          <Text weight='medium' mb='2'>
-                            비고
-                          </Text>
-                          <TextArea {...register(`tours.${i}.notes`)} />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Grid gap='2'>
+                          <Flex direction='column'>
+                            <span>🧑 성인</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              {...register(`tours.${i}.adult_cost`, {
+                                required: isDirtyProductItem('tours') && true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                          <Flex direction='column'>
+                            <span>🧒 소아</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              {...register(`tours.${i}.children_cost`, {
+                                required: isDirtyProductItem('tours') && true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                          <Flex direction='column'>
+                            <span>👶 유아</span>
+                          </Flex>
                         </Grid>
-                      </Box>
-                    </Grid>
-                  </div>
-                ))}
-              </Flex>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Grid gap='2'>
+                          <Flex direction='column'>
+                            <span>🧑 성인</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              {...register(`tours.${i}.adult_price`, {
+                                required: isDirtyProductItem('tours') && true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                          <Flex direction='column'>
+                            <span>🧒 소아</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              {...register(`tours.${i}.children_price`, {
+                                required: isDirtyProductItem('tours') && true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                          <Flex direction='column'>
+                            <span>👶 유아</span>
+                          </Flex>
+                        </Grid>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Grid gap='2'>
+                          <Flex direction='column'>
+                            <span>🧑 성인</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              {...register(`tours.${i}.adult_count`, {
+                                required: isDirtyProductItem('tours') && true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                          <Flex direction='column'>
+                            <span>🧒 소아</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              {...register(`tours.${i}.children_count`, {
+                                required: isDirtyProductItem('tours') && true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                          <Flex direction='column'>
+                            <span>👶 유아</span>
+                          </Flex>
+                        </Grid>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <TextField.Root {...register(`tours.${i}.notes`)} />
+                      </Table.Cell>
+                      <Table.Cell hidden>
+                        <TourTotalCalculator index={i} setValue={setValue} control={control} />
+                      </Table.Cell>
+                    </Table.Row>
+                  ))}
+                </Table.Body>
+              </Table.Root>
 
               <Flex justify='end' mt='4'>
                 <Button type='button' color='ruby' onClick={addTour}>
