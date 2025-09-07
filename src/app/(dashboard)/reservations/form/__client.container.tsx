@@ -1304,7 +1304,7 @@ export default function ReservationsFormClientContainer({
               </Button>
             </Flex>
             <Text as='p' align='right' mt='2' weight='bold' color='ruby'>
-              입력된 환율은 정산되지 않은 상품에만 적용됩니다.
+              환율 적용에 체크된 상품에만 적용됩니다.
             </Text>
           </Box>
         </form>
