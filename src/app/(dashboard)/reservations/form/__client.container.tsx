@@ -208,23 +208,16 @@ export default function ReservationsFormClientContainer({
             arrival_datetime: new Date(flight.arrival_datetime).toISOString().slice(0, 16),
             departure_datetime: new Date(flight.departure_datetime).toISOString().slice(0, 16)
           }))
-        : [
-            {
-              ...defaultFlightValues,
-              departure_city: '인천'
-            }
-          ],
-      hotels: data?.products.hotels.length ? data.products.hotels : [defaultHotelValues],
+        : [],
+      hotels: data?.products.hotels.length ? data.products.hotels : [],
       tours: data?.products.tours.length
         ? data.products.tours.map(tour => ({
             ...tour,
             start_date: new Date(tour.start_date).toISOString().slice(0, 16),
             end_date: new Date(tour.end_date).toISOString().slice(0, 16)
           }))
-        : [defaultTourValues],
-      rental_cars: data?.products.rental_cars.length
-        ? data.products.rental_cars
-        : [defaultCarValues]
+        : [],
+      rental_cars: data?.products.rental_cars.length ? data.products.rental_cars : []
     }
   });
 
@@ -287,15 +280,6 @@ export default function ReservationsFormClientContainer({
   const addCar = () => {
     setValue('rental_cars', [...watch('rental_cars'), defaultCarValues]);
   };
-
-  function hasUpdatedExchangeRate(watch: (field: string) => unknown[]) {
-    const fields: Array<keyof ReservationItem> = ['flights', 'hotels', 'tours', 'rental_cars'];
-    return fields.some(field =>
-      (watch(field) as Array<{ is_updated_exchange_rate: boolean }>)?.some(
-        item => item.is_updated_exchange_rate
-      )
-    );
-  }
 
   return (
     <div className={styles.root}>
@@ -506,7 +490,7 @@ export default function ReservationsFormClientContainer({
                       <Table.Cell>
                         <TextField.Root
                           {...register(`flights.${i}.flight_number`, {
-                            required: isDirtyProductItem('flights') && true
+                            required: true
                           })}
                           placeholder='KE001'
                         />
@@ -515,7 +499,7 @@ export default function ReservationsFormClientContainer({
                         <TextField.Root
                           type='datetime-local'
                           {...register(`flights.${i}.departure_datetime`, {
-                            required: isDirtyProductItem('flights') && true
+                            required: true
                           })}
                         />
                       </Table.Cell>
@@ -523,7 +507,7 @@ export default function ReservationsFormClientContainer({
                         <TextField.Root
                           readOnly={!i}
                           {...register(`flights.${i}.departure_city`, {
-                            required: isDirtyProductItem('flights') && true
+                            required: true
                           })}
                         />
                       </Table.Cell>
@@ -531,14 +515,14 @@ export default function ReservationsFormClientContainer({
                         <TextField.Root
                           type='datetime-local'
                           {...register(`flights.${i}.arrival_datetime`, {
-                            required: isDirtyProductItem('flights') && true
+                            required: true
                           })}
                         />
                       </Table.Cell>
                       <Table.Cell>
                         <TextField.Root
                           {...register(`flights.${i}.arrival_city`, {
-                            required: isDirtyProductItem('flights') && true
+                            required: true
                           })}
                           placeholder='호놀룰루'
                         />
@@ -551,7 +535,7 @@ export default function ReservationsFormClientContainer({
                               type='number'
                               min='0'
                               {...register(`flights.${i}.adult_cost`, {
-                                required: isDirtyProductItem('flights') && true,
+                                required: true,
                                 valueAsNumber: true
                               })}
                             />
@@ -562,7 +546,7 @@ export default function ReservationsFormClientContainer({
                               type='number'
                               min='0'
                               {...register(`flights.${i}.children_cost`, {
-                                required: isDirtyProductItem('flights') && true,
+                                required: true,
                                 valueAsNumber: true
                               })}
                             />
@@ -580,7 +564,7 @@ export default function ReservationsFormClientContainer({
                               type='number'
                               min='0'
                               {...register(`flights.${i}.adult_price`, {
-                                required: isDirtyProductItem('flights') && true,
+                                required: true,
                                 valueAsNumber: true
                               })}
                             />
@@ -591,7 +575,7 @@ export default function ReservationsFormClientContainer({
                               type='number'
                               min='0'
                               {...register(`flights.${i}.children_price`, {
-                                required: isDirtyProductItem('flights') && true,
+                                required: true,
                                 valueAsNumber: true
                               })}
                             />
@@ -609,7 +593,7 @@ export default function ReservationsFormClientContainer({
                               type='number'
                               min='0'
                               {...register(`flights.${i}.adult_count`, {
-                                required: isDirtyProductItem('flights') && true,
+                                required: true,
                                 valueAsNumber: true
                               })}
                             />
@@ -620,7 +604,7 @@ export default function ReservationsFormClientContainer({
                               type='number'
                               min='0'
                               {...register(`flights.${i}.children_count`, {
-                                required: isDirtyProductItem('flights') && true,
+                                required: true,
                                 valueAsNumber: true
                               })}
                             />
@@ -730,14 +714,14 @@ export default function ReservationsFormClientContainer({
                         <TextField.Root
                           type='date'
                           {...register(`hotels.${i}.check_in_date`, {
-                            required: isDirtyProductItem('hotels') && true
+                            required: true
                           })}
                         />
                         ~
                         <TextField.Root
                           type='date'
                           {...register(`hotels.${i}.check_out_date`, {
-                            required: isDirtyProductItem('hotels') && true
+                            required: true
                           })}
                         />
                       </Table.Cell>
@@ -746,7 +730,7 @@ export default function ReservationsFormClientContainer({
                           type='number'
                           min='1'
                           {...register(`hotels.${i}.nights`, {
-                            required: isDirtyProductItem('hotels') && true,
+                            required: true,
                             valueAsNumber: true
                           })}
                         />
@@ -755,14 +739,14 @@ export default function ReservationsFormClientContainer({
                         {/* TODO: 드랍다운으로 변경 필요 */}
                         <TextField.Root
                           {...register(`hotels.${i}.hotel_name`, {
-                            required: isDirtyProductItem('hotels') && true
+                            required: true
                           })}
                         />
                       </Table.Cell>
                       <Table.Cell>
                         <TextField.Root
                           {...register(`hotels.${i}.room_type`, {
-                            required: isDirtyProductItem('hotels') && true
+                            required: true
                           })}
                         />
                         {/* TODO: 1BED, 2BED, 1BED/2BED, 2BED/3BED, 3BED, 4BED */}
@@ -802,7 +786,7 @@ export default function ReservationsFormClientContainer({
                           type='number'
                           min='0'
                           {...register(`hotels.${i}.cost`, {
-                            required: isDirtyProductItem('hotels') && true,
+                            required: true,
                             valueAsNumber: true
                           })}
                         />
@@ -812,7 +796,7 @@ export default function ReservationsFormClientContainer({
                           type='number'
                           min='0'
                           {...register(`hotels.${i}.nightly_rate`, {
-                            required: isDirtyProductItem('hotels') && true,
+                            required: true,
                             valueAsNumber: true
                           })}
                         />
@@ -914,21 +898,21 @@ export default function ReservationsFormClientContainer({
                         <TextField.Root
                           type='datetime-local'
                           {...register(`tours.${i}.start_date`, {
-                            required: isDirtyProductItem('tours') && true
+                            required: true
                           })}
                         />
                         ~
                         <TextField.Root
                           type='datetime-local'
                           {...register(`tours.${i}.end_date`, {
-                            required: isDirtyProductItem('tours') && true
+                            required: true
                           })}
                         />
                       </Table.Cell>
                       <Table.Cell>
                         <TextField.Root
                           {...register(`tours.${i}.name`, {
-                            required: isDirtyProductItem('tours') && true
+                            required: true
                           })}
                         />
                       </Table.Cell>
@@ -940,7 +924,7 @@ export default function ReservationsFormClientContainer({
                               type='number'
                               min='0'
                               {...register(`tours.${i}.adult_cost`, {
-                                required: isDirtyProductItem('tours') && true,
+                                required: true,
                                 valueAsNumber: true
                               })}
                             />
@@ -951,7 +935,7 @@ export default function ReservationsFormClientContainer({
                               type='number'
                               min='0'
                               {...register(`tours.${i}.children_cost`, {
-                                required: isDirtyProductItem('tours') && true,
+                                required: true,
                                 valueAsNumber: true
                               })}
                             />
@@ -969,7 +953,7 @@ export default function ReservationsFormClientContainer({
                               type='number'
                               min='0'
                               {...register(`tours.${i}.adult_price`, {
-                                required: isDirtyProductItem('tours') && true,
+                                required: true,
                                 valueAsNumber: true
                               })}
                             />
@@ -980,7 +964,7 @@ export default function ReservationsFormClientContainer({
                               type='number'
                               min='0'
                               {...register(`tours.${i}.children_price`, {
-                                required: isDirtyProductItem('tours') && true,
+                                required: true,
                                 valueAsNumber: true
                               })}
                             />
@@ -998,7 +982,7 @@ export default function ReservationsFormClientContainer({
                               type='number'
                               min='0'
                               {...register(`tours.${i}.adult_count`, {
-                                required: isDirtyProductItem('tours') && true,
+                                required: true,
                                 valueAsNumber: true
                               })}
                             />
@@ -1009,7 +993,7 @@ export default function ReservationsFormClientContainer({
                               type='number'
                               min='0'
                               {...register(`tours.${i}.children_count`, {
-                                required: isDirtyProductItem('tours') && true,
+                                required: true,
                                 valueAsNumber: true
                               })}
                             />
@@ -1117,49 +1101,49 @@ export default function ReservationsFormClientContainer({
                         <TextField.Root
                           type='date'
                           {...register(`rental_cars.${i}.pickup_date`, {
-                            required: isDirtyProductItem('rental_cars') && true
+                            required: true
                           })}
                         />
                         ~
                         <TextField.Root
                           type='date'
                           {...register(`rental_cars.${i}.return_date`, {
-                            required: isDirtyProductItem('rental_cars') && true
+                            required: true
                           })}
                         />
                       </Table.Cell>
                       <Table.Cell>
                         <TextField.Root
                           {...register(`rental_cars.${i}.pickup_location`, {
-                            required: isDirtyProductItem('rental_cars') && true
+                            required: true
                           })}
                         />
                         <br />
                         <TextField.Root
                           type='time'
                           {...register(`rental_cars.${i}.pickup_time`, {
-                            required: isDirtyProductItem('rental_cars') && true
+                            required: true
                           })}
                         />
                       </Table.Cell>
                       <Table.Cell>
                         <TextField.Root
                           {...register(`rental_cars.${i}.model`, {
-                            required: isDirtyProductItem('rental_cars') && true
+                            required: true
                           })}
                         />
                       </Table.Cell>
                       <Table.Cell>
                         <TextField.Root
                           {...register(`rental_cars.${i}.driver`, {
-                            required: isDirtyProductItem('rental_cars') && true
+                            required: true
                           })}
                         />
                       </Table.Cell>
                       <Table.Cell>
                         <TextField.Root
                           {...register(`rental_cars.${i}.options`, {
-                            required: isDirtyProductItem('rental_cars') && true
+                            required: true
                           })}
                         />
                       </Table.Cell>
@@ -1168,7 +1152,7 @@ export default function ReservationsFormClientContainer({
                           type='number'
                           min='0'
                           {...register(`rental_cars.${i}.cost`, {
-                            required: isDirtyProductItem('rental_cars') && true,
+                            required: true,
                             valueAsNumber: true
                           })}
                         />
@@ -1178,7 +1162,7 @@ export default function ReservationsFormClientContainer({
                           type='number'
                           min='0'
                           {...register(`rental_cars.${i}.daily_rate`, {
-                            required: isDirtyProductItem('rental_cars') && true,
+                            required: true,
                             valueAsNumber: true
                           })}
                         />
@@ -1188,7 +1172,7 @@ export default function ReservationsFormClientContainer({
                           type='number'
                           min='1'
                           {...register(`rental_cars.${i}.rental_days`, {
-                            required: isDirtyProductItem('rental_cars') && true,
+                            required: true,
                             valueAsNumber: true
                           })}
                         />
@@ -1296,17 +1280,13 @@ export default function ReservationsFormClientContainer({
                 )}
               />
 
-              <Button
-                disabled={mutation.isPending || !hasUpdatedExchangeRate(watch)}
-                size='3'
-                color='ruby'
-              >
+              <Button disabled={mutation.isPending} size='3' color='ruby'>
                 <Upload />
                 등록
               </Button>
             </Flex>
             <Text as='p' align='right' mt='2' weight='bold' color='ruby'>
-              환율 적용에 체크된 상품에만 적용됩니다.
+              환율 적용을 체크한 상품만 환율이 적용됩니다.
             </Text>
           </Box>
         </form>
