@@ -281,15 +281,6 @@ export default function ReservationsFormClientContainer({
     setValue('rental_cars', [...watch('rental_cars'), defaultCarValues]);
   };
 
-  function hasUpdatedExchangeRate(watch: (field: string) => unknown[]) {
-    const fields: Array<keyof ReservationItem> = ['flights', 'hotels', 'tours', 'rental_cars'];
-    return fields.some(field =>
-      (watch(field) as Array<{ is_updated_exchange_rate: boolean }>)?.some(
-        item => item.is_updated_exchange_rate
-      )
-    );
-  }
-
   return (
     <div className={styles.root}>
       <Heading as='h2' mb='4' size='7'>
@@ -1289,11 +1280,7 @@ export default function ReservationsFormClientContainer({
                 )}
               />
 
-              <Button
-                disabled={mutation.isPending || !hasUpdatedExchangeRate(watch)}
-                size='3'
-                color='ruby'
-              >
+              <Button disabled={mutation.isPending} size='3' color='ruby'>
                 <Upload />
                 등록
               </Button>
