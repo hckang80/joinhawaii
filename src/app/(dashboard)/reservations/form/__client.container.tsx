@@ -305,7 +305,7 @@ export default function ReservationsFormClientContainer({
     return getValues(target).length <= minLength;
   };
 
-  const isRemoveDisabled = (target: `${ProductType}s`) => {
+  const isRemoveProductDisabled = (target: `${ProductType}s`) => {
     const minLength = data?.products[target].length || 1;
     return getValues(target).length <= minLength;
   };
@@ -683,7 +683,7 @@ export default function ReservationsFormClientContainer({
                   color='ruby'
                   variant='soft'
                   onClick={() => removeItem('flights')}
-                  disabled={isRemoveDisabled('flights')}
+                  disabled={isRemoveProductDisabled('flights')}
                 >
                   <Minus size='20' /> 삭제
                 </Button>
@@ -874,7 +874,7 @@ export default function ReservationsFormClientContainer({
                   color='ruby'
                   variant='soft'
                   onClick={() => removeItem('hotels')}
-                  disabled={isRemoveDisabled('hotels')}
+                  disabled={isRemoveProductDisabled('hotels')}
                 >
                   <Minus size='20' /> 삭제
                 </Button>
@@ -1041,7 +1041,7 @@ export default function ReservationsFormClientContainer({
                   color='ruby'
                   variant='soft'
                   onClick={() => removeItem('tours')}
-                  disabled={isRemoveDisabled('tours')}
+                  disabled={isRemoveProductDisabled('tours')}
                 >
                   <Minus size='20' /> 삭제
                 </Button>
@@ -1225,7 +1225,7 @@ export default function ReservationsFormClientContainer({
                   color='ruby'
                   variant='soft'
                   onClick={() => removeItem('rental_cars')}
-                  disabled={isRemoveDisabled('rental_cars')}
+                  disabled={isRemoveProductDisabled('rental_cars')}
                 >
                   <Minus size='20' /> 삭제
                 </Button>
