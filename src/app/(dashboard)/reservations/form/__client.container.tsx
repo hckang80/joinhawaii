@@ -275,7 +275,7 @@ export default function ReservationsFormClientContainer({
   };
 
   const isRemoveProductDisabled = (target: `${ProductType}s`) => {
-    const minLength = data?.products[target].length || 1;
+    const minLength = data?.products[target].length || 0;
     return getValues(target).length <= minLength;
   };
 
