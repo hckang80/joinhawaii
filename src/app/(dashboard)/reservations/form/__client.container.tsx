@@ -11,6 +11,7 @@ import {
 import { createReservation, updateReservation } from '@/http';
 import type {
   ListFormType,
+  ProductType,
   ReservationFormData,
   ReservationItem,
   ReservationResponse
@@ -299,7 +300,15 @@ export default function ReservationsFormClientContainer({
     mutation.mutate(formData);
   };
 
-  const isRemoveClientDisabled = (target: ListFormType) => getValues(target).length <= 1;
+  const isRemoveClientDisabled = (target = 'clients' as const) => {
+    const minLength = data?.[target]?.length || 1;
+    return getValues(target).length <= minLength;
+  };
+
+  const isRemoveDisabled = (target: `${ProductType}s`) => {
+    const minLength = data?.products[target].length || 1;
+    return getValues(target).length <= minLength;
+  };
 
   const removeItem = (target: ListFormType) => {
     const items = getValues(target);
@@ -674,7 +683,7 @@ export default function ReservationsFormClientContainer({
                   color='ruby'
                   variant='soft'
                   onClick={() => removeItem('flights')}
-                  disabled={isRemoveClientDisabled('flights')}
+                  disabled={isRemoveDisabled('flights')}
                 >
                   <Minus size='20' /> 삭제
                 </Button>
@@ -865,7 +874,7 @@ export default function ReservationsFormClientContainer({
                   color='ruby'
                   variant='soft'
                   onClick={() => removeItem('hotels')}
-                  disabled={isRemoveClientDisabled('hotels')}
+                  disabled={isRemoveDisabled('hotels')}
                 >
                   <Minus size='20' /> 삭제
                 </Button>
@@ -1032,7 +1041,7 @@ export default function ReservationsFormClientContainer({
                   color='ruby'
                   variant='soft'
                   onClick={() => removeItem('tours')}
-                  disabled={isRemoveClientDisabled('tours')}
+                  disabled={isRemoveDisabled('tours')}
                 >
                   <Minus size='20' /> 삭제
                 </Button>
@@ -1216,7 +1225,7 @@ export default function ReservationsFormClientContainer({
                   color='ruby'
                   variant='soft'
                   onClick={() => removeItem('rental_cars')}
-                  disabled={isRemoveClientDisabled('rental_cars')}
+                  disabled={isRemoveDisabled('rental_cars')}
                 >
                   <Minus size='20' /> 삭제
                 </Button>
