@@ -501,7 +501,13 @@ export default function ReservationsFormClientContainer({
                 >
                   <UserMinus />
                 </Button>
-                <Button title='인원 추가' type='button' color='ruby' onClick={addClient}>
+                <Button
+                  title='인원 추가'
+                  type='button'
+                  color='ruby'
+                  onClick={addClient}
+                  highContrast
+                >
                   <UserPlus />
                 </Button>
               </Flex>
