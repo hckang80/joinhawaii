@@ -299,6 +299,8 @@ export default function ReservationsFormClientContainer({
     mutation.mutate(formData);
   };
 
+  const isRemoveClientDisabled = (target: ListFormType) => getValues(target).length <= 1;
+
   const removeItem = (target: ListFormType) => {
     const items = getValues(target);
     setValue(target, items.slice(0, -1));
@@ -495,7 +497,7 @@ export default function ReservationsFormClientContainer({
                   type='button'
                   color='ruby'
                   onClick={() => removeItem('clients')}
-                  disabled={getValues('clients').length <= 1}
+                  disabled={isRemoveClientDisabled('clients')}
                 >
                   <UserMinus />
                 </Button>
