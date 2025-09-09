@@ -10,7 +10,13 @@ import {
   REGIONS
 } from '@/constants';
 import { createReservation, updateReservation } from '@/http';
-import type { ReservationFormData, ReservationItem, ReservationResponse } from '@/types';
+import type {
+  ListFormType,
+  ProductType,
+  ReservationFormData,
+  ReservationItem,
+  ReservationResponse
+} from '@/types';
 import { handleApiError, handleApiSuccess, isDev } from '@/utils';
 import { observable } from '@legendapp/state';
 import { use$ } from '@legendapp/state/react';
@@ -31,7 +37,17 @@ import {
 } from '@radix-ui/themes';
 import { useMutation } from '@tanstack/react-query';
 import clsx from 'clsx';
-import { Binoculars, BookText, Car, Hotel, Plane, Upload, UserPlus } from 'lucide-react';
+import {
+  Binoculars,
+  BookText,
+  Car,
+  Hotel,
+  Minus,
+  Plane,
+  Upload,
+  UserMinus,
+  UserPlus
+} from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
 import { useEffect } from 'react';
@@ -253,6 +269,21 @@ export default function ReservationsFormClientContainer({
     mutation.mutate(formData);
   };
 
+  const isRemoveClientDisabled = (target = 'clients' as const) => {
+    const minLength = data?.[target]?.length || 1;
+    return getValues(target).length <= minLength;
+  };
+
+  const isRemoveProductDisabled = (target: `${ProductType}s`) => {
+    const minLength = data?.products[target].length || 1;
+    return getValues(target).length <= minLength;
+  };
+
+  const removeItem = (target: ListFormType) => {
+    const items = getValues(target);
+    setValue(target, items.slice(0, -1));
+  };
+
   const addClient = () => {
     setValue('clients', [...watch('clients'), defaultClientValues]);
   };
@@ -446,6 +477,16 @@ export default function ReservationsFormClientContainer({
               </Table.Root>
 
               <Flex justify='end' mt='4' gap='1'>
+                <Button
+                  title='인원 삭제'
+                  type='button'
+                  color='ruby'
+                  variant='soft'
+                  onClick={() => removeItem('clients')}
+                  disabled={isRemoveClientDisabled('clients')}
+                >
+                  <UserMinus />
+                </Button>
                 <Button title='인원 추가' type='button' color='ruby' onClick={addClient}>
                   <UserPlus />
                 </Button>
@@ -625,10 +666,19 @@ export default function ReservationsFormClientContainer({
                 </Table.Body>
               </Table.Root>
 
-              <Flex justify='end' mt='4'>
+              <Flex justify='end' mt='4' gap='1'>
+                <Button
+                  type='button'
+                  color='ruby'
+                  variant='soft'
+                  onClick={() => removeItem('flights')}
+                  disabled={isRemoveProductDisabled('flights')}
+                >
+                  <Minus size='20' /> 삭제
+                </Button>
                 <Button type='button' color='ruby' onClick={addDomesticFlight}>
                   <Plane size='20' />
-                  주내선 추가
+                  항공 추가
                 </Button>
               </Flex>
 
@@ -814,7 +864,16 @@ export default function ReservationsFormClientContainer({
                 </Table.Body>
               </Table.Root>
 
-              <Flex justify='end' mt='4'>
+              <Flex justify='end' mt='4' gap='1'>
+                <Button
+                  type='button'
+                  color='ruby'
+                  variant='soft'
+                  onClick={() => removeItem('hotels')}
+                  disabled={isRemoveProductDisabled('hotels')}
+                >
+                  <Minus size='20' /> 삭제
+                </Button>
                 <Button type='button' color='ruby' onClick={addHotel}>
                   <Hotel size='20' />
                   호텔 추가
@@ -1014,7 +1073,16 @@ export default function ReservationsFormClientContainer({
                 </Table.Body>
               </Table.Root>
 
-              <Flex justify='end' mt='4'>
+              <Flex justify='end' mt='4' gap='1'>
+                <Button
+                  type='button'
+                  color='ruby'
+                  variant='soft'
+                  onClick={() => removeItem('tours')}
+                  disabled={isRemoveProductDisabled('tours')}
+                >
+                  <Minus size='20' /> 삭제
+                </Button>
                 <Button type='button' color='ruby' onClick={addTour}>
                   <Binoculars size='20' />
                   선택관광 추가
@@ -1188,7 +1256,16 @@ export default function ReservationsFormClientContainer({
                 </Table.Body>
               </Table.Root>
 
-              <Flex justify='end' mt='4'>
+              <Flex justify='end' mt='4' gap='1'>
+                <Button
+                  type='button'
+                  color='ruby'
+                  variant='soft'
+                  onClick={() => removeItem('rental_cars')}
+                  disabled={isRemoveProductDisabled('rental_cars')}
+                >
+                  <Minus size='20' /> 삭제
+                </Button>
                 <Button type='button' color='ruby' onClick={addCar}>
                   <Car size='20' />
                   렌터카 추가
