@@ -12,3 +12,9 @@
 .is-dirty {
   background-color: var(--gray-5);
 }
+
+.exchange-rate-card {
+  padding: 12px;
+  border-radius: 12px;
+  background-color: var(--gray-5);
+}

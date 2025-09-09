@@ -18,7 +18,6 @@ export type ReservationFormData = ReservationBaseInfo & ReservationItem;
 
 export interface ReservationBaseInfo {
   exchange_rate: number;
-  local_currency: number;
   booking_platform: string;
   main_client_name: string;
   total_amount: number;
