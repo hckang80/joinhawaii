@@ -195,3 +195,5 @@ export interface ApiResponse<T> {
   error?: string;
   details?: unknown;
 }
+
+export type ListFormType = 'clients' | 'flights' | 'hotels' | 'tours' | 'rental_cars';

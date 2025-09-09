@@ -9,7 +9,12 @@ import {
   GENDER_TYPE
 } from '@/constants';
 import { createReservation, updateReservation } from '@/http';
-import type { ReservationFormData, ReservationItem, ReservationResponse } from '@/types';
+import type {
+  ListFormType,
+  ReservationFormData,
+  ReservationItem,
+  ReservationResponse
+} from '@/types';
 import { handleApiError, handleApiSuccess, isDev } from '@/utils';
 import { observable } from '@legendapp/state';
 import { use$ } from '@legendapp/state/react';
@@ -32,7 +37,7 @@ import {
 } from '@radix-ui/themes';
 import { useMutation } from '@tanstack/react-query';
 import clsx from 'clsx';
-import { Binoculars, Car, Hotel, Plane, Upload, UserPlus } from 'lucide-react';
+import { Binoculars, Car, Hotel, Plane, Upload, UserMinus, UserPlus } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
 import { useEffect } from 'react';
@@ -294,6 +299,11 @@ export default function ReservationsFormClientContainer({
     mutation.mutate(formData);
   };
 
+  const removeItem = (target: ListFormType) => {
+    const items = getValues(target);
+    setValue(target, items.slice(0, -1));
+  };
+
   const addClient = () => {
     setValue('clients', [...watch('clients'), defaultClientValues]);
   };
@@ -480,6 +490,15 @@ export default function ReservationsFormClientContainer({
                 })}
               </Flex>
               <Flex justify='end' mt='4' gap='1'>
+                <Button
+                  title='인원 삭제'
+                  type='button'
+                  color='ruby'
+                  onClick={() => removeItem('clients')}
+                  disabled={getValues('clients').length <= 1}
+                >
+                  <UserMinus />
+                </Button>
                 <Button title='인원 추가' type='button' color='ruby' onClick={addClient}>
                   <UserPlus />
                 </Button>
