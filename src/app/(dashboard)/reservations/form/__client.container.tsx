@@ -37,7 +37,7 @@ import {
 } from '@radix-ui/themes';
 import { useMutation } from '@tanstack/react-query';
 import clsx from 'clsx';
-import { Binoculars, Car, Hotel, Plane, Upload, UserMinus, UserPlus } from 'lucide-react';
+import { Binoculars, Car, Hotel, Minus, Plane, Upload, UserMinus, UserPlus } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
 import { useEffect } from 'react';
@@ -496,18 +496,13 @@ export default function ReservationsFormClientContainer({
                   title='인원 삭제'
                   type='button'
                   color='ruby'
+                  variant='soft'
                   onClick={() => removeItem('clients')}
                   disabled={isRemoveClientDisabled('clients')}
                 >
                   <UserMinus />
                 </Button>
-                <Button
-                  title='인원 추가'
-                  type='button'
-                  color='ruby'
-                  onClick={addClient}
-                  highContrast
-                >
+                <Button title='인원 추가' type='button' color='ruby' onClick={addClient}>
                   <UserPlus />
                 </Button>
               </Flex>
@@ -673,10 +668,19 @@ export default function ReservationsFormClientContainer({
                 ))}
               </Flex>
 
-              <Flex justify='end' mt='4'>
+              <Flex justify='end' mt='4' gap='1'>
+                <Button
+                  type='button'
+                  color='ruby'
+                  variant='soft'
+                  onClick={() => removeItem('flights')}
+                  disabled={isRemoveClientDisabled('flights')}
+                >
+                  <Minus size='20' /> 삭제
+                </Button>
                 <Button type='button' color='ruby' onClick={addDomesticFlight}>
                   <Plane size='20' />
-                  주내선 추가
+                  항공 추가
                 </Button>
               </Flex>
 
@@ -855,7 +859,16 @@ export default function ReservationsFormClientContainer({
                 })}
               </Flex>
 
-              <Flex justify='end' mt='4'>
+              <Flex justify='end' mt='4' gap='1'>
+                <Button
+                  type='button'
+                  color='ruby'
+                  variant='soft'
+                  onClick={() => removeItem('hotels')}
+                  disabled={isRemoveClientDisabled('hotels')}
+                >
+                  <Minus size='20' /> 삭제
+                </Button>
                 <Button type='button' color='ruby' onClick={addHotel}>
                   <Hotel size='20' />
                   호텔 추가
@@ -1013,7 +1026,16 @@ export default function ReservationsFormClientContainer({
                 ))}
               </Flex>
 
-              <Flex justify='end' mt='4'>
+              <Flex justify='end' mt='4' gap='1'>
+                <Button
+                  type='button'
+                  color='ruby'
+                  variant='soft'
+                  onClick={() => removeItem('tours')}
+                  disabled={isRemoveClientDisabled('tours')}
+                >
+                  <Minus size='20' /> 삭제
+                </Button>
                 <Button type='button' color='ruby' onClick={addTour}>
                   <Binoculars size='20' />
                   선택관광 추가
@@ -1188,7 +1210,16 @@ export default function ReservationsFormClientContainer({
                 })}
               </Flex>
 
-              <Flex justify='end' mt='4'>
+              <Flex justify='end' mt='4' gap='1'>
+                <Button
+                  type='button'
+                  color='ruby'
+                  variant='soft'
+                  onClick={() => removeItem('rental_cars')}
+                  disabled={isRemoveClientDisabled('rental_cars')}
+                >
+                  <Minus size='20' /> 삭제
+                </Button>
                 <Button type='button' color='ruby' onClick={addCar}>
                   <Car size='20' />
                   렌터카 추가
