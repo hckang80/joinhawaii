@@ -346,7 +346,7 @@ export default function ReservationsFormClientContainer({
                       }}
                       name={field.name}
                     >
-                      <Select.Trigger placeholder='예약회사 선택' />
+                      <Select.Trigger placeholder='예약회사 선택'>{field.value}</Select.Trigger>
                       <Select.Content>
                         <Select.Item value='마이리얼트립'>마이리얼트립</Select.Item>
                         <Select.Item value='크리에이트립'>크리에이트립</Select.Item>
@@ -440,7 +440,7 @@ export default function ReservationsFormClientContainer({
                               }}
                               name={field.name}
                             >
-                              <Select.Trigger placeholder='성별 선택' />
+                              <Select.Trigger placeholder='성별 선택'>{field.value}</Select.Trigger>
                               <Select.Content>
                                 {GENDER_TYPE.map(value => (
                                   <Select.Item value={value} key={value}>
@@ -781,7 +781,7 @@ export default function ReservationsFormClientContainer({
                               }}
                               name={field.name}
                             >
-                              <Select.Trigger placeholder='지역 선택' />
+                              <Select.Trigger placeholder='지역 선택'>{field.value}</Select.Trigger>
                               <Select.Content>
                                 {REGIONS.map(value => (
                                   <Select.Item value={value} key={value}>
@@ -1004,7 +1004,7 @@ export default function ReservationsFormClientContainer({
                               }}
                               name={field.name}
                             >
-                              <Select.Trigger placeholder='지역 선택' />
+                              <Select.Trigger placeholder='지역 선택'>{field.value}</Select.Trigger>
                               <Select.Content>
                                 {REGIONS.map(value => (
                                   <Select.Item value={value} key={value}>
@@ -1246,7 +1246,7 @@ export default function ReservationsFormClientContainer({
                               }}
                               name={field.name}
                             >
-                              <Select.Trigger placeholder='지역 선택' />
+                              <Select.Trigger placeholder='지역 선택'>{field.value}</Select.Trigger>
                               <Select.Content>
                                 {REGIONS.map(value => (
                                   <Select.Item value={value} key={value}>
