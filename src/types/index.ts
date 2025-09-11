@@ -21,7 +21,6 @@ export interface ReservationBaseInfo {
   exchange_rate: number;
   booking_platform: string;
   main_client_name: string;
-  status: ProductStatus;
   total_amount: number;
 }
 
@@ -154,7 +153,7 @@ export type ReservationRow = TablesRow<'reservations'>;
 export interface Reservation extends ReservationBaseInfo {
   id: number;
   reservation_id: string;
-  status: string;
+  status: ProductStatus;
   created_at: string;
   clients: TablesRow<'clients'>[];
 }
