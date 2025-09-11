@@ -46,7 +46,7 @@ import {
   Hotel,
   Minus,
   Plane,
-  Upload,
+  Save,
   UserMinus,
   UserPlus
 } from 'lucide-react';
@@ -1482,8 +1482,8 @@ export default function ReservationsFormClientContainer({
               />
 
               <Button disabled={mutation.isPending} size='3' color='ruby'>
-                <Upload />
-                등록
+                <Save />
+                변경사항 저장
               </Button>
             </Flex>
             <Text as='p' align='right' mt='2' weight='bold' color='ruby'>
