@@ -6,6 +6,7 @@ import {
   defaultTourValues,
   type Gender
 } from '../constants';
+import type { ProductStatus } from './product';
 
 export * from './product';
 export type Client = typeof defaultClientValues & { gender: Gender };
@@ -20,6 +21,7 @@ export interface ReservationBaseInfo {
   exchange_rate: number;
   booking_platform: string;
   main_client_name: string;
+  status: ProductStatus;
   total_amount: number;
 }
 

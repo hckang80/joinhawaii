@@ -7,15 +7,17 @@ import {
   defaultHotelValues,
   defaultTourValues,
   GENDER_TYPE,
+  PRODUCT_STATUS_COLOR,
   REGIONS
 } from '@/constants';
 import { createReservation, updateReservation } from '@/http';
-import type {
-  ListFormType,
-  ProductType,
-  ReservationFormData,
-  ReservationItem,
-  ReservationResponse
+import {
+  type ListFormType,
+  ProductStatus,
+  type ProductType,
+  type ReservationFormData,
+  type ReservationItem,
+  type ReservationResponse
 } from '@/types';
 import { handleApiError, handleApiSuccess, isDev } from '@/utils';
 import { observable } from '@legendapp/state';
@@ -715,6 +717,7 @@ export default function ReservationsFormClientContainer({
                     <Table.ColumnHeaderCell width='80px'>💰 1박 요금</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='70px'>수량</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='90px'>CF#/VC#</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='140px'>진행상태</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell>비고</Table.ColumnHeaderCell>
                   </Table.Row>
                 </Table.Header>
@@ -853,6 +856,35 @@ export default function ReservationsFormClientContainer({
                       </Table.Cell>
                       <Table.Cell>???</Table.Cell>
                       <Table.Cell>바우처 조회</Table.Cell>
+                      <Table.Cell>
+                        <Controller
+                          name={`hotels.${i}.status`}
+                          control={control}
+                          render={({ field }) => (
+                            <Select.Root
+                              value={field.value}
+                              onValueChange={value => {
+                                field.onChange(value);
+                              }}
+                              name={field.name}
+                            >
+                              <Select.Trigger
+                                color={PRODUCT_STATUS_COLOR[field.value]}
+                                variant='soft'
+                              >
+                                {ProductStatus[field.value]}
+                              </Select.Trigger>
+                              <Select.Content>
+                                {Object.entries(ProductStatus).map(([key, label]) => (
+                                  <Select.Item key={key} value={key}>
+                                    {label}
+                                  </Select.Item>
+                                ))}
+                              </Select.Content>
+                            </Select.Root>
+                          )}
+                        />
+                      </Table.Cell>
                       <Table.Cell>
                         <TextField.Root {...register(`hotels.${i}.notes`)} />
                       </Table.Cell>
