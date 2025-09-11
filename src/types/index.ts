@@ -6,6 +6,7 @@ import {
   defaultTourValues,
   type Gender
 } from '../constants';
+import type { ProductStatus } from './product';
 
 export * from './product';
 export type Client = typeof defaultClientValues & { gender: Gender };
@@ -152,7 +153,7 @@ export type ReservationRow = TablesRow<'reservations'>;
 export interface Reservation extends ReservationBaseInfo {
   id: number;
   reservation_id: string;
-  status: string;
+  status: ProductStatus;
   created_at: string;
   clients: TablesRow<'clients'>[];
 }

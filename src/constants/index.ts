@@ -21,6 +21,7 @@ export const defaultProductValues = {
   exchange_rate: 0,
   total_amount: 0,
   total_cost: 0,
+  status: 'Pending' as keyof typeof ProductStatus,
   notes: ''
 };
 

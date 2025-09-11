@@ -7,15 +7,17 @@ import {
   defaultHotelValues,
   defaultTourValues,
   GENDER_TYPE,
+  PRODUCT_STATUS_COLOR,
   REGIONS
 } from '@/constants';
 import { createReservation, updateReservation } from '@/http';
-import type {
-  ListFormType,
-  ProductType,
-  ReservationFormData,
-  ReservationItem,
-  ReservationResponse
+import {
+  type ListFormType,
+  ProductStatus,
+  type ProductType,
+  type ReservationFormData,
+  type ReservationItem,
+  type ReservationResponse
 } from '@/types';
 import { handleApiError, handleApiSuccess, isDev } from '@/utils';
 import { observable } from '@legendapp/state';
@@ -44,7 +46,7 @@ import {
   Hotel,
   Minus,
   Plane,
-  Upload,
+  Save,
   UserMinus,
   UserPlus
 } from 'lucide-react';
@@ -521,6 +523,7 @@ export default function ReservationsFormClientContainer({
                     <Table.ColumnHeaderCell width='80px'>💸 원가</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='80px'>💰 요금</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='80px'>🧑‍🤝‍🧑 인원</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='140px'>진행상태</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell>비고</Table.ColumnHeaderCell>
                   </Table.Row>
                 </Table.Header>
@@ -656,6 +659,35 @@ export default function ReservationsFormClientContainer({
                         </Grid>
                       </Table.Cell>
                       <Table.Cell>
+                        <Controller
+                          name={`flights.${i}.status`}
+                          control={control}
+                          render={({ field }) => (
+                            <Select.Root
+                              value={field.value}
+                              onValueChange={value => {
+                                field.onChange(value);
+                              }}
+                              name={field.name}
+                            >
+                              <Select.Trigger
+                                color={PRODUCT_STATUS_COLOR[field.value]}
+                                variant='soft'
+                              >
+                                {ProductStatus[field.value]}
+                              </Select.Trigger>
+                              <Select.Content>
+                                {Object.entries(ProductStatus).map(([key, label]) => (
+                                  <Select.Item key={key} value={key}>
+                                    {label}
+                                  </Select.Item>
+                                ))}
+                              </Select.Content>
+                            </Select.Root>
+                          )}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
                         <TextField.Root {...register(`flights.${i}.notes`)} />
                       </Table.Cell>
                       <Table.Cell hidden>
@@ -715,6 +747,7 @@ export default function ReservationsFormClientContainer({
                     <Table.ColumnHeaderCell width='80px'>💰 1박 요금</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='70px'>수량</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='90px'>CF#/VC#</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='140px'>진행상태</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell>비고</Table.ColumnHeaderCell>
                   </Table.Row>
                 </Table.Header>
@@ -854,6 +887,35 @@ export default function ReservationsFormClientContainer({
                       <Table.Cell>???</Table.Cell>
                       <Table.Cell>바우처 조회</Table.Cell>
                       <Table.Cell>
+                        <Controller
+                          name={`hotels.${i}.status`}
+                          control={control}
+                          render={({ field }) => (
+                            <Select.Root
+                              value={field.value}
+                              onValueChange={value => {
+                                field.onChange(value);
+                              }}
+                              name={field.name}
+                            >
+                              <Select.Trigger
+                                color={PRODUCT_STATUS_COLOR[field.value]}
+                                variant='soft'
+                              >
+                                {ProductStatus[field.value]}
+                              </Select.Trigger>
+                              <Select.Content>
+                                {Object.entries(ProductStatus).map(([key, label]) => (
+                                  <Select.Item key={key} value={key}>
+                                    {label}
+                                  </Select.Item>
+                                ))}
+                              </Select.Content>
+                            </Select.Root>
+                          )}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
                         <TextField.Root {...register(`hotels.${i}.notes`)} />
                       </Table.Cell>
                       <Table.Cell hidden>
@@ -908,6 +970,7 @@ export default function ReservationsFormClientContainer({
                     <Table.ColumnHeaderCell width='80px'>💸 원가</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='80px'>💰 요금</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='70px'>수량</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='140px'>진행상태</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell>비고</Table.ColumnHeaderCell>
                   </Table.Row>
                 </Table.Header>
@@ -1063,6 +1126,35 @@ export default function ReservationsFormClientContainer({
                         </Grid>
                       </Table.Cell>
                       <Table.Cell>
+                        <Controller
+                          name={`tours.${i}.status`}
+                          control={control}
+                          render={({ field }) => (
+                            <Select.Root
+                              value={field.value}
+                              onValueChange={value => {
+                                field.onChange(value);
+                              }}
+                              name={field.name}
+                            >
+                              <Select.Trigger
+                                color={PRODUCT_STATUS_COLOR[field.value]}
+                                variant='soft'
+                              >
+                                {ProductStatus[field.value]}
+                              </Select.Trigger>
+                              <Select.Content>
+                                {Object.entries(ProductStatus).map(([key, label]) => (
+                                  <Select.Item key={key} value={key}>
+                                    {label}
+                                  </Select.Item>
+                                ))}
+                              </Select.Content>
+                            </Select.Root>
+                          )}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
                         <TextField.Root {...register(`tours.${i}.notes`)} />
                       </Table.Cell>
                       <Table.Cell hidden>
@@ -1120,6 +1212,7 @@ export default function ReservationsFormClientContainer({
                     <Table.ColumnHeaderCell width='80px'>💸 원가</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='80px'>💰 1일 요금</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='70px'>대여일</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='140px'>진행상태</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell>비고</Table.ColumnHeaderCell>
                   </Table.Row>
                 </Table.Header>
@@ -1246,6 +1339,35 @@ export default function ReservationsFormClientContainer({
                         />
                       </Table.Cell>
                       <Table.Cell>
+                        <Controller
+                          name={`rental_cars.${i}.status`}
+                          control={control}
+                          render={({ field }) => (
+                            <Select.Root
+                              value={field.value}
+                              onValueChange={value => {
+                                field.onChange(value);
+                              }}
+                              name={field.name}
+                            >
+                              <Select.Trigger
+                                color={PRODUCT_STATUS_COLOR[field.value]}
+                                variant='soft'
+                              >
+                                {ProductStatus[field.value]}
+                              </Select.Trigger>
+                              <Select.Content>
+                                {Object.entries(ProductStatus).map(([key, label]) => (
+                                  <Select.Item key={key} value={key}>
+                                    {label}
+                                  </Select.Item>
+                                ))}
+                              </Select.Content>
+                            </Select.Root>
+                          )}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
                         <TextField.Root {...register(`rental_cars.${i}.notes`)} />
                       </Table.Cell>
                       <Table.Cell hidden>
@@ -1300,11 +1422,13 @@ export default function ReservationsFormClientContainer({
                     <Table.ColumnHeaderCell width='80px'>💸 원가</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='80px'>💰 요금</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='70px'>수량</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='140px'>진행상태</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell>비고</Table.ColumnHeaderCell>
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
                   <Table.Row>
+                    <Table.Cell></Table.Cell>
                     <Table.Cell></Table.Cell>
                     <Table.Cell></Table.Cell>
                     <Table.Cell></Table.Cell>
@@ -1358,8 +1482,8 @@ export default function ReservationsFormClientContainer({
               />
 
               <Button disabled={mutation.isPending} size='3' color='ruby'>
-                <Upload />
-                등록
+                <Save />
+                변경사항 저장
               </Button>
             </Flex>
             <Text as='p' align='right' mt='2' weight='bold' color='ruby'>
