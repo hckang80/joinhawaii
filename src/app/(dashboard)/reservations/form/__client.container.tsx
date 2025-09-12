@@ -195,6 +195,49 @@ function CarTotalCalculator({
   return null;
 }
 
+function InsuranceTotalCalculator({
+  index,
+  setValue,
+  control
+}: {
+  index: number;
+  setValue: UseFormSetValue<ReservationFormData>;
+  control: Control<ReservationFormData, unknown, ReservationFormData>;
+}) {
+  const watchedValues = useWatch({
+    control,
+    name: [
+      `insurances.${index}.days`,
+      `insurances.${index}.adult_count`,
+      `insurances.${index}.children_count`,
+      `insurances.${index}.adult_price`,
+      `insurances.${index}.children_price`,
+      `insurances.${index}.adult_cost`,
+      `insurances.${index}.children_cost`
+    ]
+  });
+
+  useEffect(() => {
+    const [
+      tripDurationDays,
+      adultParticipant,
+      childrenParticipant,
+      adultPrice,
+      childrenPrice,
+      adultCost,
+      childrenCost
+    ] = watchedValues;
+    const total =
+      tripDurationDays * (adultParticipant * adultPrice + childrenParticipant * childrenPrice);
+    const totalCost =
+      tripDurationDays * (adultParticipant * adultCost + childrenParticipant * childrenCost);
+    setValue(`insurances.${index}.total_amount`, total, { shouldValidate: true });
+    setValue(`insurances.${index}.total_cost`, totalCost, { shouldValidate: true });
+  }, [watchedValues, setValue, index]);
+
+  return null;
+}
+
 export default function ReservationsFormClientContainer({
   data
 }: {
@@ -1584,6 +1627,9 @@ export default function ReservationsFormClientContainer({
                       </Table.Cell>
                       <Table.Cell>
                         <TextField.Root {...register(`insurances.${i}.notes`)} />
+                      </Table.Cell>
+                      <Table.Cell hidden>
+                        <InsuranceTotalCalculator index={i} setValue={setValue} control={control} />
                       </Table.Cell>
                     </Table.Row>
                   ))}
