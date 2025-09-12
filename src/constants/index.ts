@@ -94,6 +94,20 @@ export const defaultCarValues = {
   ...defaultProductValues
 };
 
+export const defaultInsuranceValues = {
+  company: '',
+  days: 1,
+  start_date: '',
+  end_date: '',
+  adult_count: 1,
+  children_count: 0,
+  adult_price: 0,
+  children_price: 0,
+  adult_cost: 0,
+  children_cost: 0,
+  ...defaultProductValues
+};
+
 export const PRODUCT_STATUS_COLOR: Record<
   keyof typeof ProductStatus,
   typeof selectTriggerPropDefs.color.default
@@ -112,7 +126,8 @@ export const PRODUCT_LABEL: Record<ProductType, string> = {
   flight: '항공',
   hotel: '호텔',
   tour: '선택관광',
-  rental_car: '렌터카'
+  rental_car: '렌터카',
+  insurance: '보험'
 };
 
 export const REGIONS = ['오아후', '마우이', '빅아일랜드', '카우아이', '라나이'] as const;

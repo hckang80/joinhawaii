@@ -6,7 +6,7 @@ export async function GET() {
   try {
     const supabase = await createClient<Database>();
 
-    const [hotels, tours, rental_cars] = await Promise.all([
+    const [hotels, tours, rental_cars, insurances] = await Promise.all([
       supabase.from('hotels').select<string, ProductWithReservation<TablesRow<'hotels'>>>(`
           *,
           reservations!hotels_reservation_id_fkey (
@@ -27,6 +27,13 @@ export async function GET() {
       >(`
           *,
           reservations!rental_cars_reservation_id_fkey (
+            main_client_name,
+            booking_platform
+          )
+        `),
+      supabase.from('insurances').select<string, ProductWithReservation<TablesRow<'insurances'>>>(`
+          *,
+          reservations!insurances_reservation_id_fkey (
             main_client_name,
             booking_platform
           )
@@ -57,6 +64,14 @@ export async function GET() {
         booking_platform: reservations.booking_platform,
         product_name: `${rentalCar.region} / ${rentalCar.model}`,
         type: 'rental_car' as const
+      })) ?? []),
+      ...(insurances.data?.map(({ reservations, ...insurance }) => ({
+        ...insurance,
+        event_date: insurance.start_date,
+        main_client_name: reservations.main_client_name,
+        booking_platform: reservations.booking_platform,
+        product_name: `${insurance.company}`,
+        type: 'insurance' as const
       })) ?? [])
     ].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 

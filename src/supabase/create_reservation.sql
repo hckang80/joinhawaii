@@ -3,10 +3,11 @@ CREATE OR REPLACE FUNCTION create_reservation(
     p_clients JSONB,
     p_main_client_name TEXT,
     p_booking_platform TEXT,
-    p_flights JSONB,
-    p_hotels JSONB,
-    p_tours JSONB,
-    p_cars JSONB
+    p_flights JSONB DEFAULT '[]'::JSONB,
+    p_hotels JSONB DEFAULT '[]'::JSONB,
+    p_tours JSONB DEFAULT '[]'::JSONB,
+    p_cars JSONB DEFAULT '[]'::JSONB,
+    p_insurances JSONB DEFAULT '[]'::JSONB
 )
 RETURNS JSONB
 LANGUAGE plpgsql
@@ -19,6 +20,7 @@ DECLARE
     v_hotels_total INTEGER := 0;
     v_tours_total INTEGER := 0;
     v_cars_total INTEGER := 0;
+    v_insurances_total INTEGER := 0;
 BEGIN
     -- 예약 생성
     INSERT INTO reservations (
@@ -74,8 +76,12 @@ BEGIN
     INTO v_cars_total
     FROM jsonb_array_elements(p_cars);
 
+    SELECT COALESCE(SUM((value->>'total_amount')::INTEGER), 0)
+    INTO v_insurances_total
+    FROM jsonb_array_elements(p_insurances);
+
     -- 전체 합계 계산
-    v_total_amount := v_flights_total + v_hotels_total + v_tours_total + v_cars_total;
+    v_total_amount := v_flights_total + v_hotels_total + v_tours_total + v_cars_total + v_insurances_total;
 
     -- 항공권 정보 입력
     IF jsonb_array_length(p_flights) > 0 THEN
@@ -227,13 +233,50 @@ BEGIN
             (value->>'daily_rate')::INTEGER,
             (value->>'total_amount')::INTEGER,
             (value->>'cost')::INTEGER,
-            (value->>'total_amount')::INTEGER,
+            (value->>'total_cost')::INTEGER,
             'Pending'::product_status,
             (value->>'notes')::TEXT
         FROM jsonb_array_elements(p_cars);
     END IF;
+
+    -- 보험 정보 입력
+    IF jsonb_array_length(p_insurances) > 0 THEN
+        INSERT INTO insurances (
+            reservation_id,
+            company,
+            days,
+            start_date,
+            end_date,
+            adult_count,
+            children_count,
+            adult_price,
+            children_price,
+            adult_cost,
+            children_cost,
+            total_amount,
+            total_cost,
+            status,
+            notes
+        )
+        SELECT 
+            p_reservation_id,
+            (value->>'company')::TEXT,
+            (value->>'days')::INTEGER,
+            (value->>'start_date')::TIMESTAMPTZ,
+            (value->>'end_date')::TIMESTAMPTZ,
+            (value->>'adult_count')::INTEGER,
+            (value->>'children_count')::INTEGER,
+            (value->>'adult_price')::INTEGER,
+            (value->>'children_price')::INTEGER,
+            (value->>'adult_cost')::INTEGER,
+            (value->>'children_cost')::INTEGER,
+            (value->>'total_amount')::INTEGER,
+            (value->>'total_cost')::INTEGER,
+            'Pending'::product_status,
+            (value->>'notes')::TEXT
+        FROM jsonb_array_elements(p_insurances);
+    END IF;
     
-    -- reservations 테이블 total_amount 업데이트
     UPDATE reservations 
     SET total_amount = v_total_amount
     WHERE id = v_id;

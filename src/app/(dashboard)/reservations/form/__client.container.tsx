@@ -5,6 +5,7 @@ import {
   defaultClientValues,
   defaultFlightValues,
   defaultHotelValues,
+  defaultInsuranceValues,
   defaultTourValues,
   GENDER_TYPE,
   PRODUCT_STATUS_COLOR,
@@ -194,6 +195,49 @@ function CarTotalCalculator({
   return null;
 }
 
+function InsuranceTotalCalculator({
+  index,
+  setValue,
+  control
+}: {
+  index: number;
+  setValue: UseFormSetValue<ReservationFormData>;
+  control: Control<ReservationFormData, unknown, ReservationFormData>;
+}) {
+  const watchedValues = useWatch({
+    control,
+    name: [
+      `insurances.${index}.days`,
+      `insurances.${index}.adult_count`,
+      `insurances.${index}.children_count`,
+      `insurances.${index}.adult_price`,
+      `insurances.${index}.children_price`,
+      `insurances.${index}.adult_cost`,
+      `insurances.${index}.children_cost`
+    ]
+  });
+
+  useEffect(() => {
+    const [
+      tripDurationDays,
+      adultParticipant,
+      childrenParticipant,
+      adultPrice,
+      childrenPrice,
+      adultCost,
+      childrenCost
+    ] = watchedValues;
+    const total =
+      tripDurationDays * (adultParticipant * adultPrice + childrenParticipant * childrenPrice);
+    const totalCost =
+      tripDurationDays * (adultParticipant * adultCost + childrenParticipant * childrenCost);
+    setValue(`insurances.${index}.total_amount`, total, { shouldValidate: true });
+    setValue(`insurances.${index}.total_cost`, totalCost, { shouldValidate: true });
+  }, [watchedValues, setValue, index]);
+
+  return null;
+}
+
 export default function ReservationsFormClientContainer({
   data
 }: {
@@ -235,7 +279,8 @@ export default function ReservationsFormClientContainer({
             end_date: new Date(tour.end_date).toISOString().slice(0, 16)
           }))
         : [],
-      rental_cars: data?.products.rental_cars.length ? data.products.rental_cars : []
+      rental_cars: data?.products.rental_cars.length ? data.products.rental_cars : [],
+      insurances: data?.products.insurances?.length ? data.products.insurances : []
     }
   });
 
@@ -277,7 +322,7 @@ export default function ReservationsFormClientContainer({
   };
 
   const isRemoveProductDisabled = (target: `${ProductType}s`) => {
-    const minLength = data?.products[target].length || 0;
+    const minLength = data?.products[target]?.length || 0;
     return getValues(target).length <= minLength;
   };
 
@@ -312,6 +357,10 @@ export default function ReservationsFormClientContainer({
 
   const addCar = () => {
     setValue('rental_cars', [...watch('rental_cars'), defaultCarValues]);
+  };
+
+  const addInsurance = () => {
+    setValue('insurances', [...watch('insurances'), defaultInsuranceValues]);
   };
 
   return (
@@ -1407,7 +1456,7 @@ export default function ReservationsFormClientContainer({
           </Card>
 
           <Card asChild size='3'>
-            <Section id='rental_car'>
+            <Section id='insurance'>
               <Heading as='h3' mb='4'>
                 보험사
               </Heading>
@@ -1418,7 +1467,6 @@ export default function ReservationsFormClientContainer({
                     <Table.ColumnHeaderCell width='120px'>보험사</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='170px'>날짜</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='70px'>여행일수</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='300px'>내용</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='80px'>💸 원가</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='80px'>💰 요금</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='70px'>수량</Table.ColumnHeaderCell>
@@ -1427,26 +1475,192 @@ export default function ReservationsFormClientContainer({
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                  <Table.Row>
-                    <Table.Cell></Table.Cell>
-                    <Table.Cell></Table.Cell>
-                    <Table.Cell></Table.Cell>
-                    <Table.Cell></Table.Cell>
-                    <Table.Cell></Table.Cell>
-                    <Table.Cell></Table.Cell>
-                    <Table.Cell></Table.Cell>
-                    <Table.Cell></Table.Cell>
-                    <Table.Cell></Table.Cell>
-                  </Table.Row>
+                  {getValues('insurances').map((_insurance, i) => (
+                    <Table.Row key={i}>
+                      <Table.Cell>
+                        <TextField.Root
+                          {...register(`insurances.${i}.company`, {
+                            required: true
+                          })}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <TextField.Root
+                          type='date'
+                          {...register(`insurances.${i}.start_date`, {
+                            required: true
+                          })}
+                        />
+                        ~
+                        <TextField.Root
+                          type='date'
+                          {...register(`insurances.${i}.end_date`, {
+                            required: true
+                          })}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <TextField.Root
+                          type='number'
+                          min='1'
+                          {...register(`insurances.${i}.days`, {
+                            required: true,
+                            valueAsNumber: true
+                          })}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Grid gap='2'>
+                          <Flex direction='column'>
+                            <span>🧑 성인</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              {...register(`insurances.${i}.adult_cost`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                          <Flex direction='column'>
+                            <span>🧒 소아</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              {...register(`insurances.${i}.children_cost`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                          <Flex direction='column'>
+                            <span>👶 유아</span>
+                          </Flex>
+                        </Grid>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Grid gap='2'>
+                          <Flex direction='column'>
+                            <span>🧑 성인</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              {...register(`insurances.${i}.adult_price`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                          <Flex direction='column'>
+                            <span>🧒 소아</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              {...register(`insurances.${i}.children_price`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                          <Flex direction='column'>
+                            <span>👶 유아</span>
+                          </Flex>
+                        </Grid>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Grid gap='2'>
+                          <Flex direction='column'>
+                            <span>🧑 성인</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              {...register(`insurances.${i}.adult_count`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                          <Flex direction='column'>
+                            <span>🧒 소아</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              {...register(`insurances.${i}.children_count`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                          <Flex direction='column'>
+                            <span>👶 유아</span>
+                          </Flex>
+                        </Grid>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Controller
+                          name={`insurances.${i}.status`}
+                          control={control}
+                          render={({ field }) => (
+                            <Select.Root
+                              value={field.value}
+                              onValueChange={value => {
+                                field.onChange(value);
+                              }}
+                              name={field.name}
+                            >
+                              <Select.Trigger
+                                color={PRODUCT_STATUS_COLOR[field.value]}
+                                variant='soft'
+                              >
+                                {ProductStatus[field.value]}
+                              </Select.Trigger>
+                              <Select.Content>
+                                {Object.entries(ProductStatus).map(([key, label]) => (
+                                  <Select.Item key={key} value={key}>
+                                    {label}
+                                  </Select.Item>
+                                ))}
+                              </Select.Content>
+                            </Select.Root>
+                          )}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <TextField.Root {...register(`insurances.${i}.notes`)} />
+                      </Table.Cell>
+                      <Table.Cell hidden>
+                        <InsuranceTotalCalculator index={i} setValue={setValue} control={control} />
+                      </Table.Cell>
+                    </Table.Row>
+                  ))}
                 </Table.Body>
               </Table.Root>
 
-              <Flex justify='end' mt='4'>
-                <Button type='button' color='ruby'>
+              <Flex justify='end' mt='4' gap='1'>
+                <Button
+                  type='button'
+                  color='ruby'
+                  variant='soft'
+                  onClick={() => removeItem('insurances')}
+                  disabled={isRemoveProductDisabled('insurances')}
+                >
+                  <Minus size='20' /> 삭제
+                </Button>
+                <Button type='button' color='ruby' onClick={addInsurance}>
                   <BookText size='20' />
                   보험 추가
                 </Button>
               </Flex>
+
+              {isDev() && (
+                <pre>
+                  {JSON.stringify(
+                    { isDirty: isDirtyProductItem('insurances'), ...watch('insurances') },
+                    null,
+                    2
+                  )}
+                </pre>
+              )}
             </Section>
           </Card>
 

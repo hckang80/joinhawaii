@@ -39,7 +39,8 @@ export async function POST(request: Request) {
       p_flights: body.flights || [],
       p_hotels: body.hotels || [],
       p_tours: body.tours || [],
-      p_cars: body.rental_cars || []
+      p_cars: body.rental_cars || [],
+      p_insurances: body.insurances || []
     });
 
     if (error) {
@@ -80,12 +81,12 @@ export async function GET(request: Request) {
         return NextResponse.json({ success: true, data: null });
       }
 
-      const { flights, hotels, tours, rental_cars, ...rest } = reservation;
+      const { flights, hotels, tours, rental_cars, insurances, ...rest } = reservation;
       return NextResponse.json({
         success: true,
         data: {
           ...rest,
-          products: { flights, hotels, tours, rental_cars }
+          products: { flights, hotels, tours, rental_cars, insurances }
         }
       });
     }
@@ -98,9 +99,9 @@ export async function GET(request: Request) {
     if (error) throw error;
 
     const transformedData =
-      data?.map(({ flights, hotels, tours, rental_cars, ...rest }) => ({
+      data?.map(({ flights, hotels, tours, rental_cars, insurances, ...rest }) => ({
         ...rest,
-        products: { flights, hotels, tours, rental_cars }
+        products: { flights, hotels, tours, rental_cars, insurances }
       })) ?? [];
 
     return NextResponse.json({ success: true, data: transformedData });
@@ -126,6 +127,7 @@ export async function PATCH(request: Request) {
       hotels,
       tours,
       rental_cars,
+      insurances,
       ...updates
     } = (await request.json()) as ReservationUpdateRequest;
 
@@ -140,7 +142,8 @@ export async function PATCH(request: Request) {
       flights,
       hotels,
       tours,
-      rental_cars
+      rental_cars,
+      insurances
     });
 
     const { data: totalAmounts } = await supabase.rpc('calculate_reservation_total', {
