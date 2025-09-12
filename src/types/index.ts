@@ -4,11 +4,10 @@ import {
   defaultFlightValues,
   defaultHotelValues,
   defaultTourValues,
-  ProductStatus,
-  type Gender
+  ProductStatus
 } from '../constants';
 
-export type Client = typeof defaultClientValues & { gender: Gender };
+export type Client = typeof defaultClientValues;
 export type Flight = typeof defaultFlightValues;
 export type Hotel = typeof defaultHotelValues;
 export type Tour = typeof defaultTourValues;

@@ -20,7 +20,7 @@ export enum ProductStatus {
 export const defaultClientValues = {
   korean_name: '',
   english_name: '',
-  gender: 'Mr.',
+  gender: 'Mr.' as Gender,
   resident_id: '',
   phone_number: '',
   email: '',
