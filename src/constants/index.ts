@@ -126,7 +126,8 @@ export const PRODUCT_LABEL: Record<ProductType, string> = {
   flight: '항공',
   hotel: '호텔',
   tour: '선택관광',
-  rental_car: '렌터카'
+  rental_car: '렌터카',
+  insurance: '보험'
 };
 
 export const REGIONS = ['오아후', '마우이', '빅아일랜드', '카우아이', '라나이'] as const;
