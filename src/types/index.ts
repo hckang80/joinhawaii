@@ -31,7 +31,7 @@ export interface AllProducts {
   [key: string]: unknown;
 }
 
-export type ProductType = 'flight' | 'hotel' | 'tour' | 'rental_car';
+export type ProductType = 'flight' | 'hotel' | 'tour' | 'rental_car' | 'insurance';
 
 export interface UpdateProductStatusParams {
   reservation_id: string;

@@ -5,6 +5,7 @@ import {
   defaultClientValues,
   defaultFlightValues,
   defaultHotelValues,
+  defaultInsuranceValues,
   defaultTourValues,
   GENDER_TYPE,
   PRODUCT_STATUS_COLOR,
@@ -278,7 +279,7 @@ export default function ReservationsFormClientContainer({
   };
 
   const isRemoveProductDisabled = (target: `${ProductType}s`) => {
-    const minLength = data?.products[target].length || 0;
+    const minLength = data?.products[target]?.length || 0;
     return getValues(target).length <= minLength;
   };
 
@@ -313,6 +314,10 @@ export default function ReservationsFormClientContainer({
 
   const addCar = () => {
     setValue('rental_cars', [...watch('rental_cars'), defaultCarValues]);
+  };
+
+  const addInsurance = () => {
+    setValue('insurances', [...watch('insurances'), defaultInsuranceValues]);
   };
 
   return (
@@ -1585,8 +1590,17 @@ export default function ReservationsFormClientContainer({
                 </Table.Body>
               </Table.Root>
 
-              <Flex justify='end' mt='4'>
-                <Button type='button' color='ruby'>
+              <Flex justify='end' mt='4' gap='1'>
+                <Button
+                  type='button'
+                  color='ruby'
+                  variant='soft'
+                  onClick={() => removeItem('insurances')}
+                  disabled={isRemoveProductDisabled('insurances')}
+                >
+                  <Minus size='20' /> 삭제
+                </Button>
+                <Button type='button' color='ruby' onClick={addInsurance}>
                   <BookText size='20' />
                   보험 추가
                 </Button>
