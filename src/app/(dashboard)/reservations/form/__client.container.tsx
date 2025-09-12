@@ -446,8 +446,9 @@ export default function ReservationsFormClientContainer({
                             name='reservation'
                             value={'' + i}
                             defaultChecked={
-                              getValues('main_client_name') === client.korean_name ||
-                              i === reservationIndex
+                              getValues('main_client_name')
+                                ? getValues('main_client_name') === client.korean_name
+                                : i === reservationIndex
                             }
                             onChange={handleChangeReservation}
                           />
