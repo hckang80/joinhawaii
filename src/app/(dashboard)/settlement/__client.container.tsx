@@ -1,11 +1,19 @@
 'use client';
 
-import type { AllProducts } from '@/types';
+import { QUERY_KEYS } from '@/constants';
+import { fetchProducts } from '@/http';
 import { isDev, statusLabel, toReadableAmount, toReadableDate } from '@/utils';
 import { Card, Grid, Heading, Link as StyledLink, Table, Text } from '@radix-ui/themes';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
 
-export default function SettlementClientContainer({ data }: { data: AllProducts[] }) {
+export default function SettlementClientContainer() {
+  const { data } = useSuspenseQuery({
+    queryKey: QUERY_KEYS.products.all,
+    queryFn: fetchProducts,
+    staleTime: 5 * 60 * 1000
+  });
+
   const pathname = usePathname();
 
   return (
