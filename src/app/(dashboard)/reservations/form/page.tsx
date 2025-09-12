@@ -1,5 +1,5 @@
-import { fetchSettlement } from '@/http';
-import type { ReservationResponse } from '@/types';
+import { reservationQueryOptions } from '@/lib/queries';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import ReservationsFormClientContainer from './__client.container';
 
 export default async function ReservationsFormPage({
@@ -7,12 +7,16 @@ export default async function ReservationsFormPage({
 }: {
   searchParams: Promise<{ reservation_id?: string }>;
 }) {
-  const reservation_id = (await searchParams).reservation_id;
-  let data: ReservationResponse | null = null;
+  const reservation_id = (await searchParams).reservation_id || '';
+  const queryClient = new QueryClient();
 
   if (reservation_id) {
-    data = await fetchSettlement<ReservationResponse>(reservation_id);
+    await queryClient.prefetchQuery(reservationQueryOptions(reservation_id));
   }
 
-  return <ReservationsFormClientContainer data={data} />;
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <ReservationsFormClientContainer reservation_id={reservation_id} />
+    </HydrationBoundary>
+  );
 }

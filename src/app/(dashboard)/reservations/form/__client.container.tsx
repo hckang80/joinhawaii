@@ -13,13 +13,8 @@ import {
   REGIONS
 } from '@/constants';
 import { createReservation, updateReservation } from '@/http';
-import type {
-  ProductFormType,
-  ProductType,
-  ReservationFormData,
-  ReservationItem,
-  ReservationResponse
-} from '@/types';
+import { reservationQueryOptions } from '@/lib/queries';
+import type { ProductFormType, ProductType, ReservationFormData, ReservationItem } from '@/types';
 import { handleApiError, handleApiSuccess, isDev } from '@/utils';
 import { observable } from '@legendapp/state';
 import { use$ } from '@legendapp/state/react';
@@ -38,7 +33,7 @@ import {
   Text,
   TextField
 } from '@radix-ui/themes';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 import {
   Binoculars,
@@ -239,11 +234,16 @@ function InsuranceTotalCalculator({
 }
 
 export default function ReservationsFormClientContainer({
-  data
+  reservation_id
 }: {
-  data: ReservationResponse | null;
+  reservation_id: string;
 }) {
-  const isModify = !!data;
+  const { data } = useQuery({
+    ...reservationQueryOptions(reservation_id!),
+    enabled: !!reservation_id
+  });
+
+  const isModify = !!reservation_id;
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -261,7 +261,7 @@ export default function ReservationsFormClientContainer({
       booking_platform: data?.booking_platform || '',
       main_client_name: data?.main_client_name || '',
       ...(isModify && {
-        reservation_id: data.reservation_id
+        reservation_id: data?.reservation_id
       }),
       clients: data?.clients || [defaultClientValues],
       flights: data?.products.flights.length

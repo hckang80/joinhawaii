@@ -1,8 +1,15 @@
-import { fetchProducts } from '@/http';
+import { productsQueryOptions } from '@/lib/queries';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import SettlementClientContainer from './__client.container';
 
 export default async function SettlementPage() {
-  const data = await fetchProducts();
+  const queryClient = new QueryClient();
 
-  return <SettlementClientContainer data={data} />;
+  await queryClient.prefetchQuery(productsQueryOptions);
+
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <SettlementClientContainer />
+    </HydrationBoundary>
+  );
 }

@@ -1,7 +1,8 @@
 'use client';
 
 import { PRODUCT_LABEL, PRODUCT_STATUS_COLOR, ProductStatus, QUERY_KEYS } from '@/constants';
-import { fetchProducts, updateProductStatus } from '@/http';
+import { updateProductStatus } from '@/http';
+import { productsQueryOptions } from '@/lib/queries';
 import type { UpdateProductStatusParams } from '@/types';
 import { handleApiError, handleApiSuccess, isDev, statusLabel, toReadableDate } from '@/utils';
 import {
@@ -23,10 +24,7 @@ export default function ReservationsClientContainer() {
 
   const pathname = usePathname();
 
-  const { data } = useSuspenseQuery({
-    queryKey: QUERY_KEYS.products.all,
-    queryFn: fetchProducts
-  });
+  const { data } = useSuspenseQuery(productsQueryOptions);
 
   const updateMutation = useMutation({
     mutationFn: (data: UpdateProductStatusParams) => {
