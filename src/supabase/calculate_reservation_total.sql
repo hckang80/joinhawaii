@@ -30,6 +30,12 @@ BEGIN
     FROM rental_cars
     WHERE reservation_id = p_reservation_id;
 
+    -- 보험 합계
+    SELECT v_total_amount + COALESCE(SUM(total_amount), 0)
+    INTO v_total_amount
+    FROM insurances
+    WHERE reservation_id = p_reservation_id;
+
     RETURN jsonb_build_object(
         'total_amount', v_total_amount
     );

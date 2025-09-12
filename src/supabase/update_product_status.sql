@@ -39,8 +39,16 @@ BEGIN
             AND reservation_id = (payload->>'reservation_id')::TEXT
             RETURNING to_jsonb(rental_cars.*) INTO v_updated_record;
             
+        WHEN 'insurance' THEN
+            UPDATE insurances 
+            SET status = (payload->>'status')::product_status,
+                updated_at = NOW()
+            WHERE id = (payload->>'product_id')::BIGINT 
+            AND reservation_id = (payload->>'reservation_id')::TEXT
+            RETURNING to_jsonb(insurances.*) INTO v_updated_record;
+            
         ELSE
-            RAISE EXCEPTION 'Invalid product type: %', (payload->>'productType');
+            RAISE EXCEPTION 'Invalid product type: %', (payload->>'product_type');
     END CASE;
 
     IF v_updated_record IS NULL THEN
