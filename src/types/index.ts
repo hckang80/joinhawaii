@@ -6,14 +6,48 @@ import {
   defaultTourValues,
   type Gender
 } from '../constants';
-import type { ProductStatus } from './product';
 
-export * from './product';
 export type Client = typeof defaultClientValues & { gender: Gender };
 export type Flight = typeof defaultFlightValues;
 export type Hotel = typeof defaultHotelValues;
 export type Tour = typeof defaultTourValues;
 export type Car = typeof defaultCarValues;
+
+export enum ProductStatus {
+  Pending = '예약요청',
+  InProgress = '예약진행',
+  Confirmed = '예약완료',
+  ChangeRequested = '변경요청',
+  CancelRequested = '취소요청',
+  Cancelled = '취소완료',
+  RefundRequested = '환불요청',
+  Refunded = '환불완료'
+}
+
+export interface AllProducts {
+  id: number;
+  reservation_id: string;
+  created_at: string;
+  event_date: string;
+  booking_platform: string;
+  main_client_name: string;
+  status: keyof typeof ProductStatus;
+  product_name: string;
+  type: ProductType;
+  total_amount: number;
+  total_cost: number;
+  exchange_rate: number;
+  [key: string]: unknown;
+}
+
+export type ProductType = 'flight' | 'hotel' | 'tour' | 'rental_car';
+
+export interface UpdateProductStatusParams {
+  reservation_id: string;
+  product_type: ProductType;
+  product_id: number;
+  status: ProductStatus;
+}
 
 export type BaseRow = {
   id: number;
@@ -175,4 +209,4 @@ export interface ApiResponse<T> {
   details?: unknown;
 }
 
-export type ListFormType = keyof ReservationItem;
+export type ProductFormType = keyof ReservationItem;

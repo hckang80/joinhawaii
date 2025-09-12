@@ -12,7 +12,7 @@ import {
 } from '@/constants';
 import { createReservation, updateReservation } from '@/http';
 import {
-  type ListFormType,
+  type ProductFormType,
   ProductStatus,
   type ProductType,
   type ReservationFormData,
@@ -281,7 +281,7 @@ export default function ReservationsFormClientContainer({
     return getValues(target).length <= minLength;
   };
 
-  const removeItem = (target: ListFormType) => {
+  const removeItem = (target: ProductFormType) => {
     const items = getValues(target);
     setValue(target, items.slice(0, -1));
   };
