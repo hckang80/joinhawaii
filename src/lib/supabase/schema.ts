@@ -18,5 +18,6 @@ export const RESERVATION_SELECT_QUERY = `
   flights!flights_reservation_id_fkey (*),
   hotels!hotels_reservation_id_fkey (*),
   tours!tours_reservation_id_fkey (*),
-  rental_cars!rental_cars_reservation_id_fkey (*)
+  rental_cars!rental_cars_reservation_id_fkey (*),
+  insurances!insurances_reservation_id_fkey (*)
 `;

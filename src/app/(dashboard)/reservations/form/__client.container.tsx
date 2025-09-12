@@ -1456,7 +1456,7 @@ export default function ReservationsFormClientContainer({
           </Card>
 
           <Card asChild size='3'>
-            <Section id='rental_car'>
+            <Section id='insurance'>
               <Heading as='h3' mb='4'>
                 보험사
               </Heading>
