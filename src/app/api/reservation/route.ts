@@ -80,12 +80,12 @@ export async function GET(request: Request) {
         return NextResponse.json({ success: true, data: null });
       }
 
-      const { flights, hotels, tours, rental_cars, ...rest } = reservation;
+      const { flights, hotels, tours, rental_cars, insurances, ...rest } = reservation;
       return NextResponse.json({
         success: true,
         data: {
           ...rest,
-          products: { flights, hotels, tours, rental_cars }
+          products: { flights, hotels, tours, rental_cars, insurances }
         }
       });
     }
@@ -98,9 +98,9 @@ export async function GET(request: Request) {
     if (error) throw error;
 
     const transformedData =
-      data?.map(({ flights, hotels, tours, rental_cars, ...rest }) => ({
+      data?.map(({ flights, hotels, tours, rental_cars, insurances, ...rest }) => ({
         ...rest,
-        products: { flights, hotels, tours, rental_cars }
+        products: { flights, hotels, tours, rental_cars, insurances }
       })) ?? [];
 
     return NextResponse.json({ success: true, data: transformedData });

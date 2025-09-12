@@ -23,6 +23,7 @@ export const updateReservationProducts = async (
     hotels?: Array<Partial<TablesRow<'hotels'>>>;
     tours?: Array<Partial<TablesRow<'tours'>>>;
     rental_cars?: Array<Partial<TablesRow<'rental_cars'>>>;
+    insurances?: Array<Partial<TablesRow<'insurances'>>>;
   }
 ) => {
   const updates = [];

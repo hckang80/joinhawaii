@@ -235,7 +235,8 @@ export default function ReservationsFormClientContainer({
             end_date: new Date(tour.end_date).toISOString().slice(0, 16)
           }))
         : [],
-      rental_cars: data?.products.rental_cars.length ? data.products.rental_cars : []
+      rental_cars: data?.products.rental_cars.length ? data.products.rental_cars : [],
+      insurances: data?.products.insurances?.length ? data.products.insurances : []
     }
   });
 
@@ -1418,7 +1419,6 @@ export default function ReservationsFormClientContainer({
                     <Table.ColumnHeaderCell width='120px'>보험사</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='170px'>날짜</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='70px'>여행일수</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='300px'>내용</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='80px'>💸 원가</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='80px'>💰 요금</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='70px'>수량</Table.ColumnHeaderCell>
@@ -1427,17 +1427,161 @@ export default function ReservationsFormClientContainer({
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                  <Table.Row>
-                    <Table.Cell></Table.Cell>
-                    <Table.Cell></Table.Cell>
-                    <Table.Cell></Table.Cell>
-                    <Table.Cell></Table.Cell>
-                    <Table.Cell></Table.Cell>
-                    <Table.Cell></Table.Cell>
-                    <Table.Cell></Table.Cell>
-                    <Table.Cell></Table.Cell>
-                    <Table.Cell></Table.Cell>
-                  </Table.Row>
+                  {getValues('insurances').map((_insurance, i) => (
+                    <Table.Row key={i}>
+                      <Table.Cell>
+                        <TextField.Root
+                          {...register(`insurances.${i}.company`, {
+                            required: true
+                          })}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <TextField.Root
+                          type='date'
+                          {...register(`insurances.${i}.start_date`, {
+                            required: true
+                          })}
+                        />
+                        ~
+                        <TextField.Root
+                          type='date'
+                          {...register(`insurances.${i}.end_date`, {
+                            required: true
+                          })}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <TextField.Root
+                          type='number'
+                          min='1'
+                          {...register(`insurances.${i}.days`, {
+                            required: true,
+                            valueAsNumber: true
+                          })}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Grid gap='2'>
+                          <Flex direction='column'>
+                            <span>🧑 성인</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              {...register(`insurances.${i}.adult_cost`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                          <Flex direction='column'>
+                            <span>🧒 소아</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              {...register(`insurances.${i}.children_cost`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                          <Flex direction='column'>
+                            <span>👶 유아</span>
+                          </Flex>
+                        </Grid>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Grid gap='2'>
+                          <Flex direction='column'>
+                            <span>🧑 성인</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              {...register(`insurances.${i}.adult_price`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                          <Flex direction='column'>
+                            <span>🧒 소아</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              {...register(`insurances.${i}.children_price`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                          <Flex direction='column'>
+                            <span>👶 유아</span>
+                          </Flex>
+                        </Grid>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Grid gap='2'>
+                          <Flex direction='column'>
+                            <span>🧑 성인</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              {...register(`insurances.${i}.adult_count`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                          <Flex direction='column'>
+                            <span>🧒 소아</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              {...register(`insurances.${i}.children_count`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                          <Flex direction='column'>
+                            <span>👶 유아</span>
+                          </Flex>
+                        </Grid>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Controller
+                          name={`insurances.${i}.status`}
+                          control={control}
+                          render={({ field }) => (
+                            <Select.Root
+                              value={field.value}
+                              onValueChange={value => {
+                                field.onChange(value);
+                              }}
+                              name={field.name}
+                            >
+                              <Select.Trigger
+                                color={PRODUCT_STATUS_COLOR[field.value]}
+                                variant='soft'
+                              >
+                                {ProductStatus[field.value]}
+                              </Select.Trigger>
+                              <Select.Content>
+                                {Object.entries(ProductStatus).map(([key, label]) => (
+                                  <Select.Item key={key} value={key}>
+                                    {label}
+                                  </Select.Item>
+                                ))}
+                              </Select.Content>
+                            </Select.Root>
+                          )}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <TextField.Root {...register(`insurances.${i}.notes`)} />
+                      </Table.Cell>
+                    </Table.Row>
+                  ))}
                 </Table.Body>
               </Table.Root>
 
