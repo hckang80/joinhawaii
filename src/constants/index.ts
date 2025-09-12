@@ -94,6 +94,20 @@ export const defaultCarValues = {
   ...defaultProductValues
 };
 
+export const defaultInsuranceValues = {
+  company: '',
+  days: 1,
+  start_date: '',
+  end_date: '',
+  adult_count: 1,
+  children_count: 0,
+  adult_price: 0,
+  children_price: 0,
+  adult_cost: 0,
+  children_cost: 0,
+  ...defaultProductValues
+};
+
 export const PRODUCT_STATUS_COLOR: Record<
   keyof typeof ProductStatus,
   typeof selectTriggerPropDefs.color.default

@@ -3,6 +3,7 @@ import {
   defaultClientValues,
   defaultFlightValues,
   defaultHotelValues,
+  defaultInsuranceValues,
   defaultTourValues,
   ProductStatus
 } from '../constants';
@@ -12,6 +13,7 @@ export type Flight = typeof defaultFlightValues;
 export type Hotel = typeof defaultHotelValues;
 export type Tour = typeof defaultTourValues;
 export type Car = typeof defaultCarValues;
+export type Insurance = typeof defaultInsuranceValues;
 
 export interface AllProducts {
   id: number;
@@ -50,6 +52,7 @@ export interface ReservationItem {
   hotels: Hotel[];
   tours: Tour[];
   rental_cars: Car[];
+  insurances: Insurance[];
 }
 
 export interface ReservationBaseInfo {
@@ -124,6 +127,11 @@ export interface Database {
         Omit<Car, 'id'> & { reservation_id: number; created_at?: string },
         Partial<Car> & { reservation_id?: number; created_at?: string }
       >;
+      insurances: TableSchema<
+        BaseRow & Insurance,
+        Omit<Insurance, 'id'> & { reservation_id: number; created_at?: string },
+        Partial<Insurance> & { reservation_id?: number; created_at?: string }
+      >;
     };
     Functions: {
       create_reservation: {
@@ -163,6 +171,7 @@ export interface ReservationProducts {
   hotels: TablesRow<'hotels'>[];
   tours: TablesRow<'tours'>[];
   rental_cars: TablesRow<'rental_cars'>[];
+  insurances: TablesRow<'insurances'>[];
 }
 
 export type ReservationResponse = Reservation & { products: ReservationProducts };
