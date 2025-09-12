@@ -198,6 +198,7 @@ export interface ReservationUpdateRequest {
   hotels?: PartialProductWithId<TablesRow<'hotels'>>;
   tours?: PartialProductWithId<TablesRow<'tours'>>;
   rental_cars?: PartialProductWithId<TablesRow<'rental_cars'>>;
+  insurances?: PartialProductWithId<TablesRow<'insurances'>>;
 }
 
 export interface ApiResponse<T> {
