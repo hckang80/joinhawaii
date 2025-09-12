@@ -1605,6 +1605,16 @@ export default function ReservationsFormClientContainer({
                   보험 추가
                 </Button>
               </Flex>
+
+              {isDev() && (
+                <pre>
+                  {JSON.stringify(
+                    { isDirty: isDirtyProductItem('insurances'), ...watch('insurances') },
+                    null,
+                    2
+                  )}
+                </pre>
+              )}
             </Section>
           </Card>
 
