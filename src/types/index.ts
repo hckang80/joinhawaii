@@ -15,14 +15,11 @@ export type Hotel = typeof defaultHotelValues;
 export type Tour = typeof defaultTourValues;
 export type Car = typeof defaultCarValues;
 
-export type ReservationFormData = ReservationBaseInfo & ReservationItem;
-
-export interface ReservationBaseInfo {
-  exchange_rate: number;
-  booking_platform: string;
-  main_client_name: string;
-  total_amount: number;
-}
+export type BaseRow = {
+  id: number;
+  reservation_id: number;
+  created_at: string;
+};
 
 export interface ReservationItem {
   clients: Client[];
@@ -32,98 +29,78 @@ export interface ReservationItem {
   rental_cars: Car[];
 }
 
-export type BaseRow = {
-  id: number;
-  reservation_id: number;
-  created_at: string;
-};
-
-export type ReservationRequest = ReservationFormData;
+export interface ReservationBaseInfo {
+  exchange_rate: number;
+  booking_platform: string;
+  main_client_name: string;
+  total_amount: number;
+}
 
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
+
+type TableSchema<TRow, TInsert = Omit<TRow, 'id'>, TUpdate = Partial<TRow>> = {
+  Row: TRow;
+  Insert: TInsert;
+  Update: TUpdate;
+};
+
+export type ReservationFormData = ReservationBaseInfo & ReservationItem;
+
+export interface ReservationBaseInfo {
+  exchange_rate: number;
+  booking_platform: string;
+  main_client_name: string;
+  total_amount: number;
+}
+
+export type ReservationRequest = ReservationFormData;
 
 export interface Database {
   public: {
     Tables: {
-      reservations: {
-        Row: {
+      reservations: TableSchema<
+        {
           id: number;
           reservation_id: string;
           status: string;
           created_at: string;
           main_client_name: string;
           total_amount?: number;
-        };
-        Insert: {
+        },
+        {
           id?: number;
           reservation_id: string;
           status?: string;
           created_at?: string;
           main_client_name: string;
           total_amount?: number;
-        };
-        Update: {
-          id?: number;
-          reservation_id?: string;
-          status?: string;
-          created_at?: string;
-          main_client_name?: string;
-          total_amount?: number;
-        };
-      };
-      clients: {
-        Row: BaseRow & Client;
-        Insert: Omit<Client, 'id'> & {
-          reservation_id: number;
-        };
-        Update: Partial<Client> & {
-          reservation_id?: number;
-        };
-      };
-      flights: {
-        Row: BaseRow & Flight;
-        Insert: Omit<Flight, 'id'> & {
-          reservation_id: number;
-          created_at?: string;
-        };
-        Update: Partial<Flight> & {
-          reservation_id?: number;
-          created_at?: string;
-        };
-      };
-      hotels: {
-        Row: BaseRow & Hotel;
-        Insert: Omit<Hotel, 'id'> & {
-          reservation_id: number;
-          created_at?: string;
-        };
-        Update: Partial<Hotel> & {
-          reservation_id?: number;
-          created_at?: string;
-        };
-      };
-      tours: {
-        Row: BaseRow & Tour;
-        Insert: Omit<Tour, 'id'> & {
-          reservation_id: number;
-          created_at?: string;
-        };
-        Update: Partial<Tour> & {
-          reservation_id?: number;
-          created_at?: string;
-        };
-      };
-      rental_cars: {
-        Row: BaseRow & Car;
-        Insert: Omit<Car, 'id'> & {
-          reservation_id: number;
-          created_at?: string;
-        };
-        Update: Partial<Car> & {
-          reservation_id?: number;
-          created_at?: string;
-        };
-      };
+        }
+      >;
+      clients: TableSchema<
+        BaseRow & Client,
+        Omit<Client, 'id'> & { reservation_id: number },
+        Partial<Client> & { reservation_id?: number }
+      >;
+      flights: TableSchema<
+        BaseRow & Flight,
+        Omit<Flight, 'id'> & { reservation_id: number; created_at?: string },
+        Partial<Flight> & { reservation_id?: number; created_at?: string }
+      >;
+      hotels: TableSchema<
+        BaseRow & Hotel,
+        Omit<Hotel, 'id'> & { reservation_id: number; created_at?: string },
+        Partial<Hotel> & { reservation_id?: number; created_at?: string }
+      >;
+      tours: TableSchema<
+        BaseRow & Tour,
+        Omit<Tour, 'id'> & { reservation_id: number; created_at?: string },
+        Partial<Tour> & { reservation_id?: number; created_at?: string }
+      >;
+      rental_cars: TableSchema<
+        BaseRow & Car,
+        Omit<Car, 'id'> & { reservation_id: number; created_at?: string },
+        Partial<Car> & { reservation_id?: number; created_at?: string }
+      >;
     };
     Functions: {
       create_reservation: {
@@ -169,12 +146,14 @@ export type ReservationResponse = Reservation & { products: ReservationProducts 
 
 export type ReservationQueryResponse = Reservation & ReservationProducts;
 
-export type ProductWithReservation<T> = {
+export type ProductWithReservation<T> = T & {
   reservations: {
     main_client_name: string;
     booking_platform: string;
   };
-} & T;
+};
+
+type PartialProductWithId<T> = Array<Partial<T> & { id?: number }>;
 
 export interface ReservationUpdateRequest {
   reservation_id: string;
@@ -182,11 +161,11 @@ export interface ReservationUpdateRequest {
   status?: string;
   main_client_name?: string;
   total_amount?: number;
-  clients?: Array<Partial<TablesRow<'clients'>> & { id?: number }>;
-  flights?: Array<Partial<TablesRow<'flights'>> & { id?: number }>;
-  hotels?: Array<Partial<TablesRow<'hotels'>> & { id?: number }>;
-  tours?: Array<Partial<TablesRow<'tours'>> & { id?: number }>;
-  rental_cars?: Array<Partial<TablesRow<'rental_cars'>> & { id?: number }>;
+  clients?: PartialProductWithId<TablesRow<'clients'>>;
+  flights?: PartialProductWithId<TablesRow<'flights'>>;
+  hotels?: PartialProductWithId<TablesRow<'hotels'>>;
+  tours?: PartialProductWithId<TablesRow<'tours'>>;
+  rental_cars?: PartialProductWithId<TablesRow<'rental_cars'>>;
 }
 
 export interface ApiResponse<T> {
@@ -196,4 +175,4 @@ export interface ApiResponse<T> {
   details?: unknown;
 }
 
-export type ListFormType = 'clients' | 'flights' | 'hotels' | 'tours' | 'rental_cars';
+export type ListFormType = keyof ReservationItem;
