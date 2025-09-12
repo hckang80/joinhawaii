@@ -8,16 +8,16 @@ import {
   defaultTourValues,
   GENDER_TYPE,
   PRODUCT_STATUS_COLOR,
+  ProductStatus,
   REGIONS
 } from '@/constants';
 import { createReservation, updateReservation } from '@/http';
-import {
-  type ProductFormType,
-  ProductStatus,
-  type ProductType,
-  type ReservationFormData,
-  type ReservationItem,
-  type ReservationResponse
+import type {
+  ProductFormType,
+  ProductType,
+  ReservationFormData,
+  ReservationItem,
+  ReservationResponse
 } from '@/types';
 import { handleApiError, handleApiSuccess, isDev } from '@/utils';
 import { observable } from '@legendapp/state';

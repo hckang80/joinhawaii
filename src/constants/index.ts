@@ -1,10 +1,21 @@
 import type { selectTriggerPropDefs } from '@radix-ui/themes/components/select.props';
-import { ProductStatus, ProductType } from '../types';
+import type { ProductType } from '../types';
 
 export * from './query-keys';
 
 export const GENDER_TYPE = ['Mr.', 'Ms.', 'Mrs.', 'Miss'] as const;
 export type Gender = (typeof GENDER_TYPE)[number] | (string & {});
+
+export enum ProductStatus {
+  Pending = '예약요청',
+  InProgress = '예약진행',
+  Confirmed = '예약완료',
+  ChangeRequested = '변경요청',
+  CancelRequested = '취소요청',
+  Cancelled = '취소완료',
+  RefundRequested = '환불요청',
+  Refunded = '환불완료'
+}
 
 export const defaultClientValues = {
   korean_name: '',

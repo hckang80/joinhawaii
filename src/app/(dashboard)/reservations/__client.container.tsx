@@ -1,8 +1,8 @@
 'use client';
 
-import { PRODUCT_LABEL, PRODUCT_STATUS_COLOR, QUERY_KEYS } from '@/constants';
+import { PRODUCT_LABEL, PRODUCT_STATUS_COLOR, ProductStatus, QUERY_KEYS } from '@/constants';
 import { fetchProducts, updateProductStatus } from '@/http';
-import { ProductStatus, UpdateProductStatusParams } from '@/types';
+import type { UpdateProductStatusParams } from '@/types';
 import { handleApiError, handleApiSuccess, isDev, statusLabel, toReadableDate } from '@/utils';
 import {
   Button,
