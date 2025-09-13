@@ -3,7 +3,7 @@
 import { PRODUCT_LABEL, PRODUCT_STATUS_COLOR, ProductStatus, QUERY_KEYS } from '@/constants';
 import { updateProductStatus } from '@/http';
 import { productsQueryOptions } from '@/lib/queries';
-import type { UpdateProductStatusParams } from '@/types';
+import type { ProductStatusKey, UpdateProductStatusParams } from '@/types';
 import { handleApiError, handleApiSuccess, isDev, statusLabel, toReadableDate } from '@/utils';
 import {
   Button,
@@ -111,7 +111,7 @@ export default function ReservationsClientContainer() {
                 <Table.Cell>
                   <Select.Root
                     value={item.status}
-                    onValueChange={(value: ProductStatus) =>
+                    onValueChange={(value: ProductStatusKey) =>
                       handleUpdateStatus({
                         reservation_id: item.reservation_id,
                         product_type: item.type,
