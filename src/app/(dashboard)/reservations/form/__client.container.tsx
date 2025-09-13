@@ -1715,6 +1715,16 @@ export default function ReservationsFormClientContainer({
           <Box position='sticky' bottom='5' className={styles['exchange-rate-card']}>
             <Flex justify='end' align='center' gap='2'>
               <Text as='label' weight='medium'>
+                예약금
+              </Text>
+              <TextField.Root
+                type='number'
+                min='0'
+                {...register('deposit', {
+                  valueAsNumber: true
+                })}
+              />
+              <Text as='label' weight='medium'>
                 환율
               </Text>
               {/* TODO: 정산되지 않은 항목이 입력된 경우에만 required 적용 필요 */}
