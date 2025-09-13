@@ -26,6 +26,9 @@ export type AllProducts = {
   main_client_name: string;
   product_name: string;
   type: ProductType;
+  cost_amount_krw: number;
+  total_amount_krw: number;
+} & {
   [key: string]: unknown;
 } & typeof defaultProductValues;
 
