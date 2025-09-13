@@ -59,6 +59,7 @@ export interface ReservationBaseInfo {
   booking_platform: string;
   main_client_name: string;
   total_amount: number;
+  deposit: number;
 }
 
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
@@ -84,6 +85,7 @@ export interface Database {
           created_at: string;
           main_client_name: string;
           total_amount?: number;
+          deposit: number;
         },
         {
           id?: number;
@@ -92,6 +94,7 @@ export interface Database {
           created_at?: string;
           main_client_name: string;
           total_amount?: number;
+          deposit?: number;
         }
       >;
       clients: TableSchema<

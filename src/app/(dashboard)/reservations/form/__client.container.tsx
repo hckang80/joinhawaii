@@ -257,6 +257,7 @@ export default function ReservationsFormClientContainer({
     control
   } = useForm<ReservationFormData>({
     defaultValues: {
+      deposit: data?.deposit || 0,
       exchange_rate: 0,
       booking_platform: data?.booking_platform || '',
       main_client_name: data?.main_client_name || '',
@@ -415,9 +416,9 @@ export default function ReservationsFormClientContainer({
               </Heading>
               {isDev() && (
                 <div>
-                  {data?.total_amount}
+                  합계(달러) : {data?.total_amount}
                   <br />
-                  {watch('main_client_name')}
+                  예약자: {watch('main_client_name')}
                 </div>
               )}
 
