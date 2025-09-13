@@ -15,7 +15,13 @@ import {
 import { createReservation, updateReservation } from '@/http';
 import { reservationQueryOptions } from '@/lib/queries';
 import type { ProductFormType, ProductType, ReservationFormData, ReservationItem } from '@/types';
-import { handleApiError, handleApiSuccess, isDev } from '@/utils';
+import {
+  formatKoreanCurrency,
+  handleApiError,
+  handleApiSuccess,
+  isDev,
+  parseKoreanCurrency
+} from '@/utils';
 import { observable } from '@legendapp/state';
 import { use$ } from '@legendapp/state/react';
 import {
@@ -257,6 +263,7 @@ export default function ReservationsFormClientContainer({
     control
   } = useForm<ReservationFormData>({
     defaultValues: {
+      deposit: data?.deposit || 0,
       exchange_rate: 0,
       booking_platform: data?.booking_platform || '',
       main_client_name: data?.main_client_name || '',
@@ -415,9 +422,9 @@ export default function ReservationsFormClientContainer({
               </Heading>
               {isDev() && (
                 <div>
-                  {data?.total_amount}
+                  합계(달러) : {data?.total_amount}
                   <br />
-                  {watch('main_client_name')}
+                  예약자: {watch('main_client_name')}
                 </div>
               )}
 
@@ -1714,6 +1721,25 @@ export default function ReservationsFormClientContainer({
           <Box position='sticky' bottom='5' className={styles['exchange-rate-card']}>
             <Flex justify='end' align='center' gap='2'>
               <Text as='label' weight='medium'>
+                예약금
+              </Text>
+              ₩
+              <Controller
+                name='deposit'
+                control={control}
+                render={({ field }) => (
+                  <TextField.Root
+                    type='text'
+                    value={formatKoreanCurrency(field.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      const numericValue = parseKoreanCurrency(e.target.value);
+                      field.onChange(numericValue);
+                    }}
+                    placeholder='0'
+                  />
+                )}
+              />
+              <Text as='label' weight='medium'>
                 환율
               </Text>
               {/* TODO: 정산되지 않은 항목이 입력된 경우에만 required 적용 필요 */}
@@ -1741,7 +1767,6 @@ export default function ReservationsFormClientContainer({
                   />
                 )}
               />
-
               <Button disabled={mutation.isPending} size='3' color='ruby'>
                 <Save />
                 변경사항 저장
