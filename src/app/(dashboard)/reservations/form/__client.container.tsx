@@ -748,6 +748,12 @@ export default function ReservationsFormClientContainer({
                 </Table.Body>
               </Table.Root>
 
+              {!getValues('flights').length && (
+                <Flex justify='center' py='5'>
+                  예약 내역이 없습니다
+                </Flex>
+              )}
+
               <Flex justify='end' mt='4' gap='1'>
                 <Button
                   type='button'
@@ -975,6 +981,12 @@ export default function ReservationsFormClientContainer({
                   ))}
                 </Table.Body>
               </Table.Root>
+
+              {!getValues('hotels').length && (
+                <Flex justify='center' py='5'>
+                  예약 내역이 없습니다
+                </Flex>
+              )}
 
               <Flex justify='end' mt='4' gap='1'>
                 <Button
@@ -1215,6 +1227,12 @@ export default function ReservationsFormClientContainer({
                 </Table.Body>
               </Table.Root>
 
+              {!getValues('tours').length && (
+                <Flex justify='center' py='5'>
+                  예약 내역이 없습니다
+                </Flex>
+              )}
+
               <Flex justify='end' mt='4' gap='1'>
                 <Button
                   type='button'
@@ -1427,6 +1445,12 @@ export default function ReservationsFormClientContainer({
                   ))}
                 </Table.Body>
               </Table.Root>
+
+              {!getValues('rental_cars').length && (
+                <Flex justify='center' py='5'>
+                  예약 내역이 없습니다
+                </Flex>
+              )}
 
               <Flex justify='end' mt='4' gap='1'>
                 <Button
@@ -1652,6 +1676,12 @@ export default function ReservationsFormClientContainer({
                   ))}
                 </Table.Body>
               </Table.Root>
+
+              {!getValues('insurances').length && (
+                <Flex justify='center' py='5'>
+                  예약 내역이 없습니다
+                </Flex>
+              )}
 
               <Flex justify='end' mt='4' gap='1'>
                 <Button
