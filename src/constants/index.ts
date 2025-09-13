@@ -1,5 +1,5 @@
 import type { selectTriggerPropDefs } from '@radix-ui/themes/components/select.props';
-import type { ProductType } from '../types';
+import type { ProductStatusKey, ProductType } from '../types';
 
 export * from './query-keys';
 
@@ -32,7 +32,7 @@ export const defaultProductValues = {
   exchange_rate: 0,
   total_amount: 0,
   total_cost: 0,
-  status: 'Pending' as keyof typeof ProductStatus,
+  status: 'Pending' as ProductStatusKey,
   notes: ''
 };
 
@@ -109,7 +109,7 @@ export const defaultInsuranceValues = {
 };
 
 export const PRODUCT_STATUS_COLOR: Record<
-  keyof typeof ProductStatus,
+  ProductStatusKey,
   typeof selectTriggerPropDefs.color.default
 > = {
   Pending: 'gray',

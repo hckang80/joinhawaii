@@ -4,6 +4,7 @@ import {
   defaultFlightValues,
   defaultHotelValues,
   defaultInsuranceValues,
+  defaultProductValues,
   defaultTourValues,
   ProductStatus
 } from '../constants';
@@ -14,30 +15,28 @@ export type Hotel = typeof defaultHotelValues;
 export type Tour = typeof defaultTourValues;
 export type Car = typeof defaultCarValues;
 export type Insurance = typeof defaultInsuranceValues;
+export type ProductStatusKey = keyof typeof ProductStatus;
 
-export interface AllProducts {
+export type AllProducts = {
   id: number;
   reservation_id: string;
   created_at: string;
   event_date: string;
   booking_platform: string;
   main_client_name: string;
-  status: keyof typeof ProductStatus;
   product_name: string;
   type: ProductType;
-  total_amount: number;
-  total_cost: number;
-  exchange_rate: number;
   [key: string]: unknown;
-}
+} & typeof defaultProductValues;
 
 export type ProductType = 'flight' | 'hotel' | 'tour' | 'rental_car' | 'insurance';
+export type ProductsType = `${ProductType}s`;
 
 export interface UpdateProductStatusParams {
   reservation_id: string;
   product_type: ProductType;
   product_id: number;
-  status: ProductStatus;
+  status: ProductStatusKey;
 }
 
 export type BaseRow = {
@@ -71,13 +70,6 @@ type TableSchema<TRow, TInsert = Omit<TRow, 'id'>, TUpdate = Partial<TRow>> = {
 };
 
 export type ReservationFormData = ReservationBaseInfo & ReservationItem;
-
-export interface ReservationBaseInfo {
-  exchange_rate: number;
-  booking_platform: string;
-  main_client_name: string;
-  total_amount: number;
-}
 
 export type ReservationRequest = ReservationFormData;
 
@@ -138,11 +130,12 @@ export interface Database {
         Args: {
           p_reservation_id: string;
           p_clients: Json;
-          p_flights: Json;
+          p_flights?: Json;
           p_main_client_name: string;
           p_hotels?: Json;
           p_tours?: Json;
           p_cars?: Json;
+          p_insurances?: Json;
         };
         Returns: Json;
       };
@@ -161,18 +154,14 @@ export type ReservationRow = TablesRow<'reservations'>;
 export interface Reservation extends ReservationBaseInfo {
   id: number;
   reservation_id: string;
-  status: ProductStatus;
+  status: ProductStatusKey;
   created_at: string;
   clients: TablesRow<'clients'>[];
 }
 
-export interface ReservationProducts {
-  flights: TablesRow<'flights'>[];
-  hotels: TablesRow<'hotels'>[];
-  tours: TablesRow<'tours'>[];
-  rental_cars: TablesRow<'rental_cars'>[];
-  insurances: TablesRow<'insurances'>[];
-}
+export type ReservationProducts = {
+  [K in ProductsType]: TablesRow<K>[];
+};
 
 export type ReservationResponse = Reservation & { products: ReservationProducts };
 
