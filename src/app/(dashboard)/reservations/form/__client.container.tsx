@@ -1723,6 +1723,7 @@ export default function ReservationsFormClientContainer({
               <Text as='label' weight='medium'>
                 예약금
               </Text>
+              ₩
               <Controller
                 name='deposit'
                 control={control}
@@ -1766,7 +1767,6 @@ export default function ReservationsFormClientContainer({
                   />
                 )}
               />
-
               <Button disabled={mutation.isPending} size='3' color='ruby'>
                 <Save />
                 변경사항 저장
