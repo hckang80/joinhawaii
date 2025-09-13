@@ -1465,6 +1465,7 @@ export default function ReservationsFormClientContainer({
               <Table.Root size='1'>
                 <Table.Header>
                   <Table.Row>
+                    <Table.ColumnHeaderCell width='50px'>환율 적용</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='120px'>보험사</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='170px'>날짜</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='70px'>여행일수</Table.ColumnHeaderCell>
@@ -1478,6 +1479,21 @@ export default function ReservationsFormClientContainer({
                 <Table.Body>
                   {getValues('insurances').map((_insurance, i) => (
                     <Table.Row key={i}>
+                      <Table.Cell>
+                        <Controller
+                          name={`insurances.${i}.is_updated_exchange_rate`}
+                          control={control}
+                          render={({ field }) => (
+                            <Checkbox
+                              size='3'
+                              checked={field.value}
+                              onCheckedChange={value => {
+                                field.onChange(value);
+                              }}
+                            />
+                          )}
+                        />
+                      </Table.Cell>
                       <Table.Cell>
                         <TextField.Root
                           {...register(`insurances.${i}.company`, {
