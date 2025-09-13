@@ -573,7 +573,7 @@ export default function ReservationsFormClientContainer({
                     <Table.ColumnHeaderCell width='80px'>💸 원가</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='80px'>💰 요금</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='80px'>🧑‍🤝‍🧑 인원</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='140px'>진행상태</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='110px'>진행상태</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell>비고</Table.ColumnHeaderCell>
                   </Table.Row>
                 </Table.Header>
@@ -797,7 +797,7 @@ export default function ReservationsFormClientContainer({
                     <Table.ColumnHeaderCell width='80px'>💰 1박 요금</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='70px'>수량</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='90px'>CF#/VC#</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='140px'>진행상태</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='110px'>진행상태</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell>비고</Table.ColumnHeaderCell>
                   </Table.Row>
                 </Table.Header>
@@ -1020,7 +1020,7 @@ export default function ReservationsFormClientContainer({
                     <Table.ColumnHeaderCell width='80px'>💸 원가</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='80px'>💰 요금</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='70px'>수량</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='140px'>진행상태</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='110px'>진행상태</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell>비고</Table.ColumnHeaderCell>
                   </Table.Row>
                 </Table.Header>
@@ -1262,7 +1262,7 @@ export default function ReservationsFormClientContainer({
                     <Table.ColumnHeaderCell width='80px'>💸 원가</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='80px'>💰 1일 요금</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='70px'>대여일</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='140px'>진행상태</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='110px'>진행상태</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell>비고</Table.ColumnHeaderCell>
                   </Table.Row>
                 </Table.Header>
@@ -1472,7 +1472,7 @@ export default function ReservationsFormClientContainer({
                     <Table.ColumnHeaderCell width='80px'>💸 원가</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='80px'>💰 요금</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='70px'>수량</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='140px'>진행상태</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='110px'>진행상태</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell>비고</Table.ColumnHeaderCell>
                   </Table.Row>
                 </Table.Header>
