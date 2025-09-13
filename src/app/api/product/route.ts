@@ -41,46 +41,52 @@ export async function GET() {
     ]);
 
     const allProducts = [
-      ...(hotels.data?.map(({ reservations, ...hotel }) => ({
-        ...hotel,
-        event_date: hotel.check_in_date,
-        main_client_name: reservations.main_client_name,
-        booking_platform: reservations.booking_platform,
-        product_name: `${hotel.region} / ${hotel.hotel_name} / ${hotel.room_type}`,
-        type: 'hotel' as const,
-        cost_amount_krw: hotel.total_cost * hotel.exchange_rate,
-        total_amount_krw: hotel.total_amount * hotel.exchange_rate
-      })) ?? []),
-      ...(tours.data?.map(({ reservations, ...tour }) => ({
+      ...(hotels.data?.map(
+        ({ reservations: { main_client_name, booking_platform }, ...hotel }) => ({
+          ...hotel,
+          event_date: hotel.check_in_date,
+          main_client_name,
+          booking_platform,
+          product_name: `${hotel.region} / ${hotel.hotel_name} / ${hotel.room_type}`,
+          type: 'hotel' as const,
+          cost_amount_krw: hotel.total_cost * hotel.exchange_rate,
+          total_amount_krw: hotel.total_amount * hotel.exchange_rate
+        })
+      ) ?? []),
+      ...(tours.data?.map(({ reservations: { main_client_name, booking_platform }, ...tour }) => ({
         ...tour,
         event_date: tour.start_date,
-        main_client_name: reservations.main_client_name,
-        booking_platform: reservations.booking_platform,
+        main_client_name,
+        booking_platform,
         product_name: `${tour.region} / ${tour.name}`,
         type: 'tour' as const,
         cost_amount_krw: tour.total_cost * tour.exchange_rate,
         total_amount_krw: tour.total_amount * tour.exchange_rate
       })) ?? []),
-      ...(rental_cars.data?.map(({ reservations, ...rentalCar }) => ({
-        ...rentalCar,
-        event_date: rentalCar.pickup_date,
-        main_client_name: reservations.main_client_name,
-        booking_platform: reservations.booking_platform,
-        product_name: `${rentalCar.region} / ${rentalCar.model}`,
-        type: 'rental_car' as const,
-        cost_amount_krw: rentalCar.total_cost * rentalCar.exchange_rate,
-        total_amount_krw: rentalCar.total_amount * rentalCar.exchange_rate
-      })) ?? []),
-      ...(insurances.data?.map(({ reservations, ...insurance }) => ({
-        ...insurance,
-        event_date: insurance.start_date,
-        main_client_name: reservations.main_client_name,
-        booking_platform: reservations.booking_platform,
-        product_name: `${insurance.company}`,
-        type: 'insurance' as const,
-        cost_amount_krw: insurance.total_cost * insurance.exchange_rate,
-        total_amount_krw: insurance.total_amount * insurance.exchange_rate
-      })) ?? [])
+      ...(rental_cars.data?.map(
+        ({ reservations: { main_client_name, booking_platform }, ...rentalCar }) => ({
+          ...rentalCar,
+          event_date: rentalCar.pickup_date,
+          main_client_name,
+          booking_platform,
+          product_name: `${rentalCar.region} / ${rentalCar.model}`,
+          type: 'rental_car' as const,
+          cost_amount_krw: rentalCar.total_cost * rentalCar.exchange_rate,
+          total_amount_krw: rentalCar.total_amount * rentalCar.exchange_rate
+        })
+      ) ?? []),
+      ...(insurances.data?.map(
+        ({ reservations: { main_client_name, booking_platform }, ...insurance }) => ({
+          ...insurance,
+          event_date: insurance.start_date,
+          main_client_name,
+          booking_platform,
+          product_name: `${insurance.company}`,
+          type: 'insurance' as const,
+          cost_amount_krw: insurance.total_cost * insurance.exchange_rate,
+          total_amount_krw: insurance.total_amount * insurance.exchange_rate
+        })
+      ) ?? [])
     ].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 
     return NextResponse.json({
