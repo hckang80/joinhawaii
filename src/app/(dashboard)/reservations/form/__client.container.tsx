@@ -570,9 +570,9 @@ export default function ReservationsFormClientContainer({
                     <Table.ColumnHeaderCell width='100px'>출발지</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='240px'>도착시간</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='100px'>도착지</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='80px'>💸 원가</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='80px'>💰 요금</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='80px'>🧑‍🤝‍🧑 인원</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='80px'>💰요금</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='80px'>🧑‍🤝‍🧑인원</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='110px'>진행상태</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell>비고</Table.ColumnHeaderCell>
                   </Table.Row>
@@ -624,7 +624,7 @@ export default function ReservationsFormClientContainer({
                       <Table.Cell>
                         <Grid gap='2'>
                           <Flex direction='column'>
-                            <span>🧑 성인</span>
+                            <span>🧑성인</span>
                             <TextField.Root
                               type='number'
                               min='0'
@@ -635,7 +635,7 @@ export default function ReservationsFormClientContainer({
                             />
                           </Flex>
                           <Flex direction='column'>
-                            <span>🧒 소아</span>
+                            <span>🧒소아</span>
                             <TextField.Root
                               type='number'
                               min='0'
@@ -646,14 +646,14 @@ export default function ReservationsFormClientContainer({
                             />
                           </Flex>
                           <Flex direction='column'>
-                            <span>👶 유아</span>
+                            <span>👶유아</span>
                           </Flex>
                         </Grid>
                       </Table.Cell>
                       <Table.Cell>
                         <Grid gap='2'>
                           <Flex direction='column'>
-                            <span>🧑 성인</span>
+                            <span>🧑성인</span>
                             <TextField.Root
                               type='number'
                               min='0'
@@ -664,7 +664,7 @@ export default function ReservationsFormClientContainer({
                             />
                           </Flex>
                           <Flex direction='column'>
-                            <span>🧒 소아</span>
+                            <span>🧒소아</span>
                             <TextField.Root
                               type='number'
                               min='0'
@@ -675,14 +675,14 @@ export default function ReservationsFormClientContainer({
                             />
                           </Flex>
                           <Flex direction='column'>
-                            <span>👶 유아</span>
+                            <span>👶유아</span>
                           </Flex>
                         </Grid>
                       </Table.Cell>
                       <Table.Cell>
                         <Grid gap='2'>
                           <Flex direction='column'>
-                            <span>🧑 성인</span>
+                            <span>🧑성인</span>
                             <TextField.Root
                               type='number'
                               min='0'
@@ -693,7 +693,7 @@ export default function ReservationsFormClientContainer({
                             />
                           </Flex>
                           <Flex direction='column'>
-                            <span>🧒 소아</span>
+                            <span>🧒소아</span>
                             <TextField.Root
                               type='number'
                               min='0'
@@ -704,7 +704,7 @@ export default function ReservationsFormClientContainer({
                             />
                           </Flex>
                           <Flex direction='column'>
-                            <span>👶 유아</span>
+                            <span>👶유아</span>
                           </Flex>
                         </Grid>
                       </Table.Cell>
@@ -793,8 +793,8 @@ export default function ReservationsFormClientContainer({
                     <Table.ColumnHeaderCell width='120px'>객실타입</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='60px'>조식</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='70px'>리조트피</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='80px'>💸 원가</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='80px'>💰 1박 요금</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='80px'>💰1박요금</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='70px'>수량</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='90px'>CF#/VC#</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='110px'>진행상태</Table.ColumnHeaderCell>
@@ -1017,8 +1017,8 @@ export default function ReservationsFormClientContainer({
                     <Table.ColumnHeaderCell width='120px'>지역</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='240px'>날짜</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='240px'>상품명</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='80px'>💸 원가</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='80px'>💰 요금</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='80px'>💰요금</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='70px'>수량</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='110px'>진행상태</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell>비고</Table.ColumnHeaderCell>
@@ -1091,7 +1091,7 @@ export default function ReservationsFormClientContainer({
                       <Table.Cell>
                         <Grid gap='2'>
                           <Flex direction='column'>
-                            <span>🧑 성인</span>
+                            <span>🧑성인</span>
                             <TextField.Root
                               type='number'
                               min='0'
@@ -1102,7 +1102,7 @@ export default function ReservationsFormClientContainer({
                             />
                           </Flex>
                           <Flex direction='column'>
-                            <span>🧒 소아</span>
+                            <span>🧒소아</span>
                             <TextField.Root
                               type='number'
                               min='0'
@@ -1113,14 +1113,14 @@ export default function ReservationsFormClientContainer({
                             />
                           </Flex>
                           <Flex direction='column'>
-                            <span>👶 유아</span>
+                            <span>👶유아</span>
                           </Flex>
                         </Grid>
                       </Table.Cell>
                       <Table.Cell>
                         <Grid gap='2'>
                           <Flex direction='column'>
-                            <span>🧑 성인</span>
+                            <span>🧑성인</span>
                             <TextField.Root
                               type='number'
                               min='0'
@@ -1131,7 +1131,7 @@ export default function ReservationsFormClientContainer({
                             />
                           </Flex>
                           <Flex direction='column'>
-                            <span>🧒 소아</span>
+                            <span>🧒소아</span>
                             <TextField.Root
                               type='number'
                               min='0'
@@ -1142,14 +1142,14 @@ export default function ReservationsFormClientContainer({
                             />
                           </Flex>
                           <Flex direction='column'>
-                            <span>👶 유아</span>
+                            <span>👶유아</span>
                           </Flex>
                         </Grid>
                       </Table.Cell>
                       <Table.Cell>
                         <Grid gap='2'>
                           <Flex direction='column'>
-                            <span>🧑 성인</span>
+                            <span>🧑성인</span>
                             <TextField.Root
                               type='number'
                               min='0'
@@ -1160,7 +1160,7 @@ export default function ReservationsFormClientContainer({
                             />
                           </Flex>
                           <Flex direction='column'>
-                            <span>🧒 소아</span>
+                            <span>🧒소아</span>
                             <TextField.Root
                               type='number'
                               min='0'
@@ -1171,7 +1171,7 @@ export default function ReservationsFormClientContainer({
                             />
                           </Flex>
                           <Flex direction='column'>
-                            <span>👶 유아</span>
+                            <span>👶유아</span>
                           </Flex>
                         </Grid>
                       </Table.Cell>
@@ -1259,8 +1259,8 @@ export default function ReservationsFormClientContainer({
                     <Table.ColumnHeaderCell width='160px'>차종</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='160px'>운전자</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='160px'>조건</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='80px'>💸 원가</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='80px'>💰 1일 요금</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='80px'>💰1일요금</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='70px'>대여일</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='110px'>진행상태</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell>비고</Table.ColumnHeaderCell>
@@ -1469,8 +1469,8 @@ export default function ReservationsFormClientContainer({
                     <Table.ColumnHeaderCell width='120px'>보험사</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='170px'>날짜</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='70px'>여행일수</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='80px'>💸 원가</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='80px'>💰 요금</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='80px'>💰요금</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='70px'>수량</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='110px'>진행상태</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell>비고</Table.ColumnHeaderCell>
@@ -1529,7 +1529,7 @@ export default function ReservationsFormClientContainer({
                       <Table.Cell>
                         <Grid gap='2'>
                           <Flex direction='column'>
-                            <span>🧑 성인</span>
+                            <span>🧑성인</span>
                             <TextField.Root
                               type='number'
                               min='0'
@@ -1540,7 +1540,7 @@ export default function ReservationsFormClientContainer({
                             />
                           </Flex>
                           <Flex direction='column'>
-                            <span>🧒 소아</span>
+                            <span>🧒소아</span>
                             <TextField.Root
                               type='number'
                               min='0'
@@ -1551,14 +1551,14 @@ export default function ReservationsFormClientContainer({
                             />
                           </Flex>
                           <Flex direction='column'>
-                            <span>👶 유아</span>
+                            <span>👶유아</span>
                           </Flex>
                         </Grid>
                       </Table.Cell>
                       <Table.Cell>
                         <Grid gap='2'>
                           <Flex direction='column'>
-                            <span>🧑 성인</span>
+                            <span>🧑성인</span>
                             <TextField.Root
                               type='number'
                               min='0'
@@ -1569,7 +1569,7 @@ export default function ReservationsFormClientContainer({
                             />
                           </Flex>
                           <Flex direction='column'>
-                            <span>🧒 소아</span>
+                            <span>🧒소아</span>
                             <TextField.Root
                               type='number'
                               min='0'
@@ -1580,14 +1580,14 @@ export default function ReservationsFormClientContainer({
                             />
                           </Flex>
                           <Flex direction='column'>
-                            <span>👶 유아</span>
+                            <span>👶유아</span>
                           </Flex>
                         </Grid>
                       </Table.Cell>
                       <Table.Cell>
                         <Grid gap='2'>
                           <Flex direction='column'>
-                            <span>🧑 성인</span>
+                            <span>🧑성인</span>
                             <TextField.Root
                               type='number'
                               min='0'
@@ -1598,7 +1598,7 @@ export default function ReservationsFormClientContainer({
                             />
                           </Flex>
                           <Flex direction='column'>
-                            <span>🧒 소아</span>
+                            <span>🧒소아</span>
                             <TextField.Root
                               type='number'
                               min='0'
@@ -1609,7 +1609,7 @@ export default function ReservationsFormClientContainer({
                             />
                           </Flex>
                           <Flex direction='column'>
-                            <span>👶 유아</span>
+                            <span>👶유아</span>
                           </Flex>
                         </Grid>
                       </Table.Cell>
