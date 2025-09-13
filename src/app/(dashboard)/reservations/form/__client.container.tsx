@@ -15,7 +15,13 @@ import {
 import { createReservation, updateReservation } from '@/http';
 import { reservationQueryOptions } from '@/lib/queries';
 import type { ProductFormType, ProductType, ReservationFormData, ReservationItem } from '@/types';
-import { handleApiError, handleApiSuccess, isDev } from '@/utils';
+import {
+  formatKoreanCurrency,
+  handleApiError,
+  handleApiSuccess,
+  isDev,
+  parseKoreanCurrency
+} from '@/utils';
 import { observable } from '@legendapp/state';
 import { use$ } from '@legendapp/state/react';
 import {
@@ -1717,12 +1723,20 @@ export default function ReservationsFormClientContainer({
               <Text as='label' weight='medium'>
                 예약금
               </Text>
-              <TextField.Root
-                type='number'
-                min='0'
-                {...register('deposit', {
-                  valueAsNumber: true
-                })}
+              <Controller
+                name='deposit'
+                control={control}
+                render={({ field }) => (
+                  <TextField.Root
+                    type='text'
+                    value={formatKoreanCurrency(field.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      const numericValue = parseKoreanCurrency(e.target.value);
+                      field.onChange(numericValue);
+                    }}
+                    placeholder='0'
+                  />
+                )}
               />
               <Text as='label' weight='medium'>
                 환율

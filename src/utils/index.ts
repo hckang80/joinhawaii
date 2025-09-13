@@ -15,6 +15,15 @@ export function toReadableAmount(
   return amount.toLocaleString(locales, { style: 'currency', currency });
 }
 
+export const formatKoreanCurrency = (value: number | string) => {
+  const numValue = typeof value === 'string' ? parseInt(value.replace(/,/g, '')) : value;
+  return isNaN(numValue) ? '' : numValue.toLocaleString('ko-KR');
+};
+
+export const parseKoreanCurrency = (value: string) => {
+  return parseInt(value.replace(/,/g, '')) || 0;
+};
+
 export function isDev() {
   return process.env.NODE_ENV === 'development';
 }
