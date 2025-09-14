@@ -164,6 +164,8 @@ export interface Reservation extends ReservationBaseInfo {
   status: ProductStatusKey;
   created_at: string;
   clients: TablesRow<'clients'>[];
+  total_amount_krw: number;
+  cost_amount_krw: number;
 }
 
 export type ReservationProducts = {
