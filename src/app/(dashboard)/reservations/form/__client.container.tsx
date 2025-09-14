@@ -1748,6 +1748,8 @@ export default function ReservationsFormClientContainer({
                 잔금
               </Text>
               {toReadableAmount(Number(data?.total_amount_krw) - watch('deposit'), 'ko-KR', 'KRW')}
+            </Flex>
+            <Flex justify='end' align='center' gap='2' mt='2'>
               <Text as='label' weight='medium'>
                 환율
               </Text>
