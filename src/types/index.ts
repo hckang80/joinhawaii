@@ -16,6 +16,7 @@ export type Tour = typeof defaultTourValues;
 export type Car = typeof defaultCarValues;
 export type Insurance = typeof defaultInsuranceValues;
 export type ProductStatusKey = keyof typeof ProductStatus;
+export type ProductValues = typeof defaultProductValues;
 
 export type AllProducts = {
   id: number;
@@ -30,7 +31,7 @@ export type AllProducts = {
   total_amount_krw: number;
 } & {
   [key: string]: unknown;
-} & typeof defaultProductValues;
+} & ProductValues;
 
 export type ProductType = 'flight' | 'hotel' | 'tour' | 'rental_car' | 'insurance';
 export type ProductsType = `${ProductType}s`;
