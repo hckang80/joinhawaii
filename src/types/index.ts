@@ -16,6 +16,7 @@ export type Tour = typeof defaultTourValues;
 export type Car = typeof defaultCarValues;
 export type Insurance = typeof defaultInsuranceValues;
 export type ProductStatusKey = keyof typeof ProductStatus;
+export type ProductValues = typeof defaultProductValues;
 
 export type AllProducts = {
   id: number;
@@ -26,8 +27,11 @@ export type AllProducts = {
   main_client_name: string;
   product_name: string;
   type: ProductType;
+  cost_amount_krw: number;
+  total_amount_krw: number;
+} & {
   [key: string]: unknown;
-} & typeof defaultProductValues;
+} & ProductValues;
 
 export type ProductType = 'flight' | 'hotel' | 'tour' | 'rental_car' | 'insurance';
 export type ProductsType = `${ProductType}s`;
@@ -160,6 +164,8 @@ export interface Reservation extends ReservationBaseInfo {
   status: ProductStatusKey;
   created_at: string;
   clients: TablesRow<'clients'>[];
+  total_amount_krw: number;
+  cost_amount_krw: number;
 }
 
 export type ReservationProducts = {

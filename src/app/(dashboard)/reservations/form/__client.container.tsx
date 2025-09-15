@@ -20,7 +20,8 @@ import {
   handleApiError,
   handleApiSuccess,
   isDev,
-  parseKoreanCurrency
+  parseKoreanCurrency,
+  toReadableAmount
 } from '@/utils';
 import { observable } from '@legendapp/state';
 import { use$ } from '@legendapp/state/react';
@@ -1721,6 +1722,10 @@ export default function ReservationsFormClientContainer({
           <Box position='sticky' bottom='5' className={styles['exchange-rate-card']}>
             <Flex justify='end' align='center' gap='2'>
               <Text as='label' weight='medium'>
+                총액
+              </Text>
+              {toReadableAmount(Number(data?.total_amount_krw), 'ko-KR', 'KRW')}
+              <Text as='label' weight='medium'>
                 예약금
               </Text>
               ₩
@@ -1739,6 +1744,12 @@ export default function ReservationsFormClientContainer({
                   />
                 )}
               />
+              <Text as='label' weight='medium'>
+                잔금
+              </Text>
+              {toReadableAmount(Number(data?.total_amount_krw) - watch('deposit'), 'ko-KR', 'KRW')}
+            </Flex>
+            <Flex justify='end' align='center' gap='2' mt='2'>
               <Text as='label' weight='medium'>
                 환율
               </Text>

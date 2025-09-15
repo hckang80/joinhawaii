@@ -3,6 +3,7 @@ import { RESERVATION_SELECT_QUERY } from '@/lib/supabase/schema';
 import { createClient } from '@/lib/supabase/server';
 import type {
   Database,
+  ProductValues,
   ReservationQueryResponse,
   ReservationRequest,
   ReservationRow,
@@ -82,11 +83,64 @@ export async function GET(request: Request) {
       }
 
       const { flights, hotels, tours, rental_cars, insurances, ...rest } = reservation;
+
+      const addKoreanWonFields = (products: ProductValues[]) => {
+        return products.map(product => ({
+          ...product,
+          total_amount_krw: Math.round(product.total_amount * product.exchange_rate),
+          cost_amount_krw: Math.round(product.total_cost * product.exchange_rate)
+        }));
+      };
+
+      const flightsWithKrw = addKoreanWonFields(flights);
+      const hotelsWithKrw = addKoreanWonFields(hotels);
+      const toursWithKrw = addKoreanWonFields(tours);
+      const carsWithKrw = addKoreanWonFields(rental_cars);
+      const insurancesWithKrw = addKoreanWonFields(insurances || []);
+
+      const calculateTotal = (products: ProductValues[]) => {
+        return products.reduce(
+          (acc, product) => ({
+            total_amount_krw: acc.total_amount_krw + product.total_amount_krw,
+            cost_amount_krw: acc.cost_amount_krw + product.cost_amount_krw
+          }),
+          { total_amount_krw: 0, cost_amount_krw: 0 }
+        );
+      };
+
+      const flightTotals = calculateTotal(flightsWithKrw);
+      const hotelTotals = calculateTotal(hotelsWithKrw);
+      const tourTotals = calculateTotal(toursWithKrw);
+      const carTotals = calculateTotal(carsWithKrw);
+      const insuranceTotals = calculateTotal(insurancesWithKrw);
+
+      const total_amount_krw =
+        flightTotals.total_amount_krw +
+        hotelTotals.total_amount_krw +
+        tourTotals.total_amount_krw +
+        carTotals.total_amount_krw +
+        insuranceTotals.total_amount_krw;
+
+      const cost_amount_krw =
+        flightTotals.cost_amount_krw +
+        hotelTotals.cost_amount_krw +
+        tourTotals.cost_amount_krw +
+        carTotals.cost_amount_krw +
+        insuranceTotals.cost_amount_krw;
+
       return NextResponse.json({
         success: true,
         data: {
           ...rest,
-          products: { flights, hotels, tours, rental_cars, insurances }
+          products: {
+            flights: flightsWithKrw,
+            hotels: hotelsWithKrw,
+            tours: toursWithKrw,
+            rental_cars: carsWithKrw,
+            insurances: insurancesWithKrw
+          },
+          total_amount_krw,
+          cost_amount_krw
         }
       });
     }
@@ -99,10 +153,36 @@ export async function GET(request: Request) {
     if (error) throw error;
 
     const transformedData =
-      data?.map(({ flights, hotels, tours, rental_cars, insurances, ...rest }) => ({
-        ...rest,
-        products: { flights, hotels, tours, rental_cars, insurances }
-      })) ?? [];
+      data?.map(({ flights, hotels, tours, rental_cars, insurances, ...rest }) => {
+        const allProducts = [
+          ...flights,
+          ...hotels,
+          ...tours,
+          ...rental_cars,
+          ...(insurances || [])
+        ];
+
+        const total_amount_krw = Math.round(
+          allProducts.reduce(
+            (sum, product) => sum + (product.total_amount || 0) * (product.exchange_rate || 1),
+            0
+          )
+        );
+
+        const cost_amount_krw = Math.round(
+          allProducts.reduce(
+            (sum, product) => sum + (product.total_cost || 0) * (product.exchange_rate || 1),
+            0
+          )
+        );
+
+        return {
+          ...rest,
+          products: { flights, hotels, tours, rental_cars, insurances },
+          total_amount_krw,
+          cost_amount_krw
+        };
+      }) ?? [];
 
     return NextResponse.json({ success: true, data: transformedData });
   } catch (error) {

@@ -61,17 +61,13 @@ export default function SettlementClientContainer() {
                 <Table.Cell>
                   <Grid>
                     <span>{toReadableAmount(item.total_cost)}</span>
-                    <span>
-                      {toReadableAmount(item.total_cost * item.exchange_rate, 'ko-KR', 'KRW')}
-                    </span>
+                    <span>{toReadableAmount(item.cost_amount_krw, 'ko-KR', 'KRW')}</span>
                   </Grid>
                 </Table.Cell>
                 <Table.Cell>
                   <Grid>
                     <span>{toReadableAmount(item.total_amount)}</span>
-                    <span>
-                      {toReadableAmount(item.total_amount * item.exchange_rate, 'ko-KR', 'KRW')}
-                    </span>
+                    <span>{toReadableAmount(item.total_amount_krw, 'ko-KR', 'KRW')}</span>
                   </Grid>
                 </Table.Cell>
                 <Table.Cell>-</Table.Cell>
@@ -80,8 +76,7 @@ export default function SettlementClientContainer() {
                     <span>{toReadableAmount(item.total_amount - item.total_cost)}</span>
                     <span>
                       {toReadableAmount(
-                        item.total_amount * item.exchange_rate -
-                          item.total_cost * item.exchange_rate,
+                        item.total_amount_krw - item.cost_amount_krw,
                         'ko-KR',
                         'KRW'
                       )}
