@@ -164,16 +164,13 @@ export async function GET(request: Request) {
 
         const total_amount_krw = Math.round(
           allProducts.reduce(
-            (sum, product) => sum + (product.total_amount || 0) * (product.exchange_rate || 1),
+            (sum, product) => sum + product.total_amount * product.exchange_rate,
             0
           )
         );
 
         const cost_amount_krw = Math.round(
-          allProducts.reduce(
-            (sum, product) => sum + (product.total_cost || 0) * (product.exchange_rate || 1),
-            0
-          )
+          allProducts.reduce((sum, product) => sum + product.total_cost * product.exchange_rate, 0)
         );
 
         return {
