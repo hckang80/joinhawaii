@@ -301,10 +301,6 @@ export default function ReservationsFormClientContainer({
     mutationFn: (formData: ReservationFormData) => {
       const payload = {
         ...formData,
-        flights: isDirtyProductItem('flights') ? formData.flights : [],
-        hotels: isDirtyProductItem('hotels') ? formData.hotels : [],
-        tours: isDirtyProductItem('tours') ? formData.tours : [],
-        rental_cars: isDirtyProductItem('rental_cars') ? formData.rental_cars : [],
         main_client_name: mainClientName
       };
 
