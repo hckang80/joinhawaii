@@ -1035,7 +1035,7 @@ export default function ReservationsFormClientContainer({
               <Table.Root size='1'>
                 <Table.Header>
                   <Table.Row>
-                    <Table.ColumnHeaderCell width='50px'>환율 적용</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='70px'>환율 관리</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='120px'>지역</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='240px'>날짜</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='240px'>상품명</Table.ColumnHeaderCell>
@@ -1047,22 +1047,28 @@ export default function ReservationsFormClientContainer({
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                  {getValues('tours').map((_tour, i) => (
+                  {getValues('tours').map((tour, i) => (
                     <Table.Row key={i}>
                       <Table.Cell>
-                        <Controller
-                          name={`tours.${i}.is_updated_exchange_rate`}
-                          control={control}
-                          render={({ field }) => (
-                            <Checkbox
-                              size='3'
-                              checked={field.value}
-                              onCheckedChange={value => {
-                                field.onChange(value);
-                              }}
-                            />
-                          )}
-                        />
+                        <Text size='1' as='label'>
+                          변경{' '}
+                          <Controller
+                            name={`tours.${i}.is_updated_exchange_rate`}
+                            control={control}
+                            render={({ field }) => (
+                              <Checkbox
+                                size='3'
+                                checked={field.value}
+                                onCheckedChange={value => {
+                                  field.onChange(value);
+                                }}
+                              />
+                            )}
+                          />
+                        </Text>
+                        <Text as='div' size='1' mt='1' weight='bold'>
+                          {tour.exchange_rate}
+                        </Text>
                       </Table.Cell>
                       <Table.Cell>
                         <Controller
@@ -1280,7 +1286,7 @@ export default function ReservationsFormClientContainer({
               <Table.Root size='1'>
                 <Table.Header>
                   <Table.Row>
-                    <Table.ColumnHeaderCell width='50px'>환율 적용</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='70px'>환율 관리</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='120px'>지역</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='240px'>날짜</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='120px'>픽업장소</Table.ColumnHeaderCell>
@@ -1295,22 +1301,28 @@ export default function ReservationsFormClientContainer({
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                  {getValues('rental_cars').map((_car, i) => (
+                  {getValues('rental_cars').map((car, i) => (
                     <Table.Row key={i}>
                       <Table.Cell>
-                        <Controller
-                          name={`rental_cars.${i}.is_updated_exchange_rate`}
-                          control={control}
-                          render={({ field }) => (
-                            <Checkbox
-                              size='3'
-                              checked={field.value}
-                              onCheckedChange={value => {
-                                field.onChange(value);
-                              }}
-                            />
-                          )}
-                        />
+                        <Text size='1' as='label'>
+                          변경{' '}
+                          <Controller
+                            name={`rental_cars.${i}.is_updated_exchange_rate`}
+                            control={control}
+                            render={({ field }) => (
+                              <Checkbox
+                                size='3'
+                                checked={field.value}
+                                onCheckedChange={value => {
+                                  field.onChange(value);
+                                }}
+                              />
+                            )}
+                          />
+                        </Text>
+                        <Text as='div' size='1' mt='1' weight='bold'>
+                          {car.exchange_rate}
+                        </Text>
                       </Table.Cell>
                       <Table.Cell>
                         <Controller
@@ -1499,7 +1511,7 @@ export default function ReservationsFormClientContainer({
               <Table.Root size='1'>
                 <Table.Header>
                   <Table.Row>
-                    <Table.ColumnHeaderCell width='50px'>환율 적용</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='70px'>환율 관리</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='120px'>보험사</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='170px'>날짜</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='70px'>여행일수</Table.ColumnHeaderCell>
@@ -1511,22 +1523,28 @@ export default function ReservationsFormClientContainer({
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                  {getValues('insurances').map((_insurance, i) => (
+                  {getValues('insurances').map((insurance, i) => (
                     <Table.Row key={i}>
                       <Table.Cell>
-                        <Controller
-                          name={`insurances.${i}.is_updated_exchange_rate`}
-                          control={control}
-                          render={({ field }) => (
-                            <Checkbox
-                              size='3'
-                              checked={field.value}
-                              onCheckedChange={value => {
-                                field.onChange(value);
-                              }}
-                            />
-                          )}
-                        />
+                        <Text size='1' as='label'>
+                          변경{' '}
+                          <Controller
+                            name={`insurances.${i}.is_updated_exchange_rate`}
+                            control={control}
+                            render={({ field }) => (
+                              <Checkbox
+                                size='3'
+                                checked={field.value}
+                                onCheckedChange={value => {
+                                  field.onChange(value);
+                                }}
+                              />
+                            )}
+                          />
+                        </Text>
+                        <Text as='div' size='1' mt='1' weight='bold'>
+                          {insurance.exchange_rate}
+                        </Text>
                       </Table.Cell>
                       <Table.Cell>
                         <TextField.Root
