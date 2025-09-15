@@ -1769,6 +1769,9 @@ export default function ReservationsFormClientContainer({
               </Text>
               {toReadableAmount(Number(data?.total_amount_krw) - watch('deposit'), 'ko-KR', 'KRW')}
             </Flex>
+            <Text as='p' align='right' mt='2' weight='bold' color='ruby'>
+              환율이 입력된 상품만 총액에 반영됩니다.
+            </Text>
             <Flex justify='end' align='center' gap='2' mt='2'>
               <Text as='label' weight='medium'>
                 환율
@@ -1804,7 +1807,7 @@ export default function ReservationsFormClientContainer({
               </Button>
             </Flex>
             <Text as='p' align='right' mt='2' weight='bold' color='ruby'>
-              환율 적용을 체크한 상품만 환율이 적용됩니다.
+              환율 관리 → 변경을 체크한 상품만 환율이 적용됩니다.
             </Text>
           </Box>
         </form>
