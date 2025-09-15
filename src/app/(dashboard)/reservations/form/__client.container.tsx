@@ -795,7 +795,7 @@ export default function ReservationsFormClientContainer({
               <Table.Root size='1'>
                 <Table.Header>
                   <Table.Row>
-                    <Table.ColumnHeaderCell width='50px'>환율 적용</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='70px'>환율 관리</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='120px'>지역</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='170px'>날짜</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='60px'>숙박일</Table.ColumnHeaderCell>
@@ -812,22 +812,28 @@ export default function ReservationsFormClientContainer({
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                  {getValues('hotels').map((_hotel, i) => (
+                  {getValues('hotels').map((hotel, i) => (
                     <Table.Row key={i}>
                       <Table.Cell>
-                        <Controller
-                          name={`hotels.${i}.is_updated_exchange_rate`}
-                          control={control}
-                          render={({ field }) => (
-                            <Checkbox
-                              size='3'
-                              checked={field.value}
-                              onCheckedChange={value => {
-                                field.onChange(value);
-                              }}
-                            />
-                          )}
-                        />
+                        <Text size='1' as='label'>
+                          변경{' '}
+                          <Controller
+                            name={`hotels.${i}.is_updated_exchange_rate`}
+                            control={control}
+                            render={({ field }) => (
+                              <Checkbox
+                                size='3'
+                                checked={field.value}
+                                onCheckedChange={value => {
+                                  field.onChange(value);
+                                }}
+                              />
+                            )}
+                          />
+                        </Text>
+                        <Text as='div' size='1' mt='1' weight='bold'>
+                          {hotel.exchange_rate}
+                        </Text>
                       </Table.Cell>
                       <Table.Cell>
                         <Controller
