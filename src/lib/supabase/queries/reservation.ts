@@ -83,7 +83,7 @@ export const updateReservationProducts = async (
       return {
         ...rest,
         reservation_id: reservationId,
-        ...(is_updated_exchange_rate && { exchange_rate })
+        ...(is_updated_exchange_rate && exchange_rate && { exchange_rate })
       };
     });
   }
