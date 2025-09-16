@@ -1744,7 +1744,7 @@ export default function ReservationsFormClientContainer({
               <Text as='label' weight='medium'>
                 총액
               </Text>
-              {toReadableAmount(Number(data?.total_amount_krw), 'ko-KR', 'KRW')}
+              {toReadableAmount(Number(data?.total_amount_krw) || 0, 'ko-KR', 'KRW')}
               <Text as='label' weight='medium'>
                 예약금
               </Text>
@@ -1767,7 +1767,11 @@ export default function ReservationsFormClientContainer({
               <Text as='label' weight='medium'>
                 잔금
               </Text>
-              {toReadableAmount(Number(data?.total_amount_krw) - watch('deposit'), 'ko-KR', 'KRW')}
+              {toReadableAmount(
+                Number(data?.total_amount_krw) - watch('deposit') || 0,
+                'ko-KR',
+                'KRW'
+              )}
             </Flex>
             <Text as='p' align='right' mt='2' weight='bold' color='ruby'>
               환율이 입력된 상품만 총액에 반영됩니다.
