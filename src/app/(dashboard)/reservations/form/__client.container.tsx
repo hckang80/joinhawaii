@@ -570,7 +570,7 @@ export default function ReservationsFormClientContainer({
                   <Table.Row>
                     <Table.ColumnHeaderCell width='80px'>티켓</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='100px'>항공편</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='170px'>출발시간</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='240px'>출발시간</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='100px'>출발지</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='240px'>도착시간</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='100px'>도착지</Table.ColumnHeaderCell>
