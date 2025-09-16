@@ -46,10 +46,13 @@ export const defaultFlightValues = {
   arrival_city: '',
   adult_count: 1,
   children_count: 0,
+  kids_count: 0,
   adult_price: 0,
   children_price: 0,
+  kids_price: 0,
   adult_cost: 0,
   children_cost: 0,
+  kids_cost: 0,
   ...defaultProductValues
 };
 
@@ -74,10 +77,13 @@ export const defaultTourValues = {
   name: '',
   adult_count: 1,
   children_count: 0,
+  kids_count: 0,
   adult_price: 0,
   children_price: 0,
+  kids_price: 0,
   adult_cost: 0,
   children_cost: 0,
+  kids_cost: 0,
   ...defaultProductValues
 };
 
@@ -103,10 +109,13 @@ export const defaultInsuranceValues = {
   end_date: '',
   adult_count: 1,
   children_count: 0,
+  kids_count: 0,
   adult_price: 0,
   children_price: 0,
+  kids_price: 0,
   adult_cost: 0,
   children_cost: 0,
+  kids_cost: 0,
   ...defaultProductValues
 };
 
