@@ -651,6 +651,15 @@ export default function ReservationsFormClientContainer({
                           </Flex>
                           <Flex direction='column'>
                             <span>👶유아</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              readOnly
+                              {...register(`flights.${i}.kids_cost`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
                           </Flex>
                         </Grid>
                       </Table.Cell>
@@ -680,6 +689,15 @@ export default function ReservationsFormClientContainer({
                           </Flex>
                           <Flex direction='column'>
                             <span>👶유아</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              readOnly
+                              {...register(`flights.${i}.kids_price`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
                           </Flex>
                         </Grid>
                       </Table.Cell>
@@ -709,6 +727,14 @@ export default function ReservationsFormClientContainer({
                           </Flex>
                           <Flex direction='column'>
                             <span>👶유아</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              {...register(`flights.${i}.kids_count`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
                           </Flex>
                         </Grid>
                       </Table.Cell>
@@ -1142,6 +1168,15 @@ export default function ReservationsFormClientContainer({
                           </Flex>
                           <Flex direction='column'>
                             <span>👶유아</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              readOnly
+                              {...register(`tours.${i}.kids_cost`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
                           </Flex>
                         </Grid>
                       </Table.Cell>
@@ -1171,6 +1206,15 @@ export default function ReservationsFormClientContainer({
                           </Flex>
                           <Flex direction='column'>
                             <span>👶유아</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              readOnly
+                              {...register(`tours.${i}.kids_price`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
                           </Flex>
                         </Grid>
                       </Table.Cell>
@@ -1200,6 +1244,14 @@ export default function ReservationsFormClientContainer({
                           </Flex>
                           <Flex direction='column'>
                             <span>👶유아</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              {...register(`tours.${i}.kids_count`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
                           </Flex>
                         </Grid>
                       </Table.Cell>
@@ -1604,6 +1656,15 @@ export default function ReservationsFormClientContainer({
                           </Flex>
                           <Flex direction='column'>
                             <span>👶유아</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              readOnly
+                              {...register(`insurances.${i}.kids_cost`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
                           </Flex>
                         </Grid>
                       </Table.Cell>
@@ -1633,6 +1694,15 @@ export default function ReservationsFormClientContainer({
                           </Flex>
                           <Flex direction='column'>
                             <span>👶유아</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              readOnly
+                              {...register(`insurances.${i}.kids_price`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
                           </Flex>
                         </Grid>
                       </Table.Cell>
@@ -1662,6 +1732,14 @@ export default function ReservationsFormClientContainer({
                           </Flex>
                           <Flex direction='column'>
                             <span>👶유아</span>
+                            <TextField.Root
+                              type='number'
+                              min='0'
+                              {...register(`insurances.${i}.kids_count`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
                           </Flex>
                         </Grid>
                       </Table.Cell>

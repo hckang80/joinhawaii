@@ -38,18 +38,25 @@ export const defaultProductValues = {
   notes: ''
 };
 
+export const defaultPeopleValues = {
+  adult_count: 0,
+  children_count: 0,
+  kids_count: 0,
+  adult_price: 0,
+  children_price: 0,
+  kids_price: 0,
+  adult_cost: 0,
+  children_cost: 0,
+  kids_cost: 0
+};
+
 export const defaultFlightValues = {
   flight_number: '',
   departure_datetime: '',
   departure_city: '',
   arrival_datetime: '',
   arrival_city: '',
-  adult_count: 1,
-  children_count: 0,
-  adult_price: 0,
-  children_price: 0,
-  adult_cost: 0,
-  children_cost: 0,
+  ...defaultPeopleValues,
   ...defaultProductValues
 };
 
@@ -72,12 +79,7 @@ export const defaultTourValues = {
   start_date: '',
   end_date: '',
   name: '',
-  adult_count: 1,
-  children_count: 0,
-  adult_price: 0,
-  children_price: 0,
-  adult_cost: 0,
-  children_cost: 0,
+  ...defaultPeopleValues,
   ...defaultProductValues
 };
 
@@ -101,12 +103,7 @@ export const defaultInsuranceValues = {
   days: 1,
   start_date: '',
   end_date: '',
-  adult_count: 1,
-  children_count: 0,
-  adult_price: 0,
-  children_price: 0,
-  adult_cost: 0,
-  children_cost: 0,
+  ...defaultPeopleValues,
   ...defaultProductValues
 };
 
