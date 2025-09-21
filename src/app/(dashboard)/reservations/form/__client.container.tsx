@@ -837,9 +837,9 @@ export default function ReservationsFormClientContainer({
                     <Table.ColumnHeaderCell>비고</Table.ColumnHeaderCell>
                   </Table.Row>
                 </Table.Header>
-                <Table.Body>
-                  {getValues('hotels').map((hotel, i) => (
-                    <Table.Row key={i}>
+                {getValues('hotels').map((hotel, i) => (
+                  <Table.Body key={i}>
+                    <Table.Row>
                       <Table.Cell>
                         <Text size='1' as='label'>
                           변경{' '}
@@ -1014,8 +1014,8 @@ export default function ReservationsFormClientContainer({
                         <HotelTotalCalculator index={i} setValue={setValue} control={control} />
                       </Table.Cell>
                     </Table.Row>
-                  ))}
-                </Table.Body>
+                  </Table.Body>
+                ))}
               </Table.Root>
 
               {!getValues('hotels').length && (
