@@ -50,6 +50,7 @@ export type BaseRow = {
   id: number;
   reservation_id: number;
   created_at: string;
+  options: AdditionalOptions[];
 };
 
 export interface ReservationItem {

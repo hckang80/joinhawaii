@@ -87,6 +87,7 @@ export async function GET(request: Request) {
       const addKoreanWonFields = (products: ProductValues[]) => {
         return products.map(product => ({
           ...product,
+          options: [],
           total_amount_krw: Math.round(product.total_amount * product.exchange_rate),
           cost_amount_krw: Math.round(product.total_cost * product.exchange_rate)
         }));
