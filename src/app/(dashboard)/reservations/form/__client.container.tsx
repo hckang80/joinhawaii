@@ -70,7 +70,8 @@ import { toast } from 'react-toastify';
 import styles from './page.module.css';
 
 const status$ = observable({
-  reservationIndex: 0
+  reservationIndex: 0,
+  isAdditionalOptionsOpen: false
 });
 
 function FlightTotalCalculator({
@@ -240,6 +241,178 @@ function InsuranceTotalCalculator({
   }, [watchedValues, setValue, index]);
 
   return null;
+}
+
+function AddtionalOptionsEditor() {
+  const isOpen = use$(status$.isAdditionalOptionsOpen);
+
+  return (
+    <Dialog.Root open={isOpen} onOpenChange={open => status$.isAdditionalOptionsOpen.set(open)}>
+      <Dialog.Content size='1' maxWidth='1000px'>
+        <Dialog.Title>Edit profile</Dialog.Title>
+        <Dialog.Description size='2' mb='4'>
+          Make changes to your profile.
+        </Dialog.Description>
+        content
+        {/* <Table.Root size='1'>
+          <Table.Header>
+            <Table.Row>
+              <Table.ColumnHeaderCell width='70px'>환율 관리</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell width='200px'>내용</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell width='80px'>💰요금</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell width='70px'>수량</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell>비고</Table.ColumnHeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            <Table.Row>
+              <Table.Cell>
+                <Text size='1' as='label'>
+                  변경{' '}
+                  <Controller
+                    name={`hotels.${i}.is_updated_exchange_rate`}
+                    control={control}
+                    render={({ field }) => (
+                      <Checkbox
+                        size='3'
+                        checked={field.value}
+                        onCheckedChange={value => {
+                          field.onChange(value);
+                        }}
+                      />
+                    )}
+                  />
+                </Text>
+                <Text as='div' size='1' mt='1' weight='bold'>
+                  {hotel.exchange_rate}
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <TextField.Root {...register(`hotels.${i}.notes`)} />
+              </Table.Cell>
+              <Table.Cell>
+                <Grid gap='2'>
+                  <Flex direction='column'>
+                    <span>🧑성인</span>
+                    <TextField.Root
+                      type='number'
+                      min='0'
+                      {...register(`tours.${i}.adult_cost`, {
+                        required: true,
+                        valueAsNumber: true
+                      })}
+                    />
+                  </Flex>
+                  <Flex direction='column'>
+                    <span>🧒소아</span>
+                    <TextField.Root
+                      type='number'
+                      min='0'
+                      {...register(`tours.${i}.children_cost`, {
+                        required: true,
+                        valueAsNumber: true
+                      })}
+                    />
+                  </Flex>
+                  <Flex direction='column'>
+                    <span>👶유아</span>
+                    <TextField.Root
+                      type='number'
+                      min='0'
+                      readOnly
+                      {...register(`tours.${i}.kids_cost`, {
+                        required: true,
+                        valueAsNumber: true
+                      })}
+                    />
+                  </Flex>
+                </Grid>
+              </Table.Cell>
+              <Table.Cell>
+                <Grid gap='2'>
+                  <Flex direction='column'>
+                    <span>🧑성인</span>
+                    <TextField.Root
+                      type='number'
+                      min='0'
+                      {...register(`tours.${i}.adult_price`, {
+                        required: true,
+                        valueAsNumber: true
+                      })}
+                    />
+                  </Flex>
+                  <Flex direction='column'>
+                    <span>🧒소아</span>
+                    <TextField.Root
+                      type='number'
+                      min='0'
+                      {...register(`tours.${i}.children_price`, {
+                        required: true,
+                        valueAsNumber: true
+                      })}
+                    />
+                  </Flex>
+                  <Flex direction='column'>
+                    <span>👶유아</span>
+                    <TextField.Root
+                      type='number'
+                      min='0'
+                      readOnly
+                      {...register(`tours.${i}.kids_price`, {
+                        required: true,
+                        valueAsNumber: true
+                      })}
+                    />
+                  </Flex>
+                </Grid>
+              </Table.Cell>
+              <Table.Cell>
+                <Grid gap='2'>
+                  <Flex direction='column'>
+                    <span>🧑성인</span>
+                    <TextField.Root
+                      type='number'
+                      min='0'
+                      {...register(`tours.${i}.adult_count`, {
+                        required: true,
+                        valueAsNumber: true
+                      })}
+                    />
+                  </Flex>
+                  <Flex direction='column'>
+                    <span>🧒소아</span>
+                    <TextField.Root
+                      type='number'
+                      min='0'
+                      {...register(`tours.${i}.children_count`, {
+                        required: true,
+                        valueAsNumber: true
+                      })}
+                    />
+                  </Flex>
+                  <Flex direction='column'>
+                    <span>👶유아</span>
+                    <TextField.Root
+                      type='number'
+                      min='0'
+                      {...register(`tours.${i}.kids_count`, {
+                        required: true,
+                        valueAsNumber: true
+                      })}
+                    />
+                  </Flex>
+                </Grid>
+              </Table.Cell>
+              <Table.Cell>
+                <TextField.Root {...register(`hotels.${i}.notes`)} />
+              </Table.Cell>
+            </Table.Row>
+          </Table.Body>
+        </Table.Root> */}
+      </Dialog.Content>
+    </Dialog.Root>
+  );
 }
 
 export default function ReservationsFormClientContainer({
@@ -1011,183 +1184,13 @@ export default function ReservationsFormClientContainer({
                         />
                       </Table.Cell>
                       <Table.Cell>
-                        <Dialog.Root>
-                          <Dialog.Trigger>
-                            <Button title='추가옵션' type='button'>
-                              <Plus size={16} />
-                            </Button>
-                          </Dialog.Trigger>
-                          <Dialog.Content size='1' maxWidth='1000px'>
-                            <Dialog.Title>Edit profile</Dialog.Title>
-                            <Dialog.Description size='2' mb='4'>
-                              Make changes to your profile.
-                            </Dialog.Description>
-                            <Table.Root size='1'>
-                              <Table.Header>
-                                <Table.Row>
-                                  <Table.ColumnHeaderCell width='70px'>
-                                    환율 관리
-                                  </Table.ColumnHeaderCell>
-                                  <Table.ColumnHeaderCell width='200px'>
-                                    내용
-                                  </Table.ColumnHeaderCell>
-                                  <Table.ColumnHeaderCell width='80px'>
-                                    💸원가
-                                  </Table.ColumnHeaderCell>
-                                  <Table.ColumnHeaderCell width='80px'>
-                                    💰요금
-                                  </Table.ColumnHeaderCell>
-                                  <Table.ColumnHeaderCell width='70px'>수량</Table.ColumnHeaderCell>
-                                  <Table.ColumnHeaderCell>비고</Table.ColumnHeaderCell>
-                                </Table.Row>
-                              </Table.Header>
-                              <Table.Body>
-                                <Table.Row>
-                                  <Table.Cell>
-                                    <Text size='1' as='label'>
-                                      변경{' '}
-                                      <Controller
-                                        name={`hotels.${i}.is_updated_exchange_rate`}
-                                        control={control}
-                                        render={({ field }) => (
-                                          <Checkbox
-                                            size='3'
-                                            checked={field.value}
-                                            onCheckedChange={value => {
-                                              field.onChange(value);
-                                            }}
-                                          />
-                                        )}
-                                      />
-                                    </Text>
-                                    <Text as='div' size='1' mt='1' weight='bold'>
-                                      {hotel.exchange_rate}
-                                    </Text>
-                                  </Table.Cell>
-                                  <Table.Cell>
-                                    <TextField.Root {...register(`hotels.${i}.notes`)} />
-                                  </Table.Cell>
-                                  <Table.Cell>
-                                    <Grid gap='2'>
-                                      <Flex direction='column'>
-                                        <span>🧑성인</span>
-                                        <TextField.Root
-                                          type='number'
-                                          min='0'
-                                          {...register(`tours.${i}.adult_cost`, {
-                                            required: true,
-                                            valueAsNumber: true
-                                          })}
-                                        />
-                                      </Flex>
-                                      <Flex direction='column'>
-                                        <span>🧒소아</span>
-                                        <TextField.Root
-                                          type='number'
-                                          min='0'
-                                          {...register(`tours.${i}.children_cost`, {
-                                            required: true,
-                                            valueAsNumber: true
-                                          })}
-                                        />
-                                      </Flex>
-                                      <Flex direction='column'>
-                                        <span>👶유아</span>
-                                        <TextField.Root
-                                          type='number'
-                                          min='0'
-                                          readOnly
-                                          {...register(`tours.${i}.kids_cost`, {
-                                            required: true,
-                                            valueAsNumber: true
-                                          })}
-                                        />
-                                      </Flex>
-                                    </Grid>
-                                  </Table.Cell>
-                                  <Table.Cell>
-                                    <Grid gap='2'>
-                                      <Flex direction='column'>
-                                        <span>🧑성인</span>
-                                        <TextField.Root
-                                          type='number'
-                                          min='0'
-                                          {...register(`tours.${i}.adult_price`, {
-                                            required: true,
-                                            valueAsNumber: true
-                                          })}
-                                        />
-                                      </Flex>
-                                      <Flex direction='column'>
-                                        <span>🧒소아</span>
-                                        <TextField.Root
-                                          type='number'
-                                          min='0'
-                                          {...register(`tours.${i}.children_price`, {
-                                            required: true,
-                                            valueAsNumber: true
-                                          })}
-                                        />
-                                      </Flex>
-                                      <Flex direction='column'>
-                                        <span>👶유아</span>
-                                        <TextField.Root
-                                          type='number'
-                                          min='0'
-                                          readOnly
-                                          {...register(`tours.${i}.kids_price`, {
-                                            required: true,
-                                            valueAsNumber: true
-                                          })}
-                                        />
-                                      </Flex>
-                                    </Grid>
-                                  </Table.Cell>
-                                  <Table.Cell>
-                                    <Grid gap='2'>
-                                      <Flex direction='column'>
-                                        <span>🧑성인</span>
-                                        <TextField.Root
-                                          type='number'
-                                          min='0'
-                                          {...register(`tours.${i}.adult_count`, {
-                                            required: true,
-                                            valueAsNumber: true
-                                          })}
-                                        />
-                                      </Flex>
-                                      <Flex direction='column'>
-                                        <span>🧒소아</span>
-                                        <TextField.Root
-                                          type='number'
-                                          min='0'
-                                          {...register(`tours.${i}.children_count`, {
-                                            required: true,
-                                            valueAsNumber: true
-                                          })}
-                                        />
-                                      </Flex>
-                                      <Flex direction='column'>
-                                        <span>👶유아</span>
-                                        <TextField.Root
-                                          type='number'
-                                          min='0'
-                                          {...register(`tours.${i}.kids_count`, {
-                                            required: true,
-                                            valueAsNumber: true
-                                          })}
-                                        />
-                                      </Flex>
-                                    </Grid>
-                                  </Table.Cell>
-                                  <Table.Cell>
-                                    <TextField.Root {...register(`hotels.${i}.notes`)} />
-                                  </Table.Cell>
-                                </Table.Row>
-                              </Table.Body>
-                            </Table.Root>
-                          </Dialog.Content>
-                        </Dialog.Root>
+                        <Button
+                          title='추가옵션'
+                          type='button'
+                          onClick={() => status$.isAdditionalOptionsOpen.set(true)}
+                        >
+                          <Plus size={16} />
+                        </Button>
                       </Table.Cell>
                       <Table.Cell>
                         <TextField.Root {...register(`hotels.${i}.notes`)} />
@@ -2076,6 +2079,8 @@ export default function ReservationsFormClientContainer({
           </Box>
         </form>
       </Flex>
+
+      <AddtionalOptionsEditor />
     </div>
   );
 }
