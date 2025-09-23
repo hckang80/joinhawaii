@@ -107,6 +107,13 @@ export const defaultInsuranceValues = {
   ...defaultProductValues
 };
 
+export const defaultAdditionalOptionValues = {
+  pid: 0,
+  type: '' as ProductType,
+  ...defaultPeopleValues,
+  ...defaultProductValues
+};
+
 export const PRODUCT_STATUS_COLOR: Record<
   ProductStatusKey,
   typeof selectTriggerPropDefs.color.default

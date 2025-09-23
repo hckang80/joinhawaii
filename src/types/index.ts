@@ -1,4 +1,5 @@
 import {
+  defaultAdditionalOptionValues,
   defaultCarValues,
   defaultClientValues,
   defaultFlightValues,
@@ -17,6 +18,8 @@ export type Car = typeof defaultCarValues;
 export type Insurance = typeof defaultInsuranceValues;
 export type ProductStatusKey = keyof typeof ProductStatus;
 export type ProductValues = typeof defaultProductValues;
+
+export type AdditionalOptions = typeof defaultAdditionalOptionValues;
 
 export type AllProducts = {
   id: number;
