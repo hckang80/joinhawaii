@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  defaultAdditionalOptionValues,
   defaultCarValues,
   defaultClientValues,
   defaultFlightValues,
@@ -14,7 +15,13 @@ import {
 } from '@/constants';
 import { createReservation, updateReservation } from '@/http';
 import { reservationQueryOptions } from '@/lib/queries';
-import type { ProductFormType, ProductType, ReservationFormData, ReservationItem } from '@/types';
+import type {
+  AdditionalOptions,
+  ProductFormType,
+  ProductType,
+  ReservationFormData,
+  ReservationItem
+} from '@/types';
 import {
   formatKoreanCurrency,
   handleApiError,
@@ -243,7 +250,16 @@ function InsuranceTotalCalculator({
   return null;
 }
 
-function AddtionalOptionsEditor() {
+function AdditionalOptionsEditor({
+  values = [defaultAdditionalOptionValues]
+}: {
+  values?: AdditionalOptions[];
+}) {
+  const {
+    formState: {}
+  } = useForm<AdditionalOptions[]>({
+    defaultValues: values
+  });
   const isOpen = use$(status$.isAdditionalOptionsOpen);
 
   return (
@@ -253,7 +269,7 @@ function AddtionalOptionsEditor() {
         <Dialog.Description size='2' mb='4'>
           Make changes to your profile.
         </Dialog.Description>
-        content
+        <pre>{JSON.stringify(values, null, 2)}</pre>
         {/* <Table.Root size='1'>
           <Table.Header>
             <Table.Row>
@@ -2080,7 +2096,7 @@ export default function ReservationsFormClientContainer({
         </form>
       </Flex>
 
-      <AddtionalOptionsEditor />
+      <AdditionalOptionsEditor />
     </div>
   );
 }
