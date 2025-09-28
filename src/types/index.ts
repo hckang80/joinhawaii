@@ -12,7 +12,7 @@ import {
 
 export type Client = typeof defaultClientValues;
 export type Flight = typeof defaultFlightValues;
-export type Hotel = typeof defaultHotelValues;
+export type Hotel = typeof defaultHotelValues & { id?: number };
 export type Tour = typeof defaultTourValues;
 export type Car = typeof defaultCarValues;
 export type Insurance = typeof defaultInsuranceValues;

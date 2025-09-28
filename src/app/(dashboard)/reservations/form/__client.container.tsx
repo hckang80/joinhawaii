@@ -78,7 +78,8 @@ import styles from './page.module.css';
 
 const status$ = observable({
   reservationIndex: 0,
-  isAdditionalOptionsOpen: false
+  isAdditionalOptionsOpen: false,
+  additionalOptionsContext: {} as Partial<{ id: number; type: ProductType; title: string }>
 });
 
 function FlightTotalCalculator({
@@ -556,6 +557,11 @@ export default function ReservationsFormClientContainer({
 
   const addInsurance = () => {
     setValue('insurances', [...watch('insurances'), defaultInsuranceValues]);
+  };
+
+  const handleAdditionalOptions = (context: { id: number; type: ProductType; title: string }) => {
+    status$.additionalOptionsContext.set(context);
+    status$.isAdditionalOptionsOpen.set(true);
   };
 
   return (
@@ -1201,9 +1207,16 @@ export default function ReservationsFormClientContainer({
                       </Table.Cell>
                       <Table.Cell>
                         <Button
+                          disabled={!getValues(`hotels.${i}.id`)}
                           title='추가옵션'
                           type='button'
-                          onClick={() => status$.isAdditionalOptionsOpen.set(true)}
+                          onClick={() =>
+                            handleAdditionalOptions({
+                              id: Number(getValues(`hotels.${i}.id`)),
+                              type: 'hotel',
+                              title: getValues(`hotels.${i}.hotel_name`)
+                            })
+                          }
                         >
                           <Plus size={16} />
                         </Button>
