@@ -79,7 +79,12 @@ import styles from './page.module.css';
 const status$ = observable({
   reservationIndex: 0,
   isAdditionalOptionsOpen: false,
-  additionalOptionsContext: {} as Partial<{ id: number; type: ProductType; title: string }>
+  additionalOptionsContext: {} as Partial<{
+    id: number;
+    type: ProductType;
+    title: string;
+    data: AdditionalOptions[];
+  }>
 });
 
 function FlightTotalCalculator({
@@ -262,7 +267,12 @@ function AdditionalOptionsEditor({
     defaultValues: values
   });
   const isOpen = use$(status$.isAdditionalOptionsOpen);
-  const { id, type, title } = use$(status$.additionalOptionsContext);
+  const {
+    id,
+    type,
+    title,
+    data = [defaultAdditionalOptionValues]
+  } = use$(status$.additionalOptionsContext);
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={open => status$.isAdditionalOptionsOpen.set(open)}>
@@ -271,7 +281,7 @@ function AdditionalOptionsEditor({
         <Dialog.Description size='2' mb='4'>
           Make changes to your profile.
         </Dialog.Description>
-        <pre>{JSON.stringify(values, null, 2)}</pre>
+        <pre>{JSON.stringify(data, null, 2)}</pre>
         {/* <Table.Root size='1'>
           <Table.Header>
             <Table.Row>
@@ -560,7 +570,12 @@ export default function ReservationsFormClientContainer({
     setValue('insurances', [...watch('insurances'), defaultInsuranceValues]);
   };
 
-  const handleAdditionalOptions = (context: { id: number; type: ProductType; title: string }) => {
+  const handleAdditionalOptions = (context: {
+    id: number;
+    type: ProductType;
+    title: string;
+    data: AdditionalOptions[];
+  }) => {
     status$.additionalOptionsContext.set(context);
     status$.isAdditionalOptionsOpen.set(true);
   };
@@ -1215,7 +1230,8 @@ export default function ReservationsFormClientContainer({
                             handleAdditionalOptions({
                               id: Number(getValues(`hotels.${i}.id`)),
                               type: 'hotel',
-                              title: getValues(`hotels.${i}.hotel_name`)
+                              title: getValues(`hotels.${i}.hotel_name`),
+                              data: getValues(`hotels.${i}.additional_options`)
                             })
                           }
                         >

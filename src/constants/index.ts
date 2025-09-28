@@ -17,6 +17,10 @@ export enum ProductStatus {
   Refunded = '환불완료'
 }
 
+const additionalOptions = {
+  additional_options: []
+};
+
 export const defaultClientValues = {
   korean_name: '',
   english_name: '',
@@ -57,7 +61,8 @@ export const defaultFlightValues = {
   arrival_datetime: '',
   arrival_city: '',
   ...defaultPeopleValues,
-  ...defaultProductValues
+  ...defaultProductValues,
+  ...additionalOptions
 };
 
 export const defaultHotelValues = {
@@ -71,7 +76,8 @@ export const defaultHotelValues = {
   nights: 1,
   nightly_rate: 0,
   cost: 0,
-  ...defaultProductValues
+  ...defaultProductValues,
+  ...additionalOptions
 };
 
 export const defaultTourValues = {
@@ -80,7 +86,8 @@ export const defaultTourValues = {
   end_date: '',
   name: '',
   ...defaultPeopleValues,
-  ...defaultProductValues
+  ...defaultProductValues,
+  ...additionalOptions
 };
 
 export const defaultCarValues = {
@@ -95,7 +102,8 @@ export const defaultCarValues = {
   rental_days: 1,
   daily_rate: 0,
   cost: 0,
-  ...defaultProductValues
+  ...defaultProductValues,
+  ...additionalOptions
 };
 
 export const defaultInsuranceValues = {
@@ -104,7 +112,8 @@ export const defaultInsuranceValues = {
   start_date: '',
   end_date: '',
   ...defaultPeopleValues,
-  ...defaultProductValues
+  ...defaultProductValues,
+  ...additionalOptions
 };
 
 export const defaultAdditionalOptionValues = {
