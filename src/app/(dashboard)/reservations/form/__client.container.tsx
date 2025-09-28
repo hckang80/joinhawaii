@@ -262,11 +262,12 @@ function AdditionalOptionsEditor({
     defaultValues: values
   });
   const isOpen = use$(status$.isAdditionalOptionsOpen);
+  const { id, type, title } = use$(status$.additionalOptionsContext);
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={open => status$.isAdditionalOptionsOpen.set(open)}>
       <Dialog.Content size='1' maxWidth='1000px'>
-        <Dialog.Title>Edit profile</Dialog.Title>
+        <Dialog.Title>{title}</Dialog.Title>
         <Dialog.Description size='2' mb='4'>
           Make changes to your profile.
         </Dialog.Description>
