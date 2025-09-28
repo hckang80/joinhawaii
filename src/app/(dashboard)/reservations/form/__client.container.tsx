@@ -256,16 +256,7 @@ function InsuranceTotalCalculator({
   return null;
 }
 
-function AdditionalOptionsEditor({
-  values = [defaultAdditionalOptionValues]
-}: {
-  values?: AdditionalOptions[];
-}) {
-  const {
-    formState: {}
-  } = useForm<AdditionalOptions[]>({
-    defaultValues: values
-  });
+function AdditionalOptionsEditor() {
   const isOpen = use$(status$.isAdditionalOptionsOpen);
   const {
     id,
@@ -273,6 +264,13 @@ function AdditionalOptionsEditor({
     title,
     data = [defaultAdditionalOptionValues]
   } = use$(status$.additionalOptionsContext);
+
+  const {
+    watch,
+    formState: {}
+  } = useForm<AdditionalOptions[]>({
+    defaultValues: data
+  });
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={open => status$.isAdditionalOptionsOpen.set(open)}>
