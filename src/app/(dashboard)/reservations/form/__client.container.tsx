@@ -277,7 +277,7 @@ function AdditionalOptionsEditor() {
       <Dialog.Content maxWidth='1000px'>
         <Dialog.Title>{title}</Dialog.Title>
         <Dialog.Description size='2' mb='4'>
-          Make changes to your profile.
+          날짜 표시 영역
         </Dialog.Description>
         <pre>{JSON.stringify(data, null, 2)}</pre>
         {/* <Table.Root size='1'>
@@ -577,7 +577,6 @@ export default function ReservationsFormClientContainer({
     status$.additionalOptionsContext.set(context);
     status$.isAdditionalOptionsOpen.set(true);
   };
-
   return (
     <div className={styles.root}>
       <Heading as='h2' mb='4' size='7'>
