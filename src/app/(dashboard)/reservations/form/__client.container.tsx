@@ -266,10 +266,12 @@ function AdditionalOptionsEditor() {
   } = use$(status$.additionalOptionsContext);
 
   const {
-    watch,
+    control,
+    getValues,
+    register,
     formState: {}
-  } = useForm<AdditionalOptions[]>({
-    defaultValues: data
+  } = useForm<{ additionalOptions: AdditionalOptions[] }>({
+    defaultValues: { additionalOptions: data }
   });
 
   return (
@@ -280,7 +282,7 @@ function AdditionalOptionsEditor() {
           날짜 표시 영역
         </Dialog.Description>
         <pre>{JSON.stringify(data, null, 2)}</pre>
-        {/* <Table.Root size='1'>
+        <Table.Root size='1'>
           <Table.Header>
             <Table.Row>
               <Table.ColumnHeaderCell width='70px'>환율 관리</Table.ColumnHeaderCell>
@@ -292,150 +294,152 @@ function AdditionalOptionsEditor() {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            <Table.Row>
-              <Table.Cell>
-                <Text size='1' as='label'>
-                  변경{' '}
-                  <Controller
-                    name={`hotels.${i}.is_updated_exchange_rate`}
-                    control={control}
-                    render={({ field }) => (
-                      <Checkbox
-                        size='3'
-                        checked={field.value}
-                        onCheckedChange={value => {
-                          field.onChange(value);
-                        }}
+            {getValues('additionalOptions').map((item, i) => (
+              <Table.Row key={i}>
+                <Table.Cell>
+                  <Text size='1' as='label'>
+                    변경{' '}
+                    <Controller
+                      name={`additionalOptions.${i}.is_updated_exchange_rate`}
+                      control={control}
+                      render={({ field }) => (
+                        <Checkbox
+                          size='3'
+                          checked={field.value}
+                          onCheckedChange={value => {
+                            field.onChange(value);
+                          }}
+                        />
+                      )}
+                    />
+                  </Text>
+                  <Text as='div' size='1' mt='1' weight='bold'>
+                    {item.exchange_rate}
+                  </Text>
+                </Table.Cell>
+                <Table.Cell>
+                  <TextField.Root {...register(`additionalOptions.${i}.notes`)} />
+                </Table.Cell>
+                <Table.Cell>
+                  <Grid gap='2'>
+                    <Flex direction='column'>
+                      <span>🧑성인</span>
+                      <TextField.Root
+                        type='number'
+                        min='0'
+                        {...register(`additionalOptions.${i}.adult_cost`, {
+                          required: true,
+                          valueAsNumber: true
+                        })}
                       />
-                    )}
-                  />
-                </Text>
-                <Text as='div' size='1' mt='1' weight='bold'>
-                  {hotel.exchange_rate}
-                </Text>
-              </Table.Cell>
-              <Table.Cell>
-                <TextField.Root {...register(`hotels.${i}.notes`)} />
-              </Table.Cell>
-              <Table.Cell>
-                <Grid gap='2'>
-                  <Flex direction='column'>
-                    <span>🧑성인</span>
-                    <TextField.Root
-                      type='number'
-                      min='0'
-                      {...register(`tours.${i}.adult_cost`, {
-                        required: true,
-                        valueAsNumber: true
-                      })}
-                    />
-                  </Flex>
-                  <Flex direction='column'>
-                    <span>🧒소아</span>
-                    <TextField.Root
-                      type='number'
-                      min='0'
-                      {...register(`tours.${i}.children_cost`, {
-                        required: true,
-                        valueAsNumber: true
-                      })}
-                    />
-                  </Flex>
-                  <Flex direction='column'>
-                    <span>👶유아</span>
-                    <TextField.Root
-                      type='number'
-                      min='0'
-                      readOnly
-                      {...register(`tours.${i}.kids_cost`, {
-                        required: true,
-                        valueAsNumber: true
-                      })}
-                    />
-                  </Flex>
-                </Grid>
-              </Table.Cell>
-              <Table.Cell>
-                <Grid gap='2'>
-                  <Flex direction='column'>
-                    <span>🧑성인</span>
-                    <TextField.Root
-                      type='number'
-                      min='0'
-                      {...register(`tours.${i}.adult_price`, {
-                        required: true,
-                        valueAsNumber: true
-                      })}
-                    />
-                  </Flex>
-                  <Flex direction='column'>
-                    <span>🧒소아</span>
-                    <TextField.Root
-                      type='number'
-                      min='0'
-                      {...register(`tours.${i}.children_price`, {
-                        required: true,
-                        valueAsNumber: true
-                      })}
-                    />
-                  </Flex>
-                  <Flex direction='column'>
-                    <span>👶유아</span>
-                    <TextField.Root
-                      type='number'
-                      min='0'
-                      readOnly
-                      {...register(`tours.${i}.kids_price`, {
-                        required: true,
-                        valueAsNumber: true
-                      })}
-                    />
-                  </Flex>
-                </Grid>
-              </Table.Cell>
-              <Table.Cell>
-                <Grid gap='2'>
-                  <Flex direction='column'>
-                    <span>🧑성인</span>
-                    <TextField.Root
-                      type='number'
-                      min='0'
-                      {...register(`tours.${i}.adult_count`, {
-                        required: true,
-                        valueAsNumber: true
-                      })}
-                    />
-                  </Flex>
-                  <Flex direction='column'>
-                    <span>🧒소아</span>
-                    <TextField.Root
-                      type='number'
-                      min='0'
-                      {...register(`tours.${i}.children_count`, {
-                        required: true,
-                        valueAsNumber: true
-                      })}
-                    />
-                  </Flex>
-                  <Flex direction='column'>
-                    <span>👶유아</span>
-                    <TextField.Root
-                      type='number'
-                      min='0'
-                      {...register(`tours.${i}.kids_count`, {
-                        required: true,
-                        valueAsNumber: true
-                      })}
-                    />
-                  </Flex>
-                </Grid>
-              </Table.Cell>
-              <Table.Cell>
-                <TextField.Root {...register(`hotels.${i}.notes`)} />
-              </Table.Cell>
-            </Table.Row>
+                    </Flex>
+                    <Flex direction='column'>
+                      <span>🧒소아</span>
+                      <TextField.Root
+                        type='number'
+                        min='0'
+                        {...register(`additionalOptions.${i}.children_cost`, {
+                          required: true,
+                          valueAsNumber: true
+                        })}
+                      />
+                    </Flex>
+                    <Flex direction='column'>
+                      <span>👶유아</span>
+                      <TextField.Root
+                        type='number'
+                        min='0'
+                        readOnly
+                        {...register(`additionalOptions.${i}.kids_cost`, {
+                          required: true,
+                          valueAsNumber: true
+                        })}
+                      />
+                    </Flex>
+                  </Grid>
+                </Table.Cell>
+                <Table.Cell>
+                  <Grid gap='2'>
+                    <Flex direction='column'>
+                      <span>🧑성인</span>
+                      <TextField.Root
+                        type='number'
+                        min='0'
+                        {...register(`additionalOptions.${i}.adult_price`, {
+                          required: true,
+                          valueAsNumber: true
+                        })}
+                      />
+                    </Flex>
+                    <Flex direction='column'>
+                      <span>🧒소아</span>
+                      <TextField.Root
+                        type='number'
+                        min='0'
+                        {...register(`additionalOptions.${i}.children_price`, {
+                          required: true,
+                          valueAsNumber: true
+                        })}
+                      />
+                    </Flex>
+                    <Flex direction='column'>
+                      <span>👶유아</span>
+                      <TextField.Root
+                        type='number'
+                        min='0'
+                        readOnly
+                        {...register(`additionalOptions.${i}.kids_price`, {
+                          required: true,
+                          valueAsNumber: true
+                        })}
+                      />
+                    </Flex>
+                  </Grid>
+                </Table.Cell>
+                <Table.Cell>
+                  <Grid gap='2'>
+                    <Flex direction='column'>
+                      <span>🧑성인</span>
+                      <TextField.Root
+                        type='number'
+                        min='0'
+                        {...register(`additionalOptions.${i}.adult_count`, {
+                          required: true,
+                          valueAsNumber: true
+                        })}
+                      />
+                    </Flex>
+                    <Flex direction='column'>
+                      <span>🧒소아</span>
+                      <TextField.Root
+                        type='number'
+                        min='0'
+                        {...register(`additionalOptions.${i}.children_count`, {
+                          required: true,
+                          valueAsNumber: true
+                        })}
+                      />
+                    </Flex>
+                    <Flex direction='column'>
+                      <span>👶유아</span>
+                      <TextField.Root
+                        type='number'
+                        min='0'
+                        {...register(`additionalOptions.${i}.kids_count`, {
+                          required: true,
+                          valueAsNumber: true
+                        })}
+                      />
+                    </Flex>
+                  </Grid>
+                </Table.Cell>
+                <Table.Cell>
+                  <TextField.Root {...register(`additionalOptions.${i}.notes`)} />
+                </Table.Cell>
+              </Table.Row>
+            ))}
           </Table.Body>
-        </Table.Root> */}
+        </Table.Root>
       </Dialog.Content>
     </Dialog.Root>
   );
