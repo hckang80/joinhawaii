@@ -298,7 +298,6 @@ function AdditionalOptionsEditor() {
         <Dialog.Description size='2' mb='4'>
           날짜 표시 영역
         </Dialog.Description>
-        {isDev() && <pre>{JSON.stringify(watch('additionalOptions'), null, 2)}</pre>}
         <Table.Root size='1'>
           <Table.Header>
             <Table.Row>
@@ -499,6 +498,7 @@ function AdditionalOptionsEditor() {
             상품 추가
           </Button>
         </Flex>
+        {isDev() && <pre>{JSON.stringify(watch('additionalOptions'), null, 2)}</pre>}
       </Dialog.Content>
     </Dialog.Root>
   );
