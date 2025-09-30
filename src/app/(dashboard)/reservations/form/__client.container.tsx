@@ -266,6 +266,7 @@ function AdditionalOptionsEditor() {
   } = use$(status$.additionalOptionsContext);
 
   const {
+    watch,
     control,
     getValues,
     register,
@@ -281,7 +282,7 @@ function AdditionalOptionsEditor() {
         <Dialog.Description size='2' mb='4'>
           날짜 표시 영역
         </Dialog.Description>
-        <pre>{JSON.stringify(data, null, 2)}</pre>
+        <pre>{JSON.stringify(watch('additionalOptions'), null, 2)}</pre>
         <Table.Root size='1'>
           <Table.Header>
             <Table.Row>
@@ -290,6 +291,7 @@ function AdditionalOptionsEditor() {
               <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell width='80px'>💰요금</Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell width='70px'>수량</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell width='110px'>진행상태</Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell>비고</Table.ColumnHeaderCell>
             </Table.Row>
           </Table.Header>
@@ -432,6 +434,32 @@ function AdditionalOptionsEditor() {
                       />
                     </Flex>
                   </Grid>
+                </Table.Cell>
+                <Table.Cell>
+                  <Controller
+                    name={`additionalOptions.${i}.status`}
+                    control={control}
+                    render={({ field }) => (
+                      <Select.Root
+                        value={field.value}
+                        onValueChange={value => {
+                          field.onChange(value);
+                        }}
+                        name={field.name}
+                      >
+                        <Select.Trigger color={PRODUCT_STATUS_COLOR[field.value]} variant='soft'>
+                          {ProductStatus[field.value]}
+                        </Select.Trigger>
+                        <Select.Content>
+                          {Object.entries(ProductStatus).map(([key, label]) => (
+                            <Select.Item key={key} value={key}>
+                              {label}
+                            </Select.Item>
+                          ))}
+                        </Select.Content>
+                      </Select.Root>
+                    )}
+                  />
                 </Table.Cell>
                 <Table.Cell>
                   <TextField.Root {...register(`additionalOptions.${i}.notes`)} />
