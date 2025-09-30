@@ -269,11 +269,27 @@ function AdditionalOptionsEditor() {
     watch,
     control,
     getValues,
+    setValue,
     register,
     formState: {}
   } = useForm<{ additionalOptions: AdditionalOptions[] }>({
     defaultValues: { additionalOptions: data }
   });
+
+  const addAdditionalOption = () => {
+    setValue('additionalOptions', [...watch('additionalOptions'), defaultAdditionalOptionValues]);
+  };
+
+  const removeItem = () => {
+    const items = getValues('additionalOptions');
+    setValue('additionalOptions', items.slice(0, -1));
+  };
+
+  const isRemoveProductDisabled = () => {
+    const minLength = 1;
+    // const minLength = data?.products[target]?.length || 1;
+    return getValues('additionalOptions').length <= minLength;
+  };
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={open => status$.isAdditionalOptionsOpen.set(open)}>
@@ -468,6 +484,21 @@ function AdditionalOptionsEditor() {
             ))}
           </Table.Body>
         </Table.Root>
+        <Flex justify='end' mt='4' gap='1'>
+          <Button
+            type='button'
+            color='ruby'
+            variant='soft'
+            onClick={() => removeItem()}
+            disabled={isRemoveProductDisabled()}
+          >
+            <Minus size='20' /> 삭제
+          </Button>
+          <Button type='button' color='ruby' onClick={addAdditionalOption}>
+            <Hotel size='20' />
+            상품 추가
+          </Button>
+        </Flex>
       </Dialog.Content>
     </Dialog.Root>
   );
