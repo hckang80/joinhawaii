@@ -495,7 +495,7 @@ function AdditionalOptionsEditor() {
             <Minus size='20' /> 삭제
           </Button>
           <Button type='button' color='ruby' onClick={addAdditionalOption}>
-            <Hotel size='20' />
+            <Plus size='20' />
             상품 추가
           </Button>
         </Flex>
