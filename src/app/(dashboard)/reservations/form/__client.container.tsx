@@ -64,7 +64,7 @@ import {
 } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import {
   type Control,
   Controller,
@@ -258,12 +258,17 @@ function InsuranceTotalCalculator({
 
 function AdditionalOptionsEditor() {
   const isOpen = use$(status$.isAdditionalOptionsOpen);
-  const {
-    id,
-    type,
-    title,
-    data = [defaultAdditionalOptionValues]
-  } = use$(status$.additionalOptionsContext);
+
+  const { id = 0, type = 'hotel', title, data } = use$(() => status$.additionalOptionsContext);
+
+  const defaultValue = useMemo(
+    () => ({
+      ...defaultAdditionalOptionValues,
+      pid: id,
+      type
+    }),
+    [id, type]
+  );
 
   const {
     watch,
@@ -273,11 +278,16 @@ function AdditionalOptionsEditor() {
     register,
     formState: {}
   } = useForm<{ additionalOptions: AdditionalOptions[] }>({
-    defaultValues: { additionalOptions: data }
+    defaultValues: { additionalOptions: [defaultValue] }
   });
 
+  useEffect(() => {
+    if (data) return;
+    setValue('additionalOptions', [defaultValue]);
+  }, [defaultValue, data, setValue]);
+
   const addAdditionalOption = () => {
-    setValue('additionalOptions', [...watch('additionalOptions'), defaultAdditionalOptionValues]);
+    setValue('additionalOptions', [...watch('additionalOptions'), defaultValue]);
   };
 
   const removeItem = () => {
@@ -1291,7 +1301,11 @@ export default function ReservationsFormClientContainer({
                               id: Number(getValues(`hotels.${i}.id`)),
                               type: 'hotel',
                               title: getValues(`hotels.${i}.hotel_name`),
-                              data: getValues(`hotels.${i}.additional_options`)
+                              data: getValues(`hotels.${i}.additional_options`)?.map(item => ({
+                                ...item,
+                                pid: Number(getValues(`hotels.${i}.id`)),
+                                type: 'hotel'
+                              }))
                             })
                           }
                         >

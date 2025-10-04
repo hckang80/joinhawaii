@@ -1,5 +1,5 @@
 import type { selectTriggerPropDefs } from '@radix-ui/themes/components/select.props';
-import type { ProductStatusKey, ProductType } from '../types';
+import type { AdditionalOptions, ProductStatusKey, ProductType } from '../types';
 
 export * from './query-keys';
 
@@ -18,7 +18,7 @@ export enum ProductStatus {
 }
 
 const additionalOptions = {
-  additional_options: []
+  additional_options: [] as AdditionalOptions[]
 };
 
 export const defaultClientValues = {
