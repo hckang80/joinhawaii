@@ -311,7 +311,7 @@ function AdditionalOptionsEditor() {
         <Table.Root size='1'>
           <Table.Header>
             <Table.Row>
-              <Table.ColumnHeaderCell width='70px'>환율 관리</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell width='90px'>환율</Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell width='200px'>내용</Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell width='80px'>💰요금</Table.ColumnHeaderCell>
