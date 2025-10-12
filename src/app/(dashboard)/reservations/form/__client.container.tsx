@@ -321,28 +321,32 @@ function AdditionalOptionsEditor() {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {getValues('additionalOptions').map((item, i) => (
+            {getValues('additionalOptions').map((_item, i) => (
               <Table.Row key={i}>
                 <Table.Cell>
-                  <Text size='1' as='label'>
-                    변경{' '}
-                    <Controller
-                      name={`additionalOptions.${i}.is_updated_exchange_rate`}
-                      control={control}
-                      render={({ field }) => (
-                        <Checkbox
-                          size='3'
-                          checked={field.value}
-                          onCheckedChange={value => {
-                            field.onChange(value);
-                          }}
-                        />
-                      )}
-                    />
-                  </Text>
-                  <Text as='div' size='1' mt='1' weight='bold'>
-                    {item.exchange_rate}
-                  </Text>
+                  <Controller
+                    name={`additionalOptions.${i}.exchange_rate`}
+                    control={control}
+                    render={({ field }) => (
+                      <TextField.Root
+                        type='number'
+                        min='0'
+                        step='0.01'
+                        value={field.value}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                          const { value } = e.target;
+                          if (!value) return field.onChange(value);
+
+                          const [integer, decimal] = value.split('.');
+                          const formattedValue = decimal
+                            ? `${integer.slice(0, 4)}.${decimal.slice(0, 2)}`
+                            : integer.slice(0, 4);
+
+                          field.onChange(+formattedValue);
+                        }}
+                      />
+                    )}
+                  />
                 </Table.Cell>
                 <Table.Cell>
                   <TextField.Root {...register(`additionalOptions.${i}.notes`)} />
