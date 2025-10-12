@@ -349,7 +349,7 @@ function AdditionalOptionsEditor() {
                   />
                 </Table.Cell>
                 <Table.Cell>
-                  <TextField.Root {...register(`additionalOptions.${i}.notes`)} />
+                  <TextField.Root {...register(`additionalOptions.${i}.title`)} />
                 </Table.Cell>
                 <Table.Cell>
                   <Grid gap='2'>

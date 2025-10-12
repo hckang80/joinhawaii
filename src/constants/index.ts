@@ -119,6 +119,7 @@ export const defaultInsuranceValues = {
 export const defaultAdditionalOptionValues = {
   pid: 0,
   type: '' as ProductType,
+  title: '',
   ...defaultPeopleValues,
   ...defaultProductValues
 };
