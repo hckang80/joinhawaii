@@ -7,7 +7,7 @@ export async function POST(request: Request) {
     const body: AdditionalOptions = await request.json();
     const supabase = await createClient<Database>();
 
-    const { data, error } = await supabase.from('options').insert([body]).select().single();
+    const { data, error } = await supabase.from('options').insert([body]).select();
 
     if (error) {
       console.error('추가 옵션 등록 실패:', error);
@@ -15,7 +15,7 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({
-      message: `[${data.title}] 옵션이 등록되었습니다`,
+      message: `추가 옵션이 등록되었습니다`,
       success: true,
       data
     });
