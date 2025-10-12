@@ -1,4 +1,5 @@
 import type {
+  AdditionalOptions,
   AllProducts,
   ApiResponse,
   ReservationFormData,
@@ -116,3 +117,19 @@ export const updateReservation = async (data: ReservationFormData) => {
 
   return result;
 };
+
+export async function createAdditionalOptions(data: AdditionalOptions[]) {
+  const response = await fetch('/api/product/options', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  });
+
+  if (!response.ok) {
+    throw new Error('추가 상품 생성 중 오류가 발생했습니다.');
+  }
+
+  return response.json();
+}
