@@ -121,7 +121,8 @@ export const defaultAdditionalOptionValues = {
   type: '' as ProductType,
   title: '',
   ...defaultPeopleValues,
-  ...defaultProductValues
+  ...defaultProductValues,
+  is_updated_exchange_rate: undefined
 };
 
 export const PRODUCT_STATUS_COLOR: Record<

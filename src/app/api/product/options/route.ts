@@ -4,10 +4,10 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
   try {
-    const body: AdditionalOptions = await request.json();
+    const body: AdditionalOptions[] = await request.json();
     const supabase = await createClient<Database>();
 
-    const { data, error } = await supabase.from('options').insert([body]).select();
+    const { data, error } = await supabase.from('options').insert(body).select();
 
     if (error) {
       console.error('추가 옵션 등록 실패:', error);
