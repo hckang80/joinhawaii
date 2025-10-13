@@ -82,22 +82,35 @@ export async function GET(request: Request) {
         return NextResponse.json({ success: true, data: null });
       }
 
+      async function fetchOptions(pid: number, type: string) {
+        const { data } = await supabase.from('options').select('*').eq('pid', pid).eq('type', type);
+        return data ?? [];
+      }
+
       const { flights, hotels, tours, rental_cars, insurances, ...rest } = reservation;
 
-      const addKoreanWonFields = (products: ProductValues[]) => {
-        return products.map(product => ({
-          ...product,
-          options: [],
-          total_amount_krw: Math.round(product.total_amount * product.exchange_rate),
-          cost_amount_krw: Math.round(product.total_cost * product.exchange_rate)
-        }));
+      const addKoreanWonFields = async (products: ProductValues[]) => {
+        console.log({ products });
+        return Promise.all(
+          products.map(async product => ({
+            ...product,
+            // options: [],
+            // options: await fetchOptions(product.id, type),
+            options: await fetchOptions(18, 'hotel'),
+            total_amount_krw: Math.round(product.total_amount * product.exchange_rate),
+            cost_amount_krw: Math.round(product.total_cost * product.exchange_rate)
+          }))
+        );
       };
 
-      const flightsWithKrw = addKoreanWonFields(flights);
-      const hotelsWithKrw = addKoreanWonFields(hotels);
-      const toursWithKrw = addKoreanWonFields(tours);
-      const carsWithKrw = addKoreanWonFields(rental_cars);
-      const insurancesWithKrw = addKoreanWonFields(insurances || []);
+      const [flightsWithKrw, hotelsWithKrw, toursWithKrw, carsWithKrw, insurancesWithKrw] =
+        await Promise.all([
+          addKoreanWonFields(flights),
+          addKoreanWonFields(hotels),
+          addKoreanWonFields(tours),
+          addKoreanWonFields(rental_cars),
+          addKoreanWonFields(insurances || [])
+        ]);
 
       const calculateTotal = (products: ProductValues[]) => {
         return products.reduce(
