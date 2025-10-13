@@ -83,7 +83,12 @@ export async function GET(request: Request) {
       }
 
       async function fetchOptions(pid: number, type: string) {
-        const { data } = await supabase.from('options').select('*').eq('pid', pid).eq('type', type);
+        const { data } = await supabase
+          .from('options')
+          .select('*')
+          .eq('pid', pid)
+          .eq('type', type)
+          .order('id', { ascending: true });
         return data ?? [];
       }
 
