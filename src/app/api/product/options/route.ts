@@ -31,3 +31,33 @@ export async function POST(request: Request) {
     );
   }
 }
+
+export async function GET(request: Request) {
+  try {
+    const supabase = await createClient<Database>();
+    const { data, error } = await supabase
+      .from('options')
+      .select('*')
+      .order('id', { ascending: false });
+
+    if (error) {
+      console.error('추가 옵션 조회 실패:', error);
+      throw error;
+    }
+
+    return NextResponse.json({
+      success: true,
+      data
+    });
+  } catch (error) {
+    console.error('추가 옵션 조회 에러:', error);
+    return NextResponse.json(
+      {
+        success: false,
+        error: error instanceof Error ? error.message : '추가 옵션 조회 실패',
+        details: error
+      },
+      { status: 500 }
+    );
+  }
+}

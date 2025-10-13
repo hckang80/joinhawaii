@@ -133,3 +133,27 @@ export async function createAdditionalOptions(data: AdditionalOptions[]) {
 
   return response.json();
 }
+
+export async function getAdditionalOptions(): Promise<AdditionalOptions[]> {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  const url = `${baseUrl}/api/product/options`;
+
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  if (!response.ok) {
+    throw new Error('추가 옵션 조회 중 오류가 발생했습니다.');
+  }
+
+  const result = await response.json();
+
+  if (!result.success) {
+    throw new Error(result.error || '추가 옵션 조회 실패');
+  }
+
+  return result.data;
+}
