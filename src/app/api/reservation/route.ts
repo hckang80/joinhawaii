@@ -82,21 +82,37 @@ export async function GET(request: Request) {
         return NextResponse.json({ success: true, data: null });
       }
 
+      async function fetchOptions(pid: number, type: string) {
+        const { data } = await supabase
+          .from('options')
+          .select('*')
+          .eq('pid', pid)
+          .eq('type', type)
+          .order('id', { ascending: true });
+        return data ?? [];
+      }
+
       const { flights, hotels, tours, rental_cars, insurances, ...rest } = reservation;
 
-      const addKoreanWonFields = (products: ProductValues[]) => {
-        return products.map(product => ({
-          ...product,
-          total_amount_krw: Math.round(product.total_amount * product.exchange_rate),
-          cost_amount_krw: Math.round(product.total_cost * product.exchange_rate)
-        }));
+      const addKoreanWonFields = async (products: ProductValues[]) => {
+        return Promise.all(
+          products.map(async product => ({
+            ...product,
+            additional_options: await fetchOptions(Number(product.id), product.type),
+            total_amount_krw: Math.round(product.total_amount * product.exchange_rate),
+            cost_amount_krw: Math.round(product.total_cost * product.exchange_rate)
+          }))
+        );
       };
 
-      const flightsWithKrw = addKoreanWonFields(flights);
-      const hotelsWithKrw = addKoreanWonFields(hotels);
-      const toursWithKrw = addKoreanWonFields(tours);
-      const carsWithKrw = addKoreanWonFields(rental_cars);
-      const insurancesWithKrw = addKoreanWonFields(insurances || []);
+      const [flightsWithKrw, hotelsWithKrw, toursWithKrw, carsWithKrw, insurancesWithKrw] =
+        await Promise.all([
+          addKoreanWonFields(flights.map(item => ({ ...item, type: 'flight' }))),
+          addKoreanWonFields(hotels.map(item => ({ ...item, type: 'hotel' }))),
+          addKoreanWonFields(tours.map(item => ({ ...item, type: 'tour' }))),
+          addKoreanWonFields(rental_cars.map(item => ({ ...item, type: 'rental_car' }))),
+          addKoreanWonFields(insurances.map(item => ({ ...item, type: 'insurance' })))
+        ]);
 
       const calculateTotal = (products: ProductValues[]) => {
         return products.reduce(

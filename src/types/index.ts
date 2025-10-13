@@ -1,4 +1,5 @@
 import {
+  defaultAdditionalOptionValues,
   defaultCarValues,
   defaultClientValues,
   defaultFlightValues,
@@ -10,13 +11,18 @@ import {
 } from '../constants';
 
 export type Client = typeof defaultClientValues;
-export type Flight = typeof defaultFlightValues;
-export type Hotel = typeof defaultHotelValues;
-export type Tour = typeof defaultTourValues;
-export type Car = typeof defaultCarValues;
-export type Insurance = typeof defaultInsuranceValues;
+export type Flight = typeof defaultFlightValues & { id?: number };
+export type Hotel = typeof defaultHotelValues & { id?: number };
+export type Tour = typeof defaultTourValues & { id?: number };
+export type Car = typeof defaultCarValues & { id?: number };
+export type Insurance = typeof defaultInsuranceValues & { id?: number };
 export type ProductStatusKey = keyof typeof ProductStatus;
-export type ProductValues = typeof defaultProductValues;
+export type ProductValues = typeof defaultProductValues & {
+  id?: number;
+  type: ProductType;
+};
+
+export type AdditionalOptions = typeof defaultAdditionalOptionValues & { id?: number };
 
 export type AllProducts = {
   id: number;
@@ -47,6 +53,7 @@ export type BaseRow = {
   id: number;
   reservation_id: number;
   created_at: string;
+  additional_options: AdditionalOptions[];
 };
 
 export interface ReservationItem {
