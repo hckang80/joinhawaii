@@ -514,26 +514,26 @@ function AdditionalOptionsEditor() {
               ))}
             </Table.Body>
           </Table.Root>
-          <Button disabled={mutation.isPending} color='ruby' size='3'>
-            <Save />
-            변경사항 저장
-          </Button>
+          <Flex justify='end' mt='4' gap='1'>
+            <Button disabled={mutation.isPending} variant='outline'>
+              <Save />
+              변경사항 저장
+            </Button>
+            <Button
+              type='button'
+              color='ruby'
+              variant='soft'
+              onClick={() => removeItem()}
+              disabled={isRemoveProductDisabled()}
+            >
+              <Minus size='20' /> 삭제
+            </Button>
+            <Button type='button' color='ruby' onClick={addAdditionalOption}>
+              <Plus size='20' />
+              상품 추가
+            </Button>
+          </Flex>
         </form>
-        <Flex justify='end' mt='4' gap='1'>
-          <Button
-            type='button'
-            color='ruby'
-            variant='soft'
-            onClick={() => removeItem()}
-            disabled={isRemoveProductDisabled()}
-          >
-            <Minus size='20' /> 삭제
-          </Button>
-          <Button type='button' color='ruby' onClick={addAdditionalOption}>
-            <Plus size='20' />
-            상품 추가
-          </Button>
-        </Flex>
         {isDev() && <pre>{JSON.stringify(watch('additionalOptions'), null, 2)}</pre>}
       </Dialog.Content>
     </Dialog.Root>
