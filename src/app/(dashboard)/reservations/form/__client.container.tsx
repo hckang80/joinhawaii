@@ -1396,6 +1396,7 @@ export default function ReservationsFormClientContainer({
                     <Table.ColumnHeaderCell width='80px'>💰요금</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='70px'>수량</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='110px'>진행상태</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='70px'>추가옵션</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell>비고</Table.ColumnHeaderCell>
                   </Table.Row>
                 </Table.Header>
@@ -1612,6 +1613,23 @@ export default function ReservationsFormClientContainer({
                         />
                       </Table.Cell>
                       <Table.Cell>
+                        <Button
+                          disabled={!getValues(`tours.${i}.id`)}
+                          title='추가옵션'
+                          type='button'
+                          onClick={() =>
+                            handleAdditionalOptions({
+                              id: Number(getValues(`tours.${i}.id`)),
+                              type: 'tour',
+                              title: getValues(`tours.${i}.name`),
+                              data: getValues(`tours.${i}.additional_options`)
+                            })
+                          }
+                        >
+                          <Plus size={16} />
+                        </Button>
+                      </Table.Cell>
+                      <Table.Cell>
                         <TextField.Root {...register(`tours.${i}.notes`)} />
                       </Table.Cell>
                       <Table.Cell hidden>
@@ -1676,6 +1694,7 @@ export default function ReservationsFormClientContainer({
                     <Table.ColumnHeaderCell width='80px'>💰1일요금</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='70px'>대여일</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='110px'>진행상태</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='70px'>추가옵션</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell>비고</Table.ColumnHeaderCell>
                   </Table.Row>
                 </Table.Header>
@@ -1837,6 +1856,23 @@ export default function ReservationsFormClientContainer({
                         />
                       </Table.Cell>
                       <Table.Cell>
+                        <Button
+                          disabled={!getValues(`rental_cars.${i}.id`)}
+                          title='추가옵션'
+                          type='button'
+                          onClick={() =>
+                            handleAdditionalOptions({
+                              id: Number(getValues(`rental_cars.${i}.id`)),
+                              type: 'rental_car',
+                              title: getValues(`rental_cars.${i}.model`),
+                              data: getValues(`rental_cars.${i}.additional_options`)
+                            })
+                          }
+                        >
+                          <Plus size={16} />
+                        </Button>
+                      </Table.Cell>
+                      <Table.Cell>
                         <TextField.Root {...register(`rental_cars.${i}.notes`)} />
                       </Table.Cell>
                       <Table.Cell hidden>
@@ -1898,6 +1934,7 @@ export default function ReservationsFormClientContainer({
                     <Table.ColumnHeaderCell width='80px'>💰요금</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='70px'>수량</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='110px'>진행상태</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='70px'>추가옵션</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell>비고</Table.ColumnHeaderCell>
                   </Table.Row>
                 </Table.Header>
@@ -2098,6 +2135,23 @@ export default function ReservationsFormClientContainer({
                             </Select.Root>
                           )}
                         />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Button
+                          disabled={!getValues(`insurances.${i}.id`)}
+                          title='추가옵션'
+                          type='button'
+                          onClick={() =>
+                            handleAdditionalOptions({
+                              id: Number(getValues(`insurances.${i}.id`)),
+                              type: 'insurance',
+                              title: getValues(`insurances.${i}.company`),
+                              data: getValues(`insurances.${i}.additional_options`)
+                            })
+                          }
+                        >
+                          <Plus size={16} />
+                        </Button>
                       </Table.Cell>
                       <Table.Cell>
                         <TextField.Root {...register(`insurances.${i}.notes`)} />
