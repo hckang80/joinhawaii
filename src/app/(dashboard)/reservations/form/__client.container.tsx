@@ -13,7 +13,7 @@ import {
   ProductStatus,
   REGIONS
 } from '@/constants';
-import { createAdditionalOptions, createReservation, updateReservation } from '@/http';
+import { createReservation, updateAdditionalOptions, updateReservation } from '@/http';
 import { reservationQueryOptions } from '@/lib/queries';
 import type {
   AdditionalOptions,
@@ -284,7 +284,7 @@ function AdditionalOptionsEditor() {
 
   const mutation = useMutation({
     mutationFn: (formData: AdditionalOptions[]) => {
-      return createAdditionalOptions(formData);
+      return updateAdditionalOptions(formData);
     },
     onSuccess: (result: unknown) => {
       handleApiSuccess(result);

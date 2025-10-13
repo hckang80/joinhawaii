@@ -118,7 +118,7 @@ export const updateReservation = async (data: ReservationFormData) => {
   return result;
 };
 
-export async function createAdditionalOptions(data: AdditionalOptions[]) {
+export async function updateAdditionalOptions(data: AdditionalOptions[]) {
   const response = await fetch('/api/product/options', {
     method: 'POST',
     headers: {

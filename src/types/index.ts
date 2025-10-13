@@ -22,7 +22,7 @@ export type ProductValues = typeof defaultProductValues & {
   type: ProductType;
 };
 
-export type AdditionalOptions = typeof defaultAdditionalOptionValues;
+export type AdditionalOptions = typeof defaultAdditionalOptionValues & { id?: number };
 
 export type AllProducts = {
   id: number;
