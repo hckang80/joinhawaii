@@ -17,7 +17,10 @@ export type Tour = typeof defaultTourValues;
 export type Car = typeof defaultCarValues;
 export type Insurance = typeof defaultInsuranceValues;
 export type ProductStatusKey = keyof typeof ProductStatus;
-export type ProductValues = typeof defaultProductValues;
+export type ProductValues = typeof defaultProductValues & {
+  id?: number;
+  type: ProductType;
+};
 
 export type AdditionalOptions = typeof defaultAdditionalOptionValues;
 

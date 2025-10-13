@@ -90,13 +90,10 @@ export async function GET(request: Request) {
       const { flights, hotels, tours, rental_cars, insurances, ...rest } = reservation;
 
       const addKoreanWonFields = async (products: ProductValues[]) => {
-        console.log({ products });
         return Promise.all(
           products.map(async product => ({
             ...product,
-            // options: [],
-            // options: await fetchOptions(product.id, type),
-            options: await fetchOptions(18, 'hotel'),
+            additional_options: await fetchOptions(Number(product.id), product.type),
             total_amount_krw: Math.round(product.total_amount * product.exchange_rate),
             cost_amount_krw: Math.round(product.total_cost * product.exchange_rate)
           }))
@@ -105,11 +102,11 @@ export async function GET(request: Request) {
 
       const [flightsWithKrw, hotelsWithKrw, toursWithKrw, carsWithKrw, insurancesWithKrw] =
         await Promise.all([
-          addKoreanWonFields(flights),
-          addKoreanWonFields(hotels),
-          addKoreanWonFields(tours),
-          addKoreanWonFields(rental_cars),
-          addKoreanWonFields(insurances || [])
+          addKoreanWonFields(flights.map(item => ({ ...item, type: 'flight' }))),
+          addKoreanWonFields(hotels.map(item => ({ ...item, type: 'hotel' }))),
+          addKoreanWonFields(tours.map(item => ({ ...item, type: 'tour' }))),
+          addKoreanWonFields(rental_cars.map(item => ({ ...item, type: 'rental_car' }))),
+          addKoreanWonFields(insurances.map(item => ({ ...item, type: 'insurance' })))
         ]);
 
       const calculateTotal = (products: ProductValues[]) => {

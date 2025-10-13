@@ -298,8 +298,7 @@ function AdditionalOptionsEditor() {
   };
 
   useEffect(() => {
-    if (data) return;
-    setValue('additionalOptions', [defaultValue]);
+    setValue('additionalOptions', data || [defaultValue]);
   }, [defaultValue, data, setValue]);
 
   const addAdditionalOption = () => {
@@ -1328,11 +1327,7 @@ export default function ReservationsFormClientContainer({
                               id: Number(getValues(`hotels.${i}.id`)),
                               type: 'hotel',
                               title: getValues(`hotels.${i}.hotel_name`),
-                              data: getValues(`hotels.${i}.additional_options`)?.map(item => ({
-                                ...item,
-                                pid: Number(getValues(`hotels.${i}.id`)),
-                                type: 'hotel'
-                              }))
+                              data: getValues(`hotels.${i}.additional_options`)
                             })
                           }
                         >
