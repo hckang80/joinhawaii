@@ -298,7 +298,7 @@ function AdditionalOptionsEditor() {
   };
 
   useEffect(() => {
-    setValue('additionalOptions', data || [defaultValue]);
+    setValue('additionalOptions', data?.length ? data : [defaultValue]);
   }, [defaultValue, data, setValue]);
 
   const addAdditionalOption = () => {
