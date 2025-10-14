@@ -2252,7 +2252,7 @@ export default function ReservationsFormClientContainer({
               환율이 입력된 상품만 총액에 반영됩니다.
             </Text>
             <Flex justify='end' align='center' gap='2' mt='2'>
-              <Button disabled={mutation.isPending} size='3' color='ruby'>
+              <Button disabled={mutation.isPending} size='3'>
                 <Save />
                 변경사항 저장
               </Button>
