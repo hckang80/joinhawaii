@@ -230,7 +230,7 @@ export async function PATCH(request: Request) {
 
     const supabase = await createClient<Database>();
 
-    await updateReservationProducts(supabase, reservation_id, exchange_rate, {
+    await updateReservationProducts(supabase, reservation_id, {
       clients,
       flights,
       hotels,

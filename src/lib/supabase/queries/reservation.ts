@@ -1,4 +1,10 @@
-import type { Database, ReservationQueryResponse, TablesRow } from '@/types';
+import type {
+  AdditionalOptions,
+  Database,
+  ProductType,
+  ReservationQueryResponse,
+  TablesRow
+} from '@/types';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { RESERVATION_SELECT_QUERY } from '../schema';
 
@@ -16,7 +22,6 @@ export const getReservation = async (supabase: SupabaseClient<Database>, reserva
 export const updateReservationProducts = async (
   supabase: SupabaseClient<Database>,
   reservationId: string,
-  exchange_rate: number,
   products: {
     clients?: Array<Partial<TablesRow<'clients'>>>;
     flights?: Array<Partial<TablesRow<'flights'>>>;
@@ -72,18 +77,22 @@ export const updateReservationProducts = async (
   } as const;
 
   function makeProductPayload<T extends object>(
-    items: Array<T & { is_updated_exchange_rate?: boolean }>,
-    reservationId: string,
-    exchange_rate: number
-  ): Array<
-    Omit<T, 'is_updated_exchange_rate'> & { reservation_id: string; exchange_rate?: number }
-  > {
+    items: Array<
+      T & {
+        additional_options?: AdditionalOptions[];
+        type?: ProductType;
+      }
+    >,
+    reservationId: string
+  ): Array<{
+    reservation_id: string;
+    exchange_rate?: number;
+  }> {
     return items.map(item => {
-      const { is_updated_exchange_rate, ...rest } = item;
+      const { additional_options, type, ...rest } = item;
       return {
         ...rest,
-        reservation_id: reservationId,
-        ...(is_updated_exchange_rate && exchange_rate && { exchange_rate })
+        reservation_id: reservationId
       };
     });
   }
@@ -97,15 +106,11 @@ export const updateReservationProducts = async (
     const newItems = items.filter(item => !item.id);
 
     if (existingItems.length) {
-      updates.push(
-        supabase.from(table).upsert(makeProductPayload(existingItems, reservationId, exchange_rate))
-      );
+      updates.push(supabase.from(table).upsert(makeProductPayload(existingItems, reservationId)));
     }
 
     if (newItems.length) {
-      updates.push(
-        supabase.from(table).insert(makeProductPayload(newItems, reservationId, exchange_rate))
-      );
+      updates.push(supabase.from(table).insert(makeProductPayload(newItems, reservationId)));
     }
   });
 

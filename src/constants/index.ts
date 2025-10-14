@@ -32,7 +32,6 @@ export const defaultClientValues = {
 };
 
 export const defaultProductValues = {
-  is_updated_exchange_rate: false,
   exchange_rate: 0,
   total_amount: 0,
   total_cost: 0,
@@ -121,8 +120,7 @@ export const defaultAdditionalOptionValues = {
   type: '' as ProductType,
   title: '',
   ...defaultPeopleValues,
-  ...defaultProductValues,
-  is_updated_exchange_rate: undefined
+  ...defaultProductValues
 };
 
 export const PRODUCT_STATUS_COLOR: Record<
