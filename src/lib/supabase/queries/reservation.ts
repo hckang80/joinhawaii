@@ -22,7 +22,6 @@ export const getReservation = async (supabase: SupabaseClient<Database>, reserva
 export const updateReservationProducts = async (
   supabase: SupabaseClient<Database>,
   reservationId: string,
-  exchange_rate: number,
   products: {
     clients?: Array<Partial<TablesRow<'clients'>>>;
     flights?: Array<Partial<TablesRow<'flights'>>>;
@@ -80,20 +79,19 @@ export const updateReservationProducts = async (
   function makeProductPayload<T extends object>(
     items: Array<
       T & {
-        is_updated_exchange_rate?: boolean;
         additional_options: AdditionalOptions[];
         type: ProductType;
       }
     >,
     reservationId: string
   ): Array<
-    Omit<T, 'is_updated_exchange_rate' | 'additional_options' | 'type'> & {
+    Omit<T, 'additional_options' | 'type'> & {
       reservation_id: string;
       exchange_rate?: number;
     }
   > {
     return items.map(item => {
-      const { is_updated_exchange_rate, additional_options, type, ...rest } = item;
+      const { additional_options, type, ...rest } = item;
       return {
         ...rest,
         reservation_id: reservationId
@@ -110,15 +108,11 @@ export const updateReservationProducts = async (
     const newItems = items.filter(item => !item.id);
 
     if (existingItems.length) {
-      updates.push(
-        supabase.from(table).upsert(makeProductPayload(existingItems, reservationId, exchange_rate))
-      );
+      updates.push(supabase.from(table).upsert(makeProductPayload(existingItems, reservationId)));
     }
 
     if (newItems.length) {
-      updates.push(
-        supabase.from(table).insert(makeProductPayload(newItems, reservationId, exchange_rate))
-      );
+      updates.push(supabase.from(table).insert(makeProductPayload(newItems, reservationId)));
     }
   });
 

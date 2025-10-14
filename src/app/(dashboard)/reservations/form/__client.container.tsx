@@ -2252,42 +2252,11 @@ export default function ReservationsFormClientContainer({
               환율이 입력된 상품만 총액에 반영됩니다.
             </Text>
             <Flex justify='end' align='center' gap='2' mt='2'>
-              <Text as='label' weight='medium'>
-                환율
-              </Text>
-              {/* TODO: 정산되지 않은 항목이 입력된 경우에만 required 적용 필요 */}
-              <Controller
-                name='exchange_rate'
-                control={control}
-                render={({ field }) => (
-                  <TextField.Root
-                    type='number'
-                    min='0'
-                    size='3'
-                    step='0.01'
-                    value={field.value}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      const { value } = e.target;
-                      if (!value) return field.onChange(value);
-
-                      const [integer, decimal] = value.split('.');
-                      const formattedValue = decimal
-                        ? `${integer.slice(0, 4)}.${decimal.slice(0, 2)}`
-                        : integer.slice(0, 4);
-
-                      field.onChange(+formattedValue);
-                    }}
-                  />
-                )}
-              />
               <Button disabled={mutation.isPending} size='3' color='ruby'>
                 <Save />
                 변경사항 저장
               </Button>
             </Flex>
-            <Text as='p' align='right' mt='2' weight='bold' color='ruby'>
-              환율 관리 → 변경을 체크한 상품만 환율이 적용됩니다.
-            </Text>
           </Box>
         </form>
       </Flex>
