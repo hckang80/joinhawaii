@@ -1,4 +1,10 @@
-import type { Database, ReservationQueryResponse, TablesRow } from '@/types';
+import type {
+  AdditionalOptions,
+  Database,
+  ProductType,
+  ReservationQueryResponse,
+  TablesRow
+} from '@/types';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { RESERVATION_SELECT_QUERY } from '../schema';
 
@@ -72,18 +78,25 @@ export const updateReservationProducts = async (
   } as const;
 
   function makeProductPayload<T extends object>(
-    items: Array<T & { is_updated_exchange_rate?: boolean }>,
-    reservationId: string,
-    exchange_rate: number
+    items: Array<
+      T & {
+        is_updated_exchange_rate?: boolean;
+        additional_options: AdditionalOptions[];
+        type: ProductType;
+      }
+    >,
+    reservationId: string
   ): Array<
-    Omit<T, 'is_updated_exchange_rate'> & { reservation_id: string; exchange_rate?: number }
+    Omit<T, 'is_updated_exchange_rate' | 'additional_options' | 'type'> & {
+      reservation_id: string;
+      exchange_rate?: number;
+    }
   > {
     return items.map(item => {
-      const { is_updated_exchange_rate, ...rest } = item;
+      const { is_updated_exchange_rate, additional_options, type, ...rest } = item;
       return {
         ...rest,
-        reservation_id: reservationId,
-        ...(is_updated_exchange_rate && exchange_rate && { exchange_rate })
+        reservation_id: reservationId
       };
     });
   }
