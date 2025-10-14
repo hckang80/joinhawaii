@@ -120,7 +120,7 @@ export const updateReservation = async (data: ReservationFormData) => {
 
 export async function updateAdditionalOptions(data: AdditionalOptions[]) {
   const response = await fetch('/api/product/options', {
-    method: 'POST',
+    method: 'PATCH',
     headers: {
       'Content-Type': 'application/json'
     },
