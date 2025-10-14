@@ -2215,38 +2215,45 @@ export default function ReservationsFormClientContainer({
           </Card>
 
           <Box position='sticky' bottom='5' className={styles['exchange-rate-card']}>
-            <Flex justify='end' align='center' gap='2'>
-              <Text as='label' weight='medium'>
-                총액
-              </Text>
-              {toReadableAmount(Number(data?.total_amount_krw) || 0, 'ko-KR', 'KRW')}
-              <Text as='label' weight='medium'>
-                예약금
-              </Text>
-              ₩
-              <Controller
-                name='deposit'
-                control={control}
-                render={({ field }) => (
-                  <TextField.Root
-                    type='text'
-                    value={formatKoreanCurrency(field.value)}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      const numericValue = parseKoreanCurrency(e.target.value);
-                      field.onChange(numericValue);
-                    }}
-                    placeholder='0'
-                  />
+            <Flex direction='column' align='end' gap='2'>
+              <Flex align='center' gap='1'>
+                <Text as='label' weight='medium'>
+                  예약금{' '}
+                </Text>
+                ₩
+                <Controller
+                  name='deposit'
+                  control={control}
+                  render={({ field }) => (
+                    <TextField.Root
+                      size='3'
+                      type='text'
+                      value={formatKoreanCurrency(field.value)}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        const numericValue = parseKoreanCurrency(e.target.value);
+                        field.onChange(numericValue);
+                      }}
+                      placeholder='0'
+                    />
+                  )}
+                />
+              </Flex>
+              <div>
+                <Text as='label' weight='medium'>
+                  잔금{' '}
+                </Text>
+                {toReadableAmount(
+                  Number(data?.total_amount_krw) - watch('deposit') || 0,
+                  'ko-KR',
+                  'KRW'
                 )}
-              />
-              <Text as='label' weight='medium'>
-                잔금
-              </Text>
-              {toReadableAmount(
-                Number(data?.total_amount_krw) - watch('deposit') || 0,
-                'ko-KR',
-                'KRW'
-              )}
+              </div>
+              <div>
+                <Text as='label' weight='medium'>
+                  총액{' '}
+                </Text>
+                {toReadableAmount(Number(data?.total_amount_krw) || 0, 'ko-KR', 'KRW')}
+              </div>
             </Flex>
             <Text as='p' align='right' mt='2' weight='bold' color='ruby'>
               환율이 입력된 상품만 총액에 반영됩니다.
