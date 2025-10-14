@@ -79,17 +79,15 @@ export const updateReservationProducts = async (
   function makeProductPayload<T extends object>(
     items: Array<
       T & {
-        additional_options: AdditionalOptions[];
-        type: ProductType;
+        additional_options?: AdditionalOptions[];
+        type?: ProductType;
       }
     >,
     reservationId: string
-  ): Array<
-    Omit<T, 'additional_options' | 'type'> & {
-      reservation_id: string;
-      exchange_rate?: number;
-    }
-  > {
+  ): Array<{
+    reservation_id: string;
+    exchange_rate?: number;
+  }> {
     return items.map(item => {
       const { additional_options, type, ...rest } = item;
       return {
