@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import type { AdditionalOptions, Database } from '@/types';
+import { calculateTotalAmount } from '@/utils';
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
@@ -54,9 +55,16 @@ export async function GET(request: Request) {
       throw error;
     }
 
+    const dataIncludedTotal = data.map(item => {
+      return {
+        ...item,
+        ...calculateTotalAmount(item)
+      };
+    });
+
     return NextResponse.json({
       success: true,
-      data
+      data: dataIncludedTotal
     });
   } catch (error) {
     console.error('추가 옵션 조회 에러:', error);

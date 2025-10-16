@@ -57,3 +57,32 @@ export const isPostgrestError = (error: unknown): error is PostgrestError => {
     'message' in error
   );
 };
+
+export function calculateTotalAmount({
+  adult_count = 0,
+  children_count = 0,
+  kids_count = 0,
+  adult_price = 0,
+  children_price = 0,
+  kids_price = 0,
+  adult_cost = 0,
+  children_cost = 0,
+  kids_cost = 0,
+  exchange_rate = 0
+}) {
+  return {
+    total_amount:
+      adult_count * adult_price + children_count * children_price + kids_count * kids_price,
+    total_cost: adult_count * adult_cost + children_count * children_cost + kids_count * kids_cost,
+    total_amount_krw:
+      Math.round(
+        (adult_count * adult_price + children_count * children_price + kids_count * kids_price) *
+          exchange_rate
+      ) || 0,
+    cost_amount_krw:
+      Math.round(
+        (adult_count * adult_cost + children_count * children_cost + kids_count * kids_cost) *
+          exchange_rate
+      ) || 0
+  };
+}
