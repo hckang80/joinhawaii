@@ -1,3 +1,4 @@
+import { getAdditionalOptions } from '@/http';
 import { getReservation, updateReservationProducts } from '@/lib/supabase/queries/reservation';
 import { RESERVATION_SELECT_QUERY } from '@/lib/supabase/schema';
 import { createClient } from '@/lib/supabase/server';
@@ -82,23 +83,16 @@ export async function GET(request: Request) {
         return NextResponse.json({ success: true, data: null });
       }
 
-      async function fetchOptions(pid: number, type: string) {
-        const { data } = await supabase
-          .from('options')
-          .select('*')
-          .eq('pid', pid)
-          .eq('type', type)
-          .order('id', { ascending: true });
-        return data ?? [];
-      }
-
       const { flights, hotels, tours, rental_cars, insurances, ...rest } = reservation;
 
       const addKoreanWonFields = async (products: ProductValues[]) => {
         return Promise.all(
           products.map(async product => ({
             ...product,
-            additional_options: await fetchOptions(Number(product.id), product.type),
+            additional_options: await getAdditionalOptions({
+              pid: Number(product.id),
+              type: product.type
+            }),
             total_amount_krw: Math.round(product.total_amount * product.exchange_rate),
             cost_amount_krw: Math.round(product.total_cost * product.exchange_rate)
           }))

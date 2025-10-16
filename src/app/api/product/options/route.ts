@@ -34,11 +34,20 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
   try {
+    const { searchParams } = new URL(request.url);
+    const pid = searchParams.get('pid');
+    const type = searchParams.get('type');
+
     const supabase = await createClient<Database>();
-    const { data, error } = await supabase
+    const query = supabase
       .from('options')
-      .select('*')
-      .order('id', { ascending: false });
+      .select<string, AdditionalOptions>('*')
+      .order('id', { ascending: true });
+
+    if (pid) query.eq('pid', pid);
+    if (type) query.eq('type', type);
+
+    const { data, error } = await query;
 
     if (error) {
       console.error('추가 옵션 조회 실패:', error);
