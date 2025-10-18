@@ -87,15 +87,38 @@ export async function GET(request: Request) {
 
       const addKoreanWonFields = async (products: ProductValues[]) => {
         return Promise.all(
-          products.map(async product => ({
-            ...product,
-            additional_options: await getAdditionalOptions({
+          products.map(async product => {
+            const options = await getAdditionalOptions({
               pid: Number(product.id),
               type: product.type
-            }),
-            total_amount_krw: Math.round(product.total_amount * product.exchange_rate),
-            cost_amount_krw: Math.round(product.total_cost * product.exchange_rate)
-          }))
+            });
+
+            const optionsWithKrw = options.map(opt => ({
+              ...opt,
+              total_amount_krw: Math.round(opt.total_amount * opt.exchange_rate),
+              cost_amount_krw: Math.round(opt.total_cost * opt.exchange_rate)
+            }));
+
+            const optionsTotals = optionsWithKrw.reduce(
+              (acc, o) => {
+                acc.total_amount_krw += o.total_amount_krw;
+                acc.cost_amount_krw += o.cost_amount_krw;
+                return acc;
+              },
+              { total_amount_krw: 0, cost_amount_krw: 0 }
+            );
+
+            return {
+              ...product,
+              additional_options: optionsWithKrw,
+              total_amount_krw:
+                Math.round(product.total_amount * product.exchange_rate) +
+                optionsTotals.total_amount_krw,
+              cost_amount_krw:
+                Math.round(product.total_cost * product.exchange_rate) +
+                optionsTotals.cost_amount_krw
+            };
+          })
         );
       };
 
