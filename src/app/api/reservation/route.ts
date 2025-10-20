@@ -1,3 +1,4 @@
+import { getAdditionalOptions } from '@/http';
 import { getReservation, updateReservationProducts } from '@/lib/supabase/queries/reservation';
 import { RESERVATION_SELECT_QUERY } from '@/lib/supabase/schema';
 import { createClient } from '@/lib/supabase/server';
@@ -82,26 +83,42 @@ export async function GET(request: Request) {
         return NextResponse.json({ success: true, data: null });
       }
 
-      async function fetchOptions(pid: number, type: string) {
-        const { data } = await supabase
-          .from('options')
-          .select('*')
-          .eq('pid', pid)
-          .eq('type', type)
-          .order('id', { ascending: true });
-        return data ?? [];
-      }
-
       const { flights, hotels, tours, rental_cars, insurances, ...rest } = reservation;
 
       const addKoreanWonFields = async (products: ProductValues[]) => {
         return Promise.all(
-          products.map(async product => ({
-            ...product,
-            additional_options: await fetchOptions(Number(product.id), product.type),
-            total_amount_krw: Math.round(product.total_amount * product.exchange_rate),
-            cost_amount_krw: Math.round(product.total_cost * product.exchange_rate)
-          }))
+          products.map(async product => {
+            const options = await getAdditionalOptions({
+              pid: Number(product.id),
+              type: product.type
+            });
+
+            const optionsWithKrw = options.map(opt => ({
+              ...opt,
+              total_amount_krw: Math.round(opt.total_amount * opt.exchange_rate),
+              cost_amount_krw: Math.round(opt.total_cost * opt.exchange_rate)
+            }));
+
+            const optionsTotals = optionsWithKrw.reduce(
+              (acc, o) => {
+                acc.total_amount_krw += o.total_amount_krw;
+                acc.cost_amount_krw += o.cost_amount_krw;
+                return acc;
+              },
+              { total_amount_krw: 0, cost_amount_krw: 0 }
+            );
+
+            return {
+              ...product,
+              additional_options: optionsWithKrw,
+              total_amount_krw:
+                Math.round(product.total_amount * product.exchange_rate) +
+                optionsTotals.total_amount_krw,
+              cost_amount_krw:
+                Math.round(product.total_cost * product.exchange_rate) +
+                optionsTotals.cost_amount_krw
+            };
+          })
         );
       };
 

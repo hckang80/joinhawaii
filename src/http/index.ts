@@ -134,9 +134,14 @@ export async function updateAdditionalOptions(data: AdditionalOptions[]) {
   return response.json();
 }
 
-export async function getAdditionalOptions(): Promise<AdditionalOptions[]> {
+export async function getAdditionalOptions({ pid = 0, type = '' }): Promise<AdditionalOptions[]> {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-  const url = `${baseUrl}/api/product/options`;
+  let url = `${baseUrl}/api/product/options`;
+
+  const params = new URLSearchParams();
+  if (pid !== undefined) params.append('pid', String(pid));
+  if (type) params.append('type', type);
+  if (params.toString()) url += `?${params.toString()}`;
 
   const response = await fetch(url, {
     method: 'GET',
