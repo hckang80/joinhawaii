@@ -60,6 +60,7 @@ export default function AdditionalOptionsEditor({
     onSuccess: (result: unknown) => {
       handleApiSuccess(result);
       onRefetch();
+      isOpen$.set(false);
     },
     onError: handleApiError
   });
