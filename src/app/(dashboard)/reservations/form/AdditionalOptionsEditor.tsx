@@ -14,7 +14,8 @@ import AdditionalOptionsTotals from './AdditionalOptionsTotals';
 
 export default function AdditionalOptionsEditor({
   isOpen: isOpen$,
-  context: context$
+  context: context$,
+  onRefetch
 }: {
   isOpen: ObservableBoolean;
   context: Observable<
@@ -25,6 +26,7 @@ export default function AdditionalOptionsEditor({
       data: AdditionalOptions[];
     }>
   >;
+  onRefetch: () => Promise<unknown>;
 }) {
   const isOpen = use$(isOpen$);
 
@@ -57,6 +59,7 @@ export default function AdditionalOptionsEditor({
     },
     onSuccess: (result: unknown) => {
       handleApiSuccess(result);
+      onRefetch();
     },
     onError: handleApiError
   });

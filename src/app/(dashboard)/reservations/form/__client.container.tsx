@@ -260,7 +260,7 @@ export default function ReservationsFormClientContainer({
 }: {
   reservation_id: string;
 }) {
-  const { data } = useQuery({
+  const { data, refetch } = useQuery({
     ...reservationQueryOptions(reservation_id!),
     enabled: !!reservation_id
   });
@@ -1986,6 +1986,7 @@ export default function ReservationsFormClientContainer({
       <AdditionalOptionsEditor
         isOpen={status$.isAdditionalOptionsOpen}
         context={status$.additionalOptionsContext}
+        onRefetch={refetch}
       />
     </div>
   );
