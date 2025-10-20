@@ -1984,7 +1984,7 @@ export default function ReservationsFormClientContainer({
       </Flex>
 
       <AdditionalOptionsEditor
-        open={status$.isAdditionalOptionsOpen}
+        isOpen={status$.isAdditionalOptionsOpen}
         context={status$.additionalOptionsContext}
       />
     </div>

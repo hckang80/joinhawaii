@@ -13,10 +13,10 @@ import { toast } from 'react-toastify';
 import AdditionalOptionsTotals from './AdditionalOptionsTotals';
 
 export default function AdditionalOptionsEditor({
-  open: open$,
+  isOpen: isOpen$,
   context: context$
 }: {
-  open: ObservableBoolean;
+  isOpen: ObservableBoolean;
   context: Observable<
     Partial<{
       id: number;
@@ -26,7 +26,7 @@ export default function AdditionalOptionsEditor({
     }>
   >;
 }) {
-  const isOpen = use$(open$);
+  const isOpen = use$(isOpen$);
 
   const { id = 0, type = 'hotel', title, data } = use$(() => context$);
 
@@ -86,7 +86,7 @@ export default function AdditionalOptionsEditor({
   };
 
   return (
-    <Dialog.Root open={isOpen} onOpenChange={open => open$.set(open)}>
+    <Dialog.Root open={isOpen} onOpenChange={open => isOpen$.set(open)}>
       <Dialog.Content maxWidth='1000px'>
         <Dialog.Title>{title}</Dialog.Title>
         <Dialog.Description size='2' mb='4'>
