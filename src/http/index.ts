@@ -119,12 +119,14 @@ export const updateReservation = async (data: ReservationFormData) => {
 };
 
 export async function updateAdditionalOptions(data: AdditionalOptions[]) {
+  const payload = data.map(({ total_amount_krw, cost_amount_krw, ...rest }) => rest);
+
   const response = await fetch('/api/product/options', {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify(payload)
   });
 
   if (!response.ok) {
