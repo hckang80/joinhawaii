@@ -256,7 +256,7 @@ export async function PATCH(request: Request) {
       insurances
     });
 
-    const { data: totalAmounts } = await supabase.rpc('calculate_reservation_total', {
+    const { data: totals } = await supabase.rpc('calculate_reservation_total', {
       p_reservation_id: reservation_id
     });
 
@@ -264,7 +264,7 @@ export async function PATCH(request: Request) {
       .from('reservations')
       .update({
         ...updates,
-        total_amount: totalAmounts.total_amount
+        ...totals
       })
       .eq('reservation_id', reservation_id)
       .select()
