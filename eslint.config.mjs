@@ -14,7 +14,19 @@ const eslintConfig = [
   {
     ignores: ['node_modules', '.next', 'dist', 'coverage', 'public', '*.config.js', '*.config.mjs'],
     rules: {
-      '@next/next/no-img-element': 'warn'
+      '@next/next/no-img-element': 'warn',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          args: 'all',
+          argsIgnorePattern: '^_',
+          caughtErrors: 'all',
+          caughtErrorsIgnorePattern: '^_',
+          destructuredArrayIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          ignoreRestSiblings: true
+        }
+      ]
     }
   }
 ];
