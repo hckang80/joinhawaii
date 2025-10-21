@@ -22,6 +22,7 @@ import type {
   ReservationItem
 } from '@/types';
 import {
+  calculateTotalAmount,
   formatKoreanCurrency,
   handleApiError,
   handleApiSuccess,
@@ -108,12 +109,18 @@ function FlightTotalCalculator({
   });
 
   useEffect(() => {
-    const [adultCapacity, childrenCapacity, adultPrice, childrenPrice, adultCost, childrenCost] =
+    const [adult_count, children_count, adult_price, children_price, adult_cost, children_cost] =
       watchedValues;
-    const total = adultCapacity * adultPrice + childrenCapacity * childrenPrice;
-    const totalCost = adultCapacity * adultCost + childrenCapacity * childrenCost;
-    setValue(`flights.${index}.total_amount`, total, { shouldValidate: true });
-    setValue(`flights.${index}.total_cost`, totalCost, { shouldValidate: true });
+    const { total_amount, total_cost } = calculateTotalAmount({
+      adult_count,
+      children_count,
+      adult_price,
+      children_price,
+      adult_cost,
+      children_cost
+    });
+    setValue(`flights.${index}.total_amount`, total_amount, { shouldValidate: true });
+    setValue(`flights.${index}.total_cost`, total_cost, { shouldValidate: true });
   }, [watchedValues, setValue, index]);
 
   return null;
@@ -166,18 +173,18 @@ function TourTotalCalculator({
   });
 
   useEffect(() => {
-    const [
-      adultParticipant,
-      childrenParticipant,
-      adultPrice,
-      childrenPrice,
-      adultCost,
-      childrenCost
-    ] = watchedValues;
-    const total = adultParticipant * adultPrice + childrenParticipant * childrenPrice;
-    const totalCost = adultParticipant * adultCost + childrenParticipant * childrenCost;
-    setValue(`tours.${index}.total_amount`, total, { shouldValidate: true });
-    setValue(`tours.${index}.total_cost`, totalCost, { shouldValidate: true });
+    const [adult_count, children_count, adult_price, children_price, adult_cost, children_cost] =
+      watchedValues;
+    const { total_amount, total_cost } = calculateTotalAmount({
+      adult_count,
+      children_count,
+      adult_price,
+      children_price,
+      adult_cost,
+      children_cost
+    });
+    setValue(`tours.${index}.total_amount`, total_amount, { shouldValidate: true });
+    setValue(`tours.${index}.total_cost`, total_cost, { shouldValidate: true });
   }, [watchedValues, setValue, index]);
 
   return null;
@@ -236,20 +243,25 @@ function InsuranceTotalCalculator({
 
   useEffect(() => {
     const [
-      tripDurationDays,
-      adultParticipant,
-      childrenParticipant,
-      adultPrice,
-      childrenPrice,
-      adultCost,
-      childrenCost
+      days,
+      adult_count,
+      children_count,
+      adult_price,
+      children_price,
+      adult_cost,
+      children_cost
     ] = watchedValues;
-    const total =
-      tripDurationDays * (adultParticipant * adultPrice + childrenParticipant * childrenPrice);
-    const totalCost =
-      tripDurationDays * (adultParticipant * adultCost + childrenParticipant * childrenCost);
-    setValue(`insurances.${index}.total_amount`, total, { shouldValidate: true });
-    setValue(`insurances.${index}.total_cost`, totalCost, { shouldValidate: true });
+    const { total_amount, total_cost } = calculateTotalAmount({
+      days,
+      adult_count,
+      children_count,
+      adult_price,
+      children_price,
+      adult_cost,
+      children_cost
+    });
+    setValue(`insurances.${index}.total_amount`, total_amount, { shouldValidate: true });
+    setValue(`insurances.${index}.total_cost`, total_cost, { shouldValidate: true });
   }, [watchedValues, setValue, index]);
 
   return null;
