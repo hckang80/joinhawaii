@@ -1678,7 +1678,7 @@ export default function ReservationsFormClientContainer({
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                  {getValues('insurances').map((insurance, i) => (
+                  {getValues('insurances').map((_insurance, i) => (
                     <Table.Row key={i}>
                       <Table.Cell>
                         <Controller
