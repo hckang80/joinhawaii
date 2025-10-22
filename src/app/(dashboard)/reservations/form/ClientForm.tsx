@@ -163,8 +163,8 @@ export default function ClientForm({ data }: { data?: ReservationResponse }) {
                           name='reservation'
                           value={'' + i}
                           defaultChecked={
-                            mainClientName
-                              ? mainClientName === client.korean_name
+                            data?.main_client_name
+                              ? data?.main_client_name === client.korean_name
                               : i === reservationIndex
                           }
                           onChange={handleChangeReservation}
