@@ -109,9 +109,9 @@ export default function ClientForm() {
   };
 
   return (
-    <Card asChild size='3'>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Flex direction='column' gap='9'>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Card size='3'>
+        <Flex direction='column' gap='6'>
           <Section p='0'>
             <Heading as='h3' mb='4'>
               기본정보
@@ -263,10 +263,6 @@ export default function ClientForm() {
             </Table.Root>
 
             <Flex justify='end' mt='4' gap='1'>
-              <Button disabled={mutation.isPending} variant='outline'>
-                <Save />
-                변경사항 저장
-              </Button>
               <Button
                 title='인원 삭제'
                 type='button'
@@ -284,7 +280,14 @@ export default function ClientForm() {
             {isDev() && <pre>{JSON.stringify(watch('clients'), null, 2)}</pre>}
           </Section>
         </Flex>
-      </form>
-    </Card>
+      </Card>
+
+      <Flex justify='end' mt='4' gap='1'>
+        <Button disabled={mutation.isPending} variant='outline'>
+          <Save />
+          변경사항 저장
+        </Button>
+      </Flex>
+    </form>
   );
 }
