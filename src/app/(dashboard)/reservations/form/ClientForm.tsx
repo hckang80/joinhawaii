@@ -22,7 +22,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { Save, UserMinus, UserPlus } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import router from 'next/router';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 const status$ = observable({
@@ -58,8 +58,9 @@ export default function ClientForm() {
     }
   });
 
+  const clients = useWatch({ control, name: 'clients' }) ?? [defaultClientValues];
   const reservationIndex = use$(status$.reservationIndex);
-  const mainClientName = getValues('clients')[reservationIndex].korean_name;
+  const mainClientName = clients[reservationIndex]?.korean_name ?? '';
 
   const mutation = useMutation({
     mutationFn: (formData: ReservationFormData) => {
@@ -85,7 +86,7 @@ export default function ClientForm() {
   };
 
   const addClient = () => {
-    setValue('clients', [...watch('clients'), defaultClientValues]);
+    setValue('clients', [...clients, defaultClientValues]);
   };
 
   const removeItem = (target: ProductFormType) => {
@@ -94,8 +95,9 @@ export default function ClientForm() {
   };
 
   const handleChangeReservation = (event: React.ChangeEvent<HTMLInputElement>) => {
-    status$.reservationIndex.set(() => +event.target.value);
-    setValue('main_client_name', getValues('clients')[+event.target.value].korean_name, {
+    const idx = +event.target.value;
+    status$.reservationIndex.set(() => idx);
+    setValue('main_client_name', clients[idx]?.korean_name ?? '', {
       shouldDirty: true,
       shouldTouch: true
     });
