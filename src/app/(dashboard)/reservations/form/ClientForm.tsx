@@ -93,10 +93,7 @@ export default function ClientForm({ data }: { data?: ReservationResponse }) {
     });
   };
 
-  const isRemoveClientDisabled = (target = 'clients' as const) => {
-    const minLength = data?.[target]?.length || 1;
-    return getValues(target).length <= minLength;
-  };
+  const isRemoveClientDisabled = clients.length <= (data?.clients.length || 1);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -252,7 +249,7 @@ export default function ClientForm({ data }: { data?: ReservationResponse }) {
                 color='ruby'
                 variant='soft'
                 onClick={() => removeItem('clients')}
-                disabled={isRemoveClientDisabled('clients')}
+                disabled={isRemoveClientDisabled}
               >
                 <UserMinus />
               </Button>
