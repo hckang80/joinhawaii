@@ -137,13 +137,6 @@ export default function ClientForm({ data }: { data?: ReservationResponse }) {
             <Heading as='h3' mb='4'>
               고객정보
             </Heading>
-            {isDev() && (
-              <div>
-                합계(달러) : {data?.total_amount}
-                <br />
-                예약자: {watch('main_client_name')}
-              </div>
-            )}
 
             <Table.Root size='1'>
               <Table.Header>
@@ -278,6 +271,13 @@ export default function ClientForm({ data }: { data?: ReservationResponse }) {
         </Button>
       </Flex>
 
+      {isDev() && (
+        <div>
+          합계(달러) : {data?.total_amount}
+          <br />
+          예약자: {watch('main_client_name')}
+        </div>
+      )}
       {isDev() && <pre>{JSON.stringify(watch('clients'), null, 2)}</pre>}
     </form>
   );
