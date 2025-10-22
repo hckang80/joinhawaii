@@ -20,6 +20,7 @@ import {
 import { useMutation } from '@tanstack/react-query';
 import { Save, UserMinus, UserPlus } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
+import { useMemo } from 'react';
 import { Controller, SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
@@ -41,14 +42,14 @@ export default function ClientForm({ data }: { data?: ReservationResponse }) {
     setValue,
     control
   } = useForm<ReservationFormData>({
-    defaultValues: {
-      ...(isModify && {
-        reservation_id: data?.reservation_id
-      }),
-      booking_platform: data?.booking_platform || '',
-      main_client_name: data?.main_client_name || '',
-      clients: data?.clients || [defaultClientValues]
-    }
+    defaultValues: useMemo(() => {
+      return {
+        ...(isModify && { reservation_id: data?.reservation_id }),
+        booking_platform: data?.booking_platform || '',
+        main_client_name: data?.main_client_name || '',
+        clients: data?.clients || [defaultClientValues]
+      };
+    }, [isModify, data])
   });
 
   const clients = useWatch({ control, name: 'clients' }) ?? [defaultClientValues];
