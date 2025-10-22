@@ -1,7 +1,7 @@
 import { defaultClientValues, GENDER_TYPE } from '@/constants';
 import { createReservation, updateReservation } from '@/http';
 import { reservationQueryOptions } from '@/lib/queries';
-import type { ReservationFormData, ReservationItem } from '@/types';
+import type { ProductFormType, ReservationFormData, ReservationItem } from '@/types';
 import { handleApiError, handleApiSuccess, isDev } from '@/utils';
 import { observable } from '@legendapp/state';
 import { use$ } from '@legendapp/state/react';
@@ -34,14 +34,7 @@ const status$ = observable({
   // }>
 });
 
-export default function ClientForm({
-  onRemoveItem,
-  isDirtyProductItem
-}: {
-  onRemoveItem: (field: keyof ReservationItem) => void;
-  isDirtyProductItem: (field: keyof ReservationItem) => boolean;
-  // onRemoveItem: (fieldName: keyof ReservationFormData) => void;
-}) {
+export default function ClientForm() {
   const searchParams = useSearchParams();
   const reservation_id = searchParams.get('reservation_id')!;
   const isModify = !!reservation_id;
@@ -55,7 +48,7 @@ export default function ClientForm({
     register,
     handleSubmit,
     watch,
-    formState: { isDirty },
+    formState: { isDirty, dirtyFields },
     getValues,
     setValue,
     control
@@ -119,6 +112,11 @@ export default function ClientForm({
     setValue('clients', [...watch('clients'), defaultClientValues]);
   };
 
+  const removeItem = (target: ProductFormType) => {
+    const items = getValues(target);
+    setValue(target, items.slice(0, -1));
+  };
+
   const handleChangeReservation = (event: React.ChangeEvent<HTMLInputElement>) => {
     status$.reservationIndex.set(() => +event.target.value);
     setValue('main_client_name', getValues('clients')[+event.target.value].korean_name, {
@@ -131,6 +129,8 @@ export default function ClientForm({
     const minLength = data?.[target]?.length || 1;
     return getValues(target).length <= minLength;
   };
+
+  const isDirtyProductItem = (field: keyof ReservationItem) => !!dirtyFields[field]?.length;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -264,7 +264,7 @@ export default function ClientForm({
               type='button'
               color='ruby'
               variant='soft'
-              onClick={() => onRemoveItem('clients')}
+              onClick={() => removeItem('clients')}
               disabled={isRemoveClientDisabled('clients')}
             >
               <UserMinus />

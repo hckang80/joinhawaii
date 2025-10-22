@@ -436,7 +436,7 @@ export default function ReservationsFormClientContainer({
             </Section>
           </Card>
 
-          <ClientForm onRemoveItem={removeItem} isDirtyProductItem={isDirtyProductItem} />
+          <ClientForm />
 
           <Card asChild size='3'>
             <Section id='flight'>
