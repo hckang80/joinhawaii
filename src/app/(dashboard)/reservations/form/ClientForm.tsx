@@ -9,11 +9,13 @@ import {
   Button,
   Card,
   Flex,
+  Grid,
   Heading,
   Radio,
   Section,
   Select,
   Table,
+  Text,
   TextField
 } from '@radix-ui/themes';
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -47,6 +49,7 @@ export default function ClientForm() {
     control
   } = useForm<ReservationFormData>({
     defaultValues: {
+      booking_platform: data?.booking_platform || '',
       main_client_name: data?.main_client_name || '',
       ...(isModify && {
         reservation_id: data?.reservation_id
@@ -106,8 +109,39 @@ export default function ClientForm() {
   const isDirtyProductItem = (field: keyof ReservationItem) => !!dirtyFields[field]?.length;
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Card asChild size='3'>
+    <Card asChild size='3'>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Section>
+          <Heading as='h3' mb='4'>
+            기본정보
+          </Heading>
+
+          <Grid align='center' columns='60px 1fr 70px 1fr' gap='3'>
+            <Text weight='medium'>예약회사</Text>
+            <Controller
+              name='booking_platform'
+              control={control}
+              render={({ field }) => (
+                <Select.Root
+                  size='3'
+                  value={field.value}
+                  onValueChange={value => {
+                    field.onChange(value);
+                  }}
+                  name={field.name}
+                >
+                  <Select.Trigger placeholder='예약회사 선택'>{field.value}</Select.Trigger>
+                  <Select.Content>
+                    <Select.Item value='마이리얼트립'>마이리얼트립</Select.Item>
+                    <Select.Item value='크리에이트립'>크리에이트립</Select.Item>
+                    <Select.Item value='와그'>와그</Select.Item>
+                  </Select.Content>
+                </Select.Root>
+              )}
+            />
+          </Grid>
+        </Section>
+
         <Section>
           <Heading as='h3' mb='4'>
             고객정보
@@ -256,7 +290,7 @@ export default function ClientForm() {
             </pre>
           )}
         </Section>
-      </Card>
-    </form>
+      </form>
+    </Card>
   );
 }
