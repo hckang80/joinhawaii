@@ -154,7 +154,7 @@ export default function ClientForm({ data }: { data?: ReservationResponse }) {
                 </Table.Row>
               </Table.Header>
               <Table.Body>
-                {getValues('clients').map((client, i) => (
+                {clients.map((client, i) => (
                   <Table.Row key={i}>
                     <Table.Cell align='center'>
                       <label>
@@ -163,8 +163,8 @@ export default function ClientForm({ data }: { data?: ReservationResponse }) {
                           name='reservation'
                           value={'' + i}
                           defaultChecked={
-                            getValues('main_client_name')
-                              ? getValues('main_client_name') === client.korean_name
+                            mainClientName
+                              ? mainClientName === client.korean_name
                               : i === reservationIndex
                           }
                           onChange={handleChangeReservation}
