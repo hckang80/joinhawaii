@@ -1,7 +1,7 @@
 import { defaultClientValues, GENDER_TYPE } from '@/constants';
 import { createReservation, updateReservation } from '@/http';
 import { reservationQueryOptions } from '@/lib/queries';
-import type { ProductFormType, ReservationFormData, ReservationItem } from '@/types';
+import type { ProductFormType, ReservationFormData } from '@/types';
 import { handleApiError, handleApiSuccess, isDev } from '@/utils';
 import { observable } from '@legendapp/state';
 import { use$ } from '@legendapp/state/react';
@@ -43,7 +43,7 @@ export default function ClientForm() {
     register,
     handleSubmit,
     watch,
-    formState: { isDirty, dirtyFields },
+    formState: { isDirty },
     getValues,
     setValue,
     control
@@ -107,8 +107,6 @@ export default function ClientForm() {
     const minLength = data?.[target]?.length || 1;
     return getValues(target).length <= minLength;
   };
-
-  const isDirtyProductItem = (field: keyof ReservationItem) => !!dirtyFields[field]?.length;
 
   return (
     <Card asChild size='3'>
@@ -283,15 +281,7 @@ export default function ClientForm() {
                 <UserPlus />
               </Button>
             </Flex>
-            {isDev() && (
-              <pre>
-                {JSON.stringify(
-                  { isDirty: isDirtyProductItem('clients'), ...watch('clients') },
-                  null,
-                  2
-                )}
-              </pre>
-            )}
+            {isDev() && <pre>{JSON.stringify(watch('clients'), null, 2)}</pre>}
           </Section>
         </Flex>
       </form>
