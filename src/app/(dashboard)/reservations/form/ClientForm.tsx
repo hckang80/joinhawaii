@@ -277,7 +277,6 @@ export default function ClientForm() {
                 <UserPlus />
               </Button>
             </Flex>
-            {isDev() && <pre>{JSON.stringify(watch('clients'), null, 2)}</pre>}
           </Section>
         </Flex>
       </Card>
@@ -288,6 +287,8 @@ export default function ClientForm() {
           변경사항 저장
         </Button>
       </Flex>
+
+      {isDev() && <pre>{JSON.stringify(watch('clients'), null, 2)}</pre>}
     </form>
   );
 }
