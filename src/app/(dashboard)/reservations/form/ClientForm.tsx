@@ -1,7 +1,6 @@
 import { defaultClientValues, GENDER_TYPE } from '@/constants';
 import { createReservation, updateReservation } from '@/http';
-import { reservationQueryOptions } from '@/lib/queries';
-import type { ProductFormType, ReservationFormData } from '@/types';
+import type { ProductFormType, ReservationFormData, ReservationResponse } from '@/types';
 import { handleApiError, handleApiSuccess, isDev } from '@/utils';
 import { observable } from '@legendapp/state';
 import { use$ } from '@legendapp/state/react';
@@ -18,7 +17,7 @@ import {
   Text,
   TextField
 } from '@radix-ui/themes';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { Save, UserMinus, UserPlus } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import router from 'next/router';
@@ -29,15 +28,10 @@ const status$ = observable({
   reservationIndex: 0
 });
 
-export default function ClientForm() {
+export default function ClientForm({ data }: { data?: ReservationResponse }) {
   const searchParams = useSearchParams();
   const reservation_id = searchParams.get('reservation_id')!;
   const isModify = !!reservation_id;
-
-  const { data } = useQuery({
-    ...reservationQueryOptions(reservation_id),
-    enabled: !!reservation_id
-  });
 
   const {
     register,

@@ -398,7 +398,7 @@ export default function ReservationsFormClientContainer({
 
       <Flex asChild direction='column' gap='5'>
         <div>
-          <ClientForm />
+          <ClientForm data={data} />
 
           <Card asChild size='3'>
             <Section id='flight'>
