@@ -313,18 +313,10 @@ export default function ReservationsFormClientContainer({
 
   const mutation = useMutation({
     mutationFn: (formData: ReservationFormData) => {
-      const payload = {
-        ...formData,
-        main_client_name: mainClientName
-      };
-
-      return isModify ? updateReservation(payload) : createReservation(payload);
+      return isModify ? updateReservation(formData) : createReservation(formData);
     },
     onSuccess: (result: unknown) => {
       handleApiSuccess(result);
-
-      const fromPath = searchParams.get('from');
-      if (fromPath) router.push(fromPath);
     },
     onError: handleApiError
   });
@@ -398,7 +390,7 @@ export default function ReservationsFormClientContainer({
 
       <Flex asChild direction='column' gap='5'>
         <div>
-          <ClientForm data={data} />
+          <ClientForm data={data} mutation={mutation} />
 
           <Card asChild size='3'>
             <Section id='flight'>
