@@ -40,7 +40,8 @@ export default function ClientForm({ data }: { data?: ReservationResponse }) {
     formState: { isDirty },
     getValues,
     setValue,
-    control
+    control,
+    reset
   } = useForm<ReservationFormData>({
     defaultValues: useMemo(() => {
       return {
@@ -65,8 +66,9 @@ export default function ClientForm({ data }: { data?: ReservationResponse }) {
 
       return isModify ? updateReservation(payload) : createReservation(payload);
     },
-    onSuccess: (result: unknown) => {
+    onSuccess: (result: unknown, variables) => {
       handleApiSuccess(result);
+      reset(variables);
     },
     onError: handleApiError
   });
