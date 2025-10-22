@@ -20,7 +20,6 @@ import {
 import { useMutation } from '@tanstack/react-query';
 import { Save, UserMinus, UserPlus } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
-import router from 'next/router';
 import { Controller, SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
@@ -67,9 +66,6 @@ export default function ClientForm({ data }: { data?: ReservationResponse }) {
     },
     onSuccess: (result: unknown) => {
       handleApiSuccess(result);
-
-      const fromPath = searchParams.get('from');
-      if (fromPath) router.push(fromPath);
     },
     onError: handleApiError
   });
