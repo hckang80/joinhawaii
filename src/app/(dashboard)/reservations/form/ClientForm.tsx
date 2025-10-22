@@ -25,13 +25,6 @@ import { toast } from 'react-toastify';
 
 const status$ = observable({
   reservationIndex: 0
-  // isAdditionalOptionsOpen: false,
-  // additionalOptionsContext: {} as Partial<{
-  //   id: number;
-  //   type: ProductType;
-  //   title: string;
-  //   data: AdditionalOptions[];
-  // }>
 });
 
 export default function ClientForm() {
@@ -54,31 +47,11 @@ export default function ClientForm() {
     control
   } = useForm<ReservationFormData>({
     defaultValues: {
-      deposit: data?.deposit || 0,
-      exchange_rate: 0,
-      booking_platform: data?.booking_platform || '',
       main_client_name: data?.main_client_name || '',
       ...(isModify && {
         reservation_id: data?.reservation_id
       }),
       clients: data?.clients || [defaultClientValues]
-      // flights: data?.products.flights.length
-      //   ? data.products.flights.map(flight => ({
-      //       ...flight,
-      //       arrival_datetime: new Date(flight.arrival_datetime).toISOString().slice(0, 16),
-      //       departure_datetime: new Date(flight.departure_datetime).toISOString().slice(0, 16)
-      //     }))
-      //   : [],
-      // hotels: data?.products.hotels.length ? data.products.hotels : [],
-      // tours: data?.products.tours.length
-      //   ? data.products.tours.map(tour => ({
-      //       ...tour,
-      //       start_date: new Date(tour.start_date).toISOString().slice(0, 16),
-      //       end_date: new Date(tour.end_date).toISOString().slice(0, 16)
-      //     }))
-      //   : [],
-      // rental_cars: data?.products.rental_cars.length ? data.products.rental_cars : [],
-      // insurances: data?.products.insurances?.length ? data.products.insurances : []
     }
   });
 
