@@ -17,7 +17,7 @@ import {
   TextField
 } from '@radix-ui/themes';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { UserMinus, UserPlus } from 'lucide-react';
+import { Save, UserMinus, UserPlus } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import router from 'next/router';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
@@ -255,6 +255,10 @@ export default function ClientForm({
           </Table.Root>
 
           <Flex justify='end' mt='4' gap='1'>
+            <Button disabled={mutation.isPending} variant='outline'>
+              <Save />
+              변경사항 저장
+            </Button>
             <Button
               title='인원 삭제'
               type='button'
