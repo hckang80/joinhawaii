@@ -49,11 +49,11 @@ export default function ClientForm() {
     control
   } = useForm<ReservationFormData>({
     defaultValues: {
-      booking_platform: data?.booking_platform || '',
-      main_client_name: data?.main_client_name || '',
       ...(isModify && {
         reservation_id: data?.reservation_id
       }),
+      booking_platform: data?.booking_platform || '',
+      main_client_name: data?.main_client_name || '',
       clients: data?.clients || [defaultClientValues]
     }
   });
