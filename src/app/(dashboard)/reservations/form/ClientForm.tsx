@@ -59,23 +59,25 @@ export default function ClientForm({ data }: { data?: ReservationResponse }) {
 
   const mutation = useMutation({
     mutationFn: (formData: ReservationFormData) => {
-      const payload = {
-        ...formData,
-        main_client_name: mainClientName
-      };
-
-      return isModify ? updateReservation(payload) : createReservation(payload);
+      return isModify ? updateReservation(formData) : createReservation(formData);
     },
-    onSuccess: (result: unknown, variables) => {
+    onSuccess: (result: unknown) => {
       handleApiSuccess(result);
-      reset(variables);
     },
     onError: handleApiError
   });
 
   const onSubmit: SubmitHandler<ReservationFormData> = formData => {
     if (!isDirty) return toast.info('변경된 내용이 없습니다.');
-    mutation.mutate(formData);
+    mutation.mutate(
+      {
+        ...formData,
+        main_client_name: mainClientName
+      },
+      {
+        onSuccess: () => reset(formData)
+      }
+    );
   };
 
   const addClient = () => {
