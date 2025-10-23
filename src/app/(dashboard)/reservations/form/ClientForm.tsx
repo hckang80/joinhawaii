@@ -17,7 +17,7 @@ import {
   TextField
 } from '@radix-ui/themes';
 import { useMutation } from '@tanstack/react-query';
-import { Save, UserMinus, UserPlus } from 'lucide-react';
+import { PlusCircle, Save, UserMinus, UserPlus } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { useMemo } from 'react';
 import { Controller, SubmitHandler, useForm, useWatch } from 'react-hook-form';
@@ -263,8 +263,15 @@ export default function ClientForm({
 
       <Flex justify='end' mt='4' gap='1'>
         <Button disabled={mutation.isPending} variant='outline' size='3'>
-          <Save />
-          변경사항 저장
+          {isModify ? (
+            <>
+              <Save /> 변경사항 저장
+            </>
+          ) : (
+            <>
+              <PlusCircle /> 신규예약 생성
+            </>
+          )}
         </Button>
       </Flex>
 
