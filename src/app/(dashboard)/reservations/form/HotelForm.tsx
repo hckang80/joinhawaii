@@ -41,12 +41,10 @@ import { toast } from 'react-toastify';
 export default function HotelForm({
   data,
   mutation,
-  isRemoveProductDisabled,
   handleAdditionalOptions
 }: {
   data: ReservationResponse;
   mutation: ReturnType<typeof useMutation<unknown, Error, ReservationFormData, unknown>>;
-  isRemoveProductDisabled: (target: `${ProductType}s`) => boolean;
   handleAdditionalOptions: (context: {
     id: number;
     type: ProductType;
@@ -90,6 +88,8 @@ export default function HotelForm({
     const items = getValues(target);
     setValue(target, items.slice(0, -1));
   };
+
+  const isRemoveDisabled = hotels.length <= (data.products.hotels.length || 1);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -333,7 +333,7 @@ export default function HotelForm({
               color='ruby'
               variant='soft'
               onClick={() => removeItem('hotels')}
-              disabled={isRemoveProductDisabled('hotels')}
+              disabled={isRemoveDisabled}
             >
               <Minus size='20' /> 삭제
             </Button>

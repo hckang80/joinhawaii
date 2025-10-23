@@ -650,7 +650,6 @@ export default function ReservationsFormClientContainer({
             <HotelForm
               data={data}
               mutation={mutation}
-              isRemoveProductDisabled={isRemoveProductDisabled}
               handleAdditionalOptions={handleAdditionalOptions}
             />
           )}
