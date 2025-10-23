@@ -27,7 +27,7 @@ import {
 import { useMutation } from '@tanstack/react-query';
 import { Hotel, Minus, Plus, Save } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import {
   type Control,
   Controller,
@@ -65,10 +65,13 @@ export default function HotelForm({
     control,
     reset
   } = useForm<ReservationFormData>({
-    defaultValues: {
-      reservation_id,
-      hotels: data.products.hotels
-    }
+    defaultValues: useMemo(
+      () => ({
+        reservation_id,
+        hotels: data.products.hotels
+      }),
+      [reservation_id, data.products.hotels]
+    )
   });
 
   const hotels = useWatch({ control, name: 'hotels' }) ?? [defaultClientValues];
@@ -120,7 +123,7 @@ export default function HotelForm({
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {getValues('hotels').map((_hotel, i) => (
+              {hotels.map((_hotel, i) => (
                 <Table.Row key={i}>
                   <Table.Cell>
                     <Controller
@@ -318,7 +321,7 @@ export default function HotelForm({
             </Table.Body>
           </Table.Root>
 
-          {!getValues('hotels').length && (
+          {!hotels.length && (
             <Flex justify='center' py='5'>
               예약 내역이 없습니다
             </Flex>
