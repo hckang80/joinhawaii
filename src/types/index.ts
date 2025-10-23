@@ -66,6 +66,7 @@ export interface ReservationItem {
 }
 
 export interface ReservationBaseInfo {
+  reservation_id?: string;
   exchange_rate: number;
   booking_platform: string;
   main_client_name: string;
@@ -167,7 +168,6 @@ export type ReservationRow = TablesRow<'reservations'>;
 
 export interface Reservation extends ReservationBaseInfo {
   id: number;
-  reservation_id: string;
   status: ProductStatusKey;
   created_at: string;
   clients: TablesRow<'clients'>[];
