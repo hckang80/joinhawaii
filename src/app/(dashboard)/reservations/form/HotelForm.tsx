@@ -328,7 +328,7 @@ export default function HotelForm({
           )}
 
           <Flex justify='end' mt='4' gap='1'>
-            <Button disabled={mutation.isPending} variant='outline'>
+            <Button disabled={mutation.isPending || !hotels.length} variant='outline'>
               <Save /> 변경사항 저장
             </Button>
             <Button

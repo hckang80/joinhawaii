@@ -300,7 +300,7 @@ export default function FlightForm({
           )}
 
           <Flex justify='end' mt='4' gap='1'>
-            <Button disabled={mutation.isPending} variant='outline'>
+            <Button disabled={mutation.isPending || !flights.length} variant='outline'>
               <Save /> 변경사항 저장
             </Button>
             <Button
