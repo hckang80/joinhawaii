@@ -300,8 +300,9 @@ export default function FlightForm({
           )}
 
           <Flex justify='end' mt='4' gap='1'>
-            <Button disabled={mutation.isPending || !flights.length} variant='outline'>
-              <Save /> 변경사항 저장
+            <Button type='button' color='ruby' onClick={addItem}>
+              <Plane size='20' />
+              항공 추가
             </Button>
             <Button
               type='button'
@@ -312,9 +313,8 @@ export default function FlightForm({
             >
               <Minus size='20' /> 삭제
             </Button>
-            <Button type='button' color='ruby' onClick={addItem}>
-              <Plane size='20' />
-              항공 추가
+            <Button disabled={mutation.isPending || !flights.length} variant='outline'>
+              <Save /> 변경사항 저장
             </Button>
           </Flex>
 

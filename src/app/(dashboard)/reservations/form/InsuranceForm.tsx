@@ -345,8 +345,9 @@ export default function InsuranceForm({
           )}
 
           <Flex justify='end' mt='4' gap='1'>
-            <Button disabled={mutation.isPending || !insurances.length} variant='outline'>
-              <Save /> 변경사항 저장
+            <Button type='button' color='ruby' onClick={addItem}>
+              <BookText size='20' />
+              보험 추가
             </Button>
             <Button
               type='button'
@@ -357,9 +358,8 @@ export default function InsuranceForm({
             >
               <Minus size='20' /> 삭제
             </Button>
-            <Button type='button' color='ruby' onClick={addItem}>
-              <BookText size='20' />
-              보험 추가
+            <Button disabled={mutation.isPending || !insurances.length} variant='outline'>
+              <Save /> 변경사항 저장
             </Button>
           </Flex>
 
