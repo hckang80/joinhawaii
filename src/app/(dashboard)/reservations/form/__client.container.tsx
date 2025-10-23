@@ -8,8 +8,7 @@ import {
   defaultInsuranceValues,
   defaultTourValues,
   PRODUCT_STATUS_COLOR,
-  ProductStatus,
-  REGIONS
+  ProductStatus
 } from '@/constants';
 import { createReservation, updateReservation } from '@/http';
 import { reservationQueryOptions } from '@/lib/queries';
@@ -45,7 +44,7 @@ import {
   TextField
 } from '@radix-ui/themes';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { BookText, Car, Minus, Plus, Save } from 'lucide-react';
+import { BookText, Minus, Plus, Save } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
 import { useEffect } from 'react';
@@ -63,6 +62,7 @@ import ClientForm from './ClientForm';
 import FlightForm from './Flight';
 import HotelForm from './HotelForm';
 import styles from './page.module.css';
+import RentalCarForm from './RentalCarForm';
 import TourForm from './TourForm';
 
 const status$ = observable({
@@ -413,252 +413,13 @@ export default function ReservationsFormClientContainer({
             />
           )}
 
-          <Card asChild size='3'>
-            <Section id='rental_car'>
-              <Heading as='h3' mb='4'>
-                렌터카
-              </Heading>
-
-              <Table.Root size='1'>
-                <Table.Header>
-                  <Table.Row>
-                    <Table.ColumnHeaderCell width='90px'>환율</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='120px'>지역</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='240px'>날짜</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='120px'>픽업장소</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='160px'>차종</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='160px'>운전자</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='160px'>조건</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='80px'>💰1일요금</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='70px'>대여일</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='110px'>진행상태</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='70px'>추가옵션</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell>비고</Table.ColumnHeaderCell>
-                  </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                  {getValues('rental_cars').map((_car, i) => (
-                    <Table.Row key={i}>
-                      <Table.Cell>
-                        <Controller
-                          name={`rental_cars.${i}.exchange_rate`}
-                          control={control}
-                          render={({ field }) => (
-                            <TextField.Root
-                              type='number'
-                              min='0'
-                              step='0.01'
-                              value={field.value}
-                              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                const { value } = e.target;
-                                if (!value) return field.onChange(value);
-
-                                const [integer, decimal] = value.split('.');
-                                const formattedValue = decimal
-                                  ? `${integer.slice(0, 4)}.${decimal.slice(0, 2)}`
-                                  : integer.slice(0, 4);
-
-                                field.onChange(+formattedValue);
-                              }}
-                            />
-                          )}
-                        />
-                      </Table.Cell>
-                      <Table.Cell>
-                        <Controller
-                          name={`rental_cars.${i}.region`}
-                          control={control}
-                          render={({ field }) => (
-                            <Select.Root
-                              value={field.value}
-                              onValueChange={value => {
-                                field.onChange(value);
-                              }}
-                              name={field.name}
-                            >
-                              <Select.Trigger placeholder='지역 선택'>{field.value}</Select.Trigger>
-                              <Select.Content>
-                                {REGIONS.map(value => (
-                                  <Select.Item value={value} key={value}>
-                                    {value}
-                                  </Select.Item>
-                                ))}
-                              </Select.Content>
-                            </Select.Root>
-                          )}
-                        />
-                      </Table.Cell>
-                      <Table.Cell>
-                        <TextField.Root
-                          type='date'
-                          {...register(`rental_cars.${i}.pickup_date`, {
-                            required: true
-                          })}
-                        />
-                        ~
-                        <TextField.Root
-                          type='date'
-                          {...register(`rental_cars.${i}.return_date`, {
-                            required: true
-                          })}
-                        />
-                      </Table.Cell>
-                      <Table.Cell>
-                        <TextField.Root
-                          {...register(`rental_cars.${i}.pickup_location`, {
-                            required: true
-                          })}
-                        />
-                        <br />
-                        <TextField.Root
-                          type='time'
-                          {...register(`rental_cars.${i}.pickup_time`, {
-                            required: true
-                          })}
-                        />
-                      </Table.Cell>
-                      <Table.Cell>
-                        <TextField.Root
-                          {...register(`rental_cars.${i}.model`, {
-                            required: true
-                          })}
-                        />
-                      </Table.Cell>
-                      <Table.Cell>
-                        <TextField.Root
-                          {...register(`rental_cars.${i}.driver`, {
-                            required: true
-                          })}
-                        />
-                      </Table.Cell>
-                      <Table.Cell>
-                        <TextField.Root
-                          {...register(`rental_cars.${i}.options`, {
-                            required: true
-                          })}
-                        />
-                      </Table.Cell>
-                      <Table.Cell>
-                        <TextField.Root
-                          type='number'
-                          min='0'
-                          {...register(`rental_cars.${i}.cost`, {
-                            required: true,
-                            valueAsNumber: true
-                          })}
-                        />
-                      </Table.Cell>
-                      <Table.Cell>
-                        <TextField.Root
-                          type='number'
-                          min='0'
-                          {...register(`rental_cars.${i}.daily_rate`, {
-                            required: true,
-                            valueAsNumber: true
-                          })}
-                        />
-                      </Table.Cell>
-                      <Table.Cell>
-                        <TextField.Root
-                          type='number'
-                          min='1'
-                          {...register(`rental_cars.${i}.rental_days`, {
-                            required: true,
-                            valueAsNumber: true
-                          })}
-                        />
-                      </Table.Cell>
-                      <Table.Cell>
-                        <Controller
-                          name={`rental_cars.${i}.status`}
-                          control={control}
-                          render={({ field }) => (
-                            <Select.Root
-                              value={field.value}
-                              onValueChange={value => {
-                                field.onChange(value);
-                              }}
-                              name={field.name}
-                            >
-                              <Select.Trigger
-                                color={PRODUCT_STATUS_COLOR[field.value]}
-                                variant='soft'
-                              >
-                                {ProductStatus[field.value]}
-                              </Select.Trigger>
-                              <Select.Content>
-                                {Object.entries(ProductStatus).map(([key, label]) => (
-                                  <Select.Item key={key} value={key}>
-                                    {label}
-                                  </Select.Item>
-                                ))}
-                              </Select.Content>
-                            </Select.Root>
-                          )}
-                        />
-                      </Table.Cell>
-                      <Table.Cell>
-                        <Button
-                          disabled={!getValues(`rental_cars.${i}.id`)}
-                          title='추가옵션'
-                          type='button'
-                          onClick={() =>
-                            handleAdditionalOptions({
-                              id: Number(getValues(`rental_cars.${i}.id`)),
-                              type: 'rental_car',
-                              title: getValues(`rental_cars.${i}.model`),
-                              data: getValues(`rental_cars.${i}.additional_options`)
-                            })
-                          }
-                        >
-                          <Plus size={16} />
-                        </Button>
-                      </Table.Cell>
-                      <Table.Cell>
-                        <TextField.Root {...register(`rental_cars.${i}.notes`)} />
-                      </Table.Cell>
-                      <Table.Cell hidden>
-                        <CarTotalCalculator index={i} setValue={setValue} control={control} />
-                      </Table.Cell>
-                    </Table.Row>
-                  ))}
-                </Table.Body>
-              </Table.Root>
-
-              {!getValues('rental_cars').length && (
-                <Flex justify='center' py='5'>
-                  예약 내역이 없습니다
-                </Flex>
-              )}
-
-              <Flex justify='end' mt='4' gap='1'>
-                <Button
-                  type='button'
-                  color='ruby'
-                  variant='soft'
-                  onClick={() => removeItem('rental_cars')}
-                  disabled={isRemoveProductDisabled('rental_cars')}
-                >
-                  <Minus size='20' /> 삭제
-                </Button>
-                <Button type='button' color='ruby' onClick={addCar}>
-                  <Car size='20' />
-                  렌터카 추가
-                </Button>
-              </Flex>
-
-              {isDev() && (
-                <pre>
-                  {JSON.stringify(
-                    { isDirty: isDirtyProductItem('rental_cars'), ...watch('rental_cars') },
-                    null,
-                    2
-                  )}
-                </pre>
-              )}
-            </Section>
-          </Card>
+          {data && (
+            <RentalCarForm
+              data={data}
+              mutation={mutation}
+              handleAdditionalOptions={handleAdditionalOptions}
+            />
+          )}
 
           <Card asChild size='3'>
             <Section id='insurance'>
