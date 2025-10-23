@@ -17,7 +17,7 @@ import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import AdditionalOptionsEditor from './AdditionalOptionsEditor';
 import ClientForm from './ClientForm';
-import FlightForm from './Flight';
+import FlightForm from './FlightForm';
 import HotelForm from './HotelForm';
 import InsuranceForm from './InsuranceForm';
 import styles from './page.module.css';
