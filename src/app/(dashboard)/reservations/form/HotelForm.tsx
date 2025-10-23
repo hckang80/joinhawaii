@@ -44,7 +44,7 @@ export default function HotelForm({
   isRemoveProductDisabled,
   handleAdditionalOptions
 }: {
-  data?: ReservationResponse;
+  data: ReservationResponse;
   mutation: ReturnType<typeof useMutation<unknown, Error, ReservationFormData, unknown>>;
   isRemoveProductDisabled: (target: `${ProductType}s`) => boolean;
   handleAdditionalOptions: (context: {
@@ -69,7 +69,7 @@ export default function HotelForm({
   } = useForm<ReservationFormData>({
     defaultValues: {
       reservation_id,
-      hotels: data?.products.hotels || []
+      hotels: data.products.hotels
     }
   });
 

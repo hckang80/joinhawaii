@@ -646,12 +646,14 @@ export default function ReservationsFormClientContainer({
             </Section>
           </Card>
 
-          <HotelForm
-            data={data}
-            mutation={mutation}
-            isRemoveProductDisabled={isRemoveProductDisabled}
-            handleAdditionalOptions={handleAdditionalOptions}
-          />
+          {data && (
+            <HotelForm
+              data={data}
+              mutation={mutation}
+              isRemoveProductDisabled={isRemoveProductDisabled}
+              handleAdditionalOptions={handleAdditionalOptions}
+            />
+          )}
 
           <Card asChild size='3'>
             <Section id='tour'>
