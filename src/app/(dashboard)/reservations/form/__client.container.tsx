@@ -13,7 +13,6 @@ import {
 import { observable } from '@legendapp/state';
 import { Box, Button, Flex, Heading, Text, TextField } from '@radix-ui/themes';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { Save } from 'lucide-react';
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import AdditionalOptionsEditor from './AdditionalOptionsEditor';
@@ -158,6 +157,9 @@ export default function ReservationsFormClientContainer({
                       />
                     )}
                   />
+                  <Button disabled={mutation.isPending} size='3'>
+                    저장
+                  </Button>
                 </Flex>
                 <div>
                   <Text as='label' weight='medium'>
@@ -179,12 +181,6 @@ export default function ReservationsFormClientContainer({
               <Text as='p' align='right' mt='2' weight='bold' color='ruby'>
                 환율이 입력된 상품만 총액에 반영됩니다.
               </Text>
-              <Flex justify='end' align='center' gap='2' mt='2'>
-                <Button disabled={mutation.isPending} size='3'>
-                  <Save />
-                  변경사항 저장
-                </Button>
-              </Flex>
             </form>
           </Box>
         </div>
