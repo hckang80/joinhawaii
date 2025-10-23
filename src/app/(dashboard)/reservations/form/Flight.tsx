@@ -64,7 +64,7 @@ export default function FlightForm({
     });
   };
 
-  const addRow = () => {
+  const addItem = () => {
     setValue('flights', [...flights, defaultFlightValues]);
   };
 
@@ -312,7 +312,7 @@ export default function FlightForm({
             >
               <Minus size='20' /> 삭제
             </Button>
-            <Button type='button' color='ruby' onClick={addRow}>
+            <Button type='button' color='ruby' onClick={addItem}>
               <Plane size='20' />
               항공 추가
             </Button>

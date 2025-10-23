@@ -83,7 +83,7 @@ export default function HotelForm({
     });
   };
 
-  const addHotel = () => {
+  const addItem = () => {
     setValue('hotels', [...hotels, defaultHotelValues]);
   };
 
@@ -340,7 +340,7 @@ export default function HotelForm({
             >
               <Minus size='20' /> 삭제
             </Button>
-            <Button type='button' color='ruby' onClick={addHotel}>
+            <Button type='button' color='ruby' onClick={addItem}>
               <Hotel size='20' />
               호텔 추가
             </Button>
