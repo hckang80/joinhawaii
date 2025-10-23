@@ -1,10 +1,4 @@
-import {
-  defaultClientValues,
-  defaultHotelValues,
-  PRODUCT_STATUS_COLOR,
-  ProductStatus,
-  REGIONS
-} from '@/constants';
+import { defaultHotelValues, PRODUCT_STATUS_COLOR, ProductStatus, REGIONS } from '@/constants';
 import type {
   AdditionalOptions,
   ProductFormType,
@@ -74,7 +68,7 @@ export default function HotelForm({
     )
   });
 
-  const hotels = useWatch({ control, name: 'hotels' }) ?? [defaultClientValues];
+  const hotels = useWatch({ control, name: 'hotels' }) ?? [defaultHotelValues];
 
   const onSubmit: SubmitHandler<ReservationFormData> = formData => {
     if (!isDirty) return toast.info('변경된 내용이 없습니다.');
