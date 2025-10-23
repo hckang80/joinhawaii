@@ -50,12 +50,12 @@ export default function ClientForm({
   } = useForm<ReservationFormData>({
     defaultValues: useMemo(() => {
       return {
-        ...(isModify && { reservation_id: data?.reservation_id }),
+        reservation_id: data?.reservation_id,
         booking_platform: data?.booking_platform || '',
         main_client_name: data?.main_client_name || '',
         clients: data?.clients || [defaultClientValues]
       };
-    }, [isModify, data])
+    }, [data])
   });
 
   const clients = useWatch({ control, name: 'clients' }) ?? [defaultClientValues];
