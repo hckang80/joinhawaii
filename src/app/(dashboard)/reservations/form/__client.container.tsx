@@ -14,7 +14,8 @@ import { observable } from '@legendapp/state';
 import { Box, Button, Flex, Heading, Text, TextField } from '@radix-ui/themes';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { Save } from 'lucide-react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import AdditionalOptionsEditor from './AdditionalOptionsEditor';
 import ClientForm from './ClientForm';
 import FlightForm from './Flight';
@@ -48,37 +49,17 @@ export default function ReservationsFormClientContainer({
   const isModify = !!reservation_id;
 
   const {
-    register,
     handleSubmit,
     watch,
-    formState: { isDirty, dirtyFields },
-    getValues,
-    setValue,
-    control
+    formState: { isDirty },
+    control,
+    reset
   } = useForm<ReservationFormData>({
     defaultValues: {
       deposit: data?.deposit || 0,
       ...(isModify && {
         reservation_id: data?.reservation_id
       })
-      // clients: data?.clients || [defaultClientValues],
-      // flights: data?.products.flights.length
-      //   ? data.products.flights.map(flight => ({
-      //       ...flight,
-      //       arrival_datetime: new Date(flight.arrival_datetime).toISOString().slice(0, 16),
-      //       departure_datetime: new Date(flight.departure_datetime).toISOString().slice(0, 16)
-      //     }))
-      //   : [],
-      // hotels: data?.products.hotels.length ? data.products.hotels : [],
-      // tours: data?.products.tours.length
-      //   ? data.products.tours.map(tour => ({
-      //       ...tour,
-      //       start_date: new Date(tour.start_date).toISOString().slice(0, 16),
-      //       end_date: new Date(tour.end_date).toISOString().slice(0, 16)
-      //     }))
-      //   : [],
-      // rental_cars: data?.products.rental_cars.length ? data.products.rental_cars : [],
-      // insurances: data?.products.insurances?.length ? data.products.insurances : []
     }
   });
 
@@ -92,10 +73,12 @@ export default function ReservationsFormClientContainer({
     onError: handleApiError
   });
 
-  // const onSubmit: SubmitHandler<ReservationFormData> = formData => {
-  //   if (!isDirty) return toast.info('변경된 내용이 없습니다.');
-  //   mutation.mutate(formData);
-  // };
+  const onSubmit: SubmitHandler<ReservationFormData> = formData => {
+    if (!isDirty) return toast.info('변경된 내용이 없습니다.');
+    mutation.mutate(formData, {
+      onSuccess: () => reset(formData)
+    });
+  };
 
   const handleAdditionalOptions = (context: {
     id: number;
@@ -152,55 +135,57 @@ export default function ReservationsFormClientContainer({
           )}
 
           <Box position='sticky' bottom='5' className={styles['exchange-rate-card']}>
-            <Flex direction='column' align='end' gap='2'>
-              <Flex align='center' gap='1'>
-                <Text as='label' weight='medium'>
-                  예약금{' '}
-                </Text>
-                ₩
-                <Controller
-                  name='deposit'
-                  control={control}
-                  render={({ field }) => (
-                    <TextField.Root
-                      size='3'
-                      type='text'
-                      value={formatKoreanCurrency(field.value)}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        const numericValue = parseKoreanCurrency(e.target.value);
-                        field.onChange(numericValue);
-                      }}
-                      placeholder='0'
-                    />
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Flex direction='column' align='end' gap='2'>
+                <Flex align='center' gap='1'>
+                  <Text as='label' weight='medium'>
+                    예약금{' '}
+                  </Text>
+                  ₩
+                  <Controller
+                    name='deposit'
+                    control={control}
+                    render={({ field }) => (
+                      <TextField.Root
+                        size='3'
+                        type='text'
+                        value={formatKoreanCurrency(field.value)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                          const numericValue = parseKoreanCurrency(e.target.value);
+                          field.onChange(numericValue);
+                        }}
+                        placeholder='0'
+                      />
+                    )}
+                  />
+                </Flex>
+                <div>
+                  <Text as='label' weight='medium'>
+                    잔금{' '}
+                  </Text>
+                  {toReadableAmount(
+                    Number(data?.total_amount_krw) - watch('deposit') || 0,
+                    'ko-KR',
+                    'KRW'
                   )}
-                />
+                </div>
+                <div>
+                  <Text as='label' weight='medium'>
+                    총액{' '}
+                  </Text>
+                  {toReadableAmount(Number(data?.total_amount_krw) || 0, 'ko-KR', 'KRW')}
+                </div>
               </Flex>
-              <div>
-                <Text as='label' weight='medium'>
-                  잔금{' '}
-                </Text>
-                {toReadableAmount(
-                  Number(data?.total_amount_krw) - watch('deposit') || 0,
-                  'ko-KR',
-                  'KRW'
-                )}
-              </div>
-              <div>
-                <Text as='label' weight='medium'>
-                  총액{' '}
-                </Text>
-                {toReadableAmount(Number(data?.total_amount_krw) || 0, 'ko-KR', 'KRW')}
-              </div>
-            </Flex>
-            <Text as='p' align='right' mt='2' weight='bold' color='ruby'>
-              환율이 입력된 상품만 총액에 반영됩니다.
-            </Text>
-            <Flex justify='end' align='center' gap='2' mt='2'>
-              <Button disabled={mutation.isPending} size='3'>
-                <Save />
-                변경사항 저장
-              </Button>
-            </Flex>
+              <Text as='p' align='right' mt='2' weight='bold' color='ruby'>
+                환율이 입력된 상품만 총액에 반영됩니다.
+              </Text>
+              <Flex justify='end' align='center' gap='2' mt='2'>
+                <Button disabled={mutation.isPending} size='3'>
+                  <Save />
+                  변경사항 저장
+                </Button>
+              </Flex>
+            </form>
           </Box>
         </div>
       </Flex>
