@@ -18,7 +18,7 @@ import {
 } from '@radix-ui/themes';
 import { useMutation } from '@tanstack/react-query';
 import { PlusCircle, Save, UserMinus, UserPlus } from 'lucide-react';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useMemo } from 'react';
 import { Controller, SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -32,8 +32,16 @@ export default function ClientForm({
   mutation
 }: {
   data?: ReservationResponse;
-  mutation: ReturnType<typeof useMutation<unknown, Error, ReservationFormData, unknown>>;
+  mutation: ReturnType<
+    typeof useMutation<
+      { data: { booking_platform: string; reservation_id: string; total_amount: number } },
+      Error,
+      ReservationFormData,
+      unknown
+    >
+  >;
 }) {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const reservation_id = searchParams.get('reservation_id')!;
   const isModify = !!reservation_id;
@@ -70,7 +78,10 @@ export default function ClientForm({
         main_client_name: mainClientName
       },
       {
-        onSuccess: () => reset(formData)
+        onSuccess: ({ data }) => {
+          reset(formData);
+          redirectModifyForm(data.reservation_id);
+        }
       }
     );
   };
@@ -94,6 +105,11 @@ export default function ClientForm({
   };
 
   const isRemoveClientDisabled = clients.length <= (data?.clients.length || 1);
+
+  const redirectModifyForm = async (reservationId: string) => {
+    if (isModify) return;
+    router.replace(`/reservations/form?reservation_id=${encodeURIComponent(reservationId)}`);
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
