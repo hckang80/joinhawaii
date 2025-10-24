@@ -74,6 +74,13 @@ export interface ReservationBaseInfo {
   deposit: number;
 }
 
+export interface ReservationSuccessResponse {
+  reservation_id: string;
+  booking_platform: string;
+  total_amount: number;
+  id: number;
+}
+
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
 type TableSchema<TRow, TInsert = Omit<TRow, 'id'>, TUpdate = Partial<TRow>> = {

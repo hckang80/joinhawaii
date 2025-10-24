@@ -2,7 +2,12 @@
 
 import { createReservation, updateReservation } from '@/http';
 import { reservationQueryOptions } from '@/lib/queries';
-import type { AdditionalOptions, ProductType, ReservationFormData } from '@/types';
+import type {
+  AdditionalOptions,
+  ProductType,
+  ReservationFormData,
+  ReservationSuccessResponse
+} from '@/types';
 import {
   formatKoreanCurrency,
   handleApiError,
@@ -66,7 +71,7 @@ export default function ReservationsFormClientContainer({
     mutationFn: (formData: ReservationFormData) => {
       return isModify ? updateReservation(formData) : createReservation(formData);
     },
-    onSuccess: (result: unknown) => {
+    onSuccess: (result: { data: ReservationSuccessResponse }) => {
       handleApiSuccess(result);
     },
     onError: handleApiError

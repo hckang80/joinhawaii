@@ -1,5 +1,10 @@
 import { defaultClientValues, GENDER_TYPE } from '@/constants';
-import type { ProductFormType, ReservationFormData, ReservationResponse } from '@/types';
+import type {
+  ProductFormType,
+  ReservationFormData,
+  ReservationResponse,
+  ReservationSuccessResponse
+} from '@/types';
 import { isDev } from '@/utils';
 import { observable } from '@legendapp/state';
 import { use$ } from '@legendapp/state/react';
@@ -33,12 +38,7 @@ export default function ClientForm({
 }: {
   data?: ReservationResponse;
   mutation: ReturnType<
-    typeof useMutation<
-      { data: { booking_platform: string; reservation_id: string; total_amount: number } },
-      Error,
-      ReservationFormData,
-      unknown
-    >
+    typeof useMutation<{ data: ReservationSuccessResponse }, Error, ReservationFormData, unknown>
   >;
 }) {
   const router = useRouter();
