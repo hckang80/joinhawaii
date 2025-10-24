@@ -66,11 +66,19 @@ export interface ReservationItem {
 }
 
 export interface ReservationBaseInfo {
+  reservation_id?: string;
   exchange_rate: number;
   booking_platform: string;
   main_client_name: string;
   total_amount: number;
   deposit: number;
+}
+
+export interface ReservationSuccessResponse {
+  reservation_id: string;
+  booking_platform: string;
+  total_amount: number;
+  id: number;
 }
 
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
@@ -167,7 +175,6 @@ export type ReservationRow = TablesRow<'reservations'>;
 
 export interface Reservation extends ReservationBaseInfo {
   id: number;
-  reservation_id: string;
   status: ProductStatusKey;
   created_at: string;
   clients: TablesRow<'clients'>[];
