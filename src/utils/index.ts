@@ -107,3 +107,26 @@ export function formatResidentId(input: string) {
   if (digits.length <= 6) return digits;
   return `${digits.slice(0, 6)}-${digits.slice(6)}`;
 }
+
+/**
+ * 전화번호를 입력 형식(010-0000-0000)으로 자동 포맷합니다.
+ *
+ * - 숫자 외 문자를 제거하고 최대 11자리까지 허용합니다.
+ * - 모바일(예: 010) 기준으로 3-4-4 포맷을 적용합니다.
+ *
+ * 예시:
+ *   formatPhoneNumber('01012345678') => '010-1234-5678'
+ *   formatPhoneNumber('010-1234-5678') => '010-1234-5678'
+ *   formatPhoneNumber('01012') => '010-12'
+ *
+ * @param {string} input - 원시 입력 문자열
+ * @returns {string} 포맷된 전화번호 문자열
+ */
+export function formatPhoneNumber(input: string) {
+  const digits = (input ?? '').replace(/\D/g, '').slice(0, 11); // 최대 11자리
+  if (!digits) return '';
+
+  if (digits.length <= 3) return digits;
+  if (digits.length <= 7) return `${digits.slice(0, 3)}-${digits.slice(3)}`;
+  return `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
+}
