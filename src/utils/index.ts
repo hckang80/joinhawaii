@@ -87,3 +87,23 @@ export function calculateTotalAmount({
     cost_amount_krw
   };
 }
+
+/**
+ * Format a Korean resident ID string by:
+ * - removing all non-digit characters,
+ * - limiting to a maximum of 13 digits (6 + 7),
+ * - inserting a hyphen after the first 6 digits if more than 6 digits exist.
+ *
+ * Examples:
+ *   formatResidentId('9001011234567') => '900101-1234567'
+ *   formatResidentId('900101') => '900101'
+ *   formatResidentId('900101-1234567') => '900101-1234567'
+ *
+ * @param {string} input - Raw input string (may contain digits and non-digits).
+ * @returns {string} Formatted resident id (e.g. 'YYMMDD-XXXXXXX') or partial digits while typing.
+ */
+export function formatResidentId(input: string) {
+  const digits = input.replace(/\D/g, '').slice(0, 13);
+  if (digits.length <= 6) return digits;
+  return `${digits.slice(0, 6)}-${digits.slice(6)}`;
+}

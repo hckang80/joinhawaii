@@ -5,7 +5,7 @@ import type {
   ReservationResponse,
   ReservationSuccessResponse
 } from '@/types';
-import { isDev } from '@/utils';
+import { formatResidentId, isDev } from '@/utils';
 import { observable } from '@legendapp/state';
 import { use$ } from '@legendapp/state/react';
 import {
@@ -233,9 +233,20 @@ export default function ClientForm({
                       />
                     </Table.Cell>
                     <Table.Cell>
-                      <TextField.Root
-                        {...register(`clients.${i}.resident_id`, { required: true })}
-                        placeholder='000000-0000000'
+                      <Controller
+                        name={`clients.${i}.resident_id`}
+                        control={control}
+                        rules={{ required: true }}
+                        render={({ field }) => (
+                          <TextField.Root
+                            value={field.value}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                              const formatted = formatResidentId(e.target.value);
+                              field.onChange(formatted);
+                            }}
+                            placeholder='000000-0000000'
+                          />
+                        )}
                       />
                     </Table.Cell>
                     <Table.Cell>
