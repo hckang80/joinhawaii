@@ -188,8 +188,10 @@ export default function ClientForm({
                       <Controller
                         name={`clients.${i}.korean_name`}
                         control={control}
+                        rules={{ required: true }}
                         render={({ field }) => (
                           <TextField.Root
+                            ref={field.ref}
                             value={field.value}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                               field.onChange(e.target.value);
@@ -239,6 +241,7 @@ export default function ClientForm({
                         rules={{ required: true }}
                         render={({ field }) => (
                           <TextField.Root
+                            ref={field.ref}
                             value={field.value}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                               const formatted = formatResidentId(e.target.value);
@@ -256,6 +259,7 @@ export default function ClientForm({
                         rules={{ required: true }}
                         render={({ field }) => (
                           <TextField.Root
+                            ref={field.ref}
                             value={field.value}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                               const formatted = formatPhoneNumber(e.target.value);
