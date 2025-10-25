@@ -89,18 +89,19 @@ export function calculateTotalAmount({
 }
 
 /**
- * Format a Korean resident ID string by:
- * - removing all non-digit characters,
- * - limiting to a maximum of 13 digits (6 + 7),
- * - inserting a hyphen after the first 6 digits if more than 6 digits exist.
+ * 주민등록번호 입력값을 포맷합니다.
  *
- * Examples:
+ * - 숫자 외 문자를 제거합니다.
+ * - 최대 13자리(앞6자리-뒤7자리)까지만 허용합니다.
+ * - 6자리 이후에 하이픈('-')을 자동으로 삽입합니다.
+ *
+ * 예시:
  *   formatResidentId('9001011234567') => '900101-1234567'
  *   formatResidentId('900101') => '900101'
  *   formatResidentId('900101-1234567') => '900101-1234567'
  *
- * @param {string} input - Raw input string (may contain digits and non-digits).
- * @returns {string} Formatted resident id (e.g. 'YYMMDD-XXXXXXX') or partial digits while typing.
+ * @param {string} input - 사용자가 입력한 원시 문자열
+ * @returns {string} 하이픈이 적용된 주민등록번호 또는 입력 중인 부분 문자열
  */
 export function formatResidentId(input: string) {
   const digits = input.replace(/\D/g, '').slice(0, 13);
