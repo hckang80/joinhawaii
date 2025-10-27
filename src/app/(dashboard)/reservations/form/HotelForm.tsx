@@ -86,7 +86,7 @@ export default function HotelForm({
     setValue(target, items.slice(0, -1));
   };
 
-  const isRemoveDisabled = hotels.length <= (data.products.hotels.length || 1);
+  const isRemoveDisabled = hotels.length <= data.products.hotels.length;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

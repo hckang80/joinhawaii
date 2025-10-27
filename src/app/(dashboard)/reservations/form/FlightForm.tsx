@@ -73,7 +73,7 @@ export default function FlightForm({
     setValue(target, items.slice(0, -1));
   };
 
-  const isRemoveDisabled = flights.length <= (data.products.flights.length || 1);
+  const isRemoveDisabled = flights.length <= data.products.flights.length;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

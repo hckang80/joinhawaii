@@ -86,7 +86,7 @@ export default function TourForm({
     setValue(target, items.slice(0, -1));
   };
 
-  const isRemoveDisabled = tours.length <= (data.products.tours.length || 1);
+  const isRemoveDisabled = tours.length <= data.products.tours.length;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

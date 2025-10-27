@@ -76,7 +76,7 @@ export default function RentalCarForm({
     setValue(target, items.slice(0, -1));
   };
 
-  const isRemoveDisabled = rentalCars.length <= (data.products.rental_cars.length || 1);
+  const isRemoveDisabled = rentalCars.length <= data.products.rental_cars.length;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

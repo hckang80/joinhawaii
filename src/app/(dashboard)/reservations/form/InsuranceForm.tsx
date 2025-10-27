@@ -86,7 +86,7 @@ export default function InsuranceForm({
     setValue(target, items.slice(0, -1));
   };
 
-  const isRemoveDisabled = insurances.length <= (data.products.insurances.length || 1);
+  const isRemoveDisabled = insurances.length <= data.products.insurances.length;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
