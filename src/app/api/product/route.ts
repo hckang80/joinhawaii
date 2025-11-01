@@ -109,6 +109,18 @@ export async function GET() {
           product_name: `${insurance.company}`,
           type: 'insurance' as const,
           additional_options: optionsByKey.get(`insurance_${String(insurance.id)}`) ?? [],
+          total_amount:
+            insurance.total_amount +
+            (optionsByKey.get(`insurance_${String(insurance.id)}`) ?? []).reduce(
+              (acc, o) => acc + o.total_amount,
+              0
+            ),
+          total_cost:
+            insurance.total_cost +
+            (optionsByKey.get(`insurance_${String(insurance.id)}`) ?? []).reduce(
+              (acc, o) => acc + o.total_cost,
+              0
+            ),
           cost_amount_krw:
             Number(insurance.total_cost ?? 0) * Number(insurance.exchange_rate ?? 0) +
             (optionsByKey.get(`insurance_${String(insurance.id)}`) ?? []).reduce(
