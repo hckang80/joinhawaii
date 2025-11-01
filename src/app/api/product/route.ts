@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
-import type { Database, ProductWithReservation, TablesRow } from '@/types';
+import type { AdditionalOptions, Database, ProductWithReservation, TablesRow } from '@/types';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
@@ -52,13 +52,15 @@ export async function GET() {
       ...insuranceRows.map(r => r.id)
     ].filter((v, i, a) => v != null && a.indexOf(v) === i);
 
-    const optionsRes =
+    const optionsData =
       allPids.length > 0
-        ? await supabase.from('options').select('*').in('pid', allPids)
-        : { data: [] as any[] };
+        ? ((
+            await supabase.from('options').select<string, AdditionalOptions>('*').in('pid', allPids)
+          ).data ?? [])
+        : [];
 
-    const optionsByKey = new Map<string, any[]>();
-    (optionsRes.data ?? []).forEach(opt => {
+    const optionsByKey = new Map<string, AdditionalOptions[]>();
+    optionsData.forEach(opt => {
       const key = `${opt.type}_${String(opt.pid)}`;
       const arr = optionsByKey.get(key) ?? [];
       arr.push(opt);
