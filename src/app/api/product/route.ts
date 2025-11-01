@@ -114,25 +114,26 @@ export async function GET() {
           total_amount:
             insurance.total_amount +
             (optionsByKey.get(`insurance_${String(insurance.id)}`) ?? []).reduce(
-              (acc, o) => acc + o.total_amount,
+              (acc, optionProduct) => acc + optionProduct.total_amount,
               0
             ),
           total_cost:
             insurance.total_cost +
             (optionsByKey.get(`insurance_${String(insurance.id)}`) ?? []).reduce(
-              (acc, o) => acc + o.total_cost,
+              (acc, optionProduct) => acc + optionProduct.total_cost,
               0
             ),
           cost_amount_krw:
-            Number(insurance.total_cost ?? 0) * Number(insurance.exchange_rate ?? 0) +
+            insurance.total_cost * insurance.exchange_rate +
             (optionsByKey.get(`insurance_${String(insurance.id)}`) ?? []).reduce(
-              (acc, o) => acc + Number(o.total_cost ?? 0) * Number(o.exchange_rate ?? 0),
+              (acc, optionProduct) => acc + optionProduct.total_cost * optionProduct.exchange_rate,
               0
             ),
           total_amount_krw:
             Number(insurance.total_amount ?? 0) * Number(insurance.exchange_rate ?? 0) +
             (optionsByKey.get(`insurance_${String(insurance.id)}`) ?? []).reduce(
-              (acc, o) => acc + Number(o.total_amount ?? 0) * Number(o.exchange_rate ?? 0),
+              (acc, optionProduct) =>
+                acc + optionProduct.total_amount * optionProduct.exchange_rate,
               0
             )
         })
