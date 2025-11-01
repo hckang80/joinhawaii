@@ -40,6 +40,31 @@ export async function GET() {
         `)
     ]);
 
+    const hotelRows = hotels.data ?? [];
+    const tourRows = tours.data ?? [];
+    const rentalRows = rental_cars.data ?? [];
+    const insuranceRows = insurances.data ?? [];
+
+    const allPids = [
+      ...hotelRows.map(r => r.id),
+      ...tourRows.map(r => r.id),
+      ...rentalRows.map(r => r.id),
+      ...insuranceRows.map(r => r.id)
+    ].filter((v, i, a) => v != null && a.indexOf(v) === i);
+
+    const optionsRes =
+      allPids.length > 0
+        ? await supabase.from('options').select('*').in('pid', allPids)
+        : { data: [] as any[] };
+
+    const optionsByKey = new Map<string, any[]>();
+    (optionsRes.data ?? []).forEach(opt => {
+      const key = `${opt.type}_${String(opt.pid)}`;
+      const arr = optionsByKey.get(key) ?? [];
+      arr.push(opt);
+      optionsByKey.set(key, arr);
+    });
+
     const allProducts = [
       ...(hotels.data?.map(
         ({ reservations: { main_client_name, booking_platform }, ...hotel }) => ({
@@ -83,8 +108,19 @@ export async function GET() {
           booking_platform,
           product_name: `${insurance.company}`,
           type: 'insurance' as const,
-          cost_amount_krw: insurance.total_cost * insurance.exchange_rate,
-          total_amount_krw: insurance.total_amount * insurance.exchange_rate
+          additional_options: optionsByKey.get(`insurance_${String(insurance.id)}`) ?? [],
+          cost_amount_krw:
+            Number(insurance.total_cost ?? 0) * Number(insurance.exchange_rate ?? 0) +
+            (optionsByKey.get(`insurance_${String(insurance.id)}`) ?? []).reduce(
+              (acc, o) => acc + Number(o.total_cost ?? 0) * Number(o.exchange_rate ?? 0),
+              0
+            ),
+          total_amount_krw:
+            Number(insurance.total_amount ?? 0) * Number(insurance.exchange_rate ?? 0) +
+            (optionsByKey.get(`insurance_${String(insurance.id)}`) ?? []).reduce(
+              (acc, o) => acc + Number(o.total_amount ?? 0) * Number(o.exchange_rate ?? 0),
+              0
+            )
         })
       ) ?? [])
     ].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
