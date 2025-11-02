@@ -62,15 +62,17 @@ export default function SettlementClientContainer() {
                   >
                     {item.product_name}
                   </StyledLink>
-                  <Flex gap='1' mt='2'>
-                    {(item.additional_options || []).map(option => {
-                      return (
-                        <Badge key={option.id} size='2' color='gray'>
-                          {option.title}
-                        </Badge>
-                      );
-                    })}
-                  </Flex>
+                  {!!item.additional_options.length && (
+                    <Flex gap='1' mt='2'>
+                      {item.additional_options.map(option => {
+                        return (
+                          <Badge key={option.id} size='2' color='gray'>
+                            {option.title}
+                          </Badge>
+                        );
+                      })}
+                    </Flex>
+                  )}
                 </Table.Cell>
                 <Table.Cell>
                   {typeof item.balance === 'number' && statusLabel(item.balance)}
