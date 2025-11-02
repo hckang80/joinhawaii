@@ -6,6 +6,7 @@ import { productsQueryOptions } from '@/lib/queries';
 import type { ProductStatusKey, UpdateProductStatusParams } from '@/types';
 import { handleApiError, handleApiSuccess, isDev, statusLabel, toReadableDate } from '@/utils';
 import {
+  Badge,
   Button,
   Card,
   Flex,
@@ -105,6 +106,17 @@ export default function ReservationsClientContainer() {
                   >
                     {item.product_name}
                   </StyledLink>
+                  {!!item.additional_options.length && (
+                    <Flex gap='1' mt='2'>
+                      {item.additional_options.map(option => {
+                        return (
+                          <Badge key={option.id} size='2' color='gray'>
+                            {option.title}
+                          </Badge>
+                        );
+                      })}
+                    </Flex>
+                  )}
                 </Table.Cell>
                 <Table.Cell>{toReadableDate(new Date(item.event_date))}</Table.Cell>
                 <Table.Cell>{toReadableDate(new Date(item.created_at))}</Table.Cell>
