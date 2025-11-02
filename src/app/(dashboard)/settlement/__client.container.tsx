@@ -1,17 +1,9 @@
 'use client';
 
+import { ProductOptionBadge } from '@/components';
 import { productsQueryOptions } from '@/lib/queries';
 import { isDev, statusLabel, toReadableAmount, toReadableDate } from '@/utils';
-import {
-  Badge,
-  Card,
-  Flex,
-  Grid,
-  Heading,
-  Link as StyledLink,
-  Table,
-  Text
-} from '@radix-ui/themes';
+import { Card, Grid, Heading, Link as StyledLink, Table, Text } from '@radix-ui/themes';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
 
@@ -62,17 +54,7 @@ export default function SettlementClientContainer() {
                   >
                     {item.product_name}
                   </StyledLink>
-                  {!!item.additional_options.length && (
-                    <Flex gap='1' mt='2'>
-                      {item.additional_options.map(option => {
-                        return (
-                          <Badge key={option.id} size='2' color='gray'>
-                            {option.title}
-                          </Badge>
-                        );
-                      })}
-                    </Flex>
-                  )}
+                  <ProductOptionBadge items={item.additional_options} />
                 </Table.Cell>
                 <Table.Cell>
                   {typeof item.balance === 'number' && statusLabel(item.balance)}
