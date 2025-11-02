@@ -54,6 +54,9 @@ export default function SettlementClientContainer() {
                   >
                     {item.product_name}
                   </StyledLink>
+                  {(item.additional_options || []).map(option => {
+                    return <div key={option.id}>{option.title}</div>;
+                  })}
                 </Table.Cell>
                 <Table.Cell>
                   {typeof item.balance === 'number' && statusLabel(item.balance)}
