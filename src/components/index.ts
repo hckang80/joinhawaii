@@ -1,0 +1,1 @@
+export { ProductOptionBadge } from './ProductOptionBadge';
