@@ -44,6 +44,13 @@ export const fetchProducts = async (): Promise<AllProducts[]> => {
   try {
     const url = getFetchUrl('/api/product');
 
+    if (typeof window === 'undefined' && !process.env.NEXT_PUBLIC_BASE_URL) {
+      console.warn(
+        'fetchProducts: no server base url available — skipping internal API fetch to avoid ECONNREFUSED'
+      );
+      return [];
+    }
+
     const response = await fetch(url, {
       method: 'GET',
       headers: {
