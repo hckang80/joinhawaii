@@ -6,7 +6,7 @@ import type {
   ReservationResponse,
   UpdateProductStatusParams
 } from '@/types';
-import { getFetchUrl } from '@/utils/server';
+import { getFetchUrl } from '@/utils';
 
 export const fetchSettlement = async <T = ReservationResponse[]>(id?: string): Promise<T> => {
   try {
