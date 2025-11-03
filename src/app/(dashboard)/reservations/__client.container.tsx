@@ -26,7 +26,7 @@ export default function ReservationsClientContainer() {
   const pathname = usePathname();
 
   const { data } = useSuspenseQuery(productsQueryOptions);
-
+  console.log({ data });
   const updateMutation = useMutation({
     mutationFn: (data: UpdateProductStatusParams) => {
       return updateProductStatus(data);
