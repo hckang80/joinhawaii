@@ -10,10 +10,10 @@ import { getFetchUrl } from '@/utils';
 
 export const fetchSettlement = async <T = ReservationResponse[]>(id?: string): Promise<T> => {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    const url = id
-      ? `${baseUrl}/api/reservation?reservationId=${id}`
-      : `${baseUrl}/api/reservation`;
+    const path = id
+      ? `/api/reservation?reservationId=${encodeURIComponent(id)}`
+      : `/api/reservation`;
+    const url = getFetchUrl(path);
 
     const response = await fetch(url, {
       method: 'GET',
@@ -67,7 +67,7 @@ export const fetchProducts = async (): Promise<AllProducts[]> => {
     if (!result.success) {
       throw new Error(result.error || '상품 조회 실패');
     }
-
+    console.log('fetchProducts result=', result.data);
     return result.data;
   } catch (error) {
     console.error('상품 조회 중 에러 발생:', error);

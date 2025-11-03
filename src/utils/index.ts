@@ -133,8 +133,6 @@ export function formatPhoneNumber(input: string) {
 }
 
 export function getServerBaseUrl() {
-  if (process.env.NEXT_PUBLIC_SERVER_BASE_URL)
-    return process.env.NEXT_PUBLIC_SERVER_BASE_URL.replace(/\/$/, '');
   if (process.env.NEXT_PUBLIC_BASE_URL) return process.env.NEXT_PUBLIC_BASE_URL.replace(/\/$/, '');
 
   return `http://localhost:${process.env.PORT ?? 3000}`;
