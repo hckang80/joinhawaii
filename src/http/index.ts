@@ -6,7 +6,7 @@ import type {
   ReservationResponse,
   UpdateProductStatusParams
 } from '@/types';
-import { getServerBaseUrl } from '@/utils/server';
+import { getFetchUrl } from '@/utils/server';
 
 export const fetchSettlement = async <T = ReservationResponse[]>(id?: string): Promise<T> => {
   try {
@@ -42,9 +42,7 @@ export const fetchSettlement = async <T = ReservationResponse[]>(id?: string): P
 
 export const fetchProducts = async (): Promise<AllProducts[]> => {
   try {
-    const baseUrl = getServerBaseUrl();
-
-    const url = `${baseUrl}/api/product`;
+    const url = getFetchUrl('/api/product');
 
     const response = await fetch(url, {
       method: 'GET',

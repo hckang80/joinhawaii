@@ -3,3 +3,12 @@ export function getServerBaseUrl() {
 
   return `http://localhost:${process.env.PORT ?? 3000}`;
 }
+
+export function getFetchUrl(path: string) {
+  if (typeof window !== 'undefined') {
+    return path.startsWith('/') ? path : `/${path}`;
+  }
+
+  const base = getServerBaseUrl();
+  return `${base}${path.startsWith('/') ? path : '/' + path}`;
+}
