@@ -42,6 +42,10 @@ export const fetchSettlement = async <T = ReservationResponse[]>(id?: string): P
 export const fetchProducts = async (): Promise<AllProducts[]> => {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    console.log('fetchProducts: baseUrl=', baseUrl);
+
+    if (typeof window === 'undefined') return [];
+
     const url = `${baseUrl}/api/product`;
 
     const response = await fetch(url, {
