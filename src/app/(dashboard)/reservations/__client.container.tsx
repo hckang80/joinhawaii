@@ -1,5 +1,6 @@
 'use client';
 
+import { ProductOptionBadge } from '@/components';
 import { PRODUCT_LABEL, PRODUCT_STATUS_COLOR, ProductStatus, QUERY_KEYS } from '@/constants';
 import { updateProductStatus } from '@/http';
 import { productsQueryOptions } from '@/lib/queries';
@@ -105,6 +106,7 @@ export default function ReservationsClientContainer() {
                   >
                     {item.product_name}
                   </StyledLink>
+                  <ProductOptionBadge items={item.additional_options} />
                 </Table.Cell>
                 <Table.Cell>{toReadableDate(new Date(item.event_date))}</Table.Cell>
                 <Table.Cell>{toReadableDate(new Date(item.created_at))}</Table.Cell>
