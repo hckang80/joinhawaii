@@ -1,5 +1,3 @@
-'use client';
-
 import type { AdditionalOptions } from '@/types';
 import { Badge, Flex } from '@radix-ui/themes';
 
