@@ -8,7 +8,7 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
 
 export default function SettlementClientContainer() {
-  const { data } = useSuspenseQuery(productsQueryOptions);
+  const { data = [] } = useSuspenseQuery(productsQueryOptions);
   const pathname = usePathname();
 
   return (
