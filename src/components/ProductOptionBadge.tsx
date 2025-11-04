@@ -4,7 +4,8 @@ import type { AdditionalOptions } from '@/types';
 import { Badge, Flex } from '@radix-ui/themes';
 
 export function ProductOptionBadge({ items }: { items: AdditionalOptions[] }) {
-  if (!items.length) return null;
+  if (!items?.length) return null;
+
   return (
     <Flex gap='1' mt='2'>
       {items.map(({ id, title }) => {
