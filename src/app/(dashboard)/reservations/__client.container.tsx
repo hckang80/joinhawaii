@@ -1,12 +1,19 @@
 'use client';
 
 import { ProductOptionBadge } from '@/components';
-import { PRODUCT_LABEL, PRODUCT_STATUS_COLOR, ProductStatus, QUERY_KEYS } from '@/constants';
+import {
+  PRODUCT_COLOR,
+  PRODUCT_LABEL,
+  PRODUCT_STATUS_COLOR,
+  ProductStatus,
+  QUERY_KEYS
+} from '@/constants';
 import { updateProductStatus } from '@/http';
 import { productsQueryOptions } from '@/lib/queries';
 import type { ProductStatusKey, UpdateProductStatusParams } from '@/types';
 import { handleApiError, handleApiSuccess, isDev, statusLabel, toReadableDate } from '@/utils';
 import {
+  Badge,
   Button,
   Card,
   Flex,
@@ -96,7 +103,11 @@ export default function ReservationsClientContainer() {
             {data.map(item => (
               <Table.Row key={item.id + item.type}>
                 <Table.Cell>{item.reservation_id}</Table.Cell>
-                <Table.Cell>{PRODUCT_LABEL[item.type]}</Table.Cell>
+                <Table.Cell>
+                  <Badge size='3' color={PRODUCT_COLOR[item.type]}>
+                    {PRODUCT_LABEL[item.type]}
+                  </Badge>
+                </Table.Cell>
                 <Table.Cell>{item.main_client_name}</Table.Cell>
                 <Table.Cell>
                   <StyledLink
