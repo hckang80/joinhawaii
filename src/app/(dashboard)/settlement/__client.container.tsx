@@ -1,5 +1,6 @@
 'use client';
 
+import { ProductOptionBadge } from '@/components';
 import { productsQueryOptions } from '@/lib/queries';
 import { isDev, statusLabel, toReadableAmount, toReadableDate } from '@/utils';
 import { Card, Grid, Heading, Link as StyledLink, Table, Text } from '@radix-ui/themes';
@@ -54,6 +55,7 @@ export default function SettlementClientContainer() {
                   >
                     {item.product_name}
                   </StyledLink>
+                  <ProductOptionBadge items={item.additional_options} />
                 </Table.Cell>
                 <Table.Cell>
                   {typeof item.balance === 'number' && statusLabel(item.balance)}
