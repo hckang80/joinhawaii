@@ -35,6 +35,7 @@ export type AllProducts = {
   type: ProductType;
   cost_amount_krw: number;
   total_amount_krw: number;
+  additional_options: AdditionalOptions[];
 } & {
   [key: string]: unknown;
 } & ProductValues;
