@@ -44,7 +44,6 @@ export default function AdditionalOptionsEditor({
   const {
     watch,
     control,
-    getValues,
     setValue,
     register,
     handleSubmit,
@@ -81,14 +80,12 @@ export default function AdditionalOptionsEditor({
   };
 
   const removeItem = () => {
-    const items = getValues('additionalOptions');
-    setValue('additionalOptions', items.slice(0, -1));
+    setValue('additionalOptions', additionalOptions.slice(0, -1));
   };
 
   const isRemoveProductDisabled = () => {
     const minLength = 1;
-    // const minLength = data?.products[target]?.length || 1;
-    return getValues('additionalOptions').length <= minLength;
+    return additionalOptions.length <= minLength;
   };
 
   return (
