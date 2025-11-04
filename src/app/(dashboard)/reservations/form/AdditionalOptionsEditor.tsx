@@ -8,7 +8,7 @@ import { Button, Dialog, Flex, Grid, Select, Table, TextField } from '@radix-ui/
 import { useMutation } from '@tanstack/react-query';
 import { Minus, Plus, Save } from 'lucide-react';
 import { useEffect, useMemo } from 'react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import AdditionalOptionsTotals from './AdditionalOptionsTotals';
 
@@ -52,6 +52,8 @@ export default function AdditionalOptionsEditor({
   } = useForm<{ additionalOptions: AdditionalOptions[] }>({
     defaultValues: { additionalOptions: [defaultValue] }
   });
+
+  const additionalOptions = useWatch({ control, name: 'additionalOptions' }) ?? [defaultValue];
 
   const mutation = useMutation({
     mutationFn: (formData: AdditionalOptions[]) => {
@@ -111,7 +113,7 @@ export default function AdditionalOptionsEditor({
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {getValues('additionalOptions').map((_item, i) => (
+              {additionalOptions.map((_item, i) => (
                 <Table.Row key={i}>
                   <Table.Cell>
                     <Controller
