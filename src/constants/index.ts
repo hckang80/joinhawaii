@@ -145,5 +145,13 @@ export const PRODUCT_LABEL: Record<ProductType, string> = {
   insurance: '보험'
 };
 
+export const PRODUCT_COLOR: Record<ProductType, typeof selectTriggerPropDefs.color.default> = {
+  flight: 'blue',
+  hotel: 'green',
+  tour: 'amber',
+  rental_car: 'violet',
+  insurance: 'ruby'
+};
+
 export const REGIONS = ['오아후', '마우이', '빅아일랜드', '카우아이', '라나이'] as const;
 export type Region = (typeof REGIONS)[number] | (string & {});
