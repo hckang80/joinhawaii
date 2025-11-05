@@ -138,7 +138,11 @@ export default function AdditionalOptionsEditor({
                     />
                   </Table.Cell>
                   <Table.Cell>
-                    <TextField.Root {...register(`additionalOptions.${i}.title`)} />
+                    <TextField.Root
+                      {...register(`additionalOptions.${i}.title`, {
+                        required: true
+                      })}
+                    />
                   </Table.Cell>
                   <Table.Cell>
                     <Grid gap='2'>
