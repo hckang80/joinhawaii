@@ -76,28 +76,28 @@ export async function GET() {
           booking_platform,
           product_name: `${hotel.region} / ${hotel.hotel_name} / ${hotel.room_type}`,
           type: 'hotel' as const,
-          additional_options: optionsByKey.get(`insurance_${String(hotel.id)}`) ?? [],
+          additional_options: optionsByKey.get(`hotel_${String(hotel.id)}`) ?? [],
           total_amount:
             hotel.total_amount +
-            (optionsByKey.get(`insurance_${String(hotel.id)}`) ?? []).reduce(
+            (optionsByKey.get(`hotel_${String(hotel.id)}`) ?? []).reduce(
               (acc, optionProduct) => acc + optionProduct.total_amount,
               0
             ),
           total_cost:
             hotel.total_cost +
-            (optionsByKey.get(`insurance_${String(hotel.id)}`) ?? []).reduce(
+            (optionsByKey.get(`hotel_${String(hotel.id)}`) ?? []).reduce(
               (acc, optionProduct) => acc + optionProduct.total_cost,
               0
             ),
           cost_amount_krw:
             hotel.total_cost * hotel.exchange_rate +
-            (optionsByKey.get(`insurance_${String(hotel.id)}`) ?? []).reduce(
+            (optionsByKey.get(`hotel_${String(hotel.id)}`) ?? []).reduce(
               (acc, optionProduct) => acc + optionProduct.total_cost * optionProduct.exchange_rate,
               0
             ),
           total_amount_krw:
             Number(hotel.total_amount ?? 0) * Number(hotel.exchange_rate ?? 0) +
-            (optionsByKey.get(`insurance_${String(hotel.id)}`) ?? []).reduce(
+            (optionsByKey.get(`hotel_${String(hotel.id)}`) ?? []).reduce(
               (acc, optionProduct) =>
                 acc + optionProduct.total_amount * optionProduct.exchange_rate,
               0
@@ -111,28 +111,28 @@ export async function GET() {
         booking_platform,
         product_name: `${tour.region} / ${tour.name}`,
         type: 'tour' as const,
-        additional_options: optionsByKey.get(`insurance_${String(tour.id)}`) ?? [],
+        additional_options: optionsByKey.get(`tour_${String(tour.id)}`) ?? [],
         total_amount:
           tour.total_amount +
-          (optionsByKey.get(`insurance_${String(tour.id)}`) ?? []).reduce(
+          (optionsByKey.get(`tour_${String(tour.id)}`) ?? []).reduce(
             (acc, optionProduct) => acc + optionProduct.total_amount,
             0
           ),
         total_cost:
           tour.total_cost +
-          (optionsByKey.get(`insurance_${String(tour.id)}`) ?? []).reduce(
+          (optionsByKey.get(`tour_${String(tour.id)}`) ?? []).reduce(
             (acc, optionProduct) => acc + optionProduct.total_cost,
             0
           ),
         cost_amount_krw:
           tour.total_cost * tour.exchange_rate +
-          (optionsByKey.get(`insurance_${String(tour.id)}`) ?? []).reduce(
+          (optionsByKey.get(`tour_${String(tour.id)}`) ?? []).reduce(
             (acc, optionProduct) => acc + optionProduct.total_cost * optionProduct.exchange_rate,
             0
           ),
         total_amount_krw:
           Number(tour.total_amount ?? 0) * Number(tour.exchange_rate ?? 0) +
-          (optionsByKey.get(`insurance_${String(tour.id)}`) ?? []).reduce(
+          (optionsByKey.get(`tour_${String(tour.id)}`) ?? []).reduce(
             (acc, optionProduct) => acc + optionProduct.total_amount * optionProduct.exchange_rate,
             0
           )
@@ -145,28 +145,28 @@ export async function GET() {
           booking_platform,
           product_name: `${rentalCar.region} / ${rentalCar.model}`,
           type: 'rental_car' as const,
-          additional_options: optionsByKey.get(`insurance_${String(rentalCar.id)}`) ?? [],
+          additional_options: optionsByKey.get(`rental_car_${String(rentalCar.id)}`) ?? [],
           total_amount:
             rentalCar.total_amount +
-            (optionsByKey.get(`insurance_${String(rentalCar.id)}`) ?? []).reduce(
+            (optionsByKey.get(`rental_car_${String(rentalCar.id)}`) ?? []).reduce(
               (acc, optionProduct) => acc + optionProduct.total_amount,
               0
             ),
           total_cost:
             rentalCar.total_cost +
-            (optionsByKey.get(`insurance_${String(rentalCar.id)}`) ?? []).reduce(
+            (optionsByKey.get(`rental_car_${String(rentalCar.id)}`) ?? []).reduce(
               (acc, optionProduct) => acc + optionProduct.total_cost,
               0
             ),
           cost_amount_krw:
             rentalCar.total_cost * rentalCar.exchange_rate +
-            (optionsByKey.get(`insurance_${String(rentalCar.id)}`) ?? []).reduce(
+            (optionsByKey.get(`rental_car_${String(rentalCar.id)}`) ?? []).reduce(
               (acc, optionProduct) => acc + optionProduct.total_cost * optionProduct.exchange_rate,
               0
             ),
           total_amount_krw:
             Number(rentalCar.total_amount ?? 0) * Number(rentalCar.exchange_rate ?? 0) +
-            (optionsByKey.get(`insurance_${String(rentalCar.id)}`) ?? []).reduce(
+            (optionsByKey.get(`rental_car_${String(rentalCar.id)}`) ?? []).reduce(
               (acc, optionProduct) =>
                 acc + optionProduct.total_amount * optionProduct.exchange_rate,
               0
