@@ -1,17 +1,9 @@
 'use client';
 
 import { ProductOptionBadge } from '@/components';
-import {
-  PRODUCT_COLOR,
-  PRODUCT_LABEL,
-  PRODUCT_STATUS_COLOR,
-  ProductStatus,
-  QUERY_KEYS
-} from '@/constants';
-import { updateProductStatus } from '@/http';
+import { PRODUCT_COLOR, PRODUCT_LABEL, PRODUCT_STATUS_COLOR, ProductStatus } from '@/constants';
 import { productsQueryOptions } from '@/lib/queries';
-import type { UpdateProductStatusParams } from '@/types';
-import { handleApiError, handleApiSuccess, isDev, statusLabel, toReadableDate } from '@/utils';
+import { isDev, statusLabel, toReadableDate } from '@/utils';
 import {
   Badge,
   Button,
@@ -22,44 +14,14 @@ import {
   Table,
   Text
 } from '@radix-ui/themes';
-import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 export default function ReservationsClientContainer() {
-  const queryClient = useQueryClient();
-
   const pathname = usePathname();
 
   const { data } = useSuspenseQuery(productsQueryOptions);
-
-  const updateMutation = useMutation({
-    mutationFn: (data: UpdateProductStatusParams) => {
-      return updateProductStatus(data);
-    },
-    onMutate: async newData => {
-      const previousProducts = queryClient.getQueryData(QUERY_KEYS.products.all);
-
-      queryClient.setQueryData(QUERY_KEYS.products.all, (old: typeof data) => {
-        return old.map(item => {
-          if (item.id === newData.product_id && item.type === newData.product_type) {
-            return {
-              ...item,
-              status: newData.status
-            };
-          }
-          return item;
-        });
-      });
-
-      return { previousProducts };
-    },
-    onSuccess: handleApiSuccess,
-    onError: (error, _newData, context) => {
-      queryClient.setQueryData(QUERY_KEYS.products.all, context?.previousProducts);
-      handleApiError(error);
-    }
-  });
 
   return (
     <div>
