@@ -30,7 +30,7 @@ export default function SettlementClientContainer() {
 
       <Flex mb='4' justify='end'>
         <Button asChild color='ruby'>
-          <Link href={`/reservations/form?from=${pathname}`}>예약등록</Link>
+          <Link href={`/reservations/form?from=${pathname}`}>신규예약등록</Link>
         </Button>
       </Flex>
 
