@@ -3,8 +3,18 @@
 import { ProductOptionBadge } from '@/components';
 import { productsQueryOptions } from '@/lib/queries';
 import { isDev, statusLabel, toReadableAmount, toReadableDate } from '@/utils';
-import { Card, Grid, Heading, Link as StyledLink, Table, Text } from '@radix-ui/themes';
+import {
+  Button,
+  Card,
+  Flex,
+  Grid,
+  Heading,
+  Link as StyledLink,
+  Table,
+  Text
+} from '@radix-ui/themes';
 import { useSuspenseQuery } from '@tanstack/react-query';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 export default function SettlementClientContainer() {
@@ -17,6 +27,12 @@ export default function SettlementClientContainer() {
       <Heading as='h2' mb='4' size='7'>
         정산관리
       </Heading>
+
+      <Flex mb='4' justify='end'>
+        <Button asChild color='ruby'>
+          <Link href={`/reservations/form?from=${pathname}`}>예약등록</Link>
+        </Button>
+      </Flex>
 
       {data.length === 0 ? (
         <Card size='5'>
