@@ -135,10 +135,24 @@ export default function ClientForm({
                     name={field.name}
                   >
                     <Select.Trigger placeholder='예약회사 선택'>{field.value}</Select.Trigger>
+
                     <Select.Content>
-                      <Select.Item value='마이리얼트립'>마이리얼트립</Select.Item>
-                      <Select.Item value='크리에이트립'>크리에이트립</Select.Item>
-                      <Select.Item value='와그'>와그</Select.Item>
+                      <Select.Group>
+                        <Select.Label>B2C</Select.Label>
+                        <Select.Item value='홈피예약'>홈피예약</Select.Item>
+                      </Select.Group>
+                      <Select.Separator />
+                      <Select.Group>
+                        <Select.Label>B2B</Select.Label>
+                        <Select.Item value='마이리얼트립'>마이리얼트립</Select.Item>
+                        <Select.Item value='크리에이트립'>크리에이트립</Select.Item>
+                        <Select.Item value='와그'>와그</Select.Item>
+                      </Select.Group>
+                      <Select.Separator />
+                      <Select.Group>
+                        <Select.Label>플랫폼</Select.Label>
+                        <Select.Item value='네이버'>네이버</Select.Item>
+                      </Select.Group>
                     </Select.Content>
                   </Select.Root>
                 )}
