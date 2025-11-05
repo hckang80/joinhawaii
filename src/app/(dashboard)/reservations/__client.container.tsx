@@ -10,7 +10,7 @@ import {
 } from '@/constants';
 import { updateProductStatus } from '@/http';
 import { productsQueryOptions } from '@/lib/queries';
-import type { ProductStatusKey, UpdateProductStatusParams } from '@/types';
+import type { UpdateProductStatusParams } from '@/types';
 import { handleApiError, handleApiSuccess, isDev, statusLabel, toReadableDate } from '@/utils';
 import {
   Badge,
@@ -18,7 +18,6 @@ import {
   Card,
   Flex,
   Heading,
-  Select,
   Link as StyledLink,
   Table,
   Text
@@ -61,10 +60,6 @@ export default function ReservationsClientContainer() {
       handleApiError(error);
     }
   });
-
-  const handleUpdateStatus = (data: UpdateProductStatusParams) => {
-    updateMutation.mutate(data);
-  };
 
   return (
     <div>
@@ -122,28 +117,9 @@ export default function ReservationsClientContainer() {
                 <Table.Cell>{toReadableDate(new Date(item.event_date))}</Table.Cell>
                 <Table.Cell>{toReadableDate(new Date(item.created_at))}</Table.Cell>
                 <Table.Cell>
-                  <Select.Root
-                    value={item.status}
-                    onValueChange={(value: ProductStatusKey) =>
-                      handleUpdateStatus({
-                        reservation_id: item.reservation_id,
-                        product_type: item.type,
-                        product_id: item.id,
-                        status: value
-                      })
-                    }
-                  >
-                    <Select.Trigger color={PRODUCT_STATUS_COLOR[item.status]} variant='soft'>
-                      {ProductStatus[item.status]}
-                    </Select.Trigger>
-                    <Select.Content>
-                      {Object.entries(ProductStatus).map(([key, label]) => (
-                        <Select.Item key={key} value={key}>
-                          {label}
-                        </Select.Item>
-                      ))}
-                    </Select.Content>
-                  </Select.Root>
+                  <Badge size='3' color={PRODUCT_STATUS_COLOR[item.status]} variant='soft'>
+                    {ProductStatus[item.status]}
+                  </Badge>
                 </Table.Cell>
                 <Table.Cell>
                   {typeof item.balance === 'number' && statusLabel(item.balance)}
