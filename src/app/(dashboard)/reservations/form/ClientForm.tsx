@@ -134,7 +134,9 @@ export default function ClientForm({
                     }}
                     name={field.name}
                   >
-                    <Select.Trigger placeholder='예약회사 선택'>{field.value}</Select.Trigger>
+                    <Select.Trigger placeholder='예약회사 선택' style={{ width: '200px' }}>
+                      {field.value}
+                    </Select.Trigger>
 
                     <Select.Content>
                       <Select.Group>
