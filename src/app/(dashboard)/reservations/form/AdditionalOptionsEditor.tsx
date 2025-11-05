@@ -47,7 +47,8 @@ export default function AdditionalOptionsEditor({
     setValue,
     register,
     handleSubmit,
-    formState: { isDirty }
+    formState: { isDirty },
+    reset
   } = useForm<{ additionalOptions: AdditionalOptions[] }>({
     defaultValues: { additionalOptions: [defaultValue] }
   });
@@ -58,8 +59,9 @@ export default function AdditionalOptionsEditor({
     mutationFn: (formData: AdditionalOptions[]) => {
       return updateAdditionalOptions(formData);
     },
-    onSuccess: (result: unknown) => {
+    onSuccess: (result: unknown, variables: AdditionalOptions[]) => {
       handleApiSuccess(result);
+      reset({ additionalOptions: variables });
       onRefetch();
       isOpen$.set(false);
     },
