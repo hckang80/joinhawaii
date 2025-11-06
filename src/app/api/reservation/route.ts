@@ -161,6 +161,16 @@ export async function GET(request: Request) {
         carTotals.cost_amount_krw +
         insuranceTotals.cost_amount_krw;
 
+      const sumProductsOriginal = (products: ProductValues[]) =>
+        products.reduce((acc, product) => acc + product.total_amount, 0);
+
+      const productsOriginalTotal =
+        sumProductsOriginal(flightsWithKrw) +
+        sumProductsOriginal(hotelsWithKrw) +
+        sumProductsOriginal(toursWithKrw) +
+        sumProductsOriginal(carsWithKrw) +
+        sumProductsOriginal(insurancesWithKrw);
+
       const sumOptionsOriginal = (products: ProductValues[]) =>
         products.reduce((acc, product) => {
           const opts = product.additional_options;
@@ -174,6 +184,8 @@ export async function GET(request: Request) {
         sumOptionsOriginal(carsWithKrw) +
         sumOptionsOriginal(insurancesWithKrw);
 
+      const totalAmountOriginal = productsOriginalTotal + additionalOptionsTotalOriginal;
+
       return NextResponse.json({
         success: true,
         data: {
@@ -185,7 +197,7 @@ export async function GET(request: Request) {
             rental_cars: carsWithKrw,
             insurances: insurancesWithKrw
           },
-          total_amount: rest.total_amount + additionalOptionsTotalOriginal,
+          total_amount: totalAmountOriginal,
           total_amount_krw,
           cost_amount_krw
         }
