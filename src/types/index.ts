@@ -20,6 +20,7 @@ export type ProductStatusKey = keyof typeof ProductStatus;
 export type ProductValues = typeof defaultProductValues & {
   id?: number;
   type: ProductType;
+  additional_options: AdditionalOptions[];
 };
 
 export type AdditionalOptions = typeof defaultAdditionalOptionValues & { id?: number };

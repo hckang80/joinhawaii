@@ -162,9 +162,9 @@ export async function GET(request: Request) {
         insuranceTotals.cost_amount_krw;
 
       const sumOptionsOriginal = (products: ProductValues[]) =>
-        products.reduce((acc, p) => {
-          const opts = (p as any).additional_options ?? [];
-          return acc + opts.reduce((s: number, o: any) => s + Number(o.total_amount ?? 0), 0);
+        products.reduce((acc, product) => {
+          const opts = product.additional_options;
+          return acc + opts.reduce((s, opt) => s + opt.total_amount, 0);
         }, 0);
 
       const additionalOptionsTotalOriginal =
