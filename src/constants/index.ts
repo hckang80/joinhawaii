@@ -36,7 +36,7 @@ export const defaultProductValues = {
   total_amount: 0,
   total_cost: 0,
   total_amount_krw: 0,
-  cost_amount_krw: 0,
+  total_cost_krw: 0,
   status: 'Pending' as ProductStatusKey,
   notes: ''
 };
