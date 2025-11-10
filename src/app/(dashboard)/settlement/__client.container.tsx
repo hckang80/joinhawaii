@@ -2,7 +2,7 @@
 
 import { ProductOptionBadge } from '@/components';
 import { productsQueryOptions } from '@/lib/queries';
-import { isDev, statusLabel, toReadableAmount } from '@/utils';
+import { isDev, statusLabel, toReadableAmount, toReadableDate } from '@/utils';
 import {
   Button,
   Card,
@@ -60,7 +60,7 @@ export default function SettlementClientContainer() {
             {data.map(item => (
               <Table.Row key={item.id + item.type}>
                 <Table.Cell>{item.reservation_id}</Table.Cell>
-                <Table.Cell>{item.created_at}</Table.Cell>
+                <Table.Cell>{toReadableDate(new Date(item.created_at))}</Table.Cell>
                 <Table.Cell>{item.booking_platform}</Table.Cell>
                 <Table.Cell>{item.main_client_name}</Table.Cell>
                 <Table.Cell>
