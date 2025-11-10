@@ -96,16 +96,16 @@ export async function GET(request: Request) {
             const optionsWithKrw = options.map(opt => ({
               ...opt,
               total_amount_krw: Math.round(opt.total_amount * opt.exchange_rate),
-              cost_amount_krw: Math.round(opt.total_cost * opt.exchange_rate)
+              total_cost_krw: Math.round(opt.total_cost * opt.exchange_rate)
             }));
 
             const optionsTotals = optionsWithKrw.reduce(
               (acc, o) => {
                 acc.total_amount_krw += o.total_amount_krw;
-                acc.cost_amount_krw += o.cost_amount_krw;
+                acc.total_cost_krw += o.total_cost_krw;
                 return acc;
               },
-              { total_amount_krw: 0, cost_amount_krw: 0 }
+              { total_amount_krw: 0, total_cost_krw: 0 }
             );
 
             return {
@@ -114,9 +114,9 @@ export async function GET(request: Request) {
               total_amount_krw:
                 Math.round(product.total_amount * product.exchange_rate) +
                 optionsTotals.total_amount_krw,
-              cost_amount_krw:
+              total_cost_krw:
                 Math.round(product.total_cost * product.exchange_rate) +
-                optionsTotals.cost_amount_krw
+                optionsTotals.total_cost_krw
             };
           })
         );
@@ -135,9 +135,9 @@ export async function GET(request: Request) {
         return products.reduce(
           (acc, product) => ({
             total_amount_krw: acc.total_amount_krw + product.total_amount_krw,
-            cost_amount_krw: acc.cost_amount_krw + product.cost_amount_krw
+            total_cost_krw: acc.total_cost_krw + product.total_cost_krw
           }),
-          { total_amount_krw: 0, cost_amount_krw: 0 }
+          { total_amount_krw: 0, total_cost_krw: 0 }
         );
       };
 
@@ -154,12 +154,12 @@ export async function GET(request: Request) {
         carTotals.total_amount_krw +
         insuranceTotals.total_amount_krw;
 
-      const cost_amount_krw =
-        flightTotals.cost_amount_krw +
-        hotelTotals.cost_amount_krw +
-        tourTotals.cost_amount_krw +
-        carTotals.cost_amount_krw +
-        insuranceTotals.cost_amount_krw;
+      const total_cost_krw =
+        flightTotals.total_cost_krw +
+        hotelTotals.total_cost_krw +
+        tourTotals.total_cost_krw +
+        carTotals.total_cost_krw +
+        insuranceTotals.total_cost_krw;
 
       const sumProductsOriginal = (products: ProductValues[]) =>
         products.reduce((acc, product) => acc + product.total_amount, 0);
@@ -199,7 +199,7 @@ export async function GET(request: Request) {
           },
           total_amount: totalAmountOriginal,
           total_amount_krw,
-          cost_amount_krw
+          total_cost_krw
         }
       });
     }
@@ -228,7 +228,7 @@ export async function GET(request: Request) {
           )
         );
 
-        const cost_amount_krw = Math.round(
+        const total_cost_krw = Math.round(
           allProducts.reduce((sum, product) => sum + product.total_cost * product.exchange_rate, 0)
         );
 
@@ -236,7 +236,7 @@ export async function GET(request: Request) {
           ...rest,
           products: { flights, hotels, tours, rental_cars, insurances },
           total_amount_krw,
-          cost_amount_krw
+          total_cost_krw
         };
       }) ?? [];
 
