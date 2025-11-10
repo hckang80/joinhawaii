@@ -79,7 +79,7 @@ export default function SettlementClientContainer() {
                 <Table.Cell>
                   <Grid>
                     <span>{toReadableAmount(item.total_cost)}</span>
-                    {/* <span>{toReadableAmount(item.total_cost_krw, 'ko-KR', 'KRW')}</span> */}
+                    <span>{toReadableAmount(item.total_cost_krw, 'ko-KR', 'KRW')}</span>
                   </Grid>
                 </Table.Cell>
                 <Table.Cell>
