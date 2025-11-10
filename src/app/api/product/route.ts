@@ -89,7 +89,7 @@ export async function GET() {
               (acc, optionProduct) => acc + optionProduct.total_cost,
               0
             ),
-          cost_amount_krw:
+          total_cost_krw:
             hotel.total_cost * hotel.exchange_rate +
             (optionsByKey.get(`hotel_${String(hotel.id)}`) ?? []).reduce(
               (acc, optionProduct) => acc + optionProduct.total_cost * optionProduct.exchange_rate,
@@ -124,7 +124,7 @@ export async function GET() {
             (acc, optionProduct) => acc + optionProduct.total_cost,
             0
           ),
-        cost_amount_krw:
+        total_cost_krw:
           tour.total_cost * tour.exchange_rate +
           (optionsByKey.get(`tour_${String(tour.id)}`) ?? []).reduce(
             (acc, optionProduct) => acc + optionProduct.total_cost * optionProduct.exchange_rate,
@@ -158,7 +158,7 @@ export async function GET() {
               (acc, optionProduct) => acc + optionProduct.total_cost,
               0
             ),
-          cost_amount_krw:
+          total_cost_krw:
             rentalCar.total_cost * rentalCar.exchange_rate +
             (optionsByKey.get(`rental_car_${String(rentalCar.id)}`) ?? []).reduce(
               (acc, optionProduct) => acc + optionProduct.total_cost * optionProduct.exchange_rate,
@@ -194,7 +194,7 @@ export async function GET() {
               (acc, optionProduct) => acc + optionProduct.total_cost,
               0
             ),
-          cost_amount_krw:
+          total_cost_krw:
             insurance.total_cost * insurance.exchange_rate +
             (optionsByKey.get(`insurance_${String(insurance.id)}`) ?? []).reduce(
               (acc, optionProduct) => acc + optionProduct.total_cost * optionProduct.exchange_rate,
