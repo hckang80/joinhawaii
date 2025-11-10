@@ -9,7 +9,7 @@ export function toReadableDate(date: Date | string, includeTime = false) {
 }
 
 export function toReadableAmount(
-  amount: number,
+  amount = 0,
   locales: Intl.LocalesArgument = 'en-US',
   currency: string = 'USD'
 ) {
