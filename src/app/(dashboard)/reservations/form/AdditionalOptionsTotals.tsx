@@ -36,7 +36,7 @@ export default function AdditionalOptionsTotals({
       exchange_rate
     ] = watchedValues;
 
-    const { total_amount, total_cost, total_amount_krw, cost_amount_krw } = calculateTotalAmount({
+    const { total_amount, total_cost, total_amount_krw, total_cost_krw } = calculateTotalAmount({
       adult_count,
       children_count,
       adult_price,
@@ -51,7 +51,7 @@ export default function AdditionalOptionsTotals({
     setValue(`additionalOptions.${index}.total_amount_krw`, total_amount_krw, {
       shouldValidate: true
     });
-    setValue(`additionalOptions.${index}.cost_amount_krw`, cost_amount_krw, {
+    setValue(`additionalOptions.${index}.total_cost_krw`, total_cost_krw, {
       shouldValidate: true
     });
   }, [watchedValues, setValue, index]);

@@ -78,13 +78,13 @@ export function calculateTotalAmount({
     adult_count * adult_cost + children_count * children_cost + kids_count * kids_cost * days;
 
   const total_amount_krw = Math.round(total_amount * exchange_rate) || 0;
-  const cost_amount_krw = Math.round(total_cost * exchange_rate) || 0;
+  const total_cost_krw = Math.round(total_cost * exchange_rate) || 0;
 
   return {
     total_amount,
     total_cost,
     total_amount_krw,
-    cost_amount_krw
+    total_cost_krw
   };
 }
 

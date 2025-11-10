@@ -34,7 +34,7 @@ export type AllProducts = {
   main_client_name: string;
   product_name: string;
   type: ProductType;
-  cost_amount_krw: number;
+  total_cost_krw: number;
   total_amount_krw: number;
   additional_options: AdditionalOptions[];
 } & {
@@ -181,7 +181,7 @@ export interface Reservation extends ReservationBaseInfo {
   created_at: string;
   clients: TablesRow<'clients'>[];
   total_amount_krw: number;
-  cost_amount_krw: number;
+  total_cost_krw: number;
 }
 
 export type ReservationProducts = {
