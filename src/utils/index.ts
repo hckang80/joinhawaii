@@ -1,10 +1,11 @@
 import type { PostgrestError } from '@supabase/supabase-js';
 import { toast } from 'react-toastify';
 
-export function toReadableDate(date: Date, includeTime = false) {
-  const rule = includeTime ? 'toLocaleString' : 'toLocaleDateString';
+export function toReadableDate(date: Date | string, includeTime = false) {
+  const d = typeof date === 'string' ? new Date(date) : date;
+  if (!(d instanceof Date) || Number.isNaN(d.getTime())) return '-';
 
-  return date[rule]('ko-KR');
+  return includeTime ? d.toLocaleString('ko-KR') : d.toLocaleDateString('ko-KR');
 }
 
 export function toReadableAmount(

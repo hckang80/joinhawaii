@@ -15,7 +15,7 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
   try {
-    const body: ReservationRequest = await request.json();
+    const { clients, ...rest }: ReservationRequest = await request.json();
     const today = new Date().toISOString().slice(0, 10).replace(/-/g, '');
     const supabase = await createClient<Database>();
 
@@ -33,28 +33,38 @@ export async function POST(request: Request) {
 
     const reservationId = `${today}-JH${String(sequence).padStart(3, '0')}`;
 
-    const { data, error } = await supabase.rpc('create_reservation', {
-      p_reservation_id: reservationId,
-      p_clients: body.clients,
-      p_main_client_name: body.main_client_name,
-      p_booking_platform: body.booking_platform,
-      p_flights: body.flights || [],
-      p_hotels: body.hotels || [],
-      p_tours: body.tours || [],
-      p_cars: body.rental_cars || [],
-      p_insurances: body.insurances || []
-    });
+    const { data, error } = await supabase
+      .from('reservations')
+      .insert({
+        ...rest,
+        reservation_id: reservationId
+      })
+      .select()
+      .maybeSingle();
+
+    const clientsPayload = clients.map(client => ({ ...client, reservation_id: reservationId }));
+
+    const { data: clientData, error: clientError } = await supabase
+      .from('clients')
+      .insert(clientsPayload)
+      .select();
 
     if (error) {
       console.error('예약 생성 실패:', error);
       throw error;
     }
 
+    if (clientError) {
+      console.error('Clients 생성 실패:', error);
+      throw clientError;
+    }
+
     return NextResponse.json({
       message: `[${data.reservation_id}] 예약이 등록되었습니다`,
       success: true,
       data: {
-        ...data
+        ...data,
+        clients: clientData
       }
     });
   } catch (error) {
