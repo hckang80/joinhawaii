@@ -101,12 +101,31 @@ export const createReservation = async (data: ReservationFormData) => {
 };
 
 export const updateReservation = async (data: ReservationFormData) => {
+  const payload = {
+    ...data,
+    ...(data.flights && {
+      flights: data.flights.map(({ total_amount_krw, total_cost_krw, ...rest }) => rest)
+    }),
+    ...(data.hotels && {
+      hotels: data.hotels.map(({ total_amount_krw, total_cost_krw, ...rest }) => rest)
+    }),
+    ...(data.tours && {
+      tours: data.tours.map(({ total_amount_krw, total_cost_krw, ...rest }) => rest)
+    }),
+    ...(data.rental_cars && {
+      rental_cars: data.rental_cars.map(({ total_amount_krw, total_cost_krw, ...rest }) => rest)
+    }),
+    ...(data.insurances && {
+      insurances: data.insurances.map(({ total_amount_krw, total_cost_krw, ...rest }) => rest)
+    })
+  };
+
   const response = await fetch('/api/reservation', {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify(payload)
   });
 
   const result = (await response.json()) as ApiResponse<ReservationResponse>;
