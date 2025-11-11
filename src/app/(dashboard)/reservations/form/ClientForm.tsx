@@ -255,11 +255,10 @@ export default function ClientForm({
                         name={`clients.${i}.resident_id`}
                         control={control}
                         rules={{
-                          required: '주민등록번호를 입력하세요.',
+                          required: true,
                           validate: value => {
                             const formatted = formatResidentId(value);
-                            const ok = /^\d{6}-\d{7}$/.test(formatted);
-                            return ok || '주민등록번호 형식(000000-0000000)이 아닙니다.';
+                            return /^\d{6}-\d{7}$/.test(formatted);
                           }
                         }}
                         render={({ field }) => (
