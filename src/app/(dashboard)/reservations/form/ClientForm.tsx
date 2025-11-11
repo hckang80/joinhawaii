@@ -272,7 +272,6 @@ export default function ClientForm({
                       <Controller
                         name={`clients.${i}.phone_number`}
                         control={control}
-                        rules={{ required: true }}
                         render={({ field }) => (
                           <TextField.Root
                             ref={field.ref}
