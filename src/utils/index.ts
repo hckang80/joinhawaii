@@ -132,3 +132,23 @@ export function formatPhoneNumber(input: string) {
   if (digits.length <= 7) return `${digits.slice(0, 3)}-${digits.slice(3)}`;
   return `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
 }
+
+/**
+ * 입력값을 숫자로 정규화합니다.
+ *
+ * - '' | undefined | null 은 0으로 처리합니다.
+ * - 숫자로 변환 가능한 값은 Number로 변환하여 반환합니다.
+ * - 변환 불가(무한대/NaN 등)는 0을 반환합니다.
+ *
+ * 예:
+ *   normalizeNumber('12.34') => 12.34
+ *   normalizeNumber('') => 0
+ *
+ * @param {unknown} v - 정규화할 값
+ * @returns {number} 유효한 숫자 또는 0
+ */
+export function normalizeNumber(v: unknown) {
+  if (v === '' || v === undefined || v === null) return 0;
+  const n = Number(v);
+  return Number.isFinite(n) ? n : 0;
+}
