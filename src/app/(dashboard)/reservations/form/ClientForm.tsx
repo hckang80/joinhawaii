@@ -179,7 +179,7 @@ export default function ClientForm({
                   <Table.ColumnHeaderCell width='150px'>주민번호</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='140px'>연락처</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='180px'>이메일</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell>비고</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>
                 </Table.Row>
               </Table.Header>
               <Table.Body>

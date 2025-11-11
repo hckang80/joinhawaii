@@ -108,7 +108,7 @@ export default function InsuranceForm({
                 <Table.ColumnHeaderCell width='70px'>수량</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='110px'>진행상태</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='70px'>추가옵션</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>비고</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
