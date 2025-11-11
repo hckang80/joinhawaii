@@ -121,7 +121,6 @@ export default function FlightForm({
                   </Table.Cell>
                   <Table.Cell>
                     <TextField.Root
-                      readOnly={!i}
                       {...register(`flights.${i}.departure_city`, {
                         required: true
                       })}
