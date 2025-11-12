@@ -254,7 +254,13 @@ export default function ClientForm({
                       <Controller
                         name={`clients.${i}.resident_id`}
                         control={control}
-                        rules={{ required: true }}
+                        rules={{
+                          required: true,
+                          validate: value => {
+                            const formatted = formatResidentId(value);
+                            return /^\d{6}-\d{7}$/.test(formatted);
+                          }
+                        }}
                         render={({ field }) => (
                           <TextField.Root
                             ref={field.ref}
@@ -272,7 +278,13 @@ export default function ClientForm({
                       <Controller
                         name={`clients.${i}.phone_number`}
                         control={control}
-                        rules={{ required: true }}
+                        rules={{
+                          required: false,
+                          validate: value => {
+                            const formatted = formatPhoneNumber(value);
+                            return !value || /^\d{3}-\d{4}-\d{4}$/.test(formatted);
+                          }
+                        }}
                         render={({ field }) => (
                           <TextField.Root
                             ref={field.ref}
