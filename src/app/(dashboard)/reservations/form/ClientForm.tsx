@@ -278,6 +278,13 @@ export default function ClientForm({
                       <Controller
                         name={`clients.${i}.phone_number`}
                         control={control}
+                        rules={{
+                          required: false,
+                          validate: value => {
+                            const formatted = formatPhoneNumber(value);
+                            return !value || /^\d{3}-\d{4}-\d{4}$/.test(formatted);
+                          }
+                        }}
                         render={({ field }) => (
                           <TextField.Root
                             ref={field.ref}
