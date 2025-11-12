@@ -83,7 +83,7 @@ export const defaultHotelValues = {
 };
 
 export const defaultTourValues = {
-  region: '',
+  region: REGIONS[0],
   start_date: '',
   end_date: '',
   name: '',
@@ -93,7 +93,7 @@ export const defaultTourValues = {
 };
 
 export const defaultCarValues = {
-  region: '',
+  region: REGIONS[0],
   pickup_date: '',
   return_date: '',
   model: '',
