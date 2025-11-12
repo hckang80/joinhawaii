@@ -17,6 +17,9 @@ export enum ProductStatus {
   Refunded = '환불완료'
 }
 
+export const REGIONS = ['오아후', '마우이', '빅아일랜드', '카우아이', '라나이'] as const;
+export type Region = (typeof REGIONS)[number] | (string & {});
+
 const additionalOptions = {
   additional_options: [] as AdditionalOptions[]
 };
@@ -65,7 +68,7 @@ export const defaultFlightValues = {
 };
 
 export const defaultHotelValues = {
-  region: '',
+  region: REGIONS[0],
   check_in_date: '',
   check_out_date: '',
   hotel_name: '',
@@ -152,6 +155,3 @@ export const PRODUCT_COLOR: Record<ProductType, typeof selectTriggerPropDefs.col
   rental_car: 'violet',
   insurance: 'ruby'
 };
-
-export const REGIONS = ['오아후', '마우이', '빅아일랜드', '카우아이', '라나이'] as const;
-export type Region = (typeof REGIONS)[number] | (string & {});
