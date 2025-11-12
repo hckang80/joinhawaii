@@ -6,7 +6,7 @@ import type {
   ReservationFormData,
   ReservationResponse
 } from '@/types';
-import { calculateTotalAmount, isDev } from '@/utils';
+import { calculateTotalAmount, isDev, normalizeNumber } from '@/utils';
 import {
   Button,
   Card,
@@ -72,8 +72,17 @@ export default function InsuranceForm({
 
   const onSubmit: SubmitHandler<ReservationFormData> = formData => {
     if (!isDirty) return toast.info('변경된 내용이 없습니다.');
-    mutation.mutate(formData, {
-      onSuccess: () => reset(formData)
+
+    const normalized: ReservationFormData = {
+      ...formData,
+      insurances: formData.insurances.map(insurance => ({
+        ...insurance,
+        exchange_rate: normalizeNumber(insurance.exchange_rate)
+      }))
+    };
+
+    mutation.mutate(normalized, {
+      onSuccess: () => reset(normalized)
     });
   };
 

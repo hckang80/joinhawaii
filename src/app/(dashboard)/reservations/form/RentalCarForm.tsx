@@ -6,7 +6,7 @@ import type {
   ReservationFormData,
   ReservationResponse
 } from '@/types';
-import { isDev } from '@/utils';
+import { isDev, normalizeNumber } from '@/utils';
 import { Button, Card, Flex, Heading, Section, Select, Table, TextField } from '@radix-ui/themes';
 import { useMutation } from '@tanstack/react-query';
 import { Car, Minus, Plus, Save } from 'lucide-react';
@@ -62,8 +62,17 @@ export default function RentalCarForm({
 
   const onSubmit: SubmitHandler<ReservationFormData> = formData => {
     if (!isDirty) return toast.info('변경된 내용이 없습니다.');
-    mutation.mutate(formData, {
-      onSuccess: () => reset(formData)
+
+    const normalized: ReservationFormData = {
+      ...formData,
+      rental_cars: formData.rental_cars.map(car => ({
+        ...car,
+        exchange_rate: normalizeNumber(car.exchange_rate)
+      }))
+    };
+
+    mutation.mutate(normalized, {
+      onSuccess: () => reset(normalized)
     });
   };
 
