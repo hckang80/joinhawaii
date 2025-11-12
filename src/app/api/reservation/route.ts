@@ -292,25 +292,28 @@ export async function PATCH(request: Request) {
       insurances
     });
 
-    const { data: totals } = await supabase.rpc('calculate_reservation_total', {
-      p_reservation_id: reservation_id
-    });
+    const payload = Object.fromEntries(Object.entries(updates).filter(([, v]) => v !== undefined));
+
+    if (Object.keys(payload).length === 0) {
+      return NextResponse.json({
+        message: `[${reservation_id}] 예약 내용이 변경되었습니다`,
+        success: true,
+        data: null
+      });
+    }
 
     const { data: updatedReservation, error } = await supabase
       .from('reservations')
-      .update({
-        ...updates,
-        ...totals
-      })
+      .update(payload)
       .eq('reservation_id', reservation_id)
       .select()
-      .single();
+      .maybeSingle();
 
     if (error) throw error;
     if (!updatedReservation) throw new Error('예약 정보를 찾을 수 없습니다.');
 
     return NextResponse.json({
-      message: `[${updatedReservation.reservation_id}] 예약 내용이 변경되었습니다`,
+      message: `[${reservation_id}] 예약 내용이 변경되었습니다`,
       success: true,
       data: updatedReservation
     });
