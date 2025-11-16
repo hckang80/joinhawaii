@@ -4,6 +4,7 @@ import { PER_PAGE } from '@/constants';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 import ReactPaginate from 'react-paginate';
+import styles from './paginate.module.css';
 
 type PageChangeEvent = { selected: number };
 
@@ -63,10 +64,10 @@ export function Paginate({
       pageCount={pageCount}
       previousLabel={previousLabel}
       forcePage={currentPage}
-      pageClassName='paginate-page'
-      activeClassName='paginate-page--active'
-      disabledClassName='paginate-disabled'
-      containerClassName='paginate'
+      pageClassName={styles['paginate-page']}
+      activeClassName={styles['paginate-page--active']}
+      disabledClassName={styles['paginate-disabled']}
+      containerClassName={styles.paginate}
       renderOnZeroPageCount={null as unknown as () => null}
     />
   );
