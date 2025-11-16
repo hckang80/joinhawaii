@@ -39,7 +39,10 @@ export const fetchSettlement = async <T = ReservationResponse[]>(id?: string): P
   }
 };
 
-export const fetchProducts = async (): Promise<AllProducts[]> => {
+export const fetchProducts = async (): Promise<{
+  data: AllProducts[];
+  meta: { total: number };
+}> => {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     const url = `${baseUrl}/api/product`;
@@ -61,10 +64,13 @@ export const fetchProducts = async (): Promise<AllProducts[]> => {
       throw new Error(result.error || '예약 조회 실패');
     }
 
-    return result.data;
+    return result;
   } catch (error) {
     console.error('예약 조회 중 에러 발생:', error);
-    return [];
+    return {
+      data: [],
+      meta: { total: 0 }
+    };
   }
 };
 
