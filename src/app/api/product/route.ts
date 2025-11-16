@@ -2,9 +2,13 @@ import { createClient } from '@/lib/supabase/server';
 import type { AdditionalOptions, Database, ProductWithReservation, TablesRow } from '@/types';
 import { NextResponse } from 'next/server';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     const supabase = await createClient<Database>();
+
+    const url = new URL(request.url);
+    const page = Number.parseInt(url.searchParams.get('page') || '1');
+    const perPage = Number.parseInt(url.searchParams.get('per_page') || '10');
 
     const [hotels, tours, rental_cars, insurances] = await Promise.all([
       supabase.from('hotels').select<string, ProductWithReservation<TablesRow<'hotels'>>>(`
@@ -211,9 +215,20 @@ export async function GET() {
       ) ?? [])
     ].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 
+    const total = allProducts.length;
+    const start = (page - 1) * perPage;
+    const paginated = allProducts.slice(start, start + perPage);
+    const totalPages = Math.max(1, Math.ceil(total / perPage));
+
     return NextResponse.json({
       success: true,
-      data: allProducts
+      data: paginated,
+      meta: {
+        total,
+        page,
+        per_page: perPage,
+        total_pages: totalPages
+      }
     });
   } catch (error) {
     console.error('상품 조회 에러:', error);
