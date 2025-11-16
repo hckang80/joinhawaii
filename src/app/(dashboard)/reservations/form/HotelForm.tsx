@@ -1,4 +1,10 @@
-import { defaultHotelValues, PRODUCT_STATUS_COLOR, ProductStatus, REGIONS } from '@/constants';
+import {
+  defaultHotelValues,
+  HOTELS,
+  PRODUCT_STATUS_COLOR,
+  ProductStatus,
+  REGIONS
+} from '@/constants';
 import type {
   AdditionalOptions,
   ProductFormType,
@@ -112,7 +118,7 @@ export default function HotelForm({
                 <Table.ColumnHeaderCell width='120px'>지역</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='170px'>날짜</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='60px'>숙박일</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell width='240px'>호텔</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell width='300px'>호텔</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='120px'>객실타입</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='60px'>조식</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='70px'>리조트피</Table.ColumnHeaderCell>
@@ -203,11 +209,26 @@ export default function HotelForm({
                     />
                   </Table.Cell>
                   <Table.Cell>
-                    {/* TODO: 드랍다운으로 변경 필요 */}
-                    <TextField.Root
-                      {...register(`hotels.${i}.hotel_name`, {
-                        required: true
-                      })}
+                    <Controller
+                      name={`hotels.${i}.hotel_name`}
+                      control={control}
+                      rules={{ required: true }}
+                      render={({ field }) => (
+                        <Select.Root
+                          value={field.value ?? ''}
+                          onValueChange={value => field.onChange(value)}
+                          name={field.name}
+                        >
+                          <Select.Trigger placeholder='호텔 선택'>{field.value}</Select.Trigger>
+                          <Select.Content>
+                            {HOTELS.toSorted((a, b) => a.localeCompare(b, 'ko')).map(hotel => (
+                              <Select.Item key={hotel} value={hotel}>
+                                {hotel}
+                              </Select.Item>
+                            ))}
+                          </Select.Content>
+                        </Select.Root>
+                      )}
                     />
                   </Table.Cell>
                   <Table.Cell>
