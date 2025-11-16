@@ -1,4 +1,10 @@
-import { defaultHotelValues, PRODUCT_STATUS_COLOR, ProductStatus, REGIONS } from '@/constants';
+import {
+  defaultHotelValues,
+  HOTELS,
+  PRODUCT_STATUS_COLOR,
+  ProductStatus,
+  REGIONS
+} from '@/constants';
 import type {
   AdditionalOptions,
   ProductFormType,
@@ -203,11 +209,26 @@ export default function HotelForm({
                     />
                   </Table.Cell>
                   <Table.Cell>
-                    {/* TODO: 드랍다운으로 변경 필요 */}
-                    <TextField.Root
-                      {...register(`hotels.${i}.hotel_name`, {
-                        required: true
-                      })}
+                    <Controller
+                      name={`hotels.${i}.hotel_name`}
+                      control={control}
+                      rules={{ required: true }}
+                      render={({ field }) => (
+                        <Select.Root
+                          value={field.value ?? ''}
+                          onValueChange={value => field.onChange(value)}
+                          name={field.name}
+                        >
+                          <Select.Trigger placeholder='호텔 선택'>{field.value}</Select.Trigger>
+                          <Select.Content>
+                            {HOTELS.toSorted((a, b) => a.localeCompare(b, 'ko')).map(hotel => (
+                              <Select.Item key={hotel} value={hotel}>
+                                {hotel}
+                              </Select.Item>
+                            ))}
+                          </Select.Content>
+                        </Select.Root>
+                      )}
                     />
                   </Table.Cell>
                   <Table.Cell>
