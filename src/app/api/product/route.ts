@@ -1,3 +1,4 @@
+import { PER_PAGE } from '@/constants';
 import { createClient } from '@/lib/supabase/server';
 import type { AdditionalOptions, Database, ProductWithReservation, TablesRow } from '@/types';
 import { NextResponse } from 'next/server';
@@ -8,7 +9,7 @@ export async function GET(request: Request) {
 
     const url = new URL(request.url);
     const page = Number.parseInt(url.searchParams.get('page') || '1');
-    const perPage = Number.parseInt(url.searchParams.get('per_page') || '10');
+    const perPage = Number.parseInt(url.searchParams.get('per_page') || PER_PAGE);
 
     const [hotels, tours, rental_cars, insurances] = await Promise.all([
       supabase.from('hotels').select<string, ProductWithReservation<TablesRow<'hotels'>>>(`
