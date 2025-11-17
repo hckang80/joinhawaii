@@ -6,7 +6,6 @@ import type {
   ReservationResponse,
   UpdateProductStatusParams
 } from '@/types';
-import { PER_PAGE } from '../constants';
 
 export const fetchSettlement = async <T = ReservationResponse[]>(id?: string): Promise<T> => {
   try {
@@ -40,18 +39,13 @@ export const fetchSettlement = async <T = ReservationResponse[]>(id?: string): P
   }
 };
 
-export const fetchProducts = async (
-  page: string,
-  perPage: string
-): Promise<{
+export const fetchProducts = async (): Promise<{
   data: AllProducts[];
-  meta: { total: number; page: number; per_page: number };
+  meta: { total: number };
 }> => {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    const url = new URL(`${baseUrl}/api/product`);
-    url.searchParams.set('page', page);
-    url.searchParams.set('per_page', perPage);
+    const url = `${baseUrl}/api/product`;
 
     const response = await fetch(url, {
       method: 'GET',
@@ -72,13 +66,13 @@ export const fetchProducts = async (
 
     return {
       ...result,
-      meta: result.meta || { total: 0, page: 0, per_page: +PER_PAGE }
+      meta: result.meta || { total: 0 }
     };
   } catch (error) {
     console.error('상품 조회 중 에러 발생:', error);
     return {
       data: [],
-      meta: { total: 0, page: 0, per_page: +PER_PAGE }
+      meta: { total: 0 }
     };
   }
 };

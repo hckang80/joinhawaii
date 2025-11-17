@@ -16,17 +16,14 @@ import {
 } from '@radix-ui/themes';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 export default function ReservationsClientContainer() {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const page = searchParams.get('page') ?? undefined;
-  const perPage = searchParams.get('per_page') ?? undefined;
 
   const {
     data: { data, meta }
-  } = useSuspenseQuery(productsQueryOptions(page, perPage));
+  } = useSuspenseQuery(productsQueryOptions);
 
   return (
     <div>
@@ -98,7 +95,7 @@ export default function ReservationsClientContainer() {
         </Table.Root>
       )}
 
-      <Paginate total={meta.total} current={meta.page} pageSize={meta.per_page} />
+      <Paginate total={meta.total} />
 
       {isDev() && <pre>{JSON.stringify(data, null, 2)}</pre>}
     </div>
