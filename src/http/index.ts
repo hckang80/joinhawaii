@@ -61,12 +61,12 @@ export const fetchProducts = async (): Promise<{
     const result = await response.json();
 
     if (!result.success) {
-      throw new Error(result.error || '예약 조회 실패');
+      throw new Error(result.error || '상품 조회 실패');
     }
 
     return result;
   } catch (error) {
-    console.error('예약 조회 중 에러 발생:', error);
+    console.error('상품 조회 중 에러 발생:', error);
     return {
       data: [],
       meta: { total: 0 }
