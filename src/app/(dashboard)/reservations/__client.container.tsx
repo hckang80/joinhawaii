@@ -1,6 +1,6 @@
 'use client';
 
-import { ProductOptionBadge } from '@/components';
+import { Paginate, ProductOptionBadge } from '@/components';
 import { PRODUCT_COLOR, PRODUCT_LABEL, PRODUCT_STATUS_COLOR, ProductStatus } from '@/constants';
 import { productsQueryOptions } from '@/lib/queries';
 import { isDev, statusLabel, toReadableDate } from '@/utils';
@@ -27,7 +27,7 @@ export default function ReservationsClientContainer() {
   const {
     data: { data, meta }
   } = useSuspenseQuery(productsQueryOptions(page, perPage));
-  console.log({ meta });
+
   return (
     <div>
       <Heading as='h2' mb='4' size='7'>
@@ -98,7 +98,7 @@ export default function ReservationsClientContainer() {
         </Table.Root>
       )}
 
-      {/* <Paginate total={meta.total} current={meta.page} pageSize={meta.per_page} /> */}
+      <Paginate total={meta.total} current={meta.page} pageSize={meta.per_page} />
 
       {isDev() && <pre>{JSON.stringify(data, null, 2)}</pre>}
     </div>
