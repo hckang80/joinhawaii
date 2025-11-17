@@ -21,7 +21,9 @@ import { usePathname } from 'next/navigation';
 export default function ReservationsClientContainer() {
   const pathname = usePathname();
 
-  const { data } = useSuspenseQuery(productsQueryOptions);
+  const {
+    data: { data }
+  } = useSuspenseQuery(productsQueryOptions);
 
   return (
     <div>

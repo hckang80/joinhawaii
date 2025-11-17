@@ -18,7 +18,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 export default function SettlementClientContainer() {
-  const { data } = useSuspenseQuery(productsQueryOptions);
+  const {
+    data: { data }
+  } = useSuspenseQuery(productsQueryOptions);
 
   const pathname = usePathname();
 
