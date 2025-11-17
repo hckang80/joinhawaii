@@ -95,7 +95,7 @@ export default function ReservationsClientContainer() {
         </Table.Root>
       )}
 
-      <Paginate total={meta.total} />
+      {meta && <Paginate total={meta.total} />}
 
       {isDev() && <pre>{JSON.stringify(data, null, 2)}</pre>}
     </div>

@@ -64,7 +64,10 @@ export const fetchProducts = async (): Promise<{
       throw new Error(result.error || '상품 조회 실패');
     }
 
-    return result;
+    return {
+      ...result,
+      meta: result.meta || { total: 0 }
+    };
   } catch (error) {
     console.error('상품 조회 중 에러 발생:', error);
     return {
