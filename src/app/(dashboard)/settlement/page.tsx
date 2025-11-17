@@ -5,7 +5,7 @@ import SettlementClientContainer from './__client.container';
 export default async function SettlementPage() {
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(productsQueryOptions);
+  await queryClient.prefetchQuery(productsQueryOptions());
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
