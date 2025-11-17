@@ -1,13 +1,14 @@
 'use client';
 
+import { PER_PAGE } from '@/constants';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 import ReactPaginate from 'react-paginate';
 
 type PageChangeEvent = { selected: number };
 
-type PaginateProps<T> = {
-  items: T[];
+type PaginateProps = {
+  total: number;
   itemsPerPage?: number;
   initialPage?: number; // zero-based
   onPageChange?: (pageIndex: number) => void; // zero-based page index
@@ -19,9 +20,9 @@ type PaginateProps<T> = {
   queryParamName?: string;
 };
 
-export function Paginate<T>({
-  items,
-  itemsPerPage = 10,
+export function Paginate({
+  total,
+  itemsPerPage = +PER_PAGE,
   initialPage = 0,
   onPageChange,
   breakLabel = '...',
@@ -29,7 +30,7 @@ export function Paginate<T>({
   nextLabel = '>',
   pageRangeDisplayed = 5,
   queryParamName = 'page'
-}: PaginateProps<T>) {
+}: PaginateProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -39,7 +40,7 @@ export function Paginate<T>({
     Number(searchParams?.get(queryParamName) ?? String(initialPage + 1)) || initialPage + 1;
   const currentPage = Math.max(0, pageFromQuery - 1);
 
-  const pageCount = Math.max(1, Math.ceil(items.length / itemsPerPage));
+  const pageCount = Math.max(1, Math.ceil(total / itemsPerPage));
 
   const handlePageClick = ({ selected }: PageChangeEvent) => {
     // update URL query param (1-based)
