@@ -66,7 +66,7 @@ export const fetchProducts = async (): Promise<{
 
     return {
       ...result,
-      meta: result.meta || { total: 0 }
+      meta: result.meta
     };
   } catch (error) {
     console.error('상품 조회 중 에러 발생:', error);
