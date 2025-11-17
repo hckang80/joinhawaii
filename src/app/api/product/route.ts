@@ -220,7 +220,7 @@ export async function GET(request: Request) {
     const start = (page - 1) * perPage;
     const paginated = allProducts.slice(start, start + perPage);
     const totalPages = Math.max(1, Math.ceil(total / perPage));
-    console.log({ total });
+    console.log({ paginated, total });
     return NextResponse.json({
       success: true,
       data: paginated,
