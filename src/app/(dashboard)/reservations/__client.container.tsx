@@ -22,9 +22,9 @@ export default function ReservationsClientContainer() {
   const pathname = usePathname();
 
   const {
-    data: { data, meta }
+    data: { data }
   } = useSuspenseQuery(productsQueryOptions);
-  console.log({ data, meta });
+
   return (
     <div>
       <Heading as='h2' mb='4' size='7'>
