@@ -1,6 +1,6 @@
 'use client';
 
-import { ProductOptionBadge } from '@/components';
+import { Paginate, ProductOptionBadge } from '@/components';
 import { productsQueryOptions } from '@/lib/queries';
 import { isDev, statusLabel, toReadableAmount, toReadableDate } from '@/utils';
 import {
@@ -19,7 +19,7 @@ import { usePathname } from 'next/navigation';
 
 export default function SettlementClientContainer() {
   const {
-    data: { data }
+    data: { data, meta }
   } = useSuspenseQuery(productsQueryOptions);
 
   const pathname = usePathname();
@@ -108,6 +108,8 @@ export default function SettlementClientContainer() {
           </Table.Body>
         </Table.Root>
       )}
+
+      <Paginate total={meta.total} />
 
       {isDev() && <pre>{JSON.stringify(data, null, 2)}</pre>}
     </div>
