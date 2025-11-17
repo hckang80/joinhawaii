@@ -109,7 +109,7 @@ export default function SettlementClientContainer() {
         </Table.Root>
       )}
 
-      <Paginate total={meta.total} />
+      <Paginate total={meta?.total ?? 0} />
 
       {isDev() && <pre>{JSON.stringify(data, null, 2)}</pre>}
     </div>
