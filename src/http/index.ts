@@ -63,7 +63,7 @@ export const fetchProducts = async (): Promise<{
     if (!result.success) {
       throw new Error(result.error || '예약 조회 실패');
     }
-
+    console.log({ result });
     return result;
   } catch (error) {
     console.error('예약 조회 중 에러 발생:', error);
