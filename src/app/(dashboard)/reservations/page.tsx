@@ -1,5 +1,6 @@
 import { productsQueryOptions } from '@/lib/queries';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import { Suspense } from 'react';
 import ReservationsClientContainer from './__client.container';
 
 export default async function ReservationsPage() {
@@ -9,7 +10,9 @@ export default async function ReservationsPage() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <ReservationsClientContainer />
+      <Suspense fallback={<div />}>
+        <ReservationsClientContainer />
+      </Suspense>
     </HydrationBoundary>
   );
 }
