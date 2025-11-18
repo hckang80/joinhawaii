@@ -117,12 +117,14 @@ export default function ReservationsClientContainer() {
         </Table.Root>
       )}
 
-      <Paginate
-        total={meta.total}
-        current={meta.page}
-        pageSize={meta.per_page}
-        onChange={handlePageChange}
-      />
+      <Flex mt='5' justify='center'>
+        <Paginate
+          total={meta.total}
+          current={meta.page}
+          pageSize={meta.per_page}
+          onChange={handlePageChange}
+        />
+      </Flex>
 
       {isDev() && <pre>{JSON.stringify(data, null, 2)}</pre>}
     </div>
