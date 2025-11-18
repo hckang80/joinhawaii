@@ -3,6 +3,8 @@ import type { AdditionalOptions, ProductStatusKey, ProductType } from '../types'
 
 export * from './query-keys';
 
+export const PER_PAGE = '10';
+
 export const GENDER_TYPE = ['Mr.', 'Ms.', 'Mrs.', 'Miss'] as const;
 export type Gender = (typeof GENDER_TYPE)[number] | (string & {});
 

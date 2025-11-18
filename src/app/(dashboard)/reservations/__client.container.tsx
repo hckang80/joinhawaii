@@ -1,7 +1,13 @@
 'use client';
 
-import { ProductOptionBadge } from '@/components';
-import { PRODUCT_COLOR, PRODUCT_LABEL, PRODUCT_STATUS_COLOR, ProductStatus } from '@/constants';
+import { Paginate, ProductOptionBadge } from '@/components';
+import {
+  PER_PAGE,
+  PRODUCT_COLOR,
+  PRODUCT_LABEL,
+  PRODUCT_STATUS_COLOR,
+  ProductStatus
+} from '@/constants';
 import { productsQueryOptions } from '@/lib/queries';
 import { isDev, statusLabel, toReadableDate } from '@/utils';
 import {
@@ -16,12 +22,30 @@ import {
 } from '@radix-ui/themes';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 export default function ReservationsClientContainer() {
   const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const page = searchParams.get('page') ?? undefined;
+  const perPage = searchParams.get('per_page') ?? PER_PAGE;
 
-  const { data } = useSuspenseQuery(productsQueryOptions);
+  const {
+    data: { data, meta }
+  } = useSuspenseQuery(productsQueryOptions(page, perPage));
+
+  const handlePageChange = (newPage: number) => {
+    const params = new URLSearchParams(
+      Array.from((searchParams ?? new URLSearchParams()).entries())
+    );
+    params.set('page', String(newPage));
+
+    if (!params.get('per_page')) params.set('per_page', String(perPage));
+    router.push(`${pathname}?${params.toString()}`);
+
+    if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <div>
@@ -92,6 +116,15 @@ export default function ReservationsClientContainer() {
           </Table.Body>
         </Table.Root>
       )}
+
+      <Flex mt='5' justify='center'>
+        <Paginate
+          total={meta.total}
+          current={meta.page}
+          pageSize={meta.per_page}
+          onChange={handlePageChange}
+        />
+      </Flex>
 
       {isDev() && <pre>{JSON.stringify(data, null, 2)}</pre>}
     </div>

@@ -6,6 +6,7 @@ import type {
   ReservationResponse,
   UpdateProductStatusParams
 } from '@/types';
+import { PER_PAGE } from '../constants';
 
 export const fetchSettlement = async <T = ReservationResponse[]>(id?: string): Promise<T> => {
   try {
@@ -39,10 +40,18 @@ export const fetchSettlement = async <T = ReservationResponse[]>(id?: string): P
   }
 };
 
-export const fetchProducts = async (): Promise<AllProducts[]> => {
+export const fetchProducts = async (
+  page: string,
+  perPage: string
+): Promise<{
+  data: AllProducts[];
+  meta: { total: number; page: number; per_page: number };
+}> => {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    const url = `${baseUrl}/api/product`;
+    const url = new URL(`${baseUrl}/api/product`);
+    url.searchParams.set('page', page);
+    url.searchParams.set('per_page', perPage);
 
     const response = await fetch(url, {
       method: 'GET',
@@ -58,13 +67,19 @@ export const fetchProducts = async (): Promise<AllProducts[]> => {
     const result = await response.json();
 
     if (!result.success) {
-      throw new Error(result.error || '예약 조회 실패');
+      throw new Error(result.error || '상품 조회 실패');
     }
 
-    return result.data;
+    return {
+      ...result,
+      meta: result.meta || { total: 0, page: 0, per_page: +PER_PAGE }
+    };
   } catch (error) {
-    console.error('예약 조회 중 에러 발생:', error);
-    return [];
+    console.error('상품 조회 중 에러 발생:', error);
+    return {
+      data: [],
+      meta: { total: 0, page: 0, per_page: +PER_PAGE }
+    };
   }
 };
 
