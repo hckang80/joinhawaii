@@ -23,7 +23,7 @@ export default function ReservationsClientContainer() {
 
   const {
     data: { data, meta }
-  } = useSuspenseQuery(productsQueryOptions);
+  } = useSuspenseQuery(productsQueryOptions());
 
   return (
     <div>
