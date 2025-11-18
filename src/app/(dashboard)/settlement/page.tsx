@@ -1,5 +1,7 @@
+import { Loader } from '@/components';
 import { productsQueryOptions } from '@/lib/queries';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import { Suspense } from 'react';
 import SettlementClientContainer from './__client.container';
 
 export default async function SettlementPage() {
@@ -9,7 +11,9 @@ export default async function SettlementPage() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <SettlementClientContainer />
+      <Suspense fallback={<Loader />}>
+        <SettlementClientContainer />
+      </Suspense>
     </HydrationBoundary>
   );
 }
