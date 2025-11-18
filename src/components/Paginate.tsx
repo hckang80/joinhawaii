@@ -2,6 +2,7 @@
 
 import Pagination from 'rc-pagination';
 import 'rc-pagination/assets/index.css';
+import { PER_PAGE } from '../constants';
 
 type PaginateProps = {
   total: number;
@@ -15,7 +16,7 @@ type PaginateProps = {
 
 export function Paginate({
   total,
-  pageSize = 20,
+  pageSize = +PER_PAGE,
   current = 1,
   onChange,
   className
