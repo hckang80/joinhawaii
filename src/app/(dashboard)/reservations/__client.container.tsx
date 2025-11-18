@@ -16,11 +16,14 @@ import {
 } from '@radix-ui/themes';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 export default function ReservationsClientContainer() {
   const pathname = usePathname();
-
+  const searchParams = useSearchParams();
+  const page = searchParams.get('page') ?? undefined;
+  const perPage = searchParams.get('per_page') ?? undefined;
+  console.log({ page, perPage });
   const {
     data: { data, meta }
   } = useSuspenseQuery(productsQueryOptions());
