@@ -11,7 +11,7 @@ import {
 } from '@/constants';
 import { usePageNavigation } from '@/hooks';
 import { productsQueryOptions } from '@/lib/queries';
-import { isDev, statusLabel, toReadableDate } from '@/utils';
+import { isDev, toReadableDate } from '@/utils';
 import {
   Badge,
   Button,
@@ -101,9 +101,6 @@ export default function ReservationsClientContainer() {
                   >
                     {PaymentStatus[item.payment_status]}
                   </Text>
-                </Table.Cell>
-                <Table.Cell>
-                  {typeof item.balance === 'number' && statusLabel(item.balance)}
                 </Table.Cell>
                 <Table.Cell>{item.booking_platform}</Table.Cell>
               </Table.Row>
