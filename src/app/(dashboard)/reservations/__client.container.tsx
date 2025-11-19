@@ -95,13 +95,14 @@ export default function ReservationsClientContainer() {
                   </Badge>
                 </Table.Cell>
                 <Table.Cell>
-                  <Text
+                  <Badge
+                    size='3'
                     color={PAYMENT_STATUS_COLOR[item.payment_status]}
-                    weight='bold'
+                    variant='soft'
                     highContrast={item.payment_status === 'Full'}
                   >
                     {PaymentStatus[item.payment_status]}
-                  </Text>
+                  </Badge>
                 </Table.Cell>
                 <Table.Cell>{item.booking_platform}</Table.Cell>
               </Table.Row>
