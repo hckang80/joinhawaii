@@ -2,6 +2,7 @@
 
 import { Paginate, ProductOptionBadge } from '@/components';
 import {
+  PAYMENT_STATUS_COLOR,
   PaymentStatus,
   PRODUCT_COLOR,
   PRODUCT_LABEL,
@@ -93,7 +94,14 @@ export default function ReservationsClientContainer() {
                     {ProductStatus[item.status]}
                   </Badge>
                 </Table.Cell>
-                <Table.Cell>{PaymentStatus[item.payment_status]}</Table.Cell>
+                <Table.Cell>
+                  <Text
+                    color={PAYMENT_STATUS_COLOR[item.payment_status]}
+                    highContrast={item.payment_status === 'Full'}
+                  >
+                    {PaymentStatus[item.payment_status]}
+                  </Text>
+                </Table.Cell>
                 <Table.Cell>
                   {typeof item.balance === 'number' && statusLabel(item.balance)}
                 </Table.Cell>

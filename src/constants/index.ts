@@ -211,6 +211,16 @@ export const PRODUCT_STATUS_COLOR: Record<
   Refunded: 'blue'
 };
 
+export const PAYMENT_STATUS_COLOR: Record<
+  PaymentStatusKey,
+  typeof selectTriggerPropDefs.color.default
+> = {
+  Unpaid: 'gray',
+  Deposit: 'blue',
+  Full: 'gray',
+  Refunded: 'red'
+};
+
 export const PRODUCT_LABEL: Record<ProductType, string> = {
   flight: '항공',
   hotel: '호텔',
