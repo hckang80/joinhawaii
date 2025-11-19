@@ -97,6 +97,7 @@ export default function ReservationsClientContainer() {
                 <Table.Cell>
                   <Text
                     color={PAYMENT_STATUS_COLOR[item.payment_status]}
+                    weight='bold'
                     highContrast={item.payment_status === 'Full'}
                   >
                     {PaymentStatus[item.payment_status]}
