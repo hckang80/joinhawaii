@@ -7,6 +7,7 @@ import {
   defaultInsuranceValues,
   defaultProductValues,
   defaultTourValues,
+  PaymentStatus,
   ProductStatus
 } from '../constants';
 
@@ -17,6 +18,7 @@ export type Tour = typeof defaultTourValues & { id?: number };
 export type Car = typeof defaultCarValues & { id?: number };
 export type Insurance = typeof defaultInsuranceValues & { id?: number };
 export type ProductStatusKey = keyof typeof ProductStatus;
+export type PaymentStatusKey = keyof typeof PaymentStatus;
 export type ProductValues = typeof defaultProductValues & {
   id?: number;
   type: ProductType;

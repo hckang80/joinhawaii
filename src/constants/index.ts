@@ -1,5 +1,5 @@
 import type { selectTriggerPropDefs } from '@radix-ui/themes/components/select.props';
-import type { AdditionalOptions, ProductStatusKey, ProductType } from '../types';
+import type { AdditionalOptions, PaymentStatusKey, ProductStatusKey, ProductType } from '../types';
 
 export * from './query-keys';
 
@@ -17,6 +17,13 @@ export enum ProductStatus {
   Cancelled = '취소완료',
   RefundRequested = '환불요청',
   Refunded = '환불완료'
+}
+
+export enum PaymentStatus {
+  Unpaid = '미납',
+  Deposit = '예약금',
+  Full = '완불',
+  Refunded = '환불'
 }
 
 export const REGIONS = ['오아후', '마우이', '빅아일랜드', '카우아이', '라나이'] as const;
@@ -104,6 +111,7 @@ export const defaultProductValues = {
   total_amount_krw: 0,
   total_cost_krw: 0,
   status: 'Pending' as ProductStatusKey,
+  payment_status: 'Unpaid' as PaymentStatusKey,
   notes: ''
 };
 
@@ -182,6 +190,7 @@ export const defaultInsuranceValues = {
 };
 
 export const defaultAdditionalOptionValues = {
+  reservation_id: '',
   pid: 0,
   type: '' as ProductType,
   title: '',
@@ -201,6 +210,16 @@ export const PRODUCT_STATUS_COLOR: Record<
   Cancelled: 'ruby',
   RefundRequested: 'blue',
   Refunded: 'blue'
+};
+
+export const PAYMENT_STATUS_COLOR: Record<
+  PaymentStatusKey,
+  typeof selectTriggerPropDefs.color.default
+> = {
+  Unpaid: 'gray',
+  Deposit: 'blue',
+  Full: 'gray',
+  Refunded: 'red'
 };
 
 export const PRODUCT_LABEL: Record<ProductType, string> = {
