@@ -1,3 +1,5 @@
+'use client';
+
 import { defaultAdditionalOptionValues, PRODUCT_STATUS_COLOR, ProductStatus } from '@/constants';
 import { updateAdditionalOptions } from '@/http';
 import type { AdditionalOptions, ProductType } from '@/types';
@@ -7,6 +9,7 @@ import { use$ } from '@legendapp/state/react';
 import { Button, Dialog, Flex, Grid, Select, Table, TextField } from '@radix-ui/themes';
 import { useMutation } from '@tanstack/react-query';
 import { Minus, Plus, Save } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useMemo } from 'react';
 import { Controller, SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -28,6 +31,7 @@ export default function AdditionalOptionsEditor({
   >;
   onRefetch: () => Promise<unknown>;
 }) {
+  const params = useSearchParams();
   const isOpen = use$(isOpen$);
 
   const { id = 0, type = 'hotel', title, data } = use$(() => context$);
@@ -36,9 +40,10 @@ export default function AdditionalOptionsEditor({
     () => ({
       ...defaultAdditionalOptionValues,
       pid: id,
-      type
+      type,
+      reservation_id: params.get('reservation_id') || ''
     }),
-    [id, type]
+    [id, type, params]
   );
 
   const {
