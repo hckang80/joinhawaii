@@ -190,6 +190,7 @@ export const defaultInsuranceValues = {
 };
 
 export const defaultAdditionalOptionValues = {
+  reservation_id: '',
   pid: 0,
   type: '' as ProductType,
   title: '',

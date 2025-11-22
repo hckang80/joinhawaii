@@ -83,6 +83,7 @@ export async function PATCH(request: Request) {
   try {
     const body: AdditionalOptions[] = await request.json();
     const supabase = await createClient<Database>();
+    const reservation_id = body[0]?.reservation_id;
 
     const toInsert = body.filter(item => !item.id);
     const toUpdate = body.filter(item => !!item.id);
@@ -99,6 +100,22 @@ export async function PATCH(request: Request) {
           )
         ).flatMap(res => res.data ?? [])
       : [];
+
+    const { data: totals } = await supabase.rpc('calculate_reservation_total', {
+      p_reservation_id: reservation_id
+    });
+
+    const { data: updatedReservation, error } = await supabase
+      .from('reservations')
+      .update({
+        ...totals
+      })
+      .eq('reservation_id', reservation_id)
+      .select()
+      .single();
+
+    if (error) throw error;
+    if (!updatedReservation) throw new Error('예약 정보를 찾을 수 없습니다.');
 
     return NextResponse.json({
       message: `추가 옵션이 처리되었습니다`,
