@@ -176,7 +176,11 @@ export default function ReservationsFormClientContainer({
                     총액{' '}
                   </Text>
                   {toReadableAmount(Number(data?.total_amount))}
-                  <br />
+                </div>
+                <div>
+                  <Text as='label' weight='medium'>
+                    한화{' '}
+                  </Text>
                   {toReadableAmount(Number(data?.total_amount_krw), 'ko-KR', 'KRW')}
                 </div>
               </Flex>
