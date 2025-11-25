@@ -145,7 +145,7 @@ export default function ReservationsFormClientContainer({
                   <Text as='label' weight='medium'>
                     예약금{' '}
                   </Text>
-                  ₩
+                  $
                   <Controller
                     name='deposit'
                     control={control}
@@ -170,16 +170,14 @@ export default function ReservationsFormClientContainer({
                   <Text as='label' weight='medium'>
                     잔금{' '}
                   </Text>
-                  {toReadableAmount(
-                    Number(data?.total_amount_krw) - watch('deposit') || 0,
-                    'ko-KR',
-                    'KRW'
-                  )}
+                  {toReadableAmount(Number(data?.total_amount) - watch('deposit') || 0)}
                 </div>
                 <div>
                   <Text as='label' weight='medium'>
                     총액{' '}
                   </Text>
+                  {toReadableAmount(Number(data?.total_amount) || 0)}
+                  <br />
                   {toReadableAmount(Number(data?.total_amount_krw) || 0, 'ko-KR', 'KRW')}
                 </div>
               </Flex>
