@@ -8,13 +8,7 @@ import type {
   ReservationFormData,
   ReservationSuccessResponse
 } from '@/types';
-import {
-  formatKoreanCurrency,
-  handleApiError,
-  handleApiSuccess,
-  parseKoreanCurrency,
-  toReadableAmount
-} from '@/utils';
+import { handleApiError, handleApiSuccess, toReadableAmount } from '@/utils';
 import { observable } from '@legendapp/state';
 import { Box, Button, Flex, Heading, Text, TextField } from '@radix-ui/themes';
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -145,18 +139,23 @@ export default function ReservationsFormClientContainer({
                   <Text as='label' weight='medium'>
                     예약금{' '}
                   </Text>
-                  ₩
+                  $
                   <Controller
                     name='deposit'
                     control={control}
+                    rules={{
+                      required: true,
+                      validate: value => {
+                        return value <= Number(data?.total_amount);
+                      }
+                    }}
                     render={({ field }) => (
                       <TextField.Root
                         size='3'
                         type='text'
-                        value={formatKoreanCurrency(field.value)}
+                        value={field.value}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                          const numericValue = parseKoreanCurrency(e.target.value);
-                          field.onChange(numericValue);
+                          field.onChange(e.target.value);
                         }}
                         placeholder='0'
                       />
@@ -170,17 +169,19 @@ export default function ReservationsFormClientContainer({
                   <Text as='label' weight='medium'>
                     잔금{' '}
                   </Text>
-                  {toReadableAmount(
-                    Number(data?.total_amount_krw) - watch('deposit') || 0,
-                    'ko-KR',
-                    'KRW'
-                  )}
+                  {toReadableAmount(Number(data?.total_amount) - watch('deposit') || 0)}
                 </div>
                 <div>
                   <Text as='label' weight='medium'>
                     총액{' '}
                   </Text>
-                  {toReadableAmount(Number(data?.total_amount_krw) || 0, 'ko-KR', 'KRW')}
+                  {toReadableAmount(Number(data?.total_amount))}
+                </div>
+                <div>
+                  <Text as='label' weight='medium'>
+                    한화{' '}
+                  </Text>
+                  {toReadableAmount(Number(data?.total_amount_krw), 'ko-KR', 'KRW')}
                 </div>
               </Flex>
               <Text as='p' align='right' mt='2' weight='bold' color='ruby'>
