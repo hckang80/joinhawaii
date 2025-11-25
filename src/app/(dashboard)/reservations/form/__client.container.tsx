@@ -8,13 +8,7 @@ import type {
   ReservationFormData,
   ReservationSuccessResponse
 } from '@/types';
-import {
-  formatKoreanCurrency,
-  handleApiError,
-  handleApiSuccess,
-  parseKoreanCurrency,
-  toReadableAmount
-} from '@/utils';
+import { handleApiError, handleApiSuccess, toReadableAmount } from '@/utils';
 import { observable } from '@legendapp/state';
 import { Box, Button, Flex, Heading, Text, TextField } from '@radix-ui/themes';
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -159,10 +153,9 @@ export default function ReservationsFormClientContainer({
                       <TextField.Root
                         size='3'
                         type='text'
-                        value={formatKoreanCurrency(field.value)}
+                        value={field.value}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                          const numericValue = parseKoreanCurrency(e.target.value);
-                          field.onChange(numericValue);
+                          field.onChange(e.target.value);
                         }}
                         placeholder='0'
                       />
