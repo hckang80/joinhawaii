@@ -1,10 +1,17 @@
 'use client';
 
 import { Paginate, ProductOptionBadge } from '@/components';
-import { PRODUCT_COLOR, PRODUCT_LABEL, PRODUCT_STATUS_COLOR, ProductStatus } from '@/constants';
+import {
+  PAYMENT_STATUS_COLOR,
+  PaymentStatus,
+  PRODUCT_COLOR,
+  PRODUCT_LABEL,
+  PRODUCT_STATUS_COLOR,
+  ProductStatus
+} from '@/constants';
 import { usePageNavigation } from '@/hooks';
 import { productsQueryOptions } from '@/lib/queries';
-import { isDev, statusLabel, toReadableDate } from '@/utils';
+import { isDev, toReadableDate } from '@/utils';
 import {
   Badge,
   Button,
@@ -88,7 +95,14 @@ export default function ReservationsClientContainer() {
                   </Badge>
                 </Table.Cell>
                 <Table.Cell>
-                  {typeof item.balance === 'number' && statusLabel(item.balance)}
+                  <Badge
+                    size='3'
+                    color={PAYMENT_STATUS_COLOR[item.payment_status]}
+                    variant='soft'
+                    highContrast={item.payment_status === 'Full'}
+                  >
+                    {PaymentStatus[item.payment_status]}
+                  </Badge>
                 </Table.Cell>
                 <Table.Cell>{item.booking_platform}</Table.Cell>
               </Table.Row>
