@@ -149,6 +149,12 @@ export default function ReservationsFormClientContainer({
                   <Controller
                     name='deposit'
                     control={control}
+                    rules={{
+                      required: true,
+                      validate: value => {
+                        return value <= Number(data?.total_amount);
+                      }
+                    }}
                     render={({ field }) => (
                       <TextField.Root
                         size='3'
@@ -176,9 +182,9 @@ export default function ReservationsFormClientContainer({
                   <Text as='label' weight='medium'>
                     총액{' '}
                   </Text>
-                  {toReadableAmount(Number(data?.total_amount) || 0)}
+                  {toReadableAmount(Number(data?.total_amount))}
                   <br />
-                  {toReadableAmount(Number(data?.total_amount_krw) || 0, 'ko-KR', 'KRW')}
+                  {toReadableAmount(Number(data?.total_amount_krw), 'ko-KR', 'KRW')}
                 </div>
               </Flex>
               <Text as='p' align='right' mt='2' weight='bold' color='ruby'>
