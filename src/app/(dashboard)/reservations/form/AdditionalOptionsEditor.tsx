@@ -308,9 +308,9 @@ export default function AdditionalOptionsEditor({
           </Table.Root>
 
           <Flex justify='end' mt='4' gap='1'>
-            <Button disabled={mutation.isPending} variant='outline'>
-              <Save />
-              변경사항 저장
+            <Button type='button' color='ruby' onClick={addAdditionalOption}>
+              <Plus size='20' />
+              상품 추가
             </Button>
             <Button
               type='button'
@@ -321,9 +321,9 @@ export default function AdditionalOptionsEditor({
             >
               <Minus size='20' /> 삭제
             </Button>
-            <Button type='button' color='ruby' onClick={addAdditionalOption}>
-              <Plus size='20' />
-              상품 추가
+            <Button disabled={mutation.isPending} variant='outline'>
+              <Save />
+              변경사항 저장
             </Button>
           </Flex>
         </form>
