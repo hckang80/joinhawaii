@@ -219,6 +219,7 @@ export default function RentalCarForm({
                     <TextField.Root
                       type='number'
                       min='0'
+                      step='0.01'
                       {...register(`rental_cars.${i}.cost`, {
                         required: true,
                         valueAsNumber: true
@@ -229,6 +230,7 @@ export default function RentalCarForm({
                     <TextField.Root
                       type='number'
                       min='0'
+                      step='0.01'
                       {...register(`rental_cars.${i}.daily_rate`, {
                         required: true,
                         valueAsNumber: true

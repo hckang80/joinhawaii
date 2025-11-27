@@ -187,6 +187,7 @@ export default function InsuranceForm({
                         <TextField.Root
                           type='number'
                           min='0'
+                          step='0.01'
                           {...register(`insurances.${i}.adult_cost`, {
                             required: true,
                             valueAsNumber: true
@@ -198,6 +199,7 @@ export default function InsuranceForm({
                         <TextField.Root
                           type='number'
                           min='0'
+                          step='0.01'
                           {...register(`insurances.${i}.children_cost`, {
                             required: true,
                             valueAsNumber: true
@@ -209,6 +211,7 @@ export default function InsuranceForm({
                         <TextField.Root
                           type='number'
                           min='0'
+                          step='0.01'
                           readOnly
                           {...register(`insurances.${i}.kids_cost`, {
                             required: true,
@@ -225,6 +228,7 @@ export default function InsuranceForm({
                         <TextField.Root
                           type='number'
                           min='0'
+                          step='0.01'
                           {...register(`insurances.${i}.adult_price`, {
                             required: true,
                             valueAsNumber: true
@@ -236,6 +240,7 @@ export default function InsuranceForm({
                         <TextField.Root
                           type='number'
                           min='0'
+                          step='0.01'
                           {...register(`insurances.${i}.children_price`, {
                             required: true,
                             valueAsNumber: true
@@ -247,6 +252,7 @@ export default function InsuranceForm({
                         <TextField.Root
                           type='number'
                           min='0'
+                          step='0.01'
                           readOnly
                           {...register(`insurances.${i}.kids_price`, {
                             required: true,

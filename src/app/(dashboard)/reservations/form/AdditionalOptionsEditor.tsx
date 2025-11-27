@@ -158,6 +158,7 @@ export default function AdditionalOptionsEditor({
                         <TextField.Root
                           type='number'
                           min='0'
+                          step='0.01'
                           {...register(`additionalOptions.${i}.adult_cost`, {
                             required: true,
                             valueAsNumber: true
@@ -169,6 +170,7 @@ export default function AdditionalOptionsEditor({
                         <TextField.Root
                           type='number'
                           min='0'
+                          step='0.01'
                           {...register(`additionalOptions.${i}.children_cost`, {
                             required: true,
                             valueAsNumber: true
@@ -180,6 +182,7 @@ export default function AdditionalOptionsEditor({
                         <TextField.Root
                           type='number'
                           min='0'
+                          step='0.01'
                           readOnly
                           {...register(`additionalOptions.${i}.kids_cost`, {
                             required: true,
@@ -196,6 +199,7 @@ export default function AdditionalOptionsEditor({
                         <TextField.Root
                           type='number'
                           min='0'
+                          step='0.01'
                           {...register(`additionalOptions.${i}.adult_price`, {
                             required: true,
                             valueAsNumber: true
@@ -207,6 +211,7 @@ export default function AdditionalOptionsEditor({
                         <TextField.Root
                           type='number'
                           min='0'
+                          step='0.01'
                           {...register(`additionalOptions.${i}.children_price`, {
                             required: true,
                             valueAsNumber: true
@@ -218,6 +223,7 @@ export default function AdditionalOptionsEditor({
                         <TextField.Root
                           type='number'
                           min='0'
+                          step='0.01'
                           readOnly
                           {...register(`additionalOptions.${i}.kids_price`, {
                             required: true,

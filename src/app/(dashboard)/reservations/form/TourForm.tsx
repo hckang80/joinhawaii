@@ -201,6 +201,7 @@ export default function TourForm({
                         <TextField.Root
                           type='number'
                           min='0'
+                          step='0.01'
                           {...register(`tours.${i}.adult_cost`, {
                             required: true,
                             valueAsNumber: true
@@ -212,6 +213,7 @@ export default function TourForm({
                         <TextField.Root
                           type='number'
                           min='0'
+                          step='0.01'
                           {...register(`tours.${i}.children_cost`, {
                             required: true,
                             valueAsNumber: true
@@ -223,6 +225,7 @@ export default function TourForm({
                         <TextField.Root
                           type='number'
                           min='0'
+                          step='0.01'
                           readOnly
                           {...register(`tours.${i}.kids_cost`, {
                             required: true,
@@ -239,6 +242,7 @@ export default function TourForm({
                         <TextField.Root
                           type='number'
                           min='0'
+                          step='0.01'
                           {...register(`tours.${i}.adult_price`, {
                             required: true,
                             valueAsNumber: true
@@ -250,6 +254,7 @@ export default function TourForm({
                         <TextField.Root
                           type='number'
                           min='0'
+                          step='0.01'
                           {...register(`tours.${i}.children_price`, {
                             required: true,
                             valueAsNumber: true
@@ -261,6 +266,7 @@ export default function TourForm({
                         <TextField.Root
                           type='number'
                           min='0'
+                          step='0.01'
                           readOnly
                           {...register(`tours.${i}.kids_price`, {
                             required: true,
