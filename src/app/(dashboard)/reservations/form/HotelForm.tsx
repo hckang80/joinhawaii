@@ -273,6 +273,7 @@ export default function HotelForm({
                     <TextField.Root
                       type='number'
                       min='0'
+                      step='0.01'
                       {...register(`hotels.${i}.cost`, {
                         required: true,
                         valueAsNumber: true
@@ -283,6 +284,7 @@ export default function HotelForm({
                     <TextField.Root
                       type='number'
                       min='0'
+                      step='0.01'
                       {...register(`hotels.${i}.nightly_rate`, {
                         required: true,
                         valueAsNumber: true
