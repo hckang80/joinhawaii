@@ -152,10 +152,12 @@ export default function ReservationsFormClientContainer({
                     render={({ field }) => (
                       <TextField.Root
                         size='3'
-                        type='text'
+                        type='number'
+                        step='0.01'
+                        inputMode='decimal'
                         value={field.value}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                          field.onChange(e.target.value);
+                          field.onChange(+e.target.value);
                         }}
                         placeholder='0'
                       />

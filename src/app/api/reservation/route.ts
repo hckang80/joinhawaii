@@ -299,8 +299,8 @@ export async function PATCH(request: Request) {
     const { data: updatedReservation, error } = await supabase
       .from('reservations')
       .update({
-        ...updates,
-        ...totals
+        ...totals,
+        ...updates
       })
       .eq('reservation_id', reservation_id)
       .select()
