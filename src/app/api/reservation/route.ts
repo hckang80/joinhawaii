@@ -283,10 +283,18 @@ export async function PATCH(request: Request) {
 
     const supabase = await createClient<Database>();
 
+    const markRefunded = <T extends { status?: string }>(items?: T[]) =>
+      items?.map(item =>
+        item.status === 'Refunded' ? { ...item, payment_status: 'Refunded' } : item
+      );
+
     await updateReservationProducts(supabase, reservation_id, {
       clients,
-      flights,
-      hotels,
+      flights: markRefunded(flights),
+      hotels: hotels?.map(item => ({
+        ...item,
+        ...(item.status === 'Refunded' && { payment_status: 'Refunded' })
+      })),
       tours,
       rental_cars,
       insurances
