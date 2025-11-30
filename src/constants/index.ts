@@ -208,8 +208,8 @@ export const PRODUCT_STATUS_COLOR: Record<
   ChangeRequested: 'gray',
   CancelRequested: 'ruby',
   Cancelled: 'ruby',
-  RefundRequested: 'blue',
-  Refunded: 'blue'
+  RefundRequested: 'red',
+  Refunded: 'red'
 };
 
 export const PAYMENT_STATUS_COLOR: Record<
