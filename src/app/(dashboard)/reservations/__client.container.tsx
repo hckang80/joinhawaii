@@ -96,7 +96,14 @@ export default function ReservationsClientContainer() {
                 <Table.Cell>
                   <Badge
                     size='3'
-                    color={PAYMENT_STATUS_COLOR[item.payment_status]}
+                    color={
+                      PAYMENT_STATUS_COLOR[
+                        getPaymentStatus({
+                          status: item.status,
+                          paymentStatus: item.payment_status
+                        })
+                      ]
+                    }
                     variant='soft'
                     highContrast={item.payment_status === 'Full'}
                   >
