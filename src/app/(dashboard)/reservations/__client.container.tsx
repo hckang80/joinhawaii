@@ -6,12 +6,11 @@ import {
   PaymentStatus,
   PRODUCT_COLOR,
   PRODUCT_LABEL,
-  PRODUCT_STATUS_COLOR,
-  ProductStatus
+  PRODUCT_STATUS_COLOR
 } from '@/constants';
 import { usePageNavigation } from '@/hooks';
 import { productsQueryOptions } from '@/lib/queries';
-import { isDev, toReadableDate } from '@/utils';
+import { getPaymentStatus, isDev, toReadableDate } from '@/utils';
 import {
   Badge,
   Button,
@@ -91,7 +90,7 @@ export default function ReservationsClientContainer() {
                 <Table.Cell>{toReadableDate(new Date(item.created_at))}</Table.Cell>
                 <Table.Cell>
                   <Badge size='3' color={PRODUCT_STATUS_COLOR[item.status]} variant='soft'>
-                    {ProductStatus[item.status]}
+                    {getPaymentStatus({ status: item.status, paymentStatus: item.payment_status })}
                   </Badge>
                 </Table.Cell>
                 <Table.Cell>

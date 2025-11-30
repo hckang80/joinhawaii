@@ -1,10 +1,10 @@
 'use client';
 
 import { Paginate, ProductOptionBadge } from '@/components';
-import { PAYMENT_STATUS_COLOR, PaymentStatus } from '@/constants';
+import { PAYMENT_STATUS_COLOR } from '@/constants';
 import { usePageNavigation } from '@/hooks';
 import { productsQueryOptions } from '@/lib/queries';
-import { isDev, toReadableAmount, toReadableDate } from '@/utils';
+import { getPaymentStatus, isDev, toReadableAmount, toReadableDate } from '@/utils';
 import {
   Badge,
   Button,
@@ -86,7 +86,7 @@ export default function SettlementClientContainer() {
                     variant='soft'
                     highContrast={item.payment_status === 'Full'}
                   >
-                    {PaymentStatus[item.payment_status]}
+                    {getPaymentStatus({ status: item.status, paymentStatus: item.payment_status })}
                   </Badge>
                 </Table.Cell>
                 <Table.Cell>

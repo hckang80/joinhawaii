@@ -1,5 +1,4 @@
-import type { PaymentStatus } from '@/constants/index';
-import { ProductStatusKey } from '@/types';
+import { PaymentStatusKey, ProductStatusKey } from '@/types';
 import type { PostgrestError } from '@supabase/supabase-js';
 import { toast } from 'react-toastify';
 
@@ -155,12 +154,12 @@ export function normalizeNumber(v: unknown) {
   return Number.isFinite(n) ? n : 0;
 }
 
-export const getPaymentStatue = ({
+export const getPaymentStatus = ({
   status,
   paymentStatus
 }: {
   status: ProductStatusKey;
-  paymentStatus: PaymentStatus;
+  paymentStatus: PaymentStatusKey;
 }) => {
   return status === 'Refunded' ? status : paymentStatus;
 };
