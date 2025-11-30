@@ -283,18 +283,13 @@ export async function PATCH(request: Request) {
 
     const supabase = await createClient<Database>();
 
-    const markRefunded = <T extends { status?: string }>(items?: T[]) =>
-      items?.map(item =>
-        item.status === 'Refunded' ? { ...item, payment_status: 'Refunded' } : item
-      );
-
     await updateReservationProducts(supabase, reservation_id, {
       clients,
-      flights: markRefunded(flights),
-      hotels: markRefunded(hotels),
-      tours: markRefunded(tours),
-      rental_cars: markRefunded(rental_cars),
-      insurances: markRefunded(insurances)
+      flights,
+      hotels,
+      tours,
+      rental_cars,
+      insurances
     });
 
     const { data: totals } = await supabase.rpc('calculate_reservation_total', {
