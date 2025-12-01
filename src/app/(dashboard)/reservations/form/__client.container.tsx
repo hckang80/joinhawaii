@@ -152,10 +152,12 @@ export default function ReservationsFormClientContainer({
                     render={({ field }) => (
                       <TextField.Root
                         size='3'
-                        type='text'
+                        type='number'
+                        step='0.01'
+                        inputMode='decimal'
                         value={field.value}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                          field.onChange(e.target.value);
+                          field.onChange(+e.target.value);
                         }}
                         placeholder='0'
                       />
@@ -185,7 +187,7 @@ export default function ReservationsFormClientContainer({
                 </div>
               </Flex>
               <Text as='p' align='right' mt='2' weight='bold' color='ruby'>
-                환율이 입력된 상품만 총액에 반영됩니다.
+                환율이 입력된 상품만 한화에 반영됩니다.
               </Text>
             </form>
           </Box>
