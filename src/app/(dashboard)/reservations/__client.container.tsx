@@ -6,7 +6,8 @@ import {
   PaymentStatus,
   PRODUCT_COLOR,
   PRODUCT_LABEL,
-  PRODUCT_STATUS_COLOR
+  PRODUCT_STATUS_COLOR,
+  ProductStatus
 } from '@/constants';
 import { usePageNavigation } from '@/hooks';
 import { productsQueryOptions } from '@/lib/queries';
@@ -90,7 +91,7 @@ export default function ReservationsClientContainer() {
                 <Table.Cell>{toReadableDate(new Date(item.created_at))}</Table.Cell>
                 <Table.Cell>
                   <Badge size='3' color={PRODUCT_STATUS_COLOR[item.status]} variant='soft'>
-                    {getPaymentStatus({ status: item.status, paymentStatus: item.payment_status })}
+                    {ProductStatus[item.status]}
                   </Badge>
                 </Table.Cell>
                 <Table.Cell>
@@ -107,7 +108,14 @@ export default function ReservationsClientContainer() {
                     variant='soft'
                     highContrast={item.payment_status === 'Full'}
                   >
-                    {PaymentStatus[item.payment_status]}
+                    {
+                      PaymentStatus[
+                        getPaymentStatus({
+                          status: item.status,
+                          paymentStatus: item.payment_status
+                        })
+                      ]
+                    }
                   </Badge>
                 </Table.Cell>
                 <Table.Cell>{item.booking_platform}</Table.Cell>
