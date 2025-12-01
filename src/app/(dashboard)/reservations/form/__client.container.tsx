@@ -187,7 +187,7 @@ export default function ReservationsFormClientContainer({
                 </div>
               </Flex>
               <Text as='p' align='right' mt='2' weight='bold' color='ruby'>
-                환율이 입력된 상품만 총액에 반영됩니다.
+                환율이 입력된 상품만 한화에 반영됩니다.
               </Text>
             </form>
           </Box>
