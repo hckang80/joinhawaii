@@ -221,9 +221,20 @@ export default function ClientForm({
                       />
                     </Table.Cell>
                     <Table.Cell>
-                      <TextField.Root
-                        {...register(`clients.${i}.english_name`)}
-                        placeholder='HONG GILDONG'
+                      <Controller
+                        name={`clients.${i}.english_name`}
+                        control={control}
+                        render={({ field }) => (
+                          <TextField.Root
+                            ref={field.ref}
+                            value={field.value}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                              const newValue = e.target.value.toUpperCase().trim();
+                              field.onChange(newValue);
+                            }}
+                            placeholder='HONG GILDONG'
+                          />
+                        )}
                       />
                     </Table.Cell>
                     <Table.Cell>
