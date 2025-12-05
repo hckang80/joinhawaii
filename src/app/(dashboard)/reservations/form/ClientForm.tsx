@@ -5,7 +5,7 @@ import type {
   ReservationResponse,
   ReservationSuccessResponse
 } from '@/types';
-import { formatPhoneNumber, formatResidentId, isDev } from '@/utils';
+import { isDev } from '@/utils';
 import { observable } from '@legendapp/state';
 import { use$ } from '@legendapp/state/react';
 import {
@@ -222,7 +222,7 @@ export default function ClientForm({
                     </Table.Cell>
                     <Table.Cell>
                       <TextField.Root
-                        {...register(`clients.${i}.english_name`, { required: true })}
+                        {...register(`clients.${i}.english_name`)}
                         placeholder='HONG GILDONG'
                       />
                     </Table.Cell>
@@ -254,22 +254,13 @@ export default function ClientForm({
                       <Controller
                         name={`clients.${i}.resident_id`}
                         control={control}
-                        rules={{
-                          required: true,
-                          validate: value => {
-                            const formatted = formatResidentId(value);
-                            return /^\d{6}-\d{7}$/.test(formatted);
-                          }
-                        }}
                         render={({ field }) => (
                           <TextField.Root
                             ref={field.ref}
                             value={field.value}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                              const formatted = formatResidentId(e.target.value);
-                              field.onChange(formatted);
+                              field.onChange(e.target.value);
                             }}
-                            placeholder='000000-0000000'
                           />
                         )}
                       />
@@ -278,29 +269,20 @@ export default function ClientForm({
                       <Controller
                         name={`clients.${i}.phone_number`}
                         control={control}
-                        rules={{
-                          required: false,
-                          validate: value => {
-                            const formatted = formatPhoneNumber(value);
-                            return !value || /^\d{3}-\d{4}-\d{4}$/.test(formatted);
-                          }
-                        }}
                         render={({ field }) => (
                           <TextField.Root
                             ref={field.ref}
                             value={field.value}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                              const formatted = formatPhoneNumber(e.target.value);
-                              field.onChange(formatted);
+                              field.onChange(e.target.value);
                             }}
-                            placeholder='010-0000-0000'
                           />
                         )}
                       />
                     </Table.Cell>
                     <Table.Cell>
                       <TextField.Root
-                        {...register(`clients.${i}.email`, { required: true })}
+                        {...register(`clients.${i}.email`)}
                         placeholder='joinhawaii@gmail.com'
                       />
                     </Table.Cell>
