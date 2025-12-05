@@ -112,11 +112,22 @@ export default function FlightForm({
                     />
                   </Table.Cell>
                   <Table.Cell>
-                    <TextField.Root
-                      type='datetime-local'
-                      {...register(`flights.${i}.departure_datetime`, {
-                        required: true
-                      })}
+                    <Controller
+                      name={`flights.${i}.departure_datetime`}
+                      control={control}
+                      rules={{ required: true }}
+                      render={({ field }) => (
+                        <TextField.Root
+                          type='datetime-local'
+                          value={
+                            field.value ? new Date(field.value).toISOString().slice(0, 16) : ''
+                          }
+                          onChange={e => {
+                            const value = e.target.value;
+                            field.onChange(value ? new Date(value).toISOString() : '');
+                          }}
+                        />
+                      )}
                     />
                   </Table.Cell>
                   <Table.Cell>
@@ -137,8 +148,13 @@ export default function FlightForm({
                           <TextField.Root
                             type='datetime-local'
                             min={checkInDate || undefined}
-                            value={field.value || ''}
-                            onChange={field.onChange}
+                            value={
+                              field.value ? new Date(field.value).toISOString().slice(0, 16) : ''
+                            }
+                            onChange={e => {
+                              const value = e.target.value;
+                              field.onChange(value ? new Date(value).toISOString() : '');
+                            }}
                             onFocus={() => {
                               if (!field.value && checkInDate) {
                                 field.onChange(checkInDate);

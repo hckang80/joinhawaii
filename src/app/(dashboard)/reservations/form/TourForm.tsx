@@ -173,11 +173,22 @@ export default function TourForm({
                     />
                   </Table.Cell>
                   <Table.Cell>
-                    <TextField.Root
-                      type='datetime-local'
-                      {...register(`tours.${i}.start_date`, {
-                        required: true
-                      })}
+                    <Controller
+                      name={`tours.${i}.start_date`}
+                      control={control}
+                      rules={{ required: true }}
+                      render={({ field }) => (
+                        <TextField.Root
+                          type='datetime-local'
+                          value={
+                            field.value ? new Date(field.value).toISOString().slice(0, 16) : ''
+                          }
+                          onChange={e => {
+                            const value = e.target.value;
+                            field.onChange(value ? new Date(value).toISOString() : '');
+                          }}
+                        />
+                      )}
                     />
                   </Table.Cell>
                   <Table.Cell>
