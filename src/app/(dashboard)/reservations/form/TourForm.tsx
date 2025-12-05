@@ -179,28 +179,6 @@ export default function TourForm({
                         required: true
                       })}
                     />
-                    ~
-                    <Controller
-                      name={`tours.${i}.end_date`}
-                      control={control}
-                      rules={{ required: true }}
-                      render={({ field }) => {
-                        const checkInDate = watch(`tours.${i}.start_date`);
-                        return (
-                          <TextField.Root
-                            type='datetime-local'
-                            min={checkInDate || undefined}
-                            value={field.value || ''}
-                            onChange={field.onChange}
-                            onFocus={() => {
-                              if (!field.value && checkInDate) {
-                                field.onChange(checkInDate);
-                              }
-                            }}
-                          />
-                        );
-                      }}
-                    />
                   </Table.Cell>
                   <Table.Cell>
                     <TextField.Root
