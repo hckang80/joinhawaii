@@ -190,11 +190,26 @@ export default function HotelForm({
                       })}
                     />
                     ~
-                    <TextField.Root
-                      type='date'
-                      {...register(`hotels.${i}.check_out_date`, {
-                        required: true
-                      })}
+                    <Controller
+                      name={`hotels.${i}.check_out_date`}
+                      control={control}
+                      rules={{ required: true }}
+                      render={({ field }) => {
+                        const checkInDate = watch(`hotels.${i}.check_in_date`);
+                        return (
+                          <TextField.Root
+                            type='date'
+                            min={checkInDate || undefined}
+                            value={field.value || ''}
+                            onChange={field.onChange}
+                            onFocus={() => {
+                              if (!field.value && checkInDate) {
+                                field.onChange(checkInDate);
+                              }
+                            }}
+                          />
+                        );
+                      }}
                     />
                   </Table.Cell>
                   <Table.Cell>
