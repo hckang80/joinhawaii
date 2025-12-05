@@ -173,11 +173,26 @@ export default function RentalCarForm({
                       })}
                     />
                     ~
-                    <TextField.Root
-                      type='date'
-                      {...register(`rental_cars.${i}.return_date`, {
-                        required: true
-                      })}
+                    <Controller
+                      name={`rental_cars.${i}.return_date`}
+                      control={control}
+                      rules={{ required: true }}
+                      render={({ field }) => {
+                        const checkInDate = watch(`rental_cars.${i}.pickup_date`);
+                        return (
+                          <TextField.Root
+                            type='date'
+                            min={checkInDate || undefined}
+                            value={field.value || ''}
+                            onChange={field.onChange}
+                            onFocus={() => {
+                              if (!field.value && checkInDate) {
+                                field.onChange(checkInDate);
+                              }
+                            }}
+                          />
+                        );
+                      }}
                     />
                   </Table.Cell>
                   <Table.Cell>

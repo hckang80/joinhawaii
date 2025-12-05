@@ -127,11 +127,26 @@ export default function FlightForm({
                     />
                   </Table.Cell>
                   <Table.Cell>
-                    <TextField.Root
-                      type='datetime-local'
-                      {...register(`flights.${i}.arrival_datetime`, {
-                        required: true
-                      })}
+                    <Controller
+                      name={`flights.${i}.arrival_datetime`}
+                      control={control}
+                      rules={{ required: true }}
+                      render={({ field }) => {
+                        const checkInDate = watch(`flights.${i}.departure_datetime`);
+                        return (
+                          <TextField.Root
+                            type='datetime-local'
+                            min={checkInDate || undefined}
+                            value={field.value || ''}
+                            onChange={field.onChange}
+                            onFocus={() => {
+                              if (!field.value && checkInDate) {
+                                field.onChange(checkInDate);
+                              }
+                            }}
+                          />
+                        );
+                      }}
                     />
                   </Table.Cell>
                   <Table.Cell>
