@@ -5,7 +5,7 @@ export * from './query-keys';
 
 export const PER_PAGE = '10';
 
-export const GENDER_TYPE = ['MR', 'MS', 'MSTR', 'MISS'] as const;
+export const GENDER_TYPE = ['Mr.', 'Ms.', 'Mrs.', 'Miss'] as const;
 export type Gender = (typeof GENDER_TYPE)[number] | (string & {});
 
 export enum ProductStatus {
@@ -97,7 +97,7 @@ const additionalOptions = {
 export const defaultClientValues = {
   korean_name: '',
   english_name: '',
-  gender: GENDER_TYPE[0],
+  gender: 'Mr.' as Gender,
   resident_id: '',
   phone_number: '',
   email: '',
