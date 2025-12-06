@@ -67,6 +67,7 @@ export default function ReservationsFormClientContainer({
     },
     onSuccess: (result: { data: ReservationSuccessResponse }) => {
       handleApiSuccess(result);
+      refetch();
     },
     onError: handleApiError
   });
