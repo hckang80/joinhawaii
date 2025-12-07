@@ -172,7 +172,9 @@ export async function GET(request: Request) {
         insuranceTotals.total_cost_krw;
 
       const sumProductsOriginal = (products: ProductValues[]) =>
-        products.reduce((acc, product) => acc + product.total_amount, 0);
+        products
+          .filter(({ status }) => status !== 'Refunded')
+          .reduce((acc, product) => acc + product.total_amount, 0);
 
       const productsOriginalTotal =
         sumProductsOriginal(flightsWithKrw) +
@@ -184,7 +186,12 @@ export async function GET(request: Request) {
       const sumOptionsOriginal = (products: ProductValues[]) =>
         products.reduce((acc, product) => {
           const opts = product.additional_options;
-          return acc + opts.reduce((s, opt) => s + opt.total_amount, 0);
+          return (
+            acc +
+            opts
+              .filter(({ status }) => status !== 'Refunded')
+              .reduce((s, opt) => s + opt.total_amount, 0)
+          );
         }, 0);
 
       const additionalOptionsTotalOriginal =
