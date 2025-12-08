@@ -120,7 +120,7 @@ export default function TourForm({
               <Table.Row>
                 <Table.ColumnHeaderCell width='90px'>환율</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='120px'>지역</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell width='240px'>날짜</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell width='280px'>날짜</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='240px'>상품명</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='80px'>💰요금</Table.ColumnHeaderCell>
@@ -192,7 +192,7 @@ export default function TourForm({
                         const { hours, minutes } = extractTime(field.value);
 
                         return (
-                          <Flex direction='column' gap='2'>
+                          <Flex gap='2'>
                             <TextField.Root
                               type='date'
                               value={dateString}
@@ -200,7 +200,7 @@ export default function TourForm({
                                 field.onChange(updateDateInISO(field.value, e.target.value))
                               }
                             />
-                            <Flex gap='1'>
+                            <Flex gap='1' align='center'>
                               <Select.Root
                                 value={String(hours)}
                                 onValueChange={value =>
@@ -209,34 +209,36 @@ export default function TourForm({
                                   )
                                 }
                               >
-                                <Select.Trigger placeholder='시' style={{ width: '70px' }}>
-                                  {String(hours).padStart(2, '0')}시
+                                <Select.Trigger placeholder='시' style={{ width: '60px' }}>
+                                  {String(hours).padStart(2, '0')}
                                 </Select.Trigger>
                                 <Select.Content>
                                   {generateHourOptions().map(hour => (
                                     <Select.Item key={hour} value={String(hour)}>
-                                      {String(hour).padStart(2, '0')}시
+                                      {String(hour).padStart(2, '0')}
                                     </Select.Item>
                                   ))}
                                 </Select.Content>
                               </Select.Root>
+                              시
                               <Select.Root
                                 value={String(minutes)}
                                 onValueChange={value =>
                                   field.onChange(updateTimeInISO(field.value, hours, Number(value)))
                                 }
                               >
-                                <Select.Trigger placeholder='분' style={{ width: '70px' }}>
-                                  {String(minutes).padStart(2, '0')}분
+                                <Select.Trigger placeholder='분' style={{ width: '60px' }}>
+                                  {String(minutes).padStart(2, '0')}
                                 </Select.Trigger>
                                 <Select.Content>
                                   {generateMinuteOptions().map(min => (
                                     <Select.Item key={min} value={String(min)}>
-                                      {String(min).padStart(2, '0')}분
+                                      {String(min).padStart(2, '0')}
                                     </Select.Item>
                                   ))}
                                 </Select.Content>
                               </Select.Root>
+                              분
                             </Flex>
                           </Flex>
                         );
