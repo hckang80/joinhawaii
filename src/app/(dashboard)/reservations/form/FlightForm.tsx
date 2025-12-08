@@ -1,3 +1,4 @@
+import { DateTimeInput } from '@/components';
 import { defaultFlightValues, PRODUCT_STATUS_COLOR, ProductStatus } from '@/constants';
 import type { ProductFormType, ReservationFormData, ReservationResponse } from '@/types';
 import { calculateTotalAmount, isDev } from '@/utils';
@@ -88,7 +89,7 @@ export default function FlightForm({
               <Table.Row>
                 <Table.ColumnHeaderCell width='80px'>티켓</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='100px'>항공편</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell width='240px'>출발시간</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell width='290px'>출발시간</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='100px'>출발지</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='240px'>도착시간</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='100px'>도착지</Table.ColumnHeaderCell>
@@ -112,22 +113,10 @@ export default function FlightForm({
                     />
                   </Table.Cell>
                   <Table.Cell>
-                    <Controller
+                    <DateTimeInput
                       name={`flights.${i}.departure_datetime`}
                       control={control}
-                      rules={{ required: true }}
-                      render={({ field }) => (
-                        <TextField.Root
-                          type='datetime-local'
-                          value={
-                            field.value ? new Date(field.value).toISOString().slice(0, 16) : ''
-                          }
-                          onChange={e => {
-                            const value = e.target.value;
-                            field.onChange(value ? new Date(value).toISOString() : '');
-                          }}
-                        />
-                      )}
+                      required
                     />
                   </Table.Cell>
                   <Table.Cell>
