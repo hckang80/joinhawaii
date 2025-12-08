@@ -1,3 +1,4 @@
+import { DateTimeInput } from '@/components';
 import { defaultTourValues, PRODUCT_STATUS_COLOR, ProductStatus, REGIONS } from '@/constants';
 import type {
   AdditionalOptions,
@@ -110,7 +111,7 @@ export default function TourForm({
               <Table.Row>
                 <Table.ColumnHeaderCell width='90px'>환율</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='120px'>지역</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell width='240px'>날짜</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell width='280px'>날짜</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='240px'>상품명</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='80px'>💰요금</Table.ColumnHeaderCell>
@@ -173,23 +174,7 @@ export default function TourForm({
                     />
                   </Table.Cell>
                   <Table.Cell>
-                    <Controller
-                      name={`tours.${i}.start_date`}
-                      control={control}
-                      rules={{ required: true }}
-                      render={({ field }) => (
-                        <TextField.Root
-                          type='datetime-local'
-                          value={
-                            field.value ? new Date(field.value).toISOString().slice(0, 16) : ''
-                          }
-                          onChange={e => {
-                            const value = e.target.value;
-                            field.onChange(value ? new Date(value).toISOString() : '');
-                          }}
-                        />
-                      )}
-                    />
+                    <DateTimeInput name={`tours.${i}.start_date`} control={control} required />
                   </Table.Cell>
                   <Table.Cell>
                     <TextField.Root

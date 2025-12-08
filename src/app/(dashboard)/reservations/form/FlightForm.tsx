@@ -1,6 +1,7 @@
+import { DateTimeInput, TimeInput } from '@/components';
 import { defaultFlightValues, PRODUCT_STATUS_COLOR, ProductStatus } from '@/constants';
 import type { ProductFormType, ReservationFormData, ReservationResponse } from '@/types';
-import { calculateTotalAmount, isDev } from '@/utils';
+import { calculateTotalAmount, isDev, updateDateInISO } from '@/utils';
 import {
   Button,
   Card,
@@ -88,9 +89,9 @@ export default function FlightForm({
               <Table.Row>
                 <Table.ColumnHeaderCell width='80px'>티켓</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='100px'>항공편</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell width='240px'>출발시간</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell width='300px'>출발시간</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='100px'>출발지</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell width='240px'>도착시간</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell width='300px'>도착시간</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='100px'>도착지</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='80px'>💰요금</Table.ColumnHeaderCell>
@@ -112,22 +113,10 @@ export default function FlightForm({
                     />
                   </Table.Cell>
                   <Table.Cell>
-                    <Controller
+                    <DateTimeInput
                       name={`flights.${i}.departure_datetime`}
                       control={control}
-                      rules={{ required: true }}
-                      render={({ field }) => (
-                        <TextField.Root
-                          type='datetime-local'
-                          value={
-                            field.value ? new Date(field.value).toISOString().slice(0, 16) : ''
-                          }
-                          onChange={e => {
-                            const value = e.target.value;
-                            field.onChange(value ? new Date(value).toISOString() : '');
-                          }}
-                        />
-                      )}
+                      required
                     />
                   </Table.Cell>
                   <Table.Cell>
@@ -143,24 +132,36 @@ export default function FlightForm({
                       control={control}
                       rules={{ required: true }}
                       render={({ field }) => {
-                        const checkInDate = watch(`flights.${i}.departure_datetime`);
+                        const departureDate = watch(`flights.${i}.departure_datetime`);
+                        const dateString = field.value
+                          ? new Date(field.value).toISOString().slice(0, 10)
+                          : '';
+                        const minDate = departureDate
+                          ? new Date(departureDate).toISOString().slice(0, 10)
+                          : undefined;
+
                         return (
-                          <TextField.Root
-                            type='datetime-local'
-                            min={checkInDate || undefined}
-                            value={
-                              field.value ? new Date(field.value).toISOString().slice(0, 16) : ''
-                            }
-                            onChange={e => {
-                              const value = e.target.value;
-                              field.onChange(value ? new Date(value).toISOString() : '');
-                            }}
-                            onFocus={() => {
-                              if (!field.value && checkInDate) {
-                                field.onChange(checkInDate);
-                              }
-                            }}
-                          />
+                          <Flex gap='2'>
+                            <TextField.Root
+                              type='date'
+                              min={minDate}
+                              value={dateString}
+                              onChange={e => {
+                                const value = e.target.value;
+                                if (value) {
+                                  field.onChange(updateDateInISO(field.value, value));
+                                } else {
+                                  field.onChange(null);
+                                }
+                              }}
+                              onFocus={() => {
+                                if (!field.value && departureDate) {
+                                  field.onChange(departureDate);
+                                }
+                              }}
+                            />
+                            <TimeInput name={`flights.${i}.arrival_datetime`} control={control} />
+                          </Flex>
                         );
                       }}
                     />

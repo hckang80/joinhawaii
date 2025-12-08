@@ -163,3 +163,72 @@ export const getPaymentStatus = ({
 }) => {
   return status === 'Refunded' ? status : paymentStatus;
 };
+
+/**
+ * ISO 날짜 문자열에서 날짜 부분만 추출합니다 (YYYY-MM-DD)
+ */
+export function extractDateString(isoString: string | null | undefined): string {
+  if (!isoString) return '';
+  return new Date(isoString).toISOString().slice(0, 10);
+}
+
+/**
+ * ISO 날짜 문자열에서 시간과 분을 추출합니다
+ */
+export function extractTime(isoString: string | null | undefined): {
+  hours: number;
+  minutes: number;
+} {
+  if (!isoString) {
+    return {
+      hours: 0,
+      minutes: 0
+    };
+  }
+
+  const date = new Date(isoString);
+  return {
+    hours: date.getHours(),
+    minutes: date.getMinutes()
+  };
+}
+
+/**
+ * 날짜 문자열을 받아 기존 ISO 문자열의 날짜 부분만 변경합니다
+ */
+export function updateDateInISO(
+  currentISO: string | null | undefined,
+  newDateString: string
+): string {
+  const currentDate = currentISO ? new Date(currentISO) : new Date();
+  const [year, month, day] = newDateString.split('-').map(Number);
+  currentDate.setFullYear(year, month - 1, day);
+  return currentDate.toISOString();
+}
+
+/**
+ * 시간과 분을 받아 기존 ISO 문자열의 시간 부분만 변경합니다
+ */
+export function updateTimeInISO(
+  currentISO: string | null | undefined,
+  hours: number,
+  minutes: number
+): string {
+  const currentDate = currentISO ? new Date(currentISO) : new Date();
+  currentDate.setHours(hours, minutes, 0, 0);
+  return currentDate.toISOString();
+}
+
+/**
+ * 시간 선택 옵션 배열을 생성합니다 (0~23)
+ */
+export function generateHourOptions(): number[] {
+  return Array.from({ length: 24 }, (_, i) => i);
+}
+
+/**
+ * 분 선택 옵션 배열을 생성합니다 (10분 단위: 0, 10, 20, 30, 40, 50)
+ */
+export function generateMinuteOptions(interval: number = 10): number[] {
+  return Array.from({ length: 60 / interval }, (_, i) => i * interval);
+}
