@@ -34,6 +34,7 @@ export function DateTimeInput<TFieldValues extends FieldValues = FieldValues>({
         return (
           <Flex gap='2'>
             <TextField.Root
+              {...field}
               type='date'
               value={dateString}
               onChange={e => field.onChange(updateDateInISO(field.value, e.target.value))}
