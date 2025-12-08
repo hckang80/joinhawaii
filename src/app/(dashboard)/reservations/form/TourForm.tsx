@@ -177,18 +177,69 @@ export default function TourForm({
                       name={`tours.${i}.start_date`}
                       control={control}
                       rules={{ required: true }}
-                      render={({ field }) => (
-                        <TextField.Root
-                          type='datetime-local'
-                          value={
-                            field.value ? new Date(field.value).toISOString().slice(0, 16) : ''
-                          }
-                          onChange={e => {
-                            const value = e.target.value;
-                            field.onChange(value ? new Date(value).toISOString() : '');
-                          }}
-                        />
-                      )}
+                      render={({ field }) => {
+                        const dateValue = field.value ? new Date(field.value) : new Date();
+                        const dateString = field.value
+                          ? new Date(field.value).toISOString().slice(0, 10)
+                          : '';
+                        const hours = dateValue.getHours();
+                        const minutes = dateValue.getMinutes();
+
+                        const handleDateChange = (newDate: string) => {
+                          const currentDate = field.value ? new Date(field.value) : new Date();
+                          const [year, month, day] = newDate.split('-').map(Number);
+                          currentDate.setFullYear(year, month - 1, day);
+                          field.onChange(currentDate.toISOString());
+                        };
+
+                        const handleTimeChange = (newHours: number, newMinutes: number) => {
+                          const currentDate = field.value ? new Date(field.value) : new Date();
+                          currentDate.setHours(newHours, newMinutes, 0, 0);
+                          field.onChange(currentDate.toISOString());
+                        };
+
+                        return (
+                          <Flex direction='column' gap='2'>
+                            <TextField.Root
+                              type='date'
+                              value={dateString}
+                              onChange={e => handleDateChange(e.target.value)}
+                            />
+                            <Flex gap='1'>
+                              <Select.Root
+                                value={String(hours)}
+                                onValueChange={value => handleTimeChange(Number(value), minutes)}
+                              >
+                                <Select.Trigger placeholder='시' style={{ width: '70px' }}>
+                                  {String(hours).padStart(2, '0')}시
+                                </Select.Trigger>
+                                <Select.Content>
+                                  {Array.from({ length: 24 }, (_, i) => (
+                                    <Select.Item key={i} value={String(i)}>
+                                      {String(i).padStart(2, '0')}시
+                                    </Select.Item>
+                                  ))}
+                                </Select.Content>
+                              </Select.Root>
+                              <Select.Root
+                                value={String(minutes)}
+                                onValueChange={value => handleTimeChange(hours, Number(value))}
+                              >
+                                <Select.Trigger placeholder='분' style={{ width: '70px' }}>
+                                  {String(minutes).padStart(2, '0')}분
+                                </Select.Trigger>
+                                <Select.Content>
+                                  {Array.from({ length: 6 }, (_, i) => i * 10).map(min => (
+                                    <Select.Item key={min} value={String(min)}>
+                                      {String(min).padStart(2, '0')}분
+                                    </Select.Item>
+                                  ))}
+                                </Select.Content>
+                              </Select.Root>
+                            </Flex>
+                          </Flex>
+                        );
+                      }}
                     />
                   </Table.Cell>
                   <Table.Cell>
