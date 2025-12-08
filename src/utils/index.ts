@@ -179,7 +179,14 @@ export function extractTime(isoString: string | null | undefined): {
   hours: number;
   minutes: number;
 } {
-  const date = isoString ? new Date(isoString) : new Date();
+  if (!isoString) {
+    return {
+      hours: 0,
+      minutes: 0
+    };
+  }
+
+  const date = new Date(isoString);
   return {
     hours: date.getHours(),
     minutes: date.getMinutes()
