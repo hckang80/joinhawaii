@@ -156,6 +156,7 @@ export default function ReservationsFormClientContainer({
                         size='3'
                         type='number'
                         step='0.01'
+                        max={Number(data?.total_amount)}
                         inputMode='decimal'
                         value={field.value === 0 ? '' : field.value}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
