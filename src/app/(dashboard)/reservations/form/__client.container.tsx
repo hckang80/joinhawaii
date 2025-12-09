@@ -12,7 +12,7 @@ import { handleApiError, handleApiSuccess, toReadableAmount } from '@/utils';
 import { observable } from '@legendapp/state';
 import { Box, Button, Flex, Heading, Text, TextField } from '@radix-ui/themes';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, type SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import AdditionalOptionsEditor from './AdditionalOptionsEditor';
 import ClientForm from './ClientForm';
@@ -48,7 +48,6 @@ export default function ReservationsFormClientContainer({
 
   const {
     handleSubmit,
-    watch,
     formState: { isDirty },
     control,
     reset
@@ -59,6 +58,12 @@ export default function ReservationsFormClientContainer({
         reservation_id: data?.reservation_id
       })
     }
+  });
+
+  const depositValue = useWatch({
+    control,
+    name: 'deposit',
+    defaultValue: 0
   });
 
   const mutation = useMutation({
@@ -175,7 +180,7 @@ export default function ReservationsFormClientContainer({
                   <Text as='label' weight='medium'>
                     잔금{' '}
                   </Text>
-                  {toReadableAmount(Number(data?.total_amount) - watch('deposit') || 0)}
+                  {toReadableAmount(Number(data?.total_amount) - (depositValue || 0))}
                 </div>
                 <div>
                   <Text as='label' weight='medium'>
