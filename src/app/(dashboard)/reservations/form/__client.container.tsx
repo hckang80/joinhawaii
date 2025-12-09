@@ -147,7 +147,8 @@ export default function ReservationsFormClientContainer({
                     rules={{
                       required: true,
                       validate: value => {
-                        return value <= Number(data?.total_amount);
+                        const numValue = value ? Number(value) : 0;
+                        return numValue <= Number(data?.total_amount);
                       }
                     }}
                     render={({ field }) => (
@@ -156,9 +157,10 @@ export default function ReservationsFormClientContainer({
                         type='number'
                         step='0.01'
                         inputMode='decimal'
-                        value={field.value}
+                        value={field.value === 0 ? '' : field.value}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                          field.onChange(+e.target.value);
+                          const value = e.target.value;
+                          field.onChange(value === '' ? 0 : +value);
                         }}
                         placeholder='0'
                       />
