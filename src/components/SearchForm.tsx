@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Flex, Grid, RadioCards, Select, Text, TextField } from '@radix-ui/themes';
+import { Button, Flex, Grid, RadioGroup, Select, Text, TextField } from '@radix-ui/themes';
 import { Search } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -50,10 +50,22 @@ export function SearchForm() {
               name='search_type'
               control={control}
               render={({ field }) => (
-                <RadioCards.Root value={field.value} onValueChange={field.onChange} size='1'>
-                  <RadioCards.Item value='reception_date'>접수일</RadioCards.Item>
-                  <RadioCards.Item value='event_date'>행사일</RadioCards.Item>
-                </RadioCards.Root>
+                <RadioGroup.Root value={field.value} onValueChange={field.onChange}>
+                  <Flex gap='3'>
+                    <Text as='label' size='2'>
+                      <Flex gap='1' align='center'>
+                        <RadioGroup.Item value='reception_date' />
+                        접수일
+                      </Flex>
+                    </Text>
+                    <Text as='label' size='2'>
+                      <Flex gap='1' align='center'>
+                        <RadioGroup.Item value='event_date' />
+                        행사일
+                      </Flex>
+                    </Text>
+                  </Flex>
+                </RadioGroup.Root>
               )}
             />
           </Flex>
