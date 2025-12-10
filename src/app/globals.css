@@ -66,3 +66,7 @@ button:not(:disabled) {
     transform: rotate(360deg);
   }
 }
+
+.w-full {
+  width: 100%;
+}
