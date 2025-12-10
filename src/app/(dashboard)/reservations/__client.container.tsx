@@ -1,6 +1,6 @@
 'use client';
 
-import { Paginate, ProductOptionBadge } from '@/components';
+import { Paginate, ProductOptionBadge, SearchForm } from '@/components';
 import {
   PAYMENT_STATUS_COLOR,
   PaymentStatus,
@@ -39,6 +39,8 @@ export default function ReservationsClientContainer() {
       <Heading as='h2' mb='4' size='7'>
         예약관리
       </Heading>
+
+      <SearchForm />
 
       <Flex mb='4' justify='end'>
         <Button asChild color='ruby'>
