@@ -1,6 +1,6 @@
 import { PER_PAGE } from '@/constants';
 import { createClient } from '@/lib/supabase/server';
-import type { AdditionalOptions, Database, ProductWithReservation, TablesRow } from '@/types';
+import type { AdditionalOptions, Database } from '@/types';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
@@ -11,32 +11,39 @@ export async function GET(request: Request) {
     const page = Number.parseInt(url.searchParams.get('page') || '1');
     const perPage = Number.parseInt(url.searchParams.get('per_page') || PER_PAGE);
 
+    const searchType = url.searchParams.get('search_type') || 'reception_date';
+    const startDate = url.searchParams.get('start_date');
+    const endDate = url.searchParams.get('end_date');
+    const bookingPlatform = url.searchParams.get('booking_platform');
+    const productType = url.searchParams.get('product_type');
+    const productName = url.searchParams.get('product_name');
+    const clientName = url.searchParams.get('client_name');
+    const status = url.searchParams.get('status');
+    const paymentStatus = url.searchParams.get('payment_status');
+
     const [hotels, tours, rental_cars, insurances] = await Promise.all([
-      supabase.from('hotels').select<string, ProductWithReservation<TablesRow<'hotels'>>>(`
+      supabase.from('hotels').select(`
           *,
           reservations!hotels_reservation_id_fkey (
             main_client_name,
             booking_platform
           )
         `),
-      supabase.from('tours').select<string, ProductWithReservation<TablesRow<'tours'>>>(`
+      supabase.from('tours').select(`
           *,
           reservations!tours_reservation_id_fkey (
             main_client_name,
             booking_platform
           )
         `),
-      supabase.from('rental_cars').select<
-        string,
-        ProductWithReservation<TablesRow<'rental_cars'>>
-      >(`
+      supabase.from('rental_cars').select(`
           *,
           reservations!rental_cars_reservation_id_fkey (
             main_client_name,
             booking_platform
           )
         `),
-      supabase.from('insurances').select<string, ProductWithReservation<TablesRow<'insurances'>>>(`
+      supabase.from('insurances').select(`
           *,
           reservations!insurances_reservation_id_fkey (
             main_client_name,
@@ -59,9 +66,7 @@ export async function GET(request: Request) {
 
     const optionsData =
       allPids.length > 0
-        ? ((
-            await supabase.from('options').select<string, AdditionalOptions>('*').in('pid', allPids)
-          ).data ?? [])
+        ? ((await supabase.from('options').select('*').in('pid', allPids)).data ?? [])
         : [];
 
     const optionsByKey = new Map<string, AdditionalOptions[]>();
@@ -214,11 +219,81 @@ export async function GET(request: Request) {
             )
         })
       ) ?? [])
-    ].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+    ];
 
-    const total = allProducts.length;
+    // Apply filters
+    let filteredProducts = allProducts;
+
+    // Date range filter
+    if (startDate || endDate) {
+      filteredProducts = filteredProducts.filter(product => {
+        const targetDate =
+          searchType === 'reception_date' ? product.created_at : product.event_date;
+
+        if (!targetDate) return false;
+
+        const dateStr = targetDate.split('T')[0];
+
+        if (startDate && endDate) {
+          return dateStr >= startDate && dateStr <= endDate;
+        } else if (startDate) {
+          return dateStr >= startDate;
+        } else if (endDate) {
+          return dateStr <= endDate;
+        }
+
+        return true;
+      });
+    }
+
+    // Booking platform filter
+    if (bookingPlatform) {
+      filteredProducts = filteredProducts.filter(
+        product => product.booking_platform === bookingPlatform
+      );
+    }
+
+    // Product type filter
+    if (productType) {
+      filteredProducts = filteredProducts.filter(product => product.type === productType);
+    }
+
+    // Product name filter (partial match)
+    if (productName) {
+      const searchTerm = productName.toLowerCase();
+      filteredProducts = filteredProducts.filter(product =>
+        product.product_name.toLowerCase().includes(searchTerm)
+      );
+    }
+
+    // Client name filter (partial match)
+    if (clientName) {
+      const searchTerm = clientName.toLowerCase();
+      filteredProducts = filteredProducts.filter(product =>
+        product.main_client_name.toLowerCase().includes(searchTerm)
+      );
+    }
+
+    // Status filter
+    if (status) {
+      filteredProducts = filteredProducts.filter(product => product.status === status);
+    }
+
+    // Payment status filter
+    if (paymentStatus) {
+      filteredProducts = filteredProducts.filter(
+        product => product.payment_status === paymentStatus
+      );
+    }
+
+    // Sort by created_at descending
+    filteredProducts.sort(
+      (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    );
+
+    const total = filteredProducts.length;
     const start = (page - 1) * perPage;
-    const paginated = allProducts.slice(start, start + perPage);
+    const paginated = filteredProducts.slice(start, start + perPage);
     const totalPages = Math.max(1, Math.ceil(total / perPage));
 
     return NextResponse.json({

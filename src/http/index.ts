@@ -6,7 +6,6 @@ import type {
   ReservationResponse,
   UpdateProductStatusParams
 } from '@/types';
-import { PER_PAGE } from '../constants';
 
 export const fetchSettlement = async <T = ReservationResponse[]>(id?: string): Promise<T> => {
   try {
@@ -42,7 +41,8 @@ export const fetchSettlement = async <T = ReservationResponse[]>(id?: string): P
 
 export const fetchProducts = async (
   page: string,
-  perPage: string
+  perPage: string,
+  searchParams?: URLSearchParams
 ): Promise<{
   data: AllProducts[];
   meta: { total: number; page: number; per_page: number };
@@ -52,6 +52,14 @@ export const fetchProducts = async (
     const url = new URL(`${baseUrl}/api/product`);
     url.searchParams.set('page', page);
     url.searchParams.set('per_page', perPage);
+
+    if (searchParams) {
+      searchParams.forEach((value, key) => {
+        if (key !== 'page' && key !== 'per_page') {
+          url.searchParams.set(key, value);
+        }
+      });
+    }
 
     const response = await fetch(url, {
       method: 'GET',
@@ -70,16 +78,10 @@ export const fetchProducts = async (
       throw new Error(result.error || '상품 조회 실패');
     }
 
-    return {
-      ...result,
-      meta: result.meta || { total: 0, page: 0, per_page: +PER_PAGE }
-    };
+    return result;
   } catch (error) {
-    console.error('상품 조회 중 에러 발생:', error);
-    return {
-      data: [],
-      meta: { total: 0, page: 0, per_page: +PER_PAGE }
-    };
+    console.error('상품 조회 에러:', error);
+    throw error;
   }
 };
 
