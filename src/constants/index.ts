@@ -90,6 +90,16 @@ export const HOTELS = [
   '카아나팔리 오션 인 리조트'
 ];
 
+export const BOOKING_PLATFORM_OPTIONS = {
+  B2C: [{ value: '홈피예약', label: '홈피예약' }],
+  B2B: [
+    { value: '마이리얼트립', label: '마이리얼트립' },
+    { value: '크리에이트립', label: '크리에이트립' },
+    { value: '와그', label: '와그' }
+  ],
+  플랫폼: [{ value: '네이버', label: '네이버' }]
+} as const;
+
 const additionalOptions = {
   additional_options: [] as AdditionalOptions[]
 };

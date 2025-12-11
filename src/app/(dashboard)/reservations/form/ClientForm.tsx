@@ -1,4 +1,4 @@
-import { defaultClientValues, GENDER_TYPE } from '@/constants';
+import { BOOKING_PLATFORM_OPTIONS, defaultClientValues, GENDER_TYPE } from '@/constants';
 import type {
   ProductFormType,
   ReservationFormData,
@@ -137,24 +137,20 @@ export default function ClientForm({
                     <Select.Trigger placeholder='예약회사 선택' style={{ width: '200px' }}>
                       {field.value}
                     </Select.Trigger>
-
                     <Select.Content>
-                      <Select.Group>
-                        <Select.Label>B2C</Select.Label>
-                        <Select.Item value='홈피예약'>홈피예약</Select.Item>
-                      </Select.Group>
-                      <Select.Separator />
-                      <Select.Group>
-                        <Select.Label>B2B</Select.Label>
-                        <Select.Item value='마이리얼트립'>마이리얼트립</Select.Item>
-                        <Select.Item value='크리에이트립'>크리에이트립</Select.Item>
-                        <Select.Item value='와그'>와그</Select.Item>
-                      </Select.Group>
-                      <Select.Separator />
-                      <Select.Group>
-                        <Select.Label>플랫폼</Select.Label>
-                        <Select.Item value='네이버'>네이버</Select.Item>
-                      </Select.Group>
+                      {Object.entries(BOOKING_PLATFORM_OPTIONS).map(([groupLabel, options]) => (
+                        <div key={groupLabel}>
+                          <Select.Group>
+                            <Select.Label>{groupLabel}</Select.Label>
+                            {options.map(({ value, label }) => (
+                              <Select.Item key={value} value={value}>
+                                {label}
+                              </Select.Item>
+                            ))}
+                          </Select.Group>
+                          <Select.Separator />
+                        </div>
+                      ))}
                     </Select.Content>
                   </Select.Root>
                 )}
