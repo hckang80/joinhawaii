@@ -44,12 +44,10 @@ export function SearchForm() {
           <Table.Root variant='surface'>
             <Table.Body>
               <Table.Row>
-                <Table.RowHeaderCell width='80px'>
-                  <Text size='2' weight='medium'>
+                <Table.Cell>
+                  <Text as='div' size='2' weight='medium' mb='2'>
                     조회구분
                   </Text>
-                </Table.RowHeaderCell>
-                <Table.Cell>
                   <Controller
                     name='search_type'
                     control={control}
@@ -68,12 +66,10 @@ export function SearchForm() {
                   />
                 </Table.Cell>
 
-                <Table.RowHeaderCell width='80px'>
-                  <Text size='2' weight='medium'>
+                <Table.Cell>
+                  <Text as='div' size='2' weight='medium' mb='2'>
                     조회일자
                   </Text>
-                </Table.RowHeaderCell>
-                <Table.Cell>
                   <Flex gap='1' align='center'>
                     <TextField.Root type='date' size='2' {...register('start_date')} />
                     <Text size='1'>~</Text>
@@ -81,12 +77,10 @@ export function SearchForm() {
                   </Flex>
                 </Table.Cell>
 
-                <Table.RowHeaderCell width='80px'>
-                  <Text size='2' weight='medium'>
+                <Table.Cell>
+                  <Text as='div' size='2' weight='medium' mb='2'>
                     예약회사
                   </Text>
-                </Table.RowHeaderCell>
-                <Table.Cell>
                   <Controller
                     name='company'
                     control={control}
@@ -103,12 +97,10 @@ export function SearchForm() {
                   />
                 </Table.Cell>
 
-                <Table.RowHeaderCell width='80px'>
-                  <Text size='2' weight='medium'>
+                <Table.Cell>
+                  <Text as='div' size='2' weight='medium' mb='2'>
                     상품구분
                   </Text>
-                </Table.RowHeaderCell>
-                <Table.Cell>
                   <Controller
                     name='product_type'
                     control={control}
@@ -130,30 +122,24 @@ export function SearchForm() {
               </Table.Row>
 
               <Table.Row>
-                <Table.RowHeaderCell width='80px'>
-                  <Text size='2' weight='medium'>
+                <Table.Cell>
+                  <Text as='div' size='2' weight='medium' mb='2'>
                     상품명
                   </Text>
-                </Table.RowHeaderCell>
-                <Table.Cell>
                   <TextField.Root size='2' {...register('product_name')} />
                 </Table.Cell>
 
-                <Table.RowHeaderCell width='80px'>
-                  <Text size='2' weight='medium'>
+                <Table.Cell>
+                  <Text as='div' size='2' weight='medium' mb='2'>
                     고객명
                   </Text>
-                </Table.RowHeaderCell>
-                <Table.Cell>
                   <TextField.Root size='2' {...register('client_name')} />
                 </Table.Cell>
 
-                <Table.RowHeaderCell width='80px'>
-                  <Text size='2' weight='medium'>
+                <Table.Cell>
+                  <Text as='div' size='2' weight='medium' mb='2'>
                     진행상태
                   </Text>
-                </Table.RowHeaderCell>
-                <Table.Cell>
                   <Controller
                     name='status'
                     control={control}
@@ -173,12 +159,10 @@ export function SearchForm() {
                   />
                 </Table.Cell>
 
-                <Table.RowHeaderCell width='80px'>
-                  <Text size='2' weight='medium'>
+                <Table.Cell>
+                  <Text as='div' size='2' weight='medium' mb='2'>
                     결제상태
                   </Text>
-                </Table.RowHeaderCell>
-                <Table.Cell>
                   <Controller
                     name='payment_status'
                     control={control}
