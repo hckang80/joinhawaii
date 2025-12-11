@@ -47,6 +47,8 @@ export function SearchForm() {
   const onSubmit = (data: SearchFormData) => {
     const params = new URLSearchParams(searchParams.toString());
 
+    params.set('page', '1');
+
     Object.entries(data).forEach(([key, value]) => {
       if (value && value !== '전체') {
         params.set(key, value);
