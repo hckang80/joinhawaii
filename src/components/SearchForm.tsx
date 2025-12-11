@@ -1,5 +1,6 @@
 'use client';
 
+import { PRODUCT_OPTIONS } from '@/constants';
 import { Box, Button, Flex, RadioGroup, Select, Table, Text, TextField } from '@radix-ui/themes';
 import { Search } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
@@ -123,11 +124,11 @@ export function SearchForm() {
                       <Select.Trigger placeholder='전체' className='w-full' />
                       <Select.Content>
                         <Select.Item value='전체'>전체</Select.Item>
-                        <Select.Item value='flight'>항공</Select.Item>
-                        <Select.Item value='hotel'>호텔</Select.Item>
-                        <Select.Item value='tour'>선택관광</Select.Item>
-                        <Select.Item value='rental_car'>렌터카</Select.Item>
-                        <Select.Item value='insurance'>보험</Select.Item>
+                        {PRODUCT_OPTIONS.map(({ value, label }) => (
+                          <Select.Item key={value} value={value}>
+                            {label}
+                          </Select.Item>
+                        ))}
                       </Select.Content>
                     </Select.Root>
                   )}
