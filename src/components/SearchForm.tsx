@@ -18,7 +18,7 @@ interface SearchFormData {
   search_type: SearchType;
   start_date: string;
   end_date: string;
-  company: string;
+  booking_platform: string;
   product_type: string;
   product_name: string;
   client_name: string;
@@ -35,7 +35,7 @@ export function SearchForm() {
       search_type: (searchParams.get('search_type') as SearchType) || 'reception_date',
       start_date: searchParams.get('start_date') || '',
       end_date: searchParams.get('end_date') || '',
-      company: searchParams.get('company') || '전체',
+      booking_platform: searchParams.get('booking_platform') || '전체',
       product_type: searchParams.get('product_type') || '전체',
       product_name: searchParams.get('product_name') || '',
       client_name: searchParams.get('client_name') || '',
@@ -102,7 +102,7 @@ export function SearchForm() {
                   예약회사
                 </Text>
                 <Controller
-                  name='company'
+                  name='booking_platform'
                   control={control}
                   render={({ field }) => (
                     <Select.Root value={field.value} onValueChange={field.onChange} size='2'>
