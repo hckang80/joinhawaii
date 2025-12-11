@@ -2,6 +2,8 @@
 
 import { Box, Button, Flex, RadioGroup, Select, Table, Text, TextField } from '@radix-ui/themes';
 import { Search } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'nextjs-toploader/app';
 import { Controller, useForm } from 'react-hook-form';
 
 type SearchType = 'reception_date' | 'event_date';
@@ -19,22 +21,33 @@ interface SearchFormData {
 }
 
 export function SearchForm() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   const { register, control, handleSubmit } = useForm<SearchFormData>({
     defaultValues: {
-      search_type: 'reception_date',
-      start_date: '',
-      end_date: '',
-      company: '',
-      product_type: '',
-      product_name: '',
-      client_name: '',
-      status: '',
-      payment_status: ''
+      search_type: (searchParams.get('search_type') as SearchType) || 'reception_date',
+      start_date: searchParams.get('start_date') || '',
+      end_date: searchParams.get('end_date') || '',
+      company: searchParams.get('company') || '',
+      product_type: searchParams.get('product_type') || '',
+      product_name: searchParams.get('product_name') || '',
+      client_name: searchParams.get('client_name') || '',
+      status: searchParams.get('status') || '',
+      payment_status: searchParams.get('payment_status') || ''
     }
   });
 
   const onSubmit = (data: SearchFormData) => {
-    console.log('검색 데이터:', data);
+    const params = new URLSearchParams();
+
+    Object.entries(data).forEach(([key, value]) => {
+      if (value) {
+        params.set(key, value);
+      }
+    });
+
+    router.push(`?${params.toString()}`);
   };
 
   return (
