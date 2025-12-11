@@ -221,6 +221,29 @@ export const PAYMENT_STATUS_COLOR: Record<
   Refunded: 'red'
 };
 
+export const PRODUCT_OPTIONS: { label: string; value: ProductType }[] = [
+  {
+    label: '항공',
+    value: 'flight'
+  },
+  {
+    label: '호텔',
+    value: 'hotel'
+  },
+  {
+    label: '선택관광',
+    value: 'tour'
+  },
+  {
+    label: '렌터카',
+    value: 'rental_car'
+  },
+  {
+    label: '보험',
+    value: 'insurance'
+  }
+];
+
 export const PRODUCT_LABEL: Record<ProductType, string> = {
   flight: '항공',
   hotel: '호텔',
