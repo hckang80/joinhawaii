@@ -244,13 +244,13 @@ export const PRODUCT_OPTIONS: { label: string; value: ProductType }[] = [
   }
 ];
 
-export const PRODUCT_LABEL: Record<ProductType, string> = {
-  flight: '항공',
-  hotel: '호텔',
-  tour: '선택관광',
-  rental_car: '렌터카',
-  insurance: '보험'
-};
+export const PRODUCT_LABEL: Record<ProductType, string> = PRODUCT_OPTIONS.reduce(
+  (acc, { value, label }) => {
+    acc[value] = label;
+    return acc;
+  },
+  {} as Record<ProductType, string>
+);
 
 export const PRODUCT_COLOR: Record<ProductType, typeof selectTriggerPropDefs.color.default> = {
   flight: 'blue',
