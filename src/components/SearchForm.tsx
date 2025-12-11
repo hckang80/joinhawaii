@@ -1,6 +1,6 @@
 'use client';
 
-import { PRODUCT_OPTIONS } from '@/constants';
+import { PaymentStatus, PRODUCT_OPTIONS, ProductStatus } from '@/constants';
 import { Box, Button, Flex, RadioGroup, Select, Table, Text, TextField } from '@radix-ui/themes';
 import { Search } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
@@ -163,11 +163,11 @@ export function SearchForm() {
                       <Select.Trigger placeholder='전체' className='w-full' />
                       <Select.Content>
                         <Select.Item value='전체'>전체</Select.Item>
-                        <Select.Item value='Pending'>예약요청</Select.Item>
-                        <Select.Item value='InProgress'>예약진행</Select.Item>
-                        <Select.Item value='Confirmed'>예약완료</Select.Item>
-                        <Select.Item value='Cancelled'>취소완료</Select.Item>
-                        <Select.Item value='Refunded'>환불완료</Select.Item>
+                        {Object.entries(ProductStatus).map(([key, label]) => (
+                          <Select.Item key={key} value={key}>
+                            {label}
+                          </Select.Item>
+                        ))}
                       </Select.Content>
                     </Select.Root>
                   )}
@@ -186,10 +186,11 @@ export function SearchForm() {
                       <Select.Trigger placeholder='전체' className='w-full' />
                       <Select.Content>
                         <Select.Item value='전체'>전체</Select.Item>
-                        <Select.Item value='Unpaid'>미납</Select.Item>
-                        <Select.Item value='Deposit'>예약금</Select.Item>
-                        <Select.Item value='Full'>완불</Select.Item>
-                        <Select.Item value='Refunded'>환불</Select.Item>
+                        {Object.entries(PaymentStatus).map(([key, label]) => (
+                          <Select.Item key={key} value={key}>
+                            {label}
+                          </Select.Item>
+                        ))}
                       </Select.Content>
                     </Select.Root>
                   )}
