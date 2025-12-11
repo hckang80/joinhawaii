@@ -29,21 +29,23 @@ export function SearchForm() {
       search_type: (searchParams.get('search_type') as SearchType) || 'reception_date',
       start_date: searchParams.get('start_date') || '',
       end_date: searchParams.get('end_date') || '',
-      company: searchParams.get('company') || '',
-      product_type: searchParams.get('product_type') || '',
+      company: searchParams.get('company') || '전체',
+      product_type: searchParams.get('product_type') || '전체',
       product_name: searchParams.get('product_name') || '',
       client_name: searchParams.get('client_name') || '',
-      status: searchParams.get('status') || '',
-      payment_status: searchParams.get('payment_status') || ''
+      status: searchParams.get('status') || '전체',
+      payment_status: searchParams.get('payment_status') || '전체'
     }
   });
 
   const onSubmit = (data: SearchFormData) => {
-    const params = new URLSearchParams();
+    const params = new URLSearchParams(searchParams.toString());
 
     Object.entries(data).forEach(([key, value]) => {
-      if (value) {
+      if (value && value !== '전체') {
         params.set(key, value);
+      } else {
+        params.delete(key);
       }
     });
 
