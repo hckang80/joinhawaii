@@ -40,10 +40,9 @@ export default function AdditionalOptionsEditor({
     () => ({
       ...defaultAdditionalOptionValues,
       pid: id,
-      type,
-      reservation_id: params.get('reservation_id') || ''
+      type
     }),
-    [id, type, params]
+    [id, type]
   );
 
   const {
@@ -75,7 +74,13 @@ export default function AdditionalOptionsEditor({
 
   const onSubmit: SubmitHandler<{ additionalOptions: AdditionalOptions[] }> = formData => {
     if (!isDirty) return toast.info('변경된 내용이 없습니다.');
-    mutation.mutate(formData.additionalOptions);
+
+    const optionsWithReservationId = formData.additionalOptions.map(option => ({
+      ...option,
+      reservation_id: params.get('reservation_id') || ''
+    }));
+
+    mutation.mutate(optionsWithReservationId);
   };
 
   useEffect(() => {
@@ -94,7 +99,7 @@ export default function AdditionalOptionsEditor({
     const minLength = 1;
     return additionalOptions.length <= minLength;
   };
-
+  console.log({ data });
   return (
     <Dialog.Root open={isOpen} onOpenChange={open => isOpen$.set(open)}>
       <Dialog.Content maxWidth='1000px'>
