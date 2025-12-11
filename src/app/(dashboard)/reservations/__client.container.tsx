@@ -11,7 +11,7 @@ import {
 } from '@/constants';
 import { usePageNavigation } from '@/hooks';
 import { productsQueryOptions } from '@/lib/queries';
-import { getPaymentStatus, isDev, toReadableDate } from '@/utils';
+import { isDev, toReadableDate } from '@/utils';
 import {
   Badge,
   Button,
@@ -100,25 +100,11 @@ export default function ReservationsClientContainer() {
                 <Table.Cell>
                   <Badge
                     size='3'
-                    color={
-                      PAYMENT_STATUS_COLOR[
-                        getPaymentStatus({
-                          status: item.status,
-                          paymentStatus: item.payment_status
-                        })
-                      ]
-                    }
+                    color={PAYMENT_STATUS_COLOR[item.payment_status]}
                     variant='soft'
                     highContrast={item.payment_status === 'Full'}
                   >
-                    {
-                      PaymentStatus[
-                        getPaymentStatus({
-                          status: item.status,
-                          paymentStatus: item.payment_status
-                        })
-                      ]
-                    }
+                    {PaymentStatus[item.payment_status]}
                   </Badge>
                 </Table.Cell>
                 <Table.Cell>{item.booking_platform}</Table.Cell>

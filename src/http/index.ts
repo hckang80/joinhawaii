@@ -118,22 +118,39 @@ export const createReservation = async (data: ReservationFormData) => {
 };
 
 export const updateReservation = async (data: ReservationFormData) => {
+  const updateProductWithRefundStatus = <
+    T extends {
+      status?: string;
+      payment_status?: string;
+      total_amount_krw?: number;
+      total_cost_krw?: number;
+    }
+  >(
+    item: T
+  ): Omit<T, 'total_amount_krw' | 'total_cost_krw'> => {
+    const { total_amount_krw, total_cost_krw, ...rest } = item;
+    return {
+      ...rest,
+      ...(item.status === 'Refunded' && { payment_status: 'Refunded' })
+    };
+  };
+
   const payload = {
     ...data,
     ...(data.flights && {
-      flights: data.flights.map(({ total_amount_krw, total_cost_krw, ...rest }) => rest)
+      flights: data.flights.map(updateProductWithRefundStatus)
     }),
     ...(data.hotels && {
-      hotels: data.hotels.map(({ total_amount_krw, total_cost_krw, ...rest }) => rest)
+      hotels: data.hotels.map(updateProductWithRefundStatus)
     }),
     ...(data.tours && {
-      tours: data.tours.map(({ total_amount_krw, total_cost_krw, ...rest }) => rest)
+      tours: data.tours.map(updateProductWithRefundStatus)
     }),
     ...(data.rental_cars && {
-      rental_cars: data.rental_cars.map(({ total_amount_krw, total_cost_krw, ...rest }) => rest)
+      rental_cars: data.rental_cars.map(updateProductWithRefundStatus)
     }),
     ...(data.insurances && {
-      insurances: data.insurances.map(({ total_amount_krw, total_cost_krw, ...rest }) => rest)
+      insurances: data.insurances.map(updateProductWithRefundStatus)
     })
   };
 
