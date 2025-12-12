@@ -4,7 +4,7 @@ import { Paginate, ProductOptionBadge } from '@/components';
 import { PAYMENT_STATUS_COLOR, PaymentStatus } from '@/constants';
 import { usePageNavigation } from '@/hooks';
 import { productsQueryOptions } from '@/lib/queries';
-import { getPaymentStatus, isDev, toReadableAmount, toReadableDate } from '@/utils';
+import { isDev, toReadableAmount, toReadableDate } from '@/utils';
 import {
   Badge,
   Button,
@@ -80,27 +80,8 @@ export default function SettlementClientContainer() {
                   <ProductOptionBadge items={item.additional_options} />
                 </Table.Cell>
                 <Table.Cell>
-                  <Badge
-                    size='3'
-                    color={
-                      PAYMENT_STATUS_COLOR[
-                        getPaymentStatus({
-                          status: item.status,
-                          paymentStatus: item.payment_status
-                        })
-                      ]
-                    }
-                    variant='soft'
-                    highContrast={item.payment_status === 'Full'}
-                  >
-                    {
-                      PaymentStatus[
-                        getPaymentStatus({
-                          status: item.status,
-                          paymentStatus: item.payment_status
-                        })
-                      ]
-                    }
+                  <Badge size='3' color={PAYMENT_STATUS_COLOR[item.payment_status]} variant='soft'>
+                    {PaymentStatus[item.payment_status]}
                   </Badge>
                 </Table.Cell>
                 <Table.Cell>

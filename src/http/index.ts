@@ -6,7 +6,6 @@ import type {
   ReservationResponse,
   UpdateProductStatusParams
 } from '@/types';
-import { PER_PAGE } from '../constants';
 
 export const fetchSettlement = async <T = ReservationResponse[]>(id?: string): Promise<T> => {
   try {
@@ -42,7 +41,8 @@ export const fetchSettlement = async <T = ReservationResponse[]>(id?: string): P
 
 export const fetchProducts = async (
   page: string,
-  perPage: string
+  perPage: string,
+  searchParams?: URLSearchParams
 ): Promise<{
   data: AllProducts[];
   meta: { total: number; page: number; per_page: number };
@@ -52,6 +52,14 @@ export const fetchProducts = async (
     const url = new URL(`${baseUrl}/api/product`);
     url.searchParams.set('page', page);
     url.searchParams.set('per_page', perPage);
+
+    if (searchParams) {
+      searchParams.forEach((value, key) => {
+        if (key !== 'page' && key !== 'per_page') {
+          url.searchParams.set(key, value);
+        }
+      });
+    }
 
     const response = await fetch(url, {
       method: 'GET',
@@ -70,16 +78,10 @@ export const fetchProducts = async (
       throw new Error(result.error || '상품 조회 실패');
     }
 
-    return {
-      ...result,
-      meta: result.meta || { total: 0, page: 0, per_page: +PER_PAGE }
-    };
+    return result;
   } catch (error) {
-    console.error('상품 조회 중 에러 발생:', error);
-    return {
-      data: [],
-      meta: { total: 0, page: 0, per_page: +PER_PAGE }
-    };
+    console.error('상품 조회 에러:', error);
+    throw error;
   }
 };
 
@@ -116,22 +118,39 @@ export const createReservation = async (data: ReservationFormData) => {
 };
 
 export const updateReservation = async (data: ReservationFormData) => {
+  const updateProductWithRefundStatus = <
+    T extends {
+      status?: string;
+      payment_status?: string;
+      total_amount_krw?: number;
+      total_cost_krw?: number;
+    }
+  >(
+    item: T
+  ): Omit<T, 'total_amount_krw' | 'total_cost_krw'> => {
+    const { total_amount_krw, total_cost_krw, ...rest } = item;
+    return {
+      ...rest,
+      ...(item.status === 'Refunded' && { payment_status: 'Refunded' })
+    };
+  };
+
   const payload = {
     ...data,
     ...(data.flights && {
-      flights: data.flights.map(({ total_amount_krw, total_cost_krw, ...rest }) => rest)
+      flights: data.flights.map(updateProductWithRefundStatus)
     }),
     ...(data.hotels && {
-      hotels: data.hotels.map(({ total_amount_krw, total_cost_krw, ...rest }) => rest)
+      hotels: data.hotels.map(updateProductWithRefundStatus)
     }),
     ...(data.tours && {
-      tours: data.tours.map(({ total_amount_krw, total_cost_krw, ...rest }) => rest)
+      tours: data.tours.map(updateProductWithRefundStatus)
     }),
     ...(data.rental_cars && {
-      rental_cars: data.rental_cars.map(({ total_amount_krw, total_cost_krw, ...rest }) => rest)
+      rental_cars: data.rental_cars.map(updateProductWithRefundStatus)
     }),
     ...(data.insurances && {
-      insurances: data.insurances.map(({ total_amount_krw, total_cost_krw, ...rest }) => rest)
+      insurances: data.insurances.map(updateProductWithRefundStatus)
     })
   };
 

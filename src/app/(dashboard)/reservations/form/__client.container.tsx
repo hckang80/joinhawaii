@@ -62,8 +62,7 @@ export default function ReservationsFormClientContainer({
 
   const depositValue = useWatch({
     control,
-    name: 'deposit',
-    defaultValue: 0
+    name: 'deposit'
   });
 
   const mutation = useMutation({

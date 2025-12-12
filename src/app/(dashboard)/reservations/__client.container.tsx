@@ -1,6 +1,6 @@
 'use client';
 
-import { Paginate, ProductOptionBadge } from '@/components';
+import { Paginate, ProductOptionBadge, SearchForm } from '@/components';
 import {
   PAYMENT_STATUS_COLOR,
   PaymentStatus,
@@ -11,9 +11,10 @@ import {
 } from '@/constants';
 import { usePageNavigation } from '@/hooks';
 import { productsQueryOptions } from '@/lib/queries';
-import { getPaymentStatus, isDev, toReadableDate } from '@/utils';
+import { isDev, toReadableDate } from '@/utils';
 import {
   Badge,
+  Box,
   Button,
   Card,
   Flex,
@@ -24,22 +25,25 @@ import {
 } from '@radix-ui/themes';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 export default function ReservationsClientContainer() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { handlePageChange, currentPage, perPage } = usePageNavigation();
 
   const {
     data: { data, meta }
-  } = useSuspenseQuery(productsQueryOptions(currentPage, perPage));
+  } = useSuspenseQuery(productsQueryOptions(currentPage, perPage, searchParams));
 
   return (
     <div>
       <Heading as='h2' mb='4' size='7'>
         예약관리
       </Heading>
-
+      <Box mb='6'>
+        <SearchForm />
+      </Box>
       <Flex mb='4' justify='end'>
         <Button asChild color='ruby'>
           <Link href={`/reservations/form?from=${pathname}`}>신규예약등록</Link>
@@ -95,27 +99,8 @@ export default function ReservationsClientContainer() {
                   </Badge>
                 </Table.Cell>
                 <Table.Cell>
-                  <Badge
-                    size='3'
-                    color={
-                      PAYMENT_STATUS_COLOR[
-                        getPaymentStatus({
-                          status: item.status,
-                          paymentStatus: item.payment_status
-                        })
-                      ]
-                    }
-                    variant='soft'
-                    highContrast={item.payment_status === 'Full'}
-                  >
-                    {
-                      PaymentStatus[
-                        getPaymentStatus({
-                          status: item.status,
-                          paymentStatus: item.payment_status
-                        })
-                      ]
-                    }
+                  <Badge size='3' color={PAYMENT_STATUS_COLOR[item.payment_status]} variant='soft'>
+                    {PaymentStatus[item.payment_status]}
                   </Badge>
                 </Table.Cell>
                 <Table.Cell>{item.booking_platform}</Table.Cell>

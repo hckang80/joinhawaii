@@ -90,6 +90,16 @@ export const HOTELS = [
   '카아나팔리 오션 인 리조트'
 ];
 
+export const BOOKING_PLATFORM_OPTIONS = {
+  B2C: [{ value: '홈피예약', label: '홈피예약' }],
+  B2B: [
+    { value: '마이리얼트립', label: '마이리얼트립' },
+    { value: '크리에이트립', label: '크리에이트립' },
+    { value: '와그', label: '와그' }
+  ],
+  플랫폼: [{ value: '네이버', label: '네이버' }]
+} as const;
+
 const additionalOptions = {
   additional_options: [] as AdditionalOptions[]
 };
@@ -215,19 +225,42 @@ export const PAYMENT_STATUS_COLOR: Record<
   PaymentStatusKey,
   typeof selectTriggerPropDefs.color.default
 > = {
-  Unpaid: 'gray',
+  Unpaid: 'yellow',
   Deposit: 'blue',
-  Full: 'gray',
+  Full: 'green',
   Refunded: 'red'
 };
 
-export const PRODUCT_LABEL: Record<ProductType, string> = {
-  flight: '항공',
-  hotel: '호텔',
-  tour: '선택관광',
-  rental_car: '렌터카',
-  insurance: '보험'
-};
+export const PRODUCT_OPTIONS: { label: string; value: ProductType }[] = [
+  {
+    label: '항공',
+    value: 'flight'
+  },
+  {
+    label: '호텔',
+    value: 'hotel'
+  },
+  {
+    label: '선택관광',
+    value: 'tour'
+  },
+  {
+    label: '렌터카',
+    value: 'rental_car'
+  },
+  {
+    label: '보험',
+    value: 'insurance'
+  }
+];
+
+export const PRODUCT_LABEL: Record<ProductType, string> = PRODUCT_OPTIONS.reduce(
+  (acc, { value, label }) => {
+    acc[value] = label;
+    return acc;
+  },
+  {} as Record<ProductType, string>
+);
 
 export const PRODUCT_COLOR: Record<ProductType, typeof selectTriggerPropDefs.color.default> = {
   flight: 'blue',

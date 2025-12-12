@@ -26,6 +26,7 @@ export function DateTimeInput<TFieldValues extends FieldValues = FieldValues>({
           const dateString = extractDateString(field.value);
           return (
             <TextField.Root
+              ref={required ? field.ref : undefined}
               type='date'
               value={dateString}
               onChange={e => {
