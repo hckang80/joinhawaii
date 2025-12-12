@@ -31,7 +31,7 @@ export function SearchForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const { register, control, handleSubmit, reset } = useForm<SearchFormData>({
+  const { register, control, handleSubmit, reset, watch } = useForm<SearchFormData>({
     defaultValues: {
       search_type: (searchParams.get('search_type') as SearchType) || 'reception_date',
       start_date: searchParams.get('start_date') || '',
@@ -101,7 +101,27 @@ export function SearchForm() {
                 <Flex gap='1' align='center'>
                   <TextField.Root type='date' size='2' {...register('start_date')} />
                   <Text size='1'>~</Text>
-                  <TextField.Root type='date' size='2' {...register('end_date')} />
+                  <Controller
+                    name='end_date'
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field }) => {
+                      const checkInDate = watch('start_date');
+                      return (
+                        <TextField.Root
+                          type='date'
+                          min={checkInDate || undefined}
+                          value={field.value || ''}
+                          onChange={field.onChange}
+                          onFocus={() => {
+                            if (!field.value && checkInDate) {
+                              field.onChange(checkInDate);
+                            }
+                          }}
+                        />
+                      );
+                    }}
+                  />
                 </Flex>
               </Table.Cell>
 
