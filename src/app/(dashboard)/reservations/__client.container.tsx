@@ -14,6 +14,7 @@ import { productsQueryOptions } from '@/lib/queries';
 import { isDev, toReadableDate } from '@/utils';
 import {
   Badge,
+  Box,
   Button,
   Card,
   Flex,
@@ -40,9 +41,9 @@ export default function ReservationsClientContainer() {
       <Heading as='h2' mb='4' size='7'>
         예약관리
       </Heading>
-
-      <SearchForm />
-
+      <Box mb='6'>
+        <SearchForm />
+      </Box>
       <Flex mb='4' justify='end'>
         <Button asChild color='ruby'>
           <Link href={`/reservations/form?from=${pathname}`}>신규예약등록</Link>
