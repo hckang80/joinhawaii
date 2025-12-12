@@ -8,6 +8,7 @@ import {
 } from '@/constants';
 import { Box, Button, Flex, RadioGroup, Select, Table, Text, TextField } from '@radix-ui/themes';
 import { Search } from 'lucide-react';
+import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
 import { Controller, useForm } from 'react-hook-form';
@@ -218,10 +219,13 @@ export function SearchForm() {
           </Table.Body>
         </Table.Root>
 
-        <Flex justify='end' mt='2'>
+        <Flex justify='end' mt='2' gap='2'>
           <Button type='submit' size='3'>
             <Search size={16} />
             검색
+          </Button>
+          <Button asChild size='3' variant='soft' color='gray'>
+            <Link href='?'>초기화</Link>
           </Button>
         </Flex>
       </form>
