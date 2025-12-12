@@ -231,8 +231,10 @@ export async function GET(request: Request) {
     // Apply filters
     let filteredProducts = allProducts;
 
-    // Date range filter
-    if (startDate || endDate) {
+    // Date range filter (빈 문자열 무시)
+    const hasStartDate = !!startDate && startDate !== '';
+    const hasEndDate = !!endDate && endDate !== '';
+    if (hasStartDate || hasEndDate) {
       filteredProducts = filteredProducts.filter(product => {
         const targetDate =
           searchType === 'reception_date' ? product.created_at : product.event_date;
@@ -241,11 +243,11 @@ export async function GET(request: Request) {
 
         const dateStr = targetDate.split('T')[0];
 
-        if (startDate && endDate) {
+        if (hasStartDate && hasEndDate) {
           return dateStr >= startDate && dateStr <= endDate;
-        } else if (startDate) {
+        } else if (hasStartDate) {
           return dateStr >= startDate;
-        } else if (endDate) {
+        } else if (hasEndDate) {
           return dateStr <= endDate;
         }
 

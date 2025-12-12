@@ -8,7 +8,7 @@ import {
 } from '@/constants';
 import { Box, Button, Flex, RadioGroup, Select, Table, Text, TextField } from '@radix-ui/themes';
 import { Search } from 'lucide-react';
-import Link from 'next/link';
+// import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
 import { Controller, useForm } from 'react-hook-form';
@@ -31,7 +31,7 @@ export function SearchForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const { register, control, handleSubmit } = useForm<SearchFormData>({
+  const { register, control, handleSubmit, reset } = useForm<SearchFormData>({
     defaultValues: {
       search_type: (searchParams.get('search_type') as SearchType) || 'reception_date',
       start_date: searchParams.get('start_date') || '',
@@ -44,6 +44,11 @@ export function SearchForm() {
       payment_status: searchParams.get('payment_status') || '전체'
     }
   });
+
+  const handleReset = () => {
+    reset();
+    router.push('?');
+  };
 
   const onSubmit = (data: SearchFormData) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -224,8 +229,8 @@ export function SearchForm() {
             <Search size={16} />
             검색
           </Button>
-          <Button asChild size='3' variant='soft' color='gray'>
-            <Link href='?'>초기화</Link>
+          <Button type='button' size='3' variant='soft' color='gray' onClick={handleReset}>
+            초기화
           </Button>
         </Flex>
       </form>
