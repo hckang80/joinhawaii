@@ -21,7 +21,7 @@ export async function GET(request: Request) {
     const status = url.searchParams.get('status');
     const paymentStatus = url.searchParams.get('payment_status');
 
-    const [hotels, tours, rental_cars, insurances] = await Promise.all([
+    const [hotels, tours, rental_cars, insurances, reservations] = await Promise.all([
       supabase.from('hotels').select(`
           *,
           reservations!hotels_reservation_id_fkey (
@@ -49,13 +49,20 @@ export async function GET(request: Request) {
             main_client_name,
             booking_platform
           )
-        `)
+        `),
+      supabase.from('reservations').select('id, deposit, total_amount')
     ]);
 
     const hotelRows = hotels.data ?? [];
     const tourRows = tours.data ?? [];
     const rentalRows = rental_cars.data ?? [];
     const insuranceRows = insurances.data ?? [];
+    const reservationRows = reservations.data ?? [];
+
+    const reservationMap = new Map();
+    reservationRows.forEach(r => {
+      reservationMap.set(r.id, { deposit: r.deposit, total_amount: r.total_amount });
+    });
 
     const allPids = [
       ...hotelRows.map(r => r.id),
@@ -295,10 +302,23 @@ export async function GET(request: Request) {
     const start = (page - 1) * perPage;
     const paginated = filteredProducts.slice(start, start + perPage);
     const totalPages = Math.max(1, Math.ceil(total / perPage));
+    const paginatedWithPaymentStatus = paginated.map(product => {
+      const reservationId = product.reservation_id;
+      const reservation = reservationMap.get(reservationId);
+      if (
+        reservation &&
+        reservation.deposit != null &&
+        reservation.total_amount != null &&
+        Number(reservation.deposit) === Number(reservation.total_amount)
+      ) {
+        return { ...product, payment_status: 'Full' };
+      }
+      return product;
+    });
 
     return NextResponse.json({
       success: true,
-      data: paginated,
+      data: paginatedWithPaymentStatus,
       meta: {
         total,
         page,
