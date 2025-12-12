@@ -229,6 +229,7 @@ export default function HotelForm({
                       rules={{ required: true }}
                       render={({ field }) => (
                         <Select.Root
+                          {...field}
                           value={field.value ?? ''}
                           onValueChange={value => field.onChange(value)}
                           name={field.name}
