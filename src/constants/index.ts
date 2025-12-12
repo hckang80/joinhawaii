@@ -225,9 +225,9 @@ export const PAYMENT_STATUS_COLOR: Record<
   PaymentStatusKey,
   typeof selectTriggerPropDefs.color.default
 > = {
-  Unpaid: 'gray',
+  Unpaid: 'yellow',
   Deposit: 'blue',
-  Full: 'gray',
+  Full: 'green',
   Refunded: 'red'
 };
 

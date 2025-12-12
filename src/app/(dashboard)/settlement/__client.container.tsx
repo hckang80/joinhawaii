@@ -80,12 +80,7 @@ export default function SettlementClientContainer() {
                   <ProductOptionBadge items={item.additional_options} />
                 </Table.Cell>
                 <Table.Cell>
-                  <Badge
-                    size='3'
-                    color={PAYMENT_STATUS_COLOR[item.payment_status]}
-                    variant='soft'
-                    highContrast={item.payment_status === 'Full'}
-                  >
+                  <Badge size='3' color={PAYMENT_STATUS_COLOR[item.payment_status]} variant='soft'>
                     {PaymentStatus[item.payment_status]}
                   </Badge>
                 </Table.Cell>
