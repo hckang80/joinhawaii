@@ -102,7 +102,6 @@ export function SearchForm() {
                 <Controller
                   name='end_date'
                   control={control}
-                  rules={{ required: true }}
                   render={({ field }) => {
                     const checkInDate = watch('start_date');
                     return (
