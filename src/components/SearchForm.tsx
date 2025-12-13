@@ -30,7 +30,14 @@ export function SearchForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const { register, control, handleSubmit, reset, watch } = useForm<SearchFormData>({
+  const {
+    register,
+    control,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { isDirty }
+  } = useForm<SearchFormData>({
     defaultValues: {
       search_type: (searchParams.get('search_type') as SearchType) || 'reception_date',
       start_date: searchParams.get('start_date') || '',
@@ -50,6 +57,8 @@ export function SearchForm() {
   };
 
   const onSubmit = (data: SearchFormData) => {
+    if (!isDirty) return;
+
     const params = new URLSearchParams(searchParams.toString());
 
     params.set('page', '1');
