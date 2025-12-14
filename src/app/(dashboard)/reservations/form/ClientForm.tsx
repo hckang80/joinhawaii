@@ -24,7 +24,7 @@ import {
 import { useMutation } from '@tanstack/react-query';
 import { PlusCircle, Save, UserMinus, UserPlus } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { Controller, SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
