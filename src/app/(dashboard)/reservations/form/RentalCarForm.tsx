@@ -14,17 +14,7 @@ import type {
   ReservationResponse
 } from '@/types';
 import { isDev, normalizeNumber } from '@/utils';
-import {
-  Box,
-  Button,
-  Card,
-  Flex,
-  Heading,
-  Section,
-  Select,
-  Table,
-  TextField
-} from '@radix-ui/themes';
+import { Button, Card, Flex, Heading, Section, Select, Table, TextField } from '@radix-ui/themes';
 import { useMutation } from '@tanstack/react-query';
 import { Car, Minus, Plus, Save } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
@@ -236,11 +226,7 @@ export default function RentalCarForm({
                                   <Select.Item value={CUSTOM_LABEL}>{CUSTOM_LABEL}</Select.Item>
                                 </Select.Content>
                               </Select.Root>
-                              {isCustom && (
-                                <Box flexShrink='0'>
-                                  <TextField.Root {...registerCustom(`pickup.${i}`)} />
-                                </Box>
-                              )}
+                              {isCustom && <TextField.Root {...registerCustom(`pickup.${i}`)} />}
                             </>
                           );
                         }}
