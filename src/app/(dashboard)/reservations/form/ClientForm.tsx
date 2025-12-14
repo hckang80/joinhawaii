@@ -12,7 +12,6 @@ import {
   Button,
   Card,
   Flex,
-  Grid,
   Heading,
   Radio,
   Section,
@@ -120,42 +119,56 @@ export default function ClientForm({
               기본정보
             </Heading>
 
-            <Grid align='center' columns='60px 1fr 70px 1fr' gap='3'>
+            <Flex align='center' gap='2'>
               <Text weight='medium'>예약회사</Text>
               <Controller
                 name='booking_platform'
                 control={control}
-                render={({ field }) => (
-                  <Select.Root
-                    size='3'
-                    value={field.value}
-                    onValueChange={value => {
-                      field.onChange(value);
-                    }}
-                    name={field.name}
-                  >
-                    <Select.Trigger placeholder='예약회사 선택' style={{ width: '200px' }}>
-                      {field.value}
-                    </Select.Trigger>
-                    <Select.Content>
-                      {Object.entries(BOOKING_PLATFORM_OPTIONS).map(([groupLabel, options]) => (
-                        <div key={groupLabel}>
-                          <Select.Group>
-                            <Select.Label>{groupLabel}</Select.Label>
-                            {options.map(({ value, label }) => (
-                              <Select.Item key={value} value={value}>
-                                {label}
-                              </Select.Item>
-                            ))}
-                          </Select.Group>
-                          <Select.Separator />
-                        </div>
-                      ))}
-                    </Select.Content>
-                  </Select.Root>
-                )}
+                render={({ field }) => {
+                  const CUSTOM_LABEL = '직접입력';
+                  const isCustom = field.value === CUSTOM_LABEL;
+                  return (
+                    <>
+                      <Select.Root
+                        size='3'
+                        value={field.value}
+                        onValueChange={value => {
+                          field.onChange(value);
+                        }}
+                        name={field.name}
+                      >
+                        <Select.Trigger placeholder='예약회사 선택' style={{ width: '200px' }}>
+                          {field.value}
+                        </Select.Trigger>
+                        <Select.Content>
+                          {Object.entries(BOOKING_PLATFORM_OPTIONS).map(([groupLabel, options]) => (
+                            <div key={groupLabel}>
+                              <Select.Group key={groupLabel}>
+                                <Select.Label>{groupLabel}</Select.Label>
+                                {options.map(({ value, label }) => (
+                                  <Select.Item key={value} value={value}>
+                                    {label}
+                                  </Select.Item>
+                                ))}
+                              </Select.Group>
+                              <Select.Separator />
+                            </div>
+                          ))}
+                          <Select.Item value={CUSTOM_LABEL}>{CUSTOM_LABEL}</Select.Item>
+                        </Select.Content>
+                      </Select.Root>
+                      {isCustom && (
+                        <TextField.Root
+                          size='3'
+                          value={field.value === CUSTOM_LABEL ? '' : field.value}
+                          onChange={e => field.onChange(e.target.value)}
+                        />
+                      )}
+                    </>
+                  );
+                }}
               />
-            </Grid>
+            </Flex>
           </Section>
 
           <Section p='0'>
