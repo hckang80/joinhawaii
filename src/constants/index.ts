@@ -26,6 +26,33 @@ export enum PaymentStatus {
   Refunded = '환불'
 }
 
+export const PICKUP_LOCATIONS = [
+  'Honolulu Airport',
+  'Kahala Hotel and Resort',
+  'Hyatt Regency Waikiki (2F)',
+  'Imperial Hotel',
+  'Kahului Airport Maui',
+  'Kona Keahole Airport',
+  'Hilo Airport',
+  'Lihue Airport'
+];
+
+export const CAR_TYPES = [
+  'Intermediate car',
+  'Standard car',
+  'Fullsize car',
+  'Premium car',
+  'Luxury car',
+  'Intermediate all-terrain',
+  'Standard convertible',
+  'Intermediate SUV',
+  'Standard SUV',
+  'Fullsize recreational',
+  'Mini van',
+  'Fullsize SUV',
+  'Premium SUV'
+];
+
 export const REGIONS = ['오아후', '마우이', '빅아일랜드', '카우아이', '라나이'] as const;
 export type Region = (typeof REGIONS)[number] | (string & {});
 export const HOTELS = [

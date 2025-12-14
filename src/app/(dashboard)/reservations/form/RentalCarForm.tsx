@@ -1,4 +1,11 @@
-import { defaultCarValues, PRODUCT_STATUS_COLOR, ProductStatus, REGIONS } from '@/constants';
+import {
+  CAR_TYPES,
+  defaultCarValues,
+  PICKUP_LOCATIONS,
+  PRODUCT_STATUS_COLOR,
+  ProductStatus,
+  REGIONS
+} from '@/constants';
 import type {
   AdditionalOptions,
   ProductFormType,
@@ -101,7 +108,7 @@ export default function RentalCarForm({
                 <Table.ColumnHeaderCell width='90px'>환율</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='120px'>지역</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='240px'>날짜</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell width='120px'>픽업장소</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell width='160px'>픽업장소</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='160px'>차종</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='160px'>운전자</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='160px'>조건</Table.ColumnHeaderCell>
@@ -196,10 +203,28 @@ export default function RentalCarForm({
                     />
                   </Table.Cell>
                   <Table.Cell>
-                    <TextField.Root
-                      {...register(`rental_cars.${i}.pickup_location`, {
-                        required: true
-                      })}
+                    <Controller
+                      name={`rental_cars.${i}.pickup_location`}
+                      control={control}
+                      render={({ field }) => (
+                        <Select.Root
+                          {...field}
+                          value={field.value ?? ''}
+                          onValueChange={value => field.onChange(value)}
+                          name={field.name}
+                        >
+                          <Select.Trigger placeholder='픽업장소 선택'>{field.value}</Select.Trigger>
+                          <Select.Content>
+                            {PICKUP_LOCATIONS.toSorted((a, b) => a.localeCompare(b)).map(
+                              location => (
+                                <Select.Item key={location} value={location}>
+                                  {location}
+                                </Select.Item>
+                              )
+                            )}
+                          </Select.Content>
+                        </Select.Root>
+                      )}
                     />
                     <br />
                     <TextField.Root
@@ -210,10 +235,26 @@ export default function RentalCarForm({
                     />
                   </Table.Cell>
                   <Table.Cell>
-                    <TextField.Root
-                      {...register(`rental_cars.${i}.model`, {
-                        required: true
-                      })}
+                    <Controller
+                      name={`rental_cars.${i}.model`}
+                      control={control}
+                      render={({ field }) => (
+                        <Select.Root
+                          {...field}
+                          value={field.value ?? ''}
+                          onValueChange={value => field.onChange(value)}
+                          name={field.name}
+                        >
+                          <Select.Trigger placeholder='차종 선택'>{field.value}</Select.Trigger>
+                          <Select.Content>
+                            {CAR_TYPES.toSorted((a, b) => a.localeCompare(b)).map(car => (
+                              <Select.Item key={car} value={car}>
+                                {car}
+                              </Select.Item>
+                            ))}
+                          </Select.Content>
+                        </Select.Root>
+                      )}
                     />
                   </Table.Cell>
                   <Table.Cell>
