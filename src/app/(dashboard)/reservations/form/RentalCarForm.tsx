@@ -14,7 +14,17 @@ import type {
   ReservationResponse
 } from '@/types';
 import { isDev, normalizeNumber } from '@/utils';
-import { Button, Card, Flex, Heading, Section, Select, Table, TextField } from '@radix-ui/themes';
+import {
+  Box,
+  Button,
+  Card,
+  Flex,
+  Heading,
+  Section,
+  Select,
+  Table,
+  TextField
+} from '@radix-ui/themes';
 import { useMutation } from '@tanstack/react-query';
 import { Car, Minus, Plus, Save } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
@@ -113,9 +123,9 @@ export default function RentalCarForm({
               <Table.Row>
                 <Table.ColumnHeaderCell width='90px'>환율</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='120px'>지역</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell width='240px'>날짜</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell width='160px'>픽업장소</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell width='160px'>차종</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell width='280px'>픽업</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell width='280px'>리턴</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell width='180px'>차종</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='160px'>운전자</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='160px'>조건</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
@@ -179,13 +189,63 @@ export default function RentalCarForm({
                     />
                   </Table.Cell>
                   <Table.Cell>
-                    <TextField.Root
-                      type='date'
-                      {...register(`rental_cars.${i}.pickup_date`, {
-                        required: true
-                      })}
-                    />
-                    ~
+                    <Flex gap='1' wrap='wrap'>
+                      <TextField.Root
+                        type='date'
+                        {...register(`rental_cars.${i}.pickup_date`, {
+                          required: true
+                        })}
+                      />
+                      <TextField.Root
+                        type='time'
+                        {...register(`rental_cars.${i}.pickup_time`, { required: true })}
+                      />
+                      <Controller
+                        name={`rental_cars.${i}.pickup_location`}
+                        control={control}
+                        render={({ field }) => {
+                          const CUSTOM_LABEL = '직접입력';
+                          const isCustom = field.value === CUSTOM_LABEL;
+                          return (
+                            <>
+                              <Select.Root
+                                {...field}
+                                onValueChange={value => {
+                                  field.onChange(value);
+                                }}
+                                name={field.name}
+                              >
+                                <Select.Trigger placeholder='픽업장소 선택'>
+                                  {field.value}
+                                </Select.Trigger>
+                                <Select.Content>
+                                  {PICKUP_LOCATIONS.toSorted((a, b) => a.localeCompare(b)).map(
+                                    location => (
+                                      <Select.Item key={location} value={location}>
+                                        {location}
+                                      </Select.Item>
+                                    )
+                                  )}
+                                  <Select.Item value={CUSTOM_LABEL}>{CUSTOM_LABEL}</Select.Item>
+                                </Select.Content>
+                              </Select.Root>
+                              {isCustom && (
+                                <Box flexShrink='0'>
+                                  <TextField.Root
+                                    value={pickupCustom[i] ?? ''}
+                                    onChange={e =>
+                                      setPickupCustom(prev => ({ ...prev, [i]: e.target.value }))
+                                    }
+                                  />
+                                </Box>
+                              )}
+                            </>
+                          );
+                        }}
+                      />
+                    </Flex>
+                  </Table.Cell>
+                  <Table.Cell>
                     <Controller
                       name={`rental_cars.${i}.return_date`}
                       control={control}
@@ -210,61 +270,13 @@ export default function RentalCarForm({
                   </Table.Cell>
                   <Table.Cell>
                     <Controller
-                      name={`rental_cars.${i}.pickup_location`}
-                      control={control}
-                      render={({ field }) => {
-                        const CUSTOM_LABEL = '직접입력';
-                        const isCustom = field.value === CUSTOM_LABEL;
-                        return (
-                          <>
-                            <Select.Root
-                              {...field}
-                              onValueChange={value => {
-                                field.onChange(value);
-                              }}
-                              name={field.name}
-                            >
-                              <Select.Trigger placeholder='픽업장소 선택'>
-                                {field.value}
-                              </Select.Trigger>
-                              <Select.Content>
-                                {PICKUP_LOCATIONS.toSorted((a, b) => a.localeCompare(b)).map(
-                                  location => (
-                                    <Select.Item key={location} value={location}>
-                                      {location}
-                                    </Select.Item>
-                                  )
-                                )}
-                                <Select.Item value={CUSTOM_LABEL}>{CUSTOM_LABEL}</Select.Item>
-                              </Select.Content>
-                            </Select.Root>
-                            {isCustom && (
-                              <TextField.Root
-                                size='3'
-                                value={pickupCustom[i] ?? ''}
-                                onChange={e =>
-                                  setPickupCustom(prev => ({ ...prev, [i]: e.target.value }))
-                                }
-                              />
-                            )}
-                            <TextField.Root
-                              type='time'
-                              {...register(`rental_cars.${i}.pickup_time`, { required: true })}
-                            />
-                          </>
-                        );
-                      }}
-                    />
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Controller
                       name={`rental_cars.${i}.model`}
                       control={control}
                       render={({ field }) => {
                         const CUSTOM_LABEL = '직접입력';
                         const isCustom = field.value === CUSTOM_LABEL;
                         return (
-                          <>
+                          <Flex gap='1' wrap='wrap'>
                             <Select.Root
                               {...field}
                               onValueChange={value => {
@@ -284,7 +296,6 @@ export default function RentalCarForm({
                             </Select.Root>
                             {isCustom && (
                               <TextField.Root
-                                size='3'
                                 value={modelCustom[i] ?? ''}
                                 onChange={e =>
                                   setModelCustom(prev => ({ ...prev, [i]: e.target.value }))
@@ -292,10 +303,9 @@ export default function RentalCarForm({
                                 onBlur={e => {
                                   if (e.target.value) field.onChange(e.target.value);
                                 }}
-                                placeholder='직접 입력'
                               />
                             )}
-                          </>
+                          </Flex>
                         );
                       }}
                     />
