@@ -18,7 +18,7 @@ import { Button, Card, Flex, Heading, Section, Select, Table, TextField } from '
 import { useMutation } from '@tanstack/react-query';
 import { Car, Minus, Plus, Save } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   type Control,
   Controller,
@@ -72,8 +72,11 @@ export default function RentalCarForm({
 
     const normalized: ReservationFormData = {
       ...formData,
-      rental_cars: formData.rental_cars.map(car => ({
+      rental_cars: formData.rental_cars.map((car, idx) => ({
         ...car,
+        pickup_location:
+          car.pickup_location === '직접입력' ? pickupCustom[idx] : car.pickup_location,
+        model: car.model === '직접입력' ? modelCustom[idx] : car.model,
         exchange_rate: normalizeNumber(car.exchange_rate)
       }))
     };
@@ -93,6 +96,9 @@ export default function RentalCarForm({
   };
 
   const isRemoveDisabled = rentalCars.length <= data.products.rental_cars.length;
+
+  const [pickupCustom, setPickupCustom] = useState<Record<number, string>>({});
+  const [modelCustom, setModelCustom] = useState<Record<number, string>>({});
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -206,55 +212,92 @@ export default function RentalCarForm({
                     <Controller
                       name={`rental_cars.${i}.pickup_location`}
                       control={control}
-                      render={({ field }) => (
-                        <Select.Root
-                          {...field}
-                          value={field.value ?? ''}
-                          onValueChange={value => field.onChange(value)}
-                          name={field.name}
-                        >
-                          <Select.Trigger placeholder='픽업장소 선택'>{field.value}</Select.Trigger>
-                          <Select.Content>
-                            {PICKUP_LOCATIONS.toSorted((a, b) => a.localeCompare(b)).map(
-                              location => (
-                                <Select.Item key={location} value={location}>
-                                  {location}
-                                </Select.Item>
-                              )
+                      render={({ field }) => {
+                        const CUSTOM_LABEL = '직접입력';
+                        const isCustom = field.value === CUSTOM_LABEL;
+                        return (
+                          <>
+                            <Select.Root
+                              {...field}
+                              onValueChange={value => {
+                                field.onChange(value);
+                              }}
+                              name={field.name}
+                            >
+                              <Select.Trigger placeholder='픽업장소 선택'>
+                                {field.value}
+                              </Select.Trigger>
+                              <Select.Content>
+                                {PICKUP_LOCATIONS.toSorted((a, b) => a.localeCompare(b)).map(
+                                  location => (
+                                    <Select.Item key={location} value={location}>
+                                      {location}
+                                    </Select.Item>
+                                  )
+                                )}
+                                <Select.Item value={CUSTOM_LABEL}>{CUSTOM_LABEL}</Select.Item>
+                              </Select.Content>
+                            </Select.Root>
+                            {isCustom && (
+                              <TextField.Root
+                                size='3'
+                                value={pickupCustom[i] ?? ''}
+                                onChange={e =>
+                                  setPickupCustom(prev => ({ ...prev, [i]: e.target.value }))
+                                }
+                              />
                             )}
-                          </Select.Content>
-                        </Select.Root>
-                      )}
-                    />
-                    <br />
-                    <TextField.Root
-                      type='time'
-                      {...register(`rental_cars.${i}.pickup_time`, {
-                        required: true
-                      })}
+                            <TextField.Root
+                              type='time'
+                              {...register(`rental_cars.${i}.pickup_time`, { required: true })}
+                            />
+                          </>
+                        );
+                      }}
                     />
                   </Table.Cell>
                   <Table.Cell>
                     <Controller
                       name={`rental_cars.${i}.model`}
                       control={control}
-                      render={({ field }) => (
-                        <Select.Root
-                          {...field}
-                          value={field.value ?? ''}
-                          onValueChange={value => field.onChange(value)}
-                          name={field.name}
-                        >
-                          <Select.Trigger placeholder='차종 선택'>{field.value}</Select.Trigger>
-                          <Select.Content>
-                            {CAR_TYPES.toSorted((a, b) => a.localeCompare(b)).map(car => (
-                              <Select.Item key={car} value={car}>
-                                {car}
-                              </Select.Item>
-                            ))}
-                          </Select.Content>
-                        </Select.Root>
-                      )}
+                      render={({ field }) => {
+                        const CUSTOM_LABEL = '직접입력';
+                        const isCustom = field.value === CUSTOM_LABEL;
+                        return (
+                          <>
+                            <Select.Root
+                              {...field}
+                              onValueChange={value => {
+                                field.onChange(value);
+                              }}
+                              name={field.name}
+                            >
+                              <Select.Trigger placeholder='차종 선택'>{field.value}</Select.Trigger>
+                              <Select.Content>
+                                {CAR_TYPES.toSorted((a, b) => a.localeCompare(b)).map(car => (
+                                  <Select.Item key={car} value={car}>
+                                    {car}
+                                  </Select.Item>
+                                ))}
+                                <Select.Item value={CUSTOM_LABEL}>{CUSTOM_LABEL}</Select.Item>
+                              </Select.Content>
+                            </Select.Root>
+                            {isCustom && (
+                              <TextField.Root
+                                size='3'
+                                value={modelCustom[i] ?? ''}
+                                onChange={e =>
+                                  setModelCustom(prev => ({ ...prev, [i]: e.target.value }))
+                                }
+                                onBlur={e => {
+                                  if (e.target.value) field.onChange(e.target.value);
+                                }}
+                                placeholder='직접 입력'
+                              />
+                            )}
+                          </>
+                        );
+                      }}
                     />
                   </Table.Cell>
                   <Table.Cell>

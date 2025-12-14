@@ -99,7 +99,7 @@ export default function AdditionalOptionsEditor({
     const minLength = 1;
     return additionalOptions.length <= minLength;
   };
-  console.log({ data });
+
   return (
     <Dialog.Root open={isOpen} onOpenChange={open => isOpen$.set(open)}>
       <Dialog.Content maxWidth='1000px'>
