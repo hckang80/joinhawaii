@@ -28,7 +28,7 @@ import {
 import { useMutation } from '@tanstack/react-query';
 import { Car, Minus, Plus, Save } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import {
   type Control,
   Controller,
@@ -87,8 +87,10 @@ export default function RentalCarForm({
       rental_cars: formData.rental_cars.map((car, idx) => ({
         ...car,
         pickup_location:
-          car.pickup_location === CUSTOM_LABEL ? pickupCustom[idx] : car.pickup_location,
-        model: car.model === CUSTOM_LABEL ? modelCustom[idx] : car.model,
+          car.pickup_location === CUSTOM_LABEL
+            ? getCustomValues('pickup')[idx]
+            : car.pickup_location,
+        model: car.model === CUSTOM_LABEL ? getCustomValues('model')[idx] : car.model,
         exchange_rate: normalizeNumber(car.exchange_rate)
       }))
     };
@@ -109,8 +111,12 @@ export default function RentalCarForm({
 
   const isRemoveDisabled = rentalCars.length <= data.products.rental_cars.length;
 
-  const [pickupCustom, setPickupCustom] = useState<Record<number, string>>({});
-  const [modelCustom, setModelCustom] = useState<Record<number, string>>({});
+  const { register: registerCustom, getValues: getCustomValues } = useForm<{
+    pickup: Record<string, string>;
+    model: Record<string, string>;
+  }>({
+    defaultValues: { pickup: {}, model: {} }
+  });
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -232,12 +238,7 @@ export default function RentalCarForm({
                               </Select.Root>
                               {isCustom && (
                                 <Box flexShrink='0'>
-                                  <TextField.Root
-                                    value={pickupCustom[i] ?? ''}
-                                    onChange={e =>
-                                      setPickupCustom(prev => ({ ...prev, [i]: e.target.value }))
-                                    }
-                                  />
+                                  <TextField.Root {...registerCustom(`pickup.${i}`)} />
                                 </Box>
                               )}
                             </>
@@ -294,17 +295,7 @@ export default function RentalCarForm({
                                 <Select.Item value={CUSTOM_LABEL}>{CUSTOM_LABEL}</Select.Item>
                               </Select.Content>
                             </Select.Root>
-                            {isCustom && (
-                              <TextField.Root
-                                value={modelCustom[i] ?? ''}
-                                onChange={e =>
-                                  setModelCustom(prev => ({ ...prev, [i]: e.target.value }))
-                                }
-                                onBlur={e => {
-                                  if (e.target.value) field.onChange(e.target.value);
-                                }}
-                              />
-                            )}
+                            {isCustom && <TextField.Root {...registerCustom(`model.${i}`)} />}
                           </Flex>
                         );
                       }}
