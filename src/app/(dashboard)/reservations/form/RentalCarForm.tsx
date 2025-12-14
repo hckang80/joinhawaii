@@ -39,6 +39,8 @@ import {
 } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
+const CUSTOM_LABEL = '직접입력';
+
 export default function RentalCarForm({
   data,
   mutation,
@@ -85,8 +87,8 @@ export default function RentalCarForm({
       rental_cars: formData.rental_cars.map((car, idx) => ({
         ...car,
         pickup_location:
-          car.pickup_location === '직접입력' ? pickupCustom[idx] : car.pickup_location,
-        model: car.model === '직접입력' ? modelCustom[idx] : car.model,
+          car.pickup_location === CUSTOM_LABEL ? pickupCustom[idx] : car.pickup_location,
+        model: car.model === CUSTOM_LABEL ? modelCustom[idx] : car.model,
         exchange_rate: normalizeNumber(car.exchange_rate)
       }))
     };
@@ -204,7 +206,6 @@ export default function RentalCarForm({
                         name={`rental_cars.${i}.pickup_location`}
                         control={control}
                         render={({ field }) => {
-                          const CUSTOM_LABEL = '직접입력';
                           const isCustom = field.value === CUSTOM_LABEL;
                           return (
                             <>
@@ -273,7 +274,6 @@ export default function RentalCarForm({
                       name={`rental_cars.${i}.model`}
                       control={control}
                       render={({ field }) => {
-                        const CUSTOM_LABEL = '직접입력';
                         const isCustom = field.value === CUSTOM_LABEL;
                         return (
                           <Flex gap='1' wrap='wrap'>
