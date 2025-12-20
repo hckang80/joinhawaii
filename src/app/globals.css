@@ -70,3 +70,7 @@ button:not(:disabled) {
 .w-full {
   width: 100%;
 }
+
+.invisible {
+  visibility: hidden;
+}
