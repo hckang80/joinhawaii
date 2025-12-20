@@ -3,6 +3,7 @@ import { defaultFlightValues, PRODUCT_STATUS_COLOR, ProductStatus } from '@/cons
 import type { ProductFormType, ReservationFormData, ReservationResponse } from '@/types';
 import { calculateTotalAmount, isDev, updateDateInISO } from '@/utils';
 import {
+  Box,
   Button,
   Card,
   Flex,
@@ -11,6 +12,7 @@ import {
   Section,
   Select,
   Table,
+  Text,
   TextField
 } from '@radix-ui/themes';
 import { useMutation } from '@tanstack/react-query';
@@ -100,9 +102,9 @@ export default function FlightForm({
                 <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>
               </Table.Row>
             </Table.Header>
-            <Table.Body>
-              {flights.map((_flight, i) => (
-                <Table.Row key={i}>
+            {flights.map((_flight, i) => (
+              <Table.Body key={i}>
+                <Table.Row>
                   <Table.Cell>{/* 개별진행, 그룹항공, 블럭항공, 인디비 */}</Table.Cell>
                   <Table.Cell>
                     <TextField.Root
@@ -320,8 +322,18 @@ export default function FlightForm({
                     <FlightTotalCalculator index={i} setValue={setValue} control={control} />
                   </Table.Cell>
                 </Table.Row>
-              ))}
-            </Table.Body>
+                <Table.Row>
+                  <Table.Cell colSpan={11}>
+                    <Flex align='center' gap='2'>
+                      <Text weight='bold'>규정</Text>
+                      <Box flexGrow='1'>
+                        <TextField.Root {...register(`flights.${i}.rule`)} />
+                      </Box>
+                    </Flex>
+                  </Table.Cell>
+                </Table.Row>
+              </Table.Body>
+            ))}
           </Table.Root>
 
           {!flights.length && (

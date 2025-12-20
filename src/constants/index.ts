@@ -149,7 +149,8 @@ export const defaultProductValues = {
   total_cost_krw: 0,
   status: 'Pending' as ProductStatusKey,
   payment_status: 'Unpaid' as PaymentStatusKey,
-  notes: ''
+  notes: '',
+  rule: ''
 };
 
 export const defaultPeopleValues = {
