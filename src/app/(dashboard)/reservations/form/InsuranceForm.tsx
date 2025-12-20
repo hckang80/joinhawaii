@@ -8,6 +8,7 @@ import type {
 } from '@/types';
 import { calculateTotalAmount, isDev, normalizeNumber } from '@/utils';
 import {
+  Box,
   Button,
   Card,
   Flex,
@@ -16,6 +17,7 @@ import {
   Section,
   Select,
   Table,
+  Text,
   TextField
 } from '@radix-ui/themes';
 import { useMutation } from '@tanstack/react-query';
@@ -120,9 +122,9 @@ export default function InsuranceForm({
                 <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>
               </Table.Row>
             </Table.Header>
-            <Table.Body>
-              {insurances.map((_insurance, i) => (
-                <Table.Row key={i}>
+            {insurances.map((_insurance, i) => (
+              <Table.Body key={i}>
+                <Table.Row>
                   <Table.Cell>
                     <Controller
                       name={`insurances.${i}.exchange_rate`}
@@ -364,8 +366,18 @@ export default function InsuranceForm({
                     <InsuranceTotalCalculator index={i} setValue={setValue} control={control} />
                   </Table.Cell>
                 </Table.Row>
-              ))}
-            </Table.Body>
+                <Table.Row>
+                  <Table.Cell colSpan={10}>
+                    <Flex align='center' gap='2'>
+                      <Text weight='bold'>규정</Text>
+                      <Box flexGrow='1'>
+                        <TextField.Root {...register(`insurances.${i}.rule`)} />
+                      </Box>
+                    </Flex>
+                  </Table.Cell>
+                </Table.Row>
+              </Table.Body>
+            ))}
           </Table.Root>
 
           {!insurances.length && (

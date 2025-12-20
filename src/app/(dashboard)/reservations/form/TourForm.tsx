@@ -9,6 +9,7 @@ import type {
 } from '@/types';
 import { calculateTotalAmount, isDev, normalizeNumber } from '@/utils';
 import {
+  Box,
   Button,
   Card,
   Flex,
@@ -17,6 +18,7 @@ import {
   Section,
   Select,
   Table,
+  Text,
   TextField
 } from '@radix-ui/themes';
 import { useMutation } from '@tanstack/react-query';
@@ -121,9 +123,9 @@ export default function TourForm({
                 <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>
               </Table.Row>
             </Table.Header>
-            <Table.Body>
-              {tours.map((_tour, i) => (
-                <Table.Row key={i}>
+            {tours.map((_tour, i) => (
+              <Table.Body key={i}>
+                <Table.Row>
                   <Table.Cell>
                     <Controller
                       name={`tours.${i}.exchange_rate`}
@@ -352,8 +354,18 @@ export default function TourForm({
                     <TourTotalCalculator index={i} setValue={setValue} control={control} />
                   </Table.Cell>
                 </Table.Row>
-              ))}
-            </Table.Body>
+                <Table.Row>
+                  <Table.Cell colSpan={10}>
+                    <Flex align='center' gap='2'>
+                      <Text weight='bold'>규정</Text>
+                      <Box flexGrow='1'>
+                        <TextField.Root {...register(`tours.${i}.rule`)} />
+                      </Box>
+                    </Flex>
+                  </Table.Cell>
+                </Table.Row>
+              </Table.Body>
+            ))}
           </Table.Root>
 
           {!tours.length && (

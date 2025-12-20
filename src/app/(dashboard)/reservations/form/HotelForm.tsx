@@ -14,6 +14,7 @@ import type {
 } from '@/types';
 import { isDev, normalizeNumber } from '@/utils';
 import {
+  Box,
   Button,
   Card,
   Checkbox,
@@ -22,6 +23,7 @@ import {
   Section,
   Select,
   Table,
+  Text,
   TextField
 } from '@radix-ui/themes';
 import { useMutation } from '@tanstack/react-query';
@@ -130,9 +132,9 @@ export default function HotelForm({
                 <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>
               </Table.Row>
             </Table.Header>
-            <Table.Body>
-              {hotels.map((_hotel, i) => (
-                <Table.Row key={i}>
+            {hotels.map((_hotel, i) => (
+              <Table.Body key={i}>
+                <Table.Row>
                   <Table.Cell>
                     <Controller
                       name={`hotels.${i}.exchange_rate`}
@@ -357,8 +359,18 @@ export default function HotelForm({
                     <HotelTotalCalculator index={i} setValue={setValue} control={control} />
                   </Table.Cell>
                 </Table.Row>
-              ))}
-            </Table.Body>
+                <Table.Row>
+                  <Table.Cell colSpan={14}>
+                    <Flex align='center' gap='2'>
+                      <Text weight='bold'>규정</Text>
+                      <Box flexGrow='1'>
+                        <TextField.Root {...register(`hotels.${i}.rule`)} />
+                      </Box>
+                    </Flex>
+                  </Table.Cell>
+                </Table.Row>
+              </Table.Body>
+            ))}
           </Table.Root>
 
           {!hotels.length && (
