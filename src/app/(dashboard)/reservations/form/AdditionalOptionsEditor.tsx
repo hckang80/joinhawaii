@@ -6,7 +6,7 @@ import type { AdditionalOptions, ProductType } from '@/types';
 import { handleApiError, handleApiSuccess, isDev } from '@/utils';
 import type { Observable, ObservableBoolean } from '@legendapp/state';
 import { use$ } from '@legendapp/state/react';
-import { Button, Dialog, Flex, Grid, Select, Table, TextField } from '@radix-ui/themes';
+import { Button, Dialog, Flex, Grid, Select, Table, TextArea, TextField } from '@radix-ui/themes';
 import { useMutation } from '@tanstack/react-query';
 import { Minus, Plus, Save } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
@@ -302,7 +302,7 @@ export default function AdditionalOptionsEditor({
                     />
                   </Table.Cell>
                   <Table.Cell>
-                    <TextField.Root {...register(`additionalOptions.${i}.notes`)} />
+                    <TextArea {...register(`additionalOptions.${i}.notes`)} />
                   </Table.Cell>
                   <Table.Cell hidden>
                     <AdditionalOptionsTotals index={i} setValue={setValue} control={control} />

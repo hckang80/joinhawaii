@@ -24,6 +24,7 @@ import {
   Select,
   Table,
   Text,
+  TextArea,
   TextField
 } from '@radix-ui/themes';
 import { useMutation } from '@tanstack/react-query';
@@ -353,7 +354,7 @@ export default function HotelForm({
                     </Button>
                   </Table.Cell>
                   <Table.Cell>
-                    <TextField.Root {...register(`hotels.${i}.notes`)} />
+                    <TextArea {...register(`hotels.${i}.notes`)} />
                   </Table.Cell>
                   <Table.Cell hidden>
                     <HotelTotalCalculator index={i} setValue={setValue} control={control} />

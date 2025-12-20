@@ -24,6 +24,7 @@ import {
   Select,
   Table,
   Text,
+  TextArea,
   TextField
 } from '@radix-ui/themes';
 import { useMutation } from '@tanstack/react-query';
@@ -388,7 +389,7 @@ export default function RentalCarForm({
                     </Button>
                   </Table.Cell>
                   <Table.Cell>
-                    <TextField.Root {...register(`rental_cars.${i}.notes`)} />
+                    <TextArea {...register(`rental_cars.${i}.notes`)} />
                   </Table.Cell>
                   <Table.Cell hidden>
                     <CarTotalCalculator index={i} setValue={setValue} control={control} />

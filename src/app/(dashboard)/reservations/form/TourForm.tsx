@@ -19,6 +19,7 @@ import {
   Select,
   Table,
   Text,
+  TextArea,
   TextField
 } from '@radix-ui/themes';
 import { useMutation } from '@tanstack/react-query';
@@ -348,7 +349,7 @@ export default function TourForm({
                     </Button>
                   </Table.Cell>
                   <Table.Cell>
-                    <TextField.Root {...register(`tours.${i}.notes`)} />
+                    <TextArea {...register(`tours.${i}.notes`)} />
                   </Table.Cell>
                   <Table.Cell hidden>
                     <TourTotalCalculator index={i} setValue={setValue} control={control} />

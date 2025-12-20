@@ -13,6 +13,7 @@ import {
   Select,
   Table,
   Text,
+  TextArea,
   TextField
 } from '@radix-ui/themes';
 import { useMutation } from '@tanstack/react-query';
@@ -316,7 +317,7 @@ export default function FlightForm({
                     />
                   </Table.Cell>
                   <Table.Cell>
-                    <TextField.Root {...register(`flights.${i}.notes`)} />
+                    <TextArea {...register(`flights.${i}.notes`)} />
                   </Table.Cell>
                   <Table.Cell hidden>
                     <FlightTotalCalculator index={i} setValue={setValue} control={control} />

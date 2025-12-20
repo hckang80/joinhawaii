@@ -18,6 +18,7 @@ import {
   Select,
   Table,
   Text,
+  TextArea,
   TextField
 } from '@radix-ui/themes';
 import { useMutation } from '@tanstack/react-query';
@@ -360,7 +361,7 @@ export default function InsuranceForm({
                     </Button>
                   </Table.Cell>
                   <Table.Cell>
-                    <TextField.Root {...register(`insurances.${i}.notes`)} />
+                    <TextArea {...register(`insurances.${i}.notes`)} />
                   </Table.Cell>
                   <Table.Cell hidden>
                     <InsuranceTotalCalculator index={i} setValue={setValue} control={control} />
