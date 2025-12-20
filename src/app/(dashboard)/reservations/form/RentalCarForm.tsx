@@ -14,7 +14,18 @@ import type {
   ReservationResponse
 } from '@/types';
 import { isDev, normalizeNumber } from '@/utils';
-import { Button, Card, Flex, Heading, Section, Select, Table, TextField } from '@radix-ui/themes';
+import {
+  Box,
+  Button,
+  Card,
+  Flex,
+  Heading,
+  Section,
+  Select,
+  Table,
+  Text,
+  TextField
+} from '@radix-ui/themes';
 import { useMutation } from '@tanstack/react-query';
 import { Car, Minus, Plus, Save } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
@@ -134,9 +145,9 @@ export default function RentalCarForm({
                 <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>
               </Table.Row>
             </Table.Header>
-            <Table.Body>
-              {rentalCars.map((_car, i) => (
-                <Table.Row key={i}>
+            {rentalCars.map((_car, i) => (
+              <Table.Body key={i}>
+                <Table.Row>
                   <Table.Cell>
                     <Controller
                       name={`rental_cars.${i}.exchange_rate`}
@@ -383,8 +394,18 @@ export default function RentalCarForm({
                     <CarTotalCalculator index={i} setValue={setValue} control={control} />
                   </Table.Cell>
                 </Table.Row>
-              ))}
-            </Table.Body>
+                <Table.Row>
+                  <Table.Cell colSpan={13}>
+                    <Flex align='center' gap='2'>
+                      <Text weight='bold'>규정</Text>
+                      <Box flexGrow='1'>
+                        <TextField.Root {...register(`rental_cars.${i}.rule`)} />
+                      </Box>
+                    </Flex>
+                  </Table.Cell>
+                </Table.Row>
+              </Table.Body>
+            ))}
           </Table.Root>
 
           {!rentalCars.length && (
