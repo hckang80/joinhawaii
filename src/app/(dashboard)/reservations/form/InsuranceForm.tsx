@@ -35,6 +35,18 @@ import {
 } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
+function calcDays(start?: string, end?: string) {
+  if (!start || !end) return '';
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+  if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) return '';
+
+  return Math.max(
+    1,
+    Math.round((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1
+  );
+}
+
 export default function InsuranceForm({
   data,
   mutation,
@@ -192,10 +204,11 @@ export default function InsuranceForm({
                     <TextField.Root
                       type='number'
                       min='1'
-                      {...register(`insurances.${i}.days`, {
-                        required: true,
-                        valueAsNumber: true
-                      })}
+                      readOnly
+                      value={calcDays(
+                        getValues(`insurances.${i}.start_date`),
+                        getValues(`insurances.${i}.end_date`)
+                      )}
                     />
                   </Table.Cell>
                   <Table.Cell>
