@@ -28,7 +28,7 @@ import {
 import { useMutation } from '@tanstack/react-query';
 import { PlusCircle, Save, UserMinus, UserPlus } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { Controller, SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
@@ -115,6 +115,8 @@ export default function ClientForm({
     router.replace(`/reservations/form?reservation_id=${encodeURIComponent(reservationId)}`);
   };
 
+  const customBookingPlatformRef = useRef('');
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Card size='3'>
@@ -130,19 +132,40 @@ export default function ClientForm({
                 name='booking_platform'
                 control={control}
                 render={({ field }) => {
-                  const isCustom = field.value === CUSTOM_LABEL;
+                  const isCustom =
+                    field.value === CUSTOM_LABEL ||
+                    !Object.values(BOOKING_PLATFORM_OPTIONS)
+                      .flat()
+                      .some(opt => opt.value === field.value);
+
+                  const handleSelectChange = (value: string) => {
+                    if (value === CUSTOM_LABEL) {
+                      // 직접입력 선택 시 이전 custom 값 복원
+                      field.onChange(customBookingPlatformRef.current || '');
+                    } else {
+                      // 직접입력 해제 시 현재 입력값 저장
+                      if (isCustom && field.value && field.value !== CUSTOM_LABEL) {
+                        customBookingPlatformRef.current = field.value;
+                      }
+                      field.onChange(value);
+                    }
+                  };
+
+                  const handleCustomInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+                    customBookingPlatformRef.current = e.target.value;
+                    field.onChange(e.target.value);
+                  };
+
                   return (
-                    <>
+                    <Flex gap='2' align='center'>
                       <Select.Root
                         size='3'
-                        value={field.value}
-                        onValueChange={value => {
-                          field.onChange(value);
-                        }}
+                        value={isCustom ? CUSTOM_LABEL : field.value}
+                        onValueChange={handleSelectChange}
                         name={field.name}
                       >
                         <Select.Trigger placeholder='예약회사 선택' style={{ width: '200px' }}>
-                          {field.value}
+                          {isCustom ? CUSTOM_LABEL : field.value}
                         </Select.Trigger>
                         <Select.Content>
                           {Object.entries(BOOKING_PLATFORM_OPTIONS).map(([groupLabel, options]) => (
@@ -164,11 +187,15 @@ export default function ClientForm({
                       {isCustom && (
                         <TextField.Root
                           size='3'
-                          value={field.value === CUSTOM_LABEL ? '' : field.value}
-                          onChange={e => field.onChange(e.target.value)}
+                          value={
+                            field.value === CUSTOM_LABEL
+                              ? customBookingPlatformRef.current
+                              : field.value
+                          }
+                          onChange={handleCustomInputChange}
                         />
                       )}
-                    </>
+                    </Flex>
                   );
                 }}
               />
