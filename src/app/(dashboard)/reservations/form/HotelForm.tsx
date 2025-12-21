@@ -236,7 +236,7 @@ export default function HotelForm({
                         return (
                           <CustomSelectInput
                             value={field.value}
-                            options={HOTELS.toSorted((a, b) => a.localeCompare(b, 'ko'))}
+                            options={HOTELS}
                             onChange={field.onChange}
                             placeholder='호텔 선택'
                           />
@@ -253,7 +253,7 @@ export default function HotelForm({
                         return (
                           <CustomSelectInput
                             value={field.value}
-                            options={ROOM_TYPES.toSorted((a, b) => a.localeCompare(b, 'ko'))}
+                            options={ROOM_TYPES}
                             onChange={field.onChange}
                           />
                         );

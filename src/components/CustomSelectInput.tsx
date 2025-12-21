@@ -11,7 +11,7 @@ export function CustomSelectInput({
   inputPlaceholder = ''
 }: {
   value: string;
-  options: string[];
+  options: readonly string[];
   customLabel?: string;
   onChange: (val: string) => void;
   placeholder?: string;
@@ -29,11 +29,13 @@ export function CustomSelectInput({
       >
         <Select.Trigger placeholder={placeholder}>{isCustom ? customLabel : value}</Select.Trigger>
         <Select.Content>
-          {options.map(opt => (
-            <Select.Item key={opt} value={opt}>
-              {opt}
-            </Select.Item>
-          ))}
+          {options
+            .toSorted((a, b) => a.localeCompare(b))
+            .map(opt => (
+              <Select.Item key={opt} value={opt}>
+                {opt}
+              </Select.Item>
+            ))}
           <Select.Item value={customLabel}>{customLabel}</Select.Item>
         </Select.Content>
       </Select.Root>

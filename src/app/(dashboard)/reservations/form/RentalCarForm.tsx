@@ -204,7 +204,7 @@ export default function RentalCarForm({
                           return (
                             <CustomSelectInput
                               value={field.value}
-                              options={PICKUP_LOCATIONS.toSorted((a, b) => a.localeCompare(b))}
+                              options={PICKUP_LOCATIONS}
                               onChange={field.onChange}
                               placeholder='픽업장소 선택'
                             />
@@ -244,7 +244,7 @@ export default function RentalCarForm({
                         return (
                           <CustomSelectInput
                             value={field.value}
-                            options={CAR_TYPES.toSorted((a, b) => a.localeCompare(b))}
+                            options={CAR_TYPES}
                             onChange={field.onChange}
                             placeholder='차종 선택'
                           />
