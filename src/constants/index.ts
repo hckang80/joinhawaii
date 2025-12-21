@@ -55,6 +55,7 @@ export const CAR_TYPES = [
   'Premium SUV'
 ];
 
+export const ROOM_TYPES = ['1BED', '2BED', '1BED/2BED', '2BED/3BED', '3BED', '4BED'] as const;
 export const REGIONS = ['오아후', '마우이', '빅아일랜드', '카우아이', '라나이'] as const;
 export type Region = (typeof REGIONS)[number] | (string & {});
 export const HOTELS = [

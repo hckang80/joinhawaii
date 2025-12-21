@@ -4,7 +4,8 @@ import {
   HOTELS,
   PRODUCT_STATUS_COLOR,
   ProductStatus,
-  REGIONS
+  REGIONS,
+  ROOM_TYPES
 } from '@/constants';
 import type {
   AdditionalOptions,
@@ -123,7 +124,7 @@ export default function HotelForm({
                 <Table.ColumnHeaderCell width='170px'>날짜</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='60px'>숙박일</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='200px'>호텔</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell width='120px'>객실타입</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell width='110px'>객실타입</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='60px'>조식</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='70px'>리조트피</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
@@ -244,12 +245,20 @@ export default function HotelForm({
                     />
                   </Table.Cell>
                   <Table.Cell>
-                    <TextField.Root
-                      {...register(`hotels.${i}.room_type`, {
-                        required: true
-                      })}
+                    <Controller
+                      name={`hotels.${i}.room_type`}
+                      control={control}
+                      rules={{ required: true }}
+                      render={({ field }) => {
+                        return (
+                          <CustomSelectInput
+                            value={field.value}
+                            options={ROOM_TYPES.toSorted((a, b) => a.localeCompare(b, 'ko'))}
+                            onChange={field.onChange}
+                          />
+                        );
+                      }}
                     />
-                    {/* TODO: 1BED, 2BED, 1BED/2BED, 2BED/3BED, 3BED, 4BED */}
                   </Table.Cell>
                   <Table.Cell>
                     <Controller
