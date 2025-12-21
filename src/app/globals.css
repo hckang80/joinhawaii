@@ -1,6 +1,10 @@
 .radix-themes {
   .rt-TableRootTable {
     table-layout: fixed;
+
+    .rt-TableBody:nth-of-type(even) {
+      background-color: var(--gray-2);
+    }
   }
 
   .rt-TableCell {
