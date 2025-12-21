@@ -109,7 +109,7 @@ export default function AdditionalOptionsEditor({
         </Dialog.Description>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Table.Root size='1'>
+          <Table.Root size='1' layout='fixed'>
             <Table.Header>
               <Table.Row>
                 <Table.ColumnHeaderCell width='90px'>환율</Table.ColumnHeaderCell>

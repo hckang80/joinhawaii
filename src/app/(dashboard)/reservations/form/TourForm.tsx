@@ -109,7 +109,7 @@ export default function TourForm({
             선택관광
           </Heading>
 
-          <Table.Root size='1'>
+          <Table.Root size='1' layout='fixed'>
             <Table.Header>
               <Table.Row>
                 <Table.ColumnHeaderCell width='90px'>환율</Table.ColumnHeaderCell>

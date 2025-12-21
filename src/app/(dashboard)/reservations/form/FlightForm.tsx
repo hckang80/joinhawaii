@@ -87,7 +87,7 @@ export default function FlightForm({
             항공정보
           </Heading>
 
-          <Table.Root size='1'>
+          <Table.Root size='1' layout='fixed'>
             <Table.Header>
               <Table.Row>
                 <Table.ColumnHeaderCell width='80px'>티켓</Table.ColumnHeaderCell>

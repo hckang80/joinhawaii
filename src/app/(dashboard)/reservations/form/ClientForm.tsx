@@ -207,7 +207,7 @@ export default function ClientForm({
               고객정보
             </Heading>
 
-            <Table.Root size='1'>
+            <Table.Root size='1' layout='fixed'>
               <Table.Header>
                 <Table.Row>
                   <Table.ColumnHeaderCell width='60px' align='center'>
