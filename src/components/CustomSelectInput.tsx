@@ -19,7 +19,7 @@ export function CustomSelectInput({
 }) {
   const isCustom = value === customLabel || !options.includes(value ?? '');
   return (
-    <Flex gap='2' align='center'>
+    <Flex direction='column' gap='1'>
       <Select.Root
         value={isCustom ? customLabel : (value ?? '')}
         onValueChange={val => {
