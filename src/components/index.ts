@@ -1,3 +1,4 @@
+export { CustomSelectInput } from './CustomSelectInput';
 export { DateTimeInput } from './DateTimeInput';
 export { Loader } from './Loader';
 export { Paginate } from './Paginate';

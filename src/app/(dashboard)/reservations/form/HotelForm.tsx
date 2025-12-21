@@ -1,5 +1,5 @@
+import { CustomSelectInput } from '@/components';
 import {
-  CUSTOM_LABEL,
   defaultHotelValues,
   HOTELS,
   PRODUCT_STATUS_COLOR,
@@ -31,7 +31,7 @@ import {
 import { useMutation } from '@tanstack/react-query';
 import { Hotel, Minus, Plus, Save } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo } from 'react';
 import {
   type Control,
   Controller,
@@ -58,7 +58,6 @@ export default function HotelForm({
 }) {
   const searchParams = useSearchParams();
   const reservation_id = searchParams.get('reservation_id')!;
-  const customHotelNameRefs = useRef<string[]>([]);
 
   const {
     register,
@@ -233,57 +232,13 @@ export default function HotelForm({
                       control={control}
                       rules={{ required: true }}
                       render={({ field }) => {
-                        const isCustom =
-                          field.value === CUSTOM_LABEL || !HOTELS.includes(field.value ?? '');
-
-                        const handleSelectChange = (value: string) => {
-                          if (value === CUSTOM_LABEL) {
-                            field.onChange(customHotelNameRefs.current[i] || '');
-                          } else {
-                            if (isCustom && field.value && field.value !== CUSTOM_LABEL) {
-                              customHotelNameRefs.current[i] = field.value;
-                            }
-                            field.onChange(value);
-                          }
-                        };
-
-                        const handleCustomInputChange = (
-                          e: React.ChangeEvent<HTMLInputElement>
-                        ) => {
-                          customHotelNameRefs.current[i] = e.target.value;
-                          field.onChange(e.target.value);
-                        };
-
                         return (
-                          <Flex gap='2' align='center'>
-                            <Select.Root
-                              value={isCustom ? CUSTOM_LABEL : (field.value ?? '')}
-                              onValueChange={handleSelectChange}
-                              name={field.name}
-                            >
-                              <Select.Trigger placeholder='호텔 선택' style={{ width: '180px' }}>
-                                {isCustom ? CUSTOM_LABEL : field.value}
-                              </Select.Trigger>
-                              <Select.Content>
-                                {HOTELS.toSorted((a, b) => a.localeCompare(b, 'ko')).map(hotel => (
-                                  <Select.Item key={hotel} value={hotel}>
-                                    {hotel}
-                                  </Select.Item>
-                                ))}
-                                <Select.Item value={CUSTOM_LABEL}>{CUSTOM_LABEL}</Select.Item>
-                              </Select.Content>
-                            </Select.Root>
-                            {isCustom && (
-                              <TextField.Root
-                                value={
-                                  field.value === CUSTOM_LABEL
-                                    ? customHotelNameRefs.current[i] || ''
-                                    : field.value
-                                }
-                                onChange={handleCustomInputChange}
-                              />
-                            )}
-                          </Flex>
+                          <CustomSelectInput
+                            value={field.value}
+                            options={HOTELS.toSorted((a, b) => a.localeCompare(b, 'ko'))}
+                            onChange={field.onChange}
+                            placeholder='호텔 선택'
+                          />
                         );
                       }}
                     />
