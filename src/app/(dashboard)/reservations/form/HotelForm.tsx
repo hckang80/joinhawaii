@@ -122,7 +122,7 @@ export default function HotelForm({
                 <Table.ColumnHeaderCell width='120px'>지역</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='170px'>날짜</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='60px'>숙박일</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell width='300px'>호텔</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell width='200px'>호텔</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='120px'>객실타입</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='60px'>조식</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='70px'>리조트피</Table.ColumnHeaderCell>

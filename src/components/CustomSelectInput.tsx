@@ -19,7 +19,7 @@ export function CustomSelectInput({
 }) {
   const isCustom = value === customLabel || !options.includes(value ?? '');
   return (
-    <Flex direction='column' gap='1'>
+    <Flex direction='column' align='stretch' gap='1'>
       <Select.Root
         value={isCustom ? customLabel : (value ?? '')}
         onValueChange={val => {
@@ -27,9 +27,7 @@ export function CustomSelectInput({
           else onChange(val);
         }}
       >
-        <Select.Trigger placeholder={placeholder} style={{ width: 180 }}>
-          {isCustom ? customLabel : value}
-        </Select.Trigger>
+        <Select.Trigger placeholder={placeholder}>{isCustom ? customLabel : value}</Select.Trigger>
         <Select.Content>
           {options.map(opt => (
             <Select.Item key={opt} value={opt}>
