@@ -3,6 +3,8 @@ import type { AdditionalOptions, PaymentStatusKey, ProductStatusKey, ProductType
 
 export * from './query-keys';
 
+export const CUSTOM_LABEL = '직접입력';
+
 export const PER_PAGE = '10';
 
 export const GENDER_TYPE = ['MR', 'MS', 'MSTR', 'MISS'] as const;

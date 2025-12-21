@@ -1,5 +1,6 @@
 import {
   CAR_TYPES,
+  CUSTOM_LABEL,
   defaultCarValues,
   PICKUP_LOCATIONS,
   PRODUCT_STATUS_COLOR,
@@ -40,8 +41,6 @@ import {
   useWatch
 } from 'react-hook-form';
 import { toast } from 'react-toastify';
-
-const CUSTOM_LABEL = '직접입력';
 
 export default function RentalCarForm({
   data,

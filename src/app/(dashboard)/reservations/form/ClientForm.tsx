@@ -1,4 +1,9 @@
-import { BOOKING_PLATFORM_OPTIONS, defaultClientValues, GENDER_TYPE } from '@/constants';
+import {
+  BOOKING_PLATFORM_OPTIONS,
+  CUSTOM_LABEL,
+  defaultClientValues,
+  GENDER_TYPE
+} from '@/constants';
 import type {
   ProductFormType,
   ReservationFormData,
@@ -125,7 +130,6 @@ export default function ClientForm({
                 name='booking_platform'
                 control={control}
                 render={({ field }) => {
-                  const CUSTOM_LABEL = '직접입력';
                   const isCustom = field.value === CUSTOM_LABEL;
                   return (
                     <>
