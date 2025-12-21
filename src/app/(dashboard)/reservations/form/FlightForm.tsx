@@ -90,7 +90,6 @@ export default function FlightForm({
           <Table.Root size='1' layout='fixed'>
             <Table.Header>
               <Table.Row>
-                <Table.ColumnHeaderCell width='80px'>티켓</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='100px'>항공편</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='300px'>출발시간</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='100px'>출발지</Table.ColumnHeaderCell>
@@ -106,7 +105,6 @@ export default function FlightForm({
             {flights.map((_flight, i) => (
               <Table.Body key={i}>
                 <Table.Row>
-                  <Table.Cell>{/* 개별진행, 그룹항공, 블럭항공, 인디비 */}</Table.Cell>
                   <Table.Cell>
                     <TextField.Root
                       {...register(`flights.${i}.flight_number`, {
@@ -324,7 +322,7 @@ export default function FlightForm({
                   </Table.Cell>
                 </Table.Row>
                 <Table.Row>
-                  <Table.Cell colSpan={11}>
+                  <Table.Cell colSpan={10}>
                     <Flex align='center' gap='2'>
                       <Text weight='bold'>규정</Text>
                       <Box flexGrow='1'>
