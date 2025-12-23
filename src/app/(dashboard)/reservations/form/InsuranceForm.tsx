@@ -171,17 +171,11 @@ export default function InsuranceForm({
                     />
                   </Table.Cell>
                   <Table.Cell>
-                    <TextField.Root
-                      type='date'
-                      {...register(`insurances.${i}.start_date`, {
-                        required: true
-                      })}
-                    />
+                    <TextField.Root type='date' {...register(`insurances.${i}.start_date`)} />
                     ~
                     <Controller
                       name={`insurances.${i}.end_date`}
                       control={control}
-                      rules={{ required: true }}
                       render={({ field }) => {
                         const checkInDate = watch(`insurances.${i}.start_date`);
                         return (
