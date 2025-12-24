@@ -13,7 +13,11 @@ import {
 
 export type Client = typeof defaultClientValues;
 export type Flight = typeof defaultFlightValues & { id?: number };
-export type Hotel = typeof defaultHotelValues & { id?: number };
+export type Hotel = Omit<typeof defaultHotelValues, 'check_in_date' | 'check_out_date'> & {
+  id?: number;
+  check_in_date: string | null;
+  check_out_date: string | null;
+};
 export type Tour = typeof defaultTourValues & { id?: number };
 export type Car = typeof defaultCarValues & { id?: number };
 export type Insurance = Omit<typeof defaultInsuranceValues, 'start_date' | 'end_date'> & {

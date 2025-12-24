@@ -88,6 +88,8 @@ export default function HotelForm({
       ...formData,
       hotels: formData.hotels.map(hotel => ({
         ...hotel,
+        check_in_date: hotel.check_in_date || null,
+        check_out_date: hotel.check_out_date || null,
         exchange_rate: normalizeNumber(hotel.exchange_rate)
       }))
     };
