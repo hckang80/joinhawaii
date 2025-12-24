@@ -188,17 +188,11 @@ export default function HotelForm({
                     />
                   </Table.Cell>
                   <Table.Cell>
-                    <TextField.Root
-                      type='date'
-                      {...register(`hotels.${i}.check_in_date`, {
-                        required: true
-                      })}
-                    />
+                    <TextField.Root type='date' {...register(`hotels.${i}.check_in_date`)} />
                     ~
                     <Controller
                       name={`hotels.${i}.check_out_date`}
                       control={control}
-                      rules={{ required: true }}
                       render={({ field }) => {
                         const checkInDate = watch(`hotels.${i}.check_in_date`);
                         return (
