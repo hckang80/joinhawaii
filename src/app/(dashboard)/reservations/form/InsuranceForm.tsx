@@ -35,7 +35,7 @@ import {
 } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
-function calcDays(start?: string, end?: string) {
+function calcDays(start?: string | null, end?: string | null) {
   if (!start || !end) return '';
   const startDate = new Date(start);
   const endDate = new Date(end);
@@ -92,6 +92,8 @@ export default function InsuranceForm({
       ...formData,
       insurances: formData.insurances.map(insurance => ({
         ...insurance,
+        start_date: insurance.start_date || null,
+        end_date: insurance.end_date || null,
         exchange_rate: normalizeNumber(insurance.exchange_rate)
       }))
     };
@@ -171,17 +173,11 @@ export default function InsuranceForm({
                     />
                   </Table.Cell>
                   <Table.Cell>
-                    <TextField.Root
-                      type='date'
-                      {...register(`insurances.${i}.start_date`, {
-                        required: true
-                      })}
-                    />
+                    <TextField.Root type='date' {...register(`insurances.${i}.start_date`)} />
                     ~
                     <Controller
                       name={`insurances.${i}.end_date`}
                       control={control}
-                      rules={{ required: true }}
                       render={({ field }) => {
                         const checkInDate = watch(`insurances.${i}.start_date`);
                         return (

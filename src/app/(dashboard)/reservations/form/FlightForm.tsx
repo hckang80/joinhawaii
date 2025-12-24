@@ -114,11 +114,7 @@ export default function FlightForm({
                     />
                   </Table.Cell>
                   <Table.Cell>
-                    <DateTimeInput
-                      name={`flights.${i}.departure_datetime`}
-                      control={control}
-                      required
-                    />
+                    <DateTimeInput name={`flights.${i}.departure_datetime`} control={control} />
                   </Table.Cell>
                   <Table.Cell>
                     <TextField.Root
@@ -131,7 +127,6 @@ export default function FlightForm({
                     <Controller
                       name={`flights.${i}.arrival_datetime`}
                       control={control}
-                      rules={{ required: true }}
                       render={({ field }) => {
                         const departureDate = watch(`flights.${i}.departure_datetime`);
                         const dateString = field.value
@@ -144,6 +139,7 @@ export default function FlightForm({
                         return (
                           <Flex gap='2'>
                             <TextField.Root
+                              {...field}
                               type='date'
                               min={minDate}
                               value={dateString}

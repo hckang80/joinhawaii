@@ -177,7 +177,7 @@ export default function TourForm({
                     />
                   </Table.Cell>
                   <Table.Cell>
-                    <DateTimeInput name={`tours.${i}.start_date`} control={control} required />
+                    <DateTimeInput name={`tours.${i}.start_date`} control={control} />
                   </Table.Cell>
                   <Table.Cell>
                     <TextField.Root

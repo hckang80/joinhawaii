@@ -88,6 +88,8 @@ export default function HotelForm({
       ...formData,
       hotels: formData.hotels.map(hotel => ({
         ...hotel,
+        check_in_date: hotel.check_in_date || null,
+        check_out_date: hotel.check_out_date || null,
         exchange_rate: normalizeNumber(hotel.exchange_rate)
       }))
     };
@@ -188,17 +190,11 @@ export default function HotelForm({
                     />
                   </Table.Cell>
                   <Table.Cell>
-                    <TextField.Root
-                      type='date'
-                      {...register(`hotels.${i}.check_in_date`, {
-                        required: true
-                      })}
-                    />
+                    <TextField.Root type='date' {...register(`hotels.${i}.check_in_date`)} />
                     ~
                     <Controller
                       name={`hotels.${i}.check_out_date`}
                       control={control}
-                      rules={{ required: true }}
                       render={({ field }) => {
                         const checkInDate = watch(`hotels.${i}.check_in_date`);
                         return (

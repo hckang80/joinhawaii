@@ -87,6 +87,8 @@ export default function RentalCarForm({
       ...formData,
       rental_cars: formData.rental_cars.map(car => ({
         ...car,
+        pickup_date: car.pickup_date || null,
+        return_date: car.return_date || null,
         exchange_rate: normalizeNumber(car.exchange_rate)
       }))
     };
@@ -187,12 +189,7 @@ export default function RentalCarForm({
                   </Table.Cell>
                   <Table.Cell>
                     <Flex gap='1' wrap='wrap'>
-                      <TextField.Root
-                        type='date'
-                        {...register(`rental_cars.${i}.pickup_date`, {
-                          required: true
-                        })}
-                      />
+                      <TextField.Root type='date' {...register(`rental_cars.${i}.pickup_date`)} />
                       <TextField.Root
                         type='time'
                         {...register(`rental_cars.${i}.pickup_time`, { required: true })}
@@ -217,11 +214,11 @@ export default function RentalCarForm({
                     <Controller
                       name={`rental_cars.${i}.return_date`}
                       control={control}
-                      rules={{ required: true }}
                       render={({ field }) => {
                         const checkInDate = watch(`rental_cars.${i}.pickup_date`);
                         return (
                           <TextField.Root
+                            {...field}
                             type='date'
                             min={checkInDate || undefined}
                             value={field.value || ''}
