@@ -24,6 +24,7 @@ import {
   Section,
   Select,
   Table,
+  Text,
   TextField
 } from '@radix-ui/themes';
 import { useMutation } from '@tanstack/react-query';
@@ -61,7 +62,7 @@ export default function ClientForm({
     products,
     ...updateData
   } = data || {};
-
+  console.log({ updateData });
   const {
     register,
     handleSubmit,
@@ -171,10 +172,8 @@ export default function ClientForm({
 
                         const handleSelectChange = (value: string) => {
                           if (value === CUSTOM_LABEL) {
-                            // 직접입력 선택 시 이전 custom 값 복원
                             field.onChange(customBookingPlatformRef.current || '');
                           } else {
-                            // 직접입력 해제 시 현재 입력값 저장
                             if (isCustom && field.value && field.value !== CUSTOM_LABEL) {
                               customBookingPlatformRef.current = field.value;
                             }
@@ -291,7 +290,32 @@ export default function ClientForm({
                   <Table.RowHeaderCell>예약구분</Table.RowHeaderCell>
                   <Table.Cell>{reservation_id || '-'}</Table.Cell>
                   <Table.RowHeaderCell>여행일정</Table.RowHeaderCell>
-                  <Table.Cell>-</Table.Cell>
+                  <Table.Cell>
+                    <Flex gap='1' align='center'>
+                      <TextField.Root type='date' size='2' {...register('start_date')} />
+                      <Text size='1'>~</Text>
+                      <Controller
+                        name='end_date'
+                        control={control}
+                        render={({ field }) => {
+                          const checkInDate = watch('start_date');
+                          return (
+                            <TextField.Root
+                              type='date'
+                              min={checkInDate || undefined}
+                              value={field.value || ''}
+                              onChange={field.onChange}
+                              onFocus={() => {
+                                if (!field.value && checkInDate) {
+                                  field.onChange(checkInDate);
+                                }
+                              }}
+                            />
+                          );
+                        }}
+                      />
+                    </Flex>
+                  </Table.Cell>
                 </Table.Row>
               </Table.Body>
             </Table.Root>

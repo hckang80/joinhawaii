@@ -90,6 +90,8 @@ export interface ReservationBaseInfo {
   deposit: number;
   trip_type: string;
   travel_category: string;
+  start_date: string | null;
+  end_date: string | null;
 }
 
 export interface ReservationSuccessResponse {

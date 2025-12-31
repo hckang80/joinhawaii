@@ -10,6 +10,8 @@ export const RESERVATION_SELECT_QUERY = `
   author_email,
   trip_type,
   travel_category,
+  start_date,
+  end_date,
   clients!clients_reservation_id_fkey (
     id,
     korean_name,
