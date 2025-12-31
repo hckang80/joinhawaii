@@ -308,14 +308,14 @@ export default function ClientForm({
                         }}
                       />
                       <TextField.Root
-                        style={{ width: '60px' }}
+                        style={{ width: '40px' }}
                         type='number'
                         min={0}
                         {...register('nights', { valueAsNumber: true })}
                       />
                       <Text>박</Text>
                       <TextField.Root
-                        style={{ width: '60px' }}
+                        style={{ width: '40px' }}
                         type='number'
                         min={0}
                         {...register('days', { valueAsNumber: true })}
