@@ -15,6 +15,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { Controller, type SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import AdditionalOptionsEditor from './AdditionalOptionsEditor';
+import BaseInfoForm from './BaseInfoForm';
 import ClientForm from './ClientForm';
 import FlightForm from './FlightForm';
 import HotelForm from './HotelForm';
@@ -101,7 +102,9 @@ export default function ReservationsFormClientContainer({
 
       <Flex asChild direction='column' gap='5'>
         <div>
-          <ClientForm data={data} mutation={mutation} />
+          <BaseInfoForm data={data} mutation={mutation} />
+
+          {data && <ClientForm data={data} mutation={mutation} />}
 
           {data && <FlightForm data={data} mutation={mutation} />}
 

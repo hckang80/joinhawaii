@@ -141,6 +141,7 @@ export const defaultClientValues = {
   resident_id: '',
   phone_number: '',
   email: '',
+  status: 'Pending' as ProductStatusKey,
   notes: ''
 };
 
