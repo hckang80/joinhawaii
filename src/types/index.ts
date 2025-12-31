@@ -196,6 +196,8 @@ export interface Reservation extends ReservationBaseInfo {
   clients: TablesRow<'clients'>[];
   total_amount_krw: number;
   total_cost_krw: number;
+  author?: string;
+  author_email?: string;
 }
 
 export type ReservationProducts = {

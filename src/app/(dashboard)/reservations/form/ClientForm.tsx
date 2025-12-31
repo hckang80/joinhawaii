@@ -143,7 +143,7 @@ export default function ClientForm({
                     {data?.created_at ? toReadableDate(data?.created_at) : '-'}
                   </Table.Cell>
                   <Table.RowHeaderCell>담당자</Table.RowHeaderCell>
-                  <Table.Cell>-</Table.Cell>
+                  <Table.Cell>{data?.author || '-'}</Table.Cell>
                   <Table.RowHeaderCell>카카오톡</Table.RowHeaderCell>
                   <Table.Cell>-</Table.Cell>
                   <Table.RowHeaderCell>업체구분</Table.RowHeaderCell>

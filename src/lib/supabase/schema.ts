@@ -6,6 +6,8 @@ export const RESERVATION_SELECT_QUERY = `
   booking_platform,
   total_amount,
   deposit,
+  author,
+  author_email,
   clients!clients_reservation_id_fkey (
     id,
     korean_name,
