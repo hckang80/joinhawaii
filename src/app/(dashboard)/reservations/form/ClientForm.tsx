@@ -191,15 +191,11 @@ export default function ClientForm({
                         return (
                           <Flex gap='2' align='center'>
                             <Select.Root
-                              size='3'
                               value={isCustom ? CUSTOM_LABEL : field.value}
                               onValueChange={handleSelectChange}
                               name={field.name}
                             >
-                              <Select.Trigger
-                                placeholder='예약회사 선택'
-                                style={{ width: '200px' }}
-                              >
+                              <Select.Trigger placeholder='선택' style={{ width: '200px' }}>
                                 {isCustom ? CUSTOM_LABEL : field.value}
                               </Select.Trigger>
                               <Select.Content>
@@ -223,7 +219,6 @@ export default function ClientForm({
                             </Select.Root>
                             {isCustom && (
                               <TextField.Root
-                                size='3'
                                 value={
                                   field.value === CUSTOM_LABEL
                                     ? customBookingPlatformRef.current
@@ -249,7 +244,6 @@ export default function ClientForm({
                           value={field.value || ''}
                           onValueChange={field.onChange}
                           name={field.name}
-                          size='3'
                         >
                           <Select.Trigger placeholder='선택' />
                           <Select.Content>
@@ -273,7 +267,6 @@ export default function ClientForm({
                           value={field.value || ''}
                           onValueChange={field.onChange}
                           name={field.name}
-                          size='3'
                         >
                           <Select.Trigger placeholder='선택' />
                           <Select.Content>
@@ -292,7 +285,7 @@ export default function ClientForm({
                   <Table.RowHeaderCell>여행일정</Table.RowHeaderCell>
                   <Table.Cell>
                     <Flex gap='1' align='center'>
-                      <TextField.Root type='date' size='2' {...register('start_date')} />
+                      <TextField.Root type='date' {...register('start_date')} />
                       <Text size='1'>~</Text>
                       <Controller
                         name='end_date'
