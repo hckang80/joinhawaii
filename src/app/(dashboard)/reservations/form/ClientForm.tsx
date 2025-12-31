@@ -62,7 +62,7 @@ export default function ClientForm({
     products,
     ...updateData
   } = data || {};
-  console.log({ updateData });
+
   const {
     register,
     handleSubmit,
