@@ -88,6 +88,8 @@ export interface ReservationBaseInfo {
   main_client_name: string;
   total_amount: number;
   deposit: number;
+  trip_type: string;
+  travel_category: string;
 }
 
 export interface ReservationSuccessResponse {

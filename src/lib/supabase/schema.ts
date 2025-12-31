@@ -8,6 +8,8 @@ export const RESERVATION_SELECT_QUERY = `
   deposit,
   author,
   author_email,
+  trip_type,
+  travel_category,
   clients!clients_reservation_id_fkey (
     id,
     korean_name,
