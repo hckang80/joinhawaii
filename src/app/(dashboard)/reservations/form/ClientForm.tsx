@@ -52,6 +52,17 @@ export default function ClientForm({
   const isModify = !!reservation_id;
 
   const {
+    created_at,
+    total_cost_krw,
+    total_amount_krw,
+    total_amount,
+    deposit,
+    id,
+    products,
+    ...updateData
+  } = data || {};
+
+  const {
     register,
     handleSubmit,
     watch,
@@ -63,14 +74,10 @@ export default function ClientForm({
   } = useForm<ReservationFormData>({
     defaultValues: useMemo(() => {
       return {
-        trip_type: data?.trip_type,
-        travel_category: data?.travel_category,
-        reservation_id: data?.reservation_id,
-        booking_platform: data?.booking_platform || '',
-        main_client_name: data?.main_client_name || '',
+        ...updateData,
         clients: data?.clients || [defaultClientValues]
       };
-    }, [data])
+    }, [data, updateData])
   });
 
   const clients = useWatch({ control, name: 'clients' }) ?? [defaultClientValues];
