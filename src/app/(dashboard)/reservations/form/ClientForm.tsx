@@ -140,11 +140,11 @@ export default function ClientForm({
             <Table.Root layout='fixed'>
               <colgroup>
                 <col style={{ width: '100px' }} />
-                <col style={{ width: '400px' }} />
+                <col style={{ width: '200px' }} />
                 <col style={{ width: '100px' }} />
-                <col style={{ width: '400px' }} />
+                <col style={{ width: '200px' }} />
                 <col style={{ width: '100px' }} />
-                <col style={{ width: '400px' }} />
+                <col style={{ width: '200px' }} />
                 <col style={{ width: '100px' }} />
                 <col style={{ width: '400px' }} />
               </colgroup>
