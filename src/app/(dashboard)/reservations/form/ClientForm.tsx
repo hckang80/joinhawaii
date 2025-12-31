@@ -2,7 +2,9 @@ import {
   BOOKING_PLATFORM_OPTIONS,
   CUSTOM_LABEL,
   defaultClientValues,
-  GENDER_TYPE
+  GENDER_TYPE,
+  TRAVEL_CATEGORIES,
+  TRIP_TYPES
 } from '@/constants';
 import type {
   ProductFormType,
@@ -230,9 +232,53 @@ export default function ClientForm({
                 </Table.Row>
                 <Table.Row>
                   <Table.RowHeaderCell>여행종류</Table.RowHeaderCell>
-                  <Table.Cell>-</Table.Cell>
+                  <Table.Cell>
+                    <Controller
+                      name='trip_type'
+                      control={control}
+                      render={({ field }) => (
+                        <Select.Root
+                          value={field.value || ''}
+                          onValueChange={field.onChange}
+                          name={field.name}
+                          size='3'
+                        >
+                          <Select.Trigger placeholder='선택' />
+                          <Select.Content>
+                            {TRIP_TYPES.map(type => (
+                              <Select.Item key={type} value={type}>
+                                {type}
+                              </Select.Item>
+                            ))}
+                          </Select.Content>
+                        </Select.Root>
+                      )}
+                    />
+                  </Table.Cell>
                   <Table.RowHeaderCell>구분</Table.RowHeaderCell>
-                  <Table.Cell>-</Table.Cell>
+                  <Table.Cell>
+                    <Controller
+                      name='travel_category'
+                      control={control}
+                      render={({ field }) => (
+                        <Select.Root
+                          value={field.value || ''}
+                          onValueChange={field.onChange}
+                          name={field.name}
+                          size='3'
+                        >
+                          <Select.Trigger placeholder='선택' />
+                          <Select.Content>
+                            {TRAVEL_CATEGORIES.map(category => (
+                              <Select.Item key={category} value={category}>
+                                {category}
+                              </Select.Item>
+                            ))}
+                          </Select.Content>
+                        </Select.Root>
+                      )}
+                    />
+                  </Table.Cell>
                   <Table.RowHeaderCell>예약구분</Table.RowHeaderCell>
                   <Table.Cell>{reservation_id || '-'}</Table.Cell>
                   <Table.RowHeaderCell>여행일정</Table.RowHeaderCell>

@@ -120,6 +120,12 @@ export const HOTELS = [
   '카아나팔리 오션 인 리조트'
 ];
 
+export const TRIP_TYPES = ['허니문', '가족여행', '일반', '단체'] as const;
+export type TripType = (typeof TRIP_TYPES)[number] | (string & {});
+
+export const TRAVEL_CATEGORIES = ['자유여행', '패키지'] as const;
+export type TravelCategory = (typeof TRAVEL_CATEGORIES)[number] | (string & {});
+
 export const BOOKING_PLATFORM_OPTIONS = {
   B2C: [{ value: '홈피예약', label: '홈피예약' }],
   B2B: [
