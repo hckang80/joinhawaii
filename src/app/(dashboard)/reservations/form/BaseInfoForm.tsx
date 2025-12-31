@@ -1,5 +1,6 @@
 import { BOOKING_PLATFORM_OPTIONS, CUSTOM_LABEL, defaultClientValues } from '@/constants';
 import type { ReservationFormData, ReservationResponse, ReservationSuccessResponse } from '@/types';
+import { toReadableDate } from '@/utils';
 import { observable } from '@legendapp/state';
 import { use$ } from '@legendapp/state/react';
 import { Button, Card, Flex, Heading, Section, Select, Table, TextField } from '@radix-ui/themes';
@@ -92,7 +93,7 @@ export default function BaseInfoForm({
             <Table.Body>
               <Table.Row>
                 <Table.RowHeaderCell>발행일</Table.RowHeaderCell>
-                <Table.Cell>-</Table.Cell>
+                <Table.Cell>{data?.created_at ? toReadableDate(data?.created_at) : '-'}</Table.Cell>
                 <Table.RowHeaderCell>담당자</Table.RowHeaderCell>
                 <Table.Cell>-</Table.Cell>
                 <Table.RowHeaderCell>카카오톡</Table.RowHeaderCell>
@@ -180,7 +181,7 @@ export default function BaseInfoForm({
                 <Table.RowHeaderCell>구분</Table.RowHeaderCell>
                 <Table.Cell>-</Table.Cell>
                 <Table.RowHeaderCell>예약구분</Table.RowHeaderCell>
-                <Table.Cell>-</Table.Cell>
+                <Table.Cell>{reservation_id || '-'}</Table.Cell>
                 <Table.RowHeaderCell>여행일정</Table.RowHeaderCell>
                 <Table.Cell>-</Table.Cell>
               </Table.Row>
