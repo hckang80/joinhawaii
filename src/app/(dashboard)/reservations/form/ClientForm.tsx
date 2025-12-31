@@ -284,7 +284,7 @@ export default function ClientForm({
                   <Table.Cell>{reservation_id || '-'}</Table.Cell>
                   <Table.RowHeaderCell>여행일정</Table.RowHeaderCell>
                   <Table.Cell>
-                    <Flex gap='1' align='center'>
+                    <Flex gap='2' align='center'>
                       <TextField.Root type='date' {...register('start_date')} />
                       <Text size='1'>~</Text>
                       <Controller
@@ -307,6 +307,20 @@ export default function ClientForm({
                           );
                         }}
                       />
+                      <TextField.Root
+                        style={{ width: '60px' }}
+                        type='number'
+                        min={0}
+                        {...register('nights', { valueAsNumber: true })}
+                      />
+                      <Text>박</Text>
+                      <TextField.Root
+                        style={{ width: '60px' }}
+                        type='number'
+                        min={0}
+                        {...register('days', { valueAsNumber: true })}
+                      />
+                      <Text>일</Text>
                     </Flex>
                   </Table.Cell>
                 </Table.Row>

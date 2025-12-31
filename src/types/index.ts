@@ -92,6 +92,8 @@ export interface ReservationBaseInfo {
   travel_category: string;
   start_date: string | null;
   end_date: string | null;
+  nights: number;
+  days: number;
 }
 
 export interface ReservationSuccessResponse {

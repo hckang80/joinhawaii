@@ -12,6 +12,8 @@ export const RESERVATION_SELECT_QUERY = `
   travel_category,
   start_date,
   end_date,
+  nights,
+  days,
   clients!clients_reservation_id_fkey (
     id,
     korean_name,
