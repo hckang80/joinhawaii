@@ -2,7 +2,9 @@ import {
   BOOKING_PLATFORM_OPTIONS,
   CUSTOM_LABEL,
   defaultClientValues,
-  GENDER_TYPE
+  GENDER_TYPE,
+  TRAVEL_CATEGORIES,
+  TRIP_TYPES
 } from '@/constants';
 import type {
   ProductFormType,
@@ -10,7 +12,7 @@ import type {
   ReservationResponse,
   ReservationSuccessResponse
 } from '@/types';
-import { isDev } from '@/utils';
+import { isDev, toReadableDate } from '@/utils';
 import { observable } from '@legendapp/state';
 import { use$ } from '@legendapp/state/react';
 import {
@@ -51,6 +53,17 @@ export default function ClientForm({
   const isModify = !!reservation_id;
 
   const {
+    created_at,
+    total_cost_krw,
+    total_amount_krw,
+    total_amount,
+    deposit,
+    id,
+    products,
+    ...updateData
+  } = data || {};
+
+  const {
     register,
     handleSubmit,
     watch,
@@ -62,12 +75,10 @@ export default function ClientForm({
   } = useForm<ReservationFormData>({
     defaultValues: useMemo(() => {
       return {
-        reservation_id: data?.reservation_id,
-        booking_platform: data?.booking_platform || '',
-        main_client_name: data?.main_client_name || '',
+        ...updateData,
         clients: data?.clients || [defaultClientValues]
       };
-    }, [data])
+    }, [data, updateData])
   });
 
   const clients = useWatch({ control, name: 'clients' }) ?? [defaultClientValues];
@@ -126,80 +137,195 @@ export default function ClientForm({
               기본정보
             </Heading>
 
-            <Flex align='center' gap='2'>
-              <Text weight='medium'>예약회사</Text>
-              <Controller
-                name='booking_platform'
-                control={control}
-                render={({ field }) => {
-                  const isCustom =
-                    field.value === CUSTOM_LABEL ||
-                    !Object.values(BOOKING_PLATFORM_OPTIONS)
-                      .flat()
-                      .some(opt => opt.value === field.value);
+            <Table.Root layout='fixed'>
+              <colgroup>
+                <col style={{ width: '100px' }} />
+                <col style={{ width: '200px' }} />
+                <col style={{ width: '100px' }} />
+                <col style={{ width: '200px' }} />
+                <col style={{ width: '100px' }} />
+                <col style={{ width: '200px' }} />
+                <col style={{ width: '100px' }} />
+                <col style={{ width: '400px' }} />
+              </colgroup>
+              <Table.Body>
+                <Table.Row>
+                  <Table.RowHeaderCell>발행일</Table.RowHeaderCell>
+                  <Table.Cell>
+                    {data?.created_at ? toReadableDate(data?.created_at) : '-'}
+                  </Table.Cell>
+                  <Table.RowHeaderCell>담당자</Table.RowHeaderCell>
+                  <Table.Cell>{data?.author || '-'}</Table.Cell>
+                  <Table.RowHeaderCell>카카오톡</Table.RowHeaderCell>
+                  <Table.Cell>-</Table.Cell>
+                  <Table.RowHeaderCell>업체구분</Table.RowHeaderCell>
+                  <Table.Cell>
+                    <Controller
+                      name='booking_platform'
+                      control={control}
+                      render={({ field }) => {
+                        const isCustom =
+                          field.value === CUSTOM_LABEL ||
+                          !Object.values(BOOKING_PLATFORM_OPTIONS)
+                            .flat()
+                            .some(opt => opt.value === field.value);
 
-                  const handleSelectChange = (value: string) => {
-                    if (value === CUSTOM_LABEL) {
-                      // 직접입력 선택 시 이전 custom 값 복원
-                      field.onChange(customBookingPlatformRef.current || '');
-                    } else {
-                      // 직접입력 해제 시 현재 입력값 저장
-                      if (isCustom && field.value && field.value !== CUSTOM_LABEL) {
-                        customBookingPlatformRef.current = field.value;
-                      }
-                      field.onChange(value);
-                    }
-                  };
-
-                  const handleCustomInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-                    customBookingPlatformRef.current = e.target.value;
-                    field.onChange(e.target.value);
-                  };
-
-                  return (
-                    <Flex gap='2' align='center'>
-                      <Select.Root
-                        size='3'
-                        value={isCustom ? CUSTOM_LABEL : field.value}
-                        onValueChange={handleSelectChange}
-                        name={field.name}
-                      >
-                        <Select.Trigger placeholder='예약회사 선택' style={{ width: '200px' }}>
-                          {isCustom ? CUSTOM_LABEL : field.value}
-                        </Select.Trigger>
-                        <Select.Content>
-                          {Object.entries(BOOKING_PLATFORM_OPTIONS).map(([groupLabel, options]) => (
-                            <div key={groupLabel}>
-                              <Select.Group key={groupLabel}>
-                                <Select.Label>{groupLabel}</Select.Label>
-                                {options.map(({ value, label }) => (
-                                  <Select.Item key={value} value={value}>
-                                    {label}
-                                  </Select.Item>
-                                ))}
-                              </Select.Group>
-                              <Select.Separator />
-                            </div>
-                          ))}
-                          <Select.Item value={CUSTOM_LABEL}>{CUSTOM_LABEL}</Select.Item>
-                        </Select.Content>
-                      </Select.Root>
-                      {isCustom && (
-                        <TextField.Root
-                          size='3'
-                          value={
-                            field.value === CUSTOM_LABEL
-                              ? customBookingPlatformRef.current
-                              : field.value
+                        const handleSelectChange = (value: string) => {
+                          if (value === CUSTOM_LABEL) {
+                            field.onChange(customBookingPlatformRef.current || '');
+                          } else {
+                            if (isCustom && field.value && field.value !== CUSTOM_LABEL) {
+                              customBookingPlatformRef.current = field.value;
+                            }
+                            field.onChange(value);
                           }
-                          onChange={handleCustomInputChange}
-                        />
+                        };
+
+                        const handleCustomInputChange = (
+                          e: React.ChangeEvent<HTMLInputElement>
+                        ) => {
+                          customBookingPlatformRef.current = e.target.value;
+                          field.onChange(e.target.value);
+                        };
+
+                        return (
+                          <Flex gap='2' align='center'>
+                            <Select.Root
+                              value={isCustom ? CUSTOM_LABEL : field.value}
+                              onValueChange={handleSelectChange}
+                              name={field.name}
+                            >
+                              <Select.Trigger placeholder='선택' style={{ width: '200px' }}>
+                                {isCustom ? CUSTOM_LABEL : field.value}
+                              </Select.Trigger>
+                              <Select.Content>
+                                {Object.entries(BOOKING_PLATFORM_OPTIONS).map(
+                                  ([groupLabel, options]) => (
+                                    <div key={groupLabel}>
+                                      <Select.Group key={groupLabel}>
+                                        <Select.Label>{groupLabel}</Select.Label>
+                                        {options.map(({ value, label }) => (
+                                          <Select.Item key={value} value={value}>
+                                            {label}
+                                          </Select.Item>
+                                        ))}
+                                      </Select.Group>
+                                      <Select.Separator />
+                                    </div>
+                                  )
+                                )}
+                                <Select.Item value={CUSTOM_LABEL}>{CUSTOM_LABEL}</Select.Item>
+                              </Select.Content>
+                            </Select.Root>
+                            {isCustom && (
+                              <TextField.Root
+                                value={
+                                  field.value === CUSTOM_LABEL
+                                    ? customBookingPlatformRef.current
+                                    : field.value
+                                }
+                                onChange={handleCustomInputChange}
+                              />
+                            )}
+                          </Flex>
+                        );
+                      }}
+                    />
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row>
+                  <Table.RowHeaderCell>여행종류</Table.RowHeaderCell>
+                  <Table.Cell>
+                    <Controller
+                      name='trip_type'
+                      control={control}
+                      render={({ field }) => (
+                        <Select.Root
+                          value={field.value || ''}
+                          onValueChange={field.onChange}
+                          name={field.name}
+                        >
+                          <Select.Trigger placeholder='선택' />
+                          <Select.Content>
+                            {TRIP_TYPES.map(type => (
+                              <Select.Item key={type} value={type}>
+                                {type}
+                              </Select.Item>
+                            ))}
+                          </Select.Content>
+                        </Select.Root>
                       )}
+                    />
+                  </Table.Cell>
+                  <Table.RowHeaderCell>구분</Table.RowHeaderCell>
+                  <Table.Cell>
+                    <Controller
+                      name='travel_category'
+                      control={control}
+                      render={({ field }) => (
+                        <Select.Root
+                          value={field.value || ''}
+                          onValueChange={field.onChange}
+                          name={field.name}
+                        >
+                          <Select.Trigger placeholder='선택' />
+                          <Select.Content>
+                            {TRAVEL_CATEGORIES.map(category => (
+                              <Select.Item key={category} value={category}>
+                                {category}
+                              </Select.Item>
+                            ))}
+                          </Select.Content>
+                        </Select.Root>
+                      )}
+                    />
+                  </Table.Cell>
+                  <Table.RowHeaderCell>예약구분</Table.RowHeaderCell>
+                  <Table.Cell>{reservation_id || '-'}</Table.Cell>
+                  <Table.RowHeaderCell>여행일정</Table.RowHeaderCell>
+                  <Table.Cell>
+                    <Flex gap='2' align='center'>
+                      <TextField.Root type='date' {...register('start_date')} />
+                      <Text size='1'>~</Text>
+                      <Controller
+                        name='end_date'
+                        control={control}
+                        render={({ field }) => {
+                          const checkInDate = watch('start_date');
+                          return (
+                            <TextField.Root
+                              type='date'
+                              min={checkInDate || undefined}
+                              value={field.value || ''}
+                              onChange={field.onChange}
+                              onFocus={() => {
+                                if (!field.value && checkInDate) {
+                                  field.onChange(checkInDate);
+                                }
+                              }}
+                            />
+                          );
+                        }}
+                      />
+                      <TextField.Root
+                        style={{ width: '40px' }}
+                        type='number'
+                        min={0}
+                        {...register('nights', { valueAsNumber: true })}
+                      />
+                      <Text>박</Text>
+                      <TextField.Root
+                        style={{ width: '40px' }}
+                        type='number'
+                        min={0}
+                        {...register('days', { valueAsNumber: true })}
+                      />
+                      <Text>일</Text>
                     </Flex>
-                  );
-                }}
-              />
-            </Flex>
+                  </Table.Cell>
+                </Table.Row>
+              </Table.Body>
+            </Table.Root>
           </Section>
 
           <Section p='0'>

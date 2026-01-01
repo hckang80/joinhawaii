@@ -19,6 +19,15 @@ export async function POST(request: Request) {
     const today = new Date().toISOString().slice(0, 10).replace(/-/g, '');
     const supabase = await createClient<Database>();
 
+    const {
+      data: { user },
+      error: userError
+    } = await supabase.auth.getUser();
+    if (userError) {
+      console.error('유저 정보 조회 실패:', userError);
+      throw userError;
+    }
+
     const { data: lastReservation } = await supabase
       .from('reservations')
       .select('reservation_id')
@@ -37,7 +46,9 @@ export async function POST(request: Request) {
       .from('reservations')
       .insert({
         ...rest,
-        reservation_id: reservationId
+        reservation_id: reservationId,
+        author: user?.user_metadata?.full_name || '-',
+        author_email: user?.email || '-'
       })
       .select()
       .maybeSingle();

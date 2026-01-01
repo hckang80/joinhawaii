@@ -88,6 +88,12 @@ export interface ReservationBaseInfo {
   main_client_name: string;
   total_amount: number;
   deposit: number;
+  trip_type: string;
+  travel_category: string;
+  start_date: string | null;
+  end_date: string | null;
+  nights: number;
+  days: number;
 }
 
 export interface ReservationSuccessResponse {
@@ -196,6 +202,8 @@ export interface Reservation extends ReservationBaseInfo {
   clients: TablesRow<'clients'>[];
   total_amount_krw: number;
   total_cost_krw: number;
+  author?: string;
+  author_email?: string;
 }
 
 export type ReservationProducts = {
