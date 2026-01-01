@@ -189,7 +189,7 @@ export default function TourForm({
                   <Table.Cell>
                     <Grid gap='2'>
                       <Flex direction='column'>
-                        <span>🧑성인</span>
+                        <span>🧑 성인</span>
                         <TextField.Root
                           type='number'
                           min='0'
@@ -201,7 +201,7 @@ export default function TourForm({
                         />
                       </Flex>
                       <Flex direction='column'>
-                        <span>🧒소아</span>
+                        <span>🧒 소아</span>
                         <TextField.Root
                           type='number'
                           min='0'
@@ -213,7 +213,7 @@ export default function TourForm({
                         />
                       </Flex>
                       <Flex direction='column'>
-                        <span>👶유아</span>
+                        <span>👶 유아</span>
                         <TextField.Root
                           type='number'
                           min='0'
@@ -230,7 +230,7 @@ export default function TourForm({
                   <Table.Cell>
                     <Grid gap='2'>
                       <Flex direction='column'>
-                        <span className='invisible'>🧑성인</span>
+                        <span className='invisible'>🧑 성인</span>
                         <TextField.Root
                           type='number'
                           min='0'
@@ -242,7 +242,7 @@ export default function TourForm({
                         />
                       </Flex>
                       <Flex direction='column'>
-                        <span className='invisible'>🧒소아</span>
+                        <span className='invisible'>🧒 소아</span>
                         <TextField.Root
                           type='number'
                           min='0'
@@ -254,7 +254,7 @@ export default function TourForm({
                         />
                       </Flex>
                       <Flex direction='column'>
-                        <span className='invisible'>👶유아</span>
+                        <span className='invisible'>👶 유아</span>
                         <TextField.Root
                           type='number'
                           min='0'
@@ -271,7 +271,7 @@ export default function TourForm({
                   <Table.Cell>
                     <Grid gap='2'>
                       <Flex direction='column'>
-                        <span className='invisible'>🧑성인</span>
+                        <span className='invisible'>🧑 성인</span>
                         <TextField.Root
                           type='number'
                           min='0'
@@ -282,7 +282,7 @@ export default function TourForm({
                         />
                       </Flex>
                       <Flex direction='column'>
-                        <span className='invisible'>🧒소아</span>
+                        <span className='invisible'>🧒 소아</span>
                         <TextField.Root
                           type='number'
                           min='0'
@@ -293,7 +293,7 @@ export default function TourForm({
                         />
                       </Flex>
                       <Flex direction='column'>
-                        <span className='invisible'>👶유아</span>
+                        <span className='invisible'>👶 유아</span>
                         <TextField.Root
                           type='number'
                           min='0'
