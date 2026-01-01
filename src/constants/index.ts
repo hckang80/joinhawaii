@@ -127,13 +127,17 @@ export const TRAVEL_CATEGORIES = ['자유여행', '패키지'] as const;
 export type TravelCategory = (typeof TRAVEL_CATEGORIES)[number] | (string & {});
 
 export const BOOKING_PLATFORM_OPTIONS = {
-  B2C: [{ value: '홈피예약', label: '홈피예약' }],
-  B2B: [
-    { value: '마이리얼트립', label: '마이리얼트립' },
-    { value: '크리에이트립', label: '크리에이트립' },
-    { value: '와그', label: '와그' }
+  B2C: [
+    { value: '홈피예약', label: '홈피예약' },
+    { value: '일반', label: '일반' }
   ],
-  플랫폼: [{ value: '네이버', label: '네이버' }]
+  B2B: [{ value: '거래처리스트', label: '거래처리스트' }],
+  플랫폼: [
+    { value: '네이버', label: '네이버' },
+    { value: '마이리얼트립', label: '마이리얼트립' },
+    { value: '와그', label: '와그' },
+    { value: '트리플', label: '트리플' }
+  ]
 } as const;
 
 const additionalOptions = {
