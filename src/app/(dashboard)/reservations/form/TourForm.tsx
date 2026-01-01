@@ -194,6 +194,8 @@ export default function TourForm({
                           type='number'
                           min='0'
                           step='0.01'
+                          color='blue'
+                          variant='soft'
                           {...register(`tours.${i}.adult_cost`, {
                             required: true,
                             valueAsNumber: true
@@ -206,6 +208,8 @@ export default function TourForm({
                           type='number'
                           min='0'
                           step='0.01'
+                          color='blue'
+                          variant='soft'
                           {...register(`tours.${i}.children_cost`, {
                             required: true,
                             valueAsNumber: true
@@ -218,6 +222,8 @@ export default function TourForm({
                           type='number'
                           min='0'
                           step='0.01'
+                          color='blue'
+                          variant='soft'
                           readOnly
                           {...register(`tours.${i}.kids_cost`, {
                             required: true,
@@ -235,6 +241,8 @@ export default function TourForm({
                           type='number'
                           min='0'
                           step='0.01'
+                          color='orange'
+                          variant='soft'
                           {...register(`tours.${i}.adult_price`, {
                             required: true,
                             valueAsNumber: true
@@ -247,6 +255,8 @@ export default function TourForm({
                           type='number'
                           min='0'
                           step='0.01'
+                          color='orange'
+                          variant='soft'
                           {...register(`tours.${i}.children_price`, {
                             required: true,
                             valueAsNumber: true
@@ -259,6 +269,8 @@ export default function TourForm({
                           type='number'
                           min='0'
                           step='0.01'
+                          color='orange'
+                          variant='soft'
                           readOnly
                           {...register(`tours.${i}.kids_price`, {
                             required: true,

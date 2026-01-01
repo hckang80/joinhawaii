@@ -178,6 +178,8 @@ export default function FlightForm({
                         <TextField.Root
                           type='number'
                           min='0'
+                          color='blue'
+                          variant='soft'
                           {...register(`flights.${i}.adult_cost`, {
                             required: true,
                             valueAsNumber: true
@@ -189,6 +191,8 @@ export default function FlightForm({
                         <TextField.Root
                           type='number'
                           min='0'
+                          color='blue'
+                          variant='soft'
                           {...register(`flights.${i}.children_cost`, {
                             required: true,
                             valueAsNumber: true
@@ -200,6 +204,8 @@ export default function FlightForm({
                         <TextField.Root
                           type='number'
                           min='0'
+                          color='blue'
+                          variant='soft'
                           readOnly
                           {...register(`flights.${i}.kids_cost`, {
                             required: true,
@@ -216,6 +222,8 @@ export default function FlightForm({
                         <TextField.Root
                           type='number'
                           min='0'
+                          color='orange'
+                          variant='soft'
                           {...register(`flights.${i}.adult_price`, {
                             required: true,
                             valueAsNumber: true
@@ -227,6 +235,8 @@ export default function FlightForm({
                         <TextField.Root
                           type='number'
                           min='0'
+                          color='orange'
+                          variant='soft'
                           {...register(`flights.${i}.children_price`, {
                             required: true,
                             valueAsNumber: true
@@ -238,6 +248,8 @@ export default function FlightForm({
                         <TextField.Root
                           type='number'
                           min='0'
+                          color='orange'
+                          variant='soft'
                           readOnly
                           {...register(`flights.${i}.kids_price`, {
                             required: true,

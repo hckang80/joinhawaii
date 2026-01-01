@@ -215,6 +215,8 @@ export default function InsuranceForm({
                           type='number'
                           min='0'
                           step='0.01'
+                          color='blue'
+                          variant='soft'
                           {...register(`insurances.${i}.adult_cost`, {
                             required: true,
                             valueAsNumber: true
@@ -227,6 +229,8 @@ export default function InsuranceForm({
                           type='number'
                           min='0'
                           step='0.01'
+                          color='blue'
+                          variant='soft'
                           {...register(`insurances.${i}.children_cost`, {
                             required: true,
                             valueAsNumber: true
@@ -239,6 +243,8 @@ export default function InsuranceForm({
                           type='number'
                           min='0'
                           step='0.01'
+                          color='blue'
+                          variant='soft'
                           readOnly
                           {...register(`insurances.${i}.kids_cost`, {
                             required: true,
@@ -256,6 +262,8 @@ export default function InsuranceForm({
                           type='number'
                           min='0'
                           step='0.01'
+                          color='orange'
+                          variant='soft'
                           {...register(`insurances.${i}.adult_price`, {
                             required: true,
                             valueAsNumber: true
@@ -268,6 +276,8 @@ export default function InsuranceForm({
                           type='number'
                           min='0'
                           step='0.01'
+                          color='orange'
+                          variant='soft'
                           {...register(`insurances.${i}.children_price`, {
                             required: true,
                             valueAsNumber: true
@@ -280,6 +290,8 @@ export default function InsuranceForm({
                           type='number'
                           min='0'
                           step='0.01'
+                          color='orange'
+                          variant='soft'
                           readOnly
                           {...register(`insurances.${i}.kids_price`, {
                             required: true,

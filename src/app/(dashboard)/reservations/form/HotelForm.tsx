@@ -291,6 +291,8 @@ export default function HotelForm({
                       type='number'
                       min='0'
                       step='0.01'
+                      color='blue'
+                      variant='soft'
                       {...register(`hotels.${i}.cost`, {
                         required: true,
                         valueAsNumber: true
@@ -302,6 +304,8 @@ export default function HotelForm({
                       type='number'
                       min='0'
                       step='0.01'
+                      color='orange'
+                      variant='soft'
                       {...register(`hotels.${i}.nightly_rate`, {
                         required: true,
                         valueAsNumber: true

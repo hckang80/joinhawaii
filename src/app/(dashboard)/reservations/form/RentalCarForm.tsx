@@ -268,6 +268,8 @@ export default function RentalCarForm({
                       type='number'
                       min='0'
                       step='0.01'
+                      color='blue'
+                      variant='soft'
                       {...register(`rental_cars.${i}.cost`, {
                         required: true,
                         valueAsNumber: true
@@ -279,6 +281,8 @@ export default function RentalCarForm({
                       type='number'
                       min='0'
                       step='0.01'
+                      color='orange'
+                      variant='soft'
                       {...register(`rental_cars.${i}.daily_rate`, {
                         required: true,
                         valueAsNumber: true
