@@ -338,7 +338,7 @@ export default function FlightForm({
                   </Table.Cell>
                 </Table.Row>
                 <Table.Row>
-                  <Table.Cell colSpan={10}>
+                  <Table.Cell colSpan={11}>
                     <Flex align='center' gap='2'>
                       <Text weight='bold'>규정</Text>
                       <Box flexGrow='1'>
