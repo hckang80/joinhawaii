@@ -1,7 +1,7 @@
 import { DateTimeInput, TimeInput } from '@/components';
 import { defaultFlightValues, PRODUCT_STATUS_COLOR, ProductStatus } from '@/constants';
 import type { ProductFormType, ReservationFormData, ReservationResponse } from '@/types';
-import { calculateTotalAmount, isDev, updateDateInISO } from '@/utils';
+import { calculateTotalAmount, isDev, toReadableAmount, updateDateInISO } from '@/utils';
 import {
   Box,
   Button,
@@ -98,6 +98,7 @@ export default function FlightForm({
                 <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='80px'>💰요금</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='80px'>🧑‍🤝‍🧑인원</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell width='180px'>합계(원가/요금)</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='110px'>진행상태</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>
               </Table.Row>
@@ -297,6 +298,13 @@ export default function FlightForm({
                     </Grid>
                   </Table.Cell>
                   <Table.Cell>
+                    <Flex gap='1'>
+                      {toReadableAmount(getValues(`flights.${i}.total_cost`), 'ko-KR', 'KRW')}
+                      <span>/</span>
+                      {toReadableAmount(getValues(`flights.${i}.total_amount`), 'ko-KR', 'KRW')}
+                    </Flex>
+                  </Table.Cell>
+                  <Table.Cell>
                     <Controller
                       name={`flights.${i}.status`}
                       control={control}
@@ -330,7 +338,7 @@ export default function FlightForm({
                   </Table.Cell>
                 </Table.Row>
                 <Table.Row>
-                  <Table.Cell colSpan={10}>
+                  <Table.Cell colSpan={11}>
                     <Flex align='center' gap='2'>
                       <Text weight='bold'>규정</Text>
                       <Box flexGrow='1'>
