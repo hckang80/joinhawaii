@@ -14,7 +14,7 @@ import type {
   ReservationFormData,
   ReservationResponse
 } from '@/types';
-import { isDev, normalizeNumber } from '@/utils';
+import { isDev, normalizeNumber, toReadableAmount } from '@/utils';
 import {
   Box,
   Button,
@@ -130,6 +130,7 @@ export default function RentalCarForm({
                 <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='80px'>💰1일요금</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='70px'>대여일</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell width='180px'>합계(원가/요금)</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='110px'>진행상태</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='70px'>추가옵션</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>
@@ -298,6 +299,13 @@ export default function RentalCarForm({
                         valueAsNumber: true
                       })}
                     />
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Flex gap='1'>
+                      {toReadableAmount(getValues(`rental_cars.${i}.total_cost`))}
+                      <span>/</span>
+                      {toReadableAmount(getValues(`rental_cars.${i}.total_amount`))}
+                    </Flex>
                   </Table.Cell>
                   <Table.Cell>
                     <Controller
