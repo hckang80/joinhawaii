@@ -6,7 +6,7 @@ import type {
   ReservationFormData,
   ReservationResponse
 } from '@/types';
-import { calculateTotalAmount, isDev, normalizeNumber } from '@/utils';
+import { calculateTotalAmount, isDev, normalizeNumber, toReadableAmount } from '@/utils';
 import {
   Box,
   Button,
@@ -132,6 +132,7 @@ export default function InsuranceForm({
                 <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='80px'>💰요금</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='70px'>수량</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell width='110px'>합계(원가/요금)</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='110px'>진행상태</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='70px'>추가옵션</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>
@@ -337,6 +338,13 @@ export default function InsuranceForm({
                         />
                       </Flex>
                     </Grid>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Flex gap='1'>
+                      {toReadableAmount(getValues(`insurances.${i}.total_cost`))}
+                      <span>/</span>
+                      {toReadableAmount(getValues(`insurances.${i}.total_amount`))}
+                    </Flex>
                   </Table.Cell>
                   <Table.Cell>
                     <Controller
