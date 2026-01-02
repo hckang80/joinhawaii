@@ -27,7 +27,9 @@ export const parseKoreanCurrency = (value: string) => {
 };
 
 export function isDev() {
-  return process.env.NODE_ENV === 'development';
+  if (typeof window === 'undefined') return false;
+  const params = new URLSearchParams(window.location.search);
+  return params.get('debug') === 'true';
 }
 
 export const statusLabel = (balance: number) => {
