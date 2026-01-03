@@ -1,4 +1,4 @@
-import { CustomSelectInput, DateTimeInput } from '@/components';
+import { CustomSelectInput, DateTimeInput, TimeInput } from '@/components';
 import {
   CAR_TYPES,
   defaultCarValues,
@@ -14,7 +14,7 @@ import type {
   ReservationFormData,
   ReservationResponse
 } from '@/types';
-import { isDev, normalizeNumber, toReadableAmount } from '@/utils';
+import { isDev, normalizeNumber, toReadableAmount, updateDateInISO } from '@/utils';
 import {
   Box,
   Button,
@@ -212,20 +212,37 @@ export default function RentalCarForm({
                       name={`rental_cars.${i}.return_date`}
                       control={control}
                       render={({ field }) => {
-                        const checkInDate = watch(`rental_cars.${i}.pickup_date`);
+                        const pickupDate = watch(`rental_cars.${i}.pickup_date`);
+                        const dateString = field.value
+                          ? new Date(field.value).toISOString().slice(0, 10)
+                          : '';
+                        const minDate = pickupDate
+                          ? new Date(pickupDate).toISOString().slice(0, 10)
+                          : undefined;
+
                         return (
-                          <TextField.Root
-                            {...field}
-                            type='date'
-                            min={checkInDate || undefined}
-                            value={field.value || ''}
-                            onChange={field.onChange}
-                            onFocus={() => {
-                              if (!field.value && checkInDate) {
-                                field.onChange(checkInDate);
-                              }
-                            }}
-                          />
+                          <Flex gap='2'>
+                            <TextField.Root
+                              {...field}
+                              type='date'
+                              min={minDate}
+                              value={dateString}
+                              onChange={e => {
+                                const value = e.target.value;
+                                if (value) {
+                                  field.onChange(updateDateInISO(field.value, value));
+                                } else {
+                                  field.onChange(null);
+                                }
+                              }}
+                              onFocus={() => {
+                                if (!field.value && pickupDate) {
+                                  field.onChange(pickupDate);
+                                }
+                              }}
+                            />
+                            <TimeInput name={`rental_cars.${i}.return_date`} control={control} />
+                          </Flex>
                         );
                       }}
                     />
