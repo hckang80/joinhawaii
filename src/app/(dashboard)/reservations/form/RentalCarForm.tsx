@@ -5,7 +5,8 @@ import {
   PICKUP_LOCATIONS,
   PRODUCT_STATUS_COLOR,
   ProductStatus,
-  REGIONS
+  REGIONS,
+  RENTAL_CAR_SPECIAL_OPTIONS
 } from '@/constants';
 import type {
   AdditionalOptions,
@@ -287,10 +288,19 @@ export default function RentalCarForm({
                     />
                   </Table.Cell>
                   <Table.Cell>
-                    <TextField.Root
-                      {...register(`rental_cars.${i}.options`, {
-                        required: true
-                      })}
+                    <Controller
+                      name={`rental_cars.${i}.options`}
+                      control={control}
+                      render={({ field }) => {
+                        return (
+                          <CustomSelectInput
+                            value={field.value}
+                            options={RENTAL_CAR_SPECIAL_OPTIONS}
+                            onChange={field.onChange}
+                            placeholder='선택'
+                          />
+                        );
+                      }}
                     />
                   </Table.Cell>
                   <Table.Cell>
