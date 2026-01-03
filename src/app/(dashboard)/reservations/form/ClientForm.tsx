@@ -3,6 +3,8 @@ import {
   CUSTOM_LABEL,
   defaultClientValues,
   GENDER_TYPE,
+  PRODUCT_STATUS_COLOR,
+  ProductStatus,
   TRAVEL_CATEGORIES,
   TRIP_TYPES
 } from '@/constants';
@@ -345,6 +347,7 @@ export default function ClientForm({
                   <Table.ColumnHeaderCell width='150px'>주민번호</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='140px'>연락처</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='180px'>이메일</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='110px'>진행상태</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>
                 </Table.Row>
               </Table.Header>
@@ -461,6 +464,35 @@ export default function ClientForm({
                       <TextField.Root
                         {...register(`clients.${i}.email`)}
                         placeholder='joinhawaii@gmail.com'
+                      />
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Controller
+                        name={`clients.${i}.status`}
+                        control={control}
+                        render={({ field }) => (
+                          <Select.Root
+                            value={field.value}
+                            onValueChange={value => {
+                              field.onChange(value);
+                            }}
+                            name={field.name}
+                          >
+                            <Select.Trigger
+                              color={PRODUCT_STATUS_COLOR[field.value]}
+                              variant='soft'
+                            >
+                              {ProductStatus[field.value]}
+                            </Select.Trigger>
+                            <Select.Content>
+                              {Object.entries(ProductStatus).map(([key, label]) => (
+                                <Select.Item key={key} value={key}>
+                                  {label}
+                                </Select.Item>
+                              ))}
+                            </Select.Content>
+                          </Select.Root>
+                        )}
                       />
                     </Table.Cell>
                     <Table.Cell>
