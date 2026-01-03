@@ -127,7 +127,7 @@ export default function RentalCarForm({
                 <Table.ColumnHeaderCell width='280px'>리턴</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='180px'>차종</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='100px'>운전자</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell width='120px'>조건</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell width='180px'>조건</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='80px'>💰1일요금</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='60px'>대여일</Table.ColumnHeaderCell>
