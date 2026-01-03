@@ -234,3 +234,7 @@ export function generateHourOptions(): number[] {
 export function generateMinuteOptions(interval: number = 10): number[] {
   return Array.from({ length: 60 / interval }, (_, i) => i * interval);
 }
+
+export function isRefunded(status: string, originalStatus: string) {
+  return status === 'Refunded' && originalStatus === 'Refunded';
+}

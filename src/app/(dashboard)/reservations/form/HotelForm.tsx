@@ -14,7 +14,7 @@ import type {
   ReservationFormData,
   ReservationResponse
 } from '@/types';
-import { isDev, normalizeNumber, toReadableAmount } from '@/utils';
+import { isDev, isRefunded, normalizeNumber, toReadableAmount } from '@/utils';
 import {
   Box,
   Button,
@@ -143,9 +143,7 @@ export default function HotelForm({
               <Table.Body
                 key={i}
                 className={clsx(
-                  hotel.status === 'Refunded' &&
-                    data.products.hotels[i]?.status === 'Refunded' &&
-                    'is-disabled'
+                  isRefunded(hotel.status, data.products.hotels[i]?.status) && 'is-disabled'
                 )}
               >
                 <Table.Row>
