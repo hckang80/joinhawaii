@@ -5,7 +5,7 @@
     }
 
     .rt-TableBody.is-disabled {
-      opacity: 0.3;
+      opacity: 0.5;
       text-decoration: line-through;
     }
   }
