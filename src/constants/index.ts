@@ -28,6 +28,8 @@ export enum PaymentStatus {
   Refunded = '환불'
 }
 
+export const RENTAL_CAR_SPECIAL_OPTIONS = ['3종보험', '3종보험, 주유, 추가운전자'];
+
 export const PICKUP_LOCATIONS = [
   'Honolulu Airport',
   'Kahala Hotel and Resort',
@@ -222,7 +224,7 @@ export const defaultCarValues = {
   options: '',
   driver: '',
   pickup_location: '',
-  pickup_time: '',
+  return_location: '',
   rental_days: 1,
   daily_rate: 0,
   cost: 0,

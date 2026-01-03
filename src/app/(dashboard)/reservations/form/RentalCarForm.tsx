@@ -1,11 +1,12 @@
-import { CustomSelectInput } from '@/components';
+import { CustomSelectInput, DateTimeInput, TimeInput } from '@/components';
 import {
   CAR_TYPES,
   defaultCarValues,
   PICKUP_LOCATIONS,
   PRODUCT_STATUS_COLOR,
   ProductStatus,
-  REGIONS
+  REGIONS,
+  RENTAL_CAR_SPECIAL_OPTIONS
 } from '@/constants';
 import type {
   AdditionalOptions,
@@ -14,7 +15,7 @@ import type {
   ReservationFormData,
   ReservationResponse
 } from '@/types';
-import { isDev, normalizeNumber, toReadableAmount } from '@/utils';
+import { isDev, normalizeNumber, toReadableAmount, updateDateInISO } from '@/utils';
 import {
   Box,
   Button,
@@ -126,7 +127,7 @@ export default function RentalCarForm({
                 <Table.ColumnHeaderCell width='280px'>리턴</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='180px'>차종</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='100px'>운전자</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell width='120px'>조건</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell width='180px'>조건</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='80px'>💰1일요금</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='60px'>대여일</Table.ColumnHeaderCell>
@@ -190,11 +191,7 @@ export default function RentalCarForm({
                   </Table.Cell>
                   <Table.Cell>
                     <Flex gap='1' wrap='wrap'>
-                      <TextField.Root type='date' {...register(`rental_cars.${i}.pickup_date`)} />
-                      <TextField.Root
-                        type='time'
-                        {...register(`rental_cars.${i}.pickup_time`, { required: true })}
-                      />
+                      <DateTimeInput name={`rental_cars.${i}.pickup_date`} control={control} />
                       <Controller
                         name={`rental_cars.${i}.pickup_location`}
                         control={control}
@@ -212,27 +209,60 @@ export default function RentalCarForm({
                     </Flex>
                   </Table.Cell>
                   <Table.Cell>
-                    <Controller
-                      name={`rental_cars.${i}.return_date`}
-                      control={control}
-                      render={({ field }) => {
-                        const checkInDate = watch(`rental_cars.${i}.pickup_date`);
-                        return (
-                          <TextField.Root
-                            {...field}
-                            type='date'
-                            min={checkInDate || undefined}
-                            value={field.value || ''}
-                            onChange={field.onChange}
-                            onFocus={() => {
-                              if (!field.value && checkInDate) {
-                                field.onChange(checkInDate);
-                              }
-                            }}
-                          />
-                        );
-                      }}
-                    />
+                    <Flex gap='1' wrap='wrap'>
+                      <Controller
+                        name={`rental_cars.${i}.return_date`}
+                        control={control}
+                        render={({ field }) => {
+                          const pickupDate = watch(`rental_cars.${i}.pickup_date`);
+                          const dateString = field.value
+                            ? new Date(field.value).toISOString().slice(0, 10)
+                            : '';
+                          const minDate = pickupDate
+                            ? new Date(pickupDate).toISOString().slice(0, 10)
+                            : undefined;
+
+                          return (
+                            <Flex gap='2'>
+                              <TextField.Root
+                                {...field}
+                                type='date'
+                                min={minDate}
+                                value={dateString}
+                                onChange={e => {
+                                  const value = e.target.value;
+                                  if (value) {
+                                    field.onChange(updateDateInISO(field.value, value));
+                                  } else {
+                                    field.onChange(null);
+                                  }
+                                }}
+                                onFocus={() => {
+                                  if (!field.value && pickupDate) {
+                                    field.onChange(pickupDate);
+                                  }
+                                }}
+                              />
+                              <TimeInput name={`rental_cars.${i}.return_date`} control={control} />
+                            </Flex>
+                          );
+                        }}
+                      />
+                      <Controller
+                        name={`rental_cars.${i}.return_location`}
+                        control={control}
+                        render={({ field }) => {
+                          return (
+                            <CustomSelectInput
+                              value={field.value}
+                              options={PICKUP_LOCATIONS}
+                              onChange={field.onChange}
+                              placeholder='픽업장소 선택'
+                            />
+                          );
+                        }}
+                      />
+                    </Flex>
                   </Table.Cell>
                   <Table.Cell>
                     <Controller
@@ -258,10 +288,19 @@ export default function RentalCarForm({
                     />
                   </Table.Cell>
                   <Table.Cell>
-                    <TextField.Root
-                      {...register(`rental_cars.${i}.options`, {
-                        required: true
-                      })}
+                    <Controller
+                      name={`rental_cars.${i}.options`}
+                      control={control}
+                      render={({ field }) => {
+                        return (
+                          <CustomSelectInput
+                            value={field.value}
+                            options={RENTAL_CAR_SPECIAL_OPTIONS}
+                            onChange={field.onChange}
+                            placeholder='선택'
+                          />
+                        );
+                      }}
                     />
                   </Table.Cell>
                   <Table.Cell>
