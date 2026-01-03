@@ -28,7 +28,7 @@ export enum PaymentStatus {
   Refunded = '환불'
 }
 
-export const RENTAL_CAR_SPECIAL_OPTIONS = ['3종보험', '주유', '추가운전자'];
+export const RENTAL_CAR_SPECIAL_OPTIONS = ['3종보험', '3종보험, 주유, 추가운전자'];
 
 export const PICKUP_LOCATIONS = [
   'Honolulu Airport',
