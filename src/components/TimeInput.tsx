@@ -29,10 +29,10 @@ export function TimeInput<TFieldValues extends FieldValues = FieldValues>({
               onChange={e =>
                 field.onChange(updateTimeInISO(field.value, Number(e.target.value), minutes))
               }
-              style={{ width: 50 }}
+              style={{ width: 40 }}
               inputMode='numeric'
             />
-            시
+            :
             <TextField.Root
               type='number'
               min={0}
@@ -41,10 +41,9 @@ export function TimeInput<TFieldValues extends FieldValues = FieldValues>({
               onChange={e =>
                 field.onChange(updateTimeInISO(field.value, hours, Number(e.target.value)))
               }
-              style={{ width: 50 }}
+              style={{ width: 40 }}
               inputMode='numeric'
             />
-            분
           </Flex>
         );
       }}

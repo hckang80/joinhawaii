@@ -1,4 +1,4 @@
-import { CustomSelectInput } from '@/components';
+import { CustomSelectInput, DateTimeInput } from '@/components';
 import {
   CAR_TYPES,
   defaultCarValues,
@@ -190,11 +190,7 @@ export default function RentalCarForm({
                   </Table.Cell>
                   <Table.Cell>
                     <Flex gap='1' wrap='wrap'>
-                      <TextField.Root type='date' {...register(`rental_cars.${i}.pickup_date`)} />
-                      <TextField.Root
-                        type='time'
-                        {...register(`rental_cars.${i}.pickup_time`, { required: true })}
-                      />
+                      <DateTimeInput name={`rental_cars.${i}.pickup_date`} control={control} />
                       <Controller
                         name={`rental_cars.${i}.pickup_location`}
                         control={control}
