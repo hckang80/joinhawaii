@@ -3,6 +3,11 @@
     .rt-TableBody:nth-of-type(even) {
       background-color: var(--gray-2);
     }
+
+    .rt-TableBody.is-disabled {
+      opacity: 0.3;
+      text-decoration: line-through;
+    }
   }
 
   .rt-TableCell {

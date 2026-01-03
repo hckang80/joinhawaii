@@ -30,6 +30,7 @@ import {
   TextField
 } from '@radix-ui/themes';
 import { useMutation } from '@tanstack/react-query';
+import clsx from 'clsx';
 import { Hotel, Minus, Plus, Save } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useMemo } from 'react';
@@ -139,7 +140,14 @@ export default function HotelForm({
               </Table.Row>
             </Table.Header>
             {hotels.map((_hotel, i) => (
-              <Table.Body key={i}>
+              <Table.Body
+                key={i}
+                className={clsx(
+                  hotels[i].status === 'Refunded' &&
+                    data.products.hotels[i]?.status === 'Refunded' &&
+                    'is-disabled'
+                )}
+              >
                 <Table.Row>
                   <Table.Cell>
                     <Controller
