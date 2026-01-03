@@ -125,11 +125,11 @@ export default function RentalCarForm({
                 <Table.ColumnHeaderCell width='280px'>픽업</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='280px'>리턴</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='180px'>차종</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell width='160px'>운전자</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell width='160px'>조건</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell width='100px'>운전자</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell width='120px'>조건</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='80px'>💰1일요금</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell width='70px'>대여일</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell width='60px'>대여일</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='180px'>합계(원가/요금)</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='110px'>진행상태</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='70px'>추가옵션</Table.ColumnHeaderCell>
