@@ -14,16 +14,7 @@ export const RESERVATION_SELECT_QUERY = `
   end_date,
   nights,
   days,
-  clients!clients_reservation_id_fkey (
-    id,
-    korean_name,
-    english_name,
-    gender,
-    resident_id,
-    phone_number,
-    email,
-    notes
-  ),
+  clients!clients_reservation_id_fkey (*),
   flights!flights_reservation_id_fkey (*),
   hotels!hotels_reservation_id_fkey (*),
   tours!tours_reservation_id_fkey (*),
