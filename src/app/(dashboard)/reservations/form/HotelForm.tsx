@@ -314,10 +314,14 @@ export default function HotelForm({
                     />
                   </Table.Cell>
                   <Table.Cell>
-                    <Flex gap='1'>
-                      {toReadableAmount(getValues(`hotels.${i}.total_cost`))}
+                    <Flex gap='1' align='end'>
+                      <Text color='blue'>
+                        {toReadableAmount(getValues(`hotels.${i}.total_cost`))}
+                      </Text>
                       <span>/</span>
-                      {toReadableAmount(getValues(`hotels.${i}.total_amount`))}
+                      <Text weight='bold' size='3'>
+                        {toReadableAmount(getValues(`hotels.${i}.total_amount`))}
+                      </Text>
                     </Flex>
                   </Table.Cell>
                   <Table.Cell>바우처 조회</Table.Cell>

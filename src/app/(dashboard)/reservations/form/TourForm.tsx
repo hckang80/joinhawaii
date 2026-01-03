@@ -319,10 +319,14 @@ export default function TourForm({
                     </Grid>
                   </Table.Cell>
                   <Table.Cell>
-                    <Flex gap='1'>
-                      {toReadableAmount(getValues(`tours.${i}.total_cost`))}
+                    <Flex gap='1' align='end'>
+                      <Text color='blue'>
+                        {toReadableAmount(getValues(`tours.${i}.total_cost`))}
+                      </Text>
                       <span>/</span>
-                      {toReadableAmount(getValues(`tours.${i}.total_amount`))}
+                      <Text weight='bold' size='3'>
+                        {toReadableAmount(getValues(`tours.${i}.total_amount`))}
+                      </Text>
                     </Flex>
                   </Table.Cell>
                   <Table.Cell>

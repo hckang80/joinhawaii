@@ -301,10 +301,14 @@ export default function RentalCarForm({
                     />
                   </Table.Cell>
                   <Table.Cell>
-                    <Flex gap='1'>
-                      {toReadableAmount(getValues(`rental_cars.${i}.total_cost`))}
+                    <Flex gap='1' align='end'>
+                      <Text color='blue'>
+                        {toReadableAmount(getValues(`rental_cars.${i}.total_cost`))}
+                      </Text>
                       <span>/</span>
-                      {toReadableAmount(getValues(`rental_cars.${i}.total_amount`))}
+                      <Text weight='bold' size='3'>
+                        {toReadableAmount(getValues(`rental_cars.${i}.total_amount`))}
+                      </Text>
                     </Flex>
                   </Table.Cell>
                   <Table.Cell>

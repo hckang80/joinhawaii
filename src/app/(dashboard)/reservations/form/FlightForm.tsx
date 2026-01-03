@@ -298,10 +298,14 @@ export default function FlightForm({
                     </Grid>
                   </Table.Cell>
                   <Table.Cell>
-                    <Flex gap='1'>
-                      {toReadableAmount(getValues(`flights.${i}.total_cost`), 'ko-KR', 'KRW')}
+                    <Flex gap='1' align='end'>
+                      <Text color='blue'>
+                        {toReadableAmount(getValues(`flights.${i}.total_cost`), 'ko-KR', 'KRW')}
+                      </Text>
                       <span>/</span>
-                      {toReadableAmount(getValues(`flights.${i}.total_amount`), 'ko-KR', 'KRW')}
+                      <Text weight='bold' size='3'>
+                        {toReadableAmount(getValues(`flights.${i}.total_amount`), 'ko-KR', 'KRW')}
+                      </Text>
                     </Flex>
                   </Table.Cell>
                   <Table.Cell>
