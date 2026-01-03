@@ -208,44 +208,60 @@ export default function RentalCarForm({
                     </Flex>
                   </Table.Cell>
                   <Table.Cell>
-                    <Controller
-                      name={`rental_cars.${i}.return_date`}
-                      control={control}
-                      render={({ field }) => {
-                        const pickupDate = watch(`rental_cars.${i}.pickup_date`);
-                        const dateString = field.value
-                          ? new Date(field.value).toISOString().slice(0, 10)
-                          : '';
-                        const minDate = pickupDate
-                          ? new Date(pickupDate).toISOString().slice(0, 10)
-                          : undefined;
+                    <Flex gap='1' wrap='wrap'>
+                      <Controller
+                        name={`rental_cars.${i}.return_date`}
+                        control={control}
+                        render={({ field }) => {
+                          const pickupDate = watch(`rental_cars.${i}.pickup_date`);
+                          const dateString = field.value
+                            ? new Date(field.value).toISOString().slice(0, 10)
+                            : '';
+                          const minDate = pickupDate
+                            ? new Date(pickupDate).toISOString().slice(0, 10)
+                            : undefined;
 
-                        return (
-                          <Flex gap='2'>
-                            <TextField.Root
-                              {...field}
-                              type='date'
-                              min={minDate}
-                              value={dateString}
-                              onChange={e => {
-                                const value = e.target.value;
-                                if (value) {
-                                  field.onChange(updateDateInISO(field.value, value));
-                                } else {
-                                  field.onChange(null);
-                                }
-                              }}
-                              onFocus={() => {
-                                if (!field.value && pickupDate) {
-                                  field.onChange(pickupDate);
-                                }
-                              }}
+                          return (
+                            <Flex gap='2'>
+                              <TextField.Root
+                                {...field}
+                                type='date'
+                                min={minDate}
+                                value={dateString}
+                                onChange={e => {
+                                  const value = e.target.value;
+                                  if (value) {
+                                    field.onChange(updateDateInISO(field.value, value));
+                                  } else {
+                                    field.onChange(null);
+                                  }
+                                }}
+                                onFocus={() => {
+                                  if (!field.value && pickupDate) {
+                                    field.onChange(pickupDate);
+                                  }
+                                }}
+                              />
+                              <TimeInput name={`rental_cars.${i}.return_date`} control={control} />
+                            </Flex>
+                          );
+                        }}
+                      />
+                      <Controller
+                        name={`rental_cars.${i}.return_location`}
+                        control={control}
+                        render={({ field }) => {
+                          return (
+                            <CustomSelectInput
+                              value={field.value}
+                              options={PICKUP_LOCATIONS}
+                              onChange={field.onChange}
+                              placeholder='픽업장소 선택'
                             />
-                            <TimeInput name={`rental_cars.${i}.return_date`} control={control} />
-                          </Flex>
-                        );
-                      }}
-                    />
+                          );
+                        }}
+                      />
+                    </Flex>
                   </Table.Cell>
                   <Table.Cell>
                     <Controller

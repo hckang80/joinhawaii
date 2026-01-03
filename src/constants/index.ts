@@ -222,7 +222,7 @@ export const defaultCarValues = {
   options: '',
   driver: '',
   pickup_location: '',
-  pickup_time: '',
+  return_location: '',
   rental_days: 1,
   daily_rate: 0,
   cost: 0,
