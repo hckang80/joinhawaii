@@ -139,11 +139,11 @@ export default function HotelForm({
                 <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>
               </Table.Row>
             </Table.Header>
-            {hotels.map((_hotel, i) => (
+            {hotels.map((hotel, i) => (
               <Table.Body
                 key={i}
                 className={clsx(
-                  hotels[i].status === 'Refunded' &&
+                  hotel.status === 'Refunded' &&
                     data.products.hotels[i]?.status === 'Refunded' &&
                     'is-disabled'
                 )}
