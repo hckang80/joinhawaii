@@ -251,7 +251,6 @@ export default function HotelForm({
                     <Controller
                       name={`hotels.${i}.room_type`}
                       control={control}
-                      rules={{ required: true }}
                       render={({ field }) => {
                         return (
                           <CustomSelectInput
