@@ -1,8 +1,10 @@
 // CustomSelectInput.tsx
 import { Flex, Select, TextField } from '@radix-ui/themes';
+import type { RefCallBack } from 'react-hook-form';
 import { CUSTOM_LABEL } from '../constants';
 
 export function CustomSelectInput({
+  ref,
   value,
   options,
   customLabel = CUSTOM_LABEL,
@@ -10,6 +12,7 @@ export function CustomSelectInput({
   placeholder = '',
   inputPlaceholder = ''
 }: {
+  ref?: RefCallBack;
   value: string;
   options: readonly string[];
   customLabel?: string;
@@ -41,6 +44,7 @@ export function CustomSelectInput({
       </Select.Root>
       {isCustom && (
         <TextField.Root
+          ref={ref}
           value={value === customLabel ? '' : value}
           placeholder={inputPlaceholder}
           onChange={e => onChange(e.target.value)}

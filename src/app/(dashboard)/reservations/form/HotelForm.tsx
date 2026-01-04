@@ -238,6 +238,7 @@ export default function HotelForm({
                       render={({ field }) => {
                         return (
                           <CustomSelectInput
+                            ref={field.ref}
                             value={field.value}
                             options={HOTELS}
                             onChange={field.onChange}
