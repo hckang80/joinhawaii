@@ -6,7 +6,7 @@ import type {
   AdditionalOptions,
   ProductType,
   ReservationFormData,
-  ReservationSuccessResponse
+  ReservationResponse
 } from '@/types';
 import { handleApiError, handleApiSuccess, toReadableAmount } from '@/utils';
 import { observable } from '@legendapp/state';
@@ -69,7 +69,7 @@ export default function ReservationsFormClientContainer({
     mutationFn: (formData: ReservationFormData) => {
       return isModify ? updateReservation(formData) : createReservation(formData);
     },
-    onSuccess: (result: { data: ReservationSuccessResponse }) => {
+    onSuccess: (result: { data: ReservationResponse }) => {
       handleApiSuccess(result);
       refetch();
     },
