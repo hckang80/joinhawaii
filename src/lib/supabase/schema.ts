@@ -5,6 +5,7 @@ export const RESERVATION_SELECT_QUERY = `
   main_client_name,
   booking_platform,
   total_amount,
+  total_cost,
   deposit,
   author,
   author_email,
