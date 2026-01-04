@@ -42,7 +42,9 @@ export default function FlightForm({
   mutation
 }: {
   data: ReservationResponse;
-  mutation: ReturnType<typeof useMutation<unknown, Error, ReservationFormData, unknown>>;
+  mutation: ReturnType<
+    typeof useMutation<{ data: ReservationResponse }, Error, ReservationFormData>
+  >;
 }) {
   const searchParams = useSearchParams();
   const reservation_id = searchParams.get('reservation_id')!;
@@ -71,7 +73,12 @@ export default function FlightForm({
   const onSubmit: SubmitHandler<ReservationFormData> = formData => {
     if (!isDirty) return toast.info('변경된 내용이 없습니다.');
     mutation.mutate(formData, {
-      onSuccess: () => reset(formData)
+      onSuccess: result => {
+        return reset({
+          ...formData,
+          flights: result.data.products.flights
+        });
+      }
     });
   };
 

@@ -8,12 +8,7 @@ import {
   TRAVEL_CATEGORIES,
   TRIP_TYPES
 } from '@/constants';
-import type {
-  ProductFormType,
-  ReservationFormData,
-  ReservationResponse,
-  ReservationSuccessResponse
-} from '@/types';
+import type { ProductFormType, ReservationFormData, ReservationResponse } from '@/types';
 import { isDev, toReadableDate } from '@/utils';
 import { observable } from '@legendapp/state';
 import { use$ } from '@legendapp/state/react';
@@ -46,7 +41,7 @@ export default function ClientForm({
 }: {
   data?: ReservationResponse;
   mutation: ReturnType<
-    typeof useMutation<{ data: ReservationSuccessResponse }, Error, ReservationFormData, unknown>
+    typeof useMutation<{ data: ReservationResponse }, Error, ReservationFormData, unknown>
   >;
 }) {
   const router = useRouter();
@@ -97,7 +92,7 @@ export default function ClientForm({
       {
         onSuccess: ({ data }) => {
           reset(formData);
-          redirectModifyForm(data.reservation_id);
+          if (data.reservation_id) redirectModifyForm(data.reservation_id);
         }
       }
     );

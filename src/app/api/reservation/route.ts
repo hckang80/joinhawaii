@@ -327,10 +327,23 @@ export async function PATCH(request: Request) {
     if (error) throw error;
     if (!updatedReservation) throw new Error('예약 정보를 찾을 수 없습니다.');
 
+    const reservation = await getReservation(supabase, reservation_id);
+
     return NextResponse.json({
       message: `[${reservation_id}] 예약 내용이 변경되었습니다`,
       success: true,
-      data: updatedReservation
+      data: {
+        ...updatedReservation,
+        products: reservation
+          ? {
+              flights: reservation.flights,
+              hotels: reservation.hotels,
+              tours: reservation.tours,
+              rental_cars: reservation.rental_cars,
+              insurances: reservation.insurances
+            }
+          : undefined
+      }
     });
   } catch (error) {
     console.error('예약 업데이트 에러:', error);
