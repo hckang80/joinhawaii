@@ -15,7 +15,7 @@ import type {
   ReservationFormData,
   ReservationResponse
 } from '@/types';
-import { isDev, normalizeNumber, toReadableAmount, updateDateInISO } from '@/utils';
+import { isDev, isRefunded, normalizeNumber, toReadableAmount, updateDateInISO } from '@/utils';
 import {
   Box,
   Button,
@@ -30,6 +30,7 @@ import {
   TextField
 } from '@radix-ui/themes';
 import { useMutation } from '@tanstack/react-query';
+import clsx from 'clsx';
 import { Car, Minus, Plus, Save } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useMemo } from 'react';
@@ -137,8 +138,13 @@ export default function RentalCarForm({
                 <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>
               </Table.Row>
             </Table.Header>
-            {rentalCars.map((_car, i) => (
-              <Table.Body key={i}>
+            {rentalCars.map((car, i) => (
+              <Table.Body
+                key={i}
+                className={clsx(
+                  isRefunded(car.status, data.products.rental_cars[i]?.status) && 'is-disabled'
+                )}
+              >
                 <Table.Row>
                   <Table.Cell>
                     <Controller

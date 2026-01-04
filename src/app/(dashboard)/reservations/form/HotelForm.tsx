@@ -14,7 +14,7 @@ import type {
   ReservationFormData,
   ReservationResponse
 } from '@/types';
-import { isDev, normalizeNumber, toReadableAmount } from '@/utils';
+import { isDev, isRefunded, normalizeNumber, toReadableAmount } from '@/utils';
 import {
   Box,
   Button,
@@ -30,6 +30,7 @@ import {
   TextField
 } from '@radix-ui/themes';
 import { useMutation } from '@tanstack/react-query';
+import clsx from 'clsx';
 import { Hotel, Minus, Plus, Save } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useMemo } from 'react';
@@ -138,8 +139,13 @@ export default function HotelForm({
                 <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>
               </Table.Row>
             </Table.Header>
-            {hotels.map((_hotel, i) => (
-              <Table.Body key={i}>
+            {hotels.map((hotel, i) => (
+              <Table.Body
+                key={i}
+                className={clsx(
+                  isRefunded(hotel.status, data.products.hotels[i]?.status) && 'is-disabled'
+                )}
+              >
                 <Table.Row>
                   <Table.Cell>
                     <Controller

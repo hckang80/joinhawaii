@@ -7,7 +7,13 @@ import type {
   ReservationFormData,
   ReservationResponse
 } from '@/types';
-import { calculateTotalAmount, isDev, normalizeNumber, toReadableAmount } from '@/utils';
+import {
+  calculateTotalAmount,
+  isDev,
+  isRefunded,
+  normalizeNumber,
+  toReadableAmount
+} from '@/utils';
 import {
   Box,
   Button,
@@ -23,6 +29,7 @@ import {
   TextField
 } from '@radix-ui/themes';
 import { useMutation } from '@tanstack/react-query';
+import clsx from 'clsx';
 import { Binoculars, Minus, Plus, Save } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useMemo } from 'react';
@@ -125,8 +132,13 @@ export default function TourForm({
                 <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>
               </Table.Row>
             </Table.Header>
-            {tours.map((_tour, i) => (
-              <Table.Body key={i}>
+            {tours.map((tour, i) => (
+              <Table.Body
+                key={i}
+                className={clsx(
+                  isRefunded(tour.status, data.products.tours[i]?.status) && 'is-disabled'
+                )}
+              >
                 <Table.Row>
                   <Table.Cell>
                     <Controller
