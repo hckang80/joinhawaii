@@ -130,11 +130,7 @@ export default function FlightForm({
                     <DateTimeInput name={`flights.${i}.departure_datetime`} control={control} />
                   </Table.Cell>
                   <Table.Cell>
-                    <TextField.Root
-                      {...register(`flights.${i}.departure_city`, {
-                        required: true
-                      })}
-                    />
+                    <TextField.Root {...register(`flights.${i}.departure_city`)} />
                   </Table.Cell>
                   <Table.Cell>
                     <Controller
@@ -178,9 +174,7 @@ export default function FlightForm({
                   </Table.Cell>
                   <Table.Cell>
                     <TextField.Root
-                      {...register(`flights.${i}.arrival_city`, {
-                        required: true
-                      })}
+                      {...register(`flights.${i}.arrival_city`)}
                       placeholder='호놀룰루'
                     />
                   </Table.Cell>
@@ -193,10 +187,7 @@ export default function FlightForm({
                           min='0'
                           color='blue'
                           variant='soft'
-                          {...register(`flights.${i}.adult_cost`, {
-                            required: true,
-                            valueAsNumber: true
-                          })}
+                          {...register(`flights.${i}.adult_cost`)}
                         />
                       </Flex>
                       <Flex direction='column'>
@@ -207,7 +198,6 @@ export default function FlightForm({
                           color='blue'
                           variant='soft'
                           {...register(`flights.${i}.children_cost`, {
-                            required: true,
                             valueAsNumber: true
                           })}
                         />
@@ -221,7 +211,6 @@ export default function FlightForm({
                           variant='soft'
                           readOnly
                           {...register(`flights.${i}.kids_cost`, {
-                            required: true,
                             valueAsNumber: true
                           })}
                         />
@@ -238,7 +227,6 @@ export default function FlightForm({
                           color='orange'
                           variant='soft'
                           {...register(`flights.${i}.adult_price`, {
-                            required: true,
                             valueAsNumber: true
                           })}
                         />
@@ -251,7 +239,6 @@ export default function FlightForm({
                           color='orange'
                           variant='soft'
                           {...register(`flights.${i}.children_price`, {
-                            required: true,
                             valueAsNumber: true
                           })}
                         />
@@ -265,7 +252,6 @@ export default function FlightForm({
                           variant='soft'
                           readOnly
                           {...register(`flights.${i}.kids_price`, {
-                            required: true,
                             valueAsNumber: true
                           })}
                         />
@@ -280,7 +266,6 @@ export default function FlightForm({
                           type='number'
                           min='0'
                           {...register(`flights.${i}.adult_count`, {
-                            required: true,
                             valueAsNumber: true
                           })}
                         />
@@ -291,7 +276,6 @@ export default function FlightForm({
                           type='number'
                           min='0'
                           {...register(`flights.${i}.children_count`, {
-                            required: true,
                             valueAsNumber: true
                           })}
                         />
@@ -302,7 +286,6 @@ export default function FlightForm({
                           type='number'
                           min='0'
                           {...register(`flights.${i}.kids_count`, {
-                            required: true,
                             valueAsNumber: true
                           })}
                         />
