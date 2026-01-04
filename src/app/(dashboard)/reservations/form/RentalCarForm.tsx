@@ -50,7 +50,9 @@ export default function RentalCarForm({
   handleAdditionalOptions
 }: {
   data: ReservationResponse;
-  mutation: ReturnType<typeof useMutation<unknown, Error, ReservationFormData, unknown>>;
+  mutation: ReturnType<
+    typeof useMutation<{ data: ReservationResponse }, Error, ReservationFormData>
+  >;
   handleAdditionalOptions: (context: {
     id: number;
     type: ProductType;
@@ -96,7 +98,12 @@ export default function RentalCarForm({
     };
 
     mutation.mutate(normalized, {
-      onSuccess: () => reset(normalized)
+      onSuccess: result => {
+        return reset({
+          ...normalized,
+          rental_cars: result.data.products.rental_cars
+        });
+      }
     });
   };
 

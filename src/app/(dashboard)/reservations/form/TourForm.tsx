@@ -49,7 +49,9 @@ export default function TourForm({
   handleAdditionalOptions
 }: {
   data: ReservationResponse;
-  mutation: ReturnType<typeof useMutation<unknown, Error, ReservationFormData, unknown>>;
+  mutation: ReturnType<
+    typeof useMutation<{ data: ReservationResponse }, Error, ReservationFormData>
+  >;
   handleAdditionalOptions: (context: {
     id: number;
     type: ProductType;
@@ -93,7 +95,12 @@ export default function TourForm({
     };
 
     mutation.mutate(normalized, {
-      onSuccess: () => reset(normalized)
+      onSuccess: result => {
+        return reset({
+          ...normalized,
+          tours: result.data.products.tours
+        });
+      }
     });
   };
 
