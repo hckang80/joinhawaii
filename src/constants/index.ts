@@ -183,9 +183,9 @@ export const defaultPeopleValues = {
 
 export const defaultFlightValues = {
   flight_number: '',
-  departure_datetime: '',
+  departure_datetime: null,
   departure_city: '',
-  arrival_datetime: '',
+  arrival_datetime: null,
   arrival_city: '',
   ...defaultPeopleValues,
   ...defaultProductValues,
@@ -194,8 +194,8 @@ export const defaultFlightValues = {
 
 export const defaultHotelValues = {
   region: REGIONS[0],
-  check_in_date: '',
-  check_out_date: '',
+  check_in_date: null,
+  check_out_date: null,
   hotel_name: '',
   room_type: '',
   is_breakfast_included: false,
@@ -209,7 +209,7 @@ export const defaultHotelValues = {
 
 export const defaultTourValues = {
   region: REGIONS[0],
-  start_date: '',
+  start_date: null,
   name: '',
   ...defaultPeopleValues,
   ...defaultProductValues,
@@ -218,8 +218,8 @@ export const defaultTourValues = {
 
 export const defaultCarValues = {
   region: REGIONS[0],
-  pickup_date: '',
-  return_date: '',
+  pickup_date: null,
+  return_date: null,
   model: '',
   options: '',
   driver: '',
@@ -235,8 +235,8 @@ export const defaultCarValues = {
 export const defaultInsuranceValues = {
   company: '',
   days: 1,
-  start_date: '',
-  end_date: '',
+  start_date: null,
+  end_date: null,
   ...defaultPeopleValues,
   ...defaultProductValues,
   ...additionalOptions
