@@ -146,7 +146,9 @@ export default function InsuranceForm({
                 <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='80px'>💰요금</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='70px'>수량</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell width='180px'>합계(원가/요금)</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell width='180px'>
+                  합계(<Text color='blue'>원가</Text>/판매가)
+                </Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='110px'>진행상태</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='70px'>추가옵션</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>

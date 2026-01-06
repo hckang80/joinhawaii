@@ -139,7 +139,9 @@ export default function HotelForm({
                 <Table.ColumnHeaderCell width='70px'>리조트피</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='80px'>💰1박요금</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell width='180px'>합계(원가/요금)</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell width='180px'>
+                  합계(<Text color='blue'>원가</Text>/판매가)
+                </Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='90px'>CF#/VC#</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='110px'>진행상태</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='70px'>추가옵션</Table.ColumnHeaderCell>
