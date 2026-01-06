@@ -158,14 +158,50 @@ export default function ReservationsFormClientContainer({
                     <Table.RowHeaderCell>호텔</Table.RowHeaderCell>
                     <Table.Cell>
                       <Grid>
-                        <span>{toReadableAmount(data?.total_cost)}</span>
-                        <span>{toReadableAmount(data?.total_cost_krw, 'ko-KR', 'KRW')}</span>
+                        <span>
+                          {toReadableAmount(
+                            data?.products.hotels.reduce(
+                              (prev, curr) =>
+                                prev + (curr.status !== 'Refunded' ? curr.total_cost : 0),
+                              0
+                            )
+                          )}
+                        </span>
+                        <span>
+                          {toReadableAmount(
+                            data?.products.hotels.reduce(
+                              (prev, curr) =>
+                                prev + (curr.status !== 'Refunded' ? curr.total_cost_krw : 0),
+                              0
+                            ),
+                            'ko-KR',
+                            'KRW'
+                          )}
+                        </span>
                       </Grid>
                     </Table.Cell>
                     <Table.Cell>
                       <Grid>
-                        <span>{toReadableAmount(data?.total_amount)}</span>
-                        <span>{toReadableAmount(data?.total_amount_krw, 'ko-KR', 'KRW')}</span>
+                        <span>
+                          {toReadableAmount(
+                            data?.products.hotels.reduce(
+                              (prev, curr) =>
+                                prev + (curr.status !== 'Refunded' ? curr.total_amount : 0),
+                              0
+                            )
+                          )}
+                        </span>
+                        <span>
+                          {toReadableAmount(
+                            data?.products.hotels.reduce(
+                              (prev, curr) =>
+                                prev + (curr.status !== 'Refunded' ? curr.total_amount_krw : 0),
+                              0
+                            ),
+                            'ko-KR',
+                            'KRW'
+                          )}
+                        </span>
                       </Grid>
                     </Table.Cell>
                   </Table.Row>
