@@ -159,71 +159,11 @@ export default function ReservationsFormClientContainer({
                 </Table.Header>
                 <Table.Body>
                   <Table.Row>
-                    <Table.ColumnHeaderCell>원가</Table.ColumnHeaderCell>
-                    {PRODUCT_OPTIONS.map(product => (
-                      <Table.Cell key={product.value}>
-                        <Grid>
-                          <span>
-                            {toReadableAmount(
-                              data?.products[product.table].reduce(
-                                (prev, curr) =>
-                                  prev + (curr.status !== 'Refunded' ? curr.total_cost : 0),
-                                0
-                              )
-                            )}
-                          </span>
-                          {/* <span>
-                            {toReadableAmount(
-                              data?.products[product.table].reduce(
-                                (prev, curr) =>
-                                  prev + (curr.status !== 'Refunded' ? curr.total_cost_krw : 0),
-                                0
-                              ),
-                              'ko-KR',
-                              'KRW'
-                            )}
-                          </span> */}
-                          <span>
-                            {toReadableAmount(
-                              data?.products[product.table].reduce(
-                                (prev, curr) =>
-                                  prev +
-                                  (curr.status !== 'Refunded'
-                                    ? curr.additional_options?.reduce(
-                                        (sum, opt) =>
-                                          sum + (opt.status !== 'Refunded' ? opt.total_cost : 0),
-                                        0
-                                      )
-                                    : 0),
-                                0
-                              )
-                            )}
-                          </span>
-                          {/* <span>
-                            {toReadableAmount(
-                              data?.products[product.table].reduce(
-                                (prev, curr) =>
-                                  prev +
-                                  (curr.status !== 'Refunded'
-                                    ? curr.additional_options?.reduce(
-                                        (sum, opt) =>
-                                          sum +
-                                          (opt.status !== 'Refunded' ? opt.total_cost_krw : 0),
-                                        0
-                                      )
-                                    : 0),
-                                0
-                              ),
-                              'ko-KR',
-                              'KRW'
-                            )}
-                          </span> */}
-                        </Grid>
-                      </Table.Cell>
-                    ))}
-                  </Table.Row>
-                  <Table.Row>
-                    <Table.ColumnHeaderCell>판매가</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell align='right'>
+                      상품
+                      <br />
+                      추가옵션
+                    </Table.ColumnHeaderCell>
                     {PRODUCT_OPTIONS.map(product => (
                       <Table.Cell key={product.value}>
                         <Grid>
@@ -236,17 +176,6 @@ export default function ReservationsFormClientContainer({
                               )
                             )}
                           </span>
-                          {/* <span>
-                            {toReadableAmount(
-                              data?.products[product.table].reduce(
-                                (prev, curr) =>
-                                  prev + (curr.status !== 'Refunded' ? curr.total_amount_krw : 0),
-                                0
-                              ),
-                              'ko-KR',
-                              'KRW'
-                            )}
-                          </span> */}
                           <span>
                             {toReadableAmount(
                               data?.products[product.table].reduce(
@@ -263,25 +192,6 @@ export default function ReservationsFormClientContainer({
                               )
                             )}
                           </span>
-                          {/* <span>
-                            {toReadableAmount(
-                              data?.products[product.table].reduce(
-                                (prev, curr) =>
-                                  prev +
-                                  (curr.status !== 'Refunded'
-                                    ? curr.additional_options?.reduce(
-                                        (sum, opt) =>
-                                          sum +
-                                          (opt.status !== 'Refunded' ? opt.total_amount_krw : 0),
-                                        0
-                                      )
-                                    : 0),
-                                0
-                              ),
-                              'ko-KR',
-                              'KRW'
-                            )}
-                          </span> */}
                         </Grid>
                       </Table.Cell>
                     ))}
