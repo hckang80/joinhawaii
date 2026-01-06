@@ -1,5 +1,6 @@
 'use client';
 
+import { PRODUCT_OPTIONS } from '@/constants';
 import { createReservation, updateReservation } from '@/http';
 import { reservationQueryOptions } from '@/lib/queries';
 import type {
@@ -154,57 +155,59 @@ export default function ReservationsFormClientContainer({
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                  <Table.Row>
-                    <Table.RowHeaderCell>호텔</Table.RowHeaderCell>
-                    <Table.Cell>
-                      <Grid>
-                        <span>
-                          {toReadableAmount(
-                            data?.products.hotels.reduce(
-                              (prev, curr) =>
-                                prev + (curr.status !== 'Refunded' ? curr.total_cost : 0),
-                              0
-                            )
-                          )}
-                        </span>
-                        <span>
-                          {toReadableAmount(
-                            data?.products.hotels.reduce(
-                              (prev, curr) =>
-                                prev + (curr.status !== 'Refunded' ? curr.total_cost_krw : 0),
-                              0
-                            ),
-                            'ko-KR',
-                            'KRW'
-                          )}
-                        </span>
-                      </Grid>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Grid>
-                        <span>
-                          {toReadableAmount(
-                            data?.products.hotels.reduce(
-                              (prev, curr) =>
-                                prev + (curr.status !== 'Refunded' ? curr.total_amount : 0),
-                              0
-                            )
-                          )}
-                        </span>
-                        <span>
-                          {toReadableAmount(
-                            data?.products.hotels.reduce(
-                              (prev, curr) =>
-                                prev + (curr.status !== 'Refunded' ? curr.total_amount_krw : 0),
-                              0
-                            ),
-                            'ko-KR',
-                            'KRW'
-                          )}
-                        </span>
-                      </Grid>
-                    </Table.Cell>
-                  </Table.Row>
+                  {PRODUCT_OPTIONS.map(product => (
+                    <Table.Row key={product.label}>
+                      <Table.RowHeaderCell>{product.label}</Table.RowHeaderCell>
+                      <Table.Cell>
+                        <Grid>
+                          <span>
+                            {toReadableAmount(
+                              data?.products[product.table].reduce(
+                                (prev, curr) =>
+                                  prev + (curr.status !== 'Refunded' ? curr.total_cost : 0),
+                                0
+                              )
+                            )}
+                          </span>
+                          <span>
+                            {toReadableAmount(
+                              data?.products[product.table].reduce(
+                                (prev, curr) =>
+                                  prev + (curr.status !== 'Refunded' ? curr.total_cost_krw : 0),
+                                0
+                              ),
+                              'ko-KR',
+                              'KRW'
+                            )}
+                          </span>
+                        </Grid>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Grid>
+                          <span>
+                            {toReadableAmount(
+                              data?.products[product.table].reduce(
+                                (prev, curr) =>
+                                  prev + (curr.status !== 'Refunded' ? curr.total_amount : 0),
+                                0
+                              )
+                            )}
+                          </span>
+                          <span>
+                            {toReadableAmount(
+                              data?.products[product.table].reduce(
+                                (prev, curr) =>
+                                  prev + (curr.status !== 'Refunded' ? curr.total_amount_krw : 0),
+                                0
+                              ),
+                              'ko-KR',
+                              'KRW'
+                            )}
+                          </span>
+                        </Grid>
+                      </Table.Cell>
+                    </Table.Row>
+                  ))}
                 </Table.Body>
               </Table.Root>
             </Box>
