@@ -146,7 +146,7 @@ export default function ReservationsFormClientContainer({
             className={styles['exchange-rate-card']}
           >
             <Box>
-              <Table.Root>
+              <Table.Root size='1' variant='surface'>
                 <Table.Header>
                   <Table.Row>
                     <Table.ColumnHeaderCell>상품 종류</Table.ColumnHeaderCell>
