@@ -172,7 +172,7 @@ export default function ReservationsFormClientContainer({
                               )
                             )}
                           </span>
-                          <span>
+                          {/* <span>
                             {toReadableAmount(
                               data?.products[product.table].reduce(
                                 (prev, curr) =>
@@ -182,7 +182,7 @@ export default function ReservationsFormClientContainer({
                               'ko-KR',
                               'KRW'
                             )}
-                          </span>
+                          </span> */}
                           <span>
                             {toReadableAmount(
                               data?.products[product.table].reduce(
@@ -199,7 +199,7 @@ export default function ReservationsFormClientContainer({
                               )
                             )}
                           </span>
-                          <span>
+                          {/* <span>
                             {toReadableAmount(
                               data?.products[product.table].reduce(
                                 (prev, curr) =>
@@ -217,7 +217,7 @@ export default function ReservationsFormClientContainer({
                               'ko-KR',
                               'KRW'
                             )}
-                          </span>
+                          </span> */}
                         </Grid>
                       </Table.Cell>
                     ))}
@@ -236,7 +236,7 @@ export default function ReservationsFormClientContainer({
                               )
                             )}
                           </span>
-                          <span>
+                          {/* <span>
                             {toReadableAmount(
                               data?.products[product.table].reduce(
                                 (prev, curr) =>
@@ -246,7 +246,7 @@ export default function ReservationsFormClientContainer({
                               'ko-KR',
                               'KRW'
                             )}
-                          </span>
+                          </span> */}
                           <span>
                             {toReadableAmount(
                               data?.products[product.table].reduce(
@@ -263,7 +263,7 @@ export default function ReservationsFormClientContainer({
                               )
                             )}
                           </span>
-                          <span>
+                          {/* <span>
                             {toReadableAmount(
                               data?.products[product.table].reduce(
                                 (prev, curr) =>
@@ -281,7 +281,7 @@ export default function ReservationsFormClientContainer({
                               'ko-KR',
                               'KRW'
                             )}
-                          </span>
+                          </span> */}
                         </Grid>
                       </Table.Cell>
                     ))}
