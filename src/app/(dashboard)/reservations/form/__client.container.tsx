@@ -10,7 +10,7 @@ import type {
 } from '@/types';
 import { handleApiError, handleApiSuccess, toReadableAmount } from '@/utils';
 import { observable } from '@legendapp/state';
-import { Box, Button, Flex, Heading, Text, TextField } from '@radix-ui/themes';
+import { Box, Button, Flex, Grid, Heading, Table, Text, TextField } from '@radix-ui/themes';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { Controller, type SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -137,7 +137,41 @@ export default function ReservationsFormClientContainer({
             />
           )}
 
-          <Box position='sticky' bottom='5' className={styles['exchange-rate-card']}>
+          <Flex
+            justify='end'
+            gap='9'
+            position='sticky'
+            bottom='5'
+            className={styles['exchange-rate-card']}
+          >
+            <Box>
+              <Table.Root>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.ColumnHeaderCell>상품 종류</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell>원가</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell>판매가</Table.ColumnHeaderCell>
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                  <Table.Row>
+                    <Table.RowHeaderCell>호텔</Table.RowHeaderCell>
+                    <Table.Cell>
+                      <Grid>
+                        <span>{toReadableAmount(data?.total_cost)}</span>
+                        <span>{toReadableAmount(data?.total_cost_krw, 'ko-KR', 'KRW')}</span>
+                      </Grid>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Grid>
+                        <span>{toReadableAmount(data?.total_amount)}</span>
+                        <span>{toReadableAmount(data?.total_amount_krw, 'ko-KR', 'KRW')}</span>
+                      </Grid>
+                    </Table.Cell>
+                  </Table.Row>
+                </Table.Body>
+              </Table.Root>
+            </Box>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Flex direction='column' align='end' gap='2'>
                 <Flex align='center' gap='1'>
@@ -198,7 +232,7 @@ export default function ReservationsFormClientContainer({
                 환율이 입력된 상품만 한화에 반영됩니다.
               </Text>
             </form>
-          </Box>
+          </Flex>
         </div>
       </Flex>
 
