@@ -146,19 +146,22 @@ export default function ReservationsFormClientContainer({
             className={styles['exchange-rate-card']}
           >
             <Box>
-              <Table.Root size='1' variant='surface'>
+              <Table.Root variant='surface'>
                 <Table.Header>
                   <Table.Row>
                     <Table.ColumnHeaderCell>상품 종류</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell>원가</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell>판매가</Table.ColumnHeaderCell>
+                    {PRODUCT_OPTIONS.map(product => (
+                      <Table.ColumnHeaderCell key={product.value}>
+                        {product.label}
+                      </Table.ColumnHeaderCell>
+                    ))}
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                  {PRODUCT_OPTIONS.map(product => (
-                    <Table.Row key={product.label}>
-                      <Table.RowHeaderCell>{product.label}</Table.RowHeaderCell>
-                      <Table.Cell>
+                  <Table.Row>
+                    <Table.ColumnHeaderCell>원가</Table.ColumnHeaderCell>
+                    {PRODUCT_OPTIONS.map(product => (
+                      <Table.Cell key={product.value}>
                         <Grid>
                           <span>
                             {toReadableAmount(
@@ -182,7 +185,12 @@ export default function ReservationsFormClientContainer({
                           </span>
                         </Grid>
                       </Table.Cell>
-                      <Table.Cell>
+                    ))}
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.ColumnHeaderCell>판매가</Table.ColumnHeaderCell>
+                    {PRODUCT_OPTIONS.map(product => (
+                      <Table.Cell key={product.value}>
                         <Grid>
                           <span>
                             {toReadableAmount(
@@ -206,8 +214,8 @@ export default function ReservationsFormClientContainer({
                           </span>
                         </Grid>
                       </Table.Cell>
-                    </Table.Row>
-                  ))}
+                    ))}
+                  </Table.Row>
                 </Table.Body>
               </Table.Root>
             </Box>
