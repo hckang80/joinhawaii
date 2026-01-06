@@ -1,5 +1,6 @@
 'use client';
 
+import { PRODUCT_OPTIONS } from '@/constants';
 import { createReservation, updateReservation } from '@/http';
 import { reservationQueryOptions } from '@/lib/queries';
 import type {
@@ -10,7 +11,7 @@ import type {
 } from '@/types';
 import { handleApiError, handleApiSuccess, toReadableAmount } from '@/utils';
 import { observable } from '@legendapp/state';
-import { Box, Button, Flex, Heading, Text, TextField } from '@radix-ui/themes';
+import { Box, Button, Flex, Grid, Heading, Table, Text, TextField } from '@radix-ui/themes';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { Controller, type SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -137,7 +138,87 @@ export default function ReservationsFormClientContainer({
             />
           )}
 
-          <Box position='sticky' bottom='5' className={styles['exchange-rate-card']}>
+          <Flex
+            justify='end'
+            gap='9'
+            position='sticky'
+            bottom='5'
+            className={styles['exchange-rate-card']}
+          >
+            <Box>
+              <Table.Root variant='surface'>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.ColumnHeaderCell>상품 종류</Table.ColumnHeaderCell>
+                    {PRODUCT_OPTIONS.map(product => (
+                      <Table.ColumnHeaderCell key={product.value}>
+                        {product.label}
+                      </Table.ColumnHeaderCell>
+                    ))}
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                  <Table.Row>
+                    <Table.ColumnHeaderCell>원가</Table.ColumnHeaderCell>
+                    {PRODUCT_OPTIONS.map(product => (
+                      <Table.Cell key={product.value}>
+                        <Grid>
+                          <span>
+                            {toReadableAmount(
+                              data?.products[product.table].reduce(
+                                (prev, curr) =>
+                                  prev + (curr.status !== 'Refunded' ? curr.total_cost : 0),
+                                0
+                              )
+                            )}
+                          </span>
+                          <span>
+                            {toReadableAmount(
+                              data?.products[product.table].reduce(
+                                (prev, curr) =>
+                                  prev + (curr.status !== 'Refunded' ? curr.total_cost_krw : 0),
+                                0
+                              ),
+                              'ko-KR',
+                              'KRW'
+                            )}
+                          </span>
+                        </Grid>
+                      </Table.Cell>
+                    ))}
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.ColumnHeaderCell>판매가</Table.ColumnHeaderCell>
+                    {PRODUCT_OPTIONS.map(product => (
+                      <Table.Cell key={product.value}>
+                        <Grid>
+                          <span>
+                            {toReadableAmount(
+                              data?.products[product.table].reduce(
+                                (prev, curr) =>
+                                  prev + (curr.status !== 'Refunded' ? curr.total_amount : 0),
+                                0
+                              )
+                            )}
+                          </span>
+                          <span>
+                            {toReadableAmount(
+                              data?.products[product.table].reduce(
+                                (prev, curr) =>
+                                  prev + (curr.status !== 'Refunded' ? curr.total_amount_krw : 0),
+                                0
+                              ),
+                              'ko-KR',
+                              'KRW'
+                            )}
+                          </span>
+                        </Grid>
+                      </Table.Cell>
+                    ))}
+                  </Table.Row>
+                </Table.Body>
+              </Table.Root>
+            </Box>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Flex direction='column' align='end' gap='2'>
                 <Flex align='center' gap='1'>
@@ -198,7 +279,7 @@ export default function ReservationsFormClientContainer({
                 환율이 입력된 상품만 한화에 반영됩니다.
               </Text>
             </form>
-          </Box>
+          </Flex>
         </div>
       </Flex>
 

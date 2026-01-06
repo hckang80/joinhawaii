@@ -1,5 +1,11 @@
 import type { selectTriggerPropDefs } from '@radix-ui/themes/components/select.props';
-import type { AdditionalOptions, PaymentStatusKey, ProductStatusKey, ProductType } from '../types';
+import type {
+  AdditionalOptions,
+  PaymentStatusKey,
+  ProductStatusKey,
+  ProductsType,
+  ProductType
+} from '../types';
 
 export * from './query-keys';
 
@@ -275,26 +281,31 @@ export const PAYMENT_STATUS_COLOR: Record<
   Refunded: 'red'
 };
 
-export const PRODUCT_OPTIONS: { label: string; value: ProductType }[] = [
+export const PRODUCT_OPTIONS: { label: string; value: ProductType; table: ProductsType }[] = [
   {
     label: '항공',
-    value: 'flight'
+    value: 'flight',
+    table: 'flights'
   },
   {
     label: '호텔',
-    value: 'hotel'
+    value: 'hotel',
+    table: 'hotels'
   },
   {
     label: '선택관광',
-    value: 'tour'
+    value: 'tour',
+    table: 'tours'
   },
   {
     label: '렌터카',
-    value: 'rental_car'
+    value: 'rental_car',
+    table: 'rental_cars'
   },
   {
     label: '보험',
-    value: 'insurance'
+    value: 'insurance',
+    table: 'insurances'
   }
 ];
 
