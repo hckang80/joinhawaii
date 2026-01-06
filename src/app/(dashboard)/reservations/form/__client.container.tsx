@@ -169,29 +169,43 @@ export default function ReservationsFormClientContainer({
                       <Table.Cell key={product.value} width='100px' align='right'>
                         <Grid>
                           <Text size='3'>
-                            {toReadableAmount(
-                              data?.products[product.table].reduce(
-                                (prev, curr) =>
-                                  prev + (curr.status !== 'Refunded' ? curr.total_amount : 0),
-                                0
-                              )
-                            )}
+                            {product.value === 'flight'
+                              ? toReadableAmount(
+                                  data?.products[product.table].reduce(
+                                    (prev, curr) =>
+                                      prev +
+                                      (curr.status !== 'Refunded' ? curr.total_amount_krw : 0),
+                                    0
+                                  ),
+                                  'ko-KR',
+                                  'KRW'
+                                )
+                              : toReadableAmount(
+                                  data?.products[product.table].reduce(
+                                    (prev, curr) =>
+                                      prev + (curr.status !== 'Refunded' ? curr.total_amount : 0),
+                                    0
+                                  )
+                                )}
                           </Text>
                           <Text>
-                            {toReadableAmount(
-                              data?.products[product.table].reduce(
-                                (prev, curr) =>
-                                  prev +
-                                  (curr.status !== 'Refunded'
-                                    ? curr.additional_options?.reduce(
-                                        (sum, opt) =>
-                                          sum + (opt.status !== 'Refunded' ? opt.total_amount : 0),
-                                        0
-                                      )
-                                    : 0),
-                                0
-                              )
-                            )}
+                            {product.value === 'flight'
+                              ? '-'
+                              : toReadableAmount(
+                                  data?.products[product.table].reduce(
+                                    (prev, curr) =>
+                                      prev +
+                                      (curr.status !== 'Refunded'
+                                        ? curr.additional_options?.reduce(
+                                            (sum, opt) =>
+                                              sum +
+                                              (opt.status !== 'Refunded' ? opt.total_amount : 0),
+                                            0
+                                          )
+                                        : 0),
+                                    0
+                                  )
+                                )}
                           </Text>
                         </Grid>
                       </Table.Cell>
