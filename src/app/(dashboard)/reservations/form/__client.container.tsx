@@ -166,7 +166,7 @@ export default function ReservationsFormClientContainer({
                       <Text as='div'>추가옵션</Text>
                     </Table.ColumnHeaderCell>
                     {PRODUCT_OPTIONS.map(product => (
-                      <Table.Cell key={product.value}>
+                      <Table.Cell key={product.value} width='100px'>
                         <Grid>
                           <Text size='3'>
                             {toReadableAmount(
