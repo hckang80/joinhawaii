@@ -151,7 +151,7 @@ export default function ReservationsFormClientContainer({
                   <Table.Row>
                     <Table.ColumnHeaderCell>상품 종류</Table.ColumnHeaderCell>
                     {PRODUCT_OPTIONS.map(product => (
-                      <Table.ColumnHeaderCell key={product.value}>
+                      <Table.ColumnHeaderCell key={product.value} align='right'>
                         {product.label}
                       </Table.ColumnHeaderCell>
                     ))}
@@ -166,7 +166,7 @@ export default function ReservationsFormClientContainer({
                       <Text as='div'>추가옵션</Text>
                     </Table.ColumnHeaderCell>
                     {PRODUCT_OPTIONS.map(product => (
-                      <Table.Cell key={product.value} width='100px'>
+                      <Table.Cell key={product.value} width='100px' align='right'>
                         <Grid>
                           <Text size='3'>
                             {toReadableAmount(
