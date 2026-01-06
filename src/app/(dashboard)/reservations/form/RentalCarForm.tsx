@@ -356,7 +356,7 @@ export default function RentalCarForm({
                   </Table.Cell>
                   <Table.Cell>
                     <Flex gap='1' align='end'>
-                      <Text color='blue'>
+                      <Text color='blue' size='3'>
                         {toReadableAmount(getValues(`rental_cars.${i}.total_cost`))}
                       </Text>
                       <span>/</span>
