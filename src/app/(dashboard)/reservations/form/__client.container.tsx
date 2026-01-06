@@ -160,14 +160,15 @@ export default function ReservationsFormClientContainer({
                 <Table.Body>
                   <Table.Row>
                     <Table.ColumnHeaderCell align='right'>
-                      상품
-                      <br />
-                      추가옵션
+                      <Text as='div' size='3'>
+                        상품
+                      </Text>
+                      <Text as='div'>추가옵션</Text>
                     </Table.ColumnHeaderCell>
                     {PRODUCT_OPTIONS.map(product => (
                       <Table.Cell key={product.value}>
                         <Grid>
-                          <span>
+                          <Text size='3'>
                             {toReadableAmount(
                               data?.products[product.table].reduce(
                                 (prev, curr) =>
@@ -175,8 +176,8 @@ export default function ReservationsFormClientContainer({
                                 0
                               )
                             )}
-                          </span>
-                          <span>
+                          </Text>
+                          <Text>
                             {toReadableAmount(
                               data?.products[product.table].reduce(
                                 (prev, curr) =>
@@ -191,7 +192,7 @@ export default function ReservationsFormClientContainer({
                                 0
                               )
                             )}
-                          </span>
+                          </Text>
                         </Grid>
                       </Table.Cell>
                     ))}
