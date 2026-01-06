@@ -341,13 +341,19 @@ export default function HotelForm({
                     <Flex gap='1'>
                       <Text color='blue'>
                         {toReadableAmount(
-                          hotel.additional_options.reduce((sum, opt) => sum + opt.total_cost, 0)
+                          (hotel.additional_options || []).reduce(
+                            (sum, opt) => sum + opt.total_cost,
+                            0
+                          )
                         )}
                       </Text>
                       <span>/</span>
                       <Text weight='bold'>
                         {toReadableAmount(
-                          hotel.additional_options.reduce((sum, opt) => sum + opt.total_amount, 0)
+                          (hotel.additional_options || []).reduce(
+                            (sum, opt) => sum + opt.total_amount,
+                            0
+                          )
                         )}
                       </Text>
                     </Flex>

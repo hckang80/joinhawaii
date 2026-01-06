@@ -352,13 +352,19 @@ export default function TourForm({
                     <Flex gap='1'>
                       <Text color='blue'>
                         {toReadableAmount(
-                          tour.additional_options.reduce((sum, opt) => sum + opt.total_cost, 0)
+                          (tour.additional_options || []).reduce(
+                            (sum, opt) => sum + opt.total_cost,
+                            0
+                          )
                         )}
                       </Text>
                       <span>/</span>
                       <Text weight='bold'>
                         {toReadableAmount(
-                          tour.additional_options.reduce((sum, opt) => sum + opt.total_amount, 0)
+                          (tour.additional_options || []).reduce(
+                            (sum, opt) => sum + opt.total_amount,
+                            0
+                          )
                         )}
                       </Text>
                     </Flex>

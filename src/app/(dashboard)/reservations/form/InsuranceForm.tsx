@@ -373,13 +373,16 @@ export default function InsuranceForm({
                     <Flex gap='1'>
                       <Text color='blue'>
                         {toReadableAmount(
-                          insurance.additional_options.reduce((sum, opt) => sum + opt.total_cost, 0)
+                          (insurance.additional_options || []).reduce(
+                            (sum, opt) => sum + opt.total_cost,
+                            0
+                          )
                         )}
                       </Text>
                       <span>/</span>
                       <Text weight='bold'>
                         {toReadableAmount(
-                          insurance.additional_options.reduce(
+                          (insurance.additional_options || []).reduce(
                             (sum, opt) => sum + opt.total_amount,
                             0
                           )
