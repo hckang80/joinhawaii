@@ -362,12 +362,28 @@ export default function InsuranceForm({
                   </Table.Cell>
                   <Table.Cell>
                     <Flex gap='1' align='end'>
-                      <Text color='blue'>
+                      <Text color='blue' size='3'>
                         {toReadableAmount(getValues(`insurances.${i}.total_cost`))}
                       </Text>
                       <span>/</span>
                       <Text weight='bold' size='3'>
                         {toReadableAmount(getValues(`insurances.${i}.total_amount`))}
+                      </Text>
+                    </Flex>{' '}
+                    <Flex gap='1'>
+                      <Text color='blue'>
+                        {toReadableAmount(
+                          insurance.additional_options.reduce((sum, opt) => sum + opt.total_cost, 0)
+                        )}
+                      </Text>
+                      <span>/</span>
+                      <Text weight='bold'>
+                        {toReadableAmount(
+                          insurance.additional_options.reduce(
+                            (sum, opt) => sum + opt.total_amount,
+                            0
+                          )
+                        )}
                       </Text>
                     </Flex>
                   </Table.Cell>

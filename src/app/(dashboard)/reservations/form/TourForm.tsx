@@ -341,12 +341,25 @@ export default function TourForm({
                   </Table.Cell>
                   <Table.Cell>
                     <Flex gap='1' align='end'>
-                      <Text color='blue'>
+                      <Text color='blue' size='3'>
                         {toReadableAmount(getValues(`tours.${i}.total_cost`))}
                       </Text>
                       <span>/</span>
                       <Text weight='bold' size='3'>
                         {toReadableAmount(getValues(`tours.${i}.total_amount`))}
+                      </Text>
+                    </Flex>
+                    <Flex gap='1'>
+                      <Text color='blue'>
+                        {toReadableAmount(
+                          tour.additional_options.reduce((sum, opt) => sum + opt.total_cost, 0)
+                        )}
+                      </Text>
+                      <span>/</span>
+                      <Text weight='bold'>
+                        {toReadableAmount(
+                          tour.additional_options.reduce((sum, opt) => sum + opt.total_amount, 0)
+                        )}
                       </Text>
                     </Flex>
                   </Table.Cell>

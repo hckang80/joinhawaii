@@ -301,7 +301,7 @@ export default function FlightForm({
                   </Table.Cell>
                   <Table.Cell>
                     <Flex gap='1' align='end'>
-                      <Text color='blue'>
+                      <Text color='blue' size='3'>
                         {toReadableAmount(getValues(`flights.${i}.total_cost`), 'ko-KR', 'KRW')}
                       </Text>
                       <span>/</span>

@@ -356,12 +356,25 @@ export default function RentalCarForm({
                   </Table.Cell>
                   <Table.Cell>
                     <Flex gap='1' align='end'>
-                      <Text color='blue'>
+                      <Text color='blue' size='3'>
                         {toReadableAmount(getValues(`rental_cars.${i}.total_cost`))}
                       </Text>
                       <span>/</span>
                       <Text weight='bold' size='3'>
                         {toReadableAmount(getValues(`rental_cars.${i}.total_amount`))}
+                      </Text>
+                    </Flex>
+                    <Flex gap='1'>
+                      <Text color='blue'>
+                        {toReadableAmount(
+                          car.additional_options.reduce((sum, opt) => sum + opt.total_cost, 0)
+                        )}
+                      </Text>
+                      <span>/</span>
+                      <Text weight='bold'>
+                        {toReadableAmount(
+                          car.additional_options.reduce((sum, opt) => sum + opt.total_amount, 0)
+                        )}
                       </Text>
                     </Flex>
                   </Table.Cell>
