@@ -159,6 +159,8 @@ export default function RentalCarForm({
                       control={control}
                       render={({ field }) => (
                         <TextField.Root
+                          variant='soft'
+                          color={field.value ? 'indigo' : 'red'}
                           type='number'
                           min='0'
                           step='0.01'
