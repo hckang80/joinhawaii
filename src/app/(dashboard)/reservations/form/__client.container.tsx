@@ -183,6 +183,41 @@ export default function ReservationsFormClientContainer({
                               'KRW'
                             )}
                           </span>
+                          <span>
+                            {toReadableAmount(
+                              data?.products[product.table].reduce(
+                                (prev, curr) =>
+                                  prev +
+                                  (curr.status !== 'Refunded'
+                                    ? curr.additional_options?.reduce(
+                                        (sum, opt) =>
+                                          sum + (opt.status !== 'Refunded' ? opt.total_cost : 0),
+                                        0
+                                      )
+                                    : 0),
+                                0
+                              )
+                            )}
+                          </span>
+                          <span>
+                            {toReadableAmount(
+                              data?.products[product.table].reduce(
+                                (prev, curr) =>
+                                  prev +
+                                  (curr.status !== 'Refunded'
+                                    ? curr.additional_options?.reduce(
+                                        (sum, opt) =>
+                                          sum +
+                                          (opt.status !== 'Refunded' ? opt.total_cost_krw : 0),
+                                        0
+                                      )
+                                    : 0),
+                                0
+                              ),
+                              'ko-KR',
+                              'KRW'
+                            )}
+                          </span>
                         </Grid>
                       </Table.Cell>
                     ))}
@@ -206,6 +241,41 @@ export default function ReservationsFormClientContainer({
                               data?.products[product.table].reduce(
                                 (prev, curr) =>
                                   prev + (curr.status !== 'Refunded' ? curr.total_amount_krw : 0),
+                                0
+                              ),
+                              'ko-KR',
+                              'KRW'
+                            )}
+                          </span>
+                          <span>
+                            {toReadableAmount(
+                              data?.products[product.table].reduce(
+                                (prev, curr) =>
+                                  prev +
+                                  (curr.status !== 'Refunded'
+                                    ? curr.additional_options?.reduce(
+                                        (sum, opt) =>
+                                          sum + (opt.status !== 'Refunded' ? opt.total_amount : 0),
+                                        0
+                                      )
+                                    : 0),
+                                0
+                              )
+                            )}
+                          </span>
+                          <span>
+                            {toReadableAmount(
+                              data?.products[product.table].reduce(
+                                (prev, curr) =>
+                                  prev +
+                                  (curr.status !== 'Refunded'
+                                    ? curr.additional_options?.reduce(
+                                        (sum, opt) =>
+                                          sum +
+                                          (opt.status !== 'Refunded' ? opt.total_amount_krw : 0),
+                                        0
+                                      )
+                                    : 0),
                                 0
                               ),
                               'ko-KR',
