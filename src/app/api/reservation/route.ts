@@ -121,11 +121,12 @@ export async function GET(request: Request) {
             }));
 
             const optionsTotals = optionsWithKrw.reduce(
-              (acc, o) => {
-                acc.total_amount_krw += o.total_amount_krw;
-                acc.total_cost_krw += o.total_cost_krw;
-                return acc;
-              },
+              (acc, o) => ({
+                total_amount_krw:
+                  acc.total_amount_krw + (o.status !== 'Refunded' ? o.total_amount_krw : 0),
+                total_cost_krw:
+                  acc.total_cost_krw + (o.status !== 'Refunded' ? o.total_cost_krw : 0)
+              }),
               { total_amount_krw: 0, total_cost_krw: 0 }
             );
 
@@ -155,8 +156,10 @@ export async function GET(request: Request) {
       const calculateTotal = (products: ProductValues[]) => {
         return products.reduce(
           (acc, product) => ({
-            total_amount_krw: acc.total_amount_krw + product.total_amount_krw,
-            total_cost_krw: acc.total_cost_krw + product.total_cost_krw
+            total_amount_krw:
+              acc.total_amount_krw + (product.status !== 'Refunded' ? product.total_amount_krw : 0),
+            total_cost_krw:
+              acc.total_cost_krw + (product.status !== 'Refunded' ? product.total_cost_krw : 0)
           }),
           { total_amount_krw: 0, total_cost_krw: 0 }
         );
