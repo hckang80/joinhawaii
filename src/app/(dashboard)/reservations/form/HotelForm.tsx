@@ -344,7 +344,7 @@ export default function HotelForm({
                       <Text color='blue'>
                         {toReadableAmount(
                           (hotel.additional_options || []).reduce(
-                            (sum, opt) => sum + opt.total_cost,
+                            (sum, opt) => sum + (opt.status !== 'Refunded' ? opt.total_cost : 0),
                             0
                           )
                         )}
@@ -353,7 +353,7 @@ export default function HotelForm({
                       <Text weight='bold'>
                         {toReadableAmount(
                           (hotel.additional_options || []).reduce(
-                            (sum, opt) => sum + opt.total_amount,
+                            (sum, opt) => sum + (opt.status !== 'Refunded' ? opt.total_amount : 0),
                             0
                           )
                         )}

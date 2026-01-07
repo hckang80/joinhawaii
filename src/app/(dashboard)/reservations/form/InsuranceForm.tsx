@@ -376,7 +376,7 @@ export default function InsuranceForm({
                       <Text color='blue'>
                         {toReadableAmount(
                           (insurance.additional_options || []).reduce(
-                            (sum, opt) => sum + opt.total_cost,
+                            (sum, opt) => sum + (opt.status !== 'Refunded' ? opt.total_cost : 0),
                             0
                           )
                         )}
@@ -385,7 +385,7 @@ export default function InsuranceForm({
                       <Text weight='bold'>
                         {toReadableAmount(
                           (insurance.additional_options || []).reduce(
-                            (sum, opt) => sum + opt.total_amount,
+                            (sum, opt) => sum + (opt.status !== 'Refunded' ? opt.total_amount : 0),
                             0
                           )
                         )}
