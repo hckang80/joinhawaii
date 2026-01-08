@@ -139,7 +139,20 @@ export const BOOKING_PLATFORM_OPTIONS = {
     { value: '홈피예약', label: '홈피예약' },
     { value: '일반', label: '일반' }
   ],
-  B2B: [{ value: '거래처리스트', label: '거래처리스트' }],
+  B2B: [
+    { value: '샬레', label: '샬레' },
+    { value: '마이투어스토리', label: '마이투어스토리' },
+    { value: '엘스투어', label: '엘스투어' },
+    { value: '내일투어', label: '내일투어' },
+    { value: '보성블루투어', label: '보성블루투어' },
+    { value: '트레비아', label: '트레비아' },
+    { value: '가야투어', label: '가야투어' },
+    { value: '여행할때', label: '여행할때' },
+    { value: '오리엔탈', label: '오리엔탈' },
+    { value: '리조트라이프', label: '리조트라이프' },
+    { value: '스테이앤모어', label: '스테이앤모어' },
+    { value: '투어앤모어', label: '투어앤모어' }
+  ],
   플랫폼: [
     { value: '네이버', label: '네이버' },
     { value: '마이리얼트립', label: '마이리얼트립' },
