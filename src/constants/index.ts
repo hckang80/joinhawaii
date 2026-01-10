@@ -184,8 +184,7 @@ export const defaultProductValues = {
   total_cost_krw: 0,
   status: 'Pending' as ProductStatusKey,
   payment_status: 'Unpaid' as PaymentStatusKey,
-  notes: '',
-  rule: ''
+  notes: ''
 };
 
 export const defaultPeopleValues = {
@@ -206,6 +205,7 @@ export const defaultFlightValues = {
   departure_city: '',
   arrival_datetime: null,
   arrival_city: '',
+  rule: '',
   ...defaultPeopleValues,
   ...defaultProductValues,
   ...additionalOptions
@@ -222,6 +222,7 @@ export const defaultHotelValues = {
   nights: 1,
   nightly_rate: 0,
   cost: 0,
+  rule: '',
   ...defaultProductValues,
   ...additionalOptions
 };
@@ -230,6 +231,7 @@ export const defaultTourValues = {
   region: REGIONS[0],
   start_date: null,
   name: '',
+  rule: '',
   ...defaultPeopleValues,
   ...defaultProductValues,
   ...additionalOptions
@@ -247,6 +249,7 @@ export const defaultCarValues = {
   rental_days: 1,
   daily_rate: 0,
   cost: 0,
+  rule: '',
   ...defaultProductValues,
   ...additionalOptions
 };
@@ -256,6 +259,7 @@ export const defaultInsuranceValues = {
   days: 1,
   start_date: null,
   end_date: null,
+  rule: '',
   ...defaultPeopleValues,
   ...defaultProductValues,
   ...additionalOptions
