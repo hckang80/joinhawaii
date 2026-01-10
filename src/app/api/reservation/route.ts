@@ -332,20 +332,62 @@ export async function PATCH(request: Request) {
 
     const reservation = await getReservation(supabase, reservation_id);
 
+    if (!reservation) {
+      return NextResponse.json({ success: true, data: null });
+    }
+
+    const {
+      flights: flightsData,
+      hotels: hotelsData,
+      tours: toursData,
+      rental_cars: rentalCarsData,
+      insurances: insurancesData,
+      ..._restData
+    } = reservation;
+
+    const addKoreanWonFields = async (products: ProductValues[]) => {
+      return Promise.all(
+        products.map(async product => {
+          const options = await getAdditionalOptions({
+            pid: Number(product.id),
+            type: product.type
+          });
+
+          const optionsWithKrw = options.map(opt => ({
+            ...opt,
+            total_amount_krw: Math.round(opt.total_amount * opt.exchange_rate),
+            total_cost_krw: Math.round(opt.total_cost * opt.exchange_rate)
+          }));
+
+          return {
+            ...product,
+            additional_options: optionsWithKrw
+          };
+        })
+      );
+    };
+
+    const [flightsWithKrw, hotelsWithKrw, toursWithKrw, carsWithKrw, insurancesWithKrw] =
+      await Promise.all([
+        addKoreanWonFields(flightsData.map(item => ({ ...item, type: 'flight' }))),
+        addKoreanWonFields(hotelsData.map(item => ({ ...item, type: 'hotel' }))),
+        addKoreanWonFields(toursData.map(item => ({ ...item, type: 'tour' }))),
+        addKoreanWonFields(rentalCarsData.map(item => ({ ...item, type: 'rental_car' }))),
+        addKoreanWonFields(insurancesData.map(item => ({ ...item, type: 'insurance' })))
+      ]);
+
     return NextResponse.json({
       message: `[${reservation_id}] 예약 내용이 변경되었습니다`,
       success: true,
       data: {
         ...updatedReservation,
-        products: reservation
-          ? {
-              flights: reservation.flights,
-              hotels: reservation.hotels,
-              tours: reservation.tours,
-              rental_cars: reservation.rental_cars,
-              insurances: reservation.insurances
-            }
-          : undefined
+        products: {
+          flights: flightsWithKrw,
+          hotels: hotelsWithKrw,
+          tours: toursWithKrw,
+          rental_cars: carsWithKrw,
+          insurances: insurancesWithKrw
+        }
       }
     });
   } catch (error) {
