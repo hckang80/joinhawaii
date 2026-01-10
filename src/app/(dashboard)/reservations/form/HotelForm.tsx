@@ -82,6 +82,13 @@ export default function HotelForm({
     )
   });
 
+  useEffect(() => {
+    reset({
+      reservation_id,
+      hotels: data.products.hotels
+    });
+  }, [data.products.hotels, reservation_id, reset]);
+
   const hotels = useWatch({ control, name: 'hotels' }) ?? [defaultHotelValues];
 
   const onSubmit: SubmitHandler<ReservationFormData> = formData => {

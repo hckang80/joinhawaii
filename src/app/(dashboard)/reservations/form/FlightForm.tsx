@@ -68,6 +68,13 @@ export default function FlightForm({
     )
   });
 
+  useEffect(() => {
+    reset({
+      reservation_id,
+      flights: data.products.flights
+    });
+  }, [data.products.flights, reservation_id, reset]);
+
   const flights = useWatch({ control, name: 'flights' }) ?? [defaultFlightValues];
 
   const onSubmit: SubmitHandler<ReservationFormData> = formData => {

@@ -81,6 +81,13 @@ export default function TourForm({
     )
   });
 
+  useEffect(() => {
+    reset({
+      reservation_id,
+      tours: data.products.tours
+    });
+  }, [data.products.tours, reservation_id, reset]);
+
   const tours = useWatch({ control, name: 'tours' }) ?? [defaultTourValues];
 
   const onSubmit: SubmitHandler<ReservationFormData> = formData => {
