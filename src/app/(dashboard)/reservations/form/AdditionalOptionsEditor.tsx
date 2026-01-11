@@ -159,7 +159,6 @@ export default function AdditionalOptionsEditor({
                   <Table.Cell>
                     <Grid gap='2'>
                       <Flex direction='column'>
-                        <span>🧑 성인</span>
                         <TextField.Root
                           type='number'
                           min='0'
@@ -170,37 +169,11 @@ export default function AdditionalOptionsEditor({
                           })}
                         />
                       </Flex>
-                      <Flex direction='column'>
-                        <span>🧒 소아</span>
-                        <TextField.Root
-                          type='number'
-                          min='0'
-                          step='0.01'
-                          {...register(`additionalOptions.${i}.children_cost`, {
-                            required: true,
-                            valueAsNumber: true
-                          })}
-                        />
-                      </Flex>
-                      <Flex direction='column'>
-                        <span>👶 유아</span>
-                        <TextField.Root
-                          type='number'
-                          min='0'
-                          step='0.01'
-                          readOnly
-                          {...register(`additionalOptions.${i}.kids_cost`, {
-                            required: true,
-                            valueAsNumber: true
-                          })}
-                        />
-                      </Flex>
                     </Grid>
                   </Table.Cell>
                   <Table.Cell>
                     <Grid gap='2'>
                       <Flex direction='column'>
-                        <span>🧑 성인</span>
                         <TextField.Root
                           type='number'
                           min='0'
@@ -211,63 +184,15 @@ export default function AdditionalOptionsEditor({
                           })}
                         />
                       </Flex>
-                      <Flex direction='column'>
-                        <span>🧒 소아</span>
-                        <TextField.Root
-                          type='number'
-                          min='0'
-                          step='0.01'
-                          {...register(`additionalOptions.${i}.children_price`, {
-                            required: true,
-                            valueAsNumber: true
-                          })}
-                        />
-                      </Flex>
-                      <Flex direction='column'>
-                        <span>👶 유아</span>
-                        <TextField.Root
-                          type='number'
-                          min='0'
-                          step='0.01'
-                          readOnly
-                          {...register(`additionalOptions.${i}.kids_price`, {
-                            required: true,
-                            valueAsNumber: true
-                          })}
-                        />
-                      </Flex>
                     </Grid>
                   </Table.Cell>
                   <Table.Cell>
                     <Grid gap='2'>
                       <Flex direction='column'>
-                        <span>🧑 성인</span>
                         <TextField.Root
                           type='number'
                           min='0'
                           {...register(`additionalOptions.${i}.adult_count`, {
-                            required: true,
-                            valueAsNumber: true
-                          })}
-                        />
-                      </Flex>
-                      <Flex direction='column'>
-                        <span>🧒 소아</span>
-                        <TextField.Root
-                          type='number'
-                          min='0'
-                          {...register(`additionalOptions.${i}.children_count`, {
-                            required: true,
-                            valueAsNumber: true
-                          })}
-                        />
-                      </Flex>
-                      <Flex direction='column'>
-                        <span>👶 유아</span>
-                        <TextField.Root
-                          type='number'
-                          min='0'
-                          {...register(`additionalOptions.${i}.kids_count`, {
                             required: true,
                             valueAsNumber: true
                           })}
