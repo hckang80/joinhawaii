@@ -163,6 +163,8 @@ export default function AdditionalOptionsEditor({
                           type='number'
                           min='0'
                           step='0.01'
+                          color='blue'
+                          variant='soft'
                           {...register(`additionalOptions.${i}.adult_cost`, {
                             required: true,
                             valueAsNumber: true
@@ -178,6 +180,8 @@ export default function AdditionalOptionsEditor({
                           type='number'
                           min='0'
                           step='0.01'
+                          color='orange'
+                          variant='soft'
                           {...register(`additionalOptions.${i}.adult_price`, {
                             required: true,
                             valueAsNumber: true
