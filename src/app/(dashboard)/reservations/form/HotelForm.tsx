@@ -376,6 +376,16 @@ export default function HotelForm({
                         <Select.Root
                           value={field.value}
                           onValueChange={value => {
+                            if (
+                              value === 'Refunded' &&
+                              hotel.additional_options.length > 0 &&
+                              hotel.additional_options.some(opt => opt.status !== 'Refunded')
+                            ) {
+                              toast.warn(
+                                '추가 옵션이 존재합니다. 추가 옵션을 먼저 환불완료로 해주세요.'
+                              );
+                              return;
+                            }
                             field.onChange(value);
                           }}
                           name={field.name}
