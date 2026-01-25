@@ -379,7 +379,10 @@ export default function HotelForm({
                             if (
                               value === 'Refunded' &&
                               hotel.additional_options.length > 0 &&
-                              hotel.additional_options.some(opt => opt.status !== 'Refunded')
+                              hotel.additional_options.reduce(
+                                (accu, curr) => accu + curr.total_amount,
+                                0
+                              ) > 0
                             ) {
                               toast.warn(
                                 '추가 옵션이 존재합니다. 추가 옵션을 먼저 환불완료로 해주세요.'
