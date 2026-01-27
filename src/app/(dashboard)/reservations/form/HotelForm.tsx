@@ -126,9 +126,9 @@ export default function HotelForm({
 
   const isRemoveDisabled = hotels.length <= data.products.hotels.length;
 
-  const [refund, setRefund] = useState('');
+  const [refundId, setRefundId] = useState(0);
 
-  const openDialog = (title: string) => setRefund(title);
+  const openDialog = (id: number) => setRefundId(id);
 
   return (
     <>
@@ -391,7 +391,7 @@ export default function HotelForm({
                                   0
                                 ) > 0
                               ) {
-                                openDialog(hotel.hotel_name);
+                                if (hotel.id) openDialog(hotel.id);
                                 return;
                               }
                               field.onChange(value);
@@ -483,9 +483,9 @@ export default function HotelForm({
         </Card>
       </form>
 
-      <AlertDialog.Root open={!!refund} onOpenChange={val => setRefund(val ? refund : '')}>
+      <AlertDialog.Root open={!!refundId} onOpenChange={val => setRefundId(val ? refundId : 0)}>
         <AlertDialog.Content maxWidth='450px'>
-          <AlertDialog.Title>{refund}</AlertDialog.Title>
+          <AlertDialog.Title>{refundId}</AlertDialog.Title>
           <AlertDialog.Description size='2'>
             지불된 추가 옵션이 존재합니다. 추가 옵션까지 환불완료로 변경하시겠습니까?
           </AlertDialog.Description>
