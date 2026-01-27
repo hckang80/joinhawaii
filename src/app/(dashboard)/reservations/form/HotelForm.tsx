@@ -127,10 +127,12 @@ export default function HotelForm({
   const isRemoveDisabled = hotels.length <= data.products.hotels.length;
 
   const [refundId, setRefundId] = useState(0);
+  const refundHotel = hotels.find(hotel => hotel.id === refundId);
   const refundTitle = useMemo(() => {
-    const hotel = hotels.find(hotel => hotel.id === refundId);
+    const hotel = refundHotel;
     return hotel ? hotel.hotel_name : '';
-  }, [hotels, refundId]);
+  }, [refundHotel]);
+  const refundAdditionalOptions = refundHotel?.additional_options || [];
 
   const openDialog = (id: number) => setRefundId(id);
 
@@ -500,7 +502,19 @@ export default function HotelForm({
               </Button>
             </AlertDialog.Cancel>
             <AlertDialog.Action>
-              <Button variant='solid'>확인</Button>
+              <Button
+                variant='solid'
+                onClick={() =>
+                  handleAdditionalOptions({
+                    id: refundId,
+                    type: 'hotel',
+                    title: refundTitle,
+                    data: refundAdditionalOptions
+                  })
+                }
+              >
+                확인
+              </Button>
             </AlertDialog.Action>
           </Flex>
         </AlertDialog.Content>
