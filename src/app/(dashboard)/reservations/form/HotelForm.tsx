@@ -491,7 +491,7 @@ export default function HotelForm({
         <AlertDialog.Content maxWidth='450px'>
           <AlertDialog.Title>{refundTitle}</AlertDialog.Title>
           <AlertDialog.Description size='2'>
-            지불된 추가 옵션이 존재합니다. 추가 옵션까지 환불완료로 변경하시겠습니까?
+            지불된 추가 옵션이 존재합니다. 추가 옵션이 먼저 환불완료로 변경되야합니다.
           </AlertDialog.Description>
 
           <Flex gap='1' mt='4' justify='end'>
@@ -501,7 +501,7 @@ export default function HotelForm({
               </Button>
             </AlertDialog.Cancel>
             <AlertDialog.Action>
-              <Button variant='solid'>변경</Button>
+              <Button variant='solid'>확인</Button>
             </AlertDialog.Action>
           </Flex>
         </AlertDialog.Content>
