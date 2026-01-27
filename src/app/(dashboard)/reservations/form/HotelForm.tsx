@@ -127,6 +127,10 @@ export default function HotelForm({
   const isRemoveDisabled = hotels.length <= data.products.hotels.length;
 
   const [refundId, setRefundId] = useState(0);
+  const refundTitle = useMemo(() => {
+    const hotel = hotels.find(hotel => hotel.id === refundId);
+    return hotel ? hotel.hotel_name : '';
+  }, [hotels, refundId]);
 
   const openDialog = (id: number) => setRefundId(id);
 
@@ -485,7 +489,7 @@ export default function HotelForm({
 
       <AlertDialog.Root open={!!refundId} onOpenChange={val => setRefundId(val ? refundId : 0)}>
         <AlertDialog.Content maxWidth='450px'>
-          <AlertDialog.Title>{refundId}</AlertDialog.Title>
+          <AlertDialog.Title>{refundTitle}</AlertDialog.Title>
           <AlertDialog.Description size='2'>
             지불된 추가 옵션이 존재합니다. 추가 옵션까지 환불완료로 변경하시겠습니까?
           </AlertDialog.Description>
