@@ -390,10 +390,9 @@ export default function HotelForm({
                               if (
                                 value === 'Refunded' &&
                                 hotel.additional_options.length > 0 &&
-                                hotel.additional_options.reduce(
-                                  (accu, curr) => accu + curr.total_amount,
-                                  0
-                                ) > 0
+                                hotel.additional_options
+                                  .filter(({ status }) => status !== 'Refunded')
+                                  .reduce((accu, curr) => accu + curr.total_amount, 0) > 0
                               ) {
                                 if (hotel.id) openDialog(hotel.id);
                                 return;
