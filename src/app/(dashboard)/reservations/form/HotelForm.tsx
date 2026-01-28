@@ -16,7 +16,6 @@ import type {
 } from '@/types';
 import { isDev, isRefunded, normalizeNumber, toReadableAmount } from '@/utils';
 import {
-  AlertDialog,
   Box,
   Button,
   Card,
@@ -44,6 +43,7 @@ import {
   useWatch
 } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import RefundAlertDialog from './RefundAlertDialog';
 
 export default function HotelForm({
   data,
@@ -488,37 +488,19 @@ export default function HotelForm({
         </Card>
       </form>
 
-      <AlertDialog.Root open={!!refundId} onOpenChange={val => setRefundId(val ? refundId : 0)}>
-        <AlertDialog.Content maxWidth='450px'>
-          <AlertDialog.Title>{refundTitle}</AlertDialog.Title>
-          <AlertDialog.Description size='2'>
-            지불된 추가 옵션이 존재합니다. 추가 옵션이 먼저 환불완료로 변경되야합니다.
-          </AlertDialog.Description>
-
-          <Flex gap='1' mt='4' justify='end'>
-            <AlertDialog.Cancel>
-              <Button variant='soft' color='gray'>
-                취소
-              </Button>
-            </AlertDialog.Cancel>
-            <AlertDialog.Action>
-              <Button
-                variant='solid'
-                onClick={() =>
-                  handleAdditionalOptions({
-                    id: refundId,
-                    type: 'hotel',
-                    title: refundTitle,
-                    data: refundAdditionalOptions
-                  })
-                }
-              >
-                확인
-              </Button>
-            </AlertDialog.Action>
-          </Flex>
-        </AlertDialog.Content>
-      </AlertDialog.Root>
+      <RefundAlertDialog
+        open={!!refundId}
+        onOpenChange={val => setRefundId(val ? refundId : 0)}
+        title={refundTitle}
+        onConfirm={() =>
+          handleAdditionalOptions({
+            id: refundId,
+            type: 'hotel',
+            title: refundTitle,
+            data: refundAdditionalOptions
+          })
+        }
+      />
     </>
   );
 }
