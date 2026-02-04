@@ -127,12 +127,12 @@ export default function HotelForm({
   const isRemoveDisabled = hotels.length <= data.products.hotels.length;
 
   const [refundId, setRefundId] = useState(0);
-  const refundHotel = hotels.find(hotel => hotel.id === refundId);
+  const refundItem = hotels.find(hotel => hotel.id === refundId);
   const refundTitle = useMemo(() => {
-    const hotel = refundHotel;
+    const hotel = refundItem;
     return hotel ? hotel.hotel_name : '';
-  }, [refundHotel]);
-  const refundAdditionalOptions = refundHotel?.additional_options || [];
+  }, [refundItem]);
+  const refundAdditionalOptions = refundItem?.additional_options || [];
 
   const openDialog = (id: number) => setRefundId(id);
 
