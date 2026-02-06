@@ -220,7 +220,10 @@ export default function TourForm({
                       />
                     </Table.Cell>
                     <Table.Cell>
-                      <DateTimeInput name={`tours.${i}.start_date`} control={control} />
+                      <Flex direction='column' gap='2'>
+                        <DateTimeInput name={`tours.${i}.start_date`} control={control} />
+                        <DateTimeInput name={`tours.${i}.end_date`} control={control} />
+                      </Flex>
                     </Table.Cell>
                     <Table.Cell>
                       <TextField.Root

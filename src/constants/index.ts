@@ -230,6 +230,7 @@ export const defaultHotelValues = {
 export const defaultTourValues = {
   region: REGIONS[0],
   start_date: null,
+  end_date: null,
   name: '',
   rule: '',
   ...defaultPeopleValues,
