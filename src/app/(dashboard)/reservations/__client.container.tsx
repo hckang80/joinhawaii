@@ -91,7 +91,9 @@ export default function ReservationsClientContainer() {
                   </StyledLink>
                   <ProductOptionBadge items={item.additional_options} />
                 </Table.Cell>
-                <Table.Cell>{toReadableDate(new Date(item.event_date))}</Table.Cell>
+                <Table.Cell>
+                  {item.event_date ? toReadableDate(new Date(item.event_date)) : '-'}
+                </Table.Cell>
                 <Table.Cell>{toReadableDate(new Date(item.created_at))}</Table.Cell>
                 <Table.Cell>
                   <Badge size='3' color={PRODUCT_STATUS_COLOR[item.status]} variant='soft'>
