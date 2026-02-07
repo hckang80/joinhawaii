@@ -1,12 +1,13 @@
 'use client';
 
-import { Paginate, ProductOptionBadge } from '@/components';
+import { Paginate, ProductOptionBadge, SearchForm } from '@/components';
 import { PAYMENT_STATUS_COLOR, PaymentStatus } from '@/constants';
 import { usePageNavigation } from '@/hooks';
 import { productsQueryOptions } from '@/lib/queries';
 import { isDev, toReadableAmount, toReadableDate } from '@/utils';
 import {
   Badge,
+  Box,
   Button,
   Card,
   Flex,
@@ -33,7 +34,9 @@ export default function SettlementClientContainer() {
       <Heading as='h2' mb='4' size='7'>
         정산관리
       </Heading>
-
+      <Box mb='6'>
+        <SearchForm />
+      </Box>
       <Flex mb='4' justify='end'>
         <Button asChild color='ruby'>
           <Link href={`/reservations/form?from=${pathname}`}>신규예약등록</Link>
