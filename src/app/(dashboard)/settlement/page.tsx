@@ -19,9 +19,18 @@ export default async function SettlementPage({
   const page = params?.page ?? '1';
   const perPage = params?.per_page ?? PER_PAGE;
 
+  const urlSearchParams = new URLSearchParams();
+  if (params) {
+    Object.entries(params).forEach(([key, value]) => {
+      if (value && !Array.isArray(value)) {
+        urlSearchParams.set(key, value);
+      }
+    });
+  }
+
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(productsQueryOptions(page, perPage));
+  await queryClient.prefetchQuery(productsQueryOptions(page, perPage, urlSearchParams));
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
