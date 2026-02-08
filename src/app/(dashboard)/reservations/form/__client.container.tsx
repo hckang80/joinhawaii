@@ -255,7 +255,7 @@ export default function ReservationsFormClientContainer({
                   <Text as='label' weight='medium'>
                     잔금{' '}
                   </Text>
-                  {toReadableAmount(Number(data?.total_amount) - (depositValue || 0))}
+                  {toReadableAmount(Number(data?.total_amount ?? 0) - (depositValue || 0))}
                 </div>
                 <div>
                   <Text as='label' weight='medium'>
