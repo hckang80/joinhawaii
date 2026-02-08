@@ -256,15 +256,15 @@ export function SearchForm() {
       </Table.Root>
 
       <Flex justify='end' mt='2' gap='2'>
-        <Button type='submit' size='3'>
+        <Button type='submit'>
           <Search size={16} />
           검색
         </Button>
-        <Button type='button' size='3' variant='soft' color='gray' onClick={handleReset}>
+        <Button type='button' variant='soft' color='gray' onClick={handleReset}>
           <RefreshCcw size={16} />
           초기화
         </Button>
-        <Button size='3' color='green' onClick={handleDownload}>
+        <Button color='green' onClick={handleDownload}>
           <Download size={16} />
           다운로드
         </Button>

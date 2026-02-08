@@ -45,7 +45,7 @@ export default function ReservationsClientContainer() {
         <SearchForm />
       </Box>
       <Flex mb='4' justify='end'>
-        <Button asChild color='ruby'>
+        <Button asChild color='ruby' size='3'>
           <Link href={`/reservations/form?from=${pathname}`}>신규예약등록</Link>
         </Button>
       </Flex>
