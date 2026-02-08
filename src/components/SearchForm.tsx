@@ -7,10 +7,11 @@ import {
   ProductStatus
 } from '@/constants';
 import { Button, Flex, RadioGroup, Select, Table, Text, TextField } from '@radix-ui/themes';
-import { Search } from 'lucide-react';
+import { Download, Search } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
 import { Controller, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 type SearchType = 'reception_date' | 'event_date';
 
@@ -54,6 +55,10 @@ export function SearchForm() {
   const handleReset = () => {
     reset();
     router.push('?');
+  };
+
+  const handleDownload = () => {
+    toast.info('다운로드 기능 추가 예정');
   };
 
   const onSubmit = (data: SearchFormData) => {
@@ -257,6 +262,10 @@ export function SearchForm() {
         </Button>
         <Button type='button' size='3' variant='soft' color='gray' onClick={handleReset}>
           초기화
+        </Button>
+        <Button size='3' color='green' onClick={handleDownload}>
+          <Download size={16} />
+          다운로드
         </Button>
       </Flex>
     </form>
