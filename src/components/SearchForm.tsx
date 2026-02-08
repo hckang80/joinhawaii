@@ -7,7 +7,7 @@ import {
   ProductStatus
 } from '@/constants';
 import { Button, Flex, RadioGroup, Select, Table, Text, TextField } from '@radix-ui/themes';
-import { Download, Search } from 'lucide-react';
+import { Download, RefreshCcw, Search } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
 import { Controller, useForm } from 'react-hook-form';
@@ -261,6 +261,7 @@ export function SearchForm() {
           검색
         </Button>
         <Button type='button' size='3' variant='soft' color='gray' onClick={handleReset}>
+          <RefreshCcw size={16} />
           초기화
         </Button>
         <Button size='3' color='green' onClick={handleDownload}>
