@@ -1,4 +1,4 @@
-import { DateTimeInput, TimeInput } from '@/components';
+import { DateTimeInput, NoData, TimeInput } from '@/components';
 import { defaultFlightValues, PRODUCT_STATUS_COLOR, ProductStatus } from '@/constants';
 import type { ProductFormType, ReservationFormData, ReservationResponse } from '@/types';
 import {
@@ -366,11 +366,7 @@ export default function FlightForm({
             ))}
           </Table.Root>
 
-          {!flights.length && (
-            <Flex justify='center' py='5'>
-              예약 내역이 없습니다
-            </Flex>
-          )}
+          {!flights.length && <NoData />}
 
           <Flex justify='end' mt='4' gap='1'>
             <Button type='button' color='ruby' onClick={addItem}>

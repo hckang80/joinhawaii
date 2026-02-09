@@ -1,4 +1,4 @@
-import { CustomSelectInput, DateTimeInput, TimeInput } from '@/components';
+import { CustomSelectInput, DateTimeInput, NoData, TimeInput } from '@/components';
 import {
   CAR_TYPES,
   defaultCarValues,
@@ -486,11 +486,7 @@ export default function RentalCarForm({
               ))}
             </Table.Root>
 
-            {!rentalCars.length && (
-              <Flex justify='center' py='5'>
-                예약 내역이 없습니다
-              </Flex>
-            )}
+            {!rentalCars.length && <NoData />}
 
             <Flex justify='end' mt='4' gap='1'>
               <Button type='button' color='ruby' onClick={addItem}>

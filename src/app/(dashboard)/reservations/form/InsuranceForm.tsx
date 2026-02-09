@@ -1,3 +1,4 @@
+import { NoData } from '@/components';
 import { defaultInsuranceValues, PRODUCT_STATUS_COLOR, ProductStatus } from '@/constants';
 import type {
   AdditionalOptions,
@@ -490,11 +491,7 @@ export default function InsuranceForm({
               ))}
             </Table.Root>
 
-            {!insurances.length && (
-              <Flex justify='center' py='5'>
-                예약 내역이 없습니다
-              </Flex>
-            )}
+            {!insurances.length && <NoData />}
 
             <Flex justify='end' mt='4' gap='1'>
               <Button type='button' color='ruby' onClick={addItem}>

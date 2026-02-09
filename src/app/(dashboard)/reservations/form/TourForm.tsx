@@ -1,4 +1,4 @@
-import { DateTimeInput } from '@/components';
+import { DateTimeInput, NoData } from '@/components';
 import { defaultTourValues, PRODUCT_STATUS_COLOR, ProductStatus, REGIONS } from '@/constants';
 import type {
   AdditionalOptions,
@@ -471,11 +471,7 @@ export default function TourForm({
               ))}
             </Table.Root>
 
-            {!tours.length && (
-              <Flex justify='center' py='5'>
-                예약 내역이 없습니다
-              </Flex>
-            )}
+            {!tours.length && <NoData />}
 
             <Flex justify='end' mt='4' gap='1'>
               <Button type='button' color='ruby' onClick={addItem}>
