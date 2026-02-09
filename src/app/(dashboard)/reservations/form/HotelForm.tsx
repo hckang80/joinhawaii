@@ -149,7 +149,7 @@ export default function HotelForm({
               <Table.Header>
                 <Table.Row>
                   <Table.ColumnHeaderCell width='90px'>환율</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='120px'>지역</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='100px'>지역</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='170px'>날짜</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='60px'>숙박일</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='200px'>호텔</Table.ColumnHeaderCell>
@@ -162,7 +162,7 @@ export default function HotelForm({
                     합계(<Text color='blue'>원가</Text>/판매가)
                   </Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='90px'>CF#/VC#</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='110px'>진행상태</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='90px'>진행상태</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='70px'>추가옵션</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>
                 </Table.Row>
@@ -209,6 +209,7 @@ export default function HotelForm({
                         control={control}
                         render={({ field }) => (
                           <Select.Root
+                            size='1'
                             value={field.value}
                             onValueChange={value => {
                               field.onChange(value);
@@ -434,6 +435,7 @@ export default function HotelForm({
                       <Button
                         disabled={!getValues(`hotels.${i}.id`)}
                         title='추가옵션'
+                        size='1'
                         type='button'
                         onClick={() =>
                           handleAdditionalOptions({

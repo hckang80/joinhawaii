@@ -149,11 +149,11 @@ export default function RentalCarForm({
               <Table.Header>
                 <Table.Row>
                   <Table.ColumnHeaderCell width='90px'>환율</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='120px'>지역</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='280px'>픽업</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='280px'>리턴</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='100px'>지역</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='250px'>픽업</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='250px'>리턴</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='180px'>차종</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='100px'>운전자</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='80px'>운전자</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='180px'>조건</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='80px'>💰1일요금</Table.ColumnHeaderCell>
@@ -161,7 +161,7 @@ export default function RentalCarForm({
                   <Table.ColumnHeaderCell width='180px'>
                     합계(<Text color='blue'>원가</Text>/판매가)
                   </Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='110px'>진행상태</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='90px'>진행상태</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='70px'>추가옵션</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>
                 </Table.Row>
@@ -456,6 +456,7 @@ export default function RentalCarForm({
                       <Button
                         disabled={!getValues(`rental_cars.${i}.id`)}
                         title='추가옵션'
+                        size='1'
                         type='button'
                         onClick={() =>
                           handleAdditionalOptions({
