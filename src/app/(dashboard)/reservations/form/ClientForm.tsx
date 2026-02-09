@@ -143,7 +143,7 @@ export default function ClientForm({
                 <col style={{ width: '100px' }} />
                 <col style={{ width: '180px' }} />
                 <col style={{ width: '100px' }} />
-                <col style={{ width: '500px' }} />
+                <col style={{ width: '340px' }} />
               </colgroup>
               <Table.Body>
                 <Table.Row>
@@ -281,7 +281,7 @@ export default function ClientForm({
                   <Table.Cell>{reservation_id || '-'}</Table.Cell>
                   <Table.RowHeaderCell>여행일정</Table.RowHeaderCell>
                   <Table.Cell>
-                    <Flex gap='2' align='center'>
+                    <Flex gap='2' align='center' wrap='wrap'>
                       <TextField.Root type='date' {...register('start_date')} />
                       <Text size='1'>~</Text>
                       <Controller
@@ -304,20 +304,22 @@ export default function ClientForm({
                           );
                         }}
                       />
-                      <TextField.Root
-                        style={{ width: '40px' }}
-                        type='number'
-                        min={0}
-                        {...register('nights', { valueAsNumber: true })}
-                      />
-                      <Text>박</Text>
-                      <TextField.Root
-                        style={{ width: '40px' }}
-                        type='number'
-                        min={0}
-                        {...register('days', { valueAsNumber: true })}
-                      />
-                      <Text>일</Text>
+                      <Flex display='inline-flex' gap='2' align='center'>
+                        <TextField.Root
+                          style={{ width: '40px' }}
+                          type='number'
+                          min={0}
+                          {...register('nights', { valueAsNumber: true })}
+                        />
+                        <Text>박</Text>
+                        <TextField.Root
+                          style={{ width: '40px' }}
+                          type='number'
+                          min={0}
+                          {...register('days', { valueAsNumber: true })}
+                        />
+                        <Text>일</Text>
+                      </Flex>
                     </Flex>
                   </Table.Cell>
                 </Table.Row>
