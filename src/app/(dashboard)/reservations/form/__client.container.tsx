@@ -142,7 +142,7 @@ export default function ReservationsFormClientContainer({
             justify='end'
             gap='9'
             position='sticky'
-            bottom='5'
+            bottom='2'
             className={styles['exchange-rate-card']}
           >
             <Box>
