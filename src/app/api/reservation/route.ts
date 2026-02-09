@@ -42,10 +42,18 @@ export async function POST(request: Request) {
 
     const reservationId = `${today}-JH${String(sequence).padStart(3, '0')}`;
 
+    const normalized = {
+      ...rest,
+      start_date: rest.start_date || null,
+      end_date: rest.end_date || null,
+      nights: Number(rest.nights),
+      days: Number(rest.days)
+    };
+
     const { data, error } = await supabase
       .from('reservations')
       .insert({
-        ...rest,
+        ...normalized,
         reservation_id: reservationId,
         author: user?.user_metadata?.full_name || '-',
         author_email: user?.email || '-'
