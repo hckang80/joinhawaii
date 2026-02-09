@@ -169,7 +169,7 @@ export default function InsuranceForm({
                   <Table.ColumnHeaderCell width='180px'>
                     합계(<Text color='blue'>원가</Text>/판매가)
                   </Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='110px'>진행상태</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='90px'>진행상태</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='70px'>추가옵션</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>
                 </Table.Row>
@@ -189,6 +189,7 @@ export default function InsuranceForm({
                         control={control}
                         render={({ field }) => (
                           <TextField.Root
+                            size='1'
                             variant='soft'
                             color={field.value ? 'indigo' : 'red'}
                             type='number'
@@ -212,13 +213,18 @@ export default function InsuranceForm({
                     </Table.Cell>
                     <Table.Cell>
                       <TextField.Root
+                        size='1'
                         {...register(`insurances.${i}.company`, {
                           required: true
                         })}
                       />
                     </Table.Cell>
                     <Table.Cell>
-                      <TextField.Root type='date' {...register(`insurances.${i}.start_date`)} />
+                      <TextField.Root
+                        size='1'
+                        type='date'
+                        {...register(`insurances.${i}.start_date`)}
+                      />
                       ~
                       <Controller
                         name={`insurances.${i}.end_date`}
@@ -227,6 +233,7 @@ export default function InsuranceForm({
                           const checkInDate = watch(`insurances.${i}.start_date`);
                           return (
                             <TextField.Root
+                              size='1'
                               type='date'
                               min={checkInDate || undefined}
                               value={field.value || ''}
@@ -243,6 +250,7 @@ export default function InsuranceForm({
                     </Table.Cell>
                     <Table.Cell>
                       <TextField.Root
+                        size='1'
                         type='number'
                         min='1'
                         readOnly
@@ -257,6 +265,7 @@ export default function InsuranceForm({
                         <Flex direction='column'>
                           <span>🧑 성인</span>
                           <TextField.Root
+                            size='1'
                             type='number'
                             min='0'
                             step='0.01'
@@ -271,6 +280,7 @@ export default function InsuranceForm({
                         <Flex direction='column'>
                           <span>🧒 소아</span>
                           <TextField.Root
+                            size='1'
                             type='number'
                             min='0'
                             step='0.01'
@@ -285,6 +295,7 @@ export default function InsuranceForm({
                         <Flex direction='column'>
                           <span>👶 유아</span>
                           <TextField.Root
+                            size='1'
                             type='number'
                             min='0'
                             step='0.01'
@@ -304,6 +315,7 @@ export default function InsuranceForm({
                         <Flex direction='column'>
                           <span className='invisible'>🧑 성인</span>
                           <TextField.Root
+                            size='1'
                             type='number'
                             min='0'
                             step='0.01'
@@ -318,6 +330,7 @@ export default function InsuranceForm({
                         <Flex direction='column'>
                           <span className='invisible'>🧒 소아</span>
                           <TextField.Root
+                            size='1'
                             type='number'
                             min='0'
                             step='0.01'
@@ -332,6 +345,7 @@ export default function InsuranceForm({
                         <Flex direction='column'>
                           <span className='invisible'>👶 유아</span>
                           <TextField.Root
+                            size='1'
                             type='number'
                             min='0'
                             step='0.01'
@@ -351,6 +365,7 @@ export default function InsuranceForm({
                         <Flex direction='column'>
                           <span className='invisible'>🧑 성인</span>
                           <TextField.Root
+                            size='1'
                             type='number'
                             min='0'
                             {...register(`insurances.${i}.adult_count`, {
@@ -362,6 +377,7 @@ export default function InsuranceForm({
                         <Flex direction='column'>
                           <span className='invisible'>🧒 소아</span>
                           <TextField.Root
+                            size='1'
                             type='number'
                             min='0'
                             {...register(`insurances.${i}.children_count`, {
@@ -373,6 +389,7 @@ export default function InsuranceForm({
                         <Flex direction='column'>
                           <span className='invisible'>👶 유아</span>
                           <TextField.Root
+                            size='1'
                             type='number'
                             min='0'
                             {...register(`insurances.${i}.kids_count`, {
@@ -420,6 +437,7 @@ export default function InsuranceForm({
                         control={control}
                         render={({ field }) => (
                           <Select.Root
+                            size='1'
                             value={field.value}
                             onValueChange={value => {
                               if (
@@ -457,6 +475,7 @@ export default function InsuranceForm({
                       <Button
                         disabled={!getValues(`insurances.${i}.id`)}
                         title='추가옵션'
+                        size='1'
                         type='button'
                         onClick={() =>
                           handleAdditionalOptions({
@@ -471,7 +490,7 @@ export default function InsuranceForm({
                       </Button>
                     </Table.Cell>
                     <Table.Cell>
-                      <TextArea {...register(`insurances.${i}.notes`)} />
+                      <TextArea size='1' {...register(`insurances.${i}.notes`)} />
                     </Table.Cell>
                     <Table.Cell hidden>
                       <InsuranceTotalCalculator index={i} setValue={setValue} control={control} />
@@ -482,7 +501,7 @@ export default function InsuranceForm({
                       <Flex align='center' gap='2'>
                         <Text weight='bold'>규정</Text>
                         <Box flexGrow='1'>
-                          <TextField.Root {...register(`insurances.${i}.rule`)} />
+                          <TextField.Root size='1' {...register(`insurances.${i}.rule`)} />
                         </Box>
                       </Flex>
                     </Table.Cell>

@@ -149,11 +149,11 @@ export default function RentalCarForm({
               <Table.Header>
                 <Table.Row>
                   <Table.ColumnHeaderCell width='90px'>환율</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='120px'>지역</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='280px'>픽업</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='280px'>리턴</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='100px'>지역</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='250px'>픽업</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='250px'>리턴</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='180px'>차종</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='100px'>운전자</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='80px'>운전자</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='180px'>조건</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='80px'>💰1일요금</Table.ColumnHeaderCell>
@@ -161,7 +161,7 @@ export default function RentalCarForm({
                   <Table.ColumnHeaderCell width='180px'>
                     합계(<Text color='blue'>원가</Text>/판매가)
                   </Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='110px'>진행상태</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='90px'>진행상태</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='70px'>추가옵션</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>
                 </Table.Row>
@@ -180,6 +180,7 @@ export default function RentalCarForm({
                         control={control}
                         render={({ field }) => (
                           <TextField.Root
+                            size='1'
                             variant='soft'
                             color={field.value ? 'indigo' : 'red'}
                             type='number'
@@ -207,6 +208,7 @@ export default function RentalCarForm({
                         control={control}
                         render={({ field }) => (
                           <Select.Root
+                            size='1'
                             value={field.value}
                             onValueChange={value => {
                               field.onChange(value);
@@ -261,6 +263,7 @@ export default function RentalCarForm({
                             return (
                               <Flex gap='2'>
                                 <TextField.Root
+                                  size='1'
                                   {...field}
                                   type='date'
                                   min={minDate}
@@ -321,7 +324,7 @@ export default function RentalCarForm({
                       />
                     </Table.Cell>
                     <Table.Cell>
-                      <TextField.Root {...register(`rental_cars.${i}.driver`)} />
+                      <TextField.Root size='1' {...register(`rental_cars.${i}.driver`)} />
                     </Table.Cell>
                     <Table.Cell>
                       <Controller
@@ -341,6 +344,7 @@ export default function RentalCarForm({
                     </Table.Cell>
                     <Table.Cell>
                       <TextField.Root
+                        size='1'
                         type='number'
                         min='0'
                         step='0.01'
@@ -354,6 +358,7 @@ export default function RentalCarForm({
                     </Table.Cell>
                     <Table.Cell>
                       <TextField.Root
+                        size='1'
                         type='number'
                         min='0'
                         step='0.01'
@@ -367,6 +372,7 @@ export default function RentalCarForm({
                     </Table.Cell>
                     <Table.Cell>
                       <TextField.Root
+                        size='1'
                         type='number'
                         min='1'
                         {...register(`rental_cars.${i}.rental_days`, {
@@ -412,6 +418,7 @@ export default function RentalCarForm({
                         control={control}
                         render={({ field }) => (
                           <Select.Root
+                            size='1'
                             value={field.value}
                             onValueChange={value => {
                               if (
@@ -449,6 +456,7 @@ export default function RentalCarForm({
                       <Button
                         disabled={!getValues(`rental_cars.${i}.id`)}
                         title='추가옵션'
+                        size='1'
                         type='button'
                         onClick={() =>
                           handleAdditionalOptions({
@@ -463,7 +471,7 @@ export default function RentalCarForm({
                       </Button>
                     </Table.Cell>
                     <Table.Cell>
-                      <TextArea {...register(`rental_cars.${i}.notes`)} />
+                      <TextArea size='1' {...register(`rental_cars.${i}.notes`)} />
                     </Table.Cell>
                     <Table.Cell hidden>
                       <CarTotalCalculator index={i} setValue={setValue} control={control} />
@@ -474,7 +482,7 @@ export default function RentalCarForm({
                       <Flex align='center' gap='2'>
                         <Text weight='bold'>규정</Text>
                         <Box flexGrow='1'>
-                          <TextField.Root {...register(`rental_cars.${i}.rule`)} />
+                          <TextField.Root size='1' {...register(`rental_cars.${i}.rule`)} />
                         </Box>
                       </Flex>
                     </Table.Cell>

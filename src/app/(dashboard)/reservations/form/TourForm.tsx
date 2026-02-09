@@ -146,8 +146,8 @@ export default function TourForm({
               <Table.Header>
                 <Table.Row>
                   <Table.ColumnHeaderCell width='90px'>환율</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='120px'>지역</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='280px'>날짜</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='100px'>지역</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='250px'>날짜</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='240px'>상품명</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='80px'>💰요금</Table.ColumnHeaderCell>
@@ -155,7 +155,7 @@ export default function TourForm({
                   <Table.ColumnHeaderCell width='180px'>
                     합계(<Text color='blue'>원가</Text>/판매가)
                   </Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='110px'>진행상태</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='90px'>진행상태</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='70px'>추가옵션</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>
                 </Table.Row>
@@ -174,6 +174,7 @@ export default function TourForm({
                         control={control}
                         render={({ field }) => (
                           <TextField.Root
+                            size='1'
                             variant='soft'
                             color={field.value ? 'indigo' : 'red'}
                             type='number'
@@ -201,6 +202,7 @@ export default function TourForm({
                         control={control}
                         render={({ field }) => (
                           <Select.Root
+                            size='1'
                             value={field.value}
                             onValueChange={value => {
                               field.onChange(value);
@@ -227,6 +229,7 @@ export default function TourForm({
                     </Table.Cell>
                     <Table.Cell>
                       <TextField.Root
+                        size='1'
                         {...register(`tours.${i}.name`, {
                           required: true
                         })}
@@ -237,6 +240,7 @@ export default function TourForm({
                         <Flex direction='column'>
                           <span>🧑 성인</span>
                           <TextField.Root
+                            size='1'
                             type='number'
                             min='0'
                             step='0.01'
@@ -251,6 +255,7 @@ export default function TourForm({
                         <Flex direction='column'>
                           <span>🧒 소아</span>
                           <TextField.Root
+                            size='1'
                             type='number'
                             min='0'
                             step='0.01'
@@ -265,6 +270,7 @@ export default function TourForm({
                         <Flex direction='column'>
                           <span>👶 유아</span>
                           <TextField.Root
+                            size='1'
                             type='number'
                             min='0'
                             step='0.01'
@@ -284,6 +290,7 @@ export default function TourForm({
                         <Flex direction='column'>
                           <span className='invisible'>🧑 성인</span>
                           <TextField.Root
+                            size='1'
                             type='number'
                             min='0'
                             step='0.01'
@@ -298,6 +305,7 @@ export default function TourForm({
                         <Flex direction='column'>
                           <span className='invisible'>🧒 소아</span>
                           <TextField.Root
+                            size='1'
                             type='number'
                             min='0'
                             step='0.01'
@@ -312,6 +320,7 @@ export default function TourForm({
                         <Flex direction='column'>
                           <span className='invisible'>👶 유아</span>
                           <TextField.Root
+                            size='1'
                             type='number'
                             min='0'
                             step='0.01'
@@ -331,6 +340,7 @@ export default function TourForm({
                         <Flex direction='column'>
                           <span className='invisible'>🧑 성인</span>
                           <TextField.Root
+                            size='1'
                             type='number'
                             min='0'
                             {...register(`tours.${i}.adult_count`, {
@@ -342,6 +352,7 @@ export default function TourForm({
                         <Flex direction='column'>
                           <span className='invisible'>🧒 소아</span>
                           <TextField.Root
+                            size='1'
                             type='number'
                             min='0'
                             {...register(`tours.${i}.children_count`, {
@@ -353,6 +364,7 @@ export default function TourForm({
                         <Flex direction='column'>
                           <span className='invisible'>👶 유아</span>
                           <TextField.Root
+                            size='1'
                             type='number'
                             min='0'
                             {...register(`tours.${i}.kids_count`, {
@@ -400,6 +412,7 @@ export default function TourForm({
                         control={control}
                         render={({ field }) => (
                           <Select.Root
+                            size='1'
                             value={field.value}
                             onValueChange={value => {
                               if (
@@ -437,6 +450,7 @@ export default function TourForm({
                       <Button
                         disabled={!getValues(`tours.${i}.id`)}
                         title='추가옵션'
+                        size='1'
                         type='button'
                         onClick={() =>
                           handleAdditionalOptions({
@@ -451,7 +465,7 @@ export default function TourForm({
                       </Button>
                     </Table.Cell>
                     <Table.Cell>
-                      <TextArea {...register(`tours.${i}.notes`)} />
+                      <TextArea size='1' {...register(`tours.${i}.notes`)} />
                     </Table.Cell>
                     <Table.Cell hidden>
                       <TourTotalCalculator index={i} setValue={setValue} control={control} />
@@ -462,7 +476,7 @@ export default function TourForm({
                       <Flex align='center' gap='2'>
                         <Text weight='bold'>규정</Text>
                         <Box flexGrow='1'>
-                          <TextField.Root {...register(`tours.${i}.rule`)} />
+                          <TextField.Root size='1' {...register(`tours.${i}.rule`)} />
                         </Box>
                       </Flex>
                     </Table.Cell>

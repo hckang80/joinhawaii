@@ -22,6 +22,7 @@ export function TimeInput<TFieldValues extends FieldValues = FieldValues>({
         return (
           <Flex gap='1' align='center'>
             <TextField.Root
+              size='1'
               type='number'
               min={0}
               max={23}
@@ -34,6 +35,7 @@ export function TimeInput<TFieldValues extends FieldValues = FieldValues>({
             />
             :
             <TextField.Root
+              size='1'
               type='number'
               min={0}
               max={59}

@@ -117,7 +117,7 @@ export default function AdditionalOptionsEditor({
                 <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='80px'>💰요금</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='70px'>수량</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell width='110px'>진행상태</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell width='90px'>진행상태</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>
               </Table.Row>
             </Table.Header>
@@ -130,6 +130,7 @@ export default function AdditionalOptionsEditor({
                       control={control}
                       render={({ field }) => (
                         <TextField.Root
+                          size='1'
                           type='number'
                           min='0'
                           step='0.01'
@@ -151,6 +152,7 @@ export default function AdditionalOptionsEditor({
                   </Table.Cell>
                   <Table.Cell>
                     <TextField.Root
+                      size='1'
                       {...register(`additionalOptions.${i}.title`, {
                         required: true
                       })}
@@ -160,6 +162,7 @@ export default function AdditionalOptionsEditor({
                     <Grid gap='2'>
                       <Flex direction='column'>
                         <TextField.Root
+                          size='1'
                           type='number'
                           min='0'
                           step='0.01'
@@ -177,6 +180,7 @@ export default function AdditionalOptionsEditor({
                     <Grid gap='2'>
                       <Flex direction='column'>
                         <TextField.Root
+                          size='1'
                           type='number'
                           min='0'
                           step='0.01'
@@ -194,6 +198,7 @@ export default function AdditionalOptionsEditor({
                     <Grid gap='2'>
                       <Flex direction='column'>
                         <TextField.Root
+                          size='1'
                           type='number'
                           min='0'
                           {...register(`additionalOptions.${i}.adult_count`, {
@@ -231,7 +236,7 @@ export default function AdditionalOptionsEditor({
                     />
                   </Table.Cell>
                   <Table.Cell>
-                    <TextArea {...register(`additionalOptions.${i}.notes`)} />
+                    <TextArea size='1' {...register(`additionalOptions.${i}.notes`)} />
                   </Table.Cell>
                   <Table.Cell hidden>
                     <AdditionalOptionsTotals index={i} setValue={setValue} control={control} />

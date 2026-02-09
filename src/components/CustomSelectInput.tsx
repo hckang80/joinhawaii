@@ -24,6 +24,7 @@ export function CustomSelectInput({
   return (
     <Flex direction='column' align='stretch' gap='1'>
       <Select.Root
+        size='1'
         value={isCustom ? customLabel : (value ?? '')}
         onValueChange={val => {
           if (val === customLabel) onChange('');
@@ -44,6 +45,7 @@ export function CustomSelectInput({
       </Select.Root>
       {isCustom && (
         <TextField.Root
+          size='1'
           ref={ref}
           value={value === customLabel ? '' : value}
           placeholder={inputPlaceholder}

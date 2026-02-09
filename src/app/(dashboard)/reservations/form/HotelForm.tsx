@@ -149,7 +149,7 @@ export default function HotelForm({
               <Table.Header>
                 <Table.Row>
                   <Table.ColumnHeaderCell width='90px'>환율</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='120px'>지역</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='100px'>지역</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='170px'>날짜</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='60px'>숙박일</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='200px'>호텔</Table.ColumnHeaderCell>
@@ -162,7 +162,7 @@ export default function HotelForm({
                     합계(<Text color='blue'>원가</Text>/판매가)
                   </Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='90px'>CF#/VC#</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='110px'>진행상태</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='90px'>진행상태</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='70px'>추가옵션</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>
                 </Table.Row>
@@ -181,6 +181,7 @@ export default function HotelForm({
                         control={control}
                         render={({ field }) => (
                           <TextField.Root
+                            size='1'
                             variant='soft'
                             color={field.value ? 'indigo' : 'red'}
                             type='number'
@@ -208,6 +209,7 @@ export default function HotelForm({
                         control={control}
                         render={({ field }) => (
                           <Select.Root
+                            size='1'
                             value={field.value}
                             onValueChange={value => {
                               field.onChange(value);
@@ -227,7 +229,11 @@ export default function HotelForm({
                       />
                     </Table.Cell>
                     <Table.Cell>
-                      <TextField.Root type='date' {...register(`hotels.${i}.check_in_date`)} />
+                      <TextField.Root
+                        size='1'
+                        type='date'
+                        {...register(`hotels.${i}.check_in_date`)}
+                      />
                       ~
                       <Controller
                         name={`hotels.${i}.check_out_date`}
@@ -236,6 +242,7 @@ export default function HotelForm({
                           const checkInDate = watch(`hotels.${i}.check_in_date`);
                           return (
                             <TextField.Root
+                              size='1'
                               type='date'
                               min={checkInDate || undefined}
                               value={field.value || ''}
@@ -252,6 +259,7 @@ export default function HotelForm({
                     </Table.Cell>
                     <Table.Cell>
                       <TextField.Root
+                        size='1'
                         type='number'
                         min='1'
                         {...register(`hotels.${i}.nights`, {
@@ -299,7 +307,7 @@ export default function HotelForm({
                         control={control}
                         render={({ field }) => (
                           <Checkbox
-                            size='3'
+                            size='1'
                             checked={field.value}
                             onCheckedChange={value => {
                               field.onChange(value);
@@ -314,7 +322,7 @@ export default function HotelForm({
                         control={control}
                         render={({ field }) => (
                           <Checkbox
-                            size='3'
+                            size='1'
                             checked={field.value}
                             onCheckedChange={value => {
                               field.onChange(value);
@@ -325,6 +333,7 @@ export default function HotelForm({
                     </Table.Cell>
                     <Table.Cell>
                       <TextField.Root
+                        size='1'
                         type='number'
                         min='0'
                         step='0.01'
@@ -338,6 +347,7 @@ export default function HotelForm({
                     </Table.Cell>
                     <Table.Cell>
                       <TextField.Root
+                        size='1'
                         type='number'
                         min='0'
                         step='0.01'
@@ -387,6 +397,7 @@ export default function HotelForm({
                         control={control}
                         render={({ field }) => (
                           <Select.Root
+                            size='1'
                             value={field.value}
                             onValueChange={value => {
                               if (
@@ -424,6 +435,7 @@ export default function HotelForm({
                       <Button
                         disabled={!getValues(`hotels.${i}.id`)}
                         title='추가옵션'
+                        size='1'
                         type='button'
                         onClick={() =>
                           handleAdditionalOptions({
@@ -438,7 +450,7 @@ export default function HotelForm({
                       </Button>
                     </Table.Cell>
                     <Table.Cell>
-                      <TextArea {...register(`hotels.${i}.notes`)} />
+                      <TextArea size='1' {...register(`hotels.${i}.notes`)} />
                     </Table.Cell>
                     <Table.Cell hidden>
                       <HotelTotalCalculator index={i} setValue={setValue} control={control} />
@@ -449,7 +461,7 @@ export default function HotelForm({
                       <Flex align='center' gap='2'>
                         <Text weight='bold'>규정</Text>
                         <Box flexGrow='1'>
-                          <TextField.Root {...register(`hotels.${i}.rule`)} />
+                          <TextField.Root size='1' {...register(`hotels.${i}.rule`)} />
                         </Box>
                       </Flex>
                     </Table.Cell>

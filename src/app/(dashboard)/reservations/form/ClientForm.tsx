@@ -342,7 +342,7 @@ export default function ClientForm({
                   <Table.ColumnHeaderCell width='150px'>주민번호</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='140px'>연락처</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='180px'>이메일</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='110px'>진행상태</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='90px'>진행상태</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>
                 </Table.Row>
               </Table.Header>
@@ -352,7 +352,6 @@ export default function ClientForm({
                     <Table.Cell align='center'>
                       <label>
                         <Radio
-                          size='3'
                           name='reservation'
                           value={'' + i}
                           defaultChecked={
@@ -371,6 +370,7 @@ export default function ClientForm({
                         rules={{ required: true }}
                         render={({ field }) => (
                           <TextField.Root
+                            size='1'
                             ref={field.ref}
                             value={field.value}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -390,6 +390,7 @@ export default function ClientForm({
                         control={control}
                         render={({ field }) => (
                           <TextField.Root
+                            size='1'
                             ref={field.ref}
                             value={field.value}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -407,6 +408,7 @@ export default function ClientForm({
                         control={control}
                         render={({ field }) => (
                           <Select.Root
+                            size='1'
                             value={field.value}
                             onValueChange={value => {
                               field.onChange(value);
@@ -431,6 +433,7 @@ export default function ClientForm({
                         control={control}
                         render={({ field }) => (
                           <TextField.Root
+                            size='1'
                             ref={field.ref}
                             value={field.value}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -446,6 +449,7 @@ export default function ClientForm({
                         control={control}
                         render={({ field }) => (
                           <TextField.Root
+                            size='1'
                             ref={field.ref}
                             value={field.value}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -457,6 +461,7 @@ export default function ClientForm({
                     </Table.Cell>
                     <Table.Cell>
                       <TextField.Root
+                        size='1'
                         {...register(`clients.${i}.email`)}
                         placeholder='joinhawaii@gmail.com'
                       />
@@ -467,6 +472,7 @@ export default function ClientForm({
                         control={control}
                         render={({ field }) => (
                           <Select.Root
+                            size='1'
                             value={field.value}
                             onValueChange={value => {
                               field.onChange(value);
@@ -491,7 +497,7 @@ export default function ClientForm({
                       />
                     </Table.Cell>
                     <Table.Cell>
-                      <TextField.Root {...register(`clients.${i}.notes`)} />
+                      <TextField.Root size='1' {...register(`clients.${i}.notes`)} />
                     </Table.Cell>
                   </Table.Row>
                 ))}
