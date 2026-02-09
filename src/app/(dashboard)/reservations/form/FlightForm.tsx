@@ -136,6 +136,7 @@ export default function FlightForm({
                 <Table.Row>
                   <Table.Cell>
                     <TextField.Root
+                      size='1'
                       {...register(`flights.${i}.flight_number`, {
                         required: true
                       })}
@@ -146,7 +147,7 @@ export default function FlightForm({
                     <DateTimeInput name={`flights.${i}.departure_datetime`} control={control} />
                   </Table.Cell>
                   <Table.Cell>
-                    <TextField.Root {...register(`flights.${i}.departure_city`)} />
+                    <TextField.Root size='1' {...register(`flights.${i}.departure_city`)} />
                   </Table.Cell>
                   <Table.Cell>
                     <Controller
@@ -165,6 +166,7 @@ export default function FlightForm({
                           <Flex gap='2'>
                             <TextField.Root
                               {...field}
+                              size='1'
                               type='date'
                               min={minDate}
                               value={dateString}
@@ -190,6 +192,7 @@ export default function FlightForm({
                   </Table.Cell>
                   <Table.Cell>
                     <TextField.Root
+                      size='1'
                       {...register(`flights.${i}.arrival_city`)}
                       placeholder='호놀룰루'
                     />
@@ -199,6 +202,7 @@ export default function FlightForm({
                       <Flex direction='column'>
                         <span>🧑 성인</span>
                         <TextField.Root
+                          size='1'
                           type='number'
                           min='0'
                           color='blue'
@@ -209,6 +213,7 @@ export default function FlightForm({
                       <Flex direction='column'>
                         <span>🧒 소아</span>
                         <TextField.Root
+                          size='1'
                           type='number'
                           min='0'
                           color='blue'
@@ -221,6 +226,7 @@ export default function FlightForm({
                       <Flex direction='column'>
                         <span>👶 유아</span>
                         <TextField.Root
+                          size='1'
                           type='number'
                           min='0'
                           color='blue'
@@ -238,6 +244,7 @@ export default function FlightForm({
                       <Flex direction='column'>
                         <span className='invisible'>🧑 성인</span>
                         <TextField.Root
+                          size='1'
                           type='number'
                           min='0'
                           color='orange'
@@ -250,6 +257,7 @@ export default function FlightForm({
                       <Flex direction='column'>
                         <span className='invisible'>🧒 소아</span>
                         <TextField.Root
+                          size='1'
                           type='number'
                           min='0'
                           color='orange'
@@ -262,6 +270,7 @@ export default function FlightForm({
                       <Flex direction='column'>
                         <span className='invisible'>👶 유아</span>
                         <TextField.Root
+                          size='1'
                           type='number'
                           min='0'
                           color='orange'
@@ -279,6 +288,7 @@ export default function FlightForm({
                       <Flex direction='column'>
                         <span className='invisible'>🧑 성인</span>
                         <TextField.Root
+                          size='1'
                           type='number'
                           min='0'
                           {...register(`flights.${i}.adult_count`, {
@@ -289,6 +299,7 @@ export default function FlightForm({
                       <Flex direction='column'>
                         <span className='invisible'>🧒 소아</span>
                         <TextField.Root
+                          size='1'
                           type='number'
                           min='0'
                           {...register(`flights.${i}.children_count`, {
@@ -299,6 +310,7 @@ export default function FlightForm({
                       <Flex direction='column'>
                         <span className='invisible'>👶 유아</span>
                         <TextField.Root
+                          size='1'
                           type='number'
                           min='0'
                           {...register(`flights.${i}.kids_count`, {
@@ -325,6 +337,7 @@ export default function FlightForm({
                       control={control}
                       render={({ field }) => (
                         <Select.Root
+                          size='1'
                           value={field.value}
                           onValueChange={value => {
                             field.onChange(value);
@@ -346,7 +359,7 @@ export default function FlightForm({
                     />
                   </Table.Cell>
                   <Table.Cell>
-                    <TextArea {...register(`flights.${i}.notes`)} />
+                    <TextArea size='1' {...register(`flights.${i}.notes`)} />
                   </Table.Cell>
                   <Table.Cell hidden>
                     <FlightTotalCalculator index={i} setValue={setValue} control={control} />
@@ -357,7 +370,7 @@ export default function FlightForm({
                     <Flex align='center' gap='2'>
                       <Text weight='bold'>규정</Text>
                       <Box flexGrow='1'>
-                        <TextField.Root {...register(`flights.${i}.rule`)} />
+                        <TextField.Root size='1' {...register(`flights.${i}.rule`)} />
                       </Box>
                     </Flex>
                   </Table.Cell>

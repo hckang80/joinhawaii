@@ -180,6 +180,7 @@ export default function RentalCarForm({
                         control={control}
                         render={({ field }) => (
                           <TextField.Root
+                            size='1'
                             variant='soft'
                             color={field.value ? 'indigo' : 'red'}
                             type='number'
@@ -207,6 +208,7 @@ export default function RentalCarForm({
                         control={control}
                         render={({ field }) => (
                           <Select.Root
+                            size='1'
                             value={field.value}
                             onValueChange={value => {
                               field.onChange(value);
@@ -261,6 +263,7 @@ export default function RentalCarForm({
                             return (
                               <Flex gap='2'>
                                 <TextField.Root
+                                  size='1'
                                   {...field}
                                   type='date'
                                   min={minDate}
@@ -321,7 +324,7 @@ export default function RentalCarForm({
                       />
                     </Table.Cell>
                     <Table.Cell>
-                      <TextField.Root {...register(`rental_cars.${i}.driver`)} />
+                      <TextField.Root size='1' {...register(`rental_cars.${i}.driver`)} />
                     </Table.Cell>
                     <Table.Cell>
                       <Controller
@@ -341,6 +344,7 @@ export default function RentalCarForm({
                     </Table.Cell>
                     <Table.Cell>
                       <TextField.Root
+                        size='1'
                         type='number'
                         min='0'
                         step='0.01'
@@ -354,6 +358,7 @@ export default function RentalCarForm({
                     </Table.Cell>
                     <Table.Cell>
                       <TextField.Root
+                        size='1'
                         type='number'
                         min='0'
                         step='0.01'
@@ -367,6 +372,7 @@ export default function RentalCarForm({
                     </Table.Cell>
                     <Table.Cell>
                       <TextField.Root
+                        size='1'
                         type='number'
                         min='1'
                         {...register(`rental_cars.${i}.rental_days`, {
@@ -412,6 +418,7 @@ export default function RentalCarForm({
                         control={control}
                         render={({ field }) => (
                           <Select.Root
+                            size='1'
                             value={field.value}
                             onValueChange={value => {
                               if (
@@ -463,7 +470,7 @@ export default function RentalCarForm({
                       </Button>
                     </Table.Cell>
                     <Table.Cell>
-                      <TextArea {...register(`rental_cars.${i}.notes`)} />
+                      <TextArea size='1' {...register(`rental_cars.${i}.notes`)} />
                     </Table.Cell>
                     <Table.Cell hidden>
                       <CarTotalCalculator index={i} setValue={setValue} control={control} />
@@ -474,7 +481,7 @@ export default function RentalCarForm({
                       <Flex align='center' gap='2'>
                         <Text weight='bold'>규정</Text>
                         <Box flexGrow='1'>
-                          <TextField.Root {...register(`rental_cars.${i}.rule`)} />
+                          <TextField.Root size='1' {...register(`rental_cars.${i}.rule`)} />
                         </Box>
                       </Flex>
                     </Table.Cell>
