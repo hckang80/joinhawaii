@@ -108,276 +108,281 @@ export default function FlightForm({
             항공정보
           </Heading>
 
-          <Table.Root size='1' layout='fixed'>
-            <Table.Header>
-              <Table.Row>
-                <Table.ColumnHeaderCell width='100px'>항공편</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell width='300px'>출발시간</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell width='100px'>출발지</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell width='300px'>도착시간</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell width='100px'>도착지</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell width='80px'>💰요금</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell width='80px'>🧑‍🤝‍🧑인원</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell width='180px'>
-                  합계(<Text color='blue'>원가</Text>/판매가)
-                </Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell width='90px'>진행상태</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>
-              </Table.Row>
-            </Table.Header>
-            {flights.map((flight, i) => (
-              <Table.Body
-                key={i}
-                className={clsx(
-                  isRefunded(flight.status, data.products.flights[i]?.status) && 'is-disabled'
-                )}
-              >
+          {!!flights.length && (
+            <Table.Root size='1' layout='fixed'>
+              <Table.Header>
                 <Table.Row>
-                  <Table.Cell>
-                    <TextField.Root
-                      size='1'
-                      {...register(`flights.${i}.flight_number`, {
-                        required: true
-                      })}
-                      placeholder='KE001'
-                    />
-                  </Table.Cell>
-                  <Table.Cell>
-                    <DateTimeInput name={`flights.${i}.departure_datetime`} control={control} />
-                  </Table.Cell>
-                  <Table.Cell>
-                    <TextField.Root size='1' {...register(`flights.${i}.departure_city`)} />
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Controller
-                      name={`flights.${i}.arrival_datetime`}
-                      control={control}
-                      render={({ field }) => {
-                        const departureDate = watch(`flights.${i}.departure_datetime`);
-                        const dateString = field.value
-                          ? new Date(field.value).toISOString().slice(0, 10)
-                          : '';
-                        const minDate = departureDate
-                          ? new Date(departureDate).toISOString().slice(0, 10)
-                          : undefined;
+                  <Table.ColumnHeaderCell width='100px'>항공편</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='300px'>출발시간</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='100px'>출발지</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='300px'>도착시간</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='100px'>도착지</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='80px'>💰요금</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='80px'>🧑‍🤝‍🧑인원</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='180px'>
+                    합계(<Text color='blue'>원가</Text>/판매가)
+                  </Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='90px'>진행상태</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>
+                </Table.Row>
+              </Table.Header>
+              {flights.map((flight, i) => (
+                <Table.Body
+                  key={i}
+                  className={clsx(
+                    isRefunded(flight.status, data.products.flights[i]?.status) && 'is-disabled'
+                  )}
+                >
+                  <Table.Row>
+                    <Table.Cell>
+                      <TextField.Root
+                        size='1'
+                        {...register(`flights.${i}.flight_number`, {
+                          required: true
+                        })}
+                        placeholder='KE001'
+                      />
+                    </Table.Cell>
+                    <Table.Cell>
+                      <DateTimeInput name={`flights.${i}.departure_datetime`} control={control} />
+                    </Table.Cell>
+                    <Table.Cell>
+                      <TextField.Root size='1' {...register(`flights.${i}.departure_city`)} />
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Controller
+                        name={`flights.${i}.arrival_datetime`}
+                        control={control}
+                        render={({ field }) => {
+                          const departureDate = watch(`flights.${i}.departure_datetime`);
+                          const dateString = field.value
+                            ? new Date(field.value).toISOString().slice(0, 10)
+                            : '';
+                          const minDate = departureDate
+                            ? new Date(departureDate).toISOString().slice(0, 10)
+                            : undefined;
 
-                        return (
-                          <Flex gap='2'>
-                            <TextField.Root
-                              {...field}
-                              size='1'
-                              type='date'
-                              min={minDate}
-                              value={dateString}
-                              onChange={e => {
-                                const value = e.target.value;
-                                if (value) {
-                                  field.onChange(updateDateInISO(field.value, value));
-                                } else {
-                                  field.onChange(null);
-                                }
-                              }}
-                              onFocus={() => {
-                                if (!field.value && departureDate) {
-                                  field.onChange(departureDate);
-                                }
-                              }}
-                            />
-                            <TimeInput name={`flights.${i}.arrival_datetime`} control={control} />
-                          </Flex>
-                        );
-                      }}
-                    />
-                  </Table.Cell>
-                  <Table.Cell>
-                    <TextField.Root
-                      size='1'
-                      {...register(`flights.${i}.arrival_city`)}
-                      placeholder='호놀룰루'
-                    />
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Grid gap='2'>
-                      <Flex direction='column'>
-                        <span>🧑 성인</span>
-                        <TextField.Root
-                          size='1'
-                          type='number'
-                          min='0'
-                          color='blue'
-                          variant='soft'
-                          {...register(`flights.${i}.adult_cost`)}
-                        />
+                          return (
+                            <Flex gap='2'>
+                              <TextField.Root
+                                {...field}
+                                size='1'
+                                type='date'
+                                min={minDate}
+                                value={dateString}
+                                onChange={e => {
+                                  const value = e.target.value;
+                                  if (value) {
+                                    field.onChange(updateDateInISO(field.value, value));
+                                  } else {
+                                    field.onChange(null);
+                                  }
+                                }}
+                                onFocus={() => {
+                                  if (!field.value && departureDate) {
+                                    field.onChange(departureDate);
+                                  }
+                                }}
+                              />
+                              <TimeInput name={`flights.${i}.arrival_datetime`} control={control} />
+                            </Flex>
+                          );
+                        }}
+                      />
+                    </Table.Cell>
+                    <Table.Cell>
+                      <TextField.Root
+                        size='1'
+                        {...register(`flights.${i}.arrival_city`)}
+                        placeholder='호놀룰루'
+                      />
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Grid gap='2'>
+                        <Flex direction='column'>
+                          <span>🧑 성인</span>
+                          <TextField.Root
+                            size='1'
+                            type='number'
+                            min='0'
+                            color='blue'
+                            variant='soft'
+                            {...register(`flights.${i}.adult_cost`)}
+                          />
+                        </Flex>
+                        <Flex direction='column'>
+                          <span>🧒 소아</span>
+                          <TextField.Root
+                            size='1'
+                            type='number'
+                            min='0'
+                            color='blue'
+                            variant='soft'
+                            {...register(`flights.${i}.children_cost`, {
+                              valueAsNumber: true
+                            })}
+                          />
+                        </Flex>
+                        <Flex direction='column'>
+                          <span>👶 유아</span>
+                          <TextField.Root
+                            size='1'
+                            type='number'
+                            min='0'
+                            color='blue'
+                            variant='soft'
+                            readOnly
+                            {...register(`flights.${i}.kids_cost`, {
+                              valueAsNumber: true
+                            })}
+                          />
+                        </Flex>
+                      </Grid>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Grid gap='2'>
+                        <Flex direction='column'>
+                          <span className='invisible'>🧑 성인</span>
+                          <TextField.Root
+                            size='1'
+                            type='number'
+                            min='0'
+                            color='orange'
+                            variant='soft'
+                            {...register(`flights.${i}.adult_price`, {
+                              valueAsNumber: true
+                            })}
+                          />
+                        </Flex>
+                        <Flex direction='column'>
+                          <span className='invisible'>🧒 소아</span>
+                          <TextField.Root
+                            size='1'
+                            type='number'
+                            min='0'
+                            color='orange'
+                            variant='soft'
+                            {...register(`flights.${i}.children_price`, {
+                              valueAsNumber: true
+                            })}
+                          />
+                        </Flex>
+                        <Flex direction='column'>
+                          <span className='invisible'>👶 유아</span>
+                          <TextField.Root
+                            size='1'
+                            type='number'
+                            min='0'
+                            color='orange'
+                            variant='soft'
+                            readOnly
+                            {...register(`flights.${i}.kids_price`, {
+                              valueAsNumber: true
+                            })}
+                          />
+                        </Flex>
+                      </Grid>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Grid gap='2'>
+                        <Flex direction='column'>
+                          <span className='invisible'>🧑 성인</span>
+                          <TextField.Root
+                            size='1'
+                            type='number'
+                            min='0'
+                            {...register(`flights.${i}.adult_count`, {
+                              valueAsNumber: true
+                            })}
+                          />
+                        </Flex>
+                        <Flex direction='column'>
+                          <span className='invisible'>🧒 소아</span>
+                          <TextField.Root
+                            size='1'
+                            type='number'
+                            min='0'
+                            {...register(`flights.${i}.children_count`, {
+                              valueAsNumber: true
+                            })}
+                          />
+                        </Flex>
+                        <Flex direction='column'>
+                          <span className='invisible'>👶 유아</span>
+                          <TextField.Root
+                            size='1'
+                            type='number'
+                            min='0'
+                            {...register(`flights.${i}.kids_count`, {
+                              valueAsNumber: true
+                            })}
+                          />
+                        </Flex>
+                      </Grid>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Flex gap='1' align='end'>
+                        <Text color='blue' size='3'>
+                          {toReadableAmount(getValues(`flights.${i}.total_cost`), 'ko-KR', 'KRW')}
+                        </Text>
+                        <span>/</span>
+                        <Text weight='bold' size='3'>
+                          {toReadableAmount(getValues(`flights.${i}.total_amount`), 'ko-KR', 'KRW')}
+                        </Text>
                       </Flex>
-                      <Flex direction='column'>
-                        <span>🧒 소아</span>
-                        <TextField.Root
-                          size='1'
-                          type='number'
-                          min='0'
-                          color='blue'
-                          variant='soft'
-                          {...register(`flights.${i}.children_cost`, {
-                            valueAsNumber: true
-                          })}
-                        />
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Controller
+                        name={`flights.${i}.status`}
+                        control={control}
+                        render={({ field }) => (
+                          <Select.Root
+                            size='1'
+                            value={field.value}
+                            onValueChange={value => {
+                              field.onChange(value);
+                            }}
+                            name={field.name}
+                          >
+                            <Select.Trigger
+                              color={PRODUCT_STATUS_COLOR[field.value]}
+                              variant='soft'
+                            >
+                              {ProductStatus[field.value]}
+                            </Select.Trigger>
+                            <Select.Content>
+                              {Object.entries(ProductStatus).map(([key, label]) => (
+                                <Select.Item key={key} value={key}>
+                                  {label}
+                                </Select.Item>
+                              ))}
+                            </Select.Content>
+                          </Select.Root>
+                        )}
+                      />
+                    </Table.Cell>
+                    <Table.Cell>
+                      <TextArea size='1' {...register(`flights.${i}.notes`)} />
+                    </Table.Cell>
+                    <Table.Cell hidden>
+                      <FlightTotalCalculator index={i} setValue={setValue} control={control} />
+                    </Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell colSpan={11}>
+                      <Flex align='center' gap='2'>
+                        <Text weight='bold'>규정</Text>
+                        <Box flexGrow='1'>
+                          <TextField.Root size='1' {...register(`flights.${i}.rule`)} />
+                        </Box>
                       </Flex>
-                      <Flex direction='column'>
-                        <span>👶 유아</span>
-                        <TextField.Root
-                          size='1'
-                          type='number'
-                          min='0'
-                          color='blue'
-                          variant='soft'
-                          readOnly
-                          {...register(`flights.${i}.kids_cost`, {
-                            valueAsNumber: true
-                          })}
-                        />
-                      </Flex>
-                    </Grid>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Grid gap='2'>
-                      <Flex direction='column'>
-                        <span className='invisible'>🧑 성인</span>
-                        <TextField.Root
-                          size='1'
-                          type='number'
-                          min='0'
-                          color='orange'
-                          variant='soft'
-                          {...register(`flights.${i}.adult_price`, {
-                            valueAsNumber: true
-                          })}
-                        />
-                      </Flex>
-                      <Flex direction='column'>
-                        <span className='invisible'>🧒 소아</span>
-                        <TextField.Root
-                          size='1'
-                          type='number'
-                          min='0'
-                          color='orange'
-                          variant='soft'
-                          {...register(`flights.${i}.children_price`, {
-                            valueAsNumber: true
-                          })}
-                        />
-                      </Flex>
-                      <Flex direction='column'>
-                        <span className='invisible'>👶 유아</span>
-                        <TextField.Root
-                          size='1'
-                          type='number'
-                          min='0'
-                          color='orange'
-                          variant='soft'
-                          readOnly
-                          {...register(`flights.${i}.kids_price`, {
-                            valueAsNumber: true
-                          })}
-                        />
-                      </Flex>
-                    </Grid>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Grid gap='2'>
-                      <Flex direction='column'>
-                        <span className='invisible'>🧑 성인</span>
-                        <TextField.Root
-                          size='1'
-                          type='number'
-                          min='0'
-                          {...register(`flights.${i}.adult_count`, {
-                            valueAsNumber: true
-                          })}
-                        />
-                      </Flex>
-                      <Flex direction='column'>
-                        <span className='invisible'>🧒 소아</span>
-                        <TextField.Root
-                          size='1'
-                          type='number'
-                          min='0'
-                          {...register(`flights.${i}.children_count`, {
-                            valueAsNumber: true
-                          })}
-                        />
-                      </Flex>
-                      <Flex direction='column'>
-                        <span className='invisible'>👶 유아</span>
-                        <TextField.Root
-                          size='1'
-                          type='number'
-                          min='0'
-                          {...register(`flights.${i}.kids_count`, {
-                            valueAsNumber: true
-                          })}
-                        />
-                      </Flex>
-                    </Grid>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Flex gap='1' align='end'>
-                      <Text color='blue' size='3'>
-                        {toReadableAmount(getValues(`flights.${i}.total_cost`), 'ko-KR', 'KRW')}
-                      </Text>
-                      <span>/</span>
-                      <Text weight='bold' size='3'>
-                        {toReadableAmount(getValues(`flights.${i}.total_amount`), 'ko-KR', 'KRW')}
-                      </Text>
-                    </Flex>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Controller
-                      name={`flights.${i}.status`}
-                      control={control}
-                      render={({ field }) => (
-                        <Select.Root
-                          size='1'
-                          value={field.value}
-                          onValueChange={value => {
-                            field.onChange(value);
-                          }}
-                          name={field.name}
-                        >
-                          <Select.Trigger color={PRODUCT_STATUS_COLOR[field.value]} variant='soft'>
-                            {ProductStatus[field.value]}
-                          </Select.Trigger>
-                          <Select.Content>
-                            {Object.entries(ProductStatus).map(([key, label]) => (
-                              <Select.Item key={key} value={key}>
-                                {label}
-                              </Select.Item>
-                            ))}
-                          </Select.Content>
-                        </Select.Root>
-                      )}
-                    />
-                  </Table.Cell>
-                  <Table.Cell>
-                    <TextArea size='1' {...register(`flights.${i}.notes`)} />
-                  </Table.Cell>
-                  <Table.Cell hidden>
-                    <FlightTotalCalculator index={i} setValue={setValue} control={control} />
-                  </Table.Cell>
-                </Table.Row>
-                <Table.Row>
-                  <Table.Cell colSpan={11}>
-                    <Flex align='center' gap='2'>
-                      <Text weight='bold'>규정</Text>
-                      <Box flexGrow='1'>
-                        <TextField.Root size='1' {...register(`flights.${i}.rule`)} />
-                      </Box>
-                    </Flex>
-                  </Table.Cell>
-                </Table.Row>
-              </Table.Body>
-            ))}
-          </Table.Root>
+                    </Table.Cell>
+                  </Table.Row>
+                </Table.Body>
+              ))}
+            </Table.Root>
+          )}
 
           {!flights.length && <NoData />}
 

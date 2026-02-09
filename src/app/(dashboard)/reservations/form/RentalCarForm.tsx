@@ -145,351 +145,354 @@ export default function RentalCarForm({
               렌터카
             </Heading>
 
-            <Table.Root size='1' layout='fixed'>
-              <Table.Header>
-                <Table.Row>
-                  <Table.ColumnHeaderCell width='90px'>환율</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='100px'>지역</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='250px'>픽업</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='250px'>리턴</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='180px'>차종</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='80px'>운전자</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='180px'>조건</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='80px'>💰1일요금</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='60px'>대여일</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='180px'>
-                    합계(<Text color='blue'>원가</Text>/판매가)
-                  </Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='90px'>진행상태</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='70px'>추가옵션</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>
-                </Table.Row>
-              </Table.Header>
-              {rentalCars.map((car, i) => (
-                <Table.Body
-                  key={i}
-                  className={clsx(
-                    isRefunded(car.status, data.products.rental_cars[i]?.status) && 'is-disabled'
-                  )}
-                >
+            {!!rentalCars.length && (
+              <Table.Root size='1' layout='fixed'>
+                <Table.Header>
                   <Table.Row>
-                    <Table.Cell>
-                      <Controller
-                        name={`rental_cars.${i}.exchange_rate`}
-                        control={control}
-                        render={({ field }) => (
-                          <TextField.Root
-                            size='1'
-                            variant='soft'
-                            color={field.value ? 'indigo' : 'red'}
-                            type='number'
-                            min='0'
-                            step='0.01'
-                            value={field.value}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                              const { value } = e.target;
-                              if (!value) return field.onChange(value);
+                    <Table.ColumnHeaderCell width='90px'>환율</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='100px'>지역</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='250px'>픽업</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='250px'>리턴</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='180px'>차종</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='80px'>운전자</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='180px'>조건</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='80px'>💰1일요금</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='60px'>대여일</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='180px'>
+                      합계(<Text color='blue'>원가</Text>/판매가)
+                    </Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='90px'>진행상태</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='70px'>추가옵션</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>
+                  </Table.Row>
+                </Table.Header>
+                {rentalCars.map((car, i) => (
+                  <Table.Body
+                    key={i}
+                    className={clsx(
+                      isRefunded(car.status, data.products.rental_cars[i]?.status) && 'is-disabled'
+                    )}
+                  >
+                    <Table.Row>
+                      <Table.Cell>
+                        <Controller
+                          name={`rental_cars.${i}.exchange_rate`}
+                          control={control}
+                          render={({ field }) => (
+                            <TextField.Root
+                              size='1'
+                              variant='soft'
+                              color={field.value ? 'indigo' : 'red'}
+                              type='number'
+                              min='0'
+                              step='0.01'
+                              value={field.value}
+                              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                const { value } = e.target;
+                                if (!value) return field.onChange(value);
 
-                              const [integer, decimal] = value.split('.');
-                              const formattedValue = decimal
-                                ? `${integer.slice(0, 4)}.${decimal.slice(0, 2)}`
-                                : integer.slice(0, 4);
+                                const [integer, decimal] = value.split('.');
+                                const formattedValue = decimal
+                                  ? `${integer.slice(0, 4)}.${decimal.slice(0, 2)}`
+                                  : integer.slice(0, 4);
 
-                              field.onChange(+formattedValue);
+                                field.onChange(+formattedValue);
+                              }}
+                            />
+                          )}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Controller
+                          name={`rental_cars.${i}.region`}
+                          control={control}
+                          render={({ field }) => (
+                            <Select.Root
+                              size='1'
+                              value={field.value}
+                              onValueChange={value => {
+                                field.onChange(value);
+                              }}
+                              name={field.name}
+                            >
+                              <Select.Trigger placeholder='지역 선택'>{field.value}</Select.Trigger>
+                              <Select.Content>
+                                {REGIONS.map(value => (
+                                  <Select.Item value={value} key={value}>
+                                    {value}
+                                  </Select.Item>
+                                ))}
+                              </Select.Content>
+                            </Select.Root>
+                          )}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Flex gap='1' wrap='wrap'>
+                          <DateTimeInput name={`rental_cars.${i}.pickup_date`} control={control} />
+                          <Controller
+                            name={`rental_cars.${i}.pickup_location`}
+                            control={control}
+                            render={({ field }) => {
+                              return (
+                                <CustomSelectInput
+                                  value={field.value}
+                                  options={PICKUP_LOCATIONS}
+                                  onChange={field.onChange}
+                                  placeholder='픽업장소 선택'
+                                />
+                              );
                             }}
                           />
-                        )}
-                      />
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Controller
-                        name={`rental_cars.${i}.region`}
-                        control={control}
-                        render={({ field }) => (
-                          <Select.Root
-                            size='1'
-                            value={field.value}
-                            onValueChange={value => {
-                              field.onChange(value);
-                            }}
-                            name={field.name}
-                          >
-                            <Select.Trigger placeholder='지역 선택'>{field.value}</Select.Trigger>
-                            <Select.Content>
-                              {REGIONS.map(value => (
-                                <Select.Item value={value} key={value}>
-                                  {value}
-                                </Select.Item>
-                              ))}
-                            </Select.Content>
-                          </Select.Root>
-                        )}
-                      />
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Flex gap='1' wrap='wrap'>
-                        <DateTimeInput name={`rental_cars.${i}.pickup_date`} control={control} />
-                        <Controller
-                          name={`rental_cars.${i}.pickup_location`}
-                          control={control}
-                          render={({ field }) => {
-                            return (
-                              <CustomSelectInput
-                                value={field.value}
-                                options={PICKUP_LOCATIONS}
-                                onChange={field.onChange}
-                                placeholder='픽업장소 선택'
-                              />
-                            );
-                          }}
-                        />
-                      </Flex>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Flex gap='1' wrap='wrap'>
-                        <Controller
-                          name={`rental_cars.${i}.return_date`}
-                          control={control}
-                          render={({ field }) => {
-                            const pickupDate = watch(`rental_cars.${i}.pickup_date`);
-                            const dateString = field.value
-                              ? new Date(field.value).toISOString().slice(0, 10)
-                              : '';
-                            const minDate = pickupDate
-                              ? new Date(pickupDate).toISOString().slice(0, 10)
-                              : undefined;
+                        </Flex>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Flex gap='1' wrap='wrap'>
+                          <Controller
+                            name={`rental_cars.${i}.return_date`}
+                            control={control}
+                            render={({ field }) => {
+                              const pickupDate = watch(`rental_cars.${i}.pickup_date`);
+                              const dateString = field.value
+                                ? new Date(field.value).toISOString().slice(0, 10)
+                                : '';
+                              const minDate = pickupDate
+                                ? new Date(pickupDate).toISOString().slice(0, 10)
+                                : undefined;
 
+                              return (
+                                <Flex gap='2'>
+                                  <TextField.Root
+                                    size='1'
+                                    {...field}
+                                    type='date'
+                                    min={minDate}
+                                    value={dateString}
+                                    onChange={e => {
+                                      const value = e.target.value;
+                                      if (value) {
+                                        field.onChange(updateDateInISO(field.value, value));
+                                      } else {
+                                        field.onChange(null);
+                                      }
+                                    }}
+                                    onFocus={() => {
+                                      if (!field.value && pickupDate) {
+                                        field.onChange(pickupDate);
+                                      }
+                                    }}
+                                  />
+                                  <TimeInput
+                                    name={`rental_cars.${i}.return_date`}
+                                    control={control}
+                                  />
+                                </Flex>
+                              );
+                            }}
+                          />
+                          <Controller
+                            name={`rental_cars.${i}.return_location`}
+                            control={control}
+                            render={({ field }) => {
+                              return (
+                                <CustomSelectInput
+                                  value={field.value}
+                                  options={PICKUP_LOCATIONS}
+                                  onChange={field.onChange}
+                                  placeholder='픽업장소 선택'
+                                />
+                              );
+                            }}
+                          />
+                        </Flex>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Controller
+                          name={`rental_cars.${i}.model`}
+                          control={control}
+                          rules={{ required: true }}
+                          render={({ field }) => {
                             return (
-                              <Flex gap='2'>
-                                <TextField.Root
-                                  size='1'
-                                  {...field}
-                                  type='date'
-                                  min={minDate}
-                                  value={dateString}
-                                  onChange={e => {
-                                    const value = e.target.value;
-                                    if (value) {
-                                      field.onChange(updateDateInISO(field.value, value));
-                                    } else {
-                                      field.onChange(null);
-                                    }
-                                  }}
-                                  onFocus={() => {
-                                    if (!field.value && pickupDate) {
-                                      field.onChange(pickupDate);
-                                    }
-                                  }}
-                                />
-                                <TimeInput
-                                  name={`rental_cars.${i}.return_date`}
-                                  control={control}
-                                />
-                              </Flex>
+                              <CustomSelectInput
+                                {...field}
+                                options={CAR_TYPES}
+                                onChange={field.onChange}
+                                placeholder='차종 선택'
+                              />
                             );
                           }}
                         />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <TextField.Root size='1' {...register(`rental_cars.${i}.driver`)} />
+                      </Table.Cell>
+                      <Table.Cell>
                         <Controller
-                          name={`rental_cars.${i}.return_location`}
+                          name={`rental_cars.${i}.options`}
                           control={control}
                           render={({ field }) => {
                             return (
                               <CustomSelectInput
                                 value={field.value}
-                                options={PICKUP_LOCATIONS}
+                                options={RENTAL_CAR_SPECIAL_OPTIONS}
                                 onChange={field.onChange}
-                                placeholder='픽업장소 선택'
+                                placeholder='선택'
                               />
                             );
                           }}
                         />
-                      </Flex>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Controller
-                        name={`rental_cars.${i}.model`}
-                        control={control}
-                        rules={{ required: true }}
-                        render={({ field }) => {
-                          return (
-                            <CustomSelectInput
-                              {...field}
-                              options={CAR_TYPES}
-                              onChange={field.onChange}
-                              placeholder='차종 선택'
-                            />
-                          );
-                        }}
-                      />
-                    </Table.Cell>
-                    <Table.Cell>
-                      <TextField.Root size='1' {...register(`rental_cars.${i}.driver`)} />
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Controller
-                        name={`rental_cars.${i}.options`}
-                        control={control}
-                        render={({ field }) => {
-                          return (
-                            <CustomSelectInput
+                      </Table.Cell>
+                      <Table.Cell>
+                        <TextField.Root
+                          size='1'
+                          type='number'
+                          min='0'
+                          step='0.01'
+                          color='blue'
+                          variant='soft'
+                          {...register(`rental_cars.${i}.cost`, {
+                            required: true,
+                            valueAsNumber: true
+                          })}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <TextField.Root
+                          size='1'
+                          type='number'
+                          min='0'
+                          step='0.01'
+                          color='orange'
+                          variant='soft'
+                          {...register(`rental_cars.${i}.daily_rate`, {
+                            required: true,
+                            valueAsNumber: true
+                          })}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <TextField.Root
+                          size='1'
+                          type='number'
+                          min='1'
+                          {...register(`rental_cars.${i}.rental_days`, {
+                            required: true,
+                            valueAsNumber: true
+                          })}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Flex gap='1' align='end'>
+                          <Text color='blue' size='3'>
+                            {toReadableAmount(getValues(`rental_cars.${i}.total_cost`))}
+                          </Text>
+                          <span>/</span>
+                          <Text weight='bold' size='3'>
+                            {toReadableAmount(getValues(`rental_cars.${i}.total_amount`))}
+                          </Text>
+                        </Flex>
+                        <Flex gap='1'>
+                          <Text color='blue'>
+                            {toReadableAmount(
+                              (car.additional_options || []).reduce(
+                                (sum, opt) =>
+                                  sum + (opt.status !== 'Refunded' ? opt.total_cost : 0),
+                                0
+                              )
+                            )}
+                          </Text>
+                          <span>/</span>
+                          <Text weight='bold'>
+                            {toReadableAmount(
+                              (car.additional_options || []).reduce(
+                                (sum, opt) =>
+                                  sum + (opt.status !== 'Refunded' ? opt.total_amount : 0),
+                                0
+                              )
+                            )}
+                          </Text>
+                        </Flex>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Controller
+                          name={`rental_cars.${i}.status`}
+                          control={control}
+                          render={({ field }) => (
+                            <Select.Root
+                              size='1'
                               value={field.value}
-                              options={RENTAL_CAR_SPECIAL_OPTIONS}
-                              onChange={field.onChange}
-                              placeholder='선택'
-                            />
-                          );
-                        }}
-                      />
-                    </Table.Cell>
-                    <Table.Cell>
-                      <TextField.Root
-                        size='1'
-                        type='number'
-                        min='0'
-                        step='0.01'
-                        color='blue'
-                        variant='soft'
-                        {...register(`rental_cars.${i}.cost`, {
-                          required: true,
-                          valueAsNumber: true
-                        })}
-                      />
-                    </Table.Cell>
-                    <Table.Cell>
-                      <TextField.Root
-                        size='1'
-                        type='number'
-                        min='0'
-                        step='0.01'
-                        color='orange'
-                        variant='soft'
-                        {...register(`rental_cars.${i}.daily_rate`, {
-                          required: true,
-                          valueAsNumber: true
-                        })}
-                      />
-                    </Table.Cell>
-                    <Table.Cell>
-                      <TextField.Root
-                        size='1'
-                        type='number'
-                        min='1'
-                        {...register(`rental_cars.${i}.rental_days`, {
-                          required: true,
-                          valueAsNumber: true
-                        })}
-                      />
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Flex gap='1' align='end'>
-                        <Text color='blue' size='3'>
-                          {toReadableAmount(getValues(`rental_cars.${i}.total_cost`))}
-                        </Text>
-                        <span>/</span>
-                        <Text weight='bold' size='3'>
-                          {toReadableAmount(getValues(`rental_cars.${i}.total_amount`))}
-                        </Text>
-                      </Flex>
-                      <Flex gap='1'>
-                        <Text color='blue'>
-                          {toReadableAmount(
-                            (car.additional_options || []).reduce(
-                              (sum, opt) => sum + (opt.status !== 'Refunded' ? opt.total_cost : 0),
-                              0
-                            )
-                          )}
-                        </Text>
-                        <span>/</span>
-                        <Text weight='bold'>
-                          {toReadableAmount(
-                            (car.additional_options || []).reduce(
-                              (sum, opt) =>
-                                sum + (opt.status !== 'Refunded' ? opt.total_amount : 0),
-                              0
-                            )
-                          )}
-                        </Text>
-                      </Flex>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Controller
-                        name={`rental_cars.${i}.status`}
-                        control={control}
-                        render={({ field }) => (
-                          <Select.Root
-                            size='1'
-                            value={field.value}
-                            onValueChange={value => {
-                              if (
-                                value === 'Refunded' &&
-                                car.additional_options.length > 0 &&
-                                car.additional_options
-                                  .filter(({ status }) => status !== 'Refunded')
-                                  .reduce((accu, curr) => accu + curr.total_amount, 0) > 0
-                              ) {
-                                if (car.id) openDialog(car.id);
-                                return;
-                              }
-                              field.onChange(value);
-                            }}
-                            name={field.name}
-                          >
-                            <Select.Trigger
-                              color={PRODUCT_STATUS_COLOR[field.value]}
-                              variant='soft'
+                              onValueChange={value => {
+                                if (
+                                  value === 'Refunded' &&
+                                  car.additional_options.length > 0 &&
+                                  car.additional_options
+                                    .filter(({ status }) => status !== 'Refunded')
+                                    .reduce((accu, curr) => accu + curr.total_amount, 0) > 0
+                                ) {
+                                  if (car.id) openDialog(car.id);
+                                  return;
+                                }
+                                field.onChange(value);
+                              }}
+                              name={field.name}
                             >
-                              {ProductStatus[field.value]}
-                            </Select.Trigger>
-                            <Select.Content>
-                              {Object.entries(ProductStatus).map(([key, label]) => (
-                                <Select.Item key={key} value={key}>
-                                  {label}
-                                </Select.Item>
-                              ))}
-                            </Select.Content>
-                          </Select.Root>
-                        )}
-                      />
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Button
-                        disabled={!getValues(`rental_cars.${i}.id`)}
-                        title='추가옵션'
-                        size='1'
-                        type='button'
-                        onClick={() =>
-                          handleAdditionalOptions({
-                            id: Number(getValues(`rental_cars.${i}.id`)),
-                            type: 'rental_car',
-                            title: getValues(`rental_cars.${i}.model`),
-                            data: getValues(`rental_cars.${i}.additional_options`)
-                          })
-                        }
-                      >
-                        <Plus size={16} />
-                      </Button>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <TextArea size='1' {...register(`rental_cars.${i}.notes`)} />
-                    </Table.Cell>
-                    <Table.Cell hidden>
-                      <CarTotalCalculator index={i} setValue={setValue} control={control} />
-                    </Table.Cell>
-                  </Table.Row>
-                  <Table.Row>
-                    <Table.Cell colSpan={14}>
-                      <Flex align='center' gap='2'>
-                        <Text weight='bold'>규정</Text>
-                        <Box flexGrow='1'>
-                          <TextField.Root size='1' {...register(`rental_cars.${i}.rule`)} />
-                        </Box>
-                      </Flex>
-                    </Table.Cell>
-                  </Table.Row>
-                </Table.Body>
-              ))}
-            </Table.Root>
+                              <Select.Trigger
+                                color={PRODUCT_STATUS_COLOR[field.value]}
+                                variant='soft'
+                              >
+                                {ProductStatus[field.value]}
+                              </Select.Trigger>
+                              <Select.Content>
+                                {Object.entries(ProductStatus).map(([key, label]) => (
+                                  <Select.Item key={key} value={key}>
+                                    {label}
+                                  </Select.Item>
+                                ))}
+                              </Select.Content>
+                            </Select.Root>
+                          )}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Button
+                          disabled={!getValues(`rental_cars.${i}.id`)}
+                          title='추가옵션'
+                          size='1'
+                          type='button'
+                          onClick={() =>
+                            handleAdditionalOptions({
+                              id: Number(getValues(`rental_cars.${i}.id`)),
+                              type: 'rental_car',
+                              title: getValues(`rental_cars.${i}.model`),
+                              data: getValues(`rental_cars.${i}.additional_options`)
+                            })
+                          }
+                        >
+                          <Plus size={16} />
+                        </Button>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <TextArea size='1' {...register(`rental_cars.${i}.notes`)} />
+                      </Table.Cell>
+                      <Table.Cell hidden>
+                        <CarTotalCalculator index={i} setValue={setValue} control={control} />
+                      </Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                      <Table.Cell colSpan={14}>
+                        <Flex align='center' gap='2'>
+                          <Text weight='bold'>규정</Text>
+                          <Box flexGrow='1'>
+                            <TextField.Root size='1' {...register(`rental_cars.${i}.rule`)} />
+                          </Box>
+                        </Flex>
+                      </Table.Cell>
+                    </Table.Row>
+                  </Table.Body>
+                ))}
+              </Table.Root>
+            )}
 
             {!rentalCars.length && <NoData />}
 

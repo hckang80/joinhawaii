@@ -142,348 +142,351 @@ export default function TourForm({
               선택관광
             </Heading>
 
-            <Table.Root size='1' layout='fixed'>
-              <Table.Header>
-                <Table.Row>
-                  <Table.ColumnHeaderCell width='90px'>환율</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='100px'>지역</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='250px'>날짜</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='240px'>상품명</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='80px'>💰요금</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='70px'>수량</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='180px'>
-                    합계(<Text color='blue'>원가</Text>/판매가)
-                  </Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='90px'>진행상태</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='70px'>추가옵션</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>
-                </Table.Row>
-              </Table.Header>
-              {tours.map((tour, i) => (
-                <Table.Body
-                  key={i}
-                  className={clsx(
-                    isRefunded(tour.status, data.products.tours[i]?.status) && 'is-disabled'
-                  )}
-                >
+            {!!tours.length && (
+              <Table.Root size='1' layout='fixed'>
+                <Table.Header>
                   <Table.Row>
-                    <Table.Cell>
-                      <Controller
-                        name={`tours.${i}.exchange_rate`}
-                        control={control}
-                        render={({ field }) => (
-                          <TextField.Root
-                            size='1'
-                            variant='soft'
-                            color={field.value ? 'indigo' : 'red'}
-                            type='number'
-                            min='0'
-                            step='0.01'
-                            value={field.value}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                              const { value } = e.target;
-                              if (!value) return field.onChange(value);
-
-                              const [integer, decimal] = value.split('.');
-                              const formattedValue = decimal
-                                ? `${integer.slice(0, 4)}.${decimal.slice(0, 2)}`
-                                : integer.slice(0, 4);
-
-                              field.onChange(+formattedValue);
-                            }}
-                          />
-                        )}
-                      />
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Controller
-                        name={`tours.${i}.region`}
-                        control={control}
-                        render={({ field }) => (
-                          <Select.Root
-                            size='1'
-                            value={field.value}
-                            onValueChange={value => {
-                              field.onChange(value);
-                            }}
-                            name={field.name}
-                          >
-                            <Select.Trigger placeholder='지역 선택'>{field.value}</Select.Trigger>
-                            <Select.Content>
-                              {REGIONS.map(value => (
-                                <Select.Item value={value} key={value}>
-                                  {value}
-                                </Select.Item>
-                              ))}
-                            </Select.Content>
-                          </Select.Root>
-                        )}
-                      />
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Flex direction='column' gap='2'>
-                        <DateTimeInput name={`tours.${i}.start_date`} control={control} />
-                        <DateTimeInput name={`tours.${i}.end_date`} control={control} />
-                      </Flex>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <TextField.Root
-                        size='1'
-                        {...register(`tours.${i}.name`, {
-                          required: true
-                        })}
-                      />
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Grid gap='2'>
-                        <Flex direction='column'>
-                          <span>🧑 성인</span>
-                          <TextField.Root
-                            size='1'
-                            type='number'
-                            min='0'
-                            step='0.01'
-                            color='blue'
-                            variant='soft'
-                            {...register(`tours.${i}.adult_cost`, {
-                              required: true,
-                              valueAsNumber: true
-                            })}
-                          />
-                        </Flex>
-                        <Flex direction='column'>
-                          <span>🧒 소아</span>
-                          <TextField.Root
-                            size='1'
-                            type='number'
-                            min='0'
-                            step='0.01'
-                            color='blue'
-                            variant='soft'
-                            {...register(`tours.${i}.children_cost`, {
-                              required: true,
-                              valueAsNumber: true
-                            })}
-                          />
-                        </Flex>
-                        <Flex direction='column'>
-                          <span>👶 유아</span>
-                          <TextField.Root
-                            size='1'
-                            type='number'
-                            min='0'
-                            step='0.01'
-                            color='blue'
-                            variant='soft'
-                            readOnly
-                            {...register(`tours.${i}.kids_cost`, {
-                              required: true,
-                              valueAsNumber: true
-                            })}
-                          />
-                        </Flex>
-                      </Grid>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Grid gap='2'>
-                        <Flex direction='column'>
-                          <span className='invisible'>🧑 성인</span>
-                          <TextField.Root
-                            size='1'
-                            type='number'
-                            min='0'
-                            step='0.01'
-                            color='orange'
-                            variant='soft'
-                            {...register(`tours.${i}.adult_price`, {
-                              required: true,
-                              valueAsNumber: true
-                            })}
-                          />
-                        </Flex>
-                        <Flex direction='column'>
-                          <span className='invisible'>🧒 소아</span>
-                          <TextField.Root
-                            size='1'
-                            type='number'
-                            min='0'
-                            step='0.01'
-                            color='orange'
-                            variant='soft'
-                            {...register(`tours.${i}.children_price`, {
-                              required: true,
-                              valueAsNumber: true
-                            })}
-                          />
-                        </Flex>
-                        <Flex direction='column'>
-                          <span className='invisible'>👶 유아</span>
-                          <TextField.Root
-                            size='1'
-                            type='number'
-                            min='0'
-                            step='0.01'
-                            color='orange'
-                            variant='soft'
-                            readOnly
-                            {...register(`tours.${i}.kids_price`, {
-                              required: true,
-                              valueAsNumber: true
-                            })}
-                          />
-                        </Flex>
-                      </Grid>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Grid gap='2'>
-                        <Flex direction='column'>
-                          <span className='invisible'>🧑 성인</span>
-                          <TextField.Root
-                            size='1'
-                            type='number'
-                            min='0'
-                            {...register(`tours.${i}.adult_count`, {
-                              required: true,
-                              valueAsNumber: true
-                            })}
-                          />
-                        </Flex>
-                        <Flex direction='column'>
-                          <span className='invisible'>🧒 소아</span>
-                          <TextField.Root
-                            size='1'
-                            type='number'
-                            min='0'
-                            {...register(`tours.${i}.children_count`, {
-                              required: true,
-                              valueAsNumber: true
-                            })}
-                          />
-                        </Flex>
-                        <Flex direction='column'>
-                          <span className='invisible'>👶 유아</span>
-                          <TextField.Root
-                            size='1'
-                            type='number'
-                            min='0'
-                            {...register(`tours.${i}.kids_count`, {
-                              required: true,
-                              valueAsNumber: true
-                            })}
-                          />
-                        </Flex>
-                      </Grid>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Flex gap='1' align='end'>
-                        <Text color='blue' size='3'>
-                          {toReadableAmount(getValues(`tours.${i}.total_cost`))}
-                        </Text>
-                        <span>/</span>
-                        <Text weight='bold' size='3'>
-                          {toReadableAmount(getValues(`tours.${i}.total_amount`))}
-                        </Text>
-                      </Flex>
-                      <Flex gap='1'>
-                        <Text color='blue'>
-                          {toReadableAmount(
-                            (tour.additional_options || []).reduce(
-                              (sum, opt) => sum + (opt.status !== 'Refunded' ? opt.total_cost : 0),
-                              0
-                            )
-                          )}
-                        </Text>
-                        <span>/</span>
-                        <Text weight='bold'>
-                          {toReadableAmount(
-                            (tour.additional_options || []).reduce(
-                              (sum, opt) =>
-                                sum + (opt.status !== 'Refunded' ? opt.total_amount : 0),
-                              0
-                            )
-                          )}
-                        </Text>
-                      </Flex>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Controller
-                        name={`tours.${i}.status`}
-                        control={control}
-                        render={({ field }) => (
-                          <Select.Root
-                            size='1'
-                            value={field.value}
-                            onValueChange={value => {
-                              if (
-                                value === 'Refunded' &&
-                                tour.additional_options.length > 0 &&
-                                tour.additional_options
-                                  .filter(({ status }) => status !== 'Refunded')
-                                  .reduce((accu, curr) => accu + curr.total_amount, 0) > 0
-                              ) {
-                                if (tour.id) openDialog(tour.id);
-                                return;
-                              }
-                              field.onChange(value);
-                            }}
-                            name={field.name}
-                          >
-                            <Select.Trigger
-                              color={PRODUCT_STATUS_COLOR[field.value]}
+                    <Table.ColumnHeaderCell width='90px'>환율</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='100px'>지역</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='250px'>날짜</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='240px'>상품명</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='80px'>💰요금</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='70px'>수량</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='180px'>
+                      합계(<Text color='blue'>원가</Text>/판매가)
+                    </Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='90px'>진행상태</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='70px'>추가옵션</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>
+                  </Table.Row>
+                </Table.Header>
+                {tours.map((tour, i) => (
+                  <Table.Body
+                    key={i}
+                    className={clsx(
+                      isRefunded(tour.status, data.products.tours[i]?.status) && 'is-disabled'
+                    )}
+                  >
+                    <Table.Row>
+                      <Table.Cell>
+                        <Controller
+                          name={`tours.${i}.exchange_rate`}
+                          control={control}
+                          render={({ field }) => (
+                            <TextField.Root
+                              size='1'
                               variant='soft'
+                              color={field.value ? 'indigo' : 'red'}
+                              type='number'
+                              min='0'
+                              step='0.01'
+                              value={field.value}
+                              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                const { value } = e.target;
+                                if (!value) return field.onChange(value);
+
+                                const [integer, decimal] = value.split('.');
+                                const formattedValue = decimal
+                                  ? `${integer.slice(0, 4)}.${decimal.slice(0, 2)}`
+                                  : integer.slice(0, 4);
+
+                                field.onChange(+formattedValue);
+                              }}
+                            />
+                          )}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Controller
+                          name={`tours.${i}.region`}
+                          control={control}
+                          render={({ field }) => (
+                            <Select.Root
+                              size='1'
+                              value={field.value}
+                              onValueChange={value => {
+                                field.onChange(value);
+                              }}
+                              name={field.name}
                             >
-                              {ProductStatus[field.value]}
-                            </Select.Trigger>
-                            <Select.Content>
-                              {Object.entries(ProductStatus).map(([key, label]) => (
-                                <Select.Item key={key} value={key}>
-                                  {label}
-                                </Select.Item>
-                              ))}
-                            </Select.Content>
-                          </Select.Root>
-                        )}
-                      />
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Button
-                        disabled={!getValues(`tours.${i}.id`)}
-                        title='추가옵션'
-                        size='1'
-                        type='button'
-                        onClick={() =>
-                          handleAdditionalOptions({
-                            id: Number(getValues(`tours.${i}.id`)),
-                            type: 'tour',
-                            title: getValues(`tours.${i}.name`),
-                            data: getValues(`tours.${i}.additional_options`)
-                          })
-                        }
-                      >
-                        <Plus size={16} />
-                      </Button>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <TextArea size='1' {...register(`tours.${i}.notes`)} />
-                    </Table.Cell>
-                    <Table.Cell hidden>
-                      <TourTotalCalculator index={i} setValue={setValue} control={control} />
-                    </Table.Cell>
-                  </Table.Row>
-                  <Table.Row>
-                    <Table.Cell colSpan={11}>
-                      <Flex align='center' gap='2'>
-                        <Text weight='bold'>규정</Text>
-                        <Box flexGrow='1'>
-                          <TextField.Root size='1' {...register(`tours.${i}.rule`)} />
-                        </Box>
-                      </Flex>
-                    </Table.Cell>
-                  </Table.Row>
-                </Table.Body>
-              ))}
-            </Table.Root>
+                              <Select.Trigger placeholder='지역 선택'>{field.value}</Select.Trigger>
+                              <Select.Content>
+                                {REGIONS.map(value => (
+                                  <Select.Item value={value} key={value}>
+                                    {value}
+                                  </Select.Item>
+                                ))}
+                              </Select.Content>
+                            </Select.Root>
+                          )}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Flex direction='column' gap='2'>
+                          <DateTimeInput name={`tours.${i}.start_date`} control={control} />
+                          <DateTimeInput name={`tours.${i}.end_date`} control={control} />
+                        </Flex>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <TextField.Root
+                          size='1'
+                          {...register(`tours.${i}.name`, {
+                            required: true
+                          })}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Grid gap='2'>
+                          <Flex direction='column'>
+                            <span>🧑 성인</span>
+                            <TextField.Root
+                              size='1'
+                              type='number'
+                              min='0'
+                              step='0.01'
+                              color='blue'
+                              variant='soft'
+                              {...register(`tours.${i}.adult_cost`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                          <Flex direction='column'>
+                            <span>🧒 소아</span>
+                            <TextField.Root
+                              size='1'
+                              type='number'
+                              min='0'
+                              step='0.01'
+                              color='blue'
+                              variant='soft'
+                              {...register(`tours.${i}.children_cost`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                          <Flex direction='column'>
+                            <span>👶 유아</span>
+                            <TextField.Root
+                              size='1'
+                              type='number'
+                              min='0'
+                              step='0.01'
+                              color='blue'
+                              variant='soft'
+                              readOnly
+                              {...register(`tours.${i}.kids_cost`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                        </Grid>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Grid gap='2'>
+                          <Flex direction='column'>
+                            <span className='invisible'>🧑 성인</span>
+                            <TextField.Root
+                              size='1'
+                              type='number'
+                              min='0'
+                              step='0.01'
+                              color='orange'
+                              variant='soft'
+                              {...register(`tours.${i}.adult_price`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                          <Flex direction='column'>
+                            <span className='invisible'>🧒 소아</span>
+                            <TextField.Root
+                              size='1'
+                              type='number'
+                              min='0'
+                              step='0.01'
+                              color='orange'
+                              variant='soft'
+                              {...register(`tours.${i}.children_price`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                          <Flex direction='column'>
+                            <span className='invisible'>👶 유아</span>
+                            <TextField.Root
+                              size='1'
+                              type='number'
+                              min='0'
+                              step='0.01'
+                              color='orange'
+                              variant='soft'
+                              readOnly
+                              {...register(`tours.${i}.kids_price`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                        </Grid>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Grid gap='2'>
+                          <Flex direction='column'>
+                            <span className='invisible'>🧑 성인</span>
+                            <TextField.Root
+                              size='1'
+                              type='number'
+                              min='0'
+                              {...register(`tours.${i}.adult_count`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                          <Flex direction='column'>
+                            <span className='invisible'>🧒 소아</span>
+                            <TextField.Root
+                              size='1'
+                              type='number'
+                              min='0'
+                              {...register(`tours.${i}.children_count`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                          <Flex direction='column'>
+                            <span className='invisible'>👶 유아</span>
+                            <TextField.Root
+                              size='1'
+                              type='number'
+                              min='0'
+                              {...register(`tours.${i}.kids_count`, {
+                                required: true,
+                                valueAsNumber: true
+                              })}
+                            />
+                          </Flex>
+                        </Grid>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Flex gap='1' align='end'>
+                          <Text color='blue' size='3'>
+                            {toReadableAmount(getValues(`tours.${i}.total_cost`))}
+                          </Text>
+                          <span>/</span>
+                          <Text weight='bold' size='3'>
+                            {toReadableAmount(getValues(`tours.${i}.total_amount`))}
+                          </Text>
+                        </Flex>
+                        <Flex gap='1'>
+                          <Text color='blue'>
+                            {toReadableAmount(
+                              (tour.additional_options || []).reduce(
+                                (sum, opt) =>
+                                  sum + (opt.status !== 'Refunded' ? opt.total_cost : 0),
+                                0
+                              )
+                            )}
+                          </Text>
+                          <span>/</span>
+                          <Text weight='bold'>
+                            {toReadableAmount(
+                              (tour.additional_options || []).reduce(
+                                (sum, opt) =>
+                                  sum + (opt.status !== 'Refunded' ? opt.total_amount : 0),
+                                0
+                              )
+                            )}
+                          </Text>
+                        </Flex>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Controller
+                          name={`tours.${i}.status`}
+                          control={control}
+                          render={({ field }) => (
+                            <Select.Root
+                              size='1'
+                              value={field.value}
+                              onValueChange={value => {
+                                if (
+                                  value === 'Refunded' &&
+                                  tour.additional_options.length > 0 &&
+                                  tour.additional_options
+                                    .filter(({ status }) => status !== 'Refunded')
+                                    .reduce((accu, curr) => accu + curr.total_amount, 0) > 0
+                                ) {
+                                  if (tour.id) openDialog(tour.id);
+                                  return;
+                                }
+                                field.onChange(value);
+                              }}
+                              name={field.name}
+                            >
+                              <Select.Trigger
+                                color={PRODUCT_STATUS_COLOR[field.value]}
+                                variant='soft'
+                              >
+                                {ProductStatus[field.value]}
+                              </Select.Trigger>
+                              <Select.Content>
+                                {Object.entries(ProductStatus).map(([key, label]) => (
+                                  <Select.Item key={key} value={key}>
+                                    {label}
+                                  </Select.Item>
+                                ))}
+                              </Select.Content>
+                            </Select.Root>
+                          )}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Button
+                          disabled={!getValues(`tours.${i}.id`)}
+                          title='추가옵션'
+                          size='1'
+                          type='button'
+                          onClick={() =>
+                            handleAdditionalOptions({
+                              id: Number(getValues(`tours.${i}.id`)),
+                              type: 'tour',
+                              title: getValues(`tours.${i}.name`),
+                              data: getValues(`tours.${i}.additional_options`)
+                            })
+                          }
+                        >
+                          <Plus size={16} />
+                        </Button>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <TextArea size='1' {...register(`tours.${i}.notes`)} />
+                      </Table.Cell>
+                      <Table.Cell hidden>
+                        <TourTotalCalculator index={i} setValue={setValue} control={control} />
+                      </Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                      <Table.Cell colSpan={11}>
+                        <Flex align='center' gap='2'>
+                          <Text weight='bold'>규정</Text>
+                          <Box flexGrow='1'>
+                            <TextField.Root size='1' {...register(`tours.${i}.rule`)} />
+                          </Box>
+                        </Flex>
+                      </Table.Cell>
+                    </Table.Row>
+                  </Table.Body>
+                ))}
+              </Table.Root>
+            )}
 
             {!tours.length && <NoData />}
 
