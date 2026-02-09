@@ -1,4 +1,4 @@
-import { CustomSelectInput } from '@/components';
+import { CustomSelectInput, NoData } from '@/components';
 import {
   defaultHotelValues,
   HOTELS,
@@ -458,11 +458,7 @@ export default function HotelForm({
               ))}
             </Table.Root>
 
-            {!hotels.length && (
-              <Flex justify='center' py='5'>
-                예약 내역이 없습니다
-              </Flex>
-            )}
+            {!hotels.length && <NoData />}
 
             <Flex justify='end' mt='4' gap='1'>
               <Button type='button' color='ruby' onClick={addItem}>
