@@ -137,13 +137,13 @@ export default function ClientForm({
             <Table.Root layout='fixed'>
               <colgroup>
                 <col style={{ width: '100px' }} />
-                <col style={{ width: '200px' }} />
+                <col style={{ width: '120px' }} />
                 <col style={{ width: '100px' }} />
-                <col style={{ width: '200px' }} />
+                <col style={{ width: '140px' }} />
                 <col style={{ width: '100px' }} />
-                <col style={{ width: '200px' }} />
+                <col style={{ width: '180px' }} />
                 <col style={{ width: '100px' }} />
-                <col style={{ width: '400px' }} />
+                <col style={{ width: '500px' }} />
               </colgroup>
               <Table.Body>
                 <Table.Row>
