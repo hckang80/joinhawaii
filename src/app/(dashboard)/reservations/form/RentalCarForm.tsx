@@ -307,10 +307,11 @@ export default function RentalCarForm({
                       <Controller
                         name={`rental_cars.${i}.model`}
                         control={control}
+                        rules={{ required: true }}
                         render={({ field }) => {
                           return (
                             <CustomSelectInput
-                              value={field.value}
+                              {...field}
                               options={CAR_TYPES}
                               onChange={field.onChange}
                               placeholder='차종 선택'
@@ -320,11 +321,7 @@ export default function RentalCarForm({
                       />
                     </Table.Cell>
                     <Table.Cell>
-                      <TextField.Root
-                        {...register(`rental_cars.${i}.driver`, {
-                          required: true
-                        })}
-                      />
+                      <TextField.Root {...register(`rental_cars.${i}.driver`)} />
                     </Table.Cell>
                     <Table.Cell>
                       <Controller
