@@ -1,30 +1,25 @@
 'use client';
 
 import { useAuth } from '@/hooks';
-import { observable } from '@legendapp/state';
-import { use$ } from '@legendapp/state/react';
 import { Button, Card, Grid, Text } from '@radix-ui/themes';
 import { Loader } from 'lucide-react';
 import Image from 'next/image';
+import { useState } from 'react';
 import styles from './page.module.css';
-
-const status$ = observable({
-  isLoggedIn: false
-});
 
 export default function LoginContainer() {
   const { user, login, logout } = useAuth();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleGoogleLogin = () => {
-    status$.isLoggedIn.set(() => true);
+    setIsLoggedIn(true);
     login();
   };
 
   const handleLogout = () => {
     logout();
+    setIsLoggedIn(false);
   };
-
-  const isLoggedIn = use$(status$.isLoggedIn);
 
   return (
     <Grid align='center' className={styles.root} p='5'>
