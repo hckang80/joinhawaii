@@ -218,7 +218,7 @@ export async function getAdditionalOptions({ pid = 0, type = '' }): Promise<Addi
   return result.data;
 }
 
-export async function checkProfile(uid: string) {
+export async function checkProfile(uid: string): Promise<{ profile: { permissions: string[] } }> {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   const url = `${baseUrl}/api/auth/profile?uid=${uid}`;
   const response = await fetch(url, {
@@ -229,7 +229,7 @@ export async function checkProfile(uid: string) {
   });
 
   if (!response.ok) {
-    return { authorized: false, reason: 'API error' };
+    throw new Error('프로필이 확인되지 않습니다.');
   }
 
   return await response.json();
