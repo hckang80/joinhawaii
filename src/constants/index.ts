@@ -136,8 +136,8 @@ export type TravelCategory = (typeof TRAVEL_CATEGORIES)[number] | (string & {});
 
 export const BOOKING_PLATFORM_OPTIONS = {
   B2C: [
-    { value: '홈피예약', label: '홈피예약' },
-    { value: '일반', label: '일반' }
+    { value: '홈피', label: '홈피' },
+    { value: '조인', label: '조인' }
   ],
   B2B: [
     { value: '샬레', label: '샬레' },
