@@ -488,11 +488,13 @@ export default function ClientForm({
                               {ProductStatus[field.value]}
                             </Select.Trigger>
                             <Select.Content>
-                              {Object.entries(ProductStatus).map(([key, label]) => (
-                                <Select.Item key={key} value={key}>
-                                  {label}
-                                </Select.Item>
-                              ))}
+                              {Object.entries(ProductStatus)
+                                .filter(([key]) => ['InProgress', 'Cancelled'].includes(key))
+                                .map(([key, label]) => (
+                                  <Select.Item key={key} value={key}>
+                                    {label}
+                                  </Select.Item>
+                                ))}
                             </Select.Content>
                           </Select.Root>
                         )}
