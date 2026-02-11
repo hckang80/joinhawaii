@@ -47,7 +47,6 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // 추가: user가 있지만 profile이 없으면 접근 차단
   if (user && !isPublicPath) {
     const {
       profile: { permissions }
@@ -55,10 +54,7 @@ export async function updateSession(request: NextRequest) {
     const isManager = permissions.includes('manage');
 
     if (!isManager) {
-      const url = request.nextUrl.clone();
-      url.pathname = '/error';
-      url.searchParams.set('reason', 'unauthorized');
-      return NextResponse.redirect(url);
+      return new NextResponse('접근 권한이 없습니다. 관리자에게 문의해주세요.', { status: 404 });
     }
   }
 
