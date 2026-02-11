@@ -1,6 +1,7 @@
 import { PaymentStatusKey, ProductStatusKey } from '@/types';
 import type { PostgrestError } from '@supabase/supabase-js';
 import { toast } from 'react-toastify';
+import { TIME_ZONE } from '../constants';
 
 export function toReadableDate(date: Date | string, includeTime = false) {
   const d = typeof date === 'string' ? new Date(date) : date;
@@ -171,7 +172,9 @@ export const getPaymentStatus = ({
  */
 export function extractDateString(isoString: string | null | undefined): string {
   if (!isoString) return '';
-  return new Date(isoString).toISOString().slice(0, 10);
+
+  const date = new Date(isoString);
+  return new Intl.DateTimeFormat('en-CA', { timeZone: TIME_ZONE }).format(date);
 }
 
 /**

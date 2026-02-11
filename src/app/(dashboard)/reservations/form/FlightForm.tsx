@@ -3,6 +3,7 @@ import { defaultFlightValues, PRODUCT_STATUS_COLOR, ProductStatus } from '@/cons
 import type { ProductFormType, ReservationFormData, ReservationResponse } from '@/types';
 import {
   calculateTotalAmount,
+  extractDateString,
   isDev,
   isRefunded,
   toReadableAmount,
@@ -156,12 +157,8 @@ export default function FlightForm({
                         control={control}
                         render={({ field }) => {
                           const departureDate = watch(`flights.${i}.departure_datetime`);
-                          const dateString = field.value
-                            ? new Date(field.value).toISOString().slice(0, 10)
-                            : '';
-                          const minDate = departureDate
-                            ? new Date(departureDate).toISOString().slice(0, 10)
-                            : undefined;
+                          const dateString = extractDateString(field.value);
+                          const minDate = extractDateString(departureDate);
 
                           return (
                             <Flex gap='2'>

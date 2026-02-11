@@ -9,6 +9,8 @@ import type {
 
 export * from './query-keys';
 
+export const TIME_ZONE = 'Asia/Seoul';
+
 export const CUSTOM_LABEL = '직접입력';
 
 export const PER_PAGE = '10';

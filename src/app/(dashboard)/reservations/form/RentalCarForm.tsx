@@ -15,7 +15,14 @@ import type {
   ReservationFormData,
   ReservationResponse
 } from '@/types';
-import { isDev, isRefunded, normalizeNumber, toReadableAmount, updateDateInISO } from '@/utils';
+import {
+  extractDateString,
+  isDev,
+  isRefunded,
+  normalizeNumber,
+  toReadableAmount,
+  updateDateInISO
+} from '@/utils';
 import {
   Box,
   Button,
@@ -254,12 +261,8 @@ export default function RentalCarForm({
                             control={control}
                             render={({ field }) => {
                               const pickupDate = watch(`rental_cars.${i}.pickup_date`);
-                              const dateString = field.value
-                                ? new Date(field.value).toISOString().slice(0, 10)
-                                : '';
-                              const minDate = pickupDate
-                                ? new Date(pickupDate).toISOString().slice(0, 10)
-                                : undefined;
+                              const dateString = extractDateString(field.value);
+                              const minDate = extractDateString(pickupDate);
 
                               return (
                                 <Flex gap='2'>
