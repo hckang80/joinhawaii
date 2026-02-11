@@ -218,7 +218,7 @@ export default function ReservationsFormClientContainer({
               <Flex direction='column' align='end' gap='2'>
                 <Flex align='center' gap='1'>
                   <Text as='label' weight='medium'>
-                    예약금{' '}
+                    입금액{' '}
                   </Text>
                   $
                   <Controller
