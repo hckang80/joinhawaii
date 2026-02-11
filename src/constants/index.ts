@@ -279,14 +279,14 @@ export const PRODUCT_STATUS_COLOR: Record<
   ProductStatusKey,
   typeof selectTriggerPropDefs.color.default
 > = {
-  Pending: 'gray',
-  InProgress: 'gray',
-  Confirmed: 'gray',
+  Pending: 'red',
+  InProgress: 'yellow',
+  Confirmed: 'blue',
   ChangeRequested: 'gray',
-  CancelRequested: 'ruby',
-  Cancelled: 'ruby',
-  RefundRequested: 'red',
-  Refunded: 'red'
+  CancelRequested: 'gray',
+  Cancelled: 'gray',
+  RefundRequested: 'gray',
+  Refunded: 'gray'
 };
 
 export const PAYMENT_STATUS_COLOR: Record<
