@@ -282,11 +282,11 @@ export const PRODUCT_STATUS_COLOR: Record<
   Pending: 'red',
   InProgress: 'yellow',
   Confirmed: 'blue',
-  ChangeRequested: 'gray',
-  CancelRequested: 'gray',
-  Cancelled: 'gray',
-  RefundRequested: 'gray',
-  Refunded: 'gray'
+  ChangeRequested: 'red',
+  CancelRequested: 'red',
+  Cancelled: 'blue',
+  RefundRequested: 'red',
+  Refunded: 'blue'
 };
 
 export const PAYMENT_STATUS_COLOR: Record<
