@@ -4,8 +4,7 @@ import {
   HOTELS,
   PRODUCT_STATUS_COLOR,
   ProductStatus,
-  REGIONS,
-  ROOM_TYPES
+  REGIONS
 } from '@/constants';
 import type {
   AdditionalOptions,
@@ -290,24 +289,19 @@ export default function HotelForm({
                         <Flex direction='column' gap='1'>
                           <TextField.Root
                             size='1'
-                            {...register(`hotels.${i}.view_type`, {
+                            {...register(`hotels.${i}.room_type`, {
                               setValueAs: value =>
                                 typeof value === 'string' ? value.trim() : value
                             })}
-                            placeholder='Ocean View'
+                            placeholder='OF - DH OF'
                           />
-                          <Controller
-                            name={`hotels.${i}.room_type`}
-                            control={control}
-                            render={({ field }) => {
-                              return (
-                                <CustomSelectInput
-                                  value={field.value}
-                                  options={ROOM_TYPES}
-                                  onChange={field.onChange}
-                                />
-                              );
-                            }}
+                          <TextField.Root
+                            size='1'
+                            {...register(`hotels.${i}.bed_type`, {
+                              setValueAs: value =>
+                                typeof value === 'string' ? value.trim() : value
+                            })}
+                            placeholder='1BED/2BED'
                           />
                         </Flex>
                       </Table.Cell>
