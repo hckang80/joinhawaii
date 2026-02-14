@@ -376,7 +376,7 @@ export default function ClientForm({
                             ref={field.ref}
                             value={field.value}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                              field.onChange(e.target.value);
+                              field.onChange(e.target.value.trim());
                               if (i === reservationIndex) {
                                 setValue('main_client_name', e.target.value);
                               }
@@ -439,7 +439,7 @@ export default function ClientForm({
                             ref={field.ref}
                             value={field.value}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                              field.onChange(e.target.value);
+                              field.onChange(e.target.value.trim());
                             }}
                           />
                         )}
@@ -455,7 +455,7 @@ export default function ClientForm({
                             ref={field.ref}
                             value={field.value}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                              field.onChange(e.target.value);
+                              field.onChange(e.target.value.trim());
                             }}
                           />
                         )}
@@ -464,7 +464,9 @@ export default function ClientForm({
                     <Table.Cell>
                       <TextField.Root
                         size='1'
-                        {...register(`clients.${i}.email`)}
+                        {...register(`clients.${i}.email`, {
+                          setValueAs: value => (typeof value === 'string' ? value.trim() : value)
+                        })}
                         placeholder='joinhawaii@gmail.com'
                       />
                     </Table.Cell>
@@ -501,7 +503,12 @@ export default function ClientForm({
                       />
                     </Table.Cell>
                     <Table.Cell>
-                      <TextField.Root size='1' {...register(`clients.${i}.notes`)} />
+                      <TextField.Root
+                        size='1'
+                        {...register(`clients.${i}.notes`, {
+                          setValueAs: value => (typeof value === 'string' ? value.trim() : value)
+                        })}
+                      />
                     </Table.Cell>
                   </Table.Row>
                 ))}

@@ -140,7 +140,8 @@ export default function FlightForm({
                       <TextField.Root
                         size='1'
                         {...register(`flights.${i}.flight_number`, {
-                          required: true
+                          required: true,
+                          setValueAs: value => (typeof value === 'string' ? value.trim() : value)
                         })}
                         placeholder='KE001'
                       />
@@ -149,7 +150,12 @@ export default function FlightForm({
                       <DateTimeInput name={`flights.${i}.departure_datetime`} control={control} />
                     </Table.Cell>
                     <Table.Cell>
-                      <TextField.Root size='1' {...register(`flights.${i}.departure_city`)} />
+                      <TextField.Root
+                        size='1'
+                        {...register(`flights.${i}.departure_city`, {
+                          setValueAs: value => (typeof value === 'string' ? value.trim() : value)
+                        })}
+                      />
                     </Table.Cell>
                     <Table.Cell>
                       <Controller
@@ -191,7 +197,9 @@ export default function FlightForm({
                     <Table.Cell>
                       <TextField.Root
                         size='1'
-                        {...register(`flights.${i}.arrival_city`)}
+                        {...register(`flights.${i}.arrival_city`, {
+                          setValueAs: value => (typeof value === 'string' ? value.trim() : value)
+                        })}
                         placeholder='호놀룰루'
                       />
                     </Table.Cell>
@@ -360,7 +368,12 @@ export default function FlightForm({
                       />
                     </Table.Cell>
                     <Table.Cell>
-                      <TextArea size='1' {...register(`flights.${i}.notes`)} />
+                      <TextArea
+                        size='1'
+                        {...register(`flights.${i}.notes`, {
+                          setValueAs: value => (typeof value === 'string' ? value.trim() : value)
+                        })}
+                      />
                     </Table.Cell>
                     <Table.Cell hidden>
                       <FlightTotalCalculator index={i} setValue={setValue} control={control} />
@@ -371,7 +384,13 @@ export default function FlightForm({
                       <Flex align='center' gap='2'>
                         <Text weight='bold'>규정</Text>
                         <Box flexGrow='1'>
-                          <TextField.Root size='1' {...register(`flights.${i}.rule`)} />
+                          <TextField.Root
+                            size='1'
+                            {...register(`flights.${i}.rule`, {
+                              setValueAs: value =>
+                                typeof value === 'string' ? value.trim() : value
+                            })}
+                          />
                         </Box>
                       </Flex>
                     </Table.Cell>

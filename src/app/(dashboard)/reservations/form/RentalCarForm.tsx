@@ -328,7 +328,12 @@ export default function RentalCarForm({
                         />
                       </Table.Cell>
                       <Table.Cell>
-                        <TextField.Root size='1' {...register(`rental_cars.${i}.driver`)} />
+                        <TextField.Root
+                          size='1'
+                          {...register(`rental_cars.${i}.driver`, {
+                            setValueAs: value => (typeof value === 'string' ? value.trim() : value)
+                          })}
+                        />
                       </Table.Cell>
                       <Table.Cell>
                         <Controller
@@ -476,7 +481,12 @@ export default function RentalCarForm({
                         </Button>
                       </Table.Cell>
                       <Table.Cell>
-                        <TextArea size='1' {...register(`rental_cars.${i}.notes`)} />
+                        <TextArea
+                          size='1'
+                          {...register(`rental_cars.${i}.notes`, {
+                            setValueAs: value => (typeof value === 'string' ? value.trim() : value)
+                          })}
+                        />
                       </Table.Cell>
                       <Table.Cell hidden>
                         <CarTotalCalculator index={i} setValue={setValue} control={control} />
@@ -487,7 +497,13 @@ export default function RentalCarForm({
                         <Flex align='center' gap='2'>
                           <Text weight='bold'>규정</Text>
                           <Box flexGrow='1'>
-                            <TextField.Root size='1' {...register(`rental_cars.${i}.rule`)} />
+                            <TextField.Root
+                              size='1'
+                              {...register(`rental_cars.${i}.rule`, {
+                                setValueAs: value =>
+                                  typeof value === 'string' ? value.trim() : value
+                              })}
+                            />
                           </Box>
                         </Flex>
                       </Table.Cell>
