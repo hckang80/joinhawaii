@@ -288,6 +288,7 @@ export default function HotelForm({
                         />
                       </Table.Cell>
                       <Table.Cell>
+                        <TextField.Root size='1' {...register(`hotels.${i}.view_type`)} />
                         <Controller
                           name={`hotels.${i}.room_type`}
                           control={control}
