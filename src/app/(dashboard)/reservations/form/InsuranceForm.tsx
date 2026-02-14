@@ -216,7 +216,8 @@ export default function InsuranceForm({
                         <TextField.Root
                           size='1'
                           {...register(`insurances.${i}.company`, {
-                            required: true
+                            required: true,
+                            setValueAs: value => (typeof value === 'string' ? value.trim() : value)
                           })}
                         />
                       </Table.Cell>
@@ -492,7 +493,12 @@ export default function InsuranceForm({
                         </Button>
                       </Table.Cell>
                       <Table.Cell>
-                        <TextArea size='1' {...register(`insurances.${i}.notes`)} />
+                        <TextArea
+                          size='1'
+                          {...register(`insurances.${i}.notes`, {
+                            setValueAs: value => (typeof value === 'string' ? value.trim() : value)
+                          })}
+                        />
                       </Table.Cell>
                       <Table.Cell hidden>
                         <InsuranceTotalCalculator index={i} setValue={setValue} control={control} />
@@ -503,7 +509,13 @@ export default function InsuranceForm({
                         <Flex align='center' gap='2'>
                           <Text weight='bold'>규정</Text>
                           <Box flexGrow='1'>
-                            <TextField.Root size='1' {...register(`insurances.${i}.rule`)} />
+                            <TextField.Root
+                              size='1'
+                              {...register(`insurances.${i}.rule`, {
+                                setValueAs: value =>
+                                  typeof value === 'string' ? value.trim() : value
+                              })}
+                            />
                           </Box>
                         </Flex>
                       </Table.Cell>

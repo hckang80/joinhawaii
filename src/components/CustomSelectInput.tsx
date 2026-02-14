@@ -49,7 +49,7 @@ export function CustomSelectInput({
           ref={ref}
           value={value === customLabel ? '' : value}
           placeholder={inputPlaceholder}
-          onChange={e => onChange(e.target.value)}
+          onChange={e => onChange(e.target.value.trim())}
         />
       )}
     </Flex>

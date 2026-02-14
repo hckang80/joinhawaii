@@ -232,7 +232,8 @@ export default function TourForm({
                         <TextField.Root
                           size='1'
                           {...register(`tours.${i}.name`, {
-                            required: true
+                            required: true,
+                            setValueAs: value => (typeof value === 'string' ? value.trim() : value)
                           })}
                         />
                       </Table.Cell>
@@ -467,7 +468,12 @@ export default function TourForm({
                         </Button>
                       </Table.Cell>
                       <Table.Cell>
-                        <TextArea size='1' {...register(`tours.${i}.notes`)} />
+                        <TextArea
+                          size='1'
+                          {...register(`tours.${i}.notes`, {
+                            setValueAs: value => (typeof value === 'string' ? value.trim() : value)
+                          })}
+                        />
                       </Table.Cell>
                       <Table.Cell hidden>
                         <TourTotalCalculator index={i} setValue={setValue} control={control} />
@@ -478,7 +484,13 @@ export default function TourForm({
                         <Flex align='center' gap='2'>
                           <Text weight='bold'>규정</Text>
                           <Box flexGrow='1'>
-                            <TextField.Root size='1' {...register(`tours.${i}.rule`)} />
+                            <TextField.Root
+                              size='1'
+                              {...register(`tours.${i}.rule`, {
+                                setValueAs: value =>
+                                  typeof value === 'string' ? value.trim() : value
+                              })}
+                            />
                           </Box>
                         </Flex>
                       </Table.Cell>

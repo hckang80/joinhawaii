@@ -290,7 +290,10 @@ export default function HotelForm({
                         <Flex direction='column' gap='1'>
                           <TextField.Root
                             size='1'
-                            {...register(`hotels.${i}.view_type`)}
+                            {...register(`hotels.${i}.view_type`, {
+                              setValueAs: value =>
+                                typeof value === 'string' ? value.trim() : value
+                            })}
                             placeholder='Ocean View'
                           />
                           <Controller
@@ -457,7 +460,12 @@ export default function HotelForm({
                         </Button>
                       </Table.Cell>
                       <Table.Cell>
-                        <TextArea size='1' {...register(`hotels.${i}.notes`)} />
+                        <TextArea
+                          size='1'
+                          {...register(`hotels.${i}.notes`, {
+                            setValueAs: value => (typeof value === 'string' ? value.trim() : value)
+                          })}
+                        />
                       </Table.Cell>
                       <Table.Cell hidden>
                         <HotelTotalCalculator index={i} setValue={setValue} control={control} />
@@ -468,7 +476,13 @@ export default function HotelForm({
                         <Flex align='center' gap='2'>
                           <Text weight='bold'>규정</Text>
                           <Box flexGrow='1'>
-                            <TextField.Root size='1' {...register(`hotels.${i}.rule`)} />
+                            <TextField.Root
+                              size='1'
+                              {...register(`hotels.${i}.rule`, {
+                                setValueAs: value =>
+                                  typeof value === 'string' ? value.trim() : value
+                              })}
+                            />
                           </Box>
                         </Flex>
                       </Table.Cell>
