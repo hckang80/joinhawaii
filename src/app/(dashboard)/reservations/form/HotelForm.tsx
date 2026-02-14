@@ -288,14 +288,6 @@ export default function HotelForm({
                       </Table.Cell>
                       <Table.Cell>
                         <Flex direction='column' gap='1'>
-                          <TextField.Root
-                            size='1'
-                            {...register(`hotels.${i}.view_type`, {
-                              setValueAs: value =>
-                                typeof value === 'string' ? value.trim() : value
-                            })}
-                            placeholder='Ocean View'
-                          />
                           <Controller
                             name={`hotels.${i}.room_type`}
                             control={control}
@@ -308,6 +300,14 @@ export default function HotelForm({
                                 />
                               );
                             }}
+                          />
+                          <TextField.Root
+                            size='1'
+                            {...register(`hotels.${i}.bed_type`, {
+                              setValueAs: value =>
+                                typeof value === 'string' ? value.trim() : value
+                            })}
+                            placeholder='Ocean View'
                           />
                         </Flex>
                       </Table.Cell>

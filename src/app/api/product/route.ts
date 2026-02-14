@@ -91,7 +91,7 @@ export async function GET(request: Request) {
           event_date: hotel.check_in_date,
           main_client_name,
           booking_platform,
-          product_name: [hotel.region, hotel.hotel_name, hotel.view_type, hotel.room_type].join(
+          product_name: [hotel.region, hotel.hotel_name, hotel.room_type, hotel.bed_type].join(
             ' / '
           ),
           type: 'hotel' as const,
