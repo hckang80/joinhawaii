@@ -288,20 +288,26 @@ export default function HotelForm({
                         />
                       </Table.Cell>
                       <Table.Cell>
-                        <TextField.Root size='1' {...register(`hotels.${i}.view_type`)} />
-                        <Controller
-                          name={`hotels.${i}.room_type`}
-                          control={control}
-                          render={({ field }) => {
-                            return (
-                              <CustomSelectInput
-                                value={field.value}
-                                options={ROOM_TYPES}
-                                onChange={field.onChange}
-                              />
-                            );
-                          }}
-                        />
+                        <Flex direction='column' gap='1'>
+                          <TextField.Root
+                            size='1'
+                            {...register(`hotels.${i}.view_type`)}
+                            placeholder='Ocean View'
+                          />
+                          <Controller
+                            name={`hotels.${i}.room_type`}
+                            control={control}
+                            render={({ field }) => {
+                              return (
+                                <CustomSelectInput
+                                  value={field.value}
+                                  options={ROOM_TYPES}
+                                  onChange={field.onChange}
+                                />
+                              );
+                            }}
+                          />
+                        </Flex>
                       </Table.Cell>
                       <Table.Cell>
                         <Controller
