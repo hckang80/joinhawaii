@@ -241,3 +241,24 @@ export function generateMinuteOptions(interval: number = 10): number[] {
 export function isRefunded(status: string, originalStatus: string) {
   return status === 'Refunded' && originalStatus === 'Refunded';
 }
+
+/**
+ * 주어진 객체 배열을 날짜 필드 기준(null 안전)으로 정렬할 때 사용하는 비교 함수 생성기
+ *
+ * @template T - 비교할 객체 타입
+ * @param {keyof T} field - 날짜로 사용할 필드명 (예: 'start_date', 'pickup_date' 등)
+ * @returns {(a: T, b: T) => number} - Array.prototype.toSorted 등에 사용할 비교 함수
+ *
+ * @example
+ *   arr.toSorted(compareByDateField('start_date'))
+ */
+export function compareByDateField<T>(field: keyof T) {
+  return (a: T, b: T) =>
+    a[field] && b[field]
+      ? String(a[field]).localeCompare(String(b[field]))
+      : a[field]
+        ? -1
+        : b[field]
+          ? 1
+          : 0;
+}

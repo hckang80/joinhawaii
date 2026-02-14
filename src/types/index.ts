@@ -18,7 +18,11 @@ export type Hotel = Omit<typeof defaultHotelValues, 'check_in_date' | 'check_out
   check_in_date: string | null;
   check_out_date: string | null;
 };
-export type Tour = typeof defaultTourValues & { id?: number };
+export type Tour = Omit<typeof defaultTourValues, 'start_date' | 'end_date'> & {
+  id?: number;
+  start_date: string | null;
+  end_date: string | null;
+};
 export type Car = Omit<typeof defaultCarValues, 'pickup_date' | 'return_date'> & {
   id?: number;
   pickup_date: string | null;

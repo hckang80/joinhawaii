@@ -4,13 +4,14 @@ import { RESERVATION_SELECT_QUERY } from '@/lib/supabase/schema';
 import { createClient } from '@/lib/supabase/server';
 import type {
   Database,
+  ProductType,
   ProductValues,
   ReservationQueryResponse,
   ReservationRequest,
   ReservationRow,
   ReservationUpdateRequest
 } from '@/types';
-import { isPostgrestError } from '@/utils';
+import { compareByDateField, isPostgrestError } from '@/utils';
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
@@ -154,11 +155,31 @@ export async function GET(request: Request) {
 
       const [flightsWithKrw, hotelsWithKrw, toursWithKrw, carsWithKrw, insurancesWithKrw] =
         await Promise.all([
-          addKoreanWonFields(flights.map(item => ({ ...item, type: 'flight' }))),
-          addKoreanWonFields(hotels.map(item => ({ ...item, type: 'hotel' }))),
-          addKoreanWonFields(tours.map(item => ({ ...item, type: 'tour' }))),
-          addKoreanWonFields(rental_cars.map(item => ({ ...item, type: 'rental_car' }))),
-          addKoreanWonFields(insurances.map(item => ({ ...item, type: 'insurance' })))
+          addKoreanWonFields(
+            flights
+              .map(item => ({ ...item, type: 'flight' as ProductType }))
+              .toSorted(compareByDateField('departure_datetime'))
+          ),
+          addKoreanWonFields(
+            hotels
+              .map(item => ({ ...item, type: 'hotel' as ProductType }))
+              .toSorted(compareByDateField('check_in_date'))
+          ),
+          addKoreanWonFields(
+            tours
+              .map(item => ({ ...item, type: 'tour' as ProductType }))
+              .toSorted(compareByDateField('start_date'))
+          ),
+          addKoreanWonFields(
+            rental_cars
+              .map(item => ({ ...item, type: 'rental_car' as ProductType }))
+              .toSorted(compareByDateField('pickup_date'))
+          ),
+          addKoreanWonFields(
+            insurances
+              .map(item => ({ ...item, type: 'insurance' as ProductType }))
+              .toSorted(compareByDateField('start_date'))
+          )
         ]);
 
       const calculateTotal = (products: ProductValues[]) => {
@@ -377,11 +398,15 @@ export async function PATCH(request: Request) {
 
     const [flightsWithKrw, hotelsWithKrw, toursWithKrw, carsWithKrw, insurancesWithKrw] =
       await Promise.all([
-        addKoreanWonFields(flightsData.map(item => ({ ...item, type: 'flight' }))),
-        addKoreanWonFields(hotelsData.map(item => ({ ...item, type: 'hotel' }))),
-        addKoreanWonFields(toursData.map(item => ({ ...item, type: 'tour' }))),
-        addKoreanWonFields(rentalCarsData.map(item => ({ ...item, type: 'rental_car' }))),
-        addKoreanWonFields(insurancesData.map(item => ({ ...item, type: 'insurance' })))
+        addKoreanWonFields(flightsData.map(item => ({ ...item, type: 'flight' as ProductType }))),
+        addKoreanWonFields(hotelsData.map(item => ({ ...item, type: 'hotel' as ProductType }))),
+        addKoreanWonFields(toursData.map(item => ({ ...item, type: 'tour' as ProductType }))),
+        addKoreanWonFields(
+          rentalCarsData.map(item => ({ ...item, type: 'rental_car' as ProductType }))
+        ),
+        addKoreanWonFields(
+          insurancesData.map(item => ({ ...item, type: 'insurance' as ProductType }))
+        )
       ]);
 
     return NextResponse.json({
