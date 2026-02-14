@@ -162,7 +162,6 @@ export default function HotelForm({
                     <Table.ColumnHeaderCell width='180px'>
                       합계(<Text color='blue'>원가</Text>/판매가)
                     </Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='90px'>CF#/VC#</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='90px'>진행상태</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='70px'>추가옵션</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>
@@ -399,7 +398,6 @@ export default function HotelForm({
                           </Text>
                         </Flex>
                       </Table.Cell>
-                      <Table.Cell>바우처 조회</Table.Cell>
                       <Table.Cell>
                         <Controller
                           name={`hotels.${i}.status`}
@@ -466,7 +464,7 @@ export default function HotelForm({
                       </Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                      <Table.Cell colSpan={15}>
+                      <Table.Cell colSpan={14}>
                         <Flex align='center' gap='2'>
                           <Text weight='bold'>규정</Text>
                           <Box flexGrow='1'>
