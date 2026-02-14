@@ -88,7 +88,7 @@ export function SearchForm() {
       <Table.Root variant='surface'>
         <Table.Body>
           <Table.Row>
-            <Table.Cell>
+            <Table.Cell width='25%'>
               <Text as='div' size='2' weight='medium' mb='2'>
                 조회구분
               </Text>
@@ -110,7 +110,7 @@ export function SearchForm() {
               />
             </Table.Cell>
 
-            <Table.Cell>
+            <Table.Cell width='25%'>
               <Text as='div' size='2' weight='medium' mb='2'>
                 조회일자
               </Text>
@@ -140,7 +140,7 @@ export function SearchForm() {
               </Flex>
             </Table.Cell>
 
-            <Table.Cell>
+            <Table.Cell width='25%'>
               <Text as='div' size='2' weight='medium' mb='2'>
                 예약회사
               </Text>
@@ -215,7 +215,7 @@ export function SearchForm() {
               />
             </Table.Cell>
 
-            <Table.Cell>
+            <Table.Cell width='25%'>
               <Text as='div' size='2' weight='medium' mb='2'>
                 상품구분
               </Text>
