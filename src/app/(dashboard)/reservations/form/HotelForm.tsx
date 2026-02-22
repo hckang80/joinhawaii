@@ -1,4 +1,4 @@
-import { CustomSelectInput, NoData } from '@/components';
+import { CustomSelectInput, NoData, ProductOptionBadge } from '@/components';
 import {
   defaultHotelValues,
   HOTELS,
@@ -303,6 +303,7 @@ export default function HotelForm({
                             })}
                             placeholder='1BED/2BED'
                           />
+                          <ProductOptionBadge items={hotel.additional_options} />
                         </Flex>
                       </Table.Cell>
                       <Table.Cell>
