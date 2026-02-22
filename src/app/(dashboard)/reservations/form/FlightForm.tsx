@@ -382,6 +382,22 @@ export default function FlightForm({
                   <Table.Row>
                     <Table.Cell colSpan={11}>
                       <Flex align='center' gap='2'>
+                        <Text weight='bold'>비고</Text>
+                        <Box flexGrow='1'>
+                          <TextField.Root
+                            size='1'
+                            {...register(`flights.${i}.remarks`, {
+                              setValueAs: value =>
+                                typeof value === 'string' ? value.trim() : value
+                            })}
+                          />
+                        </Box>
+                      </Flex>
+                    </Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell colSpan={11}>
+                      <Flex align='center' gap='2'>
                         <Text weight='bold'>규정</Text>
                         <Box flexGrow='1'>
                           <TextField.Root
