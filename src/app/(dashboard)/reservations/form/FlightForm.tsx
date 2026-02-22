@@ -125,7 +125,7 @@ export default function FlightForm({
                     합계(<Text color='blue'>원가</Text>/판매가)
                   </Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='90px'>진행상태</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='200px'>메모</Table.ColumnHeaderCell>
                 </Table.Row>
               </Table.Header>
               {flights.map((flight, i) => (

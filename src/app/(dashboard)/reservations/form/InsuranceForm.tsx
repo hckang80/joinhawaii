@@ -172,7 +172,7 @@ export default function InsuranceForm({
                     </Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='90px'>진행상태</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='70px'>추가옵션</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='200px'>비고</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='200px'>메모</Table.ColumnHeaderCell>
                   </Table.Row>
                 </Table.Header>
                 {insurances.map((insurance, i) => (
