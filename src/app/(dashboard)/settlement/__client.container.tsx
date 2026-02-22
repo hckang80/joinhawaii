@@ -81,7 +81,9 @@ export default function SettlementClientContainer() {
                   >
                     {item.product_name}
                   </StyledLink>
-                  <ProductOptionBadge items={item.additional_options} />
+                  <Box mt='1'>
+                    <ProductOptionBadge items={item.additional_options} />
+                  </Box>
                 </Table.Cell>
                 <Table.Cell>
                   <Badge size='3' color={PAYMENT_STATUS_COLOR[item.payment_status]} variant='soft'>

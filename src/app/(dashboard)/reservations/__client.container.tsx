@@ -89,7 +89,9 @@ export default function ReservationsClientContainer() {
                   >
                     {item.product_name}
                   </StyledLink>
-                  <ProductOptionBadge items={item.additional_options} />
+                  <Box mt='1'>
+                    <ProductOptionBadge items={item.additional_options} />
+                  </Box>
                 </Table.Cell>
                 <Table.Cell>
                   {item.event_date ? toReadableDate(new Date(item.event_date)) : '-'}
