@@ -421,6 +421,13 @@ export default function RentalCarForm({
                             )}
                           </Text>
                         </Flex>
+                        <Text size='4' weight='bold'>
+                          {toReadableAmount(
+                            getValues(`rental_cars.${i}.total_amount_krw`),
+                            'ko-KR',
+                            'KRW'
+                          )}
+                        </Text>
                       </Table.Cell>
                       <Table.Cell>
                         <Controller

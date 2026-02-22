@@ -433,6 +433,13 @@ export default function InsuranceForm({
                             )}
                           </Text>
                         </Flex>
+                        <Text size='4' weight='bold'>
+                          {toReadableAmount(
+                            getValues(`insurances.${i}.total_amount_krw`),
+                            'ko-KR',
+                            'KRW'
+                          )}
+                        </Text>
                       </Table.Cell>
                       <Table.Cell>
                         <Controller

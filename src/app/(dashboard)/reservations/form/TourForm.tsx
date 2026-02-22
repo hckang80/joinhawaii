@@ -408,6 +408,13 @@ export default function TourForm({
                             )}
                           </Text>
                         </Flex>
+                        <Text size='4' weight='bold'>
+                          {toReadableAmount(
+                            getValues(`tours.${i}.total_amount_krw`),
+                            'ko-KR',
+                            'KRW'
+                          )}
+                        </Text>
                       </Table.Cell>
                       <Table.Cell>
                         <Controller

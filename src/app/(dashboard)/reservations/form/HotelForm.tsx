@@ -395,6 +395,13 @@ export default function HotelForm({
                             )}
                           </Text>
                         </Flex>
+                        <Text size='4' weight='bold'>
+                          {toReadableAmount(
+                            getValues(`hotels.${i}.total_amount_krw`),
+                            'ko-KR',
+                            'KRW'
+                          )}
+                        </Text>
                       </Table.Cell>
                       <Table.Cell>
                         <Controller
