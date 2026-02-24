@@ -557,7 +557,7 @@ export default function ClientForm({
             size='3'
             onClick={() => {
               window.open(
-                '/reservations/progress',
+                '/progress',
                 '_blank',
                 'width=800,height=600,resizable=yes,scrollbars=yes'
               );
