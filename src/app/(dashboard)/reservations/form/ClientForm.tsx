@@ -147,15 +147,23 @@ export default function ClientForm({
               </colgroup>
               <Table.Body>
                 <Table.Row>
-                  <Table.RowHeaderCell>발행일</Table.RowHeaderCell>
+                  <Table.RowHeaderCell>
+                    <Text weight='bold'>발행일</Text>
+                  </Table.RowHeaderCell>
                   <Table.Cell>
                     {data?.created_at ? toReadableDate(data?.created_at) : '-'}
                   </Table.Cell>
-                  <Table.RowHeaderCell>담당자</Table.RowHeaderCell>
+                  <Table.RowHeaderCell>
+                    <Text weight='bold'>담당자</Text>
+                  </Table.RowHeaderCell>
                   <Table.Cell>{data?.author || '-'}</Table.Cell>
-                  <Table.RowHeaderCell>카카오톡</Table.RowHeaderCell>
+                  <Table.RowHeaderCell>
+                    <Text weight='bold'>카카오톡</Text>
+                  </Table.RowHeaderCell>
                   <Table.Cell>-</Table.Cell>
-                  <Table.RowHeaderCell>업체구분</Table.RowHeaderCell>
+                  <Table.RowHeaderCell>
+                    <Text weight='bold'>업체구분</Text>
+                  </Table.RowHeaderCell>
                   <Table.Cell>
                     <Controller
                       name='booking_platform'
@@ -231,7 +239,9 @@ export default function ClientForm({
                   </Table.Cell>
                 </Table.Row>
                 <Table.Row>
-                  <Table.RowHeaderCell>여행종류</Table.RowHeaderCell>
+                  <Table.RowHeaderCell>
+                    <Text weight='bold'>여행종류</Text>
+                  </Table.RowHeaderCell>
                   <Table.Cell>
                     <Controller
                       name='trip_type'
@@ -254,7 +264,9 @@ export default function ClientForm({
                       )}
                     />
                   </Table.Cell>
-                  <Table.RowHeaderCell>구분</Table.RowHeaderCell>
+                  <Table.RowHeaderCell>
+                    <Text weight='bold'>구분</Text>
+                  </Table.RowHeaderCell>
                   <Table.Cell>
                     <Controller
                       name='travel_category'
@@ -277,9 +289,13 @@ export default function ClientForm({
                       )}
                     />
                   </Table.Cell>
-                  <Table.RowHeaderCell>예약구분</Table.RowHeaderCell>
+                  <Table.RowHeaderCell>
+                    <Text weight='bold'>예약구분</Text>
+                  </Table.RowHeaderCell>
                   <Table.Cell>{reservation_id || '-'}</Table.Cell>
-                  <Table.RowHeaderCell>여행일정</Table.RowHeaderCell>
+                  <Table.RowHeaderCell>
+                    <Text weight='bold'>여행일정</Text>
+                  </Table.RowHeaderCell>
                   <Table.Cell>
                     <Flex gap='2' align='center' wrap='wrap'>
                       <TextField.Root type='date' {...register('start_date')} />
