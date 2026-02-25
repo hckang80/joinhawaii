@@ -6,3 +6,4 @@ export { Paginate } from './Paginate';
 export { ProductOptionBadge } from './ProductOptionBadge';
 export { SearchForm } from './SearchForm';
 export { TimeInput } from './TimeInput';
+export { Tiptap } from './Tiptap';
