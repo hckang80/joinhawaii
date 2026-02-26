@@ -37,6 +37,7 @@ import {
   Undo
 } from 'lucide-react';
 import { ResizableImage } from 'tiptap-extension-resizable-image';
+import styles from './tiptap.module.css';
 
 interface TiptapProps {
   value: string;
@@ -225,7 +226,6 @@ export const Tiptap = ({
         color={isActive ? 'indigo' : 'gray'}
         onClick={onClick}
         size='2'
-        style={{ margin: 2 }}
         aria-label={title}
       >
         {children}
@@ -245,15 +245,8 @@ export const Tiptap = ({
     <Tooltip content={title}>
       <Button
         type='button'
-        style={{
-          backgroundColor: color,
-          width: 24,
-          height: 24,
-          minWidth: 24,
-          minHeight: 24,
-          padding: 0,
-          border: '1px solid #ccc'
-        }}
+        className={styles['tiptap-color-button']}
+        style={{ '--color': color } as React.CSSProperties}
         onClick={onClick}
         aria-label={title}
         variant='soft'
@@ -262,27 +255,8 @@ export const Tiptap = ({
   );
 
   return (
-    <Box
-      width='100%'
-      style={{
-        borderRadius: 8,
-        border: '1px solid #e5e7eb',
-        background: '#fff',
-        boxShadow: '0 1px 2px rgba(0,0,0,0.03)'
-      }}
-    >
-      <Flex
-        wrap='wrap'
-        align='center'
-        gap='2'
-        style={{
-          borderBottom: '1px solid #e5e7eb',
-          borderTopLeftRadius: 8,
-          borderTopRightRadius: 8,
-          background: '#f9fafb',
-          padding: 12
-        }}
-      >
+    <Box className={styles['tiptap-root']}>
+      <Flex wrap='wrap' align='center' gap='2' p='3' className={styles['tiptap-toolbar']}>
         {/* 스타일 그룹 */}
         <Flex align='center' gap='1'>
           <ToolbarButton
@@ -487,15 +461,10 @@ export const Tiptap = ({
         <EditorContent editor={editor} />
       </Box>
 
-      {/* 숨겨진 파일 input */}
       {enableImage && (
-        <input
-          ref={fileInputRef}
-          type='file'
-          accept='image/*'
-          onChange={handleFileChange}
-          style={{ display: 'none' }}
-        />
+        <Box display='none'>
+          <input ref={fileInputRef} type='file' accept='image/*' onChange={handleFileChange} />
+        </Box>
       )}
     </Box>
   );
