@@ -44,7 +44,6 @@ interface TiptapProps {
   onChange: (content: string) => void;
   enableImage?: boolean;
   height?: string;
-  hasContent?: boolean;
   placeholder?: string;
 }
 
@@ -60,7 +59,6 @@ export const Tiptap = ({
   onChange,
   enableImage = false,
   height = 'min-h-[400px]',
-  hasContent = false,
   placeholder = '이미지를 올려놓거나 붙여넣기, 선택 후 리사이즈가 가능합니다.'
 }: TiptapProps) => {
   const [, forceUpdate] = useReducer(x => x + 1, 0);
@@ -143,7 +141,7 @@ export const Tiptap = ({
         'data-placeholder': placeholder,
         class: clsx(
           `prose-sm prose max-w-none focus:outline-none ${height} max-h-[880px] overflow-y-auto`,
-          { 'has-content': hasContent }
+          { 'has-content': value.length > 0 }
         )
       }
     },
