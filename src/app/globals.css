@@ -95,7 +95,7 @@ button:not(:disabled) {
 
   &::before {
     content: attr(data-placeholder);
-    color: var(--color-gray-500);
+    color: var(--gray-8);
   }
 }
 
