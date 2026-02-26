@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useReducer, useRef } from 'react';
 
+import { Box, Button, Flex, IconButton, Separator, Tooltip } from '@radix-ui/themes';
 import { Color } from '@tiptap/extension-color';
 import FileHandler from '@tiptap/extension-file-handler';
 import Highlight from '@tiptap/extension-highlight';
@@ -214,22 +215,23 @@ export const Tiptap = ({
     return false;
   };
 
-  if (!editor) {
-    return null;
-  }
+  if (!editor) return null;
 
   const ToolbarButton = ({ onClick, isActive, children, title }: ToolbarButtonProps) => (
-    <button
-      type='button'
-      onClick={onClick}
-      title={title}
-      className={`rounded-md p-2 transition-all duration-200 hover:bg-gray-100 ${isActive ? 'bg-blue-100 text-blue-700 shadow-sm' : 'text-gray-600 hover:text-gray-900'} `}
-    >
-      {children}
-    </button>
+    <Tooltip content={title}>
+      <IconButton
+        type='button'
+        variant={isActive ? 'solid' : 'soft'}
+        color={isActive ? 'indigo' : 'gray'}
+        onClick={onClick}
+        size='2'
+        style={{ margin: 2 }}
+        aria-label={title}
+      >
+        {children}
+      </IconButton>
+    </Tooltip>
   );
-
-  const Separator = () => <div className='mx-1 h-6 w-px bg-gray-300'></div>;
 
   const ColorButton = ({
     color,
@@ -240,20 +242,49 @@ export const Tiptap = ({
     onClick: () => void;
     title: string;
   }) => (
-    <button
-      type='button'
-      onClick={onClick}
-      title={title}
-      className='h-6 w-6 rounded border border-gray-300 transition-transform hover:scale-110'
-      style={{ backgroundColor: color }}
-    />
+    <Tooltip content={title}>
+      <Button
+        type='button'
+        style={{
+          backgroundColor: color,
+          width: 24,
+          height: 24,
+          minWidth: 24,
+          minHeight: 24,
+          padding: 0,
+          border: '1px solid #ccc'
+        }}
+        onClick={onClick}
+        aria-label={title}
+        variant='soft'
+      />
+    </Tooltip>
   );
 
   return (
-    <div className='w-full rounded-lg border border-gray-200 bg-white shadow-sm'>
-      <div className='flex flex-wrap items-center gap-x-2 gap-y-3 rounded-t-lg border-b border-gray-200 bg-gray-50 p-3'>
+    <Box
+      width='100%'
+      style={{
+        borderRadius: 8,
+        border: '1px solid #e5e7eb',
+        background: '#fff',
+        boxShadow: '0 1px 2px rgba(0,0,0,0.03)'
+      }}
+    >
+      <Flex
+        wrap='wrap'
+        align='center'
+        gap='2'
+        style={{
+          borderBottom: '1px solid #e5e7eb',
+          borderTopLeftRadius: 8,
+          borderTopRightRadius: 8,
+          background: '#f9fafb',
+          padding: 12
+        }}
+      >
         {/* 스타일 그룹 */}
-        <div className='flex items-center gap-1'>
+        <Flex align='center' gap='1'>
           <ToolbarButton
             onClick={() => editor.chain().focus().toggleBold().run()}
             isActive={editor.isActive('bold')}
@@ -282,12 +313,12 @@ export const Tiptap = ({
           >
             <Code size={16} />
           </ToolbarButton>
-        </div>
+        </Flex>
 
-        <Separator />
+        <Separator orientation='vertical' />
 
         {/* 단락 그룹 */}
-        <div className='flex items-center gap-1'>
+        <Flex align='center' gap='1'>
           <ToolbarButton
             onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
             isActive={editor.isActive('heading', { level: 1 })}
@@ -309,12 +340,12 @@ export const Tiptap = ({
           >
             <Heading3 size={16} />
           </ToolbarButton>
-        </div>
+        </Flex>
 
-        <Separator />
+        <Separator orientation='vertical' />
 
         {/* 목록 그룹 */}
-        <div className='flex items-center gap-1'>
+        <Flex align='center' gap='1'>
           <ToolbarButton
             onClick={() => editor.chain().focus().toggleBulletList().run()}
             isActive={editor.isActive('bulletList')}
@@ -329,12 +360,12 @@ export const Tiptap = ({
           >
             <ListOrdered size={16} />
           </ToolbarButton>
-        </div>
+        </Flex>
 
-        <Separator />
+        <Separator orientation='vertical' />
 
         {/* 정렬 그룹 */}
-        <div className='flex items-center gap-1'>
+        <Flex align='center' gap='1'>
           <ToolbarButton
             onClick={() => editor.chain().focus().setTextAlign('left').run()}
             isActive={editor.isActive({ textAlign: 'left' })}
@@ -363,13 +394,13 @@ export const Tiptap = ({
           >
             <AlignJustify size={16} />
           </ToolbarButton>
-        </div>
+        </Flex>
 
-        <Separator />
+        <Separator orientation='vertical' />
 
         {/* 색상 그룹 */}
-        <div className='flex items-center gap-2'>
-          <div className='flex items-center gap-1'>
+        <Flex align='center' gap='2'>
+          <Flex align='center' gap='1'>
             <Palette size={16} className='text-gray-600' />
             <ColorButton color='#171717' onClick={() => setTextColor('#171717')} title='Black' />
             <ColorButton color='#ef4444' onClick={() => setTextColor('#ef4444')} title='Red' />
@@ -377,8 +408,8 @@ export const Tiptap = ({
             <ColorButton color='#eab308' onClick={() => setTextColor('#eab308')} title='Yellow' />
             <ColorButton color='#22c55e' onClick={() => setTextColor('#22c55e')} title='Green' />
             <ColorButton color='#3b82f6' onClick={() => setTextColor('#3b82f6')} title='Blue' />
-          </div>
-          <div className='flex items-center gap-1'>
+          </Flex>
+          <Flex align='center' gap='1'>
             <Highlighter size={16} className='text-gray-600' />
             <ColorButton
               color='#fef3c7'
@@ -400,13 +431,13 @@ export const Tiptap = ({
               onClick={() => setHighlight('#dbeafe')}
               title='Blue Highlight'
             />
-          </div>
-        </div>
+          </Flex>
+        </Flex>
 
-        <Separator />
+        <Separator orientation='vertical' />
 
         {/* 콘텐츠 삽입 그룹 */}
-        <div className='flex items-center gap-1'>
+        <Flex align='center' gap='1'>
           <ToolbarButton onClick={setLink} isActive={editor.isActive('link')} title='Insert Link'>
             <LinkIcon size={16} />
           </ToolbarButton>
@@ -429,12 +460,12 @@ export const Tiptap = ({
           >
             <Minus size={16} />
           </ToolbarButton>
-        </div>
+        </Flex>
 
-        <Separator />
+        <Separator orientation='vertical' />
 
         {/* 기록 그룹 */}
-        <div className='flex items-center gap-1'>
+        <Flex align='center' gap='1'>
           <ToolbarButton
             onClick={() => editor.chain().focus().undo().run()}
             isActive={false}
@@ -449,12 +480,12 @@ export const Tiptap = ({
           >
             <Redo size={16} />
           </ToolbarButton>
-        </div>
-      </div>
+        </Flex>
+      </Flex>
 
-      <div className='p-4'>
+      <Box p='4'>
         <EditorContent editor={editor} />
-      </div>
+      </Box>
 
       {/* 숨겨진 파일 input */}
       {enableImage && (
@@ -466,6 +497,6 @@ export const Tiptap = ({
           style={{ display: 'none' }}
         />
       )}
-    </div>
+    </Box>
   );
 };

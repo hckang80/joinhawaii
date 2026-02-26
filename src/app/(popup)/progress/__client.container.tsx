@@ -1,6 +1,7 @@
 'use client';
 
 import { Tiptap } from '@/components';
+import { Box, Button, Flex } from '@radix-ui/themes';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -24,24 +25,30 @@ export default function ProgressClientContainer() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Controller
-        name='content'
-        control={control}
-        rules={{ required: '내용을 입력하세요.' }}
-        render={({ field }) => (
-          <Tiptap
-            value={field.value}
-            onChange={value => field.onChange(value)}
-            placeholder='진행사항을 입력하세요.'
-          />
+    <Box p='4'>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Controller
+          name='content'
+          control={control}
+          rules={{ required: '내용을 입력하세요.' }}
+          render={({ field }) => (
+            <Tiptap
+              value={field.value}
+              onChange={value => field.onChange(value)}
+              placeholder='진행사항을 입력하세요.'
+            />
+          )}
+        />
+        {errors.content && (
+          <div style={{ color: 'red', marginTop: 8 }}>{errors.content.message}</div>
         )}
-      />
-      {errors.content && <div style={{ color: 'red', marginTop: 8 }}>{errors.content.message}</div>}
-      <button type='submit' disabled={isSubmitting} style={{ marginTop: 16 }}>
-        {isSubmitting ? '저장 중...' : '저장'}
-      </button>
-      {submitted && <div style={{ color: 'green', marginTop: 8 }}>저장되었습니다.</div>}
-    </form>
+        <Flex justify='end' mt='4'>
+          <Button size='3' type='submit' loading={isSubmitting}>
+            저장
+          </Button>
+        </Flex>
+        {submitted && <div style={{ color: 'green', marginTop: 8 }}>저장되었습니다.</div>}
+      </form>
+    </Box>
   );
 }
