@@ -212,6 +212,18 @@ export function updateDateInISO(
 }
 
 /**
+ * 타임존 오프셋을 ISO 8601 문자열로 반환하는 헬퍼 함수
+ */
+export function getTimezoneOffsetString(date: Date): string {
+  const tzOffsetMin = date.getTimezoneOffset();
+  const absOffset = Math.abs(tzOffsetMin);
+  const sign = tzOffsetMin > 0 ? '-' : '+';
+  const hours = String(Math.floor(absOffset / 60)).padStart(2, '0');
+  const minutes = String(absOffset % 60).padStart(2, '0');
+  return `${sign}${hours}:${minutes}`;
+}
+
+/**
  * 시간과 분을 받아 기존 ISO 문자열의 시간 부분만 변경합니다
  */
 export function updateTimeInISO(

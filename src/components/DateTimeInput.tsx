@@ -1,6 +1,6 @@
 'use client';
 
-import { extractDateString, updateDateInISO } from '@/utils';
+import { extractDateString, getTimezoneOffsetString } from '@/utils';
 import { Flex, TextField } from '@radix-ui/themes';
 import { Controller, type Control, type FieldPath, type FieldValues } from 'react-hook-form';
 import { TimeInput } from './TimeInput';
@@ -32,7 +32,13 @@ export function DateTimeInput<TFieldValues extends FieldValues = FieldValues>({
               value={dateString}
               onChange={e => {
                 const value = e.target.value;
-                field.onChange(value ? updateDateInISO(field.value, value) : null);
+                if (value) {
+                  const date = new Date(value + 'T00:00:00');
+                  const tzString = getTimezoneOffsetString(date);
+                  field.onChange(`${value}T00:00:00${tzString}`);
+                } else {
+                  field.onChange(null);
+                }
               }}
             />
           );
