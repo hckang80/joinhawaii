@@ -1,7 +1,6 @@
 import type {
   AdditionalOptions,
   AllProducts,
-  ApiResponse,
   ReservationFormData,
   ReservationResponse,
   UpdateProductStatusParams
@@ -117,7 +116,7 @@ export const createReservation = async (data: ReservationFormData) => {
   return response.json();
 };
 
-export const updateReservation = async (data: ReservationFormData) => {
+export const updateReservation = async (data: Partial<ReservationFormData>) => {
   const updateProductWithRefundStatus = <
     T extends {
       status?: string;
@@ -162,7 +161,7 @@ export const updateReservation = async (data: ReservationFormData) => {
     body: JSON.stringify(payload)
   });
 
-  const result = (await response.json()) as ApiResponse<ReservationResponse>;
+  const result = await response.json();
 
   if (!response.ok || !result.success) {
     throw new Error(result.error);

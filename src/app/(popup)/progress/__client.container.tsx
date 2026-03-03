@@ -24,7 +24,7 @@ export default function ProgressClientContainer() {
   });
 
   const mutation = useMutation({
-    mutationFn: (formData: ReservationFormData) => {
+    mutationFn: (formData: Partial<ReservationFormData>) => {
       return updateReservation(formData);
     },
     onSuccess: (result: { data: ReservationResponse }) => {
@@ -33,9 +33,8 @@ export default function ProgressClientContainer() {
     onError: handleApiError
   });
 
-  const onSubmit: SubmitHandler<ReservationFormData> = formData => {
+  const onSubmit: SubmitHandler<Partial<ReservationFormData>> = formData => {
     if (!isDirty) return toast.info('변경된 내용이 없습니다.');
-    console.log({ formData });
     mutation.mutate(
       {
         reservation_id,
