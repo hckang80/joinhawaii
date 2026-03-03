@@ -98,6 +98,7 @@ export interface ReservationBaseInfo {
   end_date: string | null;
   nights: number;
   days: number;
+  content: string;
 }
 
 export interface ReservationSuccessResponse {
