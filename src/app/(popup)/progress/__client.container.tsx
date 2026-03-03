@@ -3,8 +3,8 @@
 import { Tiptap } from '@/components';
 import { updateReservation } from '@/http';
 import { reservationQueryOptions } from '@/lib/queries';
-import type { ReservationFormData, ReservationResponse } from '@/types';
-import { handleApiError, handleApiSuccess } from '@/utils';
+import type { ReservationFormData } from '@/types';
+import { handleApiError } from '@/utils';
 import { Box, Button, Flex } from '@radix-ui/themes';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
@@ -20,8 +20,7 @@ export default function ProgressClientContainer({ reservation_id }: { reservatio
   const {
     control,
     handleSubmit,
-    formState: { errors, isDirty, isSubmitting },
-    reset
+    formState: { errors, isDirty, isSubmitting }
   } = useForm<{ reservation_id: string; content: string }>({
     defaultValues: { reservation_id, content }
   });
@@ -30,17 +29,18 @@ export default function ProgressClientContainer({ reservation_id }: { reservatio
     mutationFn: (formData: Partial<ReservationFormData>) => {
       return updateReservation(formData);
     },
-    onSuccess: (result: { data: ReservationResponse }) => {
-      handleApiSuccess(result);
+    onSuccess: () => {
+      if (window.opener) {
+        window.close();
+        window.opener.focus();
+      }
     },
     onError: handleApiError
   });
 
   const onSubmit: SubmitHandler<Partial<ReservationFormData>> = formData => {
     if (!isDirty) return toast.info('변경된 내용이 없습니다.');
-    mutation.mutate(formData, {
-      onSuccess: () => reset(formData)
-    });
+    mutation.mutate(formData);
   };
 
   return (
