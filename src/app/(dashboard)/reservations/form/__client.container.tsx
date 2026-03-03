@@ -13,6 +13,7 @@ import { handleApiError, handleApiSuccess, toReadableAmount } from '@/utils';
 import { observable } from '@legendapp/state';
 import { Box, Button, Flex, Grid, Heading, Table, Text, TextField } from '@radix-ui/themes';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import { Controller, type SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import AdditionalOptionsEditor from './AdditionalOptionsEditor';
@@ -44,6 +45,19 @@ export default function ReservationsFormClientContainer({
     ...reservationQueryOptions(reservation_id!),
     enabled: !!reservation_id
   });
+
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data?.type === 'update-content-success') {
+        toast.success('진행사항이 업데이트되었습니다.');
+      }
+    };
+    window.addEventListener('message', handleMessage);
+
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    };
+  }, []);
 
   const isModify = !!reservation_id;
 

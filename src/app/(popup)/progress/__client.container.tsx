@@ -31,8 +31,8 @@ export default function ProgressClientContainer({ reservation_id }: { reservatio
     },
     onSuccess: () => {
       if (window.opener) {
+        window.opener.postMessage({ type: 'update-content-success' }, '*');
         window.close();
-        window.opener.focus();
       }
     },
     onError: handleApiError
