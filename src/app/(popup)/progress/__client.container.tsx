@@ -2,17 +2,20 @@
 
 import { Tiptap } from '@/components';
 import { updateReservation } from '@/http';
+import { reservationQueryOptions } from '@/lib/queries';
 import type { ReservationFormData, ReservationResponse } from '@/types';
 import { handleApiError, handleApiSuccess } from '@/utils';
 import { Box, Button, Flex } from '@radix-ui/themes';
-import { useMutation } from '@tanstack/react-query';
-import { useSearchParams } from 'next/navigation';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
-export default function ProgressClientContainer() {
-  const searchParams = useSearchParams();
-  const reservation_id = searchParams.get('reservation_id')!;
+export default function ProgressClientContainer({ reservation_id }: { reservation_id: string }) {
+  const { data, refetch } = useQuery({
+    ...reservationQueryOptions(reservation_id!),
+    enabled: !!reservation_id
+  });
+  console.log({ data, refetch });
 
   const {
     control,
