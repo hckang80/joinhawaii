@@ -551,6 +551,21 @@ export default function ClientForm({
       </Card>
 
       <Flex justify='end' mt='4' gap='1'>
+        {isModify && (
+          <Button
+            type='button'
+            size='3'
+            onClick={() => {
+              window.open(
+                `/progress?reservation_id=${encodeURIComponent(reservation_id)}`,
+                '_blank',
+                'width=800,height=600,resizable=yes,scrollbars=yes'
+              );
+            }}
+          >
+            진행사항
+          </Button>
+        )}
         <Button disabled={mutation.isPending} variant='outline' size='3'>
           {isModify ? (
             <>
