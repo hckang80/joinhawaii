@@ -5,14 +5,14 @@ import { updateReservation } from '@/http';
 import { reservationQueryOptions } from '@/lib/queries';
 import type { ReservationFormData } from '@/types';
 import { handleApiError } from '@/utils';
-import { Box, Button, Flex } from '@radix-ui/themes';
+import { Box, Button, Flex, Table, Text } from '@radix-ui/themes';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 export default function ProgressClientContainer({ reservation_id }: { reservation_id: string }) {
   const {
-    data: { content }
+    data: { content, main_client_name }
   } = useSuspenseQuery({
     ...reservationQueryOptions(reservation_id!)
   });
@@ -45,6 +45,28 @@ export default function ProgressClientContainer({ reservation_id }: { reservatio
 
   return (
     <Box p='4'>
+      <Box width='250px' mb='2'>
+        <Table.Root variant='surface'>
+          <Table.Body>
+            <Table.Row>
+              <Table.Cell width='80px'>
+                <Text as='div' weight='medium'>
+                  예약 번호
+                </Text>
+              </Table.Cell>
+              <Table.Cell>{reservation_id}</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>
+                <Text as='div' weight='medium'>
+                  예약자
+                </Text>
+              </Table.Cell>
+              <Table.Cell>{main_client_name}</Table.Cell>
+            </Table.Row>
+          </Table.Body>
+        </Table.Root>
+      </Box>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Controller
           name='content'
