@@ -557,7 +557,7 @@ export default function ClientForm({
             size='3'
             onClick={() => {
               window.open(
-                '/progress',
+                `/progress?reservation_id=${encodeURIComponent(reservation_id)}`,
                 '_blank',
                 'width=800,height=600,resizable=yes,scrollbars=yes'
               );

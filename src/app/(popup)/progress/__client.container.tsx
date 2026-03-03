@@ -6,10 +6,14 @@ import type { ReservationFormData, ReservationResponse } from '@/types';
 import { handleApiError, handleApiSuccess } from '@/utils';
 import { Box, Button, Flex } from '@radix-ui/themes';
 import { useMutation } from '@tanstack/react-query';
+import { useSearchParams } from 'next/navigation';
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 export default function ProgressClientContainer() {
+  const searchParams = useSearchParams();
+  const reservation_id = searchParams.get('reservation_id')!;
+
   const {
     control,
     handleSubmit,
@@ -34,7 +38,7 @@ export default function ProgressClientContainer() {
     console.log({ formData });
     mutation.mutate(
       {
-        reservation_id: 'some-reservation-id',
+        reservation_id,
         ...formData
       },
       {
