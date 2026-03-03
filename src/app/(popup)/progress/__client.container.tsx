@@ -6,16 +6,16 @@ import { reservationQueryOptions } from '@/lib/queries';
 import type { ReservationFormData, ReservationResponse } from '@/types';
 import { handleApiError, handleApiSuccess } from '@/utils';
 import { Box, Button, Flex } from '@radix-ui/themes';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 export default function ProgressClientContainer({ reservation_id }: { reservation_id: string }) {
-  const { data, refetch } = useQuery({
-    ...reservationQueryOptions(reservation_id!),
-    enabled: !!reservation_id
+  const {
+    data: { content }
+  } = useSuspenseQuery({
+    ...reservationQueryOptions(reservation_id!)
   });
-  console.log({ data, refetch });
 
   const {
     control,
@@ -23,7 +23,7 @@ export default function ProgressClientContainer({ reservation_id }: { reservatio
     formState: { errors, isDirty, isSubmitting },
     reset
   } = useForm<{ reservation_id: string; content: string }>({
-    defaultValues: { content: '' }
+    defaultValues: { reservation_id, content }
   });
 
   const mutation = useMutation({
@@ -38,15 +38,9 @@ export default function ProgressClientContainer({ reservation_id }: { reservatio
 
   const onSubmit: SubmitHandler<Partial<ReservationFormData>> = formData => {
     if (!isDirty) return toast.info('변경된 내용이 없습니다.');
-    mutation.mutate(
-      {
-        reservation_id,
-        ...formData
-      },
-      {
-        onSuccess: () => reset(formData)
-      }
-    );
+    mutation.mutate(formData, {
+      onSuccess: () => reset(formData)
+    });
   };
 
   return (
