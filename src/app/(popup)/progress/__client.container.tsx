@@ -2,8 +2,8 @@
 
 import { Tiptap } from '@/components';
 import { Box, Button, Flex } from '@radix-ui/themes';
-import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 export default function ProgressClientContainer() {
   const {
@@ -12,16 +12,13 @@ export default function ProgressClientContainer() {
     formState: { errors, isSubmitting },
     reset
   } = useForm<{ title: string; content: string }>({
-    defaultValues: { title: '', content: '' }
+    defaultValues: { content: '' }
   });
 
-  const [submitted, setSubmitted] = useState(false);
-
   const onSubmit = (data: { content: string }) => {
-    setSubmitted(true);
-    // TODO: 서버 전송 등 추가 작업
-    setTimeout(() => setSubmitted(false), 2000);
-    reset(data); // 필요시 초기화
+    console.log({ data });
+    toast.success('저장되었습니다.');
+    reset(data);
   };
 
   return (
@@ -47,7 +44,6 @@ export default function ProgressClientContainer() {
             저장
           </Button>
         </Flex>
-        {submitted && <div style={{ color: 'green', marginTop: 8 }}>저장되었습니다.</div>}
       </form>
     </Box>
   );
