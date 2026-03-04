@@ -68,6 +68,7 @@ export default function ReservationsFormClientContainer({
     reset
   } = useForm<ReservationFormData>({
     defaultValues: {
+      reservation_fee: data?.reservation_fee || 0,
       deposit: data?.deposit || 0,
       ...(isModify && {
         reservation_id: data?.reservation_id
@@ -230,6 +231,30 @@ export default function ReservationsFormClientContainer({
             </Box>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Flex direction='column' align='end' gap='2'>
+                <Flex align='center' gap='1'>
+                  <Text as='label' weight='medium'>
+                    예약금{' '}
+                  </Text>
+                  ₩
+                  <Controller
+                    name='reservation_fee'
+                    control={control}
+                    render={({ field }) => (
+                      <TextField.Root
+                        size='3'
+                        type='number'
+                        step='1'
+                        inputMode='numeric'
+                        value={field.value === 0 ? '' : field.value}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                          const value = e.target.value;
+                          field.onChange(value === '' ? 0 : +value);
+                        }}
+                        placeholder='0'
+                      />
+                    )}
+                  />
+                </Flex>
                 <Flex align='center' gap='1'>
                   <Text as='label' weight='medium'>
                     총입금액{' '}

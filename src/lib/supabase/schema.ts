@@ -6,6 +6,7 @@ export const RESERVATION_SELECT_QUERY = `
   booking_platform,
   total_amount,
   total_cost,
+  reservation_fee,
   deposit,
   author,
   author_email,

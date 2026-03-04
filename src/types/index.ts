@@ -91,6 +91,7 @@ export interface ReservationBaseInfo {
   booking_platform: string;
   main_client_name: string;
   total_amount: number;
+  reservation_fee: number;
   deposit: number;
   trip_type: string;
   travel_category: string;
