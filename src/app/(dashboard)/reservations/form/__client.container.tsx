@@ -295,26 +295,19 @@ export default function ReservationsFormClientContainer({
                 </Flex>
               </Card>
 
-              <Flex direction='column' align='end' gap='2'>
-                <Box>
-                  <Text as='label' weight='medium'>
-                    잔금{' '}
-                  </Text>
-                  {toReadableAmount(Number(data?.total_amount ?? 0) - (depositValue || 0))}
-                </Box>
-                <Box>
-                  <Text as='label' weight='medium'>
-                    총액{' '}
-                  </Text>
-                  {toReadableAmount(Number(data?.total_amount ?? 0))}
-                </Box>
-                <Box>
-                  <Text as='label' weight='medium'>
-                    한화{' '}
-                  </Text>
-                  {toReadableAmount(Number(data?.total_amount_krw ?? 0), 'ko-KR', 'KRW')}
-                </Box>
+              <Flex mt='2' justify='end' gap='1'>
+                <Text as='label' weight='medium'>
+                  총입금액 +
+                </Text>
+                <Text as='label' weight='medium'>
+                  잔금 {toReadableAmount(Number(data?.total_amount ?? 0) - (depositValue || 0))}
+                </Text>
+                <Text as='label' weight='medium'>
+                  = 총액 {toReadableAmount(Number(data?.total_amount ?? 0))}(
+                  {toReadableAmount(Number(data?.total_amount_krw ?? 0), 'ko-KR', 'KRW')})
+                </Text>
               </Flex>
+
               <Text as='p' align='right' mt='2' weight='bold' color='ruby'>
                 환율이 입력된 상품만 한화에 반영됩니다.
               </Text>
