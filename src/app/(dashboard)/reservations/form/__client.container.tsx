@@ -11,7 +11,7 @@ import type {
 } from '@/types';
 import { handleApiError, handleApiSuccess, toReadableAmount } from '@/utils';
 import { observable } from '@legendapp/state';
-import { Box, Button, Flex, Grid, Heading, Table, Text, TextField } from '@radix-ui/themes';
+import { Box, Button, Card, Flex, Grid, Heading, Table, Text, TextField } from '@radix-ui/themes';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { Controller, type SubmitHandler, useForm, useWatch } from 'react-hook-form';
@@ -230,84 +230,90 @@ export default function ReservationsFormClientContainer({
               </Table.Root>
             </Box>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <Flex direction='column' align='end' gap='2'>
-                <Flex align='center' gap='1'>
-                  <Text as='label' weight='medium'>
-                    예약금{' '}
-                  </Text>
-                  ₩
-                  <Controller
-                    name='reservation_fee'
-                    control={control}
-                    render={({ field }) => (
-                      <TextField.Root
-                        size='3'
-                        type='number'
-                        step='1'
-                        inputMode='numeric'
-                        value={field.value === 0 ? '' : field.value}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                          const value = e.target.value;
-                          field.onChange(value === '' ? 0 : +value);
-                        }}
-                        placeholder='0'
-                      />
-                    )}
-                  />
-                </Flex>
-                <Flex align='center' gap='1'>
-                  <Text as='label' weight='medium'>
-                    총입금액{' '}
-                  </Text>
-                  $
-                  <Controller
-                    name='deposit'
-                    control={control}
-                    rules={{
-                      required: true,
-                      validate: value => {
-                        const numValue = value ? Number(value) : 0;
-                        return numValue <= Number(data?.total_amount);
-                      }
-                    }}
-                    render={({ field }) => (
-                      <TextField.Root
-                        size='3'
-                        type='number'
-                        step='0.01'
-                        max={Number(data?.total_amount)}
-                        inputMode='decimal'
-                        value={field.value === 0 ? '' : field.value}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                          const value = e.target.value;
-                          field.onChange(value === '' ? 0 : +value);
-                        }}
-                        placeholder='0'
-                      />
-                    )}
-                  />
+              <Card>
+                <Flex direction='column' gap='2'>
+                  <Flex align='center' gap='1' justify='end'>
+                    <Text as='label' weight='medium'>
+                      예약금{' '}
+                    </Text>
+                    ₩
+                    <Controller
+                      name='reservation_fee'
+                      control={control}
+                      render={({ field }) => (
+                        <TextField.Root
+                          size='3'
+                          type='number'
+                          step='1'
+                          inputMode='numeric'
+                          value={field.value === 0 ? '' : field.value}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                            const value = e.target.value;
+                            field.onChange(value === '' ? 0 : +value);
+                          }}
+                          placeholder='0'
+                        />
+                      )}
+                    />
+                  </Flex>
+                  <Flex align='center' gap='1' justify='end'>
+                    <Text as='label' weight='medium'>
+                      총입금액{' '}
+                    </Text>
+                    $
+                    <Controller
+                      name='deposit'
+                      control={control}
+                      rules={{
+                        required: true,
+                        validate: value => {
+                          const numValue = value ? Number(value) : 0;
+                          return numValue <= Number(data?.total_amount);
+                        }
+                      }}
+                      render={({ field }) => (
+                        <TextField.Root
+                          size='3'
+                          type='number'
+                          step='0.01'
+                          max={Number(data?.total_amount)}
+                          inputMode='decimal'
+                          value={field.value === 0 ? '' : field.value}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                            const value = e.target.value;
+                            field.onChange(value === '' ? 0 : +value);
+                          }}
+                          placeholder='0'
+                        />
+                      )}
+                    />
+                  </Flex>
+
                   <Button disabled={mutation.isPending} size='3'>
                     저장
                   </Button>
                 </Flex>
-                <div>
+              </Card>
+
+              <Flex direction='column' align='end' gap='2'>
+                <Box>
                   <Text as='label' weight='medium'>
                     잔금{' '}
                   </Text>
                   {toReadableAmount(Number(data?.total_amount ?? 0) - (depositValue || 0))}
-                </div>
-                <div>
+                </Box>
+                <Box>
                   <Text as='label' weight='medium'>
                     총액{' '}
                   </Text>
                   {toReadableAmount(Number(data?.total_amount ?? 0))}
-                </div>
-                <div>
+                </Box>
+                <Box>
                   <Text as='label' weight='medium'>
                     한화{' '}
                   </Text>
                   {toReadableAmount(Number(data?.total_amount_krw ?? 0), 'ko-KR', 'KRW')}
-                </div>
+                </Box>
               </Flex>
               <Text as='p' align='right' mt='2' weight='bold' color='ruby'>
                 환율이 입력된 상품만 한화에 반영됩니다.
