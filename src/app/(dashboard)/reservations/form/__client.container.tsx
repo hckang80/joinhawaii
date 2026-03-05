@@ -11,7 +11,7 @@ import type {
 } from '@/types';
 import { handleApiError, handleApiSuccess, toReadableAmount } from '@/utils';
 import { observable } from '@legendapp/state';
-import { Box, Button, Flex, Grid, Heading, Table, Text, TextField } from '@radix-ui/themes';
+import { Button, Card, Flex, Grid, Heading, Table, Text, TextField } from '@radix-ui/themes';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { Controller, type SubmitHandler, useForm, useWatch } from 'react-hook-form';
@@ -68,6 +68,7 @@ export default function ReservationsFormClientContainer({
     reset
   } = useForm<ReservationFormData>({
     defaultValues: {
+      reservation_fee: data?.reservation_fee || 0,
       deposit: data?.deposit || 0,
       ...(isModify && {
         reservation_id: data?.reservation_id
@@ -114,52 +115,46 @@ export default function ReservationsFormClientContainer({
         예약관리
       </Heading>
 
-      <Flex asChild direction='column' gap='5'>
-        <div>
-          <ClientForm data={data} mutation={mutation} />
+      <Flex direction='column' gap='5'>
+        <ClientForm data={data} mutation={mutation} />
 
-          {data && <FlightForm data={data} mutation={mutation} />}
+        {data && <FlightForm data={data} mutation={mutation} />}
 
-          {data && (
-            <HotelForm
-              data={data}
-              mutation={mutation}
-              handleAdditionalOptions={handleAdditionalOptions}
-            />
-          )}
+        {data && (
+          <HotelForm
+            data={data}
+            mutation={mutation}
+            handleAdditionalOptions={handleAdditionalOptions}
+          />
+        )}
 
-          {data && (
-            <TourForm
-              data={data}
-              mutation={mutation}
-              handleAdditionalOptions={handleAdditionalOptions}
-            />
-          )}
+        {data && (
+          <TourForm
+            data={data}
+            mutation={mutation}
+            handleAdditionalOptions={handleAdditionalOptions}
+          />
+        )}
 
-          {data && (
-            <RentalCarForm
-              data={data}
-              mutation={mutation}
-              handleAdditionalOptions={handleAdditionalOptions}
-            />
-          )}
+        {data && (
+          <RentalCarForm
+            data={data}
+            mutation={mutation}
+            handleAdditionalOptions={handleAdditionalOptions}
+          />
+        )}
 
-          {data && (
-            <InsuranceForm
-              data={data}
-              mutation={mutation}
-              handleAdditionalOptions={handleAdditionalOptions}
-            />
-          )}
+        {data && (
+          <InsuranceForm
+            data={data}
+            mutation={mutation}
+            handleAdditionalOptions={handleAdditionalOptions}
+          />
+        )}
 
-          <Flex
-            justify='end'
-            gap='9'
-            position='sticky'
-            bottom='2'
-            className={styles['exchange-rate-card']}
-          >
-            <Box>
+        <Flex justify='end' position='sticky' bottom='2' className={styles['exchange-rate-card']}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Flex gap='2'>
               <Table.Root variant='surface'>
                 <Table.Header>
                   <Table.Row>
@@ -227,69 +222,91 @@ export default function ReservationsFormClientContainer({
                   </Table.Row>
                 </Table.Body>
               </Table.Root>
-            </Box>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <Flex direction='column' align='end' gap='2'>
-                <Flex align='center' gap='1'>
-                  <Text as='label' weight='medium'>
-                    총입금액{' '}
-                  </Text>
-                  $
-                  <Controller
-                    name='deposit'
-                    control={control}
-                    rules={{
-                      required: true,
-                      validate: value => {
-                        const numValue = value ? Number(value) : 0;
-                        return numValue <= Number(data?.total_amount);
-                      }
-                    }}
-                    render={({ field }) => (
-                      <TextField.Root
-                        size='3'
-                        type='number'
-                        step='0.01'
-                        max={Number(data?.total_amount)}
-                        inputMode='decimal'
-                        value={field.value === 0 ? '' : field.value}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                          const value = e.target.value;
-                          field.onChange(value === '' ? 0 : +value);
-                        }}
-                        placeholder='0'
-                      />
-                    )}
-                  />
+
+              <Card>
+                <Flex direction='column' gap='2'>
+                  <Flex align='center' gap='1' justify='end'>
+                    <Text as='label' weight='medium'>
+                      예약금{' '}
+                    </Text>
+                    ₩
+                    <Controller
+                      name='reservation_fee'
+                      control={control}
+                      render={({ field }) => (
+                        <TextField.Root
+                          size='3'
+                          type='number'
+                          step='1'
+                          inputMode='numeric'
+                          value={field.value === 0 ? '' : field.value}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                            const value = e.target.value;
+                            field.onChange(value === '' ? 0 : +value);
+                          }}
+                          placeholder='0'
+                        />
+                      )}
+                    />
+                  </Flex>
+                  <Flex align='center' gap='1' justify='end'>
+                    <Text as='label' weight='medium'>
+                      총입금액{' '}
+                    </Text>
+                    $
+                    <Controller
+                      name='deposit'
+                      control={control}
+                      rules={{
+                        required: true,
+                        validate: value => {
+                          const numValue = value ? Number(value) : 0;
+                          return numValue <= Number(data?.total_amount);
+                        }
+                      }}
+                      render={({ field }) => (
+                        <TextField.Root
+                          size='3'
+                          type='number'
+                          step='0.01'
+                          max={Number(data?.total_amount)}
+                          inputMode='decimal'
+                          value={field.value === 0 ? '' : field.value}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                            const value = e.target.value;
+                            field.onChange(value === '' ? 0 : +value);
+                          }}
+                          placeholder='0'
+                        />
+                      )}
+                    />
+                  </Flex>
+
                   <Button disabled={mutation.isPending} size='3'>
                     저장
                   </Button>
                 </Flex>
-                <div>
-                  <Text as='label' weight='medium'>
-                    잔금{' '}
-                  </Text>
-                  {toReadableAmount(Number(data?.total_amount ?? 0) - (depositValue || 0))}
-                </div>
-                <div>
-                  <Text as='label' weight='medium'>
-                    총액{' '}
-                  </Text>
-                  {toReadableAmount(Number(data?.total_amount ?? 0))}
-                </div>
-                <div>
-                  <Text as='label' weight='medium'>
-                    한화{' '}
-                  </Text>
-                  {toReadableAmount(Number(data?.total_amount_krw ?? 0), 'ko-KR', 'KRW')}
-                </div>
-              </Flex>
-              <Text as='p' align='right' mt='2' weight='bold' color='ruby'>
-                환율이 입력된 상품만 한화에 반영됩니다.
+              </Card>
+            </Flex>
+
+            <Flex mt='2' justify='end' gap='1'>
+              <Text as='label' weight='medium'>
+                총입금액 {toReadableAmount(Number(depositValue || 0))} +
               </Text>
-            </form>
-          </Flex>
-        </div>
+              <Text as='label' weight='medium'>
+                잔금 {toReadableAmount(Number(data?.total_amount ?? 0) - (depositValue || 0))}
+              </Text>
+              <Text as='label' weight='medium'>
+                = 총액 {toReadableAmount(Number(data?.total_amount ?? 0))}(
+                {toReadableAmount(Number(data?.total_amount_krw ?? 0), 'ko-KR', 'KRW')})
+              </Text>
+            </Flex>
+
+            <Text as='p' align='right' mt='2' weight='bold' color='ruby'>
+              환율이 입력된 상품만 한화에 반영됩니다.
+            </Text>
+          </form>
+        </Flex>
       </Flex>
 
       <AdditionalOptionsEditor
