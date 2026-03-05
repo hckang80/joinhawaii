@@ -11,7 +11,7 @@ import type {
 } from '@/types';
 import { handleApiError, handleApiSuccess, toReadableAmount } from '@/utils';
 import { observable } from '@legendapp/state';
-import { Box, Button, Card, Flex, Grid, Heading, Table, Text, TextField } from '@radix-ui/themes';
+import { Button, Card, Flex, Grid, Heading, Table, Text, TextField } from '@radix-ui/themes';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { Controller, type SubmitHandler, useForm, useWatch } from 'react-hook-form';
@@ -115,52 +115,46 @@ export default function ReservationsFormClientContainer({
         예약관리
       </Heading>
 
-      <Flex asChild direction='column' gap='5'>
-        <div>
-          <ClientForm data={data} mutation={mutation} />
+      <Flex direction='column' gap='5'>
+        <ClientForm data={data} mutation={mutation} />
 
-          {data && <FlightForm data={data} mutation={mutation} />}
+        {data && <FlightForm data={data} mutation={mutation} />}
 
-          {data && (
-            <HotelForm
-              data={data}
-              mutation={mutation}
-              handleAdditionalOptions={handleAdditionalOptions}
-            />
-          )}
+        {data && (
+          <HotelForm
+            data={data}
+            mutation={mutation}
+            handleAdditionalOptions={handleAdditionalOptions}
+          />
+        )}
 
-          {data && (
-            <TourForm
-              data={data}
-              mutation={mutation}
-              handleAdditionalOptions={handleAdditionalOptions}
-            />
-          )}
+        {data && (
+          <TourForm
+            data={data}
+            mutation={mutation}
+            handleAdditionalOptions={handleAdditionalOptions}
+          />
+        )}
 
-          {data && (
-            <RentalCarForm
-              data={data}
-              mutation={mutation}
-              handleAdditionalOptions={handleAdditionalOptions}
-            />
-          )}
+        {data && (
+          <RentalCarForm
+            data={data}
+            mutation={mutation}
+            handleAdditionalOptions={handleAdditionalOptions}
+          />
+        )}
 
-          {data && (
-            <InsuranceForm
-              data={data}
-              mutation={mutation}
-              handleAdditionalOptions={handleAdditionalOptions}
-            />
-          )}
+        {data && (
+          <InsuranceForm
+            data={data}
+            mutation={mutation}
+            handleAdditionalOptions={handleAdditionalOptions}
+          />
+        )}
 
-          <Flex
-            justify='end'
-            gap='9'
-            position='sticky'
-            bottom='2'
-            className={styles['exchange-rate-card']}
-          >
-            <Box>
+        <Flex justify='end' position='sticky' bottom='2' className={styles['exchange-rate-card']}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Flex gap='2'>
               <Table.Root variant='surface'>
                 <Table.Header>
                   <Table.Row>
@@ -228,8 +222,7 @@ export default function ReservationsFormClientContainer({
                   </Table.Row>
                 </Table.Body>
               </Table.Root>
-            </Box>
-            <form onSubmit={handleSubmit(onSubmit)}>
+
               <Card>
                 <Flex direction='column' gap='2'>
                   <Flex align='center' gap='1' justify='end'>
@@ -294,26 +287,26 @@ export default function ReservationsFormClientContainer({
                   </Button>
                 </Flex>
               </Card>
+            </Flex>
 
-              <Flex mt='2' justify='end' gap='1'>
-                <Text as='label' weight='medium'>
-                  총입금액 +
-                </Text>
-                <Text as='label' weight='medium'>
-                  잔금 {toReadableAmount(Number(data?.total_amount ?? 0) - (depositValue || 0))}
-                </Text>
-                <Text as='label' weight='medium'>
-                  = 총액 {toReadableAmount(Number(data?.total_amount ?? 0))}(
-                  {toReadableAmount(Number(data?.total_amount_krw ?? 0), 'ko-KR', 'KRW')})
-                </Text>
-              </Flex>
-
-              <Text as='p' align='right' mt='2' weight='bold' color='ruby'>
-                환율이 입력된 상품만 한화에 반영됩니다.
+            <Flex mt='2' justify='end' gap='1'>
+              <Text as='label' weight='medium'>
+                총입금액 +
               </Text>
-            </form>
-          </Flex>
-        </div>
+              <Text as='label' weight='medium'>
+                잔금 {toReadableAmount(Number(data?.total_amount ?? 0) - (depositValue || 0))}
+              </Text>
+              <Text as='label' weight='medium'>
+                = 총액 {toReadableAmount(Number(data?.total_amount ?? 0))}(
+                {toReadableAmount(Number(data?.total_amount_krw ?? 0), 'ko-KR', 'KRW')})
+              </Text>
+            </Flex>
+
+            <Text as='p' align='right' mt='2' weight='bold' color='ruby'>
+              환율이 입력된 상품만 한화에 반영됩니다.
+            </Text>
+          </form>
+        </Flex>
       </Flex>
 
       <AdditionalOptionsEditor
