@@ -291,7 +291,7 @@ export default function ReservationsFormClientContainer({
 
             <Flex mt='2' justify='end' gap='1'>
               <Text as='label' weight='medium'>
-                총입금액 +
+                총입금액 {toReadableAmount(Number(depositValue || 0))} +
               </Text>
               <Text as='label' weight='medium'>
                 잔금 {toReadableAmount(Number(data?.total_amount ?? 0) - (depositValue || 0))}
