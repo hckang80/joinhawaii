@@ -26,7 +26,7 @@ export function TimeInput<TFieldValues extends FieldValues = FieldValues>({
               type='number'
               min={0}
               max={23}
-              value={hours || ''}
+              value={hours}
               onChange={e =>
                 field.onChange(updateTimeInISO(field.value, Number(e.target.value), minutes))
               }
@@ -39,7 +39,7 @@ export function TimeInput<TFieldValues extends FieldValues = FieldValues>({
               type='number'
               min={0}
               max={59}
-              value={minutes || ''}
+              value={minutes}
               onChange={e =>
                 field.onChange(updateTimeInISO(field.value, hours, Number(e.target.value)))
               }
