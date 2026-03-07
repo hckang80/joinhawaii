@@ -152,161 +152,163 @@ export default function ReservationsFormClientContainer({
           />
         )}
 
-        <Flex justify='end' position='sticky' bottom='2' className={styles['exchange-rate-card']}>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Flex gap='2'>
-              <Table.Root variant='surface'>
-                <Table.Header>
-                  <Table.Row>
-                    <Table.ColumnHeaderCell>상품 종류</Table.ColumnHeaderCell>
-                    {PRODUCT_OPTIONS.map(product => (
-                      <Table.ColumnHeaderCell key={product.value} align='right'>
-                        {product.label}
+        {isModify && (
+          <Flex justify='end' position='sticky' bottom='2' className={styles['exchange-rate-card']}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Flex gap='2'>
+                <Table.Root variant='surface'>
+                  <Table.Header>
+                    <Table.Row>
+                      <Table.ColumnHeaderCell>상품 종류</Table.ColumnHeaderCell>
+                      {PRODUCT_OPTIONS.map(product => (
+                        <Table.ColumnHeaderCell key={product.value} align='right'>
+                          {product.label}
+                        </Table.ColumnHeaderCell>
+                      ))}
+                    </Table.Row>
+                  </Table.Header>
+                  <Table.Body>
+                    <Table.Row>
+                      <Table.ColumnHeaderCell align='right'>
+                        <Text as='div' size='3'>
+                          상품
+                        </Text>
+                        <Text as='div'>추가옵션</Text>
                       </Table.ColumnHeaderCell>
-                    ))}
-                  </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                  <Table.Row>
-                    <Table.ColumnHeaderCell align='right'>
-                      <Text as='div' size='3'>
-                        상품
+                      {PRODUCT_OPTIONS.map(product => (
+                        <Table.Cell key={product.value} width='100px' align='right'>
+                          <Grid>
+                            <Text size='3'>
+                              {product.value === 'flight'
+                                ? toReadableAmount(
+                                    data?.products[product.table].reduce(
+                                      (prev, curr) =>
+                                        prev +
+                                        (curr.status !== 'Refunded' ? curr.total_amount_krw : 0),
+                                      0
+                                    ),
+                                    'ko-KR',
+                                    'KRW'
+                                  )
+                                : toReadableAmount(
+                                    data?.products[product.table].reduce(
+                                      (prev, curr) =>
+                                        prev + (curr.status !== 'Refunded' ? curr.total_amount : 0),
+                                      0
+                                    )
+                                  )}
+                            </Text>
+                            <Text>
+                              {product.value === 'flight'
+                                ? '-'
+                                : toReadableAmount(
+                                    data?.products[product.table].reduce(
+                                      (prev, curr) =>
+                                        prev +
+                                        (curr.status !== 'Refunded'
+                                          ? curr.additional_options?.reduce(
+                                              (sum, opt) =>
+                                                sum +
+                                                (opt.status !== 'Refunded' ? opt.total_amount : 0),
+                                              0
+                                            )
+                                          : 0),
+                                      0
+                                    )
+                                  )}
+                            </Text>
+                          </Grid>
+                        </Table.Cell>
+                      ))}
+                    </Table.Row>
+                  </Table.Body>
+                </Table.Root>
+
+                <Card>
+                  <Flex direction='column' gap='2'>
+                    <Flex align='center' gap='1' justify='end'>
+                      <Text as='label' weight='medium'>
+                        예약금{' '}
                       </Text>
-                      <Text as='div'>추가옵션</Text>
-                    </Table.ColumnHeaderCell>
-                    {PRODUCT_OPTIONS.map(product => (
-                      <Table.Cell key={product.value} width='100px' align='right'>
-                        <Grid>
-                          <Text size='3'>
-                            {product.value === 'flight'
-                              ? toReadableAmount(
-                                  data?.products[product.table].reduce(
-                                    (prev, curr) =>
-                                      prev +
-                                      (curr.status !== 'Refunded' ? curr.total_amount_krw : 0),
-                                    0
-                                  ),
-                                  'ko-KR',
-                                  'KRW'
-                                )
-                              : toReadableAmount(
-                                  data?.products[product.table].reduce(
-                                    (prev, curr) =>
-                                      prev + (curr.status !== 'Refunded' ? curr.total_amount : 0),
-                                    0
-                                  )
-                                )}
-                          </Text>
-                          <Text>
-                            {product.value === 'flight'
-                              ? '-'
-                              : toReadableAmount(
-                                  data?.products[product.table].reduce(
-                                    (prev, curr) =>
-                                      prev +
-                                      (curr.status !== 'Refunded'
-                                        ? curr.additional_options?.reduce(
-                                            (sum, opt) =>
-                                              sum +
-                                              (opt.status !== 'Refunded' ? opt.total_amount : 0),
-                                            0
-                                          )
-                                        : 0),
-                                    0
-                                  )
-                                )}
-                          </Text>
-                        </Grid>
-                      </Table.Cell>
-                    ))}
-                  </Table.Row>
-                </Table.Body>
-              </Table.Root>
+                      ₩
+                      <Controller
+                        name='reservation_fee'
+                        control={control}
+                        render={({ field }) => (
+                          <TextField.Root
+                            size='3'
+                            type='number'
+                            step='1'
+                            inputMode='numeric'
+                            value={field.value === 0 ? '' : field.value}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                              const value = e.target.value;
+                              field.onChange(value === '' ? 0 : +value);
+                            }}
+                            placeholder='0'
+                          />
+                        )}
+                      />
+                    </Flex>
+                    <Flex align='center' gap='1' justify='end'>
+                      <Text as='label' weight='medium'>
+                        총입금액{' '}
+                      </Text>
+                      $
+                      <Controller
+                        name='deposit'
+                        control={control}
+                        rules={{
+                          required: true,
+                          validate: value => {
+                            const numValue = value ? Number(value) : 0;
+                            return numValue <= Number(data?.total_amount);
+                          }
+                        }}
+                        render={({ field }) => (
+                          <TextField.Root
+                            size='3'
+                            type='number'
+                            step='0.01'
+                            max={Number(data?.total_amount || 0)}
+                            inputMode='decimal'
+                            value={field.value === 0 ? '' : field.value}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                              const value = e.target.value;
+                              field.onChange(value === '' ? 0 : +value);
+                            }}
+                            placeholder='0'
+                          />
+                        )}
+                      />
+                    </Flex>
 
-              <Card>
-                <Flex direction='column' gap='2'>
-                  <Flex align='center' gap='1' justify='end'>
-                    <Text as='label' weight='medium'>
-                      예약금{' '}
-                    </Text>
-                    ₩
-                    <Controller
-                      name='reservation_fee'
-                      control={control}
-                      render={({ field }) => (
-                        <TextField.Root
-                          size='3'
-                          type='number'
-                          step='1'
-                          inputMode='numeric'
-                          value={field.value === 0 ? '' : field.value}
-                          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                            const value = e.target.value;
-                            field.onChange(value === '' ? 0 : +value);
-                          }}
-                          placeholder='0'
-                        />
-                      )}
-                    />
+                    <Button disabled={mutation.isPending} size='3'>
+                      저장
+                    </Button>
                   </Flex>
-                  <Flex align='center' gap='1' justify='end'>
-                    <Text as='label' weight='medium'>
-                      총입금액{' '}
-                    </Text>
-                    $
-                    <Controller
-                      name='deposit'
-                      control={control}
-                      rules={{
-                        required: true,
-                        validate: value => {
-                          const numValue = value ? Number(value) : 0;
-                          return numValue <= Number(data?.total_amount);
-                        }
-                      }}
-                      render={({ field }) => (
-                        <TextField.Root
-                          size='3'
-                          type='number'
-                          step='0.01'
-                          max={Number(data?.total_amount || 0)}
-                          inputMode='decimal'
-                          value={field.value === 0 ? '' : field.value}
-                          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                            const value = e.target.value;
-                            field.onChange(value === '' ? 0 : +value);
-                          }}
-                          placeholder='0'
-                        />
-                      )}
-                    />
-                  </Flex>
+                </Card>
+              </Flex>
 
-                  <Button disabled={mutation.isPending} size='3'>
-                    저장
-                  </Button>
-                </Flex>
-              </Card>
-            </Flex>
+              <Flex mt='2' justify='end' gap='1'>
+                <Text as='label' weight='medium'>
+                  총입금액 {toReadableAmount(Number(depositValue || 0))} +
+                </Text>
+                <Text as='label' weight='medium'>
+                  잔금 {toReadableAmount(Number(data?.total_amount ?? 0) - (depositValue || 0))}
+                </Text>
+                <Text as='label' weight='medium'>
+                  = 총액 {toReadableAmount(Number(data?.total_amount ?? 0))}(
+                  {toReadableAmount(Number(data?.total_amount_krw ?? 0), 'ko-KR', 'KRW')})
+                </Text>
+              </Flex>
 
-            <Flex mt='2' justify='end' gap='1'>
-              <Text as='label' weight='medium'>
-                총입금액 {toReadableAmount(Number(depositValue || 0))} +
+              <Text as='p' align='right' mt='2' weight='bold' color='ruby'>
+                환율이 입력된 상품만 한화에 반영됩니다.
               </Text>
-              <Text as='label' weight='medium'>
-                잔금 {toReadableAmount(Number(data?.total_amount ?? 0) - (depositValue || 0))}
-              </Text>
-              <Text as='label' weight='medium'>
-                = 총액 {toReadableAmount(Number(data?.total_amount ?? 0))}(
-                {toReadableAmount(Number(data?.total_amount_krw ?? 0), 'ko-KR', 'KRW')})
-              </Text>
-            </Flex>
-
-            <Text as='p' align='right' mt='2' weight='bold' color='ruby'>
-              환율이 입력된 상품만 한화에 반영됩니다.
-            </Text>
-          </form>
-        </Flex>
+            </form>
+          </Flex>
+        )}
       </Flex>
 
       <AdditionalOptionsEditor
