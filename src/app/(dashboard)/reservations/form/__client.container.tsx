@@ -59,7 +59,7 @@ export default function ReservationsFormClientContainer({
     };
   }, []);
 
-  const isModify = !!reservation_id;
+  const isModify = !!data && !!reservation_id;
 
   const {
     handleSubmit,
@@ -118,9 +118,9 @@ export default function ReservationsFormClientContainer({
       <Flex direction='column' gap='5'>
         <ClientForm data={data} mutation={mutation} />
 
-        {data && <FlightForm data={data} mutation={mutation} />}
+        {isModify && <FlightForm data={data} mutation={mutation} />}
 
-        {data && (
+        {isModify && (
           <HotelForm
             data={data}
             mutation={mutation}
@@ -128,7 +128,7 @@ export default function ReservationsFormClientContainer({
           />
         )}
 
-        {data && (
+        {isModify && (
           <TourForm
             data={data}
             mutation={mutation}
@@ -136,7 +136,7 @@ export default function ReservationsFormClientContainer({
           />
         )}
 
-        {data && (
+        {isModify && (
           <RentalCarForm
             data={data}
             mutation={mutation}
@@ -144,7 +144,7 @@ export default function ReservationsFormClientContainer({
           />
         )}
 
-        {data && (
+        {isModify && (
           <InsuranceForm
             data={data}
             mutation={mutation}
