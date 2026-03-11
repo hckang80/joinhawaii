@@ -1,10 +1,10 @@
-import { PaymentStatus } from '@/constants';
 import { getAdditionalOptions } from '@/http';
 import { getReservation, updateReservationProducts } from '@/lib/supabase/queries/reservation';
 import { RESERVATION_SELECT_QUERY } from '@/lib/supabase/schema';
 import { createClient } from '@/lib/supabase/server';
 import type {
   Database,
+  PaymentStatusKey,
   ProductType,
   ProductValues,
   ReservationQueryResponse,
@@ -247,7 +247,7 @@ export async function GET(request: Request) {
 
       const totalAmountOriginal = productsOriginalTotal + additionalOptionsTotalOriginal;
 
-      const paymentStatus = (): keyof typeof PaymentStatus => {
+      const paymentStatus = (): PaymentStatusKey => {
         if (!(rest.total_amount - rest.deposit)) return 'Full';
         if (!rest.reservation_fee) return 'Unpaid';
         if (rest.reservation_fee > 0) return 'Deposit';

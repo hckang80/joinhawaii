@@ -210,6 +210,7 @@ export interface Reservation extends ReservationBaseInfo {
   total_cost_krw: number;
   author?: string;
   author_email?: string;
+  payment_status: PaymentStatusKey;
 }
 
 export type ReservationProducts = {
