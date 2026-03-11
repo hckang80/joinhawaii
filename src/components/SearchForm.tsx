@@ -60,8 +60,23 @@ export function SearchForm({ data }: { data: AllProducts[] }) {
     router.push('?');
   };
 
+  const headerMap: Record<keyof AllProducts, string> = {
+    reservation_id: '예약번호',
+    type: '상품구분',
+    main_client_name: '고객명',
+    product_name: '상품명',
+    event_date: '행사일',
+    reception_date: '접수일',
+    status: '진행상태',
+    payment_status: '결제상태',
+    booking_platform: '예약회사'
+  };
+
   const handleDownload = () => {
-    const ws = xlsx.utils.json_to_sheet(data);
+    const mappedData = data.map(row =>
+      Object.fromEntries(Object.entries(row).map(([key, value]) => [headerMap[key] || key, value]))
+    );
+    const ws = xlsx.utils.json_to_sheet(mappedData);
     const wb = xlsx.utils.book_new();
     xlsx.utils.book_append_sheet(wb, ws, 'Products');
     xlsx.writeFile(wb, 'products.xlsx');
