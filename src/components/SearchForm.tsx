@@ -4,6 +4,7 @@ import {
   BOOKING_PLATFORM_OPTIONS,
   CUSTOM_LABEL,
   PaymentStatus,
+  PRODUCT_LABEL,
   PRODUCT_OPTIONS,
   ProductStatus
 } from '@/constants';
@@ -14,7 +15,8 @@ import { useRouter } from 'nextjs-toploader/app';
 import { useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import * as xlsx from 'xlsx';
-import type { AllProducts } from '../types';
+import type { AllProducts, PaymentStatusKey, ProductStatusKey } from '../types';
+import { toReadableDate } from '../utils';
 
 type SearchType = 'reception_date' | 'event_date';
 
@@ -60,23 +62,59 @@ export function SearchForm({ data }: { data: AllProducts[] }) {
     router.push('?');
   };
 
-  const headerMap: Record<keyof AllProducts, string> = {
-    reservation_id: '예약번호',
-    type: '상품구분',
-    main_client_name: '고객명',
-    product_name: '상품명',
-    event_date: '행사일',
-    reception_date: '접수일',
-    status: '진행상태',
-    payment_status: '결제상태',
-    booking_platform: '예약회사'
-  };
+  const columnDefs = [
+    {
+      key: 'reservation_id',
+      header: '예약번호',
+      format: (v: string) => v
+    },
+    {
+      key: 'type',
+      header: '상품구분',
+      format: (v: string) => PRODUCT_LABEL[v]
+    },
+    {
+      key: 'main_client_name',
+      header: '고객명',
+      format: (v: string) => v
+    },
+    {
+      key: 'product_name',
+      header: '상품명',
+      format: (v: string) => v
+    },
+    {
+      key: 'event_date',
+      header: '행사일',
+      format: (v: string) => (v ? toReadableDate(new Date(v)) : '-')
+    },
+    {
+      key: 'created_at',
+      header: '접수일',
+      format: (v: string) => (v ? toReadableDate(new Date(v)) : '-')
+    },
+    {
+      key: 'status',
+      header: '진행상태',
+      format: (v: ProductStatusKey) => ProductStatus[v]
+    },
+    {
+      key: 'payment_status',
+      header: '결제상태',
+      format: (v: PaymentStatusKey) => PaymentStatus[v]
+    },
+    {
+      key: 'booking_platform',
+      header: '예약회사',
+      format: (v: string) => v
+    }
+  ];
 
   const handleDownload = () => {
     const mappedData = data.map(row => {
-      const obj: Record<string, unknown> = {};
-      Object.entries(headerMap).forEach(([key, header]) => {
-        obj[header] = row[key as keyof typeof row];
+      const obj: Record<string, string> = {};
+      columnDefs.forEach(col => {
+        obj[col.header] = col.format(row[col.key]);
       });
       return obj;
     });
