@@ -11,6 +11,7 @@ import {
 } from '@/constants';
 import { usePageNavigation } from '@/hooks';
 import { productsQueryOptions } from '@/lib/queries';
+import type { PaymentStatusKey, ProductStatusKey, ProductType } from '@/types';
 import { isDev, toReadableDate } from '@/utils';
 import {
   Badge,
@@ -36,13 +37,61 @@ export default function ReservationsClientContainer() {
     data: { data, meta }
   } = useSuspenseQuery(productsQueryOptions(currentPage, perPage, searchParams));
 
+  const columnDefs = [
+    {
+      key: 'reservation_id',
+      header: '예약번호',
+      format: (v: unknown) => v
+    },
+    {
+      key: 'type',
+      header: '상품구분',
+      format: (v: unknown) => PRODUCT_LABEL[v as ProductType]
+    },
+    {
+      key: 'main_client_name',
+      header: '고객명',
+      format: (v: unknown) => v
+    },
+    {
+      key: 'product_name',
+      header: '상품명',
+      format: (v: unknown) => v
+    },
+    {
+      key: 'event_date',
+      header: '행사일',
+      format: (v: unknown) => (v ? toReadableDate(new Date(v as string)) : '-')
+    },
+    {
+      key: 'created_at',
+      header: '접수일',
+      format: (v: unknown) => (v ? toReadableDate(new Date(v as string)) : '-')
+    },
+    {
+      key: 'status',
+      header: '진행상태',
+      format: (v: unknown) => ProductStatus[v as ProductStatusKey]
+    },
+    {
+      key: 'payment_status',
+      header: '결제상태',
+      format: (v: unknown) => PaymentStatus[v as PaymentStatusKey]
+    },
+    {
+      key: 'booking_platform',
+      header: '예약회사',
+      format: (v: unknown) => v
+    }
+  ];
+
   return (
     <div>
       <Heading as='h2' mb='4' size='7'>
         예약관리
       </Heading>
       <Box mb='6'>
-        <SearchForm data={data} />
+        <SearchForm data={data} columnDefs={columnDefs} />
       </Box>
       <Flex mb='4' justify='end'>
         <Button asChild color='ruby' size='3'>

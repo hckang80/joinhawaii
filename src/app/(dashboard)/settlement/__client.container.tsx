@@ -4,6 +4,7 @@ import { Paginate, ProductOptionBadge, SearchForm } from '@/components';
 import { PAYMENT_STATUS_COLOR, PaymentStatus } from '@/constants';
 import { usePageNavigation } from '@/hooks';
 import { productsQueryOptions } from '@/lib/queries';
+import { PaymentStatusKey } from '@/types';
 import { isDev, toReadableAmount, toReadableDate } from '@/utils';
 import {
   Badge,
@@ -30,13 +31,46 @@ export default function SettlementClientContainer() {
     data: { data, meta }
   } = useSuspenseQuery(productsQueryOptions(currentPage, perPage, searchParams));
 
+  const columnDefs = [
+    {
+      key: 'reservation_id',
+      header: '예약번호',
+      format: (v: unknown) => v
+    },
+    {
+      key: 'created_at',
+      header: '날짜',
+      format: (v: unknown) => (v ? toReadableDate(new Date(v as string)) : '-')
+    },
+    {
+      key: 'booking_platform',
+      header: '예약회사',
+      format: (v: unknown) => v
+    },
+    {
+      key: 'main_client_name',
+      header: '고객명',
+      format: (v: unknown) => v
+    },
+    {
+      key: 'product_name',
+      header: '상품명',
+      format: (v: unknown) => v
+    },
+    {
+      key: 'payment_status',
+      header: '결제상태',
+      format: (v: unknown) => PaymentStatus[v as PaymentStatusKey]
+    }
+  ];
+
   return (
     <div>
       <Heading as='h2' mb='4' size='7'>
         정산관리
       </Heading>
       <Box mb='6'>
-        <SearchForm data={data} />
+        <SearchForm data={data} columnDefs={columnDefs} />
       </Box>
       <Flex mb='4' justify='end'>
         <Button asChild color='ruby' size='3'>

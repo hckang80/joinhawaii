@@ -4,10 +4,10 @@ import {
   BOOKING_PLATFORM_OPTIONS,
   CUSTOM_LABEL,
   PaymentStatus,
-  PRODUCT_LABEL,
   PRODUCT_OPTIONS,
   ProductStatus
 } from '@/constants';
+import type { AllProducts } from '@/types';
 import { Button, Flex, RadioGroup, Select, Table, Text, TextField } from '@radix-ui/themes';
 import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
@@ -16,8 +16,6 @@ import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
 import { useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import type { AllProducts, PaymentStatusKey, ProductStatusKey, ProductType } from '../types';
-import { toReadableDate } from '../utils';
 
 type SearchType = 'reception_date' | 'event_date';
 
@@ -33,7 +31,13 @@ interface SearchFormData {
   payment_status: string;
 }
 
-export function SearchForm({ data }: { data: AllProducts[] }) {
+export function SearchForm({
+  data,
+  columnDefs
+}: {
+  data: AllProducts[];
+  columnDefs: Array<{ key: string; header: string; format: (v: unknown) => string }>;
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -62,54 +66,6 @@ export function SearchForm({ data }: { data: AllProducts[] }) {
     reset();
     router.push('?');
   };
-
-  const columnDefs = [
-    {
-      key: 'reservation_id',
-      header: '예약번호',
-      format: (v: unknown) => v
-    },
-    {
-      key: 'type',
-      header: '상품구분',
-      format: (v: unknown) => PRODUCT_LABEL[v as ProductType]
-    },
-    {
-      key: 'main_client_name',
-      header: '고객명',
-      format: (v: unknown) => v
-    },
-    {
-      key: 'product_name',
-      header: '상품명',
-      format: (v: unknown) => v
-    },
-    {
-      key: 'event_date',
-      header: '행사일',
-      format: (v: unknown) => (v ? toReadableDate(new Date(v as string)) : '-')
-    },
-    {
-      key: 'created_at',
-      header: '접수일',
-      format: (v: unknown) => (v ? toReadableDate(new Date(v as string)) : '-')
-    },
-    {
-      key: 'status',
-      header: '진행상태',
-      format: (v: unknown) => ProductStatus[v as ProductStatusKey]
-    },
-    {
-      key: 'payment_status',
-      header: '결제상태',
-      format: (v: unknown) => PaymentStatus[v as PaymentStatusKey]
-    },
-    {
-      key: 'booking_platform',
-      header: '예약회사',
-      format: (v: unknown) => v
-    }
-  ];
 
   const handleDownload = (data: AllProducts[]) => {
     const workbook = new ExcelJS.Workbook();
