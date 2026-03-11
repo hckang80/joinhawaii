@@ -9,12 +9,13 @@ import {
   ProductStatus
 } from '@/constants';
 import { Button, Flex, RadioGroup, Select, Table, Text, TextField } from '@radix-ui/themes';
+import ExcelJS from 'exceljs';
+import { saveAs } from 'file-saver';
 import { Download, RefreshCcw, Search } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
 import { useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import * as xlsx from 'xlsx';
 import type { AllProducts, PaymentStatusKey, ProductStatusKey, ProductType } from '../types';
 import { toReadableDate } from '../utils';
 
@@ -111,26 +112,44 @@ export function SearchForm({ data }: { data: AllProducts[] }) {
   ];
 
   const handleDownload = () => {
-    const mappedData = data.map(row => {
-      const obj: Record<string, unknown> = {};
-      columnDefs.forEach(col => {
-        obj[col.header] = col.format(row[col.key]);
-      });
-      return obj;
+    // ExcelJS 기반으로 엑셀 다운로드만 담당
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Products');
+
+    worksheet.columns = columnDefs.map(col => ({
+      header: col.header,
+      key: col.key,
+      width: 20
+    }));
+
+    worksheet.getRow(1).font = { bold: true };
+
+    data.forEach(row => {
+      const rowData = columnDefs.map(col => col.format(row[col.key]));
+      const excelRow = worksheet.addRow(rowData);
+      const paymentStatusIdx = columnDefs.findIndex(col => col.key === 'payment_status') + 1;
+      if (row.payment_status === 'Deposit') {
+        excelRow.getCell(paymentStatusIdx).font = { color: { argb: 'FF008000' } };
+        excelRow.getCell(paymentStatusIdx).fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: 'FFFFC0CB' } // 연한 빨강/핑크 배경
+        };
+      } else if (row.payment_status === 'Refunded') {
+        excelRow.getCell(paymentStatusIdx).font = { color: { argb: 'FFFF0000' } };
+      }
     });
-    const ws = xlsx.utils.json_to_sheet(mappedData);
-    const wb = xlsx.utils.book_new();
-    xlsx.utils.book_append_sheet(wb, ws, 'Products');
-    xlsx.writeFile(wb, 'products.xlsx');
+
+    workbook.xlsx.writeBuffer().then(buffer => {
+      saveAs(new Blob([buffer]), 'products.xlsx');
+    });
   };
 
   const onSubmit = (data: SearchFormData) => {
     if (!isDirty) return;
 
     const params = new URLSearchParams(searchParams.toString());
-
     params.set('page', '1');
-
     Object.entries(data).forEach(([key, value]) => {
       if (value && value !== '전체') {
         params.set(key, value);
@@ -138,7 +157,6 @@ export function SearchForm({ data }: { data: AllProducts[] }) {
         params.delete(key);
       }
     });
-
     router.push(`?${params.toString()}`);
   };
 
