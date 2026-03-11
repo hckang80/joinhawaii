@@ -1,6 +1,6 @@
 'use client';
 
-import { PRODUCT_OPTIONS } from '@/constants';
+import { PAYMENT_STATUS_COLOR, PaymentStatus, PRODUCT_OPTIONS } from '@/constants';
 import { createReservation, updateReservation } from '@/http';
 import { reservationQueryOptions } from '@/lib/queries';
 import type {
@@ -11,7 +11,7 @@ import type {
 } from '@/types';
 import { handleApiError, handleApiSuccess, toReadableAmount } from '@/utils';
 import { observable } from '@legendapp/state';
-import { Button, Card, Flex, Grid, Heading, Table, Text, TextField } from '@radix-ui/themes';
+import { Badge, Button, Card, Flex, Grid, Heading, Table, Text, TextField } from '@radix-ui/themes';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { Controller, type SubmitHandler, useForm, useWatch } from 'react-hook-form';
@@ -301,6 +301,9 @@ export default function ReservationsFormClientContainer({
                   = 총액 {toReadableAmount(Number(data?.total_amount ?? 0))}(
                   {toReadableAmount(Number(data?.total_amount_krw ?? 0), 'ko-KR', 'KRW')})
                 </Text>
+                <Badge size='3' color={PAYMENT_STATUS_COLOR[data.payment_status]} variant='soft'>
+                  {PaymentStatus[data.payment_status]}
+                </Badge>
               </Flex>
 
               <Text as='p' align='right' mt='2' weight='bold' color='ruby'>

@@ -1,3 +1,4 @@
+import { PaymentStatus } from '@/constants';
 import { getAdditionalOptions } from '@/http';
 import { getReservation, updateReservationProducts } from '@/lib/supabase/queries/reservation';
 import { RESERVATION_SELECT_QUERY } from '@/lib/supabase/schema';
@@ -246,6 +247,13 @@ export async function GET(request: Request) {
 
       const totalAmountOriginal = productsOriginalTotal + additionalOptionsTotalOriginal;
 
+      const paymentStatus = (): keyof typeof PaymentStatus => {
+        if (!(rest.total_amount - rest.deposit)) return 'Full';
+        if (!rest.reservation_fee) return 'Unpaid';
+        if (rest.reservation_fee > 0) return 'Deposit';
+        return 'Unpaid';
+      };
+
       return NextResponse.json({
         success: true,
         data: {
@@ -257,6 +265,7 @@ export async function GET(request: Request) {
             rental_cars: carsWithKrw,
             insurances: insurancesWithKrw
           },
+          payment_status: paymentStatus(),
           total_amount: totalAmountOriginal,
           total_amount_krw,
           total_cost_krw
