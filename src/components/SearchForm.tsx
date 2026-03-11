@@ -15,7 +15,7 @@ import { useRouter } from 'nextjs-toploader/app';
 import { useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import * as xlsx from 'xlsx';
-import type { AllProducts, PaymentStatusKey, ProductStatusKey } from '../types';
+import type { AllProducts, PaymentStatusKey, ProductStatusKey, ProductType } from '../types';
 import { toReadableDate } from '../utils';
 
 type SearchType = 'reception_date' | 'event_date';
@@ -66,53 +66,53 @@ export function SearchForm({ data }: { data: AllProducts[] }) {
     {
       key: 'reservation_id',
       header: '예약번호',
-      format: (v: string) => v
+      format: (v: unknown) => v
     },
     {
       key: 'type',
       header: '상품구분',
-      format: (v: string) => PRODUCT_LABEL[v]
+      format: (v: unknown) => PRODUCT_LABEL[v as ProductType]
     },
     {
       key: 'main_client_name',
       header: '고객명',
-      format: (v: string) => v
+      format: (v: unknown) => v
     },
     {
       key: 'product_name',
       header: '상품명',
-      format: (v: string) => v
+      format: (v: unknown) => v
     },
     {
       key: 'event_date',
       header: '행사일',
-      format: (v: string) => (v ? toReadableDate(new Date(v)) : '-')
+      format: (v: unknown) => (v ? toReadableDate(new Date(v as string)) : '-')
     },
     {
       key: 'created_at',
       header: '접수일',
-      format: (v: string) => (v ? toReadableDate(new Date(v)) : '-')
+      format: (v: unknown) => (v ? toReadableDate(new Date(v as string)) : '-')
     },
     {
       key: 'status',
       header: '진행상태',
-      format: (v: ProductStatusKey) => ProductStatus[v]
+      format: (v: unknown) => ProductStatus[v as ProductStatusKey]
     },
     {
       key: 'payment_status',
       header: '결제상태',
-      format: (v: PaymentStatusKey) => PaymentStatus[v]
+      format: (v: unknown) => PaymentStatus[v as PaymentStatusKey]
     },
     {
       key: 'booking_platform',
       header: '예약회사',
-      format: (v: string) => v
+      format: (v: unknown) => v
     }
   ];
 
   const handleDownload = () => {
     const mappedData = data.map(row => {
-      const obj: Record<string, string> = {};
+      const obj: Record<string, unknown> = {};
       columnDefs.forEach(col => {
         obj[col.header] = col.format(row[col.key]);
       });
