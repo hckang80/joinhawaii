@@ -73,9 +73,13 @@ export function SearchForm({ data }: { data: AllProducts[] }) {
   };
 
   const handleDownload = () => {
-    const mappedData = data.map(row =>
-      Object.fromEntries(Object.entries(row).map(([key, value]) => [headerMap[key] || key, value]))
-    );
+    const mappedData = data.map(row => {
+      const obj: Record<string, unknown> = {};
+      Object.entries(headerMap).forEach(([key, header]) => {
+        obj[header] = row[key as keyof typeof row];
+      });
+      return obj;
+    });
     const ws = xlsx.utils.json_to_sheet(mappedData);
     const wb = xlsx.utils.book_new();
     xlsx.utils.book_append_sheet(wb, ws, 'Products');
