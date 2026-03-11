@@ -66,12 +66,14 @@ export default function SettlementClientContainer() {
     {
       key: 'total_cost',
       header: '원가',
-      format: ({ total_cost }: AllProducts) => toReadableAmount(total_cost)
+      format: ({ total_cost, total_cost_krw }: AllProducts) =>
+        `${toReadableAmount(total_cost)} \n${toReadableAmount(total_cost_krw, 'ko-KR', 'KRW')}`
     },
     {
       key: 'total_amount',
       header: '판매가',
-      format: ({ total_amount }: AllProducts) => toReadableAmount(total_amount)
+      format: ({ total_amount, total_amount_krw }: AllProducts) =>
+        `${toReadableAmount(total_amount)} \n${toReadableAmount(total_amount_krw, 'ko-KR', 'KRW')}`
     },
     {
       key: 'payment_status',
@@ -81,8 +83,8 @@ export default function SettlementClientContainer() {
     {
       key: 'payment_status',
       header: '수익',
-      format: ({ total_amount, total_cost }: AllProducts) =>
-        toReadableAmount(total_amount - total_cost)
+      format: ({ total_amount, total_cost, total_amount_krw, total_cost_krw }: AllProducts) =>
+        `${toReadableAmount(total_amount - total_cost)} \n${toReadableAmount(total_amount_krw - total_cost_krw, 'ko-KR', 'KRW')}`
     }
   ];
 
