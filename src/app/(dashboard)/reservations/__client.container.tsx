@@ -93,7 +93,11 @@ export default function ReservationsClientContainer() {
         예약관리
       </Heading>
       <Box mb='6'>
-        <SearchForm data={data} columnDefs={columnDefs} />
+        <SearchForm
+          data={data}
+          columnDefs={columnDefs}
+          filename={`예약관리_${toReadableDate(new Date())}.xlsx`}
+        />
       </Box>
       <Flex mb='4' justify='end'>
         <Button asChild color='ruby' size='3'>

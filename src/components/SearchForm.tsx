@@ -33,10 +33,12 @@ interface SearchFormData {
 
 export function SearchForm({
   data,
-  columnDefs
+  columnDefs,
+  filename = 'products.xlsx'
 }: {
   data: AllProducts[];
   columnDefs: Array<{ key: string; header: string; format: (product: AllProducts) => string }>;
+  filename?: string;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -85,7 +87,7 @@ export function SearchForm({
     });
 
     workbook.xlsx.writeBuffer().then(buffer => {
-      saveAs(new Blob([buffer]), 'products.xlsx');
+      saveAs(new Blob([buffer]), filename);
     });
   };
 

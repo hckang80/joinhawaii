@@ -94,7 +94,11 @@ export default function SettlementClientContainer() {
         정산관리
       </Heading>
       <Box mb='6'>
-        <SearchForm data={data} columnDefs={columnDefs} />
+        <SearchForm
+          data={data}
+          columnDefs={columnDefs}
+          filename={`정산관리_${toReadableDate(new Date())}.xlsx`}
+        />
       </Box>
       <Flex mb='4' justify='end'>
         <Button asChild color='ruby' size='3'>
