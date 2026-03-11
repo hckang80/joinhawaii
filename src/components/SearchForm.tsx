@@ -111,8 +111,7 @@ export function SearchForm({ data }: { data: AllProducts[] }) {
     }
   ];
 
-  const handleDownload = () => {
-    // ExcelJS 기반으로 엑셀 다운로드만 담당
+  const handleDownload = (data: AllProducts[]) => {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Products');
 
@@ -380,7 +379,7 @@ export function SearchForm({ data }: { data: AllProducts[] }) {
           <RefreshCcw size={16} />
           초기화
         </Button>
-        <Button color='green' onClick={handleDownload}>
+        <Button color='green' onClick={() => handleDownload(data)}>
           <Download size={16} />
           다운로드
         </Button>
