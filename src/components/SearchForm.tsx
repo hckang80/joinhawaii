@@ -126,18 +126,7 @@ export function SearchForm({ data }: { data: AllProducts[] }) {
 
     data.forEach(row => {
       const rowData = columnDefs.map(col => col.format(row[col.key]));
-      const excelRow = worksheet.addRow(rowData);
-      const paymentStatusIdx = columnDefs.findIndex(col => col.key === 'payment_status') + 1;
-      if (row.payment_status === 'Deposit') {
-        excelRow.getCell(paymentStatusIdx).font = { color: { argb: 'FF008000' } };
-        excelRow.getCell(paymentStatusIdx).fill = {
-          type: 'pattern',
-          pattern: 'solid',
-          fgColor: { argb: 'FFFFC0CB' } // 연한 빨강/핑크 배경
-        };
-      } else if (row.payment_status === 'Refunded') {
-        excelRow.getCell(paymentStatusIdx).font = { color: { argb: 'FFFF0000' } };
-      }
+      worksheet.addRow(rowData);
     });
 
     workbook.xlsx.writeBuffer().then(buffer => {
