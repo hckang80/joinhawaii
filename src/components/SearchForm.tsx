@@ -36,7 +36,7 @@ export function SearchForm({
   columnDefs
 }: {
   data: AllProducts[];
-  columnDefs: Array<{ key: string; header: string; format: (v: unknown) => string }>;
+  columnDefs: Array<{ key: string; header: string; format: (product: AllProducts) => string }>;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -80,7 +80,7 @@ export function SearchForm({
     worksheet.getRow(1).font = { bold: true };
 
     data.forEach(row => {
-      const rowData = columnDefs.map(col => col.format(row[col.key]));
+      const rowData = columnDefs.map(col => col.format(row));
       worksheet.addRow(rowData);
     });
 

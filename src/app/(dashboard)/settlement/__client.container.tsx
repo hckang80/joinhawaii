@@ -4,7 +4,7 @@ import { Paginate, ProductOptionBadge, SearchForm } from '@/components';
 import { PAYMENT_STATUS_COLOR, PaymentStatus } from '@/constants';
 import { usePageNavigation } from '@/hooks';
 import { productsQueryOptions } from '@/lib/queries';
-import { PaymentStatusKey } from '@/types';
+import { AllProducts } from '@/types';
 import { isDev, toReadableAmount, toReadableDate } from '@/utils';
 import {
   Badge,
@@ -35,32 +35,33 @@ export default function SettlementClientContainer() {
     {
       key: 'reservation_id',
       header: '예약번호',
-      format: (v: unknown) => v
+      format: ({ reservation_id }: AllProducts) => reservation_id
     },
     {
       key: 'created_at',
       header: '날짜',
-      format: (v: unknown) => (v ? toReadableDate(new Date(v as string)) : '-')
+      format: ({ created_at }: AllProducts) =>
+        created_at ? toReadableDate(new Date(created_at)) : '-'
     },
     {
       key: 'booking_platform',
       header: '예약회사',
-      format: (v: unknown) => v
+      format: ({ booking_platform }: AllProducts) => booking_platform
     },
     {
       key: 'main_client_name',
       header: '고객명',
-      format: (v: unknown) => v
+      format: ({ main_client_name }: AllProducts) => main_client_name
     },
     {
       key: 'product_name',
       header: '상품명',
-      format: (v: unknown) => v
+      format: ({ product_name }: AllProducts) => product_name
     },
     {
       key: 'payment_status',
       header: '결제상태',
-      format: (v: unknown) => PaymentStatus[v as PaymentStatusKey]
+      format: ({ payment_status }: AllProducts) => PaymentStatus[payment_status]
     }
   ];
 

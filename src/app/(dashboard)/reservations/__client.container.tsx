@@ -11,7 +11,7 @@ import {
 } from '@/constants';
 import { usePageNavigation } from '@/hooks';
 import { productsQueryOptions } from '@/lib/queries';
-import type { PaymentStatusKey, ProductStatusKey, ProductType } from '@/types';
+import type { AllProducts } from '@/types';
 import { isDev, toReadableDate } from '@/utils';
 import {
   Badge,
@@ -41,47 +41,49 @@ export default function ReservationsClientContainer() {
     {
       key: 'reservation_id',
       header: '예약번호',
-      format: (v: unknown) => v
+      format: ({ reservation_id }: AllProducts) => reservation_id
     },
     {
       key: 'type',
       header: '상품구분',
-      format: (v: unknown) => PRODUCT_LABEL[v as ProductType]
+      format: ({ type }: AllProducts) => PRODUCT_LABEL[type]
     },
     {
       key: 'main_client_name',
       header: '고객명',
-      format: (v: unknown) => v
+      format: ({ main_client_name }: AllProducts) => main_client_name
     },
     {
       key: 'product_name',
       header: '상품명',
-      format: (v: unknown) => v
+      format: ({ product_name }: AllProducts) => product_name
     },
     {
       key: 'event_date',
       header: '행사일',
-      format: (v: unknown) => (v ? toReadableDate(new Date(v as string)) : '-')
+      format: ({ event_date }: AllProducts) =>
+        event_date ? toReadableDate(new Date(event_date)) : '-'
     },
     {
       key: 'created_at',
       header: '접수일',
-      format: (v: unknown) => (v ? toReadableDate(new Date(v as string)) : '-')
+      format: ({ created_at }: AllProducts) =>
+        created_at ? toReadableDate(new Date(created_at)) : '-'
     },
     {
       key: 'status',
       header: '진행상태',
-      format: (v: unknown) => ProductStatus[v as ProductStatusKey]
+      format: ({ status }: AllProducts) => ProductStatus[status]
     },
     {
       key: 'payment_status',
       header: '결제상태',
-      format: (v: unknown) => PaymentStatus[v as PaymentStatusKey]
+      format: ({ payment_status }: AllProducts) => PaymentStatus[payment_status]
     },
     {
       key: 'booking_platform',
       header: '예약회사',
-      format: (v: unknown) => v
+      format: ({ booking_platform }: AllProducts) => booking_platform
     }
   ];
 
