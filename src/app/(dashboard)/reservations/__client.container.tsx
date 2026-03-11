@@ -42,57 +42,92 @@ export default function ReservationsClientContainer() {
       width: '180px',
       key: 'reservation_id',
       header: '예약번호',
-      format: ({ reservation_id }: AllProducts) => reservation_id
+      format: (item: AllProducts) => item.reservation_id
     },
     {
       width: '100px',
       key: 'type',
       header: '상품구분',
-      format: ({ type }: AllProducts) => PRODUCT_LABEL[type]
+      format: (item: AllProducts) => (
+        <Badge size='3' color={PRODUCT_COLOR[item.type]}>
+          {PRODUCT_LABEL[item.type]}
+        </Badge>
+      ),
+      excelFormat: (item: AllProducts) => PRODUCT_LABEL[item.type]
     },
     {
       width: '100px',
       key: 'main_client_name',
       header: '고객명',
-      format: ({ main_client_name }: AllProducts) => main_client_name
+      format: (item: AllProducts) => item.main_client_name
     },
     {
       width: '300px',
       key: 'product_name',
       header: '상품명',
-      format: ({ product_name }: AllProducts) => product_name
+      format: (item: AllProducts) => (
+        <>
+          <StyledLink
+            href={`/reservations/form?reservation_id=${item.reservation_id}&from=${pathname}#${item.type}`}
+            underline='always'
+            weight='medium'
+          >
+            {item.product_name}
+          </StyledLink>
+          <Box mt='1'>
+            <ProductOptionBadge items={item.additional_options} />
+          </Box>
+        </>
+      ),
+      excelFormat: (item: AllProducts) => {
+        const options =
+          item.additional_options.length > 0
+            ? `\n${item.additional_options.map(({ title }) => title).join(', ')}`
+            : '';
+        return `${item.product_name}${options}`;
+      }
     },
     {
       width: '120px',
       key: 'event_date',
       header: '행사일',
-      format: ({ event_date }: AllProducts) =>
-        event_date ? toReadableDate(new Date(event_date)) : '-'
+      format: (item: AllProducts) =>
+        item.event_date ? toReadableDate(new Date(item.event_date)) : '-'
     },
     {
       width: '120px',
       key: 'created_at',
       header: '접수일',
-      format: ({ created_at }: AllProducts) =>
-        created_at ? toReadableDate(new Date(created_at)) : '-'
+      format: (item: AllProducts) =>
+        item.created_at ? toReadableDate(new Date(item.created_at)) : '-'
     },
     {
       width: '140px',
       key: 'status',
       header: '진행상태',
-      format: ({ status }: AllProducts) => ProductStatus[status]
+      format: (item: AllProducts) => (
+        <Badge size='3' color={PRODUCT_STATUS_COLOR[item.status]} variant='soft'>
+          {ProductStatus[item.status]}
+        </Badge>
+      ),
+      excelFormat: (item: AllProducts) => ProductStatus[item.status]
     },
     {
       width: '100px',
       key: 'payment_status',
       header: '결제상태',
-      format: ({ payment_status }: AllProducts) => PaymentStatus[payment_status]
+      format: (item: AllProducts) => (
+        <Badge size='3' color={PAYMENT_STATUS_COLOR[item.payment_status]} variant='soft'>
+          {PaymentStatus[item.payment_status]}
+        </Badge>
+      ),
+      excelFormat: (item: AllProducts) => PaymentStatus[item.payment_status]
     },
     {
       width: '120px',
       key: 'booking_platform',
       header: '예약회사',
-      format: ({ booking_platform }: AllProducts) => booking_platform
+      format: (item: AllProducts) => item.booking_platform
     }
   ];
 
@@ -134,40 +169,9 @@ export default function ReservationsClientContainer() {
           <Table.Body>
             {data.map(item => (
               <Table.Row key={item.id + item.type}>
-                <Table.Cell>{item.reservation_id}</Table.Cell>
-                <Table.Cell>
-                  <Badge size='3' color={PRODUCT_COLOR[item.type]}>
-                    {PRODUCT_LABEL[item.type]}
-                  </Badge>
-                </Table.Cell>
-                <Table.Cell>{item.main_client_name}</Table.Cell>
-                <Table.Cell>
-                  <StyledLink
-                    href={`/reservations/form?reservation_id=${item.reservation_id}&from=${pathname}#${item.type}`}
-                    underline='always'
-                    weight='medium'
-                  >
-                    {item.product_name}
-                  </StyledLink>
-                  <Box mt='1'>
-                    <ProductOptionBadge items={item.additional_options} />
-                  </Box>
-                </Table.Cell>
-                <Table.Cell>
-                  {item.event_date ? toReadableDate(new Date(item.event_date)) : '-'}
-                </Table.Cell>
-                <Table.Cell>{toReadableDate(new Date(item.created_at))}</Table.Cell>
-                <Table.Cell>
-                  <Badge size='3' color={PRODUCT_STATUS_COLOR[item.status]} variant='soft'>
-                    {ProductStatus[item.status]}
-                  </Badge>
-                </Table.Cell>
-                <Table.Cell>
-                  <Badge size='3' color={PAYMENT_STATUS_COLOR[item.payment_status]} variant='soft'>
-                    {PaymentStatus[item.payment_status]}
-                  </Badge>
-                </Table.Cell>
-                <Table.Cell>{item.booking_platform}</Table.Cell>
+                {columnDefs.map(col => (
+                  <Table.Cell key={col.key}>{col.format(item)}</Table.Cell>
+                ))}
               </Table.Row>
             ))}
           </Table.Body>

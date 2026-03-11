@@ -14,7 +14,7 @@ import { saveAs } from 'file-saver';
 import { Download, RefreshCcw, Search } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
-import { useRef } from 'react';
+import { ReactNode, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 type SearchType = 'reception_date' | 'event_date';
@@ -37,7 +37,13 @@ export function SearchForm({
   filename = 'products.xlsx'
 }: {
   data: AllProducts[];
-  columnDefs: Array<{ key: string; header: string; format: (product: AllProducts) => string }>;
+  columnDefs: Array<{
+    key: string;
+    header: string;
+    format: (product: AllProducts) => ReactNode;
+    excelFormat?: (product: AllProducts) => string;
+    width: string;
+  }>;
   filename?: string;
 }) {
   const router = useRouter();
@@ -82,7 +88,9 @@ export function SearchForm({
     worksheet.getRow(1).font = { bold: true };
 
     data.forEach(row => {
-      const rowData = columnDefs.map(col => col.format(row));
+      const rowData = columnDefs.map(col =>
+        col.excelFormat ? col.excelFormat(row) : col.format(row)
+      );
       worksheet.addRow(rowData);
     });
 

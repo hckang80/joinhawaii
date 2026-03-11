@@ -36,52 +36,89 @@ export default function SettlementClientContainer() {
       width: '180px',
       key: 'reservation_id',
       header: '예약번호',
-      format: ({ reservation_id }: AllProducts) => reservation_id
+      format: (item: AllProducts) => item.reservation_id
     },
     {
       width: '120px',
       key: 'created_at',
       header: '날짜',
-      format: ({ created_at }: AllProducts) =>
-        created_at ? toReadableDate(new Date(created_at)) : '-'
+      format: (item: AllProducts) =>
+        item.created_at ? toReadableDate(new Date(item.created_at)) : '-'
     },
     {
       width: '120px',
       key: 'booking_platform',
       header: '예약회사',
-      format: ({ booking_platform }: AllProducts) => booking_platform
+      format: (item: AllProducts) => item.booking_platform
     },
     {
       width: '100px',
       key: 'main_client_name',
       header: '고객명',
-      format: ({ main_client_name }: AllProducts) => main_client_name
+      format: (item: AllProducts) => item.main_client_name
     },
     {
       width: '300px',
       key: 'product_name',
       header: '상품명',
-      format: ({ product_name }: AllProducts) => product_name
+      format: (item: AllProducts) => (
+        <>
+          <StyledLink
+            href={`/reservations/form?reservation_id=${item.reservation_id}&from=${pathname}#${item.type}`}
+            underline='always'
+            weight='medium'
+          >
+            {item.product_name}
+          </StyledLink>
+          <Box mt='1'>
+            <ProductOptionBadge items={item.additional_options} />
+          </Box>
+        </>
+      ),
+      excelFormat: (item: AllProducts) => {
+        const options =
+          item.additional_options.length > 0
+            ? `\n${item.additional_options.map(({ title }) => title).join(', ')}`
+            : '';
+        return `${item.product_name}${options}`;
+      }
     },
     {
       width: '100px',
       key: 'payment_status',
       header: '결제상태',
-      format: ({ payment_status }: AllProducts) => PaymentStatus[payment_status]
+      format: (item: AllProducts) => (
+        <Badge size='3' color={PAYMENT_STATUS_COLOR[item.payment_status]} variant='soft'>
+          {PaymentStatus[item.payment_status]}
+        </Badge>
+      ),
+      excelFormat: (item: AllProducts) => PaymentStatus[item.payment_status]
     },
     {
       width: '120px',
       key: 'total_cost',
       header: '원가',
-      format: ({ total_cost, total_cost_krw }: AllProducts) =>
-        `${toReadableAmount(total_cost)} \n${toReadableAmount(total_cost_krw, 'ko-KR', 'KRW')}`
+      format: (item: AllProducts) => (
+        <Grid>
+          <span>{toReadableAmount(item.total_cost)}</span>
+          <span>{toReadableAmount(item.total_cost_krw, 'ko-KR', 'KRW')}</span>
+        </Grid>
+      ),
+      excelFormat: (item: AllProducts) =>
+        `${toReadableAmount(item.total_cost)}\n${toReadableAmount(item.total_cost_krw, 'ko-KR', 'KRW')}`
     },
     {
       width: '120px',
       key: 'total_amount',
       header: '판매가',
-      format: ({ total_amount, total_amount_krw }: AllProducts) =>
-        `${toReadableAmount(total_amount)} \n${toReadableAmount(total_amount_krw, 'ko-KR', 'KRW')}`
+      format: (item: AllProducts) => (
+        <Grid>
+          <span>{toReadableAmount(item.total_amount)}</span>
+          <span>{toReadableAmount(item.total_amount_krw, 'ko-KR', 'KRW')}</span>
+        </Grid>
+      ),
+      excelFormat: (item: AllProducts) =>
+        `${toReadableAmount(item.total_amount)}\n${toReadableAmount(item.total_amount_krw, 'ko-KR', 'KRW')}`
     },
     {
       width: '120px',
@@ -93,8 +130,16 @@ export default function SettlementClientContainer() {
       width: '120px',
       key: 'profit',
       header: '수익',
-      format: ({ total_amount, total_cost, total_amount_krw, total_cost_krw }: AllProducts) =>
-        `${toReadableAmount(total_amount - total_cost)} \n${toReadableAmount(total_amount_krw - total_cost_krw, 'ko-KR', 'KRW')}`
+      format: (item: AllProducts) => (
+        <Grid>
+          <span>{toReadableAmount(item.total_amount - item.total_cost)}</span>
+          <span>
+            {toReadableAmount(item.total_amount_krw - item.total_cost_krw, 'ko-KR', 'KRW')}
+          </span>
+        </Grid>
+      ),
+      excelFormat: (item: AllProducts) =>
+        `${toReadableAmount(item.total_amount - item.total_cost)}\n${toReadableAmount(item.total_amount_krw - item.total_cost_krw, 'ko-KR', 'KRW')}`
     }
   ];
 
@@ -136,52 +181,9 @@ export default function SettlementClientContainer() {
           <Table.Body>
             {data.map(item => (
               <Table.Row key={item.id + item.type}>
-                <Table.Cell>{item.reservation_id}</Table.Cell>
-                <Table.Cell>{toReadableDate(new Date(item.created_at))}</Table.Cell>
-                <Table.Cell>{item.booking_platform}</Table.Cell>
-                <Table.Cell>{item.main_client_name}</Table.Cell>
-                <Table.Cell>
-                  <StyledLink
-                    href={`/reservations/form?reservation_id=${item.reservation_id}&from=${pathname}#${item.type}`}
-                    underline='always'
-                    weight='medium'
-                  >
-                    {item.product_name}
-                  </StyledLink>
-                  <Box mt='1'>
-                    <ProductOptionBadge items={item.additional_options} />
-                  </Box>
-                </Table.Cell>
-                <Table.Cell>
-                  <Badge size='3' color={PAYMENT_STATUS_COLOR[item.payment_status]} variant='soft'>
-                    {PaymentStatus[item.payment_status]}
-                  </Badge>
-                </Table.Cell>
-                <Table.Cell>
-                  <Grid>
-                    <span>{toReadableAmount(item.total_cost)}</span>
-                    <span>{toReadableAmount(item.total_cost_krw, 'ko-KR', 'KRW')}</span>
-                  </Grid>
-                </Table.Cell>
-                <Table.Cell>
-                  <Grid>
-                    <span>{toReadableAmount(item.total_amount)}</span>
-                    <span>{toReadableAmount(item.total_amount_krw, 'ko-KR', 'KRW')}</span>
-                  </Grid>
-                </Table.Cell>
-                <Table.Cell>-</Table.Cell>
-                <Table.Cell>
-                  <Grid>
-                    <span>{toReadableAmount(item.total_amount - item.total_cost)}</span>
-                    <span>
-                      {toReadableAmount(
-                        item.total_amount_krw - item.total_cost_krw,
-                        'ko-KR',
-                        'KRW'
-                      )}
-                    </span>
-                  </Grid>
-                </Table.Cell>
+                {columnDefs.map(col => (
+                  <Table.Cell key={col.key}>{col.format(item)}</Table.Cell>
+                ))}
               </Table.Row>
             ))}
           </Table.Body>
