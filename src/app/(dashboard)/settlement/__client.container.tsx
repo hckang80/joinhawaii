@@ -33,55 +33,65 @@ export default function SettlementClientContainer() {
 
   const columnDefs = [
     {
+      width: '180px',
       key: 'reservation_id',
       header: '예약번호',
       format: ({ reservation_id }: AllProducts) => reservation_id
     },
     {
+      width: '120px',
       key: 'created_at',
       header: '날짜',
       format: ({ created_at }: AllProducts) =>
         created_at ? toReadableDate(new Date(created_at)) : '-'
     },
     {
+      width: '120px',
       key: 'booking_platform',
       header: '예약회사',
       format: ({ booking_platform }: AllProducts) => booking_platform
     },
     {
+      width: '100px',
       key: 'main_client_name',
       header: '고객명',
       format: ({ main_client_name }: AllProducts) => main_client_name
     },
     {
+      width: '300px',
       key: 'product_name',
       header: '상품명',
       format: ({ product_name }: AllProducts) => product_name
     },
     {
+      width: '100px',
       key: 'payment_status',
       header: '결제상태',
       format: ({ payment_status }: AllProducts) => PaymentStatus[payment_status]
     },
     {
+      width: '120px',
       key: 'total_cost',
       header: '원가',
       format: ({ total_cost, total_cost_krw }: AllProducts) =>
         `${toReadableAmount(total_cost)} \n${toReadableAmount(total_cost_krw, 'ko-KR', 'KRW')}`
     },
     {
+      width: '120px',
       key: 'total_amount',
       header: '판매가',
       format: ({ total_amount, total_amount_krw }: AllProducts) =>
         `${toReadableAmount(total_amount)} \n${toReadableAmount(total_amount_krw, 'ko-KR', 'KRW')}`
     },
     {
-      key: 'payment_status',
-      header: '한불',
+      width: '120px',
+      key: 'refund_status',
+      header: '환불',
       format: (_: AllProducts) => '-'
     },
     {
-      key: 'payment_status',
+      width: '120px',
+      key: 'profit',
       header: '수익',
       format: ({ total_amount, total_cost, total_amount_krw, total_cost_krw }: AllProducts) =>
         `${toReadableAmount(total_amount - total_cost)} \n${toReadableAmount(total_amount_krw - total_cost_krw, 'ko-KR', 'KRW')}`
@@ -116,16 +126,11 @@ export default function SettlementClientContainer() {
         <Table.Root variant='surface' size='3'>
           <Table.Header>
             <Table.Row>
-              <Table.ColumnHeaderCell width='180px'>예약번호</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell width='120px'>날짜</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell width='120px'>예약회사</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell width='100px'>고객명</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell width='300px'>상품명</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell width='100px'>결제상태</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell width='120px'>원가</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell width='120px'>판매가</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell width='120px'>환불</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell width='120px'>수익</Table.ColumnHeaderCell>
+              {columnDefs.map(col => (
+                <Table.ColumnHeaderCell key={col.key} width={col.width}>
+                  {col.header}
+                </Table.ColumnHeaderCell>
+              ))}
             </Table.Row>
           </Table.Header>
           <Table.Body>

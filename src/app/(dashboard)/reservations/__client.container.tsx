@@ -39,48 +39,57 @@ export default function ReservationsClientContainer() {
 
   const columnDefs = [
     {
+      width: '180px',
       key: 'reservation_id',
       header: '예약번호',
       format: ({ reservation_id }: AllProducts) => reservation_id
     },
     {
+      width: '100px',
       key: 'type',
       header: '상품구분',
       format: ({ type }: AllProducts) => PRODUCT_LABEL[type]
     },
     {
+      width: '100px',
       key: 'main_client_name',
       header: '고객명',
       format: ({ main_client_name }: AllProducts) => main_client_name
     },
     {
+      width: '300px',
       key: 'product_name',
       header: '상품명',
       format: ({ product_name }: AllProducts) => product_name
     },
     {
+      width: '120px',
       key: 'event_date',
       header: '행사일',
       format: ({ event_date }: AllProducts) =>
         event_date ? toReadableDate(new Date(event_date)) : '-'
     },
     {
+      width: '120px',
       key: 'created_at',
       header: '접수일',
       format: ({ created_at }: AllProducts) =>
         created_at ? toReadableDate(new Date(created_at)) : '-'
     },
     {
+      width: '140px',
       key: 'status',
       header: '진행상태',
       format: ({ status }: AllProducts) => ProductStatus[status]
     },
     {
+      width: '100px',
       key: 'payment_status',
       header: '결제상태',
       format: ({ payment_status }: AllProducts) => PaymentStatus[payment_status]
     },
     {
+      width: '120px',
       key: 'booking_platform',
       header: '예약회사',
       format: ({ booking_platform }: AllProducts) => booking_platform
@@ -115,15 +124,11 @@ export default function ReservationsClientContainer() {
         <Table.Root variant='surface' size='3'>
           <Table.Header>
             <Table.Row>
-              <Table.ColumnHeaderCell width='180px'>예약번호</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell width='100px'>상품구분</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell width='100px'>고객명</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell width='300px'>상품명</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell width='120px'>행사일</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell width='120px'>접수일</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell width='140px'>진행상태</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell width='100px'>결제상태</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell width='120px'>예약회사</Table.ColumnHeaderCell>
+              {columnDefs.map(col => (
+                <Table.ColumnHeaderCell key={col.key} width={col.width}>
+                  {col.header}
+                </Table.ColumnHeaderCell>
+              ))}
             </Table.Row>
           </Table.Header>
           <Table.Body>
