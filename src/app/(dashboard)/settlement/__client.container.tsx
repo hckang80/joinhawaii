@@ -36,7 +36,7 @@ export default function SettlementClientContainer() {
         정산관리
       </Heading>
       <Box mb='6'>
-        <SearchForm />
+        <SearchForm data={data} />
       </Box>
       <Flex mb='4' justify='end'>
         <Button asChild color='ruby' size='3'>

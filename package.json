@@ -39,7 +39,8 @@
     "react-hook-form": "^7.62.0",
     "react-paginate": "^8.3.0",
     "react-toastify": "^11.0.5",
-    "tiptap-extension-resizable-image": "^2.1.0"
+    "tiptap-extension-resizable-image": "^2.1.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

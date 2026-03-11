@@ -13,7 +13,8 @@ import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
 import { useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
+import * as xlsx from 'xlsx';
+import type { AllProducts } from '../types';
 
 type SearchType = 'reception_date' | 'event_date';
 
@@ -29,7 +30,7 @@ interface SearchFormData {
   payment_status: string;
 }
 
-export function SearchForm() {
+export function SearchForm({ data }: { data: AllProducts[] }) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -60,7 +61,10 @@ export function SearchForm() {
   };
 
   const handleDownload = () => {
-    toast.info('다운로드 기능 추가 예정');
+    const ws = xlsx.utils.json_to_sheet(data);
+    const wb = xlsx.utils.book_new();
+    xlsx.utils.book_append_sheet(wb, ws, 'Products');
+    xlsx.writeFile(wb, 'products.xlsx');
   };
 
   const onSubmit = (data: SearchFormData) => {

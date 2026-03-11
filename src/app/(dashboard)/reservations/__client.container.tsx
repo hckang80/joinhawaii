@@ -42,7 +42,7 @@ export default function ReservationsClientContainer() {
         예약관리
       </Heading>
       <Box mb='6'>
-        <SearchForm />
+        <SearchForm data={data} />
       </Box>
       <Flex mb='4' justify='end'>
         <Button asChild color='ruby' size='3'>
