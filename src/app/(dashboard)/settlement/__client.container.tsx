@@ -4,6 +4,7 @@ import { Paginate, ProductOptionBadge, SearchForm } from '@/components';
 import { PAYMENT_STATUS_COLOR, PaymentStatus } from '@/constants';
 import { usePageNavigation } from '@/hooks';
 import { productsQueryOptions } from '@/lib/queries';
+import { AllProducts } from '@/types';
 import { isDev, toReadableAmount, toReadableDate } from '@/utils';
 import {
   Badge,
@@ -30,13 +31,74 @@ export default function SettlementClientContainer() {
     data: { data, meta }
   } = useSuspenseQuery(productsQueryOptions(currentPage, perPage, searchParams));
 
+  const columnDefs = [
+    {
+      key: 'reservation_id',
+      header: '예약번호',
+      format: ({ reservation_id }: AllProducts) => reservation_id
+    },
+    {
+      key: 'created_at',
+      header: '날짜',
+      format: ({ created_at }: AllProducts) =>
+        created_at ? toReadableDate(new Date(created_at)) : '-'
+    },
+    {
+      key: 'booking_platform',
+      header: '예약회사',
+      format: ({ booking_platform }: AllProducts) => booking_platform
+    },
+    {
+      key: 'main_client_name',
+      header: '고객명',
+      format: ({ main_client_name }: AllProducts) => main_client_name
+    },
+    {
+      key: 'product_name',
+      header: '상품명',
+      format: ({ product_name }: AllProducts) => product_name
+    },
+    {
+      key: 'payment_status',
+      header: '결제상태',
+      format: ({ payment_status }: AllProducts) => PaymentStatus[payment_status]
+    },
+    {
+      key: 'total_cost',
+      header: '원가',
+      format: ({ total_cost, total_cost_krw }: AllProducts) =>
+        `${toReadableAmount(total_cost)} \n${toReadableAmount(total_cost_krw, 'ko-KR', 'KRW')}`
+    },
+    {
+      key: 'total_amount',
+      header: '판매가',
+      format: ({ total_amount, total_amount_krw }: AllProducts) =>
+        `${toReadableAmount(total_amount)} \n${toReadableAmount(total_amount_krw, 'ko-KR', 'KRW')}`
+    },
+    {
+      key: 'payment_status',
+      header: '한불',
+      format: (_: AllProducts) => '-'
+    },
+    {
+      key: 'payment_status',
+      header: '수익',
+      format: ({ total_amount, total_cost, total_amount_krw, total_cost_krw }: AllProducts) =>
+        `${toReadableAmount(total_amount - total_cost)} \n${toReadableAmount(total_amount_krw - total_cost_krw, 'ko-KR', 'KRW')}`
+    }
+  ];
+
   return (
     <div>
       <Heading as='h2' mb='4' size='7'>
         정산관리
       </Heading>
       <Box mb='6'>
-        <SearchForm />
+        <SearchForm
+          data={data}
+          columnDefs={columnDefs}
+          filename={`정산관리_${toReadableDate(new Date())}.xlsx`}
+        />
       </Box>
       <Flex mb='4' justify='end'>
         <Button asChild color='ruby' size='3'>

@@ -11,6 +11,7 @@ import {
 } from '@/constants';
 import { usePageNavigation } from '@/hooks';
 import { productsQueryOptions } from '@/lib/queries';
+import type { AllProducts } from '@/types';
 import { isDev, toReadableDate } from '@/utils';
 import {
   Badge,
@@ -36,13 +37,67 @@ export default function ReservationsClientContainer() {
     data: { data, meta }
   } = useSuspenseQuery(productsQueryOptions(currentPage, perPage, searchParams));
 
+  const columnDefs = [
+    {
+      key: 'reservation_id',
+      header: '예약번호',
+      format: ({ reservation_id }: AllProducts) => reservation_id
+    },
+    {
+      key: 'type',
+      header: '상품구분',
+      format: ({ type }: AllProducts) => PRODUCT_LABEL[type]
+    },
+    {
+      key: 'main_client_name',
+      header: '고객명',
+      format: ({ main_client_name }: AllProducts) => main_client_name
+    },
+    {
+      key: 'product_name',
+      header: '상품명',
+      format: ({ product_name }: AllProducts) => product_name
+    },
+    {
+      key: 'event_date',
+      header: '행사일',
+      format: ({ event_date }: AllProducts) =>
+        event_date ? toReadableDate(new Date(event_date)) : '-'
+    },
+    {
+      key: 'created_at',
+      header: '접수일',
+      format: ({ created_at }: AllProducts) =>
+        created_at ? toReadableDate(new Date(created_at)) : '-'
+    },
+    {
+      key: 'status',
+      header: '진행상태',
+      format: ({ status }: AllProducts) => ProductStatus[status]
+    },
+    {
+      key: 'payment_status',
+      header: '결제상태',
+      format: ({ payment_status }: AllProducts) => PaymentStatus[payment_status]
+    },
+    {
+      key: 'booking_platform',
+      header: '예약회사',
+      format: ({ booking_platform }: AllProducts) => booking_platform
+    }
+  ];
+
   return (
     <div>
       <Heading as='h2' mb='4' size='7'>
         예약관리
       </Heading>
       <Box mb='6'>
-        <SearchForm />
+        <SearchForm
+          data={data}
+          columnDefs={columnDefs}
+          filename={`예약관리_${toReadableDate(new Date())}.xlsx`}
+        />
       </Box>
       <Flex mb='4' justify='end'>
         <Button asChild color='ruby' size='3'>

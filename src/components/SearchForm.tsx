@@ -7,13 +7,15 @@ import {
   PRODUCT_OPTIONS,
   ProductStatus
 } from '@/constants';
+import type { AllProducts } from '@/types';
 import { Button, Flex, RadioGroup, Select, Table, Text, TextField } from '@radix-ui/themes';
+import ExcelJS from 'exceljs';
+import { saveAs } from 'file-saver';
 import { Download, RefreshCcw, Search } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
 import { useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 
 type SearchType = 'reception_date' | 'event_date';
 
@@ -29,7 +31,15 @@ interface SearchFormData {
   payment_status: string;
 }
 
-export function SearchForm() {
+export function SearchForm({
+  data,
+  columnDefs,
+  filename = 'products.xlsx'
+}: {
+  data: AllProducts[];
+  columnDefs: Array<{ key: string; header: string; format: (product: AllProducts) => string }>;
+  filename?: string;
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -59,17 +69,33 @@ export function SearchForm() {
     router.push('?');
   };
 
-  const handleDownload = () => {
-    toast.info('다운로드 기능 추가 예정');
+  const handleDownload = (data: AllProducts[]) => {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Products');
+
+    worksheet.columns = columnDefs.map(col => ({
+      header: col.header,
+      key: col.key,
+      width: 20
+    }));
+
+    worksheet.getRow(1).font = { bold: true };
+
+    data.forEach(row => {
+      const rowData = columnDefs.map(col => col.format(row));
+      worksheet.addRow(rowData);
+    });
+
+    workbook.xlsx.writeBuffer().then(buffer => {
+      saveAs(new Blob([buffer]), filename);
+    });
   };
 
   const onSubmit = (data: SearchFormData) => {
     if (!isDirty) return;
 
     const params = new URLSearchParams(searchParams.toString());
-
     params.set('page', '1');
-
     Object.entries(data).forEach(([key, value]) => {
       if (value && value !== '전체') {
         params.set(key, value);
@@ -77,7 +103,6 @@ export function SearchForm() {
         params.delete(key);
       }
     });
-
     router.push(`?${params.toString()}`);
   };
 
@@ -312,7 +337,7 @@ export function SearchForm() {
           <RefreshCcw size={16} />
           초기화
         </Button>
-        <Button color='green' onClick={handleDownload}>
+        <Button color='green' onClick={() => handleDownload(data)}>
           <Download size={16} />
           다운로드
         </Button>
