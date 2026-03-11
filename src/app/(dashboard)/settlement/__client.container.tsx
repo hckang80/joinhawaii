@@ -62,6 +62,27 @@ export default function SettlementClientContainer() {
       key: 'payment_status',
       header: '결제상태',
       format: ({ payment_status }: AllProducts) => PaymentStatus[payment_status]
+    },
+    {
+      key: 'total_cost',
+      header: '원가',
+      format: ({ total_cost }: AllProducts) => toReadableAmount(total_cost)
+    },
+    {
+      key: 'total_amount',
+      header: '판매가',
+      format: ({ total_amount }: AllProducts) => toReadableAmount(total_amount)
+    },
+    {
+      key: 'payment_status',
+      header: '한불',
+      format: (_: AllProducts) => '-'
+    },
+    {
+      key: 'payment_status',
+      header: '수익',
+      format: ({ total_amount, total_cost }: AllProducts) =>
+        toReadableAmount(total_amount - total_cost)
     }
   ];
 
