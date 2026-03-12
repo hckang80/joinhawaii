@@ -26,7 +26,9 @@ export enum ProductStatus {
   CancelRequested = '취소요청',
   Cancelled = '취소완료',
   RefundRequested = '환불요청',
-  Refunded = '환불완료'
+  Refunded = '환불완료',
+  OnHold = '보류',
+  Checked = '확인'
 }
 
 export enum PaymentStatus {
@@ -294,7 +296,9 @@ export const PRODUCT_STATUS_COLOR: Record<
   CancelRequested: 'red',
   Cancelled: 'blue',
   RefundRequested: 'red',
-  Refunded: 'blue'
+  Refunded: 'blue',
+  OnHold: 'yellow',
+  Checked: 'blue'
 };
 
 export const PAYMENT_STATUS_COLOR: Record<
