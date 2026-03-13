@@ -72,6 +72,7 @@ export function SearchForm({
 
   const handleReset = () => {
     reset();
+    customBookingPlatformRef.current = '';
     router.push('?');
   };
 
