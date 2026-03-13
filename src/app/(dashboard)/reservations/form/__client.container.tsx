@@ -122,7 +122,9 @@ export default function ReservationsFormClientContainer({
           PRODUCT_OPTIONS.toSorted((a, b) => {
             const aLen = data?.products[a.table]?.length || 0;
             const bLen = data?.products[b.table]?.length || 0;
-            return bLen - aLen;
+            if (aLen && !bLen) return -1;
+            if (!aLen && bLen) return 1;
+            return 0;
           }).map(opt => {
             const Component = {
               flight: FlightForm,
@@ -142,7 +144,6 @@ export default function ReservationsFormClientContainer({
               />
             );
           })}
-
         {isModify && (
           <Flex justify='end' position='sticky' bottom='2' className={styles['exchange-rate-card']}>
             <form onSubmit={handleSubmit(onSubmit)}>
