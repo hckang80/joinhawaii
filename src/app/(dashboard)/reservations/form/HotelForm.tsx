@@ -6,13 +6,7 @@ import {
   ProductStatus,
   REGIONS
 } from '@/constants';
-import type {
-  AdditionalOptions,
-  ProductFormType,
-  ProductType,
-  ReservationFormData,
-  ReservationResponse
-} from '@/types';
+import type { ProductFormProps, ProductFormType, ReservationFormData } from '@/types';
 import { isDev, isRefunded, normalizeNumber, toReadableAmount } from '@/utils';
 import {
   Box,
@@ -28,7 +22,6 @@ import {
   TextArea,
   TextField
 } from '@radix-ui/themes';
-import { useMutation } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { Hotel, Minus, Plus, Save } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
@@ -44,22 +37,7 @@ import {
 import { toast } from 'react-toastify';
 import RefundAlertDialog from './RefundAlertDialog';
 
-export default function HotelForm({
-  data,
-  mutation,
-  handleAdditionalOptions
-}: {
-  data: ReservationResponse;
-  mutation: ReturnType<
-    typeof useMutation<{ data: ReservationResponse }, Error, ReservationFormData>
-  >;
-  handleAdditionalOptions: (context: {
-    id: number;
-    type: ProductType;
-    title: string;
-    data: AdditionalOptions[];
-  }) => void;
-}) {
+export default function HotelForm({ data, mutation, handleAdditionalOptions }: ProductFormProps) {
   const searchParams = useSearchParams();
   const reservation_id = searchParams.get('reservation_id')!;
 

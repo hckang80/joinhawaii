@@ -1,12 +1,6 @@
 import { DateTimeInput, NoData, TimeInput } from '@/components';
 import { defaultFlightValues, PRODUCT_STATUS_COLOR, ProductStatus } from '@/constants';
-import type {
-  AdditionalOptions,
-  ProductFormType,
-  ProductType,
-  ReservationFormData,
-  ReservationResponse
-} from '@/types';
+import type { ProductFormProps, ProductFormType, ReservationFormData } from '@/types';
 import {
   calculateTotalAmount,
   extractDateString,
@@ -29,7 +23,6 @@ import {
   TextArea,
   TextField
 } from '@radix-ui/themes';
-import { useMutation } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { Minus, Plane, Save } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
@@ -44,21 +37,7 @@ import {
 } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
-export default function FlightForm({
-  data,
-  mutation
-}: {
-  data: ReservationResponse;
-  mutation: ReturnType<
-    typeof useMutation<{ data: ReservationResponse }, Error, ReservationFormData>
-  >;
-  handleAdditionalOptions: (context: {
-    id: number;
-    type: ProductType;
-    title: string;
-    data: AdditionalOptions[];
-  }) => void;
-}) {
+export default function FlightForm({ data, mutation }: ProductFormProps) {
   const searchParams = useSearchParams();
   const reservation_id = searchParams.get('reservation_id')!;
 

@@ -1,3 +1,4 @@
+import { type useMutation } from '@tanstack/react-query';
 import {
   defaultAdditionalOptionValues,
   defaultCarValues,
@@ -252,3 +253,16 @@ export interface ApiResponse<T> {
 }
 
 export type ProductFormType = keyof ReservationItem;
+
+export interface ProductFormProps {
+  data: ReservationResponse;
+  mutation: ReturnType<
+    typeof useMutation<{ data: ReservationResponse }, Error, ReservationFormData>
+  >;
+  handleAdditionalOptions: (context: {
+    id: number;
+    type: ProductType;
+    title: string;
+    data: AdditionalOptions[];
+  }) => void;
+}

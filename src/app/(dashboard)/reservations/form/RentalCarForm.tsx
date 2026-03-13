@@ -8,13 +8,7 @@ import {
   REGIONS,
   RENTAL_CAR_SPECIAL_OPTIONS
 } from '@/constants';
-import type {
-  AdditionalOptions,
-  ProductFormType,
-  ProductType,
-  ReservationFormData,
-  ReservationResponse
-} from '@/types';
+import type { ProductFormProps, ProductFormType, ReservationFormData } from '@/types';
 import {
   extractDateString,
   isDev,
@@ -36,7 +30,6 @@ import {
   TextArea,
   TextField
 } from '@radix-ui/themes';
-import { useMutation } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { Car, Minus, Plus, Save } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
@@ -56,18 +49,7 @@ export default function RentalCarForm({
   data,
   mutation,
   handleAdditionalOptions
-}: {
-  data: ReservationResponse;
-  mutation: ReturnType<
-    typeof useMutation<{ data: ReservationResponse }, Error, ReservationFormData>
-  >;
-  handleAdditionalOptions: (context: {
-    id: number;
-    type: ProductType;
-    title: string;
-    data: AdditionalOptions[];
-  }) => void;
-}) {
+}: ProductFormProps) {
   const searchParams = useSearchParams();
   const reservation_id = searchParams.get('reservation_id')!;
 
