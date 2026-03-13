@@ -501,7 +501,8 @@ export default function InsuranceForm({
                       </Table.Cell>
                       <Table.Cell>
                         <TextArea
-                          size='1'
+                          size='3'
+                          resize='vertical'
                           {...register(`insurances.${i}.notes`, {
                             setValueAs: value => (typeof value === 'string' ? value.trim() : value)
                           })}

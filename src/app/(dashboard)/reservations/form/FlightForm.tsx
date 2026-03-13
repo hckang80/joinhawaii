@@ -369,7 +369,8 @@ export default function FlightForm({
                     </Table.Cell>
                     <Table.Cell>
                       <TextArea
-                        size='1'
+                        size='3'
+                        resize='vertical'
                         {...register(`flights.${i}.notes`, {
                           setValueAs: value => (typeof value === 'string' ? value.trim() : value)
                         })}

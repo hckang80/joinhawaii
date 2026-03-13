@@ -236,7 +236,11 @@ export default function AdditionalOptionsEditor({
                     />
                   </Table.Cell>
                   <Table.Cell>
-                    <TextArea size='1' {...register(`additionalOptions.${i}.notes`)} />
+                    <TextArea
+                      size='3'
+                      resize='vertical'
+                      {...register(`additionalOptions.${i}.notes`)}
+                    />
                   </Table.Cell>
                   <Table.Cell hidden>
                     <AdditionalOptionsTotals index={i} setValue={setValue} control={control} />

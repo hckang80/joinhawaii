@@ -489,7 +489,8 @@ export default function RentalCarForm({
                       </Table.Cell>
                       <Table.Cell>
                         <TextArea
-                          size='1'
+                          size='3'
+                          resize='vertical'
                           {...register(`rental_cars.${i}.notes`, {
                             setValueAs: value => (typeof value === 'string' ? value.trim() : value)
                           })}
