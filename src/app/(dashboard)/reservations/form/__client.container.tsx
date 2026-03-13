@@ -119,7 +119,11 @@ export default function ReservationsFormClientContainer({
         <ClientForm data={data} mutation={mutation} />
 
         {isModify &&
-          PRODUCT_OPTIONS.map(opt => {
+          PRODUCT_OPTIONS.toSorted((a, b) => {
+            const aLen = data?.products[a.table]?.length || 0;
+            const bLen = data?.products[b.table]?.length || 0;
+            return bLen - aLen;
+          }).map(opt => {
             const Component = {
               flight: FlightForm,
               hotel: HotelForm,
