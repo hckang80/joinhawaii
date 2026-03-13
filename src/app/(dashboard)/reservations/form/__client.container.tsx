@@ -118,39 +118,30 @@ export default function ReservationsFormClientContainer({
       <Flex direction='column' gap='5'>
         <ClientForm data={data} mutation={mutation} />
 
-        {isModify && <FlightForm data={data} mutation={mutation} />}
+        {isModify &&
+          PRODUCT_OPTIONS.toSorted((a, b) => {
+            const aLen = data?.products[a.table]?.length || 0;
+            const bLen = data?.products[b.table]?.length || 0;
+            return bLen - aLen;
+          }).map(opt => {
+            const Component = {
+              flight: FlightForm,
+              hotel: HotelForm,
+              tour: TourForm,
+              rental_car: RentalCarForm,
+              insurance: InsuranceForm
+            }[opt.value];
+            if (!Component) return null;
 
-        {isModify && (
-          <HotelForm
-            data={data}
-            mutation={mutation}
-            handleAdditionalOptions={handleAdditionalOptions}
-          />
-        )}
-
-        {isModify && (
-          <TourForm
-            data={data}
-            mutation={mutation}
-            handleAdditionalOptions={handleAdditionalOptions}
-          />
-        )}
-
-        {isModify && (
-          <RentalCarForm
-            data={data}
-            mutation={mutation}
-            handleAdditionalOptions={handleAdditionalOptions}
-          />
-        )}
-
-        {isModify && (
-          <InsuranceForm
-            data={data}
-            mutation={mutation}
-            handleAdditionalOptions={handleAdditionalOptions}
-          />
-        )}
+            return (
+              <Component
+                key={opt.value}
+                data={data}
+                mutation={mutation}
+                handleAdditionalOptions={handleAdditionalOptions}
+              />
+            );
+          })}
 
         {isModify && (
           <Flex justify='end' position='sticky' bottom='2' className={styles['exchange-rate-card']}>

@@ -1,6 +1,12 @@
 import { DateTimeInput, NoData, TimeInput } from '@/components';
 import { defaultFlightValues, PRODUCT_STATUS_COLOR, ProductStatus } from '@/constants';
-import type { ProductFormType, ReservationFormData, ReservationResponse } from '@/types';
+import type {
+  AdditionalOptions,
+  ProductFormType,
+  ProductType,
+  ReservationFormData,
+  ReservationResponse
+} from '@/types';
 import {
   calculateTotalAmount,
   extractDateString,
@@ -46,6 +52,12 @@ export default function FlightForm({
   mutation: ReturnType<
     typeof useMutation<{ data: ReservationResponse }, Error, ReservationFormData>
   >;
+  handleAdditionalOptions: (context: {
+    id: number;
+    type: ProductType;
+    title: string;
+    data: AdditionalOptions[];
+  }) => void;
 }) {
   const searchParams = useSearchParams();
   const reservation_id = searchParams.get('reservation_id')!;
