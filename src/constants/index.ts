@@ -70,67 +70,275 @@ export const CAR_TYPES = [
 export const ROOM_TYPES = ['1BED', '2BED', '1BED/2BED', '2BED/3BED', '3BED', '4BED'] as const;
 export const REGIONS = ['오아후', '마우이', '빅아일랜드', '카우아이', '라나이'] as const;
 export type Region = (typeof REGIONS)[number] | (string & {});
-export const HOTELS = [
-  '쉐라톤 와이키키 비치 리조트',
-  '더 웨스틴 마우이 리조트',
-  '아웃리거 코나 리조트',
-  '그랜드 하얏트 카우아이 리조트 앤 스파',
-  '쉐라톤 카우아이 리조트',
-  '하얏트 플레이스 와이키키 비치',
-  '로얄 라하이나 리조트',
-  '힐튼 와이콜로아 빌리지',
-  '그랜드 와일레아 리조트',
-  '페어몬트 오키드 마우나 라니',
-  '쉐라톤 프린세스 카이울라니',
-  '와이콜로아 비치 메리어트 리조트 앤 스파',
-  '쇼어라인 와이키키',
-  '쉐라톤 마우이 리조트 앤 스파',
-  '쉐라톤 카우아이 엣 코코넛 비치 ',
-  '힐튼 하와이안 빌리지',
-  '더 웨스틴 하푸나 비치리조트',
-  '더 카할라 리조트',
-  '로얄 코나 리조트',
-  '리츠칼튼 카팔루아',
-  '로얄 하와이언 럭셔리 컬렉션',
-  '그랜드 나닐로아 호텔 힐로 더블트리 바이 힐튼',
-  '하얏트 리젠시 마우이',
-  '코트야드 마우이 카훌루이 에어포트',
-  '카 라이 와이키키 비치 (구. 트럼프 와이키키)',
-  '와일레아 비치 메리어트 리조트',
-  '애스톤 코나 바이 더 시',
-  '리츠칼튼 레지던스 와이키키',
-  '할레쿨라니',
-  '레지던스 인 마우이 와일레아',
-  '포시즌 리조트 오아후 앳 코올리나',
-  '코트야드 킹 카메하메하 코나 비치',
-  '모아나 서프라이더 웨스틴 리조트',
-  '안다즈 마우이 앳 와일레아',
-  '마우이 비치 호텔',
-  '애스톤 카아나팔리 쇼어즈',
-  '힐튼 와이키키 비치',
-  '하얏트 리젠시 와이키키 비치 리조트 & 스파',
-  '와이키키 비치 메리어트 리조트 & 스파',
-  '하얏트 센트릭 와이키키 비치',
-  '알로힐라니 리조트 와이키키 비치',
-  '프린스 와이키키',
-  '아웃리거 리프 와키키키 비치 리조트',
-  '아웃리거 와이키키 비치 리조트',
-  '엠버시 스위트 바이 힐튼 와이키키 비치 워크',
-  '힐튼 가든 인 와이키키 비치',
-  '더 트윈 핀 비치 (구. 애스톤 와이키키비치)',
-  '파크 쇼어 와이키키',
-  '퀸 카피올라니 호텔',
-  '홀리데이 인 익스프레스 와이키키',
-  '코코넛 와이키키 호텔',
-  '와이키키 리조트 호텔',
-  '애스톤 와이키키 반얀',
-  '애스톤 와이키키 선셋',
-  '일리카이 호텔 & 럭셔리 스위트',
-  '애스톤 와이키키 비치 타워',
-  '호텔 라 크로익스',
-  '코트야드 바이 메리어트  와이키키 비치',
-  '카아나팔리 오션 인 리조트'
-];
+export const HOTELS = {
+  오아후: [
+    { value: '더 카할라 리조트', label: '더 카할라 리조트', en_label: 'THE KAHALA RESORT' },
+    { value: '더 트윈 핀 비치', label: '더 트윈 핀 비치', en_label: 'THE TWIN FIN BEACH' },
+    {
+      value: '로얄 하와이언 럭셔리 컬렉션',
+      label: '로얄 하와이언 럭셔리 컬렉션',
+      en_label: 'ROYAL HAWAIIAN LUXERY COLLECTION'
+    },
+    {
+      value: '리츠칼튼 레지던스 와이키키',
+      label: '리츠칼튼 레지던스 와이키키',
+      en_label: 'THE RITZCARLTON RESIDENCES WAIKIKI'
+    },
+    {
+      value: '모아나 서프라이더 웨스틴 리조트',
+      label: '모아나 서프라이더 웨스틴 리조트',
+      en_label: 'MOANA SURFRIDER A WESTIN RESORT SPA WAIKIKI BEACH'
+    },
+    { value: '쇼어라인 와이키키', label: '쇼어라인 와이키키', en_label: 'SHORELINE WAIKIKI' },
+    {
+      value: '쉐라톤 와이키키 비치 리조트',
+      label: '쉐라톤 와이키키 비치 리조트',
+      en_label: 'SHERATON WAIKIKI BEACH RESORT'
+    },
+    {
+      value: '쉐라톤 프린세스 카이울라니',
+      label: '쉐라톤 프린세스 카이울라니',
+      en_label: 'SHERATON PRINCESS KAIULANI'
+    },
+    {
+      value: '아웃리거 리프 와키키키 비치 리조트',
+      label: '아웃리거 리프 와키키키 비치 리조트',
+      en_label: 'OUTRIGGER REEF WAIKIKI BEACH RESORT'
+    },
+    {
+      value: '아웃리거 와이키키 비치 리조트',
+      label: '아웃리거 와이키키 비치 리조트',
+      en_label: 'OUTRIGGER WAIKIKI BEACH RESORT'
+    },
+    {
+      value: '알로힐라니 리조트 와이키키 비치',
+      label: '알로힐라니 리조트 와이키키 비치',
+      en_label: 'ALOHILANI RESORT WAIKIKI BEACH'
+    },
+    {
+      value: '애스톤 와이키키 반얀',
+      label: '애스톤 와이키키 반얀',
+      en_label: 'ASTON WAIKIKI BANYAN'
+    },
+    {
+      value: '애스톤 와이키키 비치 타워',
+      label: '애스톤 와이키키 비치 타워',
+      en_label: 'ASTON WAIKIKI BEACH TOWER'
+    },
+    {
+      value: '애스톤 와이키키 선셋',
+      label: '애스톤 와이키키 선셋',
+      en_label: 'ASTON WAIKIKI SUNSET'
+    },
+    {
+      value: '엠버시 스위트 바이 힐튼 와이키키 비치 워크',
+      label: '엠버시 스위트 바이 힐튼 와이키키 비치 워크',
+      en_label: 'EMBASSY SUITES BY HILTON WAIKIKI BEACH WALK'
+    },
+    {
+      value: '와이키키 리조트 호텔',
+      label: '와이키키 리조트 호텔',
+      en_label: 'WAIKIKI RESORT HOTEL'
+    },
+    {
+      value: '와이키키 비치 메리어트 리조트 & 스파',
+      label: '와이키키 비치 메리어트 리조트 & 스파',
+      en_label: 'WAIKIKI BEACH MARRIOTT RESORT'
+    },
+    {
+      value: '일리카이 호텔 & 럭셔리 스위트',
+      label: '일리카이 호텔 & 럭셔리 스위트',
+      en_label: 'ILIKAI HOTEL LUXURY SUITES'
+    },
+    {
+      value: '카 라이 와이키키 비치',
+      label: '카 라이 와이키키 비치',
+      en_label: 'KA LAI WAIKIKI BEACH'
+    },
+    {
+      value: '코코넛 와이키키 호텔',
+      label: '코코넛 와이키키 호텔',
+      en_label: 'COCONUT WAIKIKI HOTEL'
+    },
+    {
+      value: '코트야드 바이 메리어트 와이키키 비치',
+      label: '코트야드 바이 메리어트 와이키키 비치',
+      en_label: 'COURTYARD BY MARRIOTT WAIKIKI BEACH'
+    },
+    { value: '퀸 카피올라니 호텔', label: '퀸 카피올라니 호텔', en_label: 'QUEEN KAPIOLANI HOTEL' },
+    { value: '파크 쇼어 와이키키', label: '파크 쇼어 와이키키', en_label: 'PARK SHORE WAIKIKI' },
+    {
+      value: '포시즌 리조트 오아후 앳 코올리나',
+      label: '포시즌 리조트 오아후 앳 코올리나',
+      en_label: 'FOUR SEASONS RESORT OAHU AT KO OLINA'
+    },
+    { value: '프린스 와이키키', label: '프린스 와이키키', en_label: 'PRINCE WAIKIKI HOTEL' },
+    {
+      value: '하얏트 리젠시 와이키키 비치 리조트 & 스파',
+      label: '하얏트 리젠시 와이키키 비치 리조트 & 스파',
+      en_label: 'HYATT REGENCY WAIKIKI BEACH RESORT AND SPA'
+    },
+    {
+      value: '하얏트 센트릭 와이키키 비치',
+      label: '하얏트 센트릭 와이키키 비치',
+      en_label: 'HYATT CENTRIC WAIKIKI BEACH'
+    },
+    {
+      value: '하얏트 플레이스 와이키키 비치',
+      label: '하얏트 플레이스 와이키키 비치',
+      en_label: 'HYATT PLACE WAIKIKI BEACH'
+    },
+    { value: '할레쿨라니', label: '할레쿨라니', en_label: 'HALEKULANI' },
+    { value: '호텔 라 크로익스', label: '호텔 라 크로익스', en_label: 'HOTEL LA CROIX' },
+    {
+      value: '홀리데이 인 익스프레스 와이키키',
+      label: '홀리데이 인 익스프레스 와이키키',
+      en_label: 'HOLIDAY INN EXPRESS WAIKIKI'
+    },
+    {
+      value: '힐튼 가든 인 와이키키 비치',
+      label: '힐튼 가든 인 와이키키 비치',
+      en_label: 'HILTON GARDEN INN WAIKIKI BEACH'
+    },
+    { value: '힐튼 와이키키 비치', label: '힐튼 와이키키 비치', en_label: 'HILTON WAIKIKI BEACH' },
+    {
+      value: '힐튼 하와이안 빌리지',
+      label: '힐튼 하와이안 빌리지',
+      en_label: 'HILTON HAWAIIAN VILLAGE'
+    }
+  ],
+  마우이: [
+    {
+      value: '그랜드 와일레아 리조트',
+      label: '그랜드 와일레아 리조트',
+      en_label: 'GRAND WAILEA RESORT'
+    },
+    {
+      value: '더 웨스틴 마우이 리조트',
+      label: '더 웨스틴 마우이 리조트',
+      en_label: 'THE WESTIN MAUI RESORT'
+    },
+    {
+      value: '리츠칼튼 카팔루아',
+      label: '리츠칼튼 카팔루아',
+      en_label: 'THE RITZCARLTON KAPALUA'
+    },
+    {
+      value: '레지던스 인 마우이 와일레아',
+      label: '레지던스 인 마우이 와일레아',
+      en_label: 'RESIDENCE INN MAUI WAILEA'
+    },
+    {
+      value: '로얄 라하이나 리조트',
+      label: '로얄 라하이나 리조트',
+      en_label: 'ROYAL LAHAINA RESORT'
+    },
+    {
+      value: '마우이 비치 호텔',
+      label: '마우이 비치 호텔',
+      en_label: 'MAUI BEACH HOTEL'
+    },
+    {
+      value: '쉐라톤 마우이 리조트 앤 스파',
+      label: '쉐라톤 마우이 리조트 앤 스파',
+      en_label: 'SHERATON MAUI RESORT AND SPA'
+    },
+    {
+      value: '안다즈 마우이 앳 와일레아',
+      label: '안다즈 마우이 앳 와일레아',
+      en_label: 'ANDAZ MAUI AT WAILEA'
+    },
+    {
+      value: '애스톤 카아나팔리 쇼어즈',
+      label: '애스톤 카아나팔리 쇼어즈',
+      en_label: 'ASTON KAANAPALI SHORES'
+    },
+    {
+      value: '와일레아 비치 메리어트 리조트',
+      label: '와일레아 비치 메리어트 리조트',
+      en_label: 'WAILEA BEACH MARRIOTT RESORT'
+    },
+    {
+      value: '카아나팔리 오션 인 리조트',
+      label: '카아나팔리 오션 인 리조트',
+      en_label: 'KAANAPALI OCEAN INN RESORT'
+    },
+    {
+      value: '코트야드 마우이 카훌루이 에어포트',
+      label: '코트야드 마우이 카훌루이 에어포트',
+      en_label: 'COURTYARD MAUI KAHULUI AIRPORT'
+    },
+    {
+      value: '하얏트 리젠시 마우이',
+      label: '하얏트 리젠시 마우이',
+      en_label: 'HYATT REGENCY MAUI RESORT AND SPA'
+    }
+  ],
+  빅아일랜드: [
+    {
+      value: '더 웨스틴 하푸나 비치리조트',
+      label: '더 웨스틴 하푸나 비치리조트',
+      en_label: 'THE WESTIN HAPUNA BEACH RESORT'
+    },
+    {
+      value: '그랜드 나닐로아 호텔 힐로 더블트리 바이 힐튼',
+      label: '그랜드 나닐로아 호텔 힐로 더블트리 바이 힐튼',
+      en_label: 'GRAND NANILOA HOTEL HILO A DOUBLETREE BY HILTON'
+    },
+    {
+      value: '로얄 코나 리조트',
+      label: '로얄 코나 리조트',
+      en_label: 'ROYAL KONA RESORT'
+    },
+    {
+      value: '아웃리거 코나 리조트',
+      label: '아웃리거 코나 리조트',
+      en_label: 'OUTRIGGER KONA AT KEAUHOU BAY'
+    },
+    {
+      value: '애스톤 코나 바이 더 시',
+      label: '애스톤 코나 바이 더 시',
+      en_label: 'ASTON KONA BY THE SEA'
+    },
+    {
+      value: '코트야드 킹 카메하메하 코나 비치',
+      label: '코트야드 킹 카메하메하 코나 비치',
+      en_label: 'COURTYARD KING KAMEHAMEHAS KONA BEACH HOTEL'
+    },
+    {
+      value: '페어몬트 오키드 마우나 라니',
+      label: '페어몬트 오키드 마우나 라니',
+      en_label: 'FAIRMONT ORCHID MAUNA LANI '
+    },
+    {
+      value: '와이콜로아 비치 메리어트 리조트 앤 스파',
+      label: '와이콜로아 비치 메리어트 리조트 앤 스파',
+      en_label: 'WAIKOLOA BEACH MARRIOTT RESORT SPA'
+    },
+    {
+      value: '힐튼 와이콜로아 빌리지',
+      label: '힐튼 와이콜로아 빌리지',
+      en_label: 'HILTON WAIKOLOA VILLAGE'
+    }
+  ],
+  카우아이: [
+    {
+      value: '그랜드 하얏트 카우아이 리조트 앤 스파',
+      label: '그랜드 하얏트 카우아이 리조트 앤 스파',
+      en_label: 'GRAND HYATT KAUAI RESORT SPA'
+    },
+    {
+      value: '쉐라톤 카우아이 리조트',
+      label: '쉐라톤 카우아이 리조트',
+      en_label: 'SHEREATON KAUAI RESORT'
+    },
+    {
+      value: '쉐라톤 카우아이 엣 코코넛 비치',
+      label: '쉐라톤 카우아이 엣 코코넛 비치',
+      en_label: 'SHERATON KAUAI AT COCONUT BEACH'
+    }
+  ]
+} as const;
 
 export const TRIP_TYPES = ['허니문', '가족여행', '일반', '단체'] as const;
 export type TripType = (typeof TRIP_TYPES)[number] | (string & {});
@@ -161,6 +369,7 @@ export const BOOKING_PLATFORM_OPTIONS = {
     { value: '네이버', label: '네이버' },
     { value: '마이리얼트립', label: '마이리얼트립' },
     { value: '와그', label: '와그' },
+    { value: '클룩', label: '클룩' },
     { value: '트리플', label: '트리플' }
   ]
 } as const;
