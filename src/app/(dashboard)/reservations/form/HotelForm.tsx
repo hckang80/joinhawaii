@@ -113,7 +113,7 @@ export default function HotelForm({ data, mutation, handleAdditionalOptions }: P
   const refundAdditionalOptions = refundItem?.additional_options || [];
 
   const openDialog = (id: number) => setRefundId(id);
-  const customBookingPlatformRef = useRef('');
+  const customHotelNameRef = useRef('');
 
   return (
     <>
@@ -261,10 +261,10 @@ export default function HotelForm({ data, mutation, handleAdditionalOptions }: P
 
                             const handleSelectChange = (value: string) => {
                               if (value === CUSTOM_LABEL) {
-                                field.onChange(customBookingPlatformRef.current || '');
+                                field.onChange(customHotelNameRef.current || '');
                               } else {
                                 if (isCustom && field.value && field.value !== CUSTOM_LABEL) {
-                                  customBookingPlatformRef.current = field.value;
+                                  customHotelNameRef.current = field.value;
                                 }
                                 field.onChange(value);
                               }
@@ -273,7 +273,7 @@ export default function HotelForm({ data, mutation, handleAdditionalOptions }: P
                             const handleCustomInputChange = (
                               e: React.ChangeEvent<HTMLInputElement>
                             ) => {
-                              customBookingPlatformRef.current = e.target.value;
+                              customHotelNameRef.current = e.target.value;
                               field.onChange(e.target.value);
                             };
 
@@ -310,7 +310,7 @@ export default function HotelForm({ data, mutation, handleAdditionalOptions }: P
                                   <TextField.Root
                                     value={
                                       field.value === CUSTOM_LABEL
-                                        ? customBookingPlatformRef.current
+                                        ? customHotelNameRef.current
                                         : field.value
                                     }
                                     onChange={handleCustomInputChange}
