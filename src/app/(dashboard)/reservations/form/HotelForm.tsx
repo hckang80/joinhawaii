@@ -251,6 +251,7 @@ export default function HotelForm({ data, mutation, handleAdditionalOptions }: P
                         <Controller
                           name={`hotels.${i}.hotel_name`}
                           control={control}
+                          rules={{ required: true }}
                           render={({ field }) => {
                             const isCustom =
                               field.value === CUSTOM_LABEL ||
