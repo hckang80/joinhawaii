@@ -291,11 +291,13 @@ export default function HotelForm({ data, mutation, handleAdditionalOptions }: P
                                       <div key={groupLabel}>
                                         <Select.Group key={groupLabel}>
                                           <Select.Label>{groupLabel}</Select.Label>
-                                          {options.map(({ value, label }) => (
-                                            <Select.Item key={value} value={value}>
-                                              {label}
-                                            </Select.Item>
-                                          ))}
+                                          {options
+                                            .toSorted((a, b) => a.label.localeCompare(b.label))
+                                            .map(({ value, label }) => (
+                                              <Select.Item key={value} value={value}>
+                                                {label}
+                                              </Select.Item>
+                                            ))}
                                         </Select.Group>
                                         <Select.Separator />
                                       </div>
