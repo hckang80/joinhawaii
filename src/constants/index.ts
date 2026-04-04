@@ -77,7 +77,7 @@ export const HOTELS: Record<Region, { value: string; label: string; en_label: st
     {
       value: '로얄 하와이언 럭셔리 컬렉션',
       label: '로얄 하와이언 럭셔리 컬렉션',
-      en_label: 'ROYAL HAWAIIAN LUXERY COLLECTION'
+      en_label: 'ROYAL HAWAIIAN LUXURY COLLECTION'
     },
     {
       value: '리츠칼튼 레지던스 와이키키',
