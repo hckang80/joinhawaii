@@ -3,7 +3,7 @@
 import { Flex, Select, TextField } from '@radix-ui/themes';
 import { useRef } from 'react';
 import type { ControllerRenderProps, FieldPath, FieldValues } from 'react-hook-form';
-import { CUSTOM_LABEL } from '../constants';
+import { CUSTOM_LABEL, GroupSelectOption } from '../constants';
 
 export function GroupSelect<
   TFieldValues extends FieldValues = FieldValues,
@@ -13,7 +13,7 @@ export function GroupSelect<
   list
 }: {
   field: ControllerRenderProps<TFieldValues, TName>;
-  list: Record<string, { value: string; label: string; en_label: string }[]>;
+  list: Record<string, GroupSelectOption[]>;
 }) {
   const customHotelNameRef = useRef('');
 
