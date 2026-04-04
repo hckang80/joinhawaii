@@ -46,7 +46,7 @@ export function GroupSelect<
   };
 
   return (
-    <Flex gap='2' align='center'>
+    <Flex gap='2' align='center' wrap='wrap'>
       <Select.Root
         value={isCustom ? CUSTOM_LABEL : field.value}
         onValueChange={handleSelectChange}
