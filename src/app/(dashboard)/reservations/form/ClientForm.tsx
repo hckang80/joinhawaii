@@ -1,3 +1,4 @@
+import { GroupSelect } from '@/components';
 import {
   BOOKING_PLATFORM_OPTIONS,
   defaultClientValues,
@@ -30,7 +31,6 @@ import { useRouter } from 'nextjs-toploader/app';
 import React, { useMemo } from 'react';
 import { Controller, SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { GroupSelect } from '../../../../components';
 
 const status$ = observable({
   reservationIndex: 0

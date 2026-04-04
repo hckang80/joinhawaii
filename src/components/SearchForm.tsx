@@ -1,5 +1,6 @@
 'use client';
 
+import { GroupSelect } from '@/components';
 import {
   BOOKING_PLATFORM_OPTIONS,
   PaymentStatus,
@@ -15,7 +16,6 @@ import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
 import { ReactNode, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { GroupSelect } from './GroupSelect';
 
 type SearchType = 'reception_date' | 'event_date';
 
