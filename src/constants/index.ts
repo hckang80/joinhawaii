@@ -330,7 +330,7 @@ export const HOTELS: Record<Region, { value: string; label: string; en_label: st
     {
       value: '쉐라톤 카우아이 리조트',
       label: '쉐라톤 카우아이 리조트',
-      en_label: 'SHEREATON KAUAI RESORT'
+      en_label: 'SHERATON KAUAI RESORT'
     },
     {
       value: '쉐라톤 카우아이 엣 코코넛 비치',
