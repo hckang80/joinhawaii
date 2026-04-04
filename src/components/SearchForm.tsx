@@ -2,7 +2,6 @@
 
 import {
   BOOKING_PLATFORM_OPTIONS,
-  CUSTOM_LABEL,
   PaymentStatus,
   PRODUCT_OPTIONS,
   ProductStatus
@@ -16,6 +15,7 @@ import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
 import { ReactNode, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { GroupSelect } from './GroupSelect';
 
 type SearchType = 'reception_date' | 'event_date';
 
@@ -182,71 +182,7 @@ export function SearchForm({
                 name='booking_platform'
                 control={control}
                 render={({ field }) => {
-                  const isCustom =
-                    field.value !== '전체' &&
-                    (field.value === CUSTOM_LABEL ||
-                      !Object.values(BOOKING_PLATFORM_OPTIONS)
-                        .flat()
-                        .some(opt => opt.value === field.value));
-
-                  const handleSelectChange = (value: string) => {
-                    if (value === CUSTOM_LABEL) {
-                      field.onChange(customBookingPlatformRef.current || '');
-                    } else {
-                      if (isCustom && field.value && field.value !== CUSTOM_LABEL) {
-                        customBookingPlatformRef.current = field.value;
-                      }
-                      field.onChange(value);
-                    }
-                  };
-
-                  const handleCustomInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-                    customBookingPlatformRef.current = e.target.value;
-                    field.onChange(e.target.value);
-                  };
-
-                  return (
-                    <Flex gap='2' wrap='wrap' align='center'>
-                      <Select.Root
-                        value={isCustom ? CUSTOM_LABEL : field.value}
-                        onValueChange={handleSelectChange}
-                        size='2'
-                      >
-                        <Select.Trigger placeholder='전체' className='w-full'>
-                          {isCustom ? CUSTOM_LABEL : field.value}
-                        </Select.Trigger>
-                        <Select.Content>
-                          <Select.Item value='전체'>전체</Select.Item>
-                          {Object.entries(BOOKING_PLATFORM_OPTIONS).map(([groupLabel, options]) => (
-                            <div key={groupLabel}>
-                              <Select.Group>
-                                <Select.Label>{groupLabel}</Select.Label>
-                                {options
-                                  .toSorted((a, b) => a.label.localeCompare(b.label))
-                                  .map(({ value, label }) => (
-                                    <Select.Item key={value} value={value}>
-                                      {label}
-                                    </Select.Item>
-                                  ))}
-                              </Select.Group>
-                              <Select.Separator />
-                            </div>
-                          ))}
-                          <Select.Item value={CUSTOM_LABEL}>{CUSTOM_LABEL}</Select.Item>
-                        </Select.Content>
-                      </Select.Root>
-                      {isCustom && (
-                        <TextField.Root
-                          value={
-                            field.value === CUSTOM_LABEL
-                              ? customBookingPlatformRef.current
-                              : field.value
-                          }
-                          onChange={handleCustomInputChange}
-                        />
-                      )}
-                    </Flex>
-                  );
+                  return <GroupSelect field={field} list={BOOKING_PLATFORM_OPTIONS} />;
                 }}
               />
             </Table.Cell>

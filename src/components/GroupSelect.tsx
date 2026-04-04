@@ -18,10 +18,11 @@ export function GroupSelect<
   const customHotelNameRef = useRef('');
 
   const isCustom =
-    field.value === CUSTOM_LABEL ||
-    !Object.values(list)
-      .flat()
-      .some(opt => opt.value === field.value);
+    field.value !== '전체' &&
+    (field.value === CUSTOM_LABEL ||
+      !Object.values(list)
+        .flat()
+        .some(opt => opt.value === field.value));
 
   const handleSelectChange = (value: string) => {
     if (value === CUSTOM_LABEL) {
@@ -46,6 +47,11 @@ export function GroupSelect<
         onValueChange={handleSelectChange}
         name={field.name}
       >
+        {/* <Select.Trigger placeholder='전체' className='w-full'>
+          {isCustom ? CUSTOM_LABEL : field.value}
+        </Select.Trigger>
+        <Select.Content>
+          <Select.Item value='전체'>전체</Select.Item> */}
         <Select.Trigger placeholder='선택' style={{ width: '200px' }}>
           {isCustom ? CUSTOM_LABEL : field.value}
         </Select.Trigger>
