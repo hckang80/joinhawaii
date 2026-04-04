@@ -1,7 +1,7 @@
 'use client';
 
 import { Flex, Select, TextField } from '@radix-ui/themes';
-import { MutableRefObject, useRef } from 'react';
+import { type RefObject, useRef } from 'react';
 import type { ControllerRenderProps, FieldPath, FieldValues } from 'react-hook-form';
 import { CUSTOM_LABEL, GroupSelectOption } from '../constants';
 
@@ -17,7 +17,7 @@ export function GroupSelect<
   field: ControllerRenderProps<TFieldValues, TName>;
   list: Record<string, GroupSelectOption[]>;
   includeAllOption?: boolean;
-  customValueRef?: MutableRefObject<string>;
+  customValueRef?: RefObject<string>;
 }) {
   const internalCustomValueRef = useRef('');
   const customValueRef = externalCustomValueRef ?? internalCustomValueRef;
