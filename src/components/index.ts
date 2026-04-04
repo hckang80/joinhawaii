@@ -1,5 +1,6 @@
 export { CustomSelectInput } from './CustomSelectInput';
 export { DateTimeInput } from './DateTimeInput';
+export { GroupSelect } from './GroupSelect';
 export { Loader } from './Loader';
 export { NoData } from './NoData';
 export { Paginate } from './Paginate';
