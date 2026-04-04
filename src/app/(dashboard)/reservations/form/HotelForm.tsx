@@ -1,5 +1,6 @@
-import { CustomSelectInput, NoData, ProductOptionBadge } from '@/components';
+import { NoData, ProductOptionBadge } from '@/components';
 import {
+  CUSTOM_LABEL,
   defaultHotelValues,
   HOTELS,
   PRODUCT_STATUS_COLOR,
@@ -25,7 +26,7 @@ import {
 import clsx from 'clsx';
 import { Hotel, Minus, Plus, Save } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   type Control,
   Controller,
@@ -112,6 +113,7 @@ export default function HotelForm({ data, mutation, handleAdditionalOptions }: P
   const refundAdditionalOptions = refundItem?.additional_options || [];
 
   const openDialog = (id: number) => setRefundId(id);
+  const customHotelNameRef = useRef('');
 
   return (
     <>
@@ -251,14 +253,70 @@ export default function HotelForm({ data, mutation, handleAdditionalOptions }: P
                           control={control}
                           rules={{ required: true }}
                           render={({ field }) => {
+                            const isCustom =
+                              field.value === CUSTOM_LABEL ||
+                              !Object.values(HOTELS)
+                                .flat()
+                                .some(opt => opt.value === field.value);
+
+                            const handleSelectChange = (value: string) => {
+                              if (value === CUSTOM_LABEL) {
+                                field.onChange(customHotelNameRef.current || '');
+                              } else {
+                                if (isCustom && field.value && field.value !== CUSTOM_LABEL) {
+                                  customHotelNameRef.current = field.value;
+                                }
+                                field.onChange(value);
+                              }
+                            };
+
+                            const handleCustomInputChange = (
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => {
+                              customHotelNameRef.current = e.target.value;
+                              field.onChange(e.target.value);
+                            };
+
                             return (
-                              <CustomSelectInput
-                                ref={field.ref}
-                                value={field.value}
-                                options={HOTELS}
-                                onChange={field.onChange}
-                                placeholder='호텔 선택'
-                              />
+                              <Flex gap='2' align='center'>
+                                <Select.Root
+                                  value={isCustom ? CUSTOM_LABEL : field.value}
+                                  onValueChange={handleSelectChange}
+                                  name={field.name}
+                                >
+                                  <Select.Trigger placeholder='선택' style={{ width: '200px' }}>
+                                    {isCustom ? CUSTOM_LABEL : field.value}
+                                  </Select.Trigger>
+                                  <Select.Content>
+                                    {Object.entries(HOTELS).map(([groupLabel, options]) => (
+                                      <div key={groupLabel}>
+                                        <Select.Group key={groupLabel}>
+                                          <Select.Label>{groupLabel}</Select.Label>
+                                          {options
+                                            .toSorted((a, b) => a.label.localeCompare(b.label))
+                                            .map(({ value, label }) => (
+                                              <Select.Item key={value} value={value}>
+                                                {label}
+                                              </Select.Item>
+                                            ))}
+                                        </Select.Group>
+                                        <Select.Separator />
+                                      </div>
+                                    ))}
+                                    <Select.Item value={CUSTOM_LABEL}>{CUSTOM_LABEL}</Select.Item>
+                                  </Select.Content>
+                                </Select.Root>
+                                {isCustom && (
+                                  <TextField.Root
+                                    value={
+                                      field.value === CUSTOM_LABEL
+                                        ? customHotelNameRef.current
+                                        : field.value
+                                    }
+                                    onChange={handleCustomInputChange}
+                                  />
+                                )}
+                              </Flex>
                             );
                           }}
                         />
