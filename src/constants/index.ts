@@ -308,7 +308,7 @@ export const HOTELS: Record<Region, { value: string; label: string; en_label: st
     {
       value: '페어몬트 오키드 마우나 라니',
       label: '페어몬트 오키드 마우나 라니',
-      en_label: 'FAIRMONT ORCHID MAUNA LANI '
+      en_label: 'FAIRMONT ORCHID MAUNA LANI'
     },
     {
       value: '와이콜로아 비치 메리어트 리조트 앤 스파',
