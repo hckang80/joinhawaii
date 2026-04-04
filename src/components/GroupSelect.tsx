@@ -1,7 +1,7 @@
 'use client';
 
 import { Flex, Select, TextField } from '@radix-ui/themes';
-import { useRef } from 'react';
+import { MutableRefObject, useRef } from 'react';
 import type { ControllerRenderProps, FieldPath, FieldValues } from 'react-hook-form';
 import { CUSTOM_LABEL, GroupSelectOption } from '../constants';
 
@@ -11,13 +11,16 @@ export function GroupSelect<
 >({
   field,
   list,
-  includeAllOption
+  includeAllOption,
+  customValueRef: externalCustomValueRef
 }: {
   field: ControllerRenderProps<TFieldValues, TName>;
   list: Record<string, GroupSelectOption[]>;
   includeAllOption?: boolean;
+  customValueRef?: MutableRefObject<string>;
 }) {
-  const customHotelNameRef = useRef('');
+  const internalCustomValueRef = useRef('');
+  const customValueRef = externalCustomValueRef ?? internalCustomValueRef;
 
   const isCustom =
     field.value !== '전체' &&
@@ -28,17 +31,17 @@ export function GroupSelect<
 
   const handleSelectChange = (value: string) => {
     if (value === CUSTOM_LABEL) {
-      field.onChange(customHotelNameRef.current || '');
+      field.onChange(customValueRef.current || '');
     } else {
       if (isCustom && field.value && field.value !== CUSTOM_LABEL) {
-        customHotelNameRef.current = field.value;
+        customValueRef.current = field.value;
       }
       field.onChange(value);
     }
   };
 
   const handleCustomInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    customHotelNameRef.current = e.target.value;
+    customValueRef.current = e.target.value;
     field.onChange(e.target.value);
   };
 
@@ -74,7 +77,7 @@ export function GroupSelect<
       </Select.Root>
       {isCustom && (
         <TextField.Root
-          value={field.value === CUSTOM_LABEL ? customHotelNameRef.current : field.value}
+          value={field.value === CUSTOM_LABEL ? customValueRef.current : field.value}
           onChange={handleCustomInputChange}
         />
       )}

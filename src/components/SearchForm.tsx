@@ -183,7 +183,12 @@ export function SearchForm({
                 control={control}
                 render={({ field }) => {
                   return (
-                    <GroupSelect field={field} list={BOOKING_PLATFORM_OPTIONS} includeAllOption />
+                    <GroupSelect
+                      field={field}
+                      list={BOOKING_PLATFORM_OPTIONS}
+                      includeAllOption
+                      customValueRef={customBookingPlatformRef}
+                    />
                   );
                 }}
               />
