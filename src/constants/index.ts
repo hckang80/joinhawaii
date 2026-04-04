@@ -70,7 +70,7 @@ export const CAR_TYPES = [
 export const ROOM_TYPES = ['1BED', '2BED', '1BED/2BED', '2BED/3BED', '3BED', '4BED'] as const;
 export const REGIONS = ['오아후', '마우이', '빅아일랜드', '카우아이'] as const;
 export type Region = (typeof REGIONS)[number] | (string & {});
-export const HOTELS: Record<Region, { value: string; label: string; en_label: string }[]> = {
+export const HOTELS: Record<string, { value: string; label: string; en_label: string }[]> = {
   오아후: [
     { value: '더 카할라 리조트', label: '더 카할라 리조트', en_label: 'THE KAHALA RESORT' },
     { value: '더 트윈 핀 비치', label: '더 트윈 핀 비치', en_label: 'THE TWIN FIN BEACH' },
