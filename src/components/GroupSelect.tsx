@@ -10,10 +10,12 @@ export function GroupSelect<
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >({
   field,
-  list
+  list,
+  includeAllOption
 }: {
   field: ControllerRenderProps<TFieldValues, TName>;
   list: Record<string, GroupSelectOption[]>;
+  includeAllOption?: boolean;
 }) {
   const customHotelNameRef = useRef('');
 
@@ -47,15 +49,11 @@ export function GroupSelect<
         onValueChange={handleSelectChange}
         name={field.name}
       >
-        {/* <Select.Trigger placeholder='전체' className='w-full'>
+        <Select.Trigger placeholder='선택' className='w-full'>
           {isCustom ? CUSTOM_LABEL : field.value}
         </Select.Trigger>
         <Select.Content>
-          <Select.Item value='전체'>전체</Select.Item> */}
-        <Select.Trigger placeholder='선택' style={{ width: '200px' }}>
-          {isCustom ? CUSTOM_LABEL : field.value}
-        </Select.Trigger>
-        <Select.Content>
+          {includeAllOption && <Select.Item value='전체'>전체</Select.Item>}
           {Object.entries(list).map(([groupLabel, options]) => (
             <div key={groupLabel}>
               <Select.Group key={groupLabel}>
