@@ -381,6 +381,469 @@ export const BOOKING_PLATFORM_OPTIONS: Record<Platform, GroupSelectOption[]> = {
   ]
 };
 
+export const TOURS = ['공항셔틀', '일주관광', '해양스포츠', '액티비티', '스냅', '기타'] as const;
+export type Tour = (typeof TOURS)[number] | (string & {});
+export const TOURS_OPTIONS: Record<Tour, GroupSelectOption[]> = {
+  공항셔틀: [
+    {
+      value: '[공항 셔틀서비스]한인택시 단독 공항-와이키키 픽업',
+      label: '[공항 셔틀서비스]한인택시 단독 공항-와이키키 픽업',
+      en_label: 'AIRPORT TRANSPORTATION AIRPORT-WAIKIKI PICKUP'
+    },
+    {
+      value: '[공항 셔틀서비스]한인택시 단독 와이키키-공항 샌딩',
+      label: '[공항 셔틀서비스]한인택시 단독 와이키키-공항 샌딩',
+      en_label: 'AIRPORT TRANSPORTATION WAIKIKI-AIRPORT SANDING'
+    },
+    {
+      value: '[공항 셔틀서비스]한인택시 단독 공항-와이키키 픽업샌딩 왕복',
+      label: '[공항 셔틀서비스]한인택시 단독 공항-와이키키 픽업샌딩 왕복',
+      en_label: 'AIRPORT TRANSPORTATION AIRPORT-WAIKIKI'
+    },
+    {
+      value: '[공항 셔틀서비스]10인승 단독 공항-와이키키 픽업',
+      label: '[공항 셔틀서비스]10인승 단독 공항-와이키키 픽업',
+      en_label: 'AIRPORT TRANSPORTATION AIRPORT-WAIKIKI PICKUP 10PAX'
+    },
+    {
+      value: '[공항 셔틀서비스]10인승 단독 와이키키-공항 샌딩',
+      label: '[공항 셔틀서비스]10인승 단독 와이키키-공항 샌딩',
+      en_label: 'AIRPORT TRANSPORTATION WAIKIKI-AIRPORT SANDING 10PAX'
+    },
+    {
+      value: '[공항 셔틀서비스]10인승 단독 공항-와이키키 픽업샌딩 왕복',
+      label: '[공항 셔틀서비스]10인승 단독 공항-와이키키 픽업샌딩 왕복',
+      en_label: 'AIRPORT TRANSPORTATION AIRPORT-WAIKIKI 10PAX'
+    }
+  ],
+  일주관광: [
+    {
+      value: '[오아후섬 투어]단독 2~3인승',
+      label: '[오아후섬 투어]단독 2~3인승',
+      en_label: 'OAHU ISLAND TOUR CHARTER 2~3PAX'
+    },
+    {
+      value: '[오아후섬 투어]단독 4~5인승',
+      label: '[오아후섬 투어]단독 4~5인승',
+      en_label: 'OAHU ISLAND TOUR CHARTER 4~5PAX'
+    },
+    {
+      value: '[오아후섬 투어]단독 10인승',
+      label: '[오아후섬 투어]단독 10인승',
+      en_label: 'OAHU ISLAND TOUR CHARTER 10PAX'
+    },
+    {
+      value: '[오아후섬 투어]합류',
+      label: '[오아후섬 투어]합류',
+      en_label: 'OAHU ISLAND TOUR JOIN'
+    },
+    {
+      value: '[일일관광]빅아일랜드 와이키키픽업',
+      label: '[일일관광]빅아일랜드 와이키키픽업',
+      en_label: 'ONE DAY BIGISLAND TOUR WAIKIKI'
+    },
+    {
+      value: '[ 일일관광]빅아일랜드 코나/힐로픽업',
+      label: '[ 일일관광]빅아일랜드 코나/힐로픽업',
+      en_label: 'ONE DAY BIGISLAND TOUR KONA/HILLO'
+    },
+    {
+      value: '[일일관광]마우이',
+      label: '[일일관광]마우이',
+      en_label: 'ONE DAY MAUI TOUR'
+    },
+    {
+      value: '[일일관광]카우아이',
+      label: '[일일관광]카우아이',
+      en_label: 'ONE DAY KAUAI TOUR'
+    }
+  ],
+  해양스포츠: [
+    { value: '돌핀 앤 유', label: '돌핀 앤 유', en_label: 'DOLPHINE AND YOU' },
+    {
+      value: '(마우이) 몰로키니 스노클링 - 칼립소',
+      label: '(마우이) 몰로키니 스노클링 - 칼립소',
+      en_label: 'MAUI MOLOKINI SNORKELING CALYPSO'
+    },
+    {
+      value: '(빅아일랜드) 코나 만타레이 선셋 스노클링',
+      label: '(빅아일랜드) 코나 만타레이 선셋 스노클링',
+      en_label: 'KONA MANTARAY SNOKELING'
+    },
+    {
+      value: '[카네오헤 샌드바 어드밴처]스탠다드',
+      label: '[카네오헤 샌드바 어드밴처]스탠다드',
+      en_label: 'KANEOHE SANDBAR ADVENTURE STANDARD'
+    },
+    {
+      value: '[카네오헤 샌드바 어드밴처]디럭스',
+      label: '[카네오헤 샌드바 어드밴처]디럭스',
+      en_label: 'KANEOHE SANDBAR ADVENTURE DELUXE'
+    },
+    {
+      value: '[하나우마베이 스노클링]디럭스 스탠다드',
+      label: '[하나우마베이 스노클링]디럭스 스탠다드',
+      en_label: 'HANAUMA BAY SNORKELING STANDARD'
+    },
+    {
+      value: '[하나우마베이 스노클링]디럭스 프리미엄',
+      label: '[하나우마베이 스노클링]디럭스 프리미엄',
+      en_label: 'HANAUMA BAY SNORKELING PREMIUM'
+    },
+    {
+      value: '[하나우마베이 스노클링]얼리버드',
+      label: '[하나우마베이 스노클링]얼리버드',
+      en_label: 'HANAUMA BAY SNORKELING EARLY BIRD'
+    },
+    {
+      value: '[하와이 서핑]소그룹 2~3인',
+      label: '[하와이 서핑]소그룹 2~3인',
+      en_label: 'HAWAII SURFING 2~3PAX'
+    },
+    {
+      value: '[하와이 서핑]프라이빗 1인',
+      label: '[하와이 서핑]프라이빗 1인',
+      en_label: 'HAWAII SURFING PRIVATE 1PAX'
+    },
+    {
+      value: '[하와이 서핑]라이더',
+      label: '[하와이 서핑]라이더',
+      en_label: 'HAWAII SURFING RIDER'
+    },
+    {
+      value: '혹등고래 관찰 크루즈',
+      label: '혹등고래 관찰 크루즈',
+      en_label: 'WHALE WATCHING CRUISES'
+    }
+  ],
+  액티비티: [
+    {
+      value: '[무동력 글라이더]시닉 라이더 15분 1인탑승',
+      label: '[무동력 글라이더]시닉 라이더 15분 1인탑승',
+      en_label: 'GLIDER SENIC RIDERS 15MIN 1PAX'
+    },
+    {
+      value: '[무동력 글라이더]시닉 라이더 15분 2인탑승',
+      label: '[무동력 글라이더]시닉 라이더 15분 2인탑승',
+      en_label: 'GLIDER SENIC RIDERS 15MIN 2PAX'
+    },
+    {
+      value: '[무동력 글라이더]시닉 라이더 20분 1인탑승',
+      label: '[무동력 글라이더]시닉 라이더 20분 1인탑승',
+      en_label: 'GLIDER SENIC RIDERS 20MIN 1PAX'
+    },
+    {
+      value: '[무동력 글라이더]시닉 라이더 20분 2인탑승',
+      label: '[무동력 글라이더]시닉 라이더 20분 2인탑승',
+      en_label: 'GLIDER SENIC RIDERS 20MIN 2PAX'
+    },
+    {
+      value: '[무동력 글라이더]시닉 라이더 30분 1인탑승',
+      label: '[무동력 글라이더]시닉 라이더 30분 1인탑승',
+      en_label: 'GLIDER SENIC RIDERS 30MIN 1PAX'
+    },
+    {
+      value: '[무동력 글라이더]시닉 라이더 30분 2인탑승',
+      label: '[무동력 글라이더]시닉 라이더 30분 2인탑승',
+      en_label: 'GLIDER SENIC RIDERS 30MIN 2PAX'
+    },
+    {
+      value: '[무동력 글라이더]에어로바틱 라이더 15분 1인탑승',
+      label: '[무동력 글라이더]에어로바틱 라이더 15분 1인탑승',
+      en_label: 'GLIDER AEROBATIC RIDER 15MIN 1PAX'
+    },
+    {
+      value: '[무동력 글라이더]에어로바틱 라이더 20분 1인탑승',
+      label: '[무동력 글라이더]에어로바틱 라이더 20분 1인탑승',
+      en_label: 'GLIDER AEROBATIC RIDER 20MIN 2PAX'
+    },
+    {
+      value: '[블루 하와이안 헬기투어]오아후 BLUE SKIES OF OAHU',
+      label: '[블루 하와이안 헬기투어]오아후 BLUE SKIES OF OAHU',
+      en_label: 'OAHU BLUE HAWAIIAN HELICOPTER BLUE SKIES OF OAHU'
+    },
+    {
+      value: '[블루 하와이안 헬기투어]오아후 COMPLETE ISLAND',
+      label: '[블루 하와이안 헬기투어]오아후 COMPLETE ISLAND',
+      en_label: 'OAHU BLUE HAWAIIAN HELICOPTER COMPLETE ISLAND'
+    },
+    {
+      value: '[블루 하와이안 헬기투어]오아후 TURTLE BAY OAHU AIR ADVENTURE',
+      label: '[블루 하와이안 헬기투어]오아후 TURTLE BAY OAHU AIR ADVENTURE',
+      en_label: 'OAHU BLUE HAWAIIAN HELICOPTER TURTLE BAY OAHU AIR ADVENTURE'
+    },
+    {
+      value: '[블루 하와이안 헬기투어]오아후 TURTLE BAY DISCOVER NORTH SHORE',
+      label: '[블루 하와이안 헬기투어]오아후 TURTLE BAY DISCOVER NORTH SHORE',
+      en_label: 'OAHU BLUE HAWAIIAN HELICOPTER TURTLE BAY DISCOVER NORTH SHORE'
+    },
+    {
+      value: '[블루 하와이안 헬기투어]빅아일랜드 DISCOVER HILO',
+      label: '[블루 하와이안 헬기투어]빅아일랜드 DISCOVER HILO',
+      en_label: 'BIGISLAND BLUE HAWAIIAN HELLCOPTER DISCOVER HILO'
+    },
+    {
+      value: '[블루 하와이안 헬기투어]빅아일랜드 HILO WATERFALL EXPERIENCE',
+      label: '[블루 하와이안 헬기투어]빅아일랜드 HILO WATERFALL EXPERIENCE',
+      en_label: 'BIGISLAND BLUE HAWAIIAN HELLCOPTER HILO WATERFALL EXPERIENCE'
+    },
+    {
+      value: '[블루 하와이안 헬기투어]빅아일랜드 WAIKOLOA BIG ISLAND SPECTACULAR',
+      label: '[블루 하와이안 헬기투어]빅아일랜드 WAIKOLOA BIG ISLAND SPECTACULAR',
+      en_label: 'BIGISLAND BLUE HAWAIIAN HELLCOPTER WAIKOLOA BIG ISLAND SPECTACULAR'
+    },
+    {
+      value: '[블루 하와이안 헬기투어]빅아일랜드 WAIKOLOA KOHALA COAST ADVENTURE',
+      label: '[블루 하와이안 헬기투어]빅아일랜드 WAIKOLOA KOHALA COAST ADVENTURE',
+      en_label: 'BIGISLAND BLUE HAWAIIAN HELLCOPTER WAIKOLOA KOHALA COAST ADVENTURE'
+    },
+    {
+      value: '[블루 하와이안 헬기투어]마우이 HANA RAINFOREST',
+      label: '[블루 하와이안 헬기투어]마우이 HANA RAINFOREST',
+      en_label: 'MAUI BLUE HAWAIIAN HELICOPTER HANA RAINFOREST'
+    },
+    {
+      value: '[블루 하와이안 헬기투어]마우이 MAJESTIC MAUI',
+      label: '[블루 하와이안 헬기투어]마우이 MAJESTIC MAUI',
+      en_label: 'MAUI BLUE HAWAIIAN HELICOPTER MAJESTIC MAUI'
+    },
+    {
+      value: '[블루 하와이안 헬기투어]마우이 WEST MAUI AND MOLOKAI',
+      label: '[블루 하와이안 헬기투어]마우이 WEST MAUI AND MOLOKAI',
+      en_label: 'MAUI BLUE HAWAIIAN HELICOPTER WEST MAUI AND MOLOKAI'
+    },
+    {
+      value: '[블루 하와이안 헬기투어]마우이 MAUI & MOLOKAI SPECTACULAR',
+      label: '[블루 하와이안 헬기투어]마우이 MAUI & MOLOKAI SPECTACULAR',
+      en_label: 'MAUI BLUE HAWAIIAN HELICOPTER MAUI & MOLOKAI SPECTACULAR'
+    },
+    {
+      value: '[블루 하와이안 헬기투어]카우아이 ECO ADVENTURE',
+      label: '[블루 하와이안 헬기투어]카우아이 ECO ADVENTURE',
+      en_label: 'KAUAI BLUE HAWAIIAN HELICOPTER ECO ADVENTURE'
+    },
+    {
+      value: '[블루 하와이안 헬기투어]카우아이 DISCOVER KAUAI',
+      label: '[블루 하와이안 헬기투어]카우아이 DISCOVER KAUAI',
+      en_label: 'KAUAI BLUE HAWAIIAN HELICOPTER DISCOVER KAUAI'
+    },
+    {
+      value: '[쿠알로아랜치]UTV 랩터 어드벤처 2시간 픽업불포함',
+      label: '[쿠알로아랜치]UTV 랩터 어드벤처 2시간 픽업불포함',
+      en_label: 'KUALOA RANCH UTV RAPTOR ADVENTURE 2H NO PICKUP'
+    },
+    {
+      value: '[쿠알로아랜치]UTV 랩터 어드벤처 2시간 픽업포함',
+      label: '[쿠알로아랜치]UTV 랩터 어드벤처 2시간 픽업포함',
+      en_label: 'KUALOA RANCH UTV RAPTOR ADVENTURE 2H PICKUP'
+    },
+    {
+      value: '[쿠알로아랜치]UTV 어드벤처 2시간 가이드운전 픽업불포함',
+      label: '[쿠알로아랜치]UTV 어드벤처 2시간 가이드운전 픽업불포함',
+      en_label: 'KUALOA RANCH UTV R'
+    },
+    {
+      value: '[쿠알로아랜치]UTV 어드벤처 2시간 가이드운전 픽업포함',
+      label: '[쿠알로아랜치]UTV 어드벤처 2시간 가이드운전 픽업포함',
+      en_label: 'KUALOA RANCH UTV R GUIDE PICKUP'
+    },
+    {
+      value: '[쿠알로아랜치]UTV 랩터 어드벤처 3시간 픽업불포함',
+      label: '[쿠알로아랜치]UTV 랩터 어드벤처 3시간 픽업불포함',
+      en_label: 'KUALOA RANCH UTV RAPTOR ADVENTURE 3H NO PICKUP'
+    },
+    {
+      value: '[쿠알로아랜치]UTV 랩터 어드벤처 3시간 픽업포함',
+      label: '[쿠알로아랜치]UTV 랩터 어드벤처 3시간 픽업포함',
+      en_label: 'KUALOA RANCH UTV RAPTOR ADVENTURE 3H PICKUP'
+    },
+    {
+      value: '[쿠알로아랜치]UTV 어드벤처 3시간 가이드운전 픽업불포함',
+      label: '[쿠알로아랜치]UTV 어드벤처 3시간 가이드운전 픽업불포함',
+      en_label: 'KUALOA RANCH UTV ADVENTURE 3H NO PICKUP'
+    },
+    {
+      value: '[쿠알로아랜치]UTV 어드벤처 3시간 가이드운전 픽업포함',
+      label: '[쿠알로아랜치]UTV 어드벤처 3시간 가이드운전 픽업포함',
+      en_label: 'KUALOA RANCH UTV ADVENTURE 3H PICKUP'
+    },
+    {
+      value: '[쿠알로아랜치]무비사이트 픽업불포함',
+      label: '[쿠알로아랜치]무비사이트 픽업불포함',
+      en_label: 'KUALOA RANCH MOVIE SITE NO PICKUP'
+    },
+    {
+      value: '[쿠알로아랜치]무비사이트 픽업포함',
+      label: '[쿠알로아랜치]무비사이트 픽업포함',
+      en_label: 'KUALOA RANCH MOVIE SITE PICKUP'
+    },
+    {
+      value: '[쿠알로아랜치]씨크릿 아일랜드 비치 어드벤처 픽업불포함',
+      label: '[쿠알로아랜치]씨크릿 아일랜드 비치 어드벤처 픽업불포함',
+      en_label: 'KUALOA RANCH SECRET ISLAND BEACH ADVENTURE NO PICKUP'
+    },
+    {
+      value: '[쿠알로아랜치]씨크릿 아일랜드 비치 어드벤처 픽업포함',
+      label: '[쿠알로아랜치]씨크릿 아일랜드 비치 어드벤처 픽업포함',
+      en_label: 'KUALOA RANCH SECRET ISLAND BEACH ADVENTURE PICKUP'
+    },
+    {
+      value: '[쿠알로아랜치]오션보야지 픽업불포함',
+      label: '[쿠알로아랜치]오션보야지 픽업불포함',
+      en_label: 'KUALOA RANCH OCEAN VOYAGE NO PICKUP'
+    },
+    {
+      value: '[쿠알로아랜치]오션보야지 픽업포함',
+      label: '[쿠알로아랜치]오션보야지 픽업포함',
+      en_label: 'KUALOA RANCH OCEAN VOYAGE PICKUP'
+    },
+    {
+      value: '[쿠알로아랜치]익스피리언스 패키지 픽업불포함',
+      label: '[쿠알로아랜치]익스피리언스 패키지 픽업불포함',
+      en_label: 'BEST OF KUALOA EXPERIENCE PACKAGE NO PICKUP'
+    },
+    {
+      value: '[쿠알로아랜치]익스피리언스 패키지 픽업포함',
+      label: '[쿠알로아랜치]익스피리언스 패키지 픽업포함',
+      en_label: 'BEST OF KUALOA EXPERIENCE PACKAGE PICKUP'
+    },
+    {
+      value: '[쿠알로아랜치]전기 산악바이크 투어 픽업불포함',
+      label: '[쿠알로아랜치]전기 산악바이크 투어 픽업불포함',
+      en_label: 'KUALOA RANCH ELECTRIC MOUNTAIN BIKE TOUR NO PICKUP'
+    },
+    {
+      value: '[쿠알로아랜치]전기 산악바이크 투어 픽업포함',
+      label: '[쿠알로아랜치]전기 산악바이크 투어 픽업포함',
+      en_label: 'KUALOA RANCH ELECTRIC MOUNTAIN BIKE TOUR PICKUP'
+    },
+    {
+      value: '[쿠알로아랜치]정글투어 픽업불포함',
+      label: '[쿠알로아랜치]정글투어 픽업불포함',
+      en_label: 'KUALOA RANCH JUNGLE EXPEDITION NO PICKUP'
+    },
+    {
+      value: '[쿠알로아랜치]정글투어 픽업포함',
+      label: '[쿠알로아랜치]정글투어 픽업포함',
+      en_label: 'KUALOA RANCH JUNGLE EXPEDITION PICKUP'
+    },
+    {
+      value: '[쿠알로아랜치]쥬라기 어드벤처 투어 픽업불포함',
+      label: '[쿠알로아랜치]쥬라기 어드벤처 투어 픽업불포함',
+      en_label: 'KUALOA RANCH JURASSIC ADVENTURE TOUR NO PICKUP'
+    },
+    {
+      value: '[쿠알로아랜치]쥬라기 어드벤처 투어 픽업포함',
+      label: '[쿠알로아랜치]쥬라기 어드벤처 투어 픽업포함',
+      en_label: 'KUALOA RANCH JURASSIC ADVENTURE TOUR PICKUP'
+    },
+    {
+      value: '[쿠알로아랜치]쥬라기계곡 집라인 투어 픽업불포함',
+      label: '[쿠알로아랜치]쥬라기계곡 집라인 투어 픽업불포함',
+      en_label: 'KUALOA RANCH JURASSIC VALLEY ZIPLINE TOUR NO PICKUP'
+    },
+    {
+      value: '[쿠알로아랜치]쥬라기계곡 집라인 투어 픽업포함',
+      label: '[쿠알로아랜치]쥬라기계곡 집라인 투어 픽업포함',
+      en_label: 'KUALOA RANCH JURASSIC VALLEY ZIPLINE TOUR PICKUP'
+    },
+    {
+      value: '[쿠알로아랜치]쿠알로아 하프데이 패키지 픽업불포함',
+      label: '[쿠알로아랜치]쿠알로아 하프데이 패키지 픽업불포함',
+      en_label: 'KUALOA HALF DAY PACKAGE NO PICKUP'
+    },
+    {
+      value: '[쿠알로아랜치]쿠알로아 하프데이 패키지 픽업포함',
+      label: '[쿠알로아랜치]쿠알로아 하프데이 패키지 픽업포함',
+      en_label: 'KUALOA HALF DAY PACKAGE PICKUP'
+    }
+  ],
+  스냅: [
+    {
+      value: '[하와이 스냅]와이키키 커플스냅 30분',
+      label: '[하와이 스냅]와이키키 커플스냅 30분',
+      en_label: 'HAWAII SNAP WAIKIKI COUPLE 30MIN'
+    },
+    {
+      value: '[하와이 스냅]와이키키 커플스냅 1시간',
+      label: '[하와이 스냅]와이키키 커플스냅 1시간',
+      en_label: 'HAWAII SNAP WAIKIKI COUPLE 60MIN'
+    },
+    {
+      value: '[하와이 스냅]와이키키 가족스냅 30분',
+      label: '[하와이 스냅]와이키키 가족스냅 30분',
+      en_label: 'HAWAII SNAP WAIKIKI FAMILY 30MIN'
+    },
+    {
+      value: '[하와이 스냅]와이키키 가족스냅 1시간',
+      label: '[하와이 스냅]와이키키 가족스냅 1시간',
+      en_label: 'HAWAII SNAP WAIKIKI FAMILY 60MIN'
+    },
+    {
+      value: '[하와이 스냅]비치선셋 1시간',
+      label: '[하와이 스냅]비치선셋 1시간',
+      en_label: 'HAWAII SNAP BEACH SUNSET 60MIN'
+    }
+  ],
+  기타: [
+    {
+      value: '[다이아몬드 헤드 하이킹]1~2명',
+      label: '[다이아몬드 헤드 하이킹]1~2명',
+      en_label: 'DIAMOND HEAD HIKING 1~2PAX'
+    },
+    {
+      value: '[다이아몬드 헤드 하이킹]3~4명',
+      label: '[다이아몬드 헤드 하이킹]3~4명',
+      en_label: 'DIAMOND HEAD HIKING 3~4PAX'
+    },
+    {
+      value: '(빅아일랜드) 마우나케아 서밋 & 스타스',
+      label: '(빅아일랜드) 마우나케아 서밋 & 스타스',
+      en_label: 'BIGISLAND MAUNAKEA SUMMIT STARS'
+    },
+    {
+      value: '[스타 오브 호놀룰루]3스타 픽업불포함',
+      label: '[스타 오브 호놀룰루]3스타 픽업불포함',
+      en_label: 'STAR OF HONOLULU 3STAR NO PICKUP'
+    },
+    {
+      value: '[스타 오브 호놀룰루]3스타 픽업포함',
+      label: '[스타 오브 호놀룰루]3스타 픽업포함',
+      en_label: 'STAR OF HONOLULU 3STAR PICKUP'
+    },
+    {
+      value: '[스타 오브 호놀룰루]3스타 금요일 불꽃놀이 픽업불포함',
+      label: '[스타 오브 호놀룰루]3스타 금요일 불꽃놀이 픽업불포함',
+      en_label: 'STAR OF HONOLULU 3STAR FRIDAY NO PICKUP'
+    },
+    {
+      value: '[스타 오브 호놀룰루]3스타 금요일 불꽃놀이 픽업포함',
+      label: '[스타 오브 호놀룰루]3스타 금요일 불꽃놀이 픽업포함',
+      en_label: 'STAR OF HONOLULU 3STAR FRIDAY PICKUP'
+    },
+    {
+      value: '[스타 오브 호놀룰루]3스타 셀레브레이션 픽업불포함',
+      label: '[스타 오브 호놀룰루]3스타 셀레브레이션 픽업불포함',
+      en_label: 'STAR OF HONOLULU 3STAR CELEBRATION NO PICKUP'
+    },
+    {
+      value: '[스타 오브 호놀룰루]3스타 셀레브레이션 픽업포함',
+      label: '[스타 오브 호놀룰루]3스타 셀레브레이션 픽업포함',
+      en_label: 'STAR OF HONOLULU 3STAR CELEBRATION PICKUP'
+    },
+    {
+      value: '[스타 오브 호놀룰루]3스타 금요일 불꽃놀이 셀레브레이션 픽업불포함',
+      label: '[스타 오브 호놀룰루]3스타 금요일 불꽃놀이 셀레브레이션 픽업불포함',
+      en_label: 'STAR OF HONOLULU 3STAR FRIDAY CELEBRATION NO PICKUP'
+    },
+    {
+      value: '[스타 오브 호놀룰루]3스타 금요일 불꽃놀이 셀레브레이션 픽업포함',
+      label: '[스타 오브 호놀룰루]3스타 금요일 불꽃놀이 셀레브레이션 픽업포함',
+      en_label: 'STAR OF HONOLULU 3STAR FRIDAY CELEBRATION PICKUP'
+    }
+  ]
+};
+
 const additionalOptions = {
   additional_options: [] as AdditionalOptions[]
 };

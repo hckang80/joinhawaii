@@ -1,5 +1,11 @@
-import { DateTimeInput, NoData } from '@/components';
-import { defaultTourValues, PRODUCT_STATUS_COLOR, ProductStatus, REGIONS } from '@/constants';
+import { DateTimeInput, GroupSelect, NoData } from '@/components';
+import {
+  defaultTourValues,
+  PRODUCT_STATUS_COLOR,
+  ProductStatus,
+  REGIONS,
+  TOURS_OPTIONS
+} from '@/constants';
 import type { ProductFormProps, ProductFormType, ReservationFormData } from '@/types';
 import {
   calculateTotalAmount,
@@ -207,12 +213,13 @@ export default function TourForm({ data, mutation, handleAdditionalOptions }: Pr
                         </Flex>
                       </Table.Cell>
                       <Table.Cell>
-                        <TextField.Root
-                          size='1'
-                          {...register(`tours.${i}.name`, {
-                            required: true,
-                            setValueAs: value => (typeof value === 'string' ? value.trim() : value)
-                          })}
+                        <Controller
+                          name={`tours.${i}.name`}
+                          control={control}
+                          rules={{ required: true }}
+                          render={({ field }) => {
+                            return <GroupSelect field={field} list={TOURS_OPTIONS} />;
+                          }}
                         />
                       </Table.Cell>
                       <Table.Cell>
