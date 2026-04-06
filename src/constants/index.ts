@@ -382,8 +382,8 @@ export const BOOKING_PLATFORM_OPTIONS: Record<Platform, GroupSelectOption[]> = {
 };
 
 export const TOURS = ['공항셔틀', '일주관광', '해양스포츠', '액티비티', '스냅', '기타'] as const;
-export type Tour = (typeof TOURS)[number] | (string & {});
-export const TOURS_OPTIONS: Record<Tour, GroupSelectOption[]> = {
+export type TourCategory = (typeof TOURS)[number] | (string & {});
+export const TOURS_OPTIONS: Record<TourCategory, GroupSelectOption[]> = {
   공항셔틀: [
     {
       value: '[공항 셔틀서비스]한인택시 단독 공항-와이키키 픽업',
