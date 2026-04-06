@@ -443,8 +443,8 @@ export const TOURS_OPTIONS: Record<Tour, GroupSelectOption[]> = {
       en_label: 'ONE DAY BIGISLAND TOUR WAIKIKI'
     },
     {
-      value: '[ 일일관광]빅아일랜드 코나/힐로픽업',
-      label: '[ 일일관광]빅아일랜드 코나/힐로픽업',
+      value: '[일일관광]빅아일랜드 코나/힐로픽업',
+      label: '[일일관광]빅아일랜드 코나/힐로픽업',
       en_label: 'ONE DAY BIGISLAND TOUR KONA/HILLO'
     },
     {
@@ -459,7 +459,7 @@ export const TOURS_OPTIONS: Record<Tour, GroupSelectOption[]> = {
     }
   ],
   해양스포츠: [
-    { value: '돌핀 앤 유', label: '돌핀 앤 유', en_label: 'DOLPHINE AND YOU' },
+    { value: '돌핀 앤 유', label: '돌핀 앤 유', en_label: 'DOLPHIN AND YOU' },
     {
       value: '(마우이) 몰로키니 스노클링 - 칼립소',
       label: '(마우이) 몰로키니 스노클링 - 칼립소',
@@ -580,22 +580,22 @@ export const TOURS_OPTIONS: Record<Tour, GroupSelectOption[]> = {
     {
       value: '[블루 하와이안 헬기투어]빅아일랜드 DISCOVER HILO',
       label: '[블루 하와이안 헬기투어]빅아일랜드 DISCOVER HILO',
-      en_label: 'BIGISLAND BLUE HAWAIIAN HELLCOPTER DISCOVER HILO'
+      en_label: 'BIGISLAND BLUE HAWAIIAN HELICOPTER DISCOVER HILO'
     },
     {
       value: '[블루 하와이안 헬기투어]빅아일랜드 HILO WATERFALL EXPERIENCE',
       label: '[블루 하와이안 헬기투어]빅아일랜드 HILO WATERFALL EXPERIENCE',
-      en_label: 'BIGISLAND BLUE HAWAIIAN HELLCOPTER HILO WATERFALL EXPERIENCE'
+      en_label: 'BIGISLAND BLUE HAWAIIAN HELICOPTER HILO WATERFALL EXPERIENCE'
     },
     {
       value: '[블루 하와이안 헬기투어]빅아일랜드 WAIKOLOA BIG ISLAND SPECTACULAR',
       label: '[블루 하와이안 헬기투어]빅아일랜드 WAIKOLOA BIG ISLAND SPECTACULAR',
-      en_label: 'BIGISLAND BLUE HAWAIIAN HELLCOPTER WAIKOLOA BIG ISLAND SPECTACULAR'
+      en_label: 'BIGISLAND BLUE HAWAIIAN HELICOPTER WAIKOLOA BIG ISLAND SPECTACULAR'
     },
     {
       value: '[블루 하와이안 헬기투어]빅아일랜드 WAIKOLOA KOHALA COAST ADVENTURE',
       label: '[블루 하와이안 헬기투어]빅아일랜드 WAIKOLOA KOHALA COAST ADVENTURE',
-      en_label: 'BIGISLAND BLUE HAWAIIAN HELLCOPTER WAIKOLOA KOHALA COAST ADVENTURE'
+      en_label: 'BIGISLAND BLUE HAWAIIAN HELICOPTER WAIKOLOA KOHALA COAST ADVENTURE'
     },
     {
       value: '[블루 하와이안 헬기투어]마우이 HANA RAINFOREST',
@@ -640,12 +640,12 @@ export const TOURS_OPTIONS: Record<Tour, GroupSelectOption[]> = {
     {
       value: '[쿠알로아랜치]UTV 어드벤처 2시간 가이드운전 픽업불포함',
       label: '[쿠알로아랜치]UTV 어드벤처 2시간 가이드운전 픽업불포함',
-      en_label: 'KUALOA RANCH UTV R'
+      en_label: 'KUALOA RANCH UTV RIDE ALONG ADVENTURE 2H NO PICKUP'
     },
     {
       value: '[쿠알로아랜치]UTV 어드벤처 2시간 가이드운전 픽업포함',
       label: '[쿠알로아랜치]UTV 어드벤처 2시간 가이드운전 픽업포함',
-      en_label: 'KUALOA RANCH UTV R GUIDE PICKUP'
+      en_label: 'KUALOA RANCH UTV RIDE ALONG ADVENTURE 2H PICKUP'
     },
     {
       value: '[쿠알로아랜치]UTV 랩터 어드벤처 3시간 픽업불포함',
