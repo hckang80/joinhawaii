@@ -83,6 +83,21 @@ export const HOTEL_ROOM_TYPE_LIST = [
   'KEALOHILANI OCEAN VIEW'
 ];
 
+export const RESORT_FEE_TYPE_LIST = [
+  {
+    value: 'INCLUSION',
+    label: '포함'
+  },
+  {
+    value: 'EXCLUSION',
+    label: '불포함'
+  },
+  {
+    value: 'NO RESORT FEE',
+    label: '없음'
+  }
+];
+
 export type GroupSelectOption = {
   value: string;
   label: string;
@@ -920,6 +935,7 @@ export const defaultHotelValues = {
   bed_type: '',
   is_breakfast_included: false,
   is_resort_fee: false,
+  resort_fee_type: RESORT_FEE_TYPE_LIST[0].value,
   nights: 1,
   nightly_rate: 0,
   cost: 0,

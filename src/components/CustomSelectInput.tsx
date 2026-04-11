@@ -1,7 +1,20 @@
 // CustomSelectInput.tsx
+
 import { Flex, Select, TextField } from '@radix-ui/themes';
 import type { RefCallBack } from 'react-hook-form';
 import { CUSTOM_LABEL } from '../constants';
+
+export type CustomSelectOption = { label: string; value: string };
+
+type CustomSelectInputProps = {
+  ref?: RefCallBack;
+  value: string;
+  options: readonly string[] | readonly CustomSelectOption[];
+  customLabel?: string;
+  onChange: (val: string) => void;
+  placeholder?: string;
+  inputPlaceholder?: string;
+};
 
 export function CustomSelectInput({
   ref,
@@ -11,16 +24,15 @@ export function CustomSelectInput({
   onChange,
   placeholder = '',
   inputPlaceholder = ''
-}: {
-  ref?: RefCallBack;
-  value: string;
-  options: readonly string[];
-  customLabel?: string;
-  onChange: (val: string) => void;
-  placeholder?: string;
-  inputPlaceholder?: string;
-}) {
-  const isCustom = value === customLabel || !options.includes(value ?? '');
+}: CustomSelectInputProps) {
+  // string[] 타입이면 {label, value}[]로 변환
+  const normalizedOptions: CustomSelectOption[] =
+    Array.isArray(options) && typeof options[0] === 'string'
+      ? (options as string[]).map(opt => ({ label: opt, value: opt }))
+      : (options as CustomSelectOption[]);
+
+  const isCustom = value === customLabel || !normalizedOptions.some(opt => opt.value === value);
+
   return (
     <Flex direction='column' align='stretch' gap='1'>
       <Select.Root
@@ -31,13 +43,17 @@ export function CustomSelectInput({
           else onChange(val);
         }}
       >
-        <Select.Trigger placeholder={placeholder}>{isCustom ? customLabel : value}</Select.Trigger>
+        <Select.Trigger placeholder={placeholder}>
+          {isCustom
+            ? customLabel
+            : (normalizedOptions.find(opt => opt.value === value)?.label ?? value)}
+        </Select.Trigger>
         <Select.Content>
-          {options
-            .toSorted((a, b) => a.localeCompare(b))
+          {normalizedOptions
+            .toSorted((a, b) => a.label.localeCompare(b.label))
             .map(opt => (
-              <Select.Item key={opt} value={opt}>
-                {opt}
+              <Select.Item key={opt.value} value={opt.value}>
+                {opt.label}
               </Select.Item>
             ))}
           <Select.Item value={customLabel}>{customLabel}</Select.Item>

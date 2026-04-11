@@ -6,7 +6,8 @@ import {
   HOTELS,
   PRODUCT_STATUS_COLOR,
   ProductStatus,
-  REGIONS
+  REGIONS,
+  RESORT_FEE_TYPE_LIST
 } from '@/constants';
 import type { ProductFormProps, ProductFormType, ReservationFormData } from '@/types';
 import { isDev, isRefunded, normalizeNumber, toReadableAmount } from '@/utils';
@@ -307,17 +308,18 @@ export default function HotelForm({ data, mutation, handleAdditionalOptions }: P
                       </Table.Cell>
                       <Table.Cell>
                         <Controller
-                          name={`hotels.${i}.is_resort_fee`}
+                          name={`hotels.${i}.resort_fee_type`}
                           control={control}
-                          render={({ field }) => (
-                            <Checkbox
-                              size='1'
-                              checked={field.value}
-                              onCheckedChange={value => {
-                                field.onChange(value);
-                              }}
-                            />
-                          )}
+                          render={({ field }) => {
+                            return (
+                              <CustomSelectInput
+                                value={field.value}
+                                options={RESORT_FEE_TYPE_LIST}
+                                onChange={field.onChange}
+                                placeholder={RESORT_FEE_TYPE_LIST[0].label}
+                              />
+                            );
+                          }}
                         />
                       </Table.Cell>
                       <Table.Cell>
