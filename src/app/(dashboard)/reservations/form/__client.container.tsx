@@ -128,7 +128,7 @@ export default function ReservationsFormClientContainer({
 
   const handlePdfDownload = async () => {
     if (!previewRef.current) return;
-    const canvas = await html2canvas(previewRef.current, { scale: 2 });
+    const canvas = await html2canvas(previewRef.current, { scale: 1, backgroundColor: '#fff' });
     const imgData = canvas.toDataURL('image/png');
     const pdf = new jsPDF({
       orientation: 'portrait',

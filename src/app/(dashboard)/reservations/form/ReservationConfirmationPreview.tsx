@@ -26,11 +26,12 @@ export function ReservationConfirmationPreview({
           예약확인서
         </Heading>
       </Flex>
+
       <Section size='1'>
         <Heading as='h3' mb='2'>
           기본정보
         </Heading>
-        <Table.Root size='2'>
+        <Table.Root size='1'>
           <Table.Body>
             <Table.Row>
               <Table.RowHeaderCell>발행일</Table.RowHeaderCell>
