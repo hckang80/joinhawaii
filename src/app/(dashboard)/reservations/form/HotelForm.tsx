@@ -317,6 +317,7 @@ export default function HotelForm({ data, mutation, handleAdditionalOptions }: P
                                 options={RESORT_FEE_TYPE_LIST}
                                 onChange={field.onChange}
                                 placeholder={RESORT_FEE_TYPE_LIST[0].label}
+                                allowCustom={false}
                               />
                             );
                           }}

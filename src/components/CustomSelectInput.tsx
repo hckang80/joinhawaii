@@ -8,6 +8,7 @@ export type CustomSelectOption = { label: string; value: string };
 
 type CustomSelectInputProps = {
   ref?: RefCallBack;
+  allowCustom?: boolean;
   value: string;
   options: readonly string[] | readonly CustomSelectOption[];
   customLabel?: string;
@@ -18,6 +19,7 @@ type CustomSelectInputProps = {
 
 export function CustomSelectInput({
   ref,
+  allowCustom = true,
   value,
   options,
   customLabel = CUSTOM_LABEL,
@@ -56,7 +58,7 @@ export function CustomSelectInput({
                 {opt.label}
               </Select.Item>
             ))}
-          <Select.Item value={customLabel}>{customLabel}</Select.Item>
+          {allowCustom && <Select.Item value={customLabel}>{customLabel}</Select.Item>}
         </Select.Content>
       </Select.Root>
       {isCustom && (
