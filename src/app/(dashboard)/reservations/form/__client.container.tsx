@@ -296,6 +296,7 @@ export default function ReservationsFormClientContainer({
                 <Badge size='3' color={PAYMENT_STATUS_COLOR[data.payment_status]} variant='soft'>
                   {PaymentStatus[data.payment_status]}
                 </Badge>
+                <Button size='3'>예약확인서</Button>
               </Flex>
 
               <Text as='p' align='right' mt='2' weight='bold' color='ruby'>
