@@ -11,7 +11,18 @@ import type {
 } from '@/types';
 import { handleApiError, handleApiSuccess, toReadableAmount } from '@/utils';
 import { observable } from '@legendapp/state';
-import { Badge, Button, Card, Flex, Grid, Heading, Table, Text, TextField } from '@radix-ui/themes';
+import {
+  Badge,
+  Button,
+  Card,
+  Dialog,
+  Flex,
+  Grid,
+  Heading,
+  Table,
+  Text,
+  TextField
+} from '@radix-ui/themes';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
@@ -334,24 +345,33 @@ export default function ReservationsFormClientContainer({
         onRefetch={refetch}
       />
 
-      {showPreview && data && (
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            zIndex: 1000,
-            background: '#fff',
-            width: '100vw',
-            height: '100vh',
-            overflow: 'auto'
-          }}
+      <Dialog.Root open={showPreview} onOpenChange={setShowPreview}>
+        <Dialog.Content
+          style={{ maxWidth: 800, width: '90vw', maxHeight: '90vh', overflow: 'auto', padding: 0 }}
         >
-          <button onClick={() => setShowPreview(false)}>닫기</button>
-          <button onClick={handlePdfDownload}>PDF로 저장</button>
-          <ReservationConfirmationPreview divRef={previewRef} data={data} />
-        </div>
-      )}
+          <Flex
+            justify='between'
+            align='center'
+            p='4'
+            style={{ borderBottom: '1px solid #eee', background: '#fafafa' }}
+          >
+            <Text size='5' weight='bold'>
+              예약확인서 미리보기
+            </Text>
+            <Flex gap='2'>
+              <Button variant='soft' color='gray' onClick={() => setShowPreview(false)}>
+                닫기
+              </Button>
+              <Button variant='solid' color='blue' onClick={handlePdfDownload}>
+                PDF로 저장
+              </Button>
+            </Flex>
+          </Flex>
+          <div style={{ padding: 24, background: '#fff' }}>
+            {data && <ReservationConfirmationPreview divRef={previewRef} data={data} />}
+          </div>
+        </Dialog.Content>
+      </Dialog.Root>
     </div>
   );
 }

@@ -30,7 +30,7 @@ export function ReservationConfirmationPreview({
         <Heading as='h3' mb='2'>
           기본정보
         </Heading>
-        <Table.Root size='2' variant='surface'>
+        <Table.Root size='2'>
           <Table.Body>
             <Table.Row>
               <Table.RowHeaderCell>발행일</Table.RowHeaderCell>
@@ -68,7 +68,7 @@ export function ReservationConfirmationPreview({
         <Heading as='h3' mb='2'>
           고객정보
         </Heading>
-        <Table.Root size='1' variant='surface'>
+        <Table.Root size='1'>
           <Table.Header>
             <Table.Row>
               <Table.ColumnHeaderCell>이름</Table.ColumnHeaderCell>
