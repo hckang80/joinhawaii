@@ -1,6 +1,8 @@
-import { GroupSelect, NoData, ProductOptionBadge } from '@/components';
+import { CustomSelectInput, GroupSelect, NoData, ProductOptionBadge } from '@/components';
 import {
+  BED_TYPE_LIST,
   defaultHotelValues,
+  HOTEL_ROOM_TYPE_LIST,
   HOTELS,
   PRODUCT_STATUS_COLOR,
   ProductStatus,
@@ -257,21 +259,33 @@ export default function HotelForm({ data, mutation, handleAdditionalOptions }: P
                       </Table.Cell>
                       <Table.Cell>
                         <Flex direction='column' gap='1'>
-                          <TextField.Root
-                            size='1'
-                            {...register(`hotels.${i}.room_type`, {
-                              setValueAs: value =>
-                                typeof value === 'string' ? value.trim() : value
-                            })}
-                            placeholder='OF - DH OF'
+                          <Controller
+                            name={`hotels.${i}.room_type`}
+                            control={control}
+                            render={({ field }) => {
+                              return (
+                                <CustomSelectInput
+                                  value={field.value}
+                                  options={HOTEL_ROOM_TYPE_LIST}
+                                  onChange={field.onChange}
+                                  placeholder={HOTEL_ROOM_TYPE_LIST[0]}
+                                />
+                              );
+                            }}
                           />
-                          <TextField.Root
-                            size='1'
-                            {...register(`hotels.${i}.bed_type`, {
-                              setValueAs: value =>
-                                typeof value === 'string' ? value.trim() : value
-                            })}
-                            placeholder='1BED/2BED'
+                          <Controller
+                            name={`hotels.${i}.bed_type`}
+                            control={control}
+                            render={({ field }) => {
+                              return (
+                                <CustomSelectInput
+                                  value={field.value}
+                                  options={BED_TYPE_LIST}
+                                  onChange={field.onChange}
+                                  placeholder={BED_TYPE_LIST[0]}
+                                />
+                              );
+                            }}
                           />
                           <ProductOptionBadge items={hotel.additional_options} />
                         </Flex>

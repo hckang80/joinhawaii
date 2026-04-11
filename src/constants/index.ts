@@ -65,6 +65,22 @@ export const CAR_TYPES = [
   'Mini van',
   'Fullsize SUV',
   'Premium SUV'
+] as const;
+
+export const BED_TYPE_LIST = ['1 BED', '2 BEDS', '3 BEDS', '4 BEDS'] as const;
+
+export const HOTEL_ROOM_TYPE_LIST = [
+  'CITY VIEW',
+  'RESORT VIEW',
+  'OCEAN VIEW',
+  'OCEAN FRONT',
+  'PARTIAL OCEAN VIEW',
+  'DIAMOND HEAD OCEAN FRONT',
+  'DELUXE OCEAN VIEW',
+  'RUN OF OCEAN',
+  'RUN OF HOUSE',
+  'PAOKALANI OCEAN VIEW',
+  'KEALOHILANI OCEAN VIEW'
 ];
 
 export type GroupSelectOption = {
