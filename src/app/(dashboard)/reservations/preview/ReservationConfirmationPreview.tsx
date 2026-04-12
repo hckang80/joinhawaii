@@ -1,26 +1,13 @@
 import type { ReservationResponse } from '@/types';
-import { Flex, Heading, Section, Table, Text } from '@radix-ui/themes';
-import React from 'react';
+import { Box, Flex, Heading, Section, Table, Text } from '@radix-ui/themes';
 
 type ReservationConfirmationPreviewProps = {
   data: ReservationResponse;
-  divRef?: React.Ref<HTMLDivElement>;
 };
 
-export function ReservationConfirmationPreview({
-  data,
-  divRef
-}: ReservationConfirmationPreviewProps) {
+export function ReservationConfirmationPreview({ data }: ReservationConfirmationPreviewProps) {
   return (
-    <div
-      ref={divRef}
-      style={{
-        background: '#fff',
-        color: '#000',
-        padding: 32,
-        width: 700
-      }}
-    >
+    <Box>
       <Flex justify='center'>
         <Heading as='h2' mb='3' size='7'>
           예약확인서
@@ -96,6 +83,6 @@ export function ReservationConfirmationPreview({
       <Flex justify='center'>
         <Text color='gray'>본 예약확인서는 여행상품 예약을 증명하는 용도로만 사용됩니다.</Text>
       </Flex>
-    </div>
+    </Box>
   );
 }
