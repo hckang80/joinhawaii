@@ -74,7 +74,6 @@ export function ReservationConfirmationPreview({
             <Table.Row>
               <Table.ColumnHeaderCell>이름</Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell>영문</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>성별</Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell>연락처</Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell>이메일</Table.ColumnHeaderCell>
             </Table.Row>
@@ -84,7 +83,6 @@ export function ReservationConfirmationPreview({
               <Table.Row key={idx}>
                 <Table.Cell>{client.korean_name}</Table.Cell>
                 <Table.Cell>{client.english_name}</Table.Cell>
-                <Table.Cell>{client.gender}</Table.Cell>
                 <Table.Cell>{client.phone_number}</Table.Cell>
                 <Table.Cell>{client.email}</Table.Cell>
               </Table.Row>
