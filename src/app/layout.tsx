@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { Slide, ToastContainer } from 'react-toastify';
 import './globals.css';
+import './print.css';
 import { ProgressBar } from './ProgressBar';
 import QueryProvider from './QueryProvider';
 
