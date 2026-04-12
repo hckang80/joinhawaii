@@ -1,6 +1,6 @@
 'use client';
 import { reservationQueryOptions } from '@/lib/queries';
-import { Box } from '@radix-ui/themes';
+import { Box, Button, Flex } from '@radix-ui/themes';
 import { useQuery } from '@tanstack/react-query';
 import { notFound } from 'next/navigation';
 import { ReservationConfirmationPreview } from './ReservationConfirmationPreview';
@@ -10,18 +10,17 @@ export default function ReservationPreviewClient({ reservation_id }: { reservati
     ...reservationQueryOptions(reservation_id!),
     enabled: !!reservation_id
   });
-  console.log({ reservation_id, data });
 
   if (!data) notFound();
 
   return (
     <Box>
       <ReservationConfirmationPreview data={data} />
-      <div style={{ textAlign: 'center', marginTop: 32 }}>
-        <button onClick={() => window.print()} style={{ fontSize: 16, padding: '8px 24px' }}>
+      <Flex justify='center' mt='4'>
+        <Button size='4' onClick={() => window.print()}>
           인쇄 / PDF 저장
-        </button>
-      </div>
+        </Button>
+      </Flex>
     </Box>
   );
 }
