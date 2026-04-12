@@ -11,22 +11,9 @@ import type {
 } from '@/types';
 import { handleApiError, handleApiSuccess, toReadableAmount } from '@/utils';
 import { observable } from '@legendapp/state';
-import {
-  Badge,
-  Button,
-  Card,
-  Dialog,
-  Flex,
-  Grid,
-  Heading,
-  Table,
-  Text,
-  TextField
-} from '@radix-ui/themes';
+import { Badge, Button, Card, Flex, Grid, Heading, Table, Text, TextField } from '@radix-ui/themes';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect } from 'react';
 import { Controller, type SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import AdditionalOptionsEditor from './AdditionalOptionsEditor';
@@ -36,7 +23,6 @@ import HotelForm from './HotelForm';
 import InsuranceForm from './InsuranceForm';
 import styles from './page.module.css';
 import RentalCarForm from './RentalCarForm';
-import { ReservationConfirmationPreview } from './ReservationConfirmationPreview';
 import TourForm from './TourForm';
 
 const status$ = observable({
@@ -121,22 +107,6 @@ export default function ReservationsFormClientContainer({
   }) => {
     status$.additionalOptionsContext.set(context);
     status$.isAdditionalOptionsOpen.set(true);
-  };
-
-  const [showPreview, setShowPreview] = useState(false);
-  const previewRef = useRef<HTMLDivElement>(null);
-
-  const handlePdfDownload = async () => {
-    if (!previewRef.current) return;
-    const canvas = await html2canvas(previewRef.current, { scale: 1, backgroundColor: '#fff' });
-    const imgData = canvas.toDataURL('image/png');
-    const pdf = new jsPDF({
-      orientation: 'portrait',
-      unit: 'px',
-      format: [canvas.width, canvas.height]
-    });
-    pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
-    pdf.save('reservation-confirmation.pdf');
   };
 
   return (
@@ -326,7 +296,19 @@ export default function ReservationsFormClientContainer({
                 <Badge size='3' color={PAYMENT_STATUS_COLOR[data.payment_status]} variant='soft'>
                   {PaymentStatus[data.payment_status]}
                 </Badge>
-                <Button size='3' type='button' onClick={() => setShowPreview(true)}>
+                <Button
+                  size='3'
+                  type='button'
+                  onClick={() => {
+                    if (data?.reservation_id) {
+                      window.open(
+                        `/reservations/preview?reservation_id=${encodeURIComponent(data.reservation_id)}`,
+                        '_blank',
+                        'width=900,height=1000,scrollbars=yes'
+                      );
+                    }
+                  }}
+                >
                   예약확인서
                 </Button>
               </Flex>
@@ -344,34 +326,6 @@ export default function ReservationsFormClientContainer({
         context={status$.additionalOptionsContext}
         onRefetch={refetch}
       />
-
-      <Dialog.Root open={showPreview} onOpenChange={setShowPreview}>
-        <Dialog.Content
-          style={{ maxWidth: 800, width: '90vw', maxHeight: '90vh', overflow: 'auto', padding: 0 }}
-        >
-          <Flex
-            justify='between'
-            align='center'
-            p='4'
-            style={{ borderBottom: '1px solid #eee', background: '#fafafa' }}
-          >
-            <Text size='5' weight='bold'>
-              예약확인서 미리보기
-            </Text>
-            <Flex gap='2'>
-              <Button variant='soft' color='gray' onClick={() => setShowPreview(false)}>
-                닫기
-              </Button>
-              <Button variant='solid' color='blue' onClick={handlePdfDownload}>
-                PDF로 저장
-              </Button>
-            </Flex>
-          </Flex>
-          <div style={{ padding: 24, background: '#fff' }}>
-            {data && <ReservationConfirmationPreview divRef={previewRef} data={data} />}
-          </div>
-        </Dialog.Content>
-      </Dialog.Root>
     </div>
   );
 }
