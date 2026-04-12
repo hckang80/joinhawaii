@@ -14,7 +14,7 @@ export default function ReservationPreviewClient({ reservation_id }: { reservati
   if (!data) notFound();
 
   return (
-    <Box>
+    <Box width='700px' mx='auto'>
       <ReservationConfirmationPreview data={data} />
       <Flex justify='center' mt='4' className='print:hidden'>
         <Button size='4' onClick={() => window.print()}>
