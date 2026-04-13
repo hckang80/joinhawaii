@@ -1,5 +1,6 @@
 import { createReservationToken } from '@/lib/supabase/reservation-jwt';
 import { Buffer } from 'buffer';
+import crypto from 'crypto';
 import { NextRequest } from 'next/server';
 import nodemailer from 'nodemailer';
 import puppeteer from 'puppeteer';
@@ -44,11 +45,22 @@ export async function POST(req: NextRequest) {
 
     // Nodemailer로 메일 발송
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: 'smtp.cafe24.com',
+      port: 587,
+      secure: false,
+      requireTLS: true,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
-      }
+      },
+      tls: {
+        minVersion: 'TLSv1',
+        secureOptions: crypto.constants.SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION,
+        ciphers: 'DEFAULT@SECLEVEL=0',
+        rejectUnauthorized: false
+      },
+      debug: true,
+      logger: true
     });
 
     await transporter.sendMail({
