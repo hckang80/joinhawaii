@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
         await page.screenshot({ path: 'puppeteer_error.png' });
         throw new Error('예약확인서 페이지 접근 실패');
       }
-      pdfBuffer = await page.pdf({ format: 'A4', printBackground: true });
+      pdfBuffer = Buffer.from(await page.pdf({ format: 'A4', printBackground: true }));
     } catch (err) {
       console.error('[puppeteer] PDF 생성 중 에러:', err);
       await page.screenshot({ path: 'puppeteer_error.png' });
