@@ -58,12 +58,11 @@ export async function POST(req: NextRequest) {
         secureOptions: crypto.constants.SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION,
         ciphers: 'DEFAULT@SECLEVEL=0',
         rejectUnauthorized: false
-      },
-      debug: true,
-      logger: true
+      }
     });
 
-    await transporter.sendMail({
+    // 메일 발송
+    const mailOptions = {
       from: process.env.EMAIL_USER,
       to: toEmail,
       subject: '예약확인서',
@@ -74,7 +73,10 @@ export async function POST(req: NextRequest) {
           content: Buffer.from(pdfBuffer)
         }
       ]
-    });
+    };
+    const info = await transporter.sendMail(mailOptions);
+
+    console.log({ info });
 
     return new Response(JSON.stringify({ message: '메일이 성공적으로 발송되었습니다.' }), {
       status: 200
