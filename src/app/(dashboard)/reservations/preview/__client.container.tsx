@@ -1,6 +1,6 @@
 'use client';
 import { reservationQueryOptions } from '@/lib/queries';
-import { Box, Button, Flex, Text, TextField } from '@radix-ui/themes';
+import { Box, Button, Flex, Text } from '@radix-ui/themes';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { notFound } from 'next/navigation';
 import { useState } from 'react';
@@ -17,14 +17,15 @@ export default function ReservationPreviewClient({ reservation_id }: { reservati
   if (!data) notFound();
 
   // 메일 전송 상태 관리
-  const [email, setEmail] = useState('');
   const [emailSent, setEmailSent] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
 
   const sendMailMutation = useMutation({
-    mutationFn: async (toEmail: string) => {
+    mutationFn: async () => {
       setEmailSent('loading');
       setErrorMsg('');
+
+      const toEmail = 'hckang80@gmail.com';
       const res = await fetch('/api/send-reservation-pdf', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -55,33 +56,15 @@ export default function ReservationPreviewClient({ reservation_id }: { reservati
         <Button size='4' onClick={() => window.print()}>
           인쇄 / PDF 저장
         </Button>
-        <form
-          onSubmit={e => {
-            e.preventDefault();
-            if (!email) return;
-            sendMailMutation.mutate(email);
-          }}
-          style={{ display: 'flex', alignItems: 'center', gap: 8 }}
+        <Button
+          size='4'
+          color='indigo'
+          disabled={sendMailMutation.isLoading}
+          style={{ minWidth: 140 }}
+          onClick={() => sendMailMutation.mutate()}
         >
-          <TextField.Root
-            type='email'
-            placeholder='이메일 입력'
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            required
-            disabled={sendMailMutation.isLoading}
-            style={{ width: 220 }}
-          />
-          <Button
-            type='submit'
-            size='4'
-            color='indigo'
-            disabled={!email || sendMailMutation.isLoading}
-            style={{ minWidth: 100 }}
-          >
-            {sendMailMutation.isLoading ? '전송 중...' : '메일 보내기'}
-          </Button>
-        </form>
+          {sendMailMutation.isLoading ? '전송 중...' : '메일 보내기'}
+        </Button>
       </Flex>
       <Flex justify='center' mt='2' className='print:hidden'>
         {emailSent === 'success' && <Text color='green'>메일이 성공적으로 발송되었습니다.</Text>}
