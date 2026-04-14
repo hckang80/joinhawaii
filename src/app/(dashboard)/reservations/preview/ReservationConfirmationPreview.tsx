@@ -1,5 +1,6 @@
 import type { ReservationResponse } from '@/types';
 import { Box, Flex, Heading, Section, Table, Text } from '@radix-ui/themes';
+import styles from './preview-table.module.css';
 
 type ReservationConfirmationPreviewProps = {
   data: ReservationResponse;
@@ -19,35 +20,31 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
         <Heading as='h3' mb='2'>
           기본정보
         </Heading>
-        <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: 16 }}>
+        <table className={styles.table}>
           <tbody>
             <tr>
-              <th style={{ textAlign: 'left', padding: 4, border: '1px solid #ddd' }}>발행일</th>
-              <td style={{ padding: 4, border: '1px solid #ddd' }}>
+              <th className={styles.th}>발행일</th>
+              <td className={styles.td}>
                 {data.created_at ? new Date(data.created_at).toLocaleDateString() : '-'}
               </td>
-              <th style={{ textAlign: 'left', padding: 4, border: '1px solid #ddd' }}>담당자</th>
-              <td style={{ padding: 4, border: '1px solid #ddd' }}>{data.author || '-'}</td>
+              <th className={styles.th}>담당자</th>
+              <td className={styles.td}>{data.author || '-'}</td>
             </tr>
             <tr>
-              <th style={{ textAlign: 'left', padding: 4, border: '1px solid #ddd' }}>업체구분</th>
-              <td style={{ padding: 4, border: '1px solid #ddd' }}>
-                {data.booking_platform || '-'}
-              </td>
-              <th style={{ textAlign: 'left', padding: 4, border: '1px solid #ddd' }}>여행종류</th>
-              <td style={{ padding: 4, border: '1px solid #ddd' }}>{data.trip_type || '-'}</td>
+              <th className={styles.th}>업체구분</th>
+              <td className={styles.td}>{data.booking_platform || '-'}</td>
+              <th className={styles.th}>여행종류</th>
+              <td className={styles.td}>{data.trip_type || '-'}</td>
             </tr>
             <tr>
-              <th style={{ textAlign: 'left', padding: 4, border: '1px solid #ddd' }}>구분</th>
-              <td style={{ padding: 4, border: '1px solid #ddd' }}>
-                {data.travel_category || '-'}
-              </td>
-              <th style={{ textAlign: 'left', padding: 4, border: '1px solid #ddd' }}>예약구분</th>
-              <td style={{ padding: 4, border: '1px solid #ddd' }}>{data.reservation_id || '-'}</td>
+              <th className={styles.th}>구분</th>
+              <td className={styles.td}>{data.travel_category || '-'}</td>
+              <th className={styles.th}>예약구분</th>
+              <td className={styles.td}>{data.reservation_id || '-'}</td>
             </tr>
             <tr>
-              <th style={{ textAlign: 'left', padding: 4, border: '1px solid #ddd' }}>여행일정</th>
-              <td colSpan={3} style={{ padding: 4, border: '1px solid #ddd' }}>
+              <th className={styles.th}>여행일정</th>
+              <td colSpan={3} className={styles.td}>
                 {data.start_date || '-'} ~ {data.end_date || '-'}
                 {data.nights ? ` (${data.nights}박` : ''}
                 {data.days ? ` ${data.days}일)` : data.nights ? ')' : ''}
@@ -61,22 +58,22 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
         <Heading as='h3' mb='2'>
           고객정보
         </Heading>
-        <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: 16 }}>
+        <table className={styles.table}>
           <thead>
             <tr>
-              <th style={{ padding: 4, border: '1px solid #ddd' }}>이름</th>
-              <th style={{ padding: 4, border: '1px solid #ddd' }}>영문</th>
-              <th style={{ padding: 4, border: '1px solid #ddd' }}>연락처</th>
-              <th style={{ padding: 4, border: '1px solid #ddd' }}>이메일</th>
+              <th className={styles.th}>이름</th>
+              <th className={styles.th}>영문</th>
+              <th className={styles.th}>연락처</th>
+              <th className={styles.th}>이메일</th>
             </tr>
           </thead>
           <tbody>
             {data.clients?.map((client, idx) => (
               <tr key={idx}>
-                <td style={{ padding: 4, border: '1px solid #ddd' }}>{client.korean_name}</td>
-                <td style={{ padding: 4, border: '1px solid #ddd' }}>{client.english_name}</td>
-                <td style={{ padding: 4, border: '1px solid #ddd' }}>{client.phone_number}</td>
-                <td style={{ padding: 4, border: '1px solid #ddd' }}>{client.email}</td>
+                <td className={styles.td}>{client.korean_name}</td>
+                <td className={styles.td}>{client.english_name}</td>
+                <td className={styles.td}>{client.phone_number}</td>
+                <td className={styles.td}>{client.email}</td>
               </tr>
             ))}
           </tbody>
