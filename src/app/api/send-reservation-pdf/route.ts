@@ -81,10 +81,9 @@ export async function POST(req: NextRequest) {
     return new Response(JSON.stringify({ message: '메일이 성공적으로 발송되었습니다.' }), {
       status: 200
     });
-  } catch (err: any) {
-    console.error('메일 전송 에러:', err);
+  } catch (error) {
     return new Response(
-      JSON.stringify({ message: err?.message || '서버 에러', error: String(err) }),
+      JSON.stringify({ message: '메일 발송 중 오류가 발생했습니다.', error: String(error) }),
       { status: 500 }
     );
   }
