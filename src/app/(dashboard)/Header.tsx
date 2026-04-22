@@ -19,7 +19,7 @@ export default function Header() {
   };
 
   return (
-    <header>
+    <header className='print:hidden'>
       <Flex justify='end' gap='2' p='4'>
         {displayName(user)}
         <Button variant='ghost' size='3' onClick={handleLogout}>

@@ -1,4 +1,5 @@
 import { Box, Flex } from '@radix-ui/themes';
+import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
 import Header from './Header';
@@ -8,7 +9,7 @@ import Navigation from './Navigation';
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <Flex className={styles.root}>
-      <aside className={styles.aside}>
+      <aside className={clsx(styles.aside, 'print:hidden')}>
         <h1 className={styles.logo}>
           <Link href='/'>
             <Image src='/images/logo.png' width='90' height='40' alt='조인하와이' priority></Image>
