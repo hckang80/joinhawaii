@@ -7,7 +7,6 @@ type ReservationConfirmationPreviewProps = {
 };
 
 export function ReservationConfirmationPreview({ data }: ReservationConfirmationPreviewProps) {
-  console.log({ data });
   return (
     <Box>
       <Flex justify='center'>
