@@ -1,9 +1,10 @@
 import { reservationQueryOptions } from '@/lib/queries';
 import { verifyReservationToken } from '@/lib/supabase/reservation-jwt';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import { notFound } from 'next/navigation';
 import ReservationPreviewClient from './__client.container';
 
-export default async function ReservationsFormPage({
+export default async function ReservationsPreviewPage({
   searchParams
 }: {
   searchParams: Promise<{ reservation_id?: string; token?: string }>;
@@ -13,18 +14,16 @@ export default async function ReservationsFormPage({
   const token = params.token;
   const queryClient = new QueryClient();
 
-  let allow = false;
-  if (token && reservation_id) {
-    allow = await verifyReservationToken(token, reservation_id);
+  // 토큰이 있는 경우 반드시 검증 통과해야 접근 허용
+  if (token) {
+    const allow = reservation_id ? await verifyReservationToken(token, reservation_id) : false;
+    if (!allow) {
+      notFound();
+    }
   }
 
-  if (reservation_id && (allow || !token)) {
+  if (reservation_id) {
     await queryClient.prefetchQuery(reservationQueryOptions(reservation_id));
-  }
-
-  // 토큰이 있는데 검증 실패 시 not found
-  if (token && !allow) {
-    return null;
   }
 
   return (
