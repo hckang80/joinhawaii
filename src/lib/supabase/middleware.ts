@@ -41,8 +41,9 @@ export async function updateSession(request: NextRequest) {
     data: { user }
   } = await supabase.auth.getUser();
 
+  // 비로그인 사용자에 한해서만 JWT 토큰으로 미리보기 페이지 접근 허용
   const token = request.nextUrl.searchParams.get('token');
-  if (token && request.nextUrl.pathname.startsWith('/reservations/preview')) {
+  if (!user && token && request.nextUrl.pathname.startsWith('/reservations/preview')) {
     const reservation_id = request.nextUrl.searchParams.get('reservation_id');
     if (reservation_id) {
       const valid = await verifyReservationToken(token, reservation_id);
@@ -50,7 +51,7 @@ export async function updateSession(request: NextRequest) {
         return supabaseResponse;
       }
     }
-    // 유효하지 않으면 인증 우회 불가(=로그인 필요)
+    // 토큰이 유효하지 않으면 인증 우회 불가(=로그인 필요)
   }
 
   const isPublicPath = publicPaths.includes(request.nextUrl.pathname);

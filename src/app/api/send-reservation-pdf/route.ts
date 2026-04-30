@@ -1,12 +1,22 @@
 import { createReservationToken } from '@/lib/supabase/reservation-jwt';
-import { Buffer } from 'buffer';
-import crypto from 'crypto';
+import { createClient } from '@/lib/supabase/server';
 import { NextRequest } from 'next/server';
 import nodemailer from 'nodemailer';
 import puppeteer from 'puppeteer';
 
 export async function POST(req: NextRequest) {
   try {
+    // 로그인 세션 기반 인증 체크
+    const supabase = await createClient();
+    const {
+      data: { user },
+      error: userError
+    } = await supabase.auth.getUser();
+
+    if (userError || !user) {
+      return new Response(JSON.stringify({ message: '인증이 필요합니다.' }), { status: 401 });
+    }
+
     const body = await req.json();
     const { reservationId, toEmail } = body;
     if (!reservationId || !toEmail) {
@@ -54,10 +64,7 @@ export async function POST(req: NextRequest) {
         pass: process.env.EMAIL_PASS
       },
       tls: {
-        minVersion: 'TLSv1',
-        secureOptions: crypto.constants.SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION,
-        ciphers: 'DEFAULT@SECLEVEL=0',
-        rejectUnauthorized: false
+        minVersion: 'TLSv1.2'
       }
     });
 
@@ -70,7 +77,7 @@ export async function POST(req: NextRequest) {
       attachments: [
         {
           filename: 'reservation.pdf',
-          content: Buffer.from(pdfBuffer)
+          content: pdfBuffer
         }
       ]
     };
