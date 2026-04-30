@@ -53,6 +53,11 @@ export async function POST(req: NextRequest) {
     }
     await browser.close();
 
+    // pdfBuffer는 try 블록 내에서 항상 할당되며, 실패 시 위에서 early return 처리됨
+    if (!pdfBuffer) {
+      return new Response(JSON.stringify({ message: 'PDF 생성 실패' }), { status: 500 });
+    }
+
     // Nodemailer로 메일 발송
     const transporter = nodemailer.createTransport({
       host: 'smtp.cafe24.com',
