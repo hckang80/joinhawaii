@@ -85,6 +85,10 @@ export async function POST(req: NextRequest) {
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
+      },
+      tls: {
+        // cafe24 SMTP 서버의 TLS 버전 호환성 문제 해결 (인증서 검증은 유지됨)
+        minVersion: 'TLSv1'
       }
     });
 
