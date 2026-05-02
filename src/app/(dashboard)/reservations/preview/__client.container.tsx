@@ -38,7 +38,7 @@ export default function ReservationPreviewClient({ reservation_id }: { reservati
     onSuccess: () => {
       setEmailSent('success');
     },
-    onError: (err) => {
+    onError: err => {
       setEmailSent('error');
       setErrorMsg(err?.message || '메일 전송 실패');
     },
@@ -48,7 +48,7 @@ export default function ReservationPreviewClient({ reservation_id }: { reservati
   });
 
   return (
-    <Box width='700px' mx='auto'>
+    <Box width='800px' mx='auto'>
       <ReservationConfirmationPreview data={data} />
       <Flex justify='center' mt='4' gap='3' className='print:hidden'>
         <Button size='4' onClick={() => window.print()}>
