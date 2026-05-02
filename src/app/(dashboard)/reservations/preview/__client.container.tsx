@@ -57,7 +57,7 @@ export default function ReservationPreviewClient({ reservation_id }: { reservati
         <Button
           size='4'
           color='indigo'
-          disabled={sendMailMutation.isPending}
+          disabled
           style={{ minWidth: 140 }}
           onClick={() => sendMailMutation.mutate()}
         >
