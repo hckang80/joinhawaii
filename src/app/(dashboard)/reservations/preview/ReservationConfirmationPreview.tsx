@@ -29,11 +29,15 @@ function formatDate(value: string | null | undefined) {
 }
 
 export function ReservationConfirmationPreview({ data }: ReservationConfirmationPreviewProps) {
-  const flights = data.products?.flights ?? [];
-  const hotels = data.products?.hotels ?? [];
-  const tours = data.products?.tours ?? [];
-  const rentalCars = data.products?.rental_cars ?? [];
-  const insurances = data.products?.insurances ?? [];
+  const flights = (data.products?.flights ?? []).filter(product => product.status !== 'Refunded');
+  const hotels = (data.products?.hotels ?? []).filter(product => product.status !== 'Refunded');
+  const tours = (data.products?.tours ?? []).filter(product => product.status !== 'Refunded');
+  const rentalCars = (data.products?.rental_cars ?? []).filter(
+    product => product.status !== 'Refunded'
+  );
+  const insurances = (data.products?.insurances ?? []).filter(
+    product => product.status !== 'Refunded'
+  );
 
   return (
     <Box>
