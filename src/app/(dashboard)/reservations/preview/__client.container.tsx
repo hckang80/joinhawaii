@@ -7,12 +7,10 @@ import { useState } from 'react';
 import { ReservationConfirmationPreview } from './ReservationConfirmationPreview';
 
 export default function ReservationPreviewClient({ reservation_id }: { reservation_id: string }) {
-  console.log({ reservation_id });
   const { data } = useQuery({
     ...reservationQueryOptions(reservation_id!),
     enabled: !!reservation_id
   });
-  console.log({ reservation_id, data });
 
   if (!data) notFound();
 
