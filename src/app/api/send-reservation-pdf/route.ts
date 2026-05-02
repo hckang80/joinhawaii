@@ -80,15 +80,11 @@ export async function POST(req: NextRequest) {
     // Nodemailer로 메일 발송
     const transporter = nodemailer.createTransport({
       host: 'smtp.cafe24.com',
-      port: 587,
-      secure: false,
-      requireTLS: true,
+      port: 465,
+      secure: true,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
-      },
-      tls: {
-        minVersion: 'TLSv1.2'
       }
     });
 
