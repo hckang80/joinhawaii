@@ -44,12 +44,10 @@ export const updateReservationProducts = async (
     if (existingClients.length) {
       updates.push(
         supabase.from('clients').upsert(
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          existingClients.map(client => ({
+          existingClients.map(({ additional_options: _ao, ...client }) => ({
             ...client,
             reservation_id: reservationId
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          })) as unknown as any[]
+          })) as TablesInsert<'clients'>[]
         )
       );
     }
@@ -112,8 +110,7 @@ export const updateReservationProducts = async (
       updates.push(
         supabase
           .from(table)
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          .upsert(makeProductPayload(existingItems, reservationId) as unknown as any[])
+          .upsert(makeProductPayload(existingItems, reservationId) as TablesInsert<typeof table>[])
       );
     }
 
@@ -121,8 +118,7 @@ export const updateReservationProducts = async (
       updates.push(
         supabase
           .from(table)
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          .insert(makeProductPayload(newItems, reservationId) as unknown as any[])
+          .insert(makeProductPayload(newItems, reservationId) as TablesInsert<typeof table>[])
       );
     }
   });

@@ -370,7 +370,7 @@ export async function PATCH(request: Request) {
     const { data: updatedReservation, error } = await supabase
       .from('reservations')
       .update({
-        ...(totals as object),
+        ...(totals ?? {}),
         ...updates
       })
       .eq('reservation_id', reservation_id)

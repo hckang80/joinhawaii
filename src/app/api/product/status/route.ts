@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
-import type { Database, UpdateProductStatusParams } from '@/types';
+import type { UpdateProductStatusParams } from '@/types';
 import { NextResponse } from 'next/server';
 
 export async function PATCH(request: Request) {
@@ -14,7 +14,7 @@ export async function PATCH(request: Request) {
     if (error) throw error;
 
     return NextResponse.json({
-      ...(data as object),
+      ...(data ?? {}),
       message: '상품 상태가 업데이트되었습니다.'
     });
   } catch (error) {

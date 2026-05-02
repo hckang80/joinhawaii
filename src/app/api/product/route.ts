@@ -1,6 +1,6 @@
 import { PER_PAGE } from '@/constants';
 import { createClient } from '@/lib/supabase/server';
-import type { AdditionalOptions, Database, ProductWithReservation, TablesRow } from '@/types';
+import type { AdditionalOptions, ProductWithReservation, TablesRow } from '@/types';
 import { NextResponse } from 'next/server';
 
 type HotelRow = ProductWithReservation<TablesRow<'hotels'>>;
