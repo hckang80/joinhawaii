@@ -154,6 +154,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                 <th className={styles.th}>호텔명</th>
                 <th className={styles.th}>객실타입</th>
                 <th className={styles.th}>조식</th>
+                <th className={styles.th}>리조트피</th>
                 <th className={styles.th}>비고</th>
               </tr>
             </thead>
@@ -169,6 +170,15 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                     {[hotel.room_type, hotel.bed_type].filter(Boolean).join(' / ') || '-'}
                   </td>
                   <td className={styles.td}>{hotel.is_breakfast_included ? '포함' : '미포함'}</td>
+                  <td className={styles.td}>
+                    {hotel.resort_fee_type === 'INCLUSION'
+                      ? '포함'
+                      : hotel.resort_fee_type === 'EXCLUSION'
+                        ? '불포함'
+                        : hotel.resort_fee_type === 'NO RESORT FEE'
+                          ? '없음'
+                          : '-'}
+                  </td>
                   <td className={styles.td}>{hotel.remarks || '-'}</td>
                 </tr>
               ))}
