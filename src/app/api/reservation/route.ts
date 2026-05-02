@@ -3,7 +3,6 @@ import { getReservation, updateReservationProducts } from '@/lib/supabase/querie
 import { RESERVATION_SELECT_QUERY } from '@/lib/supabase/schema';
 import { createClient } from '@/lib/supabase/server';
 import type {
-  Database,
   PaymentStatusKey,
   ProductType,
   ProductValues,
