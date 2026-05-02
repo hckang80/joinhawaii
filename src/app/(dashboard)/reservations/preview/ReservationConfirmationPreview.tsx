@@ -225,6 +225,8 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                 <th className={styles.th}>반납일시</th>
                 <th className={styles.th}>반납장소</th>
                 <th className={styles.th}>차종</th>
+                <th className={styles.th}>운전자</th>
+                <th className={styles.th}>조건</th>
                 <th className={styles.th}>대여일</th>
               </tr>
             </thead>
@@ -237,6 +239,8 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                   <td className={styles.td}>{formatDateTime(car.return_date)}</td>
                   <td className={styles.td}>{car.return_location || '-'}</td>
                   <td className={styles.td}>{car.model || '-'}</td>
+                  <td className={styles.td}>{car.driver || '-'}</td>
+                  <td className={styles.td}>{car.rule || '-'}</td>
                   <td className={styles.td}>{car.rental_days ?? '-'}일</td>
                 </tr>
               ))}
