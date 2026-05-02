@@ -40,7 +40,7 @@ export default function ReservationPreviewClient({ reservation_id }: { reservati
     onSuccess: () => {
       setEmailSent('success');
     },
-    onError: (err: any) => {
+    onError: (err) => {
       setEmailSent('error');
       setErrorMsg(err?.message || '메일 전송 실패');
     },
