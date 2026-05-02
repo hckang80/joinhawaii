@@ -59,11 +59,11 @@ export default function ReservationPreviewClient({ reservation_id }: { reservati
         <Button
           size='4'
           color='indigo'
-          disabled={sendMailMutation.isLoading}
+          disabled={sendMailMutation.isPending}
           style={{ minWidth: 140 }}
           onClick={() => sendMailMutation.mutate()}
         >
-          {sendMailMutation.isLoading ? '전송 중...' : '메일 보내기'}
+          {sendMailMutation.isPending ? '전송 중...' : '메일 보내기'}
         </Button>
       </Flex>
       <Flex justify='center' mt='2' className='print:hidden'>
