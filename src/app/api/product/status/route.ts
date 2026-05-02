@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server';
 export async function PATCH(request: Request) {
   try {
     const params: UpdateProductStatusParams = await request.json();
-    const supabase = await createClient<Database>();
+    const supabase = await createClient();
 
     const { data, error } = await supabase.rpc('update_product_status', {
       payload: params
@@ -14,7 +14,7 @@ export async function PATCH(request: Request) {
     if (error) throw error;
 
     return NextResponse.json({
-      ...data,
+      ...(data as object),
       message: '상품 상태가 업데이트되었습니다.'
     });
   } catch (error) {

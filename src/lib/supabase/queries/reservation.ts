@@ -3,12 +3,16 @@ import type {
   Database,
   ProductType,
   ReservationQueryResponse,
+  TablesInsert,
   TablesRow
 } from '@/types';
-import { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@supabase/supabase-js';
 import { RESERVATION_SELECT_QUERY } from '../schema';
 
-export const getReservation = async (supabase: SupabaseClient<Database>, reservationId: string) => {
+export const getReservation = async (
+  supabase: SupabaseClient<Database, 'public'>,
+  reservationId: string
+) => {
   const { data, error } = await supabase
     .from('reservations')
     .select<string, ReservationQueryResponse>(RESERVATION_SELECT_QUERY)
@@ -20,7 +24,7 @@ export const getReservation = async (supabase: SupabaseClient<Database>, reserva
 };
 
 export const updateReservationProducts = async (
-  supabase: SupabaseClient<Database>,
+  supabase: SupabaseClient<Database, 'public'>,
   reservationId: string,
   products: {
     clients?: Array<Partial<TablesRow<'clients'>>>;
@@ -40,10 +44,12 @@ export const updateReservationProducts = async (
     if (existingClients.length) {
       updates.push(
         supabase.from('clients').upsert(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           existingClients.map(client => ({
             ...client,
             reservation_id: reservationId
-          }))
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          })) as unknown as any[]
         )
       );
     }
@@ -54,7 +60,7 @@ export const updateReservationProducts = async (
           newClients.map(client => ({
             ...client,
             reservation_id: reservationId
-          }))
+          })) as unknown as TablesInsert<'clients'>[]
         )
       );
     }
@@ -84,12 +90,9 @@ export const updateReservationProducts = async (
       }
     >,
     reservationId: string
-  ): Array<{
-    reservation_id: string;
-    exchange_rate?: number;
-  }> {
+  ): Record<string, unknown>[] {
     return items.map(item => {
-      const { additional_options, type, ...rest } = item;
+      const { additional_options: _ao, type: _type, ...rest } = item;
       return {
         ...rest,
         reservation_id: reservationId
@@ -106,11 +109,21 @@ export const updateReservationProducts = async (
     const newItems = items.filter(item => !item.id);
 
     if (existingItems.length) {
-      updates.push(supabase.from(table).upsert(makeProductPayload(existingItems, reservationId)));
+      updates.push(
+        supabase
+          .from(table)
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          .upsert(makeProductPayload(existingItems, reservationId) as unknown as any[])
+      );
     }
 
     if (newItems.length) {
-      updates.push(supabase.from(table).insert(makeProductPayload(newItems, reservationId)));
+      updates.push(
+        supabase
+          .from(table)
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          .insert(makeProductPayload(newItems, reservationId) as unknown as any[])
+      );
     }
   });
 

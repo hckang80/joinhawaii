@@ -1,11 +1,16 @@
 import { PER_PAGE } from '@/constants';
 import { createClient } from '@/lib/supabase/server';
-import type { AdditionalOptions, Database } from '@/types';
+import type { AdditionalOptions, Database, ProductWithReservation, TablesRow } from '@/types';
 import { NextResponse } from 'next/server';
+
+type HotelRow = ProductWithReservation<TablesRow<'hotels'>>;
+type TourRow = ProductWithReservation<TablesRow<'tours'>>;
+type RentalCarRow = ProductWithReservation<TablesRow<'rental_cars'>>;
+type InsuranceRow = ProductWithReservation<TablesRow<'insurances'>>;
 
 export async function GET(request: Request) {
   try {
-    const supabase = await createClient<Database>();
+    const supabase = await createClient();
 
     const url = new URL(request.url);
     const page = Number.parseInt(url.searchParams.get('page') || '1');
@@ -22,28 +27,28 @@ export async function GET(request: Request) {
     const paymentStatus = url.searchParams.get('payment_status');
 
     const [hotels, tours, rental_cars, insurances, reservations] = await Promise.all([
-      supabase.from('hotels').select(`
+      supabase.from('hotels').select<string, HotelRow>(`
           *,
           reservations!hotels_reservation_id_fkey (
             main_client_name,
             booking_platform
           )
         `),
-      supabase.from('tours').select(`
+      supabase.from('tours').select<string, TourRow>(`
           *,
           reservations!tours_reservation_id_fkey (
             main_client_name,
             booking_platform
           )
         `),
-      supabase.from('rental_cars').select(`
+      supabase.from('rental_cars').select<string, RentalCarRow>(`
           *,
           reservations!rental_cars_reservation_id_fkey (
             main_client_name,
             booking_platform
           )
         `),
-      supabase.from('insurances').select(`
+      supabase.from('insurances').select<string, InsuranceRow>(`
           *,
           reservations!insurances_reservation_id_fkey (
             main_client_name,

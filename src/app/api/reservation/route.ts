@@ -17,9 +17,17 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
   try {
-    const { clients, ...rest }: ReservationRequest = await request.json();
+    const {
+      clients,
+      flights: _flights,
+      hotels: _hotels,
+      tours: _tours,
+      rental_cars: _rental_cars,
+      insurances: _insurances,
+      ...reservationData
+    }: ReservationRequest = await request.json();
     const today = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-    const supabase = await createClient<Database>();
+    const supabase = await createClient();
 
     const {
       data: { user },
@@ -45,11 +53,11 @@ export async function POST(request: Request) {
     const reservationId = `${today}-JH${String(sequence).padStart(3, '0')}`;
 
     const normalized = {
-      ...rest,
-      start_date: rest.start_date || null,
-      end_date: rest.end_date || null,
-      nights: Number(rest.nights),
-      days: Number(rest.days)
+      ...reservationData,
+      start_date: reservationData.start_date || null,
+      end_date: reservationData.end_date || null,
+      nights: Number(reservationData.nights),
+      days: Number(reservationData.days)
     };
 
     const { data, error } = await supabase
@@ -73,6 +81,10 @@ export async function POST(request: Request) {
     if (error) {
       console.error('예약 생성 실패:', error);
       throw error;
+    }
+
+    if (!data) {
+      throw new Error('예약 등록 후 데이터를 가져올 수 없습니다.');
     }
 
     if (clientError) {
@@ -105,7 +117,7 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const reservationId = searchParams.get('reservationId');
-    const supabase = await createClient<Database>();
+    const supabase = await createClient();
 
     if (reservationId) {
       const reservation = await getReservation(supabase, reservationId);
@@ -340,7 +352,7 @@ export async function PATCH(request: Request) {
       throw new Error('예약번호는 필수입니다.');
     }
 
-    const supabase = await createClient<Database>();
+    const supabase = await createClient();
 
     await updateReservationProducts(supabase, reservation_id, {
       clients,
@@ -358,7 +370,7 @@ export async function PATCH(request: Request) {
     const { data: updatedReservation, error } = await supabase
       .from('reservations')
       .update({
-        ...totals,
+        ...(totals as object),
         ...updates
       })
       .eq('reservation_id', reservation_id)
