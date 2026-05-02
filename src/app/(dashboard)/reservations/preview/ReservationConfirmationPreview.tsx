@@ -240,7 +240,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                   <td className={styles.td}>{car.return_location || '-'}</td>
                   <td className={styles.td}>{car.model || '-'}</td>
                   <td className={styles.td}>{car.driver || '-'}</td>
-                  <td className={styles.td}>{car.rule || '-'}</td>
+                  <td className={styles.td}>{car.options || '-'}</td>
                   <td className={styles.td}>{car.rental_days ?? '-'}일</td>
                 </tr>
               ))}
