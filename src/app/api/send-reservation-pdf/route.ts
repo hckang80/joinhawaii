@@ -35,17 +35,37 @@ export async function POST(req: NextRequest) {
     const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] });
     const page = await browser.newPage();
     let pdfBuffer: Buffer | null = null;
+
+    /**
+     * 서버리스/컨테이너 환경에서도 안전하게 에러 스크린샷을 메모리 버퍼로 수집합니다.
+     * 파일 시스템에 저장하지 않고, 최소한의 메타데이터만 로그로 남깁니다.
+     */
+    const captureErrorScreenshot = async (label: string) => {
+      try {
+        const screenshot = await page.screenshot({ type: 'png' });
+        const screenshotBuffer = Buffer.isBuffer(screenshot) ? screenshot : Buffer.from(screenshot);
+
+        console.error('[puppeteer] 에러 스크린샷 캡처 완료:', {
+          label,
+          size: screenshotBuffer.length,
+          mimeType: 'image/png'
+        });
+      } catch (screenshotError) {
+        console.error('[puppeteer] 에러 스크린샷 캡처 실패:', screenshotError);
+      }
+    };
+
     try {
       const response = await page.goto(previewUrl, { waitUntil: 'networkidle0', timeout: 20000 });
       if (!response || !response.ok()) {
         console.error('[puppeteer] 페이지 접근 실패:', response?.status(), response?.statusText());
-        await page.screenshot({ path: 'puppeteer_error.png' });
+        await captureErrorScreenshot('page-goto-failed');
         throw new Error('예약확인서 페이지 접근 실패');
       }
       pdfBuffer = Buffer.from(await page.pdf({ format: 'A4', printBackground: true }));
     } catch (err) {
       console.error('[puppeteer] PDF 생성 중 에러:', err);
-      await page.screenshot({ path: 'puppeteer_error.png' });
+      await captureErrorScreenshot('pdf-generation-failed');
       await browser.close();
       return new Response(JSON.stringify({ message: 'PDF 생성 실패', error: String(err) }), {
         status: 500
