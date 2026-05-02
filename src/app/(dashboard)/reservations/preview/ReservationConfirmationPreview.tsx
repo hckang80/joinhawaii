@@ -11,6 +11,7 @@ function formatDateTime(value: string | null | undefined) {
   const d = new Date(value);
   if (isNaN(d.getTime())) return value;
   return d.toLocaleString('ko-KR', {
+    timeZone: 'Asia/Seoul',
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
@@ -23,7 +24,7 @@ function formatDate(value: string | null | undefined) {
   if (!value) return '-';
   const d = new Date(value);
   if (isNaN(d.getTime())) return value;
-  return d.toLocaleDateString('ko-KR');
+  return d.toLocaleDateString('ko-KR', { timeZone: 'Asia/Seoul' });
 }
 
 export function ReservationConfirmationPreview({ data }: ReservationConfirmationPreviewProps) {
@@ -184,8 +185,8 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
             <thead>
               <tr>
                 <th className={styles.th}>지역</th>
-                <th className={styles.th}>시작일</th>
-                <th className={styles.th}>종료일</th>
+                <th className={styles.th}>시작일시</th>
+                <th className={styles.th}>종료일시</th>
                 <th className={styles.th}>상품명</th>
                 <th className={styles.th}>비고</th>
               </tr>
@@ -194,8 +195,8 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
               {tours.map((tour, idx) => (
                 <tr key={tour.id ?? idx}>
                   <td className={styles.td}>{tour.region || '-'}</td>
-                  <td className={styles.td}>{formatDate(tour.start_date)}</td>
-                  <td className={styles.td}>{formatDate(tour.end_date)}</td>
+                  <td className={styles.td}>{formatDateTime(tour.start_date)}</td>
+                  <td className={styles.td}>{formatDateTime(tour.end_date)}</td>
                   <td className={styles.td}>{tour.name || '-'}</td>
                   <td className={styles.td}>{tour.remarks || '-'}</td>
                 </tr>
