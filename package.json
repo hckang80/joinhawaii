@@ -38,7 +38,7 @@
     "jose": "^6.2.2",
     "jspdf": "^4.2.1",
     "lucide-react": "^0.540.0",
-    "next": "15.5.7,",
+    "next": "15.5.7",
     "nextjs-toploader": "^3.8.16",
     "nodemailer": "^8.0.5",
     "puppeteer": "^24.40.0",
