@@ -102,9 +102,7 @@ export async function PATCH(request: Request) {
     const updated = toUpdate.length
       ? (
           await Promise.all(
-            toUpdate.map(item =>
-              supabase.from('options').update(item).eq('id', item.id!).select()
-            )
+            toUpdate.map(item => supabase.from('options').update(item).eq('id', item.id!).select())
           )
         ).flatMap(res => res.data ?? [])
       : [];
