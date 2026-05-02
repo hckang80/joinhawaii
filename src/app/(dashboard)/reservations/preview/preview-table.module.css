@@ -1,0 +1,22 @@
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+.th {
+  text-align: left;
+  padding: 6px;
+  border: 1px solid #ddd;
+  background: #f8f8f8;
+}
+.td {
+  padding: 6px;
+  border: 1px solid #ddd;
+}
+
+@media print {
+  .table {
+    page-break-inside: avoid;
+  }
+}

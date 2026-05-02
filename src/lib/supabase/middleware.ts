@@ -1,6 +1,8 @@
 import { checkProfile } from '@/http';
 import { createServerClient } from '@supabase/ssr';
+import type { CookieOptions } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
+import { verifyReservationToken } from './reservation-jwt';
 
 const publicPaths = ['/', '/login', '/error'];
 
@@ -17,7 +19,7 @@ export async function updateSession(request: NextRequest) {
         getAll() {
           return request.cookies.getAll();
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: { name: string; value: string; options: CookieOptions }[]) {
           cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
           supabaseResponse = NextResponse.next({
             request
@@ -39,6 +41,19 @@ export async function updateSession(request: NextRequest) {
   const {
     data: { user }
   } = await supabase.auth.getUser();
+
+  // 비로그인 사용자에 한해서만 JWT 토큰으로 미리보기 페이지 접근 허용
+  const token = request.nextUrl.searchParams.get('token');
+  if (!user && token && request.nextUrl.pathname.startsWith('/reservations/preview')) {
+    const reservation_id = request.nextUrl.searchParams.get('reservation_id');
+    if (reservation_id) {
+      const valid = await verifyReservationToken(token, reservation_id);
+      if (valid) {
+        return supabaseResponse;
+      }
+    }
+    // 토큰이 유효하지 않으면 인증 우회 불가(=로그인 필요)
+  }
 
   const isPublicPath = publicPaths.includes(request.nextUrl.pathname);
   if (!user && !isPublicPath) {

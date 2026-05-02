@@ -63,16 +63,16 @@ export type AllProducts = {
 export type ProductType = 'flight' | 'hotel' | 'tour' | 'rental_car' | 'insurance';
 export type ProductsType = `${ProductType}s`;
 
-export interface UpdateProductStatusParams {
+export type UpdateProductStatusParams = {
   reservation_id: string;
   product_type: ProductType;
   product_id: number;
   status: ProductStatusKey;
-}
+};
 
 export type BaseRow = {
   id: number;
-  reservation_id: number;
+  reservation_id: string;
   created_at: string;
   additional_options: AdditionalOptions[];
 };
@@ -86,7 +86,7 @@ export interface ReservationItem {
   insurances: Insurance[];
 }
 
-export interface ReservationBaseInfo {
+export type ReservationBaseInfo = {
   reservation_id?: string;
   exchange_rate: number;
   booking_platform: string;
@@ -101,7 +101,7 @@ export interface ReservationBaseInfo {
   nights: number;
   days: number;
   content: string;
-}
+};
 
 export interface ReservationSuccessResponse {
   reservation_id: string;
@@ -116,6 +116,7 @@ type TableSchema<TRow, TInsert = Omit<TRow, 'id'>, TUpdate = Partial<TRow>> = {
   Row: TRow;
   Insert: TInsert;
   Update: TUpdate;
+  Relationships: never[];
 };
 
 export type ReservationFormData = ReservationBaseInfo & ReservationItem;
@@ -126,56 +127,65 @@ export interface Database {
   public: {
     Tables: {
       reservations: TableSchema<
-        {
+        ReservationBaseInfo & {
           id: number;
           reservation_id: string;
           status: string;
           created_at: string;
-          main_client_name: string;
-          total_amount?: number;
-          deposit: number;
+          author?: string;
+          author_email?: string;
+          total_cost?: number;
+          total_amount_krw?: number;
+          total_cost_krw?: number;
+          payment_status?: string;
         },
-        {
+        Partial<ReservationBaseInfo> & {
           id?: number;
           reservation_id: string;
           status?: string;
           created_at?: string;
+          author?: string;
+          author_email?: string;
           main_client_name: string;
-          total_amount?: number;
-          deposit?: number;
         }
       >;
       clients: TableSchema<
         BaseRow & Client,
-        Omit<Client, 'id'> & { reservation_id: number },
-        Partial<Client> & { reservation_id?: number }
+        Omit<Client, 'id'> & { reservation_id: string; id?: number; created_at?: string },
+        Partial<Client> & { reservation_id?: string }
       >;
       flights: TableSchema<
         BaseRow & Flight,
-        Omit<Flight, 'id'> & { reservation_id: number; created_at?: string },
-        Partial<Flight> & { reservation_id?: number; created_at?: string }
+        Omit<Flight, 'id'> & { reservation_id: string; created_at?: string; id?: number },
+        Partial<Flight> & { reservation_id?: string; created_at?: string }
       >;
       hotels: TableSchema<
         BaseRow & Hotel,
-        Omit<Hotel, 'id'> & { reservation_id: number; created_at?: string },
-        Partial<Hotel> & { reservation_id?: number; created_at?: string }
+        Omit<Hotel, 'id'> & { reservation_id: string; created_at?: string; id?: number },
+        Partial<Hotel> & { reservation_id?: string; created_at?: string }
       >;
       tours: TableSchema<
         BaseRow & Tour,
-        Omit<Tour, 'id'> & { reservation_id: number; created_at?: string },
-        Partial<Tour> & { reservation_id?: number; created_at?: string }
+        Omit<Tour, 'id'> & { reservation_id: string; created_at?: string; id?: number },
+        Partial<Tour> & { reservation_id?: string; created_at?: string }
       >;
       rental_cars: TableSchema<
         BaseRow & Car,
-        Omit<Car, 'id'> & { reservation_id: number; created_at?: string },
-        Partial<Car> & { reservation_id?: number; created_at?: string }
+        Omit<Car, 'id'> & { reservation_id: string; created_at?: string; id?: number },
+        Partial<Car> & { reservation_id?: string; created_at?: string }
       >;
       insurances: TableSchema<
         BaseRow & Insurance,
-        Omit<Insurance, 'id'> & { reservation_id: number; created_at?: string },
-        Partial<Insurance> & { reservation_id?: number; created_at?: string }
+        Omit<Insurance, 'id'> & { reservation_id: string; created_at?: string; id?: number },
+        Partial<Insurance> & { reservation_id?: string; created_at?: string }
+      >;
+      options: TableSchema<
+        AdditionalOptions & { id: number },
+        Omit<AdditionalOptions, 'id'>,
+        Partial<AdditionalOptions>
       >;
     };
+    Views: Record<string, never>;
     Functions: {
       create_reservation: {
         Args: {
@@ -190,9 +200,24 @@ export interface Database {
         };
         Returns: Json;
       };
+      calculate_reservation_total: {
+        Args: { p_reservation_id: string };
+        Returns: ReservationTotalResult;
+      };
+      update_product_status: {
+        Args: { payload: UpdateProductStatusParams };
+        Returns: ReservationTotalResult;
+      };
     };
   };
 }
+
+export type ReservationTotalResult = {
+  total_amount?: number;
+  total_cost?: number;
+  total_amount_krw?: number;
+  total_cost_krw?: number;
+};
 
 export type TablesInsert<T extends keyof Database['public']['Tables']> =
   Database['public']['Tables'][T]['Insert'];

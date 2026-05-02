@@ -1,14 +1,17 @@
 import { createClient } from '@/lib/supabase/server';
-import type { AdditionalOptions, Database } from '@/types';
+import type { AdditionalOptions, ProductType, TablesInsert } from '@/types';
 import { calculateTotalAmount } from '@/utils';
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
   try {
     const body: AdditionalOptions[] = await request.json();
-    const supabase = await createClient<Database>();
+    const supabase = await createClient();
 
-    const { data, error } = await supabase.from('options').insert(body).select();
+    const { data, error } = await supabase
+      .from('options')
+      .insert(body.map(({ id: _id, ...rest }) => rest) as TablesInsert<'options'>[])
+      .select();
 
     if (error) {
       console.error('추가 옵션 등록 실패:', error);
@@ -39,14 +42,14 @@ export async function GET(request: Request) {
     const pid = searchParams.get('pid');
     const type = searchParams.get('type');
 
-    const supabase = await createClient<Database>();
+    const supabase = await createClient();
     const query = supabase
       .from('options')
       .select<string, AdditionalOptions>('*')
       .order('id', { ascending: true });
 
-    if (pid) query.eq('pid', pid);
-    if (type) query.eq('type', type);
+    if (pid) query.eq('pid', Number(pid));
+    if (type) query.eq('type', type as ProductType);
 
     const { data, error } = await query;
 
@@ -82,21 +85,24 @@ export async function GET(request: Request) {
 export async function PATCH(request: Request) {
   try {
     const body: AdditionalOptions[] = await request.json();
-    const supabase = await createClient<Database>();
+    const supabase = await createClient();
     const reservation_id = body[0]?.reservation_id;
 
     const toInsert = body.filter(item => !item.id);
     const toUpdate = body.filter(item => !!item.id);
 
     const { data: inserted = [], error: insertError } = toInsert.length
-      ? await supabase.from('options').insert(toInsert).select()
+      ? await supabase
+          .from('options')
+          .insert(toInsert.map(({ id: _id, ...rest }) => rest) as TablesInsert<'options'>[])
+          .select()
       : { data: [], error: null };
     if (insertError) throw insertError;
 
     const updated = toUpdate.length
       ? (
           await Promise.all(
-            toUpdate.map(item => supabase.from('options').update(item).eq('id', item.id).select())
+            toUpdate.map(item => supabase.from('options').update(item).eq('id', item.id!).select())
           )
         ).flatMap(res => res.data ?? [])
       : [];
@@ -108,7 +114,7 @@ export async function PATCH(request: Request) {
     const { data: updatedReservation, error } = await supabase
       .from('reservations')
       .update({
-        ...totals
+        ...(totals ?? {})
       })
       .eq('reservation_id', reservation_id)
       .select()
