@@ -120,7 +120,6 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                 <th className={styles.th}>출발지</th>
                 <th className={styles.th}>도착시간</th>
                 <th className={styles.th}>도착지</th>
-                <th className={styles.th}>비고</th>
               </tr>
             </thead>
             <tbody>
@@ -131,7 +130,6 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                   <td className={styles.td}>{flight.departure_city || '-'}</td>
                   <td className={styles.td}>{formatDateTime(flight.arrival_datetime)}</td>
                   <td className={styles.td}>{flight.arrival_city || '-'}</td>
-                  <td className={styles.td}>{flight.remarks || '-'}</td>
                 </tr>
               ))}
             </tbody>
@@ -155,7 +153,6 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                 <th className={styles.th}>객실타입</th>
                 <th className={styles.th}>조식</th>
                 <th className={styles.th}>리조트피</th>
-                <th className={styles.th}>비고</th>
               </tr>
             </thead>
             <tbody>
@@ -179,7 +176,6 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                           ? '없음'
                           : '-'}
                   </td>
-                  <td className={styles.td}>{hotel.remarks || '-'}</td>
                 </tr>
               ))}
             </tbody>
@@ -199,7 +195,6 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                 <th className={styles.th}>시작일시</th>
                 <th className={styles.th}>종료일시</th>
                 <th className={styles.th}>상품명</th>
-                <th className={styles.th}>비고</th>
               </tr>
             </thead>
             <tbody>
@@ -209,7 +204,6 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                   <td className={styles.td}>{formatDateTime(tour.start_date)}</td>
                   <td className={styles.td}>{formatDateTime(tour.end_date)}</td>
                   <td className={styles.td}>{tour.name || '-'}</td>
-                  <td className={styles.td}>{tour.remarks || '-'}</td>
                 </tr>
               ))}
             </tbody>
@@ -232,7 +226,6 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                 <th className={styles.th}>반납장소</th>
                 <th className={styles.th}>차종</th>
                 <th className={styles.th}>대여일</th>
-                <th className={styles.th}>비고</th>
               </tr>
             </thead>
             <tbody>
@@ -245,7 +238,6 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                   <td className={styles.td}>{car.return_location || '-'}</td>
                   <td className={styles.td}>{car.model || '-'}</td>
                   <td className={styles.td}>{car.rental_days ?? '-'}일</td>
-                  <td className={styles.td}>{car.remarks || '-'}</td>
                 </tr>
               ))}
             </tbody>
@@ -265,7 +257,6 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                 <th className={styles.th}>시작일</th>
                 <th className={styles.th}>종료일</th>
                 <th className={styles.th}>여행일수</th>
-                <th className={styles.th}>비고</th>
               </tr>
             </thead>
             <tbody>
@@ -275,7 +266,6 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                   <td className={styles.td}>{formatDate(insurance.start_date)}</td>
                   <td className={styles.td}>{formatDate(insurance.end_date)}</td>
                   <td className={styles.td}>{insurance.days ?? '-'}일</td>
-                  <td className={styles.td}>{insurance.remarks || '-'}</td>
                 </tr>
               ))}
             </tbody>
