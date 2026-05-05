@@ -51,7 +51,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
     <Box>
       <Flex justify='center'>
         <Heading as='h2' mb='3' size='7'>
-          예약확인서
+          조인하와이 예약확인서
         </Heading>
       </Flex>
 
