@@ -886,6 +886,7 @@ export const defaultClientValues = {
   resident_id: '',
   phone_number: '',
   email: '',
+  is_main_client: false,
   status: 'InProgress' as ProductStatusKey,
   notes: ''
 };
