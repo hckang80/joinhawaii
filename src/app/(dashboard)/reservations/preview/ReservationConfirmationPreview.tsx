@@ -80,6 +80,29 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
       </Section>
 
       <Section size='1'>
+        <table className={styles.table}>
+          <tbody>
+            <tr>
+              <th className={styles.th}>여행종류</th>
+              <td className={styles.td}>
+                {[data.trip_type, `성인${data.clients?.length ?? 0}명`]
+                  .filter(Boolean)
+                  .join(' / ')}
+              </td>
+            </tr>
+            <tr>
+              <th className={styles.th}>여행일정</th>
+              <td className={styles.td}>
+                {data.start_date ? formatDate(data.start_date) : '-'} ~{' '}
+                {data.end_date ? formatDate(data.end_date) : '-'}
+                {data.nights && data.days ? ` (${data.nights}박 ${data.days}일)` : ''}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </Section>
+
+      <Section size='1'>
         <Heading as='h3' mb='2'>
           기본정보
         </Heading>
