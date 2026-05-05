@@ -80,6 +80,37 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
 
         <table className={styles.table}>
           <colgroup>
+            <col style={{ width: '100px' }} />
+            <col />
+            <col style={{ width: '100px' }} />
+            <col />
+            <col style={{ width: '100px' }} />
+            <col />
+            <col style={{ width: '100px' }} />
+            <col />
+          </colgroup>
+          <tbody>
+            <tr>
+              <th className={styles.th}>발행일</th>
+              <td className={styles.td}>
+                {data.created_at ? new Date(data.created_at).toLocaleDateString() : '-'}
+              </td>
+              <th className={styles.th}>담당자</th>
+              <td className={styles.td}>{data.author || '-'}</td>
+              <th className={styles.th}>담당자 연락처</th>
+              <td className={styles.td}>-</td>
+              <th className={styles.th}>email</th>
+              <td className={styles.td}>
+                <a href='mailto:joinhawaii@joinhawaii.com'>joinhawaii@joinhawaii.com</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </Section>
+
+      <Section size='1'>
+        <table className={styles.table}>
+          <colgroup>
             <col style={{ width: '130px' }} />
             <col />
             <col style={{ width: '130px' }} />
