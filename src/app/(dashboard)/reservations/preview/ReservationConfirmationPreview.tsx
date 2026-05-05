@@ -81,16 +81,18 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
 
       <Section size='1'>
         <table className={styles.table}>
+          <colgroup>
+            <col style={{ width: '130px' }} />
+            <col />
+            <col style={{ width: '130px' }} />
+            <col />
+          </colgroup>
           <tbody>
             <tr>
               <th className={styles.th}>여행종류</th>
               <td className={styles.td}>
-                {[data.trip_type, `성인${data.clients?.length ?? 0}명`]
-                  .filter(Boolean)
-                  .join(' / ')}
+                {[data.trip_type, `성인${data.clients?.length ?? 0}명`].filter(Boolean).join(' / ')}
               </td>
-            </tr>
-            <tr>
               <th className={styles.th}>여행일정</th>
               <td className={styles.td}>
                 {data.start_date ? formatDate(data.start_date) : '-'} ~{' '}
