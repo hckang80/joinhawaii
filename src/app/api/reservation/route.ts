@@ -9,10 +9,67 @@ import type {
   ReservationQueryResponse,
   ReservationRequest,
   ReservationRow,
-  ReservationUpdateRequest
+  ReservationUpdateRequest,
+  TablesInsert
 } from '@/types';
 import { compareByDateField, isPostgrestError } from '@/utils';
 import { NextResponse } from 'next/server';
+
+type ReservationWritePayload = Pick<
+  ReservationRequest,
+  | 'main_client_name'
+  | 'booking_platform'
+  | 'reservation_fee'
+  | 'deposit'
+  | 'trip_type'
+  | 'travel_category'
+  | 'start_date'
+  | 'end_date'
+  | 'nights'
+  | 'days'
+  | 'content'
+>;
+
+const reservationStringKeys = [
+  'main_client_name',
+  'booking_platform',
+  'trip_type',
+  'travel_category',
+  'content'
+] satisfies Array<keyof ReservationWritePayload>;
+
+const reservationNullableDateKeys = ['start_date', 'end_date'] satisfies Array<
+  keyof ReservationWritePayload
+>;
+
+const reservationNumericKeys = ['reservation_fee', 'deposit', 'nights', 'days'] satisfies Array<
+  keyof ReservationWritePayload
+>;
+
+const getReservationWritePayload = (payload: Record<string, unknown>) => {
+  const writePayload: Partial<ReservationWritePayload> = {};
+
+  reservationStringKeys.forEach(key => {
+    if (key in payload) {
+      writePayload[key] = payload[key] as ReservationWritePayload[typeof key];
+    }
+  });
+
+  reservationNullableDateKeys.forEach(key => {
+    if (key in payload) {
+      writePayload[key] = ((payload[key] as string | null) ||
+        null) as ReservationWritePayload[typeof key];
+    }
+  });
+
+  reservationNumericKeys.forEach(key => {
+    if (key in payload) {
+      writePayload[key] = Number(payload[key] ?? 0) as ReservationWritePayload[typeof key];
+    }
+  });
+
+  return writePayload;
+};
 
 export async function POST(request: Request) {
   try {
@@ -51,13 +108,7 @@ export async function POST(request: Request) {
 
     const reservationId = `${today}-JH${String(sequence).padStart(3, '0')}`;
 
-    const normalized = {
-      ...reservationData,
-      start_date: reservationData.start_date || null,
-      end_date: reservationData.end_date || null,
-      nights: Number(reservationData.nights),
-      days: Number(reservationData.days)
-    };
+    const normalized = getReservationWritePayload(reservationData as Record<string, unknown>);
 
     const { data, error } = await supabase
       .from('reservations')
@@ -66,7 +117,7 @@ export async function POST(request: Request) {
         reservation_id: reservationId,
         author: user?.user_metadata?.full_name || '-',
         author_email: user?.email || '-'
-      })
+      } as TablesInsert<'reservations'>)
       .select()
       .maybeSingle();
 
@@ -366,12 +417,14 @@ export async function PATCH(request: Request) {
       p_reservation_id: reservation_id
     });
 
+    const reservationUpdates = getReservationWritePayload(updates as Record<string, unknown>);
+
     const { data: updatedReservation, error } = await supabase
       .from('reservations')
       .update({
         ...(totals ?? {}),
-        ...updates
-      })
+        ...reservationUpdates
+      } as Partial<ReservationRow>)
       .eq('reservation_id', reservation_id)
       .select()
       .single();
