@@ -72,14 +72,12 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
       </Flex>
 
       <Section size='1'>
-        <Flex justify='end'>
+        <Flex justify='end' mb='1'>
           <Text size='4' weight='bold'>
             {formatClientTitle(data)}
           </Text>
         </Flex>
-      </Section>
 
-      <Section size='1'>
         <table className={styles.table}>
           <colgroup>
             <col style={{ width: '130px' }} />
