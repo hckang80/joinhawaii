@@ -36,6 +36,22 @@ function formatAdditionalOptions(value: AdditionalOptions[] | null | undefined) 
   return labels.length ? labels.join(', ') : '-';
 }
 
+function formatClientTitle(data: ReservationResponse) {
+  const clients = data.clients ?? [];
+  const names = clients.map(client => client.korean_name?.trim()).filter(Boolean);
+
+  if (!names.length) return '-';
+
+  const mainClient = names.find(name => name === data.main_client_name?.trim()) ?? names[0];
+  const orderedNames = [mainClient, ...names.filter(name => name !== mainClient)];
+
+  if (orderedNames.length <= 2) {
+    return `${orderedNames.join(', ')} 귀하`;
+  }
+
+  return `${orderedNames[0]} 외 ${orderedNames.length - 1}인 귀하`;
+}
+
 export function ReservationConfirmationPreview({ data }: ReservationConfirmationPreviewProps) {
   const flights = (data.products?.flights ?? []).filter(product => product.status !== 'Refunded');
   const hotels = (data.products?.hotels ?? []).filter(product => product.status !== 'Refunded');
@@ -58,7 +74,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
       <Section size='1'>
         <Flex justify='end'>
           <Text size='4' weight='bold'>
-            {data.main_client_name} 외 {data.clients?.length ? data.clients.length - 1 : 0}명
+            {formatClientTitle(data)}
           </Text>
         </Flex>
       </Section>
