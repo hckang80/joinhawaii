@@ -56,6 +56,14 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
       </Flex>
 
       <Section size='1'>
+        <Flex justify='end'>
+          <Text size='4' weight='bold'>
+            {data.main_client_name} 외 {data.clients?.length ? data.clients.length - 1 : 0}명
+          </Text>
+        </Flex>
+      </Section>
+
+      <Section size='1'>
         <Heading as='h3' mb='2'>
           기본정보
         </Heading>
