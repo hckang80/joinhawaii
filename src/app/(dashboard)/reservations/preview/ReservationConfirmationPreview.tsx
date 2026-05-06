@@ -96,34 +96,21 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                 {data.created_at ? new Date(data.created_at).toLocaleDateString() : '-'}
               </td>
               <th className={styles.th}>담당자</th>
-              <td className={styles.td}>{data.author || '-'}</td>
-              <th className={styles.th}>담당자 연락처</th>
-              <td className={styles.td}>-</td>
+              <td className={styles.td} colSpan={2}>
+                {data.author || '-'} / {'02-402-1040'}
+              </td>
               <th className={styles.th}>email</th>
-              <td className={styles.td}>
+              <td className={styles.td} colSpan={2}>
                 <a href='mailto:joinhawaii@joinhawaii.com'>joinhawaii@joinhawaii.com</a>
               </td>
             </tr>
-          </tbody>
-        </table>
-      </Section>
-
-      <Section size='1'>
-        <table className={styles.table}>
-          <colgroup>
-            <col style={{ width: '130px' }} />
-            <col />
-            <col style={{ width: '130px' }} />
-            <col />
-          </colgroup>
-          <tbody>
             <tr>
               <th className={styles.th}>여행종류</th>
-              <td className={styles.td}>
+              <td className={styles.td} colSpan={4}>
                 {[data.trip_type, `성인${data.clients?.length ?? 0}명`].filter(Boolean).join(' / ')}
               </td>
               <th className={styles.th}>여행일정</th>
-              <td className={styles.td}>
+              <td className={styles.td} colSpan={2}>
                 {data.start_date ? formatDate(data.start_date) : '-'} ~{' '}
                 {data.end_date ? formatDate(data.end_date) : '-'}
                 {data.nights && data.days ? ` (${data.nights}박 ${data.days}일)` : ''}
