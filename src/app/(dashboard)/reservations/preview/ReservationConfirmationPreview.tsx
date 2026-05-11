@@ -238,68 +238,66 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                 <th className={styles.th}>리조트피</th>
               </tr>
             </thead>
-            <tbody>
-              {hotels.map((hotel, idx) => (
-                <>
-                  <tr key={hotel.id ?? idx}>
-                    <td className={styles.td}>{hotel.region || '-'}</td>
-                    <td className={styles.td}>
-                      {[formatDate(hotel.check_in_date), formatDate(hotel.check_out_date)].join(
-                        ' ~ '
-                      )}
-                    </td>
-                    <td className={styles.td}>{hotel.nights ?? '-'}박</td>
-                    <td className={styles.td}>
-                      {[
-                        hotel.hotel_name,
-                        [hotel.room_type, hotel.bed_type].filter(Boolean).join(' / ')
-                      ]
-                        .filter(Boolean)
-                        .join(' > ')}
-                      {hotel.additional_options.length > 0 && (
-                        <Text as='div' size='1'>
-                          {formatAdditionalOptions(hotel.additional_options)}
-                        </Text>
-                      )}
-                    </td>
-                    <td className={styles.td}>{hotel.is_breakfast_included ? '포함' : '미포함'}</td>
-                    <td className={styles.td}>
-                      {hotel.resort_fee_type === 'INCLUSION'
-                        ? '포함'
-                        : hotel.resort_fee_type === 'EXCLUSION'
-                          ? '불포함'
-                          : hotel.resort_fee_type === 'NO RESORT FEE'
-                            ? '없음'
-                            : '-'}
+            {hotels.map((hotel, idx) => (
+              <tbody key={hotel.id ?? idx}>
+                <tr>
+                  <td className={styles.td}>{hotel.region || '-'}</td>
+                  <td className={styles.td}>
+                    {[formatDate(hotel.check_in_date), formatDate(hotel.check_out_date)].join(
+                      ' ~ '
+                    )}
+                  </td>
+                  <td className={styles.td}>{hotel.nights ?? '-'}박</td>
+                  <td className={styles.td}>
+                    {[
+                      hotel.hotel_name,
+                      [hotel.room_type, hotel.bed_type].filter(Boolean).join(' / ')
+                    ]
+                      .filter(Boolean)
+                      .join(' > ')}
+                    {hotel.additional_options.length > 0 && (
+                      <Text as='div' size='1'>
+                        {formatAdditionalOptions(hotel.additional_options)}
+                      </Text>
+                    )}
+                  </td>
+                  <td className={styles.td}>{hotel.is_breakfast_included ? '포함' : '미포함'}</td>
+                  <td className={styles.td}>
+                    {hotel.resort_fee_type === 'INCLUSION'
+                      ? '포함'
+                      : hotel.resort_fee_type === 'EXCLUSION'
+                        ? '불포함'
+                        : hotel.resort_fee_type === 'NO RESORT FEE'
+                          ? '없음'
+                          : '-'}
+                  </td>
+                </tr>
+                {(hotel.rule || hotel.remarks) && (
+                  <tr>
+                    <td className={styles.td} colSpan={6}>
+                      <Grid columns='1' gap='1'>
+                        {hotel.rule && (
+                          <Flex gap='2' align='center' wrap='nowrap'>
+                            <Text size='2' weight='bold'>
+                              비고:
+                            </Text>
+                            {hotel.rule}
+                          </Flex>
+                        )}
+                        {hotel.remarks && (
+                          <Flex gap='2' align='center' wrap='nowrap'>
+                            <Text size='2' weight='bold'>
+                              규정:
+                            </Text>
+                            {hotel.remarks}
+                          </Flex>
+                        )}
+                      </Grid>
                     </td>
                   </tr>
-                  {(hotel.rule || hotel.remarks) && (
-                    <tr>
-                      <td className={styles.td} colSpan={6}>
-                        <Grid columns='1' gap='1'>
-                          {hotel.rule && (
-                            <Flex gap='2' align='center' wrap='nowrap'>
-                              <Text size='2' weight='bold'>
-                                비고:
-                              </Text>
-                              {hotel.rule}
-                            </Flex>
-                          )}
-                          {hotel.remarks && (
-                            <Flex gap='2' align='center' wrap='nowrap'>
-                              <Text size='2' weight='bold'>
-                                규정:
-                              </Text>
-                              {hotel.remarks}
-                            </Flex>
-                          )}
-                        </Grid>
-                      </td>
-                    </tr>
-                  )}
-                </>
-              ))}
-            </tbody>
+                )}
+              </tbody>
+            ))}
           </table>
         </Section>
       )}
