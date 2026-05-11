@@ -217,7 +217,9 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                             <Text size='2' weight='bold'>
                               비고:
                             </Text>
-                            <Text size='2'>{flight.rule}</Text>
+                            <Text size='2' color='blue'>
+                              {flight.rule}
+                            </Text>
                           </Flex>
                         )}
                         {flight.remarks && (
@@ -225,7 +227,9 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                             <Text size='2' weight='bold'>
                               규정:
                             </Text>
-                            <Text size='2'>{flight.remarks}</Text>
+                            <Text size='2' color='red'>
+                              {flight.remarks}
+                            </Text>
                           </Flex>
                         )}
                       </Grid>
@@ -305,7 +309,9 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                             <Text size='2' weight='bold'>
                               비고:
                             </Text>
-                            {hotel.rule}
+                            <Text size='2' color='blue'>
+                              {hotel.rule}
+                            </Text>
                           </Flex>
                         )}
                         {hotel.remarks && (
@@ -313,7 +319,9 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                             <Text size='2' weight='bold'>
                               규정:
                             </Text>
-                            {hotel.remarks}
+                            <Text size='2' color='red'>
+                              {hotel.remarks}
+                            </Text>
                           </Flex>
                         )}
                       </Grid>
@@ -371,7 +379,9 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                             <Text size='2' weight='bold'>
                               비고:
                             </Text>
-                            <Text size='2'>{tour.rule}</Text>
+                            <Text size='2' color='blue'>
+                              {tour.rule}
+                            </Text>
                           </Flex>
                         )}
                         {tour.remarks && (
@@ -379,7 +389,9 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                             <Text size='2' weight='bold'>
                               규정:
                             </Text>
-                            <Text size='2'>{tour.remarks}</Text>
+                            <Text size='2' color='red'>
+                              {tour.remarks}
+                            </Text>
                           </Flex>
                         )}
                       </Grid>
@@ -453,7 +465,9 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                             <Text size='2' weight='bold'>
                               비고:
                             </Text>
-                            <Text size='2'>{car.rule}</Text>
+                            <Text size='2' color='blue'>
+                              {car.rule}
+                            </Text>
                           </Flex>
                         )}
                         {car.remarks && (
@@ -461,7 +475,9 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                             <Text size='2' weight='bold'>
                               규정:
                             </Text>
-                            <Text size='2'>{car.remarks}</Text>
+                            <Text size='2' color='red'>
+                              {car.remarks}
+                            </Text>
                           </Flex>
                         )}
                       </Grid>
@@ -509,7 +525,9 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                             <Text size='2' weight='bold'>
                               비고:
                             </Text>
-                            <Text size='2'>{insurance.rule}</Text>
+                            <Text size='2' color='blue'>
+                              {insurance.rule}
+                            </Text>
                           </Flex>
                         )}
                         {insurance.remarks && (
@@ -517,7 +535,9 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                             <Text size='2' weight='bold'>
                               규정:
                             </Text>
-                            <Text size='2'>{insurance.remarks}</Text>
+                            <Text size='2' color='red'>
+                              {insurance.remarks}
+                            </Text>
                           </Flex>
                         )}
                       </Grid>
