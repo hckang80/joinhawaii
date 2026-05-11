@@ -398,17 +398,23 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
             렌터카
           </Heading>
           <table className={styles.table}>
+            <colgroup>
+              <col width='80px' />
+              <col width='240px' />
+              <col width='240px' />
+              <col />
+              <col width='80px' />
+              <col width='60px' />
+              <col width='60px' />
+            </colgroup>
             <thead>
               <tr>
                 <th className={styles.th}>지역</th>
-                <th className={styles.th}>픽업일시</th>
-                <th className={styles.th}>픽업장소</th>
-                <th className={styles.th}>반납일시</th>
-                <th className={styles.th}>반납장소</th>
+                <th className={styles.th}>픽업장소/시간</th>
+                <th className={styles.th}>반납장소/시간</th>
                 <th className={styles.th}>차종</th>
                 <th className={styles.th}>운전자</th>
                 <th className={styles.th}>조건</th>
-                <th className={styles.th}>추가옵션</th>
                 <th className={styles.th}>대여일</th>
               </tr>
             </thead>
@@ -416,19 +422,31 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
               <tbody key={car.id ?? idx}>
                 <tr>
                   <td className={styles.td}>{car.region || '-'}</td>
-                  <td className={styles.td}>{formatDateTime(car.pickup_date)}</td>
-                  <td className={styles.td}>{car.pickup_location || '-'}</td>
-                  <td className={styles.td}>{formatDateTime(car.return_date)}</td>
-                  <td className={styles.td}>{car.return_location || '-'}</td>
-                  <td className={styles.td}>{car.model || '-'}</td>
+                  <td className={styles.td} style={{ whiteSpace: 'pre-line' }}>
+                    {[car.pickup_location, formatDateTime(car.pickup_date)]
+                      .filter(Boolean)
+                      .join('\n')}
+                  </td>
+                  <td className={styles.td} style={{ whiteSpace: 'pre-line' }}>
+                    {[car.return_location, formatDateTime(car.return_date)]
+                      .filter(Boolean)
+                      .join('\n')}
+                  </td>
+                  <td className={styles.td}>
+                    {car.model || '-'}
+                    {car.additional_options.length > 0 && (
+                      <Text as='div' size='1'>
+                        {formatAdditionalOptions(car.additional_options)}
+                      </Text>
+                    )}
+                  </td>
                   <td className={styles.td}>{car.driver || '-'}</td>
                   <td className={styles.td}>{car.options || '-'}</td>
-                  <td className={styles.td}>{formatAdditionalOptions(car.additional_options)}</td>
                   <td className={styles.td}>{car.rental_days ?? '-'}일</td>
                 </tr>
                 {(car.rule || car.remarks) && (
                   <tr>
-                    <td className={styles.td} colSpan={10}>
+                    <td className={styles.td} colSpan={7}>
                       <Grid columns='1' gap='1'>
                         {car.rule && (
                           <Flex gap='2' align='center' wrap='nowrap'>
