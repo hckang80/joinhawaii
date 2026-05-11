@@ -1,5 +1,6 @@
 import type { AdditionalOptions, ReservationResponse } from '@/types';
 import { Box, Flex, Grid, Heading, Section, Text } from '@radix-ui/themes';
+import { Fragment } from 'react';
 import styles from './preview-table.module.css';
 
 type ReservationConfirmationPreviewProps = {
@@ -201,13 +202,43 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
             </thead>
             <tbody>
               {flights.map((flight, idx) => (
-                <tr key={flight.id ?? idx}>
-                  <td className={styles.td}>{flight.flight_number || '-'}</td>
-                  <td className={styles.td}>{formatDateTime(flight.departure_datetime)}</td>
-                  <td className={styles.td}>{flight.departure_city || '-'}</td>
-                  <td className={styles.td}>{formatDateTime(flight.arrival_datetime)}</td>
-                  <td className={styles.td}>{flight.arrival_city || '-'}</td>
-                </tr>
+                <Fragment key={flight.id ?? idx}>
+                  <tr>
+                    <td className={styles.td}>{flight.flight_number || '-'}</td>
+                    <td className={styles.td}>{formatDateTime(flight.departure_datetime)}</td>
+                    <td className={styles.td}>{flight.departure_city || '-'}</td>
+                    <td className={styles.td}>{formatDateTime(flight.arrival_datetime)}</td>
+                    <td className={styles.td}>{flight.arrival_city || '-'}</td>
+                  </tr>
+                  {(flight.rule || flight.remarks) && (
+                    <tr>
+                      <td className={styles.td} colSpan={5}>
+                        <Grid columns='1' gap='1'>
+                          {flight.rule && (
+                            <Flex gap='2' align='center' wrap='nowrap'>
+                              <Text size='2' weight='bold'>
+                                비고:
+                              </Text>
+                              <Text size='2' style={{ whiteSpace: 'nowrap' }}>
+                                {flight.rule}
+                              </Text>
+                            </Flex>
+                          )}
+                          {flight.remarks && (
+                            <Flex gap='2' align='center' wrap='nowrap'>
+                              <Text size='2' weight='bold'>
+                                규정:
+                              </Text>
+                              <Text size='2' style={{ whiteSpace: 'nowrap' }}>
+                                {flight.remarks}
+                              </Text>
+                            </Flex>
+                          )}
+                        </Grid>
+                      </td>
+                    </tr>
+                  )}
+                </Fragment>
               ))}
             </tbody>
           </table>
@@ -319,13 +350,45 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
             </thead>
             <tbody>
               {tours.map((tour, idx) => (
-                <tr key={tour.id ?? idx}>
-                  <td className={styles.td}>{tour.region || '-'}</td>
-                  <td className={styles.td}>{formatDateTime(tour.start_date)}</td>
-                  <td className={styles.td}>{formatDateTime(tour.end_date)}</td>
-                  <td className={styles.td}>{tour.name || '-'}</td>
-                  <td className={styles.td}>{formatAdditionalOptions(tour.additional_options)}</td>
-                </tr>
+                <Fragment key={tour.id ?? idx}>
+                  <tr>
+                    <td className={styles.td}>{tour.region || '-'}</td>
+                    <td className={styles.td}>{formatDateTime(tour.start_date)}</td>
+                    <td className={styles.td}>{formatDateTime(tour.end_date)}</td>
+                    <td className={styles.td}>{tour.name || '-'}</td>
+                    <td className={styles.td}>
+                      {formatAdditionalOptions(tour.additional_options)}
+                    </td>
+                  </tr>
+                  {(tour.rule || tour.remarks) && (
+                    <tr>
+                      <td className={styles.td} colSpan={5}>
+                        <Grid columns='1' gap='1'>
+                          {tour.rule && (
+                            <Flex gap='2' align='center' wrap='nowrap'>
+                              <Text size='2' weight='bold'>
+                                비고:
+                              </Text>
+                              <Text size='2' style={{ whiteSpace: 'nowrap' }}>
+                                {tour.rule}
+                              </Text>
+                            </Flex>
+                          )}
+                          {tour.remarks && (
+                            <Flex gap='2' align='center' wrap='nowrap'>
+                              <Text size='2' weight='bold'>
+                                규정:
+                              </Text>
+                              <Text size='2' style={{ whiteSpace: 'nowrap' }}>
+                                {tour.remarks}
+                              </Text>
+                            </Flex>
+                          )}
+                        </Grid>
+                      </td>
+                    </tr>
+                  )}
+                </Fragment>
               ))}
             </tbody>
           </table>
@@ -354,18 +417,48 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
             </thead>
             <tbody>
               {rentalCars.map((car, idx) => (
-                <tr key={car.id ?? idx}>
-                  <td className={styles.td}>{car.region || '-'}</td>
-                  <td className={styles.td}>{formatDateTime(car.pickup_date)}</td>
-                  <td className={styles.td}>{car.pickup_location || '-'}</td>
-                  <td className={styles.td}>{formatDateTime(car.return_date)}</td>
-                  <td className={styles.td}>{car.return_location || '-'}</td>
-                  <td className={styles.td}>{car.model || '-'}</td>
-                  <td className={styles.td}>{car.driver || '-'}</td>
-                  <td className={styles.td}>{car.options || '-'}</td>
-                  <td className={styles.td}>{formatAdditionalOptions(car.additional_options)}</td>
-                  <td className={styles.td}>{car.rental_days ?? '-'}일</td>
-                </tr>
+                <Fragment key={car.id ?? idx}>
+                  <tr>
+                    <td className={styles.td}>{car.region || '-'}</td>
+                    <td className={styles.td}>{formatDateTime(car.pickup_date)}</td>
+                    <td className={styles.td}>{car.pickup_location || '-'}</td>
+                    <td className={styles.td}>{formatDateTime(car.return_date)}</td>
+                    <td className={styles.td}>{car.return_location || '-'}</td>
+                    <td className={styles.td}>{car.model || '-'}</td>
+                    <td className={styles.td}>{car.driver || '-'}</td>
+                    <td className={styles.td}>{car.options || '-'}</td>
+                    <td className={styles.td}>{formatAdditionalOptions(car.additional_options)}</td>
+                    <td className={styles.td}>{car.rental_days ?? '-'}일</td>
+                  </tr>
+                  {(car.rule || car.remarks) && (
+                    <tr>
+                      <td className={styles.td} colSpan={10}>
+                        <Grid columns='1' gap='1'>
+                          {car.rule && (
+                            <Flex gap='2' align='center' wrap='nowrap'>
+                              <Text size='2' weight='bold'>
+                                비고:
+                              </Text>
+                              <Text size='2' style={{ whiteSpace: 'nowrap' }}>
+                                {car.rule}
+                              </Text>
+                            </Flex>
+                          )}
+                          {car.remarks && (
+                            <Flex gap='2' align='center' wrap='nowrap'>
+                              <Text size='2' weight='bold'>
+                                규정:
+                              </Text>
+                              <Text size='2' style={{ whiteSpace: 'nowrap' }}>
+                                {car.remarks}
+                              </Text>
+                            </Flex>
+                          )}
+                        </Grid>
+                      </td>
+                    </tr>
+                  )}
+                </Fragment>
               ))}
             </tbody>
           </table>
@@ -389,15 +482,45 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
             </thead>
             <tbody>
               {insurances.map((insurance, idx) => (
-                <tr key={insurance.id ?? idx}>
-                  <td className={styles.td}>{insurance.company || '-'}</td>
-                  <td className={styles.td}>{formatDate(insurance.start_date)}</td>
-                  <td className={styles.td}>{formatDate(insurance.end_date)}</td>
-                  <td className={styles.td}>{insurance.days ?? '-'}일</td>
-                  <td className={styles.td}>
-                    {formatAdditionalOptions(insurance.additional_options)}
-                  </td>
-                </tr>
+                <Fragment key={insurance.id ?? idx}>
+                  <tr>
+                    <td className={styles.td}>{insurance.company || '-'}</td>
+                    <td className={styles.td}>{formatDate(insurance.start_date)}</td>
+                    <td className={styles.td}>{formatDate(insurance.end_date)}</td>
+                    <td className={styles.td}>{insurance.days ?? '-'}일</td>
+                    <td className={styles.td}>
+                      {formatAdditionalOptions(insurance.additional_options)}
+                    </td>
+                  </tr>
+                  {(insurance.rule || insurance.remarks) && (
+                    <tr>
+                      <td className={styles.td} colSpan={5}>
+                        <Grid columns='1' gap='1'>
+                          {insurance.rule && (
+                            <Flex gap='2' align='center' wrap='nowrap'>
+                              <Text size='2' weight='bold'>
+                                비고:
+                              </Text>
+                              <Text size='2' style={{ whiteSpace: 'nowrap' }}>
+                                {insurance.rule}
+                              </Text>
+                            </Flex>
+                          )}
+                          {insurance.remarks && (
+                            <Flex gap='2' align='center' wrap='nowrap'>
+                              <Text size='2' weight='bold'>
+                                규정:
+                              </Text>
+                              <Text size='2' style={{ whiteSpace: 'nowrap' }}>
+                                {insurance.remarks}
+                              </Text>
+                            </Flex>
+                          )}
+                        </Grid>
+                      </td>
+                    </tr>
+                  )}
+                </Fragment>
               ))}
             </tbody>
           </table>
