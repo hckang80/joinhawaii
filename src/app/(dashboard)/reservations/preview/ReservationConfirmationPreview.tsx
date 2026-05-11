@@ -220,29 +220,46 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
             호텔
           </Heading>
           <table className={styles.table}>
+            <colgroup>
+              <col width='80px' />
+              <col width='200px' />
+              <col width='60px' />
+              <col />
+              <col width='70px' />
+              <col width='70px' />
+            </colgroup>
             <thead>
               <tr>
                 <th className={styles.th}>지역</th>
-                <th className={styles.th}>체크인</th>
-                <th className={styles.th}>체크아웃</th>
+                <th className={styles.th}>날짜</th>
                 <th className={styles.th}>숙박일</th>
-                <th className={styles.th}>호텔명</th>
-                <th className={styles.th}>객실타입</th>
+                <th className={styles.th}>호텔</th>
                 <th className={styles.th}>조식</th>
                 <th className={styles.th}>리조트피</th>
-                <th className={styles.th}>추가옵션</th>
               </tr>
             </thead>
             <tbody>
               {hotels.map((hotel, idx) => (
                 <tr key={hotel.id ?? idx}>
                   <td className={styles.td}>{hotel.region || '-'}</td>
-                  <td className={styles.td}>{formatDate(hotel.check_in_date)}</td>
-                  <td className={styles.td}>{formatDate(hotel.check_out_date)}</td>
-                  <td className={styles.td}>{hotel.nights ?? '-'}박</td>
-                  <td className={styles.td}>{hotel.hotel_name || '-'}</td>
                   <td className={styles.td}>
-                    {[hotel.room_type, hotel.bed_type].filter(Boolean).join(' / ') || '-'}
+                    {[formatDate(hotel.check_in_date), formatDate(hotel.check_out_date)].join(
+                      ' ~ '
+                    )}
+                  </td>
+                  <td className={styles.td}>{hotel.nights ?? '-'}박</td>
+                  <td className={styles.td}>
+                    {[
+                      hotel.hotel_name,
+                      [hotel.room_type, hotel.bed_type].filter(Boolean).join(' / ')
+                    ]
+                      .filter(Boolean)
+                      .join(' > ')}
+                    {hotel.additional_options.length > 0 && (
+                      <Text as='div' size='1'>
+                        {formatAdditionalOptions(hotel.additional_options)}
+                      </Text>
+                    )}
                   </td>
                   <td className={styles.td}>{hotel.is_breakfast_included ? '포함' : '미포함'}</td>
                   <td className={styles.td}>
@@ -254,7 +271,6 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                           ? '없음'
                           : '-'}
                   </td>
-                  <td className={styles.td}>{formatAdditionalOptions(hotel.additional_options)}</td>
                 </tr>
               ))}
             </tbody>
