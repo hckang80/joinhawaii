@@ -7,7 +7,7 @@ type ReservationConfirmationPreviewProps = {
 };
 
 function formatDateTime(value: string | null | undefined) {
-  if (!value) return '-';
+  if (!value) return '';
   const d = new Date(value);
   if (isNaN(d.getTime())) return value;
   return d.toLocaleString('ko-KR', {
@@ -332,27 +332,39 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
             선택관광
           </Heading>
           <table className={styles.table}>
+            <colgroup>
+              <col width='80px' />
+              <col width='160px' />
+              <col />
+            </colgroup>
             <thead>
               <tr>
                 <th className={styles.th}>지역</th>
-                <th className={styles.th}>시작일시</th>
-                <th className={styles.th}>종료일시</th>
+                <th className={styles.th}>날짜</th>
                 <th className={styles.th}>상품명</th>
-                <th className={styles.th}>추가옵션</th>
               </tr>
             </thead>
             {tours.map((tour, idx) => (
               <tbody key={tour.id ?? idx}>
                 <tr>
                   <td className={styles.td}>{tour.region || '-'}</td>
-                  <td className={styles.td}>{formatDateTime(tour.start_date)}</td>
-                  <td className={styles.td}>{formatDateTime(tour.end_date)}</td>
-                  <td className={styles.td}>{tour.name || '-'}</td>
-                  <td className={styles.td}>{formatAdditionalOptions(tour.additional_options)}</td>
+                  <td className={styles.td}>
+                    {[formatDateTime(tour.start_date), formatDateTime(tour.end_date)]
+                      .filter(Boolean)
+                      .join(' ~ ')}
+                  </td>
+                  <td className={styles.td}>
+                    {tour.name || '-'}
+                    {tour.additional_options.length > 0 && (
+                      <Text as='div' size='1'>
+                        {formatAdditionalOptions(tour.additional_options)}
+                      </Text>
+                    )}
+                  </td>
                 </tr>
                 {(tour.rule || tour.remarks) && (
                   <tr>
-                    <td className={styles.td} colSpan={5}>
+                    <td className={styles.td} colSpan={3}>
                       <Grid columns='1' gap='1'>
                         {tour.rule && (
                           <Flex gap='2' align='center' wrap='nowrap'>
@@ -466,7 +478,9 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                   <td className={styles.td}>{formatDate(insurance.start_date)}</td>
                   <td className={styles.td}>{formatDate(insurance.end_date)}</td>
                   <td className={styles.td}>{insurance.days ?? '-'}일</td>
-                  <td className={styles.td}>{formatAdditionalOptions(insurance.additional_options)}</td>
+                  <td className={styles.td}>
+                    {formatAdditionalOptions(insurance.additional_options)}
+                  </td>
                 </tr>
                 {(insurance.rule || insurance.remarks) && (
                   <tr>
