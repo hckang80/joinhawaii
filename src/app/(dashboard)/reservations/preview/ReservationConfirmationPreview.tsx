@@ -267,9 +267,9 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                 <tr>
                   <td className={styles.td}>{hotel.region || '-'}</td>
                   <td className={styles.td}>
-                    {[formatDate(hotel.check_in_date), formatDate(hotel.check_out_date)].join(
-                      ' ~ '
-                    )}
+                    {[formatDate(hotel.check_in_date), formatDate(hotel.check_out_date)]
+                      .filter(Boolean)
+                      .join(' ~ ')}
                   </td>
                   <td className={styles.td}>{hotel.nights ?? '-'}박</td>
                   <td className={styles.td}>
