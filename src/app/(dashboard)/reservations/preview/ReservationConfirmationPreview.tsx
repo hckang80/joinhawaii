@@ -190,6 +190,13 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
             항공정보
           </Heading>
           <table className={styles.table}>
+            <colgroup>
+              <col width='100px' />
+              <col width='160px' />
+              <col />
+              <col width='160px' />
+              <col />
+            </colgroup>
             <thead>
               <tr>
                 <th className={styles.th}>항공편</th>
