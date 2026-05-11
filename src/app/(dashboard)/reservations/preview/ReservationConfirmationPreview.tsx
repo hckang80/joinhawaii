@@ -496,12 +496,15 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
             보험
           </Heading>
           <table className={styles.table}>
+            <colgroup>
+              <col width='100px' />
+              <col width='200px' />
+              <col />
+            </colgroup>
             <thead>
               <tr>
                 <th className={styles.th}>보험사</th>
-                <th className={styles.th}>시작일</th>
-                <th className={styles.th}>종료일</th>
-                <th className={styles.th}>여행일수</th>
+                <th className={styles.th}>기간</th>
                 <th className={styles.th}>추가옵션</th>
               </tr>
             </thead>
@@ -509,16 +512,18 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
               <tbody key={insurance.id ?? idx}>
                 <tr>
                   <td className={styles.td}>{insurance.company || '-'}</td>
-                  <td className={styles.td}>{formatDate(insurance.start_date)}</td>
-                  <td className={styles.td}>{formatDate(insurance.end_date)}</td>
-                  <td className={styles.td}>{insurance.days ?? '-'}일</td>
+                  <td className={styles.td}>
+                    {[formatDate(insurance.start_date), formatDate(insurance.end_date)]
+                      .filter(Boolean)
+                      .join(' ~ ')}
+                  </td>
                   <td className={styles.td}>
                     {formatAdditionalOptions(insurance.additional_options)}
                   </td>
                 </tr>
                 {(insurance.rule || insurance.remarks) && (
                   <tr>
-                    <td className={styles.td} colSpan={5}>
+                    <td className={styles.td} colSpan={3}>
                       <Grid columns='1' gap='1'>
                         {insurance.rule && (
                           <Flex gap='2' align='center' wrap='nowrap'>
