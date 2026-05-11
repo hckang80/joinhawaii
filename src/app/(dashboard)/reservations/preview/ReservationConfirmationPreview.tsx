@@ -219,9 +219,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                               <Text size='2' weight='bold'>
                                 비고:
                               </Text>
-                              <Text size='2' style={{ whiteSpace: 'nowrap' }}>
-                                {flight.rule}
-                              </Text>
+                              <Text size='2'>{flight.rule}</Text>
                             </Flex>
                           )}
                           {flight.remarks && (
@@ -229,9 +227,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                               <Text size='2' weight='bold'>
                                 규정:
                               </Text>
-                              <Text size='2' style={{ whiteSpace: 'nowrap' }}>
-                                {flight.remarks}
-                              </Text>
+                              <Text size='2'>{flight.remarks}</Text>
                             </Flex>
                           )}
                         </Grid>
@@ -369,9 +365,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                               <Text size='2' weight='bold'>
                                 비고:
                               </Text>
-                              <Text size='2' style={{ whiteSpace: 'nowrap' }}>
-                                {tour.rule}
-                              </Text>
+                              <Text size='2'>{tour.rule}</Text>
                             </Flex>
                           )}
                           {tour.remarks && (
@@ -379,9 +373,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                               <Text size='2' weight='bold'>
                                 규정:
                               </Text>
-                              <Text size='2' style={{ whiteSpace: 'nowrap' }}>
-                                {tour.remarks}
-                              </Text>
+                              <Text size='2'>{tour.remarks}</Text>
                             </Flex>
                           )}
                         </Grid>
@@ -439,9 +431,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                               <Text size='2' weight='bold'>
                                 비고:
                               </Text>
-                              <Text size='2' style={{ whiteSpace: 'nowrap' }}>
-                                {car.rule}
-                              </Text>
+                              <Text size='2'>{car.rule}</Text>
                             </Flex>
                           )}
                           {car.remarks && (
@@ -449,9 +439,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                               <Text size='2' weight='bold'>
                                 규정:
                               </Text>
-                              <Text size='2' style={{ whiteSpace: 'nowrap' }}>
-                                {car.remarks}
-                              </Text>
+                              <Text size='2'>{car.remarks}</Text>
                             </Flex>
                           )}
                         </Grid>
@@ -501,9 +489,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                               <Text size='2' weight='bold'>
                                 비고:
                               </Text>
-                              <Text size='2' style={{ whiteSpace: 'nowrap' }}>
-                                {insurance.rule}
-                              </Text>
+                              <Text size='2'>{insurance.rule}</Text>
                             </Flex>
                           )}
                           {insurance.remarks && (
@@ -511,9 +497,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                               <Text size='2' weight='bold'>
                                 규정:
                               </Text>
-                              <Text size='2' style={{ whiteSpace: 'nowrap' }}>
-                                {insurance.remarks}
-                              </Text>
+                              <Text size='2'>{insurance.remarks}</Text>
                             </Flex>
                           )}
                         </Grid>
