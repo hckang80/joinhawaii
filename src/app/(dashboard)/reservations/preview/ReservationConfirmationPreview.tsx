@@ -273,24 +273,30 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                             : '-'}
                     </td>
                   </tr>
-                  <tr>
-                    <td className={styles.td} colSpan={6}>
-                      <Grid columns='1' gap='1'>
-                        <Flex gap='2' align='center' wrap='nowrap'>
-                          <Text size='2' weight='bold'>
-                            비고:
-                          </Text>
-                          {hotel.rule || '-'}
-                        </Flex>
-                        <Flex gap='2' align='center' wrap='nowrap'>
-                          <Text size='2' weight='bold'>
-                            규정:
-                          </Text>
-                          {hotel.remarks || '-'}
-                        </Flex>
-                      </Grid>
-                    </td>
-                  </tr>
+                  {(hotel.rule || hotel.remarks) && (
+                    <tr>
+                      <td className={styles.td} colSpan={6}>
+                        <Grid columns='1' gap='1'>
+                          {hotel.rule && (
+                            <Flex gap='2' align='center' wrap='nowrap'>
+                              <Text size='2' weight='bold'>
+                                비고:
+                              </Text>
+                              {hotel.rule}
+                            </Flex>
+                          )}
+                          {hotel.remarks && (
+                            <Flex gap='2' align='center' wrap='nowrap'>
+                              <Text size='2' weight='bold'>
+                                규정:
+                              </Text>
+                              {hotel.remarks}
+                            </Flex>
+                          )}
+                        </Grid>
+                      </td>
+                    </tr>
+                  )}
                 </>
               ))}
             </tbody>
