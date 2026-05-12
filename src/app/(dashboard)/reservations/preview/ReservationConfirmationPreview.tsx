@@ -215,7 +215,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
       {flights.length > 0 && (
         <Section size='1'>
           <Heading as='h3' mb='2'>
-            항공정보
+            항공
           </Heading>
           <table className={styles.table}>
             <colgroup>
