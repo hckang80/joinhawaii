@@ -1,4 +1,5 @@
 import type { AdditionalOptions, ReservationResponse } from '@/types';
+import { toReadableAmount } from '@/utils';
 import { Box, Flex, Grid, Heading, Section, Text } from '@radix-ui/themes';
 import styles from './preview-table.module.css';
 
@@ -26,11 +27,6 @@ function formatDate(value: string | null | undefined) {
   const d = new Date(value);
   if (isNaN(d.getTime())) return value;
   return d.toLocaleDateString('ko-KR', { timeZone: 'Asia/Seoul' });
-}
-
-function formatDollar(value: number | null | undefined) {
-  if (value == null) return '-';
-  return `$${value.toLocaleString()}`;
 }
 
 function formatAdditionalOptions(value: AdditionalOptions[] | null | undefined) {
@@ -221,7 +217,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                   <td className={styles.td}>{flight.departure_city || '-'}</td>
                   <td className={styles.td}>{formatDateTime(flight.arrival_datetime)}</td>
                   <td className={styles.td}>{flight.arrival_city || '-'}</td>
-                  <td className={styles.td}>{formatDollar(flight.total_amount)}</td>
+                  <td className={styles.td}>{toReadableAmount(flight.total_amount)}</td>
                 </tr>
                 {(flight.rule || flight.remarks) && (
                   <tr>
@@ -316,7 +312,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                           ? '없음'
                           : '-'}
                   </td>
-                  <td className={styles.td}>{formatDollar(hotel.total_amount)}</td>
+                  <td className={styles.td}>{toReadableAmount(hotel.total_amount)}</td>
                 </tr>
                 {(hotel.rule || hotel.remarks) && (
                   <tr>
@@ -389,7 +385,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                       </Text>
                     )}
                   </td>
-                  <td className={styles.td}>{formatDollar(tour.total_amount)}</td>
+                  <td className={styles.td}>{toReadableAmount(tour.total_amount)}</td>
                 </tr>
                 {(tour.rule || tour.remarks) && (
                   <tr>
@@ -478,7 +474,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                   <td className={styles.td}>{car.driver || '-'}</td>
                   <td className={styles.td}>{car.options || '-'}</td>
                   <td className={styles.td}>{car.rental_days ?? '-'}일</td>
-                  <td className={styles.td}>{formatDollar(car.total_amount)}</td>
+                  <td className={styles.td}>{toReadableAmount(car.total_amount)}</td>
                 </tr>
                 {(car.rule || car.remarks) && (
                   <tr>
@@ -546,7 +542,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                   <td className={styles.td}>
                     {formatAdditionalOptions(insurance.additional_options)}
                   </td>
-                  <td className={styles.td}>{formatDollar(insurance.total_amount)}</td>
+                  <td className={styles.td}>{toReadableAmount(insurance.total_amount)}</td>
                 </tr>
                 {(insurance.rule || insurance.remarks) && (
                   <tr>
