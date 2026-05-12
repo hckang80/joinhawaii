@@ -53,6 +53,26 @@ function formatClientTitle(data: ReservationResponse) {
   return `${orderedNames[0]} 외 ${orderedNames.length - 1}인 귀하`;
 }
 
+function formatHotelStaySummary(hotels: ReservationResponse['products']['hotels'] = []) {
+  const nightsByRegion = hotels.reduce<Record<string, number>>((acc, hotel) => {
+    if (hotel.status === 'Refunded') return acc;
+
+    const region = hotel.region?.trim() || '-';
+    const nights = Number(hotel.nights ?? 0);
+
+    acc[region] = (acc[region] ?? 0) + (Number.isFinite(nights) ? nights : 0);
+
+    return acc;
+  }, {});
+
+  const summary = Object.entries(nightsByRegion)
+    .filter(([, nights]) => nights > 0)
+    .map(([region, nights]) => `${region} ${nights}박`)
+    .join(' / ');
+
+  return summary || '-';
+}
+
 export function ReservationConfirmationPreview({ data }: ReservationConfirmationPreviewProps) {
   const flights = (data.products?.flights ?? []).filter(product => product.status !== 'Refunded');
   const hotels = (data.products?.hotels ?? []).filter(product => product.status !== 'Refunded');
@@ -210,7 +230,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
             </tr>
             <tr>
               <td className={styles.td} colSpan={3}>
-                {data.clients?.length}인기준(상세내역은 하단참조) 오아후10박
+                {data.clients?.length}인기준(상세내역은 하단참조) {formatHotelStaySummary(hotels)}
               </td>
             </tr>
             <tr>
