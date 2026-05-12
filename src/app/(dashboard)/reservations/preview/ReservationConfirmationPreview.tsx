@@ -28,6 +28,11 @@ function formatDate(value: string | null | undefined) {
   return d.toLocaleDateString('ko-KR', { timeZone: 'Asia/Seoul' });
 }
 
+function formatDollar(value: number | null | undefined) {
+  if (value == null) return '-';
+  return `$${value.toLocaleString()}`;
+}
+
 function formatAdditionalOptions(value: AdditionalOptions[] | null | undefined) {
   if (!value?.length) return '-';
 
@@ -196,6 +201,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
               <col />
               <col width='160px' />
               <col />
+              <col width='100px' />
             </colgroup>
             <thead>
               <tr>
@@ -204,6 +210,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                 <th className={styles.th}>출발지</th>
                 <th className={styles.th}>도착시간</th>
                 <th className={styles.th}>도착지</th>
+                <th className={styles.th}>합계</th>
               </tr>
             </thead>
             {flights.map((flight, idx) => (
@@ -214,10 +221,11 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                   <td className={styles.td}>{flight.departure_city || '-'}</td>
                   <td className={styles.td}>{formatDateTime(flight.arrival_datetime)}</td>
                   <td className={styles.td}>{flight.arrival_city || '-'}</td>
+                  <td className={styles.td}>{formatDollar(flight.total_amount)}</td>
                 </tr>
                 {(flight.rule || flight.remarks) && (
                   <tr>
-                    <td className={styles.td} colSpan={5}>
+                    <td className={styles.td} colSpan={6}>
                       <Grid columns='1' gap='1'>
                         {flight.rule && (
                           <Flex gap='2' align='center' wrap='nowrap'>
@@ -262,6 +270,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
               <col />
               <col width='70px' />
               <col width='70px' />
+              <col width='100px' />
             </colgroup>
             <thead>
               <tr>
@@ -271,6 +280,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                 <th className={styles.th}>호텔</th>
                 <th className={styles.th}>조식</th>
                 <th className={styles.th}>리조트피</th>
+                <th className={styles.th}>합계</th>
               </tr>
             </thead>
             {hotels.map((hotel, idx) => (
@@ -306,10 +316,11 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                           ? '없음'
                           : '-'}
                   </td>
+                  <td className={styles.td}>{formatDollar(hotel.total_amount)}</td>
                 </tr>
                 {(hotel.rule || hotel.remarks) && (
                   <tr>
-                    <td className={styles.td} colSpan={6}>
+                    <td className={styles.td} colSpan={7}>
                       <Grid columns='1' gap='1'>
                         {hotel.rule && (
                           <Flex gap='2' align='center' wrap='nowrap'>
@@ -351,12 +362,14 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
               <col width='80px' />
               <col width='160px' />
               <col />
+              <col width='100px' />
             </colgroup>
             <thead>
               <tr>
                 <th className={styles.th}>지역</th>
                 <th className={styles.th}>날짜</th>
                 <th className={styles.th}>상품명</th>
+                <th className={styles.th}>합계</th>
               </tr>
             </thead>
             {tours.map((tour, idx) => (
@@ -376,10 +389,11 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                       </Text>
                     )}
                   </td>
+                  <td className={styles.td}>{formatDollar(tour.total_amount)}</td>
                 </tr>
                 {(tour.rule || tour.remarks) && (
                   <tr>
-                    <td className={styles.td} colSpan={3}>
+                    <td className={styles.td} colSpan={4}>
                       <Grid columns='1' gap='1'>
                         {tour.rule && (
                           <Flex gap='2' align='center' wrap='nowrap'>
@@ -425,6 +439,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
               <col width='80px' />
               <col width='60px' />
               <col width='60px' />
+              <col width='100px' />
             </colgroup>
             <thead>
               <tr>
@@ -435,6 +450,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                 <th className={styles.th}>운전자</th>
                 <th className={styles.th}>조건</th>
                 <th className={styles.th}>대여일</th>
+                <th className={styles.th}>합계</th>
               </tr>
             </thead>
             {rentalCars.map((car, idx) => (
@@ -462,10 +478,11 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                   <td className={styles.td}>{car.driver || '-'}</td>
                   <td className={styles.td}>{car.options || '-'}</td>
                   <td className={styles.td}>{car.rental_days ?? '-'}일</td>
+                  <td className={styles.td}>{formatDollar(car.total_amount)}</td>
                 </tr>
                 {(car.rule || car.remarks) && (
                   <tr>
-                    <td className={styles.td} colSpan={7}>
+                    <td className={styles.td} colSpan={8}>
                       <Grid columns='1' gap='1'>
                         {car.rule && (
                           <Flex gap='2' align='center' wrap='nowrap'>
@@ -507,12 +524,14 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
               <col width='100px' />
               <col width='200px' />
               <col />
+              <col width='100px' />
             </colgroup>
             <thead>
               <tr>
                 <th className={styles.th}>보험사</th>
                 <th className={styles.th}>기간</th>
                 <th className={styles.th}>추가옵션</th>
+                <th className={styles.th}>합계</th>
               </tr>
             </thead>
             {insurances.map((insurance, idx) => (
@@ -527,10 +546,11 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                   <td className={styles.td}>
                     {formatAdditionalOptions(insurance.additional_options)}
                   </td>
+                  <td className={styles.td}>{formatDollar(insurance.total_amount)}</td>
                 </tr>
                 {(insurance.rule || insurance.remarks) && (
                   <tr>
-                    <td className={styles.td} colSpan={3}>
+                    <td className={styles.td} colSpan={4}>
                       <Grid columns='1' gap='1'>
                         {insurance.rule && (
                           <Flex gap='2' align='center' wrap='nowrap'>
