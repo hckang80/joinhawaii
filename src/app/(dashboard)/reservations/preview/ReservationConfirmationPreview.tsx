@@ -185,6 +185,33 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
         </table>
       </Section>
 
+      <Section size='1'>
+        <Heading as='h3' mb='2'>
+          결제사항
+        </Heading>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th className={styles.th}>입금액</th>
+              <th className={styles.th}>잔금</th>
+              <th className={styles.th}>총액(원화)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className={styles.td}>{toReadableAmount(Number(data?.deposit ?? 0))}</td>
+              <td className={styles.td}>
+                {toReadableAmount(Number(data?.total_amount ?? 0) - (Number(data?.deposit) || 0))}
+              </td>
+              <td className={styles.td}>
+                {toReadableAmount(Number(data?.total_amount ?? 0))}
+                {`(${toReadableAmount(Number(data?.total_amount_krw ?? 0), 'ko-KR', 'KRW')})`}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </Section>
+
       {flights.length > 0 && (
         <Section size='1'>
           <Heading as='h3' mb='2'>
