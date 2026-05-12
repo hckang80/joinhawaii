@@ -197,7 +197,6 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
               <col />
               <col width='160px' />
               <col />
-              <col width='100px' />
             </colgroup>
             <thead>
               <tr>
@@ -206,7 +205,6 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                 <th className={styles.th}>출발지</th>
                 <th className={styles.th}>도착시간</th>
                 <th className={styles.th}>도착지</th>
-                <th className={styles.th}>합계</th>
               </tr>
             </thead>
             {flights.map((flight, idx) => (
@@ -217,11 +215,10 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                   <td className={styles.td}>{flight.departure_city || '-'}</td>
                   <td className={styles.td}>{formatDateTime(flight.arrival_datetime)}</td>
                   <td className={styles.td}>{flight.arrival_city || '-'}</td>
-                  <td className={styles.td}>{toReadableAmount(flight.total_amount)}</td>
                 </tr>
                 {(flight.rule || flight.remarks) && (
                   <tr>
-                    <td className={styles.td} colSpan={6}>
+                    <td className={styles.td} colSpan={5}>
                       <Grid columns='1' gap='1'>
                         {flight.rule && (
                           <Flex gap='2' align='center' wrap='nowrap'>
