@@ -208,6 +208,18 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                 {`(${toReadableAmount(Number(data?.total_amount_krw ?? 0), 'ko-KR', 'KRW')})`}
               </td>
             </tr>
+            <tr>
+              <td className={styles.td} colSpan={3}>
+                {data.clients?.length}인기준(상세내역은 하단참조) 오아후10박
+              </td>
+            </tr>
+            <tr>
+              <td className={styles.td} colSpan={3}>
+                신한은행 110-341-818 061 예금주 :조인하와이 김홍석
+                <br />
+                환율은 예약금 / 잔금 지불시점의 매입환율 기준입니다.
+              </td>
+            </tr>
           </tbody>
         </table>
       </Section>
