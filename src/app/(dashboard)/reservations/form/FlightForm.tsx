@@ -6,7 +6,6 @@ import {
   extractDateString,
   isDev,
   isRefunded,
-  toReadableAmount,
   updateDateInISO
 } from '@/utils';
 import {
@@ -109,12 +108,7 @@ export default function FlightForm({ data, mutation }: ProductFormProps) {
                   <Table.ColumnHeaderCell width='100px'>출발지</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='300px'>도착시간</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='100px'>도착지</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='80px'>💰요금</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='80px'>🧑‍🤝‍🧑인원</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='180px'>
-                    합계(<Text color='blue'>원가</Text>/판매가)
-                  </Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='90px'>진행상태</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='200px'>메모</Table.ColumnHeaderCell>
                 </Table.Row>
@@ -197,92 +191,6 @@ export default function FlightForm({ data, mutation }: ProductFormProps) {
                     <Table.Cell>
                       <Grid gap='2'>
                         <Flex direction='column'>
-                          <span>🧑 성인</span>
-                          <TextField.Root
-                            size='1'
-                            type='number'
-                            min='0'
-                            color='blue'
-                            variant='soft'
-                            {...register(`flights.${i}.adult_cost`)}
-                          />
-                        </Flex>
-                        <Flex direction='column'>
-                          <span>🧒 소아</span>
-                          <TextField.Root
-                            size='1'
-                            type='number'
-                            min='0'
-                            color='blue'
-                            variant='soft'
-                            {...register(`flights.${i}.children_cost`, {
-                              valueAsNumber: true
-                            })}
-                          />
-                        </Flex>
-                        <Flex direction='column'>
-                          <span>👶 유아</span>
-                          <TextField.Root
-                            size='1'
-                            type='number'
-                            min='0'
-                            color='blue'
-                            variant='soft'
-                            readOnly
-                            {...register(`flights.${i}.kids_cost`, {
-                              valueAsNumber: true
-                            })}
-                          />
-                        </Flex>
-                      </Grid>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Grid gap='2'>
-                        <Flex direction='column'>
-                          <span className='invisible'>🧑 성인</span>
-                          <TextField.Root
-                            size='1'
-                            type='number'
-                            min='0'
-                            color='orange'
-                            variant='soft'
-                            {...register(`flights.${i}.adult_price`, {
-                              valueAsNumber: true
-                            })}
-                          />
-                        </Flex>
-                        <Flex direction='column'>
-                          <span className='invisible'>🧒 소아</span>
-                          <TextField.Root
-                            size='1'
-                            type='number'
-                            min='0'
-                            color='orange'
-                            variant='soft'
-                            {...register(`flights.${i}.children_price`, {
-                              valueAsNumber: true
-                            })}
-                          />
-                        </Flex>
-                        <Flex direction='column'>
-                          <span className='invisible'>👶 유아</span>
-                          <TextField.Root
-                            size='1'
-                            type='number'
-                            min='0'
-                            color='orange'
-                            variant='soft'
-                            readOnly
-                            {...register(`flights.${i}.kids_price`, {
-                              valueAsNumber: true
-                            })}
-                          />
-                        </Flex>
-                      </Grid>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Grid gap='2'>
-                        <Flex direction='column'>
                           <span className='invisible'>🧑 성인</span>
                           <TextField.Root
                             size='1'
@@ -316,17 +224,6 @@ export default function FlightForm({ data, mutation }: ProductFormProps) {
                           />
                         </Flex>
                       </Grid>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Flex gap='1' align='end'>
-                        <Text color='blue' size='3'>
-                          {toReadableAmount(getValues(`flights.${i}.total_cost`), 'ko-KR', 'KRW')}
-                        </Text>
-                        <span>/</span>
-                        <Text weight='bold' size='3'>
-                          {toReadableAmount(getValues(`flights.${i}.total_amount`), 'ko-KR', 'KRW')}
-                        </Text>
-                      </Flex>
                     </Table.Cell>
                     <Table.Cell>
                       <Controller
@@ -372,7 +269,7 @@ export default function FlightForm({ data, mutation }: ProductFormProps) {
                     </Table.Cell>
                   </Table.Row>
                   <Table.Row>
-                    <Table.Cell colSpan={11}>
+                    <Table.Cell colSpan={8}>
                       <Flex align='center' gap='2'>
                         <Text weight='bold'>비고</Text>
                         <Box flexGrow='1'>
@@ -388,7 +285,7 @@ export default function FlightForm({ data, mutation }: ProductFormProps) {
                     </Table.Cell>
                   </Table.Row>
                   <Table.Row>
-                    <Table.Cell colSpan={11}>
+                    <Table.Cell colSpan={8}>
                       <Flex align='center' gap='2'>
                         <Text weight='bold'>규정</Text>
                         <Box flexGrow='1'>
