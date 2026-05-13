@@ -134,7 +134,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
               <td className={styles.td}>{data.reservation_id || '-'}</td>
               <th className={styles.th}>여행종류</th>
               <td className={styles.td}>
-                {[data.trip_type, `성인${data.clients?.length ?? 0}명`].filter(Boolean).join(' / ')}
+                {[data.trip_type, `${data.clients?.length ?? 0}명`].filter(Boolean).join(' / ')}
               </td>
               <th className={styles.th}>여행일정</th>
               <td className={styles.td}>
