@@ -53,6 +53,12 @@ function formatClientTitle(data: ReservationResponse) {
   return `${orderedNames[0]} 외 ${orderedNames.length - 1}인 귀하`;
 }
 
+function formatClientName(client: { korean_name: string; is_main_client: boolean }) {
+  const { korean_name: name, is_main_client } = client;
+  const label = is_main_client ? '(대표)' : '';
+  return label ? `${name}${label}` : name;
+}
+
 function formatHotelStaySummary(hotels: ReservationResponse['products']['hotels'] = []) {
   const nightsByRegion = hotels.reduce<Record<string, number>>((acc, hotel) => {
     if (hotel.status === 'Refunded') return acc;
@@ -205,7 +211,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
           <tbody>
             {data.clients?.map((client, idx) => (
               <tr key={idx}>
-                <td className={styles.td}>{client.korean_name}</td>
+                <td className={styles.td}>{formatClientName(client)}</td>
                 <td className={styles.td}>{client.english_name}</td>
                 <td className={styles.td}>{client.gender}</td>
                 <td className={styles.td}>{client.resident_id}</td>
