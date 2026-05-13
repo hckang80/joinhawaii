@@ -201,7 +201,9 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
           <tbody>
             <tr>
               <td className={styles.td}>
-                {toReadableAmount(Number(data?.reservation_fee), 'ko-KR', 'KRW')}
+                <Text weight='bold' size='4' color='red'>
+                  {toReadableAmount(Number(data?.reservation_fee), 'ko-KR', 'KRW')}
+                </Text>
               </td>
               <td className={styles.td}>{toReadableAmount(Number(data?.deposit ?? 0))}</td>
               <td className={styles.td}>
