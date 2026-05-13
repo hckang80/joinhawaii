@@ -107,14 +107,12 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
 
         <table className={styles.table}>
           <colgroup>
-            <col style={{ width: '100px' }} />
+            <col width='100px' />
+            <col width='150px' />
+            <col width='100px' />
             <col />
-            <col style={{ width: '100px' }} />
-            <col />
-            <col style={{ width: '100px' }} />
-            <col />
-            <col style={{ width: '100px' }} />
-            <col />
+            <col width='100px' />
+            <col width='300px' />
           </colgroup>
           <tbody>
             <tr>
@@ -123,11 +121,11 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                 {data.created_at ? new Date(data.created_at).toLocaleDateString() : '-'}
               </td>
               <th className={styles.th}>담당자</th>
-              <td className={styles.td} colSpan={2}>
+              <td className={styles.td}>
                 {data.author || '-'} / {'02-402-1040'}
               </td>
               <th className={styles.th}>email</th>
-              <td className={styles.td} colSpan={2}>
+              <td className={styles.td}>
                 <a href='mailto:joinhawaii@joinhawaii.com'>joinhawaii@joinhawaii.com</a>
               </td>
             </tr>
@@ -135,11 +133,11 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
               <th className={styles.th}>예약번호</th>
               <td className={styles.td}>{data.reservation_id || '-'}</td>
               <th className={styles.th}>여행종류</th>
-              <td className={styles.td} colSpan={2}>
+              <td className={styles.td}>
                 {[data.trip_type, `성인${data.clients?.length ?? 0}명`].filter(Boolean).join(' / ')}
               </td>
               <th className={styles.th}>여행일정</th>
-              <td className={styles.td} colSpan={2}>
+              <td className={styles.td}>
                 {data.start_date ? formatDate(data.start_date) : '-'} ~{' '}
                 {data.end_date ? formatDate(data.end_date) : '-'}
                 {data.nights && data.days ? ` (${data.nights}박 ${data.days}일)` : ''}
