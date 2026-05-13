@@ -8,7 +8,7 @@ import {
   TRAVEL_CATEGORIES,
   TRIP_TYPES
 } from '@/constants';
-import type { ProductFormType, ReservationFormData, ReservationResponse } from '@/types';
+import type { ReservationFormData, ReservationResponse } from '@/types';
 import { isDev, toReadableDate } from '@/utils';
 import {
   Button,
@@ -143,11 +143,6 @@ export default function ClientForm({
         shouldTouch: true
       });
     }
-  };
-
-  const removeItem = (target: ProductFormType) => {
-    const items = getValues(target);
-    setValue(target, items.slice(0, -1));
   };
 
   const handleChangeReservation = (event: React.ChangeEvent<HTMLInputElement>) => {
