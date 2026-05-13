@@ -48,9 +48,9 @@ export default function ReservationPreviewClient({ reservation_id }: { reservati
   });
 
   return (
-    <Box width='800px' mx='auto'>
+    <Box width='1000px' mx='auto'>
       <ReservationConfirmationPreview data={data} />
-      <Flex justify='center' mt='4' gap='3' className='print:hidden'>
+      <Flex justify='center' mt='6' gap='3' className='print:hidden'>
         <Button size='4' onClick={() => window.print()}>
           인쇄 / PDF 저장
         </Button>

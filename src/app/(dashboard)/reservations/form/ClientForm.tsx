@@ -8,10 +8,8 @@ import {
   TRAVEL_CATEGORIES,
   TRIP_TYPES
 } from '@/constants';
-import type { ProductFormType, ReservationFormData, ReservationResponse } from '@/types';
+import type { ReservationFormData, ReservationResponse } from '@/types';
 import { isDev, toReadableDate } from '@/utils';
-import { observable } from '@legendapp/state';
-import { use$ } from '@legendapp/state/react';
 import {
   Button,
   Card,
@@ -31,10 +29,6 @@ import { useRouter } from 'nextjs-toploader/app';
 import React, { useMemo } from 'react';
 import { Controller, SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { toast } from 'react-toastify';
-
-const status$ = observable({
-  reservationIndex: 0
-});
 
 export default function ClientForm({
   data,
@@ -72,27 +66,53 @@ export default function ClientForm({
     reset
   } = useForm<ReservationFormData>({
     defaultValues: useMemo(() => {
+      const sourceClients = data?.clients?.length ? data.clients : [defaultClientValues];
+      const normalizedClients = sourceClients.map((client, index) => ({
+        ...client,
+        is_main_client:
+          client.is_main_client ||
+          (!!data?.main_client_name && data.main_client_name === client.korean_name) ||
+          (!data?.main_client_name && index === 0)
+      }));
+
       return {
         ...updateData,
-        clients: data?.clients || [defaultClientValues]
+        clients: normalizedClients,
+        main_client_name:
+          normalizedClients.find(client => client.is_main_client)?.korean_name ||
+          data?.main_client_name ||
+          ''
       };
     }, [data, updateData])
   });
 
   const clients = useWatch({ control, name: 'clients' }) ?? [defaultClientValues];
-  const reservationIndex = use$(status$.reservationIndex);
-  const mainClientName = clients[reservationIndex]?.korean_name ?? '';
+  const selectedReservationIndex =
+    clients.findIndex(client => client.is_main_client) >= 0
+      ? clients.findIndex(client => client.is_main_client)
+      : 0;
 
   const onSubmit: SubmitHandler<ReservationFormData> = formData => {
     if (!isDirty) return toast.info('변경된 내용이 없습니다.');
+
+    let formSelectedIndex = formData.clients.findIndex(client => client.is_main_client);
+    if (formSelectedIndex === -1) formSelectedIndex = 0;
+
+    const normalizedClients = formData.clients.map((client, index) => ({
+      ...client,
+      is_main_client: index === formSelectedIndex
+    }));
+
     mutation.mutate(
       {
         ...formData,
-        main_client_name: mainClientName
+        clients: normalizedClients,
+        main_client_name:
+          normalizedClients[formSelectedIndex]?.korean_name ?? formData.main_client_name ?? ''
       },
       {
         onSuccess: ({ data }) => {
-          reset(formData);
+          reset({ ...formData, clients: normalizedClients });
           if (data.reservation_id) redirectModifyForm(data.reservation_id);
         }
       }
@@ -100,17 +120,44 @@ export default function ClientForm({
   };
 
   const addClient = () => {
-    setValue('clients', [...clients, defaultClientValues]);
+    const nextClients = [...clients, { ...defaultClientValues, is_main_client: false }];
+    setValue('clients', nextClients, { shouldDirty: true, shouldTouch: true });
   };
 
-  const removeItem = (target: ProductFormType) => {
-    const items = getValues(target);
-    setValue(target, items.slice(0, -1));
+  const removeClient = () => {
+    const currentClients = getValues('clients');
+    const updatedClients = currentClients.slice(0, -1);
+    const hasMainClient = updatedClients.some(client => client.is_main_client);
+    const normalizedClients = hasMainClient
+      ? updatedClients
+      : updatedClients.map((client, index) => ({
+          ...client,
+          is_main_client: index === 0
+        }));
+
+    setValue('clients', normalizedClients, { shouldDirty: true, shouldTouch: true });
+
+    if (!hasMainClient && normalizedClients.length > 0) {
+      setValue('main_client_name', normalizedClients[0].korean_name ?? '', {
+        shouldDirty: true,
+        shouldTouch: true
+      });
+    }
   };
 
   const handleChangeReservation = (event: React.ChangeEvent<HTMLInputElement>) => {
     const idx = +event.target.value;
-    status$.reservationIndex.set(() => idx);
+    setValue(
+      'clients',
+      clients.map((client, index) => ({
+        ...client,
+        is_main_client: index === idx
+      })),
+      {
+        shouldDirty: true,
+        shouldTouch: true
+      }
+    );
     setValue('main_client_name', clients[idx]?.korean_name ?? '', {
       shouldDirty: true,
       shouldTouch: true
@@ -300,18 +347,14 @@ export default function ClientForm({
                 </Table.Row>
               </Table.Header>
               <Table.Body>
-                {clients.map((client, i) => (
+                {clients.map((_, i) => (
                   <Table.Row key={i}>
                     <Table.Cell align='center'>
                       <label>
                         <Radio
                           name='reservation'
                           value={'' + i}
-                          defaultChecked={
-                            data?.main_client_name
-                              ? data?.main_client_name === client.korean_name
-                              : i === reservationIndex
-                          }
+                          checked={!!clients[i]?.is_main_client}
                           onChange={handleChangeReservation}
                         />
                       </label>
@@ -328,7 +371,7 @@ export default function ClientForm({
                             value={field.value}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                               field.onChange(e.target.value.trim());
-                              if (i === reservationIndex) {
+                              if (i === selectedReservationIndex) {
                                 setValue('main_client_name', e.target.value);
                               }
                             }}
@@ -472,7 +515,7 @@ export default function ClientForm({
                 type='button'
                 color='ruby'
                 variant='soft'
-                onClick={() => removeItem('clients')}
+                onClick={removeClient}
                 disabled={isRemoveClientDisabled}
               >
                 <UserMinus />
