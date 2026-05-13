@@ -132,8 +132,10 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
               </td>
             </tr>
             <tr>
+              <th className={styles.th}>예약번호</th>
+              <td className={styles.td}>{data.reservation_id || '-'}</td>
               <th className={styles.th}>여행종류</th>
-              <td className={styles.td} colSpan={4}>
+              <td className={styles.td} colSpan={2}>
                 {[data.trip_type, `성인${data.clients?.length ?? 0}명`].filter(Boolean).join(' / ')}
               </td>
               <th className={styles.th}>여행일정</th>
@@ -141,44 +143,6 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                 {data.start_date ? formatDate(data.start_date) : '-'} ~{' '}
                 {data.end_date ? formatDate(data.end_date) : '-'}
                 {data.nights && data.days ? ` (${data.nights}박 ${data.days}일)` : ''}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </Section>
-
-      <Section size='1'>
-        <Heading as='h3' mb='2'>
-          기본정보
-        </Heading>
-        <table className={styles.table}>
-          <tbody>
-            <tr>
-              <th className={styles.th}>발행일</th>
-              <td className={styles.td}>
-                {data.created_at ? new Date(data.created_at).toLocaleDateString() : '-'}
-              </td>
-              <th className={styles.th}>담당자</th>
-              <td className={styles.td}>{data.author || '-'}</td>
-            </tr>
-            <tr>
-              <th className={styles.th}>업체구분</th>
-              <td className={styles.td}>{data.booking_platform || '-'}</td>
-              <th className={styles.th}>여행종류</th>
-              <td className={styles.td}>{data.trip_type || '-'}</td>
-            </tr>
-            <tr>
-              <th className={styles.th}>구분</th>
-              <td className={styles.td}>{data.travel_category || '-'}</td>
-              <th className={styles.th}>예약구분</th>
-              <td className={styles.td}>{data.reservation_id || '-'}</td>
-            </tr>
-            <tr>
-              <th className={styles.th}>여행일정</th>
-              <td colSpan={3} className={styles.td}>
-                {data.start_date || '-'} ~ {data.end_date || '-'}
-                {data.nights ? ` (${data.nights}박` : ''}
-                {data.days ? ` ${data.days}일)` : data.nights ? ')' : ''}
               </td>
             </tr>
           </tbody>
