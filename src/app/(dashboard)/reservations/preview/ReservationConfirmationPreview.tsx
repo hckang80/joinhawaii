@@ -641,10 +641,6 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
         <Text as='p'>* 현지명 : JOINHAWAIIUSA T. 1 808 772 2691</Text>
         <Text as='p'>* 한국 연락사무소 연락처 T. 02 402 1040, 02 392 1044 F. 0303 0950 1044</Text>
       </Blockquote>
-
-      <Flex justify='center'>
-        <Text color='gray'>본 예약확인서는 여행상품 예약을 증명하는 용도로만 사용됩니다.</Text>
-      </Flex>
     </Box>
   );
 }
