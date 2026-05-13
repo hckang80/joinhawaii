@@ -1,6 +1,6 @@
 import type { AdditionalOptions, ReservationResponse } from '@/types';
 import { toReadableAmount } from '@/utils';
-import { Box, Flex, Grid, Heading, Section, Text } from '@radix-ui/themes';
+import { Blockquote, Box, Flex, Grid, Heading, Section, Text } from '@radix-ui/themes';
 import styles from './preview-table.module.css';
 
 type ReservationConfirmationPreviewProps = {
@@ -619,6 +619,28 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
           </table>
         </Section>
       )}
+
+      <Blockquote>
+        <Text as='p' weight='bold' size='2'>
+          홈페이지 : www.joinhawaii.co.kr
+        </Text>
+        <Text as='p' weight='bold' size='2'>
+          네이버 스마트 스토어 : https://smartstore.naver.com/joinhawaii
+        </Text>
+        <Text as='p' weight='bold' size='2'>
+          네이버까페 착한하와이 : http://cafe.naver.com/goodhawaii
+        </Text>
+        <Text as='p' weight='bold' size='2'>
+          카카오톡 ID : joinhawaii
+        </Text>
+        <br />
+        <Text as='p' weight='bold'>
+          <Text>조인하와이 하와이 (OPEN AM10:00~PM6:00)</Text>{' '}
+          <Text color='red'>12월25일, 1월1일 휴무</Text>
+        </Text>
+        <Text as='p'>* 현지명 : JOINHAWAIIUSA T. 1 808 772 2691</Text>
+        <Text as='p'>* 한국 연락사무소 연락처 T. 02 402 1040, 02 392 1044 F. 0303 0950 1044</Text>
+      </Blockquote>
 
       <Flex justify='center'>
         <Text color='gray'>본 예약확인서는 여행상품 예약을 증명하는 용도로만 사용됩니다.</Text>
