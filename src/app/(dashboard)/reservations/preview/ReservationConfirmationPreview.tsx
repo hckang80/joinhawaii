@@ -184,10 +184,20 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
           고객정보
         </Heading>
         <table className={styles.table}>
+          <colgroup>
+            <col width='140px' />
+            <col width='200px' />
+            <col width='60px' />
+            <col width='180px' />
+            <col width='160px' />
+            <col />
+          </colgroup>
           <thead>
             <tr>
               <th className={styles.th}>이름</th>
               <th className={styles.th}>영문</th>
+              <th className={styles.th}>성별</th>
+              <th className={styles.th}>주민번호</th>
               <th className={styles.th}>연락처</th>
               <th className={styles.th}>이메일</th>
             </tr>
@@ -197,6 +207,8 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
               <tr key={idx}>
                 <td className={styles.td}>{client.korean_name}</td>
                 <td className={styles.td}>{client.english_name}</td>
+                <td className={styles.td}>{client.gender}</td>
+                <td className={styles.td}>{client.resident_id}</td>
                 <td className={styles.td}>{client.phone_number}</td>
                 <td className={styles.td}>{client.email}</td>
               </tr>
