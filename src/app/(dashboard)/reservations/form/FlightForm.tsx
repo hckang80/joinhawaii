@@ -110,7 +110,7 @@ export default function FlightForm({ data, mutation }: ProductFormProps) {
                   <Table.ColumnHeaderCell width='100px'>도착지</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='80px'>🧑‍🤝‍🧑인원</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='90px'>진행상태</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='200px'>메모</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell>메모</Table.ColumnHeaderCell>
                 </Table.Row>
               </Table.Header>
               {flights.map((flight, i) => (
