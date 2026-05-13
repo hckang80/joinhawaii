@@ -95,17 +95,24 @@ export default function ClientForm({
   const onSubmit: SubmitHandler<ReservationFormData> = formData => {
     if (!isDirty) return toast.info('변경된 내용이 없습니다.');
 
-    const formSelectedIndex = formData.clients.findIndex(client => client.is_main_client);
+    let formSelectedIndex = formData.clients.findIndex(client => client.is_main_client);
+    if (formSelectedIndex === -1) formSelectedIndex = 0;
+
+    const normalizedClients = formData.clients.map((client, index) => ({
+      ...client,
+      is_main_client: index === formSelectedIndex
+    }));
 
     mutation.mutate(
       {
         ...formData,
+        clients: normalizedClients,
         main_client_name:
-          formData.clients[formSelectedIndex]?.korean_name ?? formData.main_client_name ?? ''
+          normalizedClients[formSelectedIndex]?.korean_name ?? formData.main_client_name ?? ''
       },
       {
         onSuccess: ({ data }) => {
-          reset(formData);
+          reset({ ...formData, clients: normalizedClients });
           if (data.reservation_id) redirectModifyForm(data.reservation_id);
         }
       }
@@ -115,6 +122,27 @@ export default function ClientForm({
   const addClient = () => {
     const nextClients = [...clients, { ...defaultClientValues, is_main_client: false }];
     setValue('clients', nextClients, { shouldDirty: true, shouldTouch: true });
+  };
+
+  const removeClient = () => {
+    const currentClients = getValues('clients');
+    const updatedClients = currentClients.slice(0, -1);
+    const hasMainClient = updatedClients.some(client => client.is_main_client);
+    const normalizedClients = hasMainClient
+      ? updatedClients
+      : updatedClients.map((client, index) => ({
+          ...client,
+          is_main_client: index === 0
+        }));
+
+    setValue('clients', normalizedClients, { shouldDirty: true, shouldTouch: true });
+
+    if (!hasMainClient && normalizedClients.length > 0) {
+      setValue('main_client_name', normalizedClients[0].korean_name ?? '', {
+        shouldDirty: true,
+        shouldTouch: true
+      });
+    }
   };
 
   const removeItem = (target: ProductFormType) => {
@@ -492,7 +520,7 @@ export default function ClientForm({
                 type='button'
                 color='ruby'
                 variant='soft'
-                onClick={() => removeItem('clients')}
+                onClick={removeClient}
                 disabled={isRemoveClientDisabled}
               >
                 <UserMinus />
