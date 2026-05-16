@@ -86,21 +86,21 @@ export default function VoucherHotelClientContainer({
   } = useForm<VoucherFormState>({
     mode: 'onBlur',
     defaultValues: {
-      confirmationNumber: '',
-      deliveryNotes: selectedHotel?.notes || '',
+      confirmationNumber: selectedHotel?.confirmation_number || '',
+      deliveryNotes: selectedHotel?.delivery_notes || '',
       guideNotes: selectedHotel?.remarks || '',
       cancellationPolicy: selectedHotel?.rule || '',
-      selectedClients: []
+      selectedClients: selectedHotel?.selected_clients || []
     }
   });
 
   useEffect(() => {
     reset({
-      confirmationNumber: '',
-      deliveryNotes: selectedHotel?.notes || '',
+      confirmationNumber: selectedHotel?.confirmation_number || '',
+      deliveryNotes: selectedHotel?.delivery_notes || '',
       guideNotes: selectedHotel?.remarks || '',
       cancellationPolicy: selectedHotel?.rule || '',
-      selectedClients: []
+      selectedClients: selectedHotel?.selected_clients || []
     });
   }, [selectedHotel, reset]);
 

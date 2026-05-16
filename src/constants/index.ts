@@ -942,6 +942,9 @@ export const defaultHotelValues = {
   cost: 0,
   remarks: '',
   rule: '',
+  confirmation_number: '',
+  delivery_notes: '',
+  selected_clients: [],
   ...defaultProductValues,
   ...additionalOptions
 };
