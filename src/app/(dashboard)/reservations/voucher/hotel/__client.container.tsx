@@ -27,7 +27,6 @@ type VoucherHotelClientContainerProps = {
 };
 
 type VoucherFormState = {
-  guestName: string;
   hotelName: string;
   roomCategory: string;
   bedType: string;
@@ -82,7 +81,6 @@ export default function VoucherHotelClientContainer({
 
   const { control, handleSubmit, reset, watch } = useForm<VoucherFormState>({
     defaultValues: {
-      guestName: data?.main_client_name || '',
       hotelName: selectedHotel?.hotel_name || '',
       roomCategory: selectedHotel?.room_type || '',
       bedType: selectedHotel?.bed_type || '',
@@ -107,7 +105,6 @@ export default function VoucherHotelClientContainer({
 
   useEffect(() => {
     reset({
-      guestName: data?.main_client_name || '',
       hotelName: selectedHotel?.hotel_name || '',
       roomCategory: selectedHotel?.room_type || '',
       bedType: selectedHotel?.bed_type || '',
@@ -128,7 +125,7 @@ export default function VoucherHotelClientContainer({
       cancellationPolicy: selectedHotel?.rule || '',
       selectedClients: []
     });
-  }, [data?.main_client_name, selectedHotel, reset]);
+  }, [selectedHotel, reset]);
 
   const onSubmit: SubmitHandler<VoucherFormState> = formData => {
     console.log('바우처 데이터:', formData);
@@ -174,16 +171,6 @@ export default function VoucherHotelClientContainer({
             바우처 입력
           </Heading>
           <Flex direction='column' gap='3'>
-            <label>
-              <Text as='div' size='2' mb='1'>
-                투숙객명
-              </Text>
-              <Controller
-                name='guestName'
-                control={control}
-                render={({ field }) => <TextField.Root {...field} />}
-              />
-            </label>
             <table className={styles['info-table']}>
               <tbody>
                 <tr>
@@ -344,8 +331,6 @@ export default function VoucherHotelClientContainer({
               HOTEL VOUCHER
             </Heading>
             <Flex direction='column' gap='2'>
-              <Text>예약번호: {data?.reservation_id || '-'}</Text>
-              <Text>투숙객명: {watch('guestName') || '-'}</Text>
               <table className={styles['info-table']}>
                 <tbody>
                   <tr>
