@@ -172,85 +172,86 @@ export default function VoucherHotelClientContainer({
                 onChange={e => setForm(prev => ({ ...prev, guestName: e.target.value }))}
               />
             </label>
-            <label>
-              <Text as='div' size='2' mb='1'>
-                호텔명
-              </Text>
-              <TextField.Root
-                value={form.hotelName}
-                onChange={e => setForm(prev => ({ ...prev, hotelName: e.target.value }))}
-                readOnly
-              />
-            </label>
-            <label>
-              <Text as='div' size='2' mb='1'>
-                room category
-              </Text>
-              <TextField.Root
-                value={form.roomCategory}
-                onChange={e => setForm(prev => ({ ...prev, roomCategory: e.target.value }))}
-                readOnly
-              />
-            </label>
-            <label>
-              <Text as='div' size='2' mb='1'>
-                bed type
-              </Text>
-              <TextField.Root
-                value={form.bedType}
-                onChange={e => setForm(prev => ({ ...prev, bedType: e.target.value }))}
-                readOnly
-              />
-            </label>
-            <label>
-              <Text as='div' size='2' mb='1'>
-                투숙기간
-              </Text>
-              <TextField.Root
-                value={form.stayPeriod}
-                onChange={e => setForm(prev => ({ ...prev, stayPeriod: e.target.value }))}
-                readOnly
-              />
-            </label>
-            <label>
-              <Text as='div' size='2' mb='1'>
-                night
-              </Text>
-              <TextField.Root
-                value={form.nightsText}
-                onChange={e => setForm(prev => ({ ...prev, nightsText: e.target.value }))}
-                readOnly
-              />
-            </label>
-            <label>
-              <Text as='div' size='2' mb='1'>
-                breakfast
-              </Text>
-              <TextField.Root
-                value={form.breakfastText}
-                onChange={e => setForm(prev => ({ ...prev, breakfastText: e.target.value }))}
-                readOnly
-              />
-            </label>
-            <label>
-              <Text as='div' size='2' mb='1'>
-                resort fee
-              </Text>
-              <TextField.Root
-                value={form.resortFeeText}
-                onChange={e => setForm(prev => ({ ...prev, resortFeeText: e.target.value }))}
-                readOnly
-              />
-            </label>
-            <label>
-              <Text as='div' size='2' mb='1'>
-                confirmation number
-              </Text>
-              <TextField.Root
-                value={form.confirmationNumber}
-                onChange={e => setForm(prev => ({ ...prev, confirmationNumber: e.target.value }))}
-              />
-            </label>
+            <table className={styles['info-table']}>
+              <tbody>
+                <tr>
+                  <th className={styles['info-th']}>hotel</th>
+                  <td className={styles['info-td']} colSpan={3}>
+                    <TextField.Root
+                      value={form.hotelName}
+                      onChange={e => setForm(prev => ({ ...prev, hotelName: e.target.value }))}
+                      readOnly
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <th className={styles['info-th']}>period</th>
+                  <td className={styles['info-td']}>
+                    <TextField.Root
+                      value={form.stayPeriod}
+                      onChange={e => setForm(prev => ({ ...prev, stayPeriod: e.target.value }))}
+                      readOnly
+                    />
+                  </td>
+                  <th className={styles['info-th']}>night</th>
+                  <td className={styles['info-td']}>
+                    <TextField.Root
+                      value={form.nightsText}
+                      onChange={e => setForm(prev => ({ ...prev, nightsText: e.target.value }))}
+                      readOnly
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <th className={styles['info-th']}>room category</th>
+                  <td className={styles['info-td']} colSpan={3}>
+                    <TextField.Root
+                      value={form.roomCategory}
+                      onChange={e => setForm(prev => ({ ...prev, roomCategory: e.target.value }))}
+                      readOnly
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <th className={styles['info-th']}>bed type</th>
+                  <td className={styles['info-td']} colSpan={3}>
+                    <TextField.Root
+                      value={form.bedType}
+                      onChange={e => setForm(prev => ({ ...prev, bedType: e.target.value }))}
+                      readOnly
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <th className={styles['info-th']}>breakfast</th>
+                  <td className={styles['info-td']}>
+                    <TextField.Root
+                      value={form.breakfastText}
+                      onChange={e => setForm(prev => ({ ...prev, breakfastText: e.target.value }))}
+                      readOnly
+                    />
+                  </td>
+                  <th className={styles['info-th']}>resort fee</th>
+                  <td className={styles['info-td']}>
+                    <TextField.Root
+                      value={form.resortFeeText}
+                      onChange={e => setForm(prev => ({ ...prev, resortFeeText: e.target.value }))}
+                      readOnly
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <th className={styles['info-th']}>confirmation number</th>
+                  <td className={styles['info-td']} colSpan={3}>
+                    <TextField.Root
+                      value={form.confirmationNumber}
+                      onChange={e => setForm(prev => ({ ...prev, confirmationNumber: e.target.value }))}
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <Separator size='4' />
             <label>
               <Text as='div' size='2' mb='1'>
                 전달사항
