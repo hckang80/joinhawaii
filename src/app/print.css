@@ -7,20 +7,7 @@
 }
 
 .print-watermark {
-  display: flex !important;
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  align-items: center;
-  justify-content: center;
-}
-
-.print-watermark-image {
-  width: 320px;
-  max-width: 70vw;
-  height: auto;
-  opacity: 0.08;
+  display: none;
 }
 
 @media print {
@@ -52,5 +39,34 @@
 
   .print\:only {
     display: revert !important;
+  }
+
+  .print-watermark {
+    display: flex !important;
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .print-watermark-image {
+    width: 320px;
+    max-width: 70vw;
+    height: auto;
+    opacity: 0.08;
+  }
+
+  .voucher-root .rt-Card,
+  .voucher-root .rt-Card::before,
+  .voucher-root .rt-Card::after {
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .voucher-root table th,
+  .voucher-root table td {
+    background: transparent !important;
   }
 }
