@@ -309,7 +309,11 @@ export default function VoucherHotelClientContainer({
               }}
             />
           </Grid>
-          {errors.selectedClients && <Text color='red'>{errors.selectedClients.message}</Text>}
+          {errors.selectedClients && (
+            <Text color='red' as='p' mt='1'>
+              {errors.selectedClients.message}
+            </Text>
+          )}
 
           <Grid columns='2' className={`${styles['guest-grid']} print:only`}>
             {watch('selectedClients').map((client, i) => {
