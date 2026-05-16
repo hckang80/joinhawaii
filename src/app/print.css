@@ -30,6 +30,6 @@
   }
 
   .print\:only {
-    display: block !important;
+    display: revert !important;
   }
 }
