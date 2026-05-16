@@ -1,6 +1,6 @@
 'use client';
 
-import { HOTEL_GUIDE_NOTES } from '@/constants';
+import { HOTEL_GUIDE_NOTES, HOTELS } from '@/constants';
 import { updateReservation } from '@/http';
 import { reservationQueryOptions } from '@/lib/queries';
 import type { ReservationFormData, ReservationResponse } from '@/types';
@@ -354,6 +354,12 @@ export default function VoucherHotelClientContainer({
                 <th className={styles['info-th']}>hotel</th>
                 <td className={styles['info-td']} colSpan={3}>
                   {selectedHotel?.hotel_name || '-'}
+
+                  <Text as='p'>
+                    {HOTELS[selectedHotel?.region]?.find(
+                      hotel => hotel.label === selectedHotel?.hotel_name
+                    )?.en_label || '-'}
+                  </Text>
                 </td>
               </tr>
               <tr>
