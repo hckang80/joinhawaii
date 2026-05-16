@@ -91,7 +91,7 @@ export default function VoucherHotelClientContainer({
     defaultValues: {
       confirmationNumber: selectedHotel?.confirmation_number || '',
       deliveryNotes: selectedHotel?.delivery_notes || '',
-      guideNotes: HOTEL_GUIDE_NOTES,
+      guideNotes: selectedHotel?.guide_notes || HOTEL_GUIDE_NOTES,
       cancellationPolicy: selectedHotel?.rule || '',
       selectedClients: selectedHotel?.selected_clients || []
     }
@@ -101,7 +101,7 @@ export default function VoucherHotelClientContainer({
     reset({
       confirmationNumber: selectedHotel?.confirmation_number || '',
       deliveryNotes: selectedHotel?.delivery_notes || '',
-      guideNotes: HOTEL_GUIDE_NOTES,
+      guideNotes: selectedHotel?.guide_notes || HOTEL_GUIDE_NOTES,
       cancellationPolicy: selectedHotel?.rule || '',
       selectedClients: selectedHotel?.selected_clients || []
     });
@@ -115,6 +115,7 @@ export default function VoucherHotelClientContainer({
           id: selectedHotel.id,
           confirmation_number: formData.confirmationNumber,
           delivery_notes: formData.deliveryNotes,
+          guide_notes: formData.guideNotes,
           selected_clients: formData.selectedClients
         }
       ]

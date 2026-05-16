@@ -951,6 +951,7 @@ export const defaultHotelValues = {
   nightly_rate: 0,
   cost: 0,
   remarks: '',
+  guide_notes: '',
   rule: '',
   confirmation_number: '',
   delivery_notes: '',
