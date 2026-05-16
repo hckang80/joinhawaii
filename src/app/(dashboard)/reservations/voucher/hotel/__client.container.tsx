@@ -102,6 +102,10 @@ export default function VoucherHotelClientContainer({
       return toast.warning('확인번호를 입력해주세요.');
     }
 
+    if (formData.selectedClients.length === 0) {
+      return toast.warning('투숙객을 선택해주세요.');
+    }
+
     if (!selectedHotel?.id) {
       return toast.warning('호텔 정보를 찾을 수 없습니다.');
     }
@@ -251,7 +255,8 @@ export default function VoucherHotelClientContainer({
                       name='selectedClients'
                       control={control}
                       render={({ field }) => {
-                        const clientLabel = `${client.korean_name || ''} ${client.gender || ''}`.trim();
+                        const clientLabel =
+                          `${client.korean_name || ''} ${client.gender || ''}`.trim();
 
                         return (
                           <input
