@@ -2,6 +2,10 @@
   margin: 0;
 }
 
+.print\:only {
+  display: none !important;
+}
+
 @media print {
   html,
   body {
@@ -27,5 +31,9 @@
 
   .print\:hidden {
     display: none;
+  }
+
+  .print\:only {
+    display: block !important;
   }
 }
