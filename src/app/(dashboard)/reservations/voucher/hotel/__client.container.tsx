@@ -1,8 +1,8 @@
 'use client';
 
-import { submitHotelVoucher } from '@/http';
+import { updateReservation } from '@/http';
 import { reservationQueryOptions } from '@/lib/queries';
-import type { ReservationResponse } from '@/types';
+import type { ReservationFormData, ReservationResponse } from '@/types';
 import {
   Box,
   Button,
@@ -68,7 +68,7 @@ export default function VoucherHotelClientContainer({
   );
 
   const voucherMutation = useMutation({
-    mutationFn: submitHotelVoucher,
+    mutationFn: (payload: Partial<ReservationFormData>) => updateReservation(payload),
     onSuccess: () => {
       toast.success('바우처가 성공적으로 제출되었습니다.');
     },
@@ -102,13 +102,21 @@ export default function VoucherHotelClientContainer({
       return toast.warning('확인번호를 입력해주세요.');
     }
 
+    if (!selectedHotel?.id) {
+      return toast.warning('호텔 정보를 찾을 수 없습니다.');
+    }
+
     const submitData = {
-      reservationId,
-      hotelId,
-      confirmationNumber: formData.confirmationNumber,
-      deliveryNotes: formData.deliveryNotes,
-      selectedClients: formData.selectedClients
-    };
+      reservation_id: reservationId,
+      hotels: [
+        {
+          id: selectedHotel.id,
+          confirmation_number: formData.confirmationNumber,
+          delivery_notes: formData.deliveryNotes,
+          selected_clients: formData.selectedClients
+        }
+      ]
+    } as unknown as Partial<ReservationFormData>;
 
     voucherMutation.mutate(submitData);
   };
