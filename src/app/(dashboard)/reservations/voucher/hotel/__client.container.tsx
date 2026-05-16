@@ -286,27 +286,39 @@ export default function VoucherHotelClientContainer({
                 <tbody>
                   <tr>
                     <th className={styles['info-th']}>hotel</th>
-                    <td className={styles['info-td']}>{form.hotelName || '-'}</td>
-                    <th className={styles['info-th']}>period</th>
-                    <td className={styles['info-td']}>{form.stayPeriod || '-'}</td>
+                    <td className={styles['info-td']} colSpan={3}>
+                      {form.hotelName || '-'}
+                    </td>
                   </tr>
                   <tr>
+                    <th className={styles['info-th']}>period</th>
+                    <td className={styles['info-td']}>{form.stayPeriod || '-'}</td>
                     <th className={styles['info-th']}>night</th>
                     <td className={styles['info-td']}>{form.nightsText || '-'}</td>
+                  </tr>
+                  <tr>
                     <th className={styles['info-th']}>room category</th>
-                    <td className={styles['info-td']}>{form.roomCategory || '-'}</td>
+                    <td className={styles['info-td']} colSpan={3}>
+                      {form.roomCategory || '-'}
+                    </td>
                   </tr>
                   <tr>
                     <th className={styles['info-th']}>bed type</th>
-                    <td className={styles['info-td']}>{form.bedType || '-'}</td>
-                    <th className={styles['info-th']}>breakfast</th>
-                    <td className={styles['info-td']}>{form.breakfastText || '-'}</td>
+                    <td className={styles['info-td']} colSpan={3}>
+                      {form.bedType || '-'}
+                    </td>
                   </tr>
                   <tr>
+                    <th className={styles['info-th']}>breakfast</th>
+                    <td className={styles['info-td']}>{form.breakfastText || '-'}</td>
                     <th className={styles['info-th']}>resort fee</th>
                     <td className={styles['info-td']}>{form.resortFeeText || '-'}</td>
+                  </tr>
+                  <tr>
                     <th className={styles['info-th']}>confirmation number</th>
-                    <td className={styles['info-td']}>{form.confirmationNumber || '-'}</td>
+                    <td className={styles['info-td']} colSpan={3}>
+                      {form.confirmationNumber || '-'}
+                    </td>
                   </tr>
                 </tbody>
               </table>
