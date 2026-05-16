@@ -1,0 +1,18 @@
+.infoTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.infoTh {
+  width: 20%;
+  padding: 6px 8px;
+  text-align: left;
+  vertical-align: top;
+  font-weight: 700;
+}
+
+.infoTd {
+  width: 30%;
+  padding: 6px 8px;
+  vertical-align: top;
+}

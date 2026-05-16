@@ -17,6 +17,7 @@ import {
 } from '@radix-ui/themes';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
+import styles from './voucher.module.css';
 
 type VoucherHotelClientContainerProps = {
   reservationId: string;
@@ -314,31 +315,31 @@ export default function VoucherHotelClientContainer({
             <Flex direction='column' gap='2'>
               <Text>예약번호: {data?.reservation_id || '-'}</Text>
               <Text>투숙객명: {form.guestName || '-'}</Text>
-              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <table className={styles.infoTable}>
                 <tbody>
                   <tr>
-                    <th style={{ textAlign: 'left', padding: '6px 8px', width: '20%' }}>hotel</th>
-                    <td style={{ padding: '6px 8px', width: '30%' }}>{form.hotelName || '-'}</td>
-                    <th style={{ textAlign: 'left', padding: '6px 8px', width: '20%' }}>period</th>
-                    <td style={{ padding: '6px 8px', width: '30%' }}>{form.stayPeriod || '-'}</td>
+                    <th className={styles.infoTh}>hotel</th>
+                    <td className={styles.infoTd}>{form.hotelName || '-'}</td>
+                    <th className={styles.infoTh}>period</th>
+                    <td className={styles.infoTd}>{form.stayPeriod || '-'}</td>
                   </tr>
                   <tr>
-                    <th style={{ textAlign: 'left', padding: '6px 8px' }}>night</th>
-                    <td style={{ padding: '6px 8px' }}>{form.nightsText || '-'}</td>
-                    <th style={{ textAlign: 'left', padding: '6px 8px' }}>room category</th>
-                    <td style={{ padding: '6px 8px' }}>{form.roomCategory || '-'}</td>
+                    <th className={styles.infoTh}>night</th>
+                    <td className={styles.infoTd}>{form.nightsText || '-'}</td>
+                    <th className={styles.infoTh}>room category</th>
+                    <td className={styles.infoTd}>{form.roomCategory || '-'}</td>
                   </tr>
                   <tr>
-                    <th style={{ textAlign: 'left', padding: '6px 8px' }}>bed type</th>
-                    <td style={{ padding: '6px 8px' }}>{form.bedType || '-'}</td>
-                    <th style={{ textAlign: 'left', padding: '6px 8px' }}>breakfast</th>
-                    <td style={{ padding: '6px 8px' }}>{form.breakfastText || '-'}</td>
+                    <th className={styles.infoTh}>bed type</th>
+                    <td className={styles.infoTd}>{form.bedType || '-'}</td>
+                    <th className={styles.infoTh}>breakfast</th>
+                    <td className={styles.infoTd}>{form.breakfastText || '-'}</td>
                   </tr>
                   <tr>
-                    <th style={{ textAlign: 'left', padding: '6px 8px' }}>resort fee</th>
-                    <td style={{ padding: '6px 8px' }}>{form.resortFeeText || '-'}</td>
-                    <th style={{ textAlign: 'left', padding: '6px 8px' }}>confirmation number</th>
-                    <td style={{ padding: '6px 8px' }}>{form.confirmationNumber || '-'}</td>
+                    <th className={styles.infoTh}>resort fee</th>
+                    <td className={styles.infoTd}>{form.resortFeeText || '-'}</td>
+                    <th className={styles.infoTh}>confirmation number</th>
+                    <td className={styles.infoTd}>{form.confirmationNumber || '-'}</td>
                   </tr>
                 </tbody>
               </table>
