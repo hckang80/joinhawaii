@@ -18,6 +18,7 @@ import {
   TextField
 } from '@radix-ui/themes';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { Mic } from 'lucide-react';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -418,15 +419,35 @@ export default function VoucherHotelClientContainer({
                 })}
               </Grid>
 
-              <Separator size='4' />
-              <Text weight='bold'>✅ 전달사항</Text>
-              <Text style={{ whiteSpace: 'pre-wrap' }}>{watch('deliveryNotes') || '-'}</Text>
-              <Text weight='bold'>✅ 안내사항</Text>
-              <Text>{watch('guideNotes') || '-'}</Text>
-              <Text weight='bold' color='red'>
-                ✅ 취소규정
-              </Text>
-              <Text color='red'>{watch('cancellationPolicy') || '-'}</Text>
+              <Card>
+                <Flex gap='4'>
+                  <Flex asChild direction='column' align='center'>
+                    <Text size='4' weight='bold'>
+                      <Mic />
+                      전달
+                    </Text>
+                  </Flex>
+                  <Text style={{ whiteSpace: 'pre-wrap' }}>{watch('deliveryNotes') || '-'}</Text>
+                </Flex>
+              </Card>
+
+              <Card>
+                <Flex gap='4'>
+                  <Flex asChild direction='column' align='center'>
+                    <Text size='4' weight='bold'>
+                      <Mic />
+                      알림
+                    </Text>
+                  </Flex>
+                  <Box>
+                    <Text style={{ whiteSpace: 'pre-wrap' }}>{watch('guideNotes') || '-'}</Text>
+                    <Text as='p' color='red' mt='9'>
+                      [취소규정] {watch('cancellationPolicy') || '-'}
+                    </Text>
+                  </Box>
+                </Flex>
+              </Card>
+
               <Separator size='4' />
               <Text weight='bold'>조인하와이 현지 연락처</Text>
               <Text>T : (808) 772-2691</Text>
