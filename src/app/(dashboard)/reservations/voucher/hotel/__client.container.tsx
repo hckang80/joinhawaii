@@ -287,32 +287,44 @@ export default function VoucherHotelClientContainer({
                   <tr>
                     <th className={styles['info-th']}>hotel</th>
                     <td className={styles['info-td']} colSpan={3}>
-                      {form.hotelName || '-'}
+                      {selectedHotel?.hotel_name || '-'}
                     </td>
                   </tr>
                   <tr>
                     <th className={styles['info-th']}>period</th>
-                    <td className={styles['info-td']}>{form.stayPeriod || '-'}</td>
+                    <td className={styles['info-td']}>{buildStayPeriod(selectedHotel)}</td>
                     <th className={styles['info-th']}>night</th>
-                    <td className={styles['info-td']}>{form.nightsText || '-'}</td>
+                    <td className={styles['info-td']}>
+                      {selectedHotel?.nights ? `${selectedHotel.nights}박` : '-'}
+                    </td>
                   </tr>
                   <tr>
                     <th className={styles['info-th']}>room category</th>
                     <td className={styles['info-td']} colSpan={3}>
-                      {form.roomCategory || '-'}
+                      {selectedHotel?.room_type || '-'}
                     </td>
                   </tr>
                   <tr>
                     <th className={styles['info-th']}>bed type</th>
                     <td className={styles['info-td']} colSpan={3}>
-                      {form.bedType || '-'}
+                      {selectedHotel?.bed_type || '-'}
                     </td>
                   </tr>
                   <tr>
                     <th className={styles['info-th']}>breakfast</th>
-                    <td className={styles['info-td']}>{form.breakfastText || '-'}</td>
+                    <td className={styles['info-td']}>
+                      {selectedHotel?.is_breakfast_included ? '포함' : '미포함'}
+                    </td>
                     <th className={styles['info-th']}>resort fee</th>
-                    <td className={styles['info-td']}>{form.resortFeeText || '-'}</td>
+                    <td className={styles['info-td']}>
+                      {selectedHotel?.resort_fee_type === 'INCLUSION'
+                        ? '포함'
+                        : selectedHotel?.resort_fee_type === 'EXCLUSION'
+                          ? '불포함'
+                          : selectedHotel?.resort_fee_type === 'NO RESORT FEE'
+                            ? '없음'
+                            : '-'}
+                    </td>
                   </tr>
                   <tr>
                     <th className={styles['info-th']}>confirmation number</th>
@@ -342,6 +354,12 @@ export default function VoucherHotelClientContainer({
               <Text>카톡 : 조인하와이(채널)</Text>
               <Text>시간 : 09AM ~ 18PM</Text>
             </Flex>
+          </Section>
+
+          <Section size='1'>
+            <Heading as='h3' size='4' mb='3'>
+              guest name
+            </Heading>
           </Section>
         </Card>
       </Grid>
