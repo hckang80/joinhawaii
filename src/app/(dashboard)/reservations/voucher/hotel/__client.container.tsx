@@ -77,7 +77,14 @@ export default function VoucherHotelClientContainer({
     }
   });
 
-  const { control, handleSubmit, reset, watch } = useForm<VoucherFormState>({
+  const {
+    control,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors, isValid }
+  } = useForm<VoucherFormState>({
+    mode: 'onBlur',
     defaultValues: {
       confirmationNumber: '',
       deliveryNotes: selectedHotel?.notes || '',
@@ -98,14 +105,6 @@ export default function VoucherHotelClientContainer({
   }, [selectedHotel, reset]);
 
   const onSubmit: SubmitHandler<VoucherFormState> = formData => {
-    if (!formData.confirmationNumber.trim()) {
-      return toast.warning('확인번호를 입력해주세요.');
-    }
-
-    if (formData.selectedClients.length === 0) {
-      return toast.warning('투숙객을 선택해주세요.');
-    }
-
     if (!selectedHotel?.id) {
       return toast.warning('호텔 정보를 찾을 수 없습니다.');
     }
@@ -254,6 +253,9 @@ export default function VoucherHotelClientContainer({
                     <Controller
                       name='selectedClients'
                       control={control}
+                      rules={{
+                        validate: value => value.length > 0 || '투숙객을 선택해주세요.'
+                      }}
                       render={({ field }) => {
                         const clientLabel =
                           `${client.korean_name || ''} ${client.gender || ''}`.trim();
@@ -279,6 +281,11 @@ export default function VoucherHotelClientContainer({
                   </label>
                 ))}
               </Flex>
+              {errors.selectedClients && (
+                <Text size='1' color='red' mt='2'>
+                  {errors.selectedClients.message}
+                </Text>
+              )}
             </div>
             <Separator size='4' />
             <label>
@@ -304,7 +311,11 @@ export default function VoucherHotelClientContainer({
               <TextArea value={watch('cancellationPolicy')} readOnly />
             </label>
 
-            <Button onClick={handleSubmit(onSubmit)} mt='2' disabled={voucherMutation.isPending}>
+            <Button
+              onClick={handleSubmit(onSubmit)}
+              mt='2'
+              disabled={voucherMutation.isPending || !isValid}
+            >
               {voucherMutation.isPending ? '제출 중...' : '바우처 발급'}
             </Button>
           </Flex>
