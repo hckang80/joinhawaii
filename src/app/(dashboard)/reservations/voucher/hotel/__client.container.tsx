@@ -63,30 +63,6 @@ function buildStayPeriod(hotel: Hotel | undefined) {
   return `${checkIn} ~ ${checkOut}`;
 }
 
-function buildMailtoLink(form: VoucherFormState, reservationId: string) {
-  const subject = `[호텔 바우처] 예약번호 ${reservationId}`;
-  const body = [
-    '호텔 바우처 안내드립니다.',
-    '',
-    `예약번호: ${reservationId}`,
-    `투숙객명: ${form.guestName || '-'}`,
-    `호텔명: ${form.hotelName || '-'}`,
-    `객실타입: ${form.roomCategory || '-'}`,
-    `베드타입: ${form.bedType || '-'}`,
-    `투숙기간: ${form.stayPeriod || '-'}`,
-    `숙박일수: ${form.nightsText || '-'}`,
-    `조식: ${form.breakfastText || '-'}`,
-    `리조트피: ${form.resortFeeText || '-'}`,
-    `컨펌번호: ${form.confirmationNumber || '-'}`,
-    '',
-    `[전달사항] ${form.deliveryNotes || '-'}`,
-    `[안내사항] ${form.guideNotes || '-'}`,
-    `[취소규정] ${form.cancellationPolicy || '-'}`
-  ].join('\n');
-
-  return `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-}
-
 export default function VoucherHotelClientContainer({
   reservationId,
   hotelId,
@@ -177,15 +153,6 @@ export default function VoucherHotelClientContainer({
         <Flex gap='2'>
           <Button size='3' onClick={() => window.print()}>
             PDF 다운
-          </Button>
-          <Button
-            size='3'
-            color='indigo'
-            onClick={() => {
-              window.location.href = buildMailtoLink(form, data?.reservation_id || reservationId);
-            }}
-          >
-            이메일 발송
           </Button>
         </Flex>
       </Flex>
