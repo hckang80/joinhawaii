@@ -902,6 +902,16 @@ export const defaultProductValues = {
   notes: ''
 };
 
+export const HOTEL_GUIDE_NOTES = `* 호텔 룸 BED TYPE 은 당일 호텔 사정에 의해 1BED 또는 2BED 로 배정 받으실 수도 있습니다.
+* 하와이의 모든 호텔은 BED TYPE 과 층수의 확정 예약이 불가 합니다.
+* 체크인 시 예약자 본인임을 확인할 수 있는 여권과 본인 신용카드를 제시하셔야 합니다.
+* 신용카드는 룸서비스 또는 디파짓(보증금)용 으로 사용됩니다.
+* 모든 객실은 금연입니다. 흡연이 확인되면 벌금이 부과되며, 퇴실 당할 수 있습니다.
+* 샤워가운이나 슬리퍼, 치약, 칫솔의 지급은 호텔마다 다릅니다.
+* 체크아웃 시 객실키를 반납하시고 객실료외 기타 청구내역의 유무를 꼭 확인하시기 바랍니다.
+* 전화기에 불이 깜빡이면 메시지가 저장되어 있습니다. 확인하시기 바랍니다.
+* 메이드 팁은 객실당 1일 $2 정도 침대 위에 놓아 주시면 됩니다.`;
+
 export const defaultPeopleValues = {
   adult_count: 0,
   children_count: 0,
@@ -941,7 +951,11 @@ export const defaultHotelValues = {
   nightly_rate: 0,
   cost: 0,
   remarks: '',
+  guide_notes: '',
   rule: '',
+  confirmation_number: '',
+  delivery_notes: '',
+  selected_clients: [] as string[],
   ...defaultProductValues,
   ...additionalOptions
 };

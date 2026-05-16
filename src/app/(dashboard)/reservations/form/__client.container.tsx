@@ -296,6 +296,7 @@ export default function ReservationsFormClientContainer({
                 <Badge size='3' color={PAYMENT_STATUS_COLOR[data.payment_status]} variant='soft'>
                   {PaymentStatus[data.payment_status]}
                 </Badge>
+
                 <Button
                   size='3'
                   type='button'
@@ -304,7 +305,7 @@ export default function ReservationsFormClientContainer({
                       window.open(
                         `/reservations/preview?reservation_id=${encodeURIComponent(data.reservation_id)}`,
                         '_blank',
-                        'width=900,height=1000,scrollbars=yes'
+                        'noopener,noreferrer'
                       );
                     }
                   }}

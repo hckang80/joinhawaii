@@ -52,7 +52,7 @@ export default function ReservationPreviewClient({ reservation_id }: { reservati
       <ReservationConfirmationPreview data={data} />
       <Flex justify='center' mt='6' gap='3' className='print:hidden'>
         <Button size='4' onClick={() => window.print()}>
-          인쇄 / PDF 저장
+          인쇄 / PDF 다운로드
         </Button>
         <Button
           size='4'

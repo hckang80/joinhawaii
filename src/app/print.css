@@ -2,14 +2,71 @@
   margin: 0;
 }
 
+.print\:only {
+  display: none !important;
+}
+
+.print-watermark {
+  display: none;
+}
+
 @media print {
   html,
   body {
     margin: 0;
     padding: 0;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .voucher-root {
+    position: relative;
+    z-index: 1;
+    width: auto !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .voucher-preview-card {
+    width: 100% !important;
+    max-width: none !important;
   }
 
   .print\:hidden {
     display: none;
+  }
+
+  .print\:only {
+    display: revert !important;
+  }
+
+  .print-watermark {
+    display: flex !important;
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .print-watermark-image {
+    width: 320px;
+    max-width: 70vw;
+    height: auto;
+    opacity: 0.08;
+  }
+
+  .voucher-root .rt-Card,
+  .voucher-root .rt-Card::before,
+  .voucher-root .rt-Card::after {
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .voucher-root table th,
+  .voucher-root table td {
+    background: transparent !important;
   }
 }
