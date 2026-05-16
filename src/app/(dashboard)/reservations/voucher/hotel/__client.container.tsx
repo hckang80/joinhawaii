@@ -403,27 +403,25 @@ export default function VoucherHotelClientContainer({
               </table>
 
               <Heading as='h3'>guest name</Heading>
-              <table className={styles['info-table']}>
-                <tbody>
-                  <tr>
-                    <th className={styles['info-th']}>#</th>
-                    <th className={styles['info-th']}>이름</th>
-                    <th className={styles['info-th']}>성별</th>
-                  </tr>
-                  {watch('selectedClients').map((client, i) => {
-                    const parts = client.split(' ');
-                    const gender = parts[parts.length - 1];
-                    const name = parts.slice(0, -1).join(' ');
-                    return (
-                      <tr key={i}>
-                        <td className={styles['info-td']}>{i + 1}</td>
-                        <td className={styles['info-td']}>{name}</td>
-                        <td className={styles['info-td']}>{gender}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+              <Grid columns='2' style={{ borderTop: '2px solid var(--gray-12)' }}>
+                {watch('selectedClients').map((client, i) => {
+                  const parts = client.split(' ');
+                  const gender = parts[parts.length - 1];
+                  const name = parts.slice(0, -1).join(' ');
+                  return (
+                    <Flex
+                      key={i}
+                      gap='4'
+                      align='center'
+                      style={{ borderBottom: '1px solid var(--gray-6)' }}
+                    >
+                      <Text>{i + 1}</Text>
+                      <Text>{name}</Text>
+                      <Text>{gender}</Text>
+                    </Flex>
+                  );
+                })}
+              </Grid>
 
               <Separator size='4' />
               <Text weight='bold'>✅ 전달사항</Text>
