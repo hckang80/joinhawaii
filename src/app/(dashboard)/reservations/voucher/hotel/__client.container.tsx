@@ -315,43 +315,31 @@ export default function VoucherHotelClientContainer({
             <Flex direction='column' gap='2'>
               <Text>예약번호: {data?.reservation_id || '-'}</Text>
               <Text>투숙객명: {form.guestName || '-'}</Text>
-              <table className={styles.infoTable}>
+              <table className={styles['info-table']}>
                 <tbody>
                   <tr>
-                    <th className={styles.infoTh}>hotel</th>
-                    <td className={styles.infoTd} colSpan={3}>
-                      {form.hotelName || '-'}
-                    </td>
+                    <th className={styles['info-th']}>hotel</th>
+                    <td className={styles['info-td']}>{form.hotelName || '-'}</td>
+                    <th className={styles['info-th']}>period</th>
+                    <td className={styles['info-td']}>{form.stayPeriod || '-'}</td>
                   </tr>
                   <tr>
-                    <th className={styles.infoTh}>period</th>
-                    <td className={styles.infoTd}>{form.stayPeriod || '-'}</td>
-                    <th className={styles.infoTh}>night</th>
-                    <td className={styles.infoTd}>{form.nightsText || '-'}</td>
+                    <th className={styles['info-th']}>night</th>
+                    <td className={styles['info-td']}>{form.nightsText || '-'}</td>
+                    <th className={styles['info-th']}>room category</th>
+                    <td className={styles['info-td']}>{form.roomCategory || '-'}</td>
                   </tr>
                   <tr>
-                    <th className={styles.infoTh}>room category</th>
-                    <td className={styles.infoTd} colSpan={3}>
-                      {form.roomCategory || '-'}
-                    </td>
+                    <th className={styles['info-th']}>bed type</th>
+                    <td className={styles['info-td']}>{form.bedType || '-'}</td>
+                    <th className={styles['info-th']}>breakfast</th>
+                    <td className={styles['info-td']}>{form.breakfastText || '-'}</td>
                   </tr>
                   <tr>
-                    <th className={styles.infoTh}>bed type</th>
-                    <td className={styles.infoTd} colSpan={3}>
-                      {form.bedType || '-'}
-                    </td>
-                  </tr>
-                  <tr>
-                    <th className={styles.infoTh}>breakfast</th>
-                    <td className={styles.infoTd}>{form.breakfastText || '-'}</td>
-                    <th className={styles.infoTh}>resort fee</th>
-                    <td className={styles.infoTd}>{form.resortFeeText || '-'}</td>
-                  </tr>
-                  <tr>
-                    <th className={styles.infoTh}>confirmation number</th>
-                    <td className={styles.infoTd} colSpan={3}>
-                      {form.confirmationNumber || '-'}
-                    </td>
+                    <th className={styles['info-th']}>resort fee</th>
+                    <td className={styles['info-td']}>{form.resortFeeText || '-'}</td>
+                    <th className={styles['info-th']}>confirmation number</th>
+                    <td className={styles['info-td']}>{form.confirmationNumber || '-'}</td>
                   </tr>
                 </tbody>
               </table>

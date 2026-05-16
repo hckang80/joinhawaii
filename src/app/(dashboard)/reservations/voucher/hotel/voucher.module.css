@@ -1,10 +1,10 @@
-.infoTable {
+.info-table {
   width: 100%;
   border-collapse: collapse;
   border-top: 2px solid #000;
 }
 
-.infoTh {
+.info-th {
   width: 20%;
   padding: 6px 8px;
   text-align: center;
@@ -14,7 +14,7 @@
   text-transform: uppercase;
 }
 
-.infoTd {
+.info-td {
   width: 30%;
   padding: 6px 8px;
   vertical-align: top;
