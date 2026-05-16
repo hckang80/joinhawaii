@@ -86,7 +86,12 @@ export default function VoucherHotelClientContainer({
   }, [selectedHotel, reset]);
 
   const onSubmit: SubmitHandler<VoucherFormState> = formData => {
-    console.log('바우처 데이터:', formData);
+    const submitData = {
+      confirmationNumber: formData.confirmationNumber,
+      deliveryNotes: formData.deliveryNotes,
+      selectedClients: formData.selectedClients
+    };
+    console.log('바우처 데이터:', submitData);
     // 여기에 전송 로직 추가
   };
 
