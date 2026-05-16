@@ -27,7 +27,7 @@ import {
 } from '@radix-ui/themes';
 import clsx from 'clsx';
 import { Hotel, Minus, Plus, Save } from 'lucide-react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import {
   type Control,
@@ -41,7 +41,6 @@ import { toast } from 'react-toastify';
 import RefundAlertDialog from './RefundAlertDialog';
 
 export default function HotelForm({ data, mutation, handleAdditionalOptions }: ProductFormProps) {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const reservation_id = searchParams.get('reservation_id')!;
 
@@ -474,7 +473,11 @@ export default function HotelForm({ data, mutation, handleAdditionalOptions }: P
                               query.set('hotel_id', String(hotelId));
                             }
 
-                            router.push(`/reservations/voucher/hotel?${query.toString()}`);
+                            window.open(
+                              `/reservations/voucher/hotel?${query.toString()}`,
+                              '_blank',
+                              'noopener,noreferrer'
+                            );
                           }}
                         >
                           발급
