@@ -145,6 +145,7 @@ export default function HotelForm({ data, mutation, handleAdditionalOptions }: P
                     <Table.ColumnHeaderCell width='90px'>진행상태</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='70px'>추가옵션</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='200px'>메모</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='60px'>바우처</Table.ColumnHeaderCell>
                   </Table.Row>
                 </Table.Header>
                 {hotels.map((hotel, i) => (
@@ -457,12 +458,15 @@ export default function HotelForm({ data, mutation, handleAdditionalOptions }: P
                           })}
                         />
                       </Table.Cell>
+                      <Table.Cell>
+                        <Button size='1'>발급</Button>
+                      </Table.Cell>
                       <Table.Cell hidden>
                         <HotelTotalCalculator index={i} setValue={setValue} control={control} />
                       </Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                      <Table.Cell colSpan={14}>
+                      <Table.Cell colSpan={15}>
                         <Flex align='center' gap='2'>
                           <Text weight='bold'>비고</Text>
                           <Box flexGrow='1'>
@@ -478,7 +482,7 @@ export default function HotelForm({ data, mutation, handleAdditionalOptions }: P
                       </Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                      <Table.Cell colSpan={14}>
+                      <Table.Cell colSpan={15}>
                         <Flex align='center' gap='2'>
                           <Text weight='bold'>규정</Text>
                           <Box flexGrow='1'>
