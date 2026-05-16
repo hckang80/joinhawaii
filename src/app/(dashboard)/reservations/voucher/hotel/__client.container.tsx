@@ -339,137 +339,140 @@ export default function VoucherHotelClientContainer({
           </Flex>
         </Card>
 
-        <Card className='voucher-preview-card'>
-          <Section size='1'>
-            <Heading as='h2' size='4' mb='3' className={styles['main-title']}>
-              hotel confirmation
-            </Heading>
-            <Flex direction='column' gap='2'>
-              <table className={styles['info-table']}>
-                <tbody>
-                  <tr>
-                    <th className={styles['info-th']}>hotel</th>
-                    <td className={styles['info-td']} colSpan={3}>
-                      {selectedHotel?.hotel_name || '-'}
-                    </td>
-                  </tr>
-                  <tr>
-                    <th className={styles['info-th']}>period</th>
-                    <td className={styles['info-td']}>
-                      {selectedHotel?.check_in_date && selectedHotel?.check_out_date
-                        ? `${selectedHotel.check_in_date} ~ ${selectedHotel.check_out_date}`
+        <Section py='0' className='voucher-preview-card'>
+          <Heading as='h2' size='7' mb='4' weight='medium' className={styles['main-title']}>
+            hotel confirmation
+          </Heading>
+
+          <table className={styles['info-table']}>
+            <tbody>
+              <tr>
+                <th className={styles['info-th']}>hotel</th>
+                <td className={styles['info-td']} colSpan={3}>
+                  {selectedHotel?.hotel_name || '-'}
+                </td>
+              </tr>
+              <tr>
+                <th className={styles['info-th']}>period</th>
+                <td className={styles['info-td']}>
+                  {selectedHotel?.check_in_date && selectedHotel?.check_out_date
+                    ? `${selectedHotel.check_in_date} ~ ${selectedHotel.check_out_date}`
+                    : '-'}
+                </td>
+                <th className={styles['info-th']}>night</th>
+                <td className={styles['info-td']}>
+                  {selectedHotel?.nights ? `${selectedHotel.nights}박` : '-'}
+                </td>
+              </tr>
+              <tr>
+                <th className={styles['info-th']}>room category</th>
+                <td className={styles['info-td']} colSpan={3}>
+                  {selectedHotel?.room_type || '-'}
+                </td>
+              </tr>
+              <tr>
+                <th className={styles['info-th']}>bed type</th>
+                <td className={styles['info-td']} colSpan={3}>
+                  {selectedHotel?.bed_type || '-'}
+                </td>
+              </tr>
+              <tr>
+                <th className={styles['info-th']}>breakfast</th>
+                <td className={styles['info-td']}>
+                  {selectedHotel?.is_breakfast_included ? '포함' : '미포함'}
+                </td>
+                <th className={styles['info-th']}>resort fee</th>
+                <td className={styles['info-td']}>
+                  {selectedHotel?.resort_fee_type === 'INCLUSION'
+                    ? '포함'
+                    : selectedHotel?.resort_fee_type === 'EXCLUSION'
+                      ? '불포함'
+                      : selectedHotel?.resort_fee_type === 'NO RESORT FEE'
+                        ? '없음'
                         : '-'}
-                    </td>
-                    <th className={styles['info-th']}>night</th>
-                    <td className={styles['info-td']}>
-                      {selectedHotel?.nights ? `${selectedHotel.nights}박` : '-'}
-                    </td>
-                  </tr>
-                  <tr>
-                    <th className={styles['info-th']}>room category</th>
-                    <td className={styles['info-td']} colSpan={3}>
-                      {selectedHotel?.room_type || '-'}
-                    </td>
-                  </tr>
-                  <tr>
-                    <th className={styles['info-th']}>bed type</th>
-                    <td className={styles['info-td']} colSpan={3}>
-                      {selectedHotel?.bed_type || '-'}
-                    </td>
-                  </tr>
-                  <tr>
-                    <th className={styles['info-th']}>breakfast</th>
-                    <td className={styles['info-td']}>
-                      {selectedHotel?.is_breakfast_included ? '포함' : '미포함'}
-                    </td>
-                    <th className={styles['info-th']}>resort fee</th>
-                    <td className={styles['info-td']}>
-                      {selectedHotel?.resort_fee_type === 'INCLUSION'
-                        ? '포함'
-                        : selectedHotel?.resort_fee_type === 'EXCLUSION'
-                          ? '불포함'
-                          : selectedHotel?.resort_fee_type === 'NO RESORT FEE'
-                            ? '없음'
-                            : '-'}
-                    </td>
-                  </tr>
-                  <tr>
-                    <th className={styles['info-th']}>confirmation number</th>
-                    <td className={styles['info-td']} colSpan={3}>
-                      {watch('confirmationNumber') || '-'}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                </td>
+              </tr>
+              <tr>
+                <th className={styles['info-th']}>confirmation number</th>
+                <td className={styles['info-td']} colSpan={3}>
+                  {watch('confirmationNumber') || '-'}
+                </td>
+              </tr>
+            </tbody>
+          </table>
 
-              <Heading as='h3' className={styles['sub-title']}>
-                guest name
-              </Heading>
-              <Grid columns='2' className={styles['guest-grid']}>
-                {watch('selectedClients').map((client, i) => {
-                  const parts = client.split(' ');
-                  const gender = parts[parts.length - 1];
-                  const name = parts.slice(0, -1).join(' ');
-                  return (
-                    <Flex key={i} gap='4' align='center' className={styles['guest-row']}>
-                      <Text>{i + 1}</Text>
-                      <Text>{name}</Text>
-                      <Text>{gender}</Text>
-                    </Flex>
-                  );
-                })}
-              </Grid>
-
-              <Card>
-                <Flex gap='4'>
-                  <Flex asChild direction='column' align='center' flexShrink='0'>
-                    <Text size='4' weight='bold'>
-                      <Mic />
-                      전달
-                    </Text>
+          <Section mt='4' py='0'>
+            <Heading as='h3' mb='2' className={styles['sub-title']}>
+              guest name
+            </Heading>
+            <Grid columns='2' className={styles['guest-grid']}>
+              {watch('selectedClients').map((client, i) => {
+                const parts = client.split(' ');
+                const gender = parts[parts.length - 1];
+                const name = parts.slice(0, -1).join(' ');
+                return (
+                  <Flex key={i} gap='4' align='center' className={styles['guest-row']}>
+                    <Text>{i + 1}</Text>
+                    <Text>{name}</Text>
+                    <Text>{gender}</Text>
                   </Flex>
-                  <Text style={{ whiteSpace: 'pre-wrap' }}>{watch('deliveryNotes') || '-'}</Text>
-                </Flex>
-              </Card>
-
-              <Card>
-                <Flex gap='4'>
-                  <Flex asChild direction='column' align='center' flexShrink='0'>
-                    <Text size='4' weight='bold'>
-                      <Mic />
-                      알림
-                    </Text>
-                  </Flex>
-                  <Box>
-                    <Text style={{ whiteSpace: 'pre-wrap' }}>{watch('guideNotes') || '-'}</Text>
-                    <Text as='p' color='red' mt='9'>
-                      [취소규정] {watch('cancellationPolicy') || '-'}
-                    </Text>
-                  </Box>
-                </Flex>
-              </Card>
-
-              <Grid columns={{ initial: '1', md: '2' }} gap='3'>
-                <Card>
-                  <Flex direction='column' gap='1'>
-                    <Text weight='bold'>조인하와이 현지 연락처</Text>
-                    <Text>T : (808) 772-2691</Text>
-                    <Text>카톡 : joinhawaiiusa</Text>
-                    <Text>시간 : 08AM ~ 17PM</Text>
-                  </Flex>
-                </Card>
-                <Card>
-                  <Flex direction='column' gap='1'>
-                    <Text weight='bold'>조인하와이 한국 연락처</Text>
-                    <Text>T : 02-402-1040</Text>
-                    <Text>카톡 : 조인하와이(채널)</Text>
-                    <Text>시간 : 09AM ~ 18PM</Text>
-                  </Flex>
-                </Card>
-              </Grid>
-            </Flex>
+                );
+              })}
+            </Grid>
           </Section>
-        </Card>
+
+          <Box asChild mt='5'>
+            <Card>
+              <Flex gap='4'>
+                <Flex asChild direction='column' align='center' flexShrink='0'>
+                  <Text size='4' weight='bold'>
+                    <Mic />
+                    전달
+                  </Text>
+                </Flex>
+                <Text style={{ whiteSpace: 'pre-wrap' }}>{watch('deliveryNotes') || '-'}</Text>
+              </Flex>
+            </Card>
+          </Box>
+
+          <Box asChild mt='4'>
+            <Card>
+              <Flex gap='4'>
+                <Flex asChild direction='column' align='center' flexShrink='0'>
+                  <Text size='4' weight='bold'>
+                    <Mic />
+                    알림
+                  </Text>
+                </Flex>
+                <Box>
+                  <Text style={{ whiteSpace: 'pre-wrap' }}>{watch('guideNotes') || '-'}</Text>
+                  <Text as='p' color='red' mt='9'>
+                    [취소규정] {watch('cancellationPolicy') || '-'}
+                  </Text>
+                </Box>
+              </Flex>
+            </Card>
+          </Box>
+
+          <Grid columns={{ initial: '1', md: '2' }} gap='3' mt='5'>
+            <Card>
+              <Flex direction='column' gap='1'>
+                <Text weight='bold'>조인하와이 현지 연락처</Text>
+                <Text>T : (808) 772-2691</Text>
+                <Text>카톡 : joinhawaiiusa</Text>
+                <Text>시간 : 08AM ~ 17PM</Text>
+              </Flex>
+            </Card>
+            <Card>
+              <Flex direction='column' gap='1'>
+                <Text weight='bold'>조인하와이 한국 연락처</Text>
+                <Text>T : 02-402-1040</Text>
+                <Text>카톡 : 조인하와이(채널)</Text>
+                <Text>시간 : 09AM ~ 18PM</Text>
+              </Flex>
+            </Card>
+          </Grid>
+        </Section>
       </Grid>
     </Box>
   );

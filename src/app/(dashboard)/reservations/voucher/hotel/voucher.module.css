@@ -41,3 +41,30 @@
   padding: 5px;
   border-bottom: 1px solid var(--gray-6);
 }
+
+.form-section-card {
+  padding: 16px;
+}
+
+.guest-select-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  width: 100%;
+  min-height: 72px;
+  padding: 12px 14px;
+  border: 1px solid var(--gray-6);
+  border-radius: 12px;
+  background: var(--gray-2);
+  text-align: left;
+}
+
+.guest-select-item[data-state='checked'] {
+  border-color: var(--accent-9);
+  background: var(--accent-2);
+}
+
+.note-textarea {
+  min-height: 140px;
+}
