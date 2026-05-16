@@ -15,7 +15,6 @@
   width: 20%;
   padding: 6px 8px;
   text-align: center;
-  vertical-align: top;
   font-weight: 700;
   border-bottom: 1px solid var(--gray-6);
   text-transform: uppercase;
@@ -24,7 +23,6 @@
 .info-td {
   width: 30%;
   padding: 6px 8px;
-  vertical-align: top;
   border-bottom: 1px solid var(--gray-6);
 }
 
