@@ -1,5 +1,6 @@
 'use client';
 
+import { HOTEL_GUIDE_NOTES } from '@/constants';
 import { updateReservation } from '@/http';
 import { reservationQueryOptions } from '@/lib/queries';
 import type { ReservationFormData, ReservationResponse } from '@/types';
@@ -90,7 +91,7 @@ export default function VoucherHotelClientContainer({
     defaultValues: {
       confirmationNumber: selectedHotel?.confirmation_number || '',
       deliveryNotes: selectedHotel?.delivery_notes || '',
-      guideNotes: selectedHotel?.remarks || '',
+      guideNotes: HOTEL_GUIDE_NOTES,
       cancellationPolicy: selectedHotel?.rule || '',
       selectedClients: selectedHotel?.selected_clients || []
     }
@@ -100,7 +101,7 @@ export default function VoucherHotelClientContainer({
     reset({
       confirmationNumber: selectedHotel?.confirmation_number || '',
       deliveryNotes: selectedHotel?.delivery_notes || '',
-      guideNotes: selectedHotel?.remarks || '',
+      guideNotes: HOTEL_GUIDE_NOTES,
       cancellationPolicy: selectedHotel?.rule || '',
       selectedClients: selectedHotel?.selected_clients || []
     });
