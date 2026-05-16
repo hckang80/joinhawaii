@@ -233,3 +233,27 @@ export async function checkProfile(uid: string): Promise<{ profile: { permission
 
   return await response.json();
 }
+
+export async function submitHotelVoucher(data: {
+  reservationId: string;
+  hotelId?: string;
+  confirmationNumber: string;
+  deliveryNotes: string;
+  selectedClients: string[];
+}) {
+  const response = await fetch('/api/reservation/voucher', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  });
+
+  const result = await response.json();
+
+  if (!response.ok || !result.success) {
+    throw new Error(result.error || '바우처 제출에 실패했습니다.');
+  }
+
+  return result;
+}
