@@ -162,11 +162,6 @@ export default function VoucherHotelClientContainer({
         <Heading as='h2' size='6'>
           바우처 발급
         </Heading>
-        <Flex gap='2'>
-          <Button size='3' onClick={() => window.print()}>
-            PDF 다운
-          </Button>
-        </Flex>
       </Flex>
 
       <Section py='0'>
@@ -388,9 +383,14 @@ export default function VoucherHotelClientContainer({
           </Card>
         </Grid>
 
-        <Button onClick={handleSubmit(onSubmit)} mt='2' disabled={voucherMutation.isPending}>
-          {voucherMutation.isPending ? '제출 중...' : '바우처 발급'}
-        </Button>
+        <Flex justify='center' mt='6' gap='3' className='print:hidden'>
+          <Button size='4' onClick={handleSubmit(onSubmit)} loading={voucherMutation.isPending}>
+            바우처 저장
+          </Button>
+          <Button size='4' color='indigo' onClick={() => window.print()}>
+            인쇄 / PDF 다운로드
+          </Button>
+        </Flex>
       </Section>
     </Box>
   );
