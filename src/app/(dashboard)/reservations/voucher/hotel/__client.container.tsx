@@ -16,7 +16,8 @@ import {
   TextField
 } from '@radix-ui/themes';
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
+import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
 import styles from './voucher.module.css';
 
 type VoucherHotelClientContainerProps = {
@@ -79,31 +80,33 @@ export default function VoucherHotelClientContainer({
     [data, hotelId, index]
   );
 
-  const [form, setForm] = useState<VoucherFormState>(() => ({
-    guestName: data?.main_client_name || '',
-    hotelName: selectedHotel?.hotel_name || '',
-    roomCategory: selectedHotel?.room_type || '',
-    bedType: selectedHotel?.bed_type || '',
-    stayPeriod: buildStayPeriod(selectedHotel),
-    nightsText: selectedHotel?.nights ? `${selectedHotel.nights}박` : '-',
-    breakfastText: selectedHotel?.is_breakfast_included ? '포함' : '미포함',
-    resortFeeText:
-      selectedHotel?.resort_fee_type === 'INCLUSION'
-        ? '포함'
-        : selectedHotel?.resort_fee_type === 'EXCLUSION'
-          ? '불포함'
-          : selectedHotel?.resort_fee_type === 'NO RESORT FEE'
-            ? '없음'
-            : '-',
-    confirmationNumber: '',
-    deliveryNotes: selectedHotel?.notes || '',
-    guideNotes: selectedHotel?.remarks || '',
-    cancellationPolicy: selectedHotel?.rule || '',
-    selectedClients: []
-  }));
+  const { control, handleSubmit, reset, watch } = useForm<VoucherFormState>({
+    defaultValues: {
+      guestName: data?.main_client_name || '',
+      hotelName: selectedHotel?.hotel_name || '',
+      roomCategory: selectedHotel?.room_type || '',
+      bedType: selectedHotel?.bed_type || '',
+      stayPeriod: buildStayPeriod(selectedHotel),
+      nightsText: selectedHotel?.nights ? `${selectedHotel.nights}박` : '-',
+      breakfastText: selectedHotel?.is_breakfast_included ? '포함' : '미포함',
+      resortFeeText:
+        selectedHotel?.resort_fee_type === 'INCLUSION'
+          ? '포함'
+          : selectedHotel?.resort_fee_type === 'EXCLUSION'
+            ? '불포함'
+            : selectedHotel?.resort_fee_type === 'NO RESORT FEE'
+              ? '없음'
+              : '-',
+      confirmationNumber: '',
+      deliveryNotes: selectedHotel?.notes || '',
+      guideNotes: selectedHotel?.remarks || '',
+      cancellationPolicy: selectedHotel?.rule || '',
+      selectedClients: []
+    }
+  });
 
   useEffect(() => {
-    setForm({
+    reset({
       guestName: data?.main_client_name || '',
       hotelName: selectedHotel?.hotel_name || '',
       roomCategory: selectedHotel?.room_type || '',
@@ -125,7 +128,12 @@ export default function VoucherHotelClientContainer({
       cancellationPolicy: selectedHotel?.rule || '',
       selectedClients: []
     });
-  }, [data?.main_client_name, selectedHotel]);
+  }, [data?.main_client_name, selectedHotel, reset]);
+
+  const onSubmit: SubmitHandler<VoucherFormState> = formData => {
+    console.log('바우처 데이터:', formData);
+    // 여기에 전송 로직 추가
+  };
 
   if (!reservationId) {
     return (
@@ -170,9 +178,10 @@ export default function VoucherHotelClientContainer({
               <Text as='div' size='2' mb='1'>
                 투숙객명
               </Text>
-              <TextField.Root
-                value={form.guestName}
-                onChange={e => setForm(prev => ({ ...prev, guestName: e.target.value }))}
+              <Controller
+                name='guestName'
+                control={control}
+                render={({ field }) => <TextField.Root {...field} />}
               />
             </label>
             <table className={styles['info-table']}>
@@ -180,77 +189,76 @@ export default function VoucherHotelClientContainer({
                 <tr>
                   <th className={styles['info-th']}>hotel</th>
                   <td className={styles['info-td']} colSpan={3}>
-                    <TextField.Root
-                      value={form.hotelName}
-                      onChange={e => setForm(prev => ({ ...prev, hotelName: e.target.value }))}
-                      readOnly
+                    <Controller
+                      name='hotelName'
+                      control={control}
+                      render={({ field }) => <TextField.Root {...field} readOnly />}
                     />
                   </td>
                 </tr>
                 <tr>
                   <th className={styles['info-th']}>period</th>
                   <td className={styles['info-td']}>
-                    <TextField.Root
-                      value={form.stayPeriod}
-                      onChange={e => setForm(prev => ({ ...prev, stayPeriod: e.target.value }))}
-                      readOnly
+                    <Controller
+                      name='stayPeriod'
+                      control={control}
+                      render={({ field }) => <TextField.Root {...field} readOnly />}
                     />
                   </td>
                   <th className={styles['info-th']}>night</th>
                   <td className={styles['info-td']}>
-                    <TextField.Root
-                      value={form.nightsText}
-                      onChange={e => setForm(prev => ({ ...prev, nightsText: e.target.value }))}
-                      readOnly
+                    <Controller
+                      name='nightsText'
+                      control={control}
+                      render={({ field }) => <TextField.Root {...field} readOnly />}
                     />
                   </td>
                 </tr>
                 <tr>
                   <th className={styles['info-th']}>room category</th>
                   <td className={styles['info-td']} colSpan={3}>
-                    <TextField.Root
-                      value={form.roomCategory}
-                      onChange={e => setForm(prev => ({ ...prev, roomCategory: e.target.value }))}
-                      readOnly
+                    <Controller
+                      name='roomCategory'
+                      control={control}
+                      render={({ field }) => <TextField.Root {...field} readOnly />}
                     />
                   </td>
                 </tr>
                 <tr>
                   <th className={styles['info-th']}>bed type</th>
                   <td className={styles['info-td']} colSpan={3}>
-                    <TextField.Root
-                      value={form.bedType}
-                      onChange={e => setForm(prev => ({ ...prev, bedType: e.target.value }))}
-                      readOnly
+                    <Controller
+                      name='bedType'
+                      control={control}
+                      render={({ field }) => <TextField.Root {...field} readOnly />}
                     />
                   </td>
                 </tr>
                 <tr>
                   <th className={styles['info-th']}>breakfast</th>
                   <td className={styles['info-td']}>
-                    <TextField.Root
-                      value={form.breakfastText}
-                      onChange={e => setForm(prev => ({ ...prev, breakfastText: e.target.value }))}
-                      readOnly
+                    <Controller
+                      name='breakfastText'
+                      control={control}
+                      render={({ field }) => <TextField.Root {...field} readOnly />}
                     />
                   </td>
                   <th className={styles['info-th']}>resort fee</th>
                   <td className={styles['info-td']}>
-                    <TextField.Root
-                      value={form.resortFeeText}
-                      onChange={e => setForm(prev => ({ ...prev, resortFeeText: e.target.value }))}
-                      readOnly
+                    <Controller
+                      name='resortFeeText'
+                      control={control}
+                      render={({ field }) => <TextField.Root {...field} readOnly />}
                     />
                   </td>
                 </tr>
                 <tr>
                   <th className={styles['info-th']}>confirmation number</th>
                   <td className={styles['info-td']} colSpan={3}>
-                    <TextField.Root
-                      value={form.confirmationNumber}
-                      onChange={e =>
-                        setForm(prev => ({ ...prev, confirmationNumber: e.target.value }))
-                      }
+                    <Controller
+                      name='confirmationNumber'
+                      control={control}
+                      render={({ field }) => <TextField.Root {...field} />}
                     />
                   </td>
                 </tr>
@@ -263,23 +271,28 @@ export default function VoucherHotelClientContainer({
               </Text>
               <Flex direction='column' gap='2'>
                 {data?.clients?.map(client => (
-                  <label key={client.id} style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-                    <input
-                      type='checkbox'
-                      checked={form.selectedClients.includes(client.korean_name || '')}
-                      onChange={e => {
-                        if (e.target.checked) {
-                          setForm(prev => ({
-                            ...prev,
-                            selectedClients: [...prev.selectedClients, client.korean_name || '']
-                          }));
-                        } else {
-                          setForm(prev => ({
-                            ...prev,
-                            selectedClients: prev.selectedClients.filter(name => name !== (client.korean_name || ''))
-                          }));
-                        }
-                      }}
+                  <label
+                    key={client.id}
+                    style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}
+                  >
+                    <Controller
+                      name='selectedClients'
+                      control={control}
+                      render={({ field }) => (
+                        <input
+                          type='checkbox'
+                          checked={field.value.includes(client.korean_name || '')}
+                          onChange={e => {
+                            if (e.target.checked) {
+                              field.onChange([...field.value, client.korean_name || '']);
+                            } else {
+                              field.onChange(
+                                field.value.filter(name => name !== (client.korean_name || ''))
+                              );
+                            }
+                          }}
+                        />
+                      )}
                     />
                     <Text size='2'>
                       {client.korean_name} ({client.gender})
@@ -293,30 +306,35 @@ export default function VoucherHotelClientContainer({
               <Text as='div' size='2' mb='1'>
                 전달사항
               </Text>
-              <TextArea
-                value={form.deliveryNotes}
-                onChange={e => setForm(prev => ({ ...prev, deliveryNotes: e.target.value }))}
+              <Controller
+                name='deliveryNotes'
+                control={control}
+                render={({ field }) => <TextArea {...field} />}
               />
             </label>
             <label>
               <Text as='div' size='2' mb='1'>
                 안내사항
               </Text>
-              <TextArea
-                value={form.guideNotes}
-                onChange={e => setForm(prev => ({ ...prev, guideNotes: e.target.value }))}
+              <Controller
+                name='guideNotes'
+                control={control}
+                render={({ field }) => <TextArea {...field} />}
               />
             </label>
             <label>
               <Text as='div' size='2' mb='1'>
                 취소규정
               </Text>
-              <TextArea
-                value={form.cancellationPolicy}
-                onChange={e => setForm(prev => ({ ...prev, cancellationPolicy: e.target.value }))}
-                readOnly
+              <Controller
+                name='cancellationPolicy'
+                control={control}
+                render={({ field }) => <TextArea {...field} readOnly />}
               />
             </label>
+            <Button onClick={handleSubmit(onSubmit)} mt='2'>
+              바우처 발급
+            </Button>
           </Flex>
         </Card>
 
@@ -327,7 +345,7 @@ export default function VoucherHotelClientContainer({
             </Heading>
             <Flex direction='column' gap='2'>
               <Text>예약번호: {data?.reservation_id || '-'}</Text>
-              <Text>투숙객명: {form.guestName || '-'}</Text>
+              <Text>투숙객명: {watch('guestName') || '-'}</Text>
               <table className={styles['info-table']}>
                 <tbody>
                   <tr>
@@ -375,20 +393,20 @@ export default function VoucherHotelClientContainer({
                   <tr>
                     <th className={styles['info-th']}>confirmation number</th>
                     <td className={styles['info-td']} colSpan={3}>
-                      {form.confirmationNumber || '-'}
+                      {watch('confirmationNumber') || '-'}
                     </td>
                   </tr>
                 </tbody>
               </table>
               <Separator size='4' />
               <Text weight='bold'>✅ 전달사항</Text>
-              <Text>{form.deliveryNotes || '-'}</Text>
+              <Text>{watch('deliveryNotes') || '-'}</Text>
               <Text weight='bold'>✅ 안내사항</Text>
-              <Text>{form.guideNotes || '-'}</Text>
+              <Text>{watch('guideNotes') || '-'}</Text>
               <Text weight='bold' color='red'>
                 ✅ 취소규정
               </Text>
-              <Text color='red'>{form.cancellationPolicy || '-'}</Text>
+              <Text color='red'>{watch('cancellationPolicy') || '-'}</Text>
               <Separator size='4' />
               <Text weight='bold'>조인하와이 현지 연락처</Text>
               <Text>T : (808) 772-2691</Text>
