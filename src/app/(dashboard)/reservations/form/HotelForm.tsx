@@ -27,7 +27,7 @@ import {
 } from '@radix-ui/themes';
 import clsx from 'clsx';
 import { Hotel, Minus, Plus, Save } from 'lucide-react';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import {
   type Control,
@@ -41,6 +41,7 @@ import { toast } from 'react-toastify';
 import RefundAlertDialog from './RefundAlertDialog';
 
 export default function HotelForm({ data, mutation, handleAdditionalOptions }: ProductFormProps) {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const reservation_id = searchParams.get('reservation_id')!;
 
@@ -459,7 +460,25 @@ export default function HotelForm({ data, mutation, handleAdditionalOptions }: P
                         />
                       </Table.Cell>
                       <Table.Cell>
-                        <Button size='1'>발급</Button>
+                        <Button
+                          size='1'
+                          type='button'
+                          onClick={() => {
+                            const hotelId = getValues(`hotels.${i}.id`);
+                            const query = new URLSearchParams({
+                              reservation_id,
+                              index: String(i)
+                            });
+
+                            if (hotelId) {
+                              query.set('hotel_id', String(hotelId));
+                            }
+
+                            router.push(`/reservations/voucher/hotel?${query.toString()}`);
+                          }}
+                        >
+                          발급
+                        </Button>
                       </Table.Cell>
                       <Table.Cell hidden>
                         <HotelTotalCalculator index={i} setValue={setValue} control={control} />
