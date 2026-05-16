@@ -271,7 +271,7 @@ export default function VoucherHotelClientContainer({
                   <Flex direction='column' gap='2'>
                     {data?.clients?.map(client => {
                       const clientLabel =
-                        `${client.korean_name || ''} ${client.gender || ''}`.trim();
+                        `${client.english_name || ''} ${client.gender || ''}`.trim();
 
                       return (
                         <label
@@ -295,7 +295,7 @@ export default function VoucherHotelClientContainer({
                             }}
                           />
                           <Text size='2'>
-                            {client.korean_name} ({client.gender})
+                            {client.english_name} ({client.gender})
                           </Text>
                         </label>
                       );
