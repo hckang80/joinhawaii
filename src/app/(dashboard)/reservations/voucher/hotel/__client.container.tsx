@@ -38,6 +38,7 @@ type VoucherFormState = {
   deliveryNotes: string;
   guideNotes: string;
   cancellationPolicy: string;
+  selectedClients: string[];
 };
 
 function getSelectedHotel(data: ReservationResponse | undefined, hotelId?: string, index?: string) {
@@ -97,7 +98,8 @@ export default function VoucherHotelClientContainer({
     confirmationNumber: '',
     deliveryNotes: selectedHotel?.notes || '',
     guideNotes: selectedHotel?.remarks || '',
-    cancellationPolicy: selectedHotel?.rule || ''
+    cancellationPolicy: selectedHotel?.rule || '',
+    selectedClients: []
   }));
 
   useEffect(() => {
@@ -120,7 +122,8 @@ export default function VoucherHotelClientContainer({
       confirmationNumber: '',
       deliveryNotes: selectedHotel?.notes || '',
       guideNotes: selectedHotel?.remarks || '',
-      cancellationPolicy: selectedHotel?.rule || ''
+      cancellationPolicy: selectedHotel?.rule || '',
+      selectedClients: []
     });
   }, [data?.main_client_name, selectedHotel]);
 
@@ -245,12 +248,46 @@ export default function VoucherHotelClientContainer({
                   <td className={styles['info-td']} colSpan={3}>
                     <TextField.Root
                       value={form.confirmationNumber}
-                      onChange={e => setForm(prev => ({ ...prev, confirmationNumber: e.target.value }))}
+                      onChange={e =>
+                        setForm(prev => ({ ...prev, confirmationNumber: e.target.value }))
+                      }
                     />
                   </td>
                 </tr>
               </tbody>
             </table>
+            <Separator size='4' />
+            <div>
+              <Text as='div' size='2' mb='2'>
+                투숙객 선택
+              </Text>
+              <Flex direction='column' gap='2'>
+                {data?.clients?.map(client => (
+                  <label key={client.id} style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                    <input
+                      type='checkbox'
+                      checked={form.selectedClients.includes(client.korean_name || '')}
+                      onChange={e => {
+                        if (e.target.checked) {
+                          setForm(prev => ({
+                            ...prev,
+                            selectedClients: [...prev.selectedClients, client.korean_name || '']
+                          }));
+                        } else {
+                          setForm(prev => ({
+                            ...prev,
+                            selectedClients: prev.selectedClients.filter(name => name !== (client.korean_name || ''))
+                          }));
+                        }
+                      }}
+                    />
+                    <Text size='2'>
+                      {client.korean_name} ({client.gender})
+                    </Text>
+                  </label>
+                ))}
+              </Flex>
+            </div>
             <Separator size='4' />
             <label>
               <Text as='div' size='2' mb='1'>
