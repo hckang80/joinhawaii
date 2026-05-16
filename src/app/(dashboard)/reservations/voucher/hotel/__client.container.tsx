@@ -8,7 +8,7 @@ import {
   Box,
   Button,
   Card,
-  CheckboxGroup,
+  Checkbox,
   Flex,
   Grid,
   Heading,
@@ -268,34 +268,46 @@ export default function VoucherHotelClientContainer({
 
                 return (
                   <>
-                    <CheckboxGroup.Root
-                      name='selectedClients'
-                      value={field.value}
-                      onValueChange={values => {
-                        field.onChange(orderedClientLabels.filter(label => values.includes(label)));
-                      }}
-                    >
-                      <Flex direction='column' gap='2'>
-                        {data?.clients?.map(client => {
-                          const clientLabel =
-                            `${client.english_name || ''} ${client.gender || ''}`.trim();
+                    {data?.clients?.map(client => {
+                      const clientLabel =
+                        `${client.english_name || ''} ${client.gender || ''}`.trim();
+                      const isChecked = field.value.includes(clientLabel);
 
-                          return (
-                            <CheckboxGroup.Item key={client.id} value={clientLabel}>
-                              {client.english_name} ({client.gender})
-                            </CheckboxGroup.Item>
-                          );
-                        })}
-                      </Flex>
-                    </CheckboxGroup.Root>
-                    {errors.selectedClients && (
-                      <Text color='red'>{errors.selectedClients.message}</Text>
-                    )}
+                      return (
+                        <Flex
+                          key={client.id}
+                          asChild
+                          gap='4'
+                          align='center'
+                          className={styles['guest-row']}
+                        >
+                          <label>
+                            <Checkbox
+                              checked={isChecked}
+                              onCheckedChange={checked => {
+                                const nextSelectedClients = checked
+                                  ? [...field.value, clientLabel]
+                                  : field.value.filter(value => value !== clientLabel);
+
+                                field.onChange(
+                                  orderedClientLabels.filter(label =>
+                                    nextSelectedClients.includes(label)
+                                  )
+                                );
+                              }}
+                            />
+                            <Text>{client.english_name}</Text>
+                            <Text>({client.gender})</Text>
+                          </label>
+                        </Flex>
+                      );
+                    })}
                   </>
                 );
               }}
             />
           </Grid>
+          {errors.selectedClients && <Text color='red'>{errors.selectedClients.message}</Text>}
 
           <Grid columns='2' className={`${styles['guest-grid']} print:only`}>
             {watch('selectedClients').map((client, i) => {
