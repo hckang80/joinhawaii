@@ -319,27 +319,39 @@ export default function VoucherHotelClientContainer({
                 <tbody>
                   <tr>
                     <th className={styles.infoTh}>hotel</th>
-                    <td className={styles.infoTd}>{form.hotelName || '-'}</td>
-                    <th className={styles.infoTh}>period</th>
-                    <td className={styles.infoTd}>{form.stayPeriod || '-'}</td>
+                    <td className={styles.infoTd} colSpan={3}>
+                      {form.hotelName || '-'}
+                    </td>
                   </tr>
                   <tr>
+                    <th className={styles.infoTh}>period</th>
+                    <td className={styles.infoTd}>{form.stayPeriod || '-'}</td>
                     <th className={styles.infoTh}>night</th>
                     <td className={styles.infoTd}>{form.nightsText || '-'}</td>
+                  </tr>
+                  <tr>
                     <th className={styles.infoTh}>room category</th>
-                    <td className={styles.infoTd}>{form.roomCategory || '-'}</td>
+                    <td className={styles.infoTd} colSpan={3}>
+                      {form.roomCategory || '-'}
+                    </td>
                   </tr>
                   <tr>
                     <th className={styles.infoTh}>bed type</th>
-                    <td className={styles.infoTd}>{form.bedType || '-'}</td>
-                    <th className={styles.infoTh}>breakfast</th>
-                    <td className={styles.infoTd}>{form.breakfastText || '-'}</td>
+                    <td className={styles.infoTd} colSpan={3}>
+                      {form.bedType || '-'}
+                    </td>
                   </tr>
                   <tr>
+                    <th className={styles.infoTh}>breakfast</th>
+                    <td className={styles.infoTd}>{form.breakfastText || '-'}</td>
                     <th className={styles.infoTh}>resort fee</th>
                     <td className={styles.infoTd}>{form.resortFeeText || '-'}</td>
+                  </tr>
+                  <tr>
                     <th className={styles.infoTh}>confirmation number</th>
-                    <td className={styles.infoTd}>{form.confirmationNumber || '-'}</td>
+                    <td className={styles.infoTd} colSpan={3}>
+                      {form.confirmationNumber || '-'}
+                    </td>
                   </tr>
                 </tbody>
               </table>
