@@ -82,7 +82,7 @@ export default function VoucherHotelClientContainer({
     handleSubmit,
     reset,
     watch,
-    formState: { errors, isValid }
+    formState: { errors }
   } = useForm<VoucherFormState>({
     mode: 'onBlur',
     defaultValues: {
@@ -230,11 +230,27 @@ export default function VoucherHotelClientContainer({
                 <tr>
                   <th className={styles['info-th']}>confirmation number</th>
                   <td className={styles['info-td']} colSpan={3}>
-                    <Controller
-                      name='confirmationNumber'
-                      control={control}
-                      render={({ field }) => <TextField.Root {...field} />}
-                    />
+                    <Flex direction='column' gap='1'>
+                      <Controller
+                        name='confirmationNumber'
+                        control={control}
+                        rules={{
+                          required: '확인번호는 필수입니다.',
+                          minLength: { value: 1, message: '확인번호를 입력해주세요.' }
+                        }}
+                        render={({ field }) => (
+                          <TextField.Root
+                            {...field}
+                            color={errors.confirmationNumber ? 'red' : undefined}
+                          />
+                        )}
+                      />
+                      {errors.confirmationNumber && (
+                        <Text size='1' color='red'>
+                          {errors.confirmationNumber.message}
+                        </Text>
+                      )}
+                    </Flex>
                   </td>
                 </tr>
               </tbody>
@@ -244,23 +260,28 @@ export default function VoucherHotelClientContainer({
               <Text as='div' size='2' mb='2'>
                 투숙객 선택
               </Text>
-              <Flex direction='column' gap='2'>
-                {data?.clients?.map(client => (
-                  <label
-                    key={client.id}
-                    style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}
-                  >
-                    <Controller
-                      name='selectedClients'
-                      control={control}
-                      rules={{
-                        validate: value => value.length > 0 || '투숙객을 선택해주세요.'
-                      }}
-                      render={({ field }) => {
-                        const clientLabel =
-                          `${client.korean_name || ''} ${client.gender || ''}`.trim();
+              <Controller
+                name='selectedClients'
+                control={control}
+                rules={{
+                  validate: value => value.length > 0 || '투숙객을 선택해주세요.'
+                }}
+                render={({ field }) => (
+                  <Flex direction='column' gap='2'>
+                    {data?.clients?.map(client => {
+                      const clientLabel =
+                        `${client.korean_name || ''} ${client.gender || ''}`.trim();
 
-                        return (
+                      return (
+                        <label
+                          key={client.id}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            cursor: 'pointer'
+                          }}
+                        >
                           <input
                             type='checkbox'
                             checked={field.value.includes(clientLabel)}
@@ -272,20 +293,20 @@ export default function VoucherHotelClientContainer({
                               }
                             }}
                           />
-                        );
-                      }}
-                    />
-                    <Text size='2'>
-                      {client.korean_name} ({client.gender})
-                    </Text>
-                  </label>
-                ))}
-              </Flex>
-              {errors.selectedClients && (
-                <Text size='1' color='red' mt='2'>
-                  {errors.selectedClients.message}
-                </Text>
-              )}
+                          <Text size='2'>
+                            {client.korean_name} ({client.gender})
+                          </Text>
+                        </label>
+                      );
+                    })}
+                    {errors.selectedClients && (
+                      <Text size='1' color='red'>
+                        {errors.selectedClients.message}
+                      </Text>
+                    )}
+                  </Flex>
+                )}
+              />
             </div>
             <Separator size='4' />
             <label>
@@ -314,7 +335,7 @@ export default function VoucherHotelClientContainer({
             <Button
               onClick={handleSubmit(onSubmit)}
               mt='2'
-              disabled={voucherMutation.isPending || !isValid}
+              disabled={voucherMutation.isPending}
             >
               {voucherMutation.isPending ? '제출 중...' : '바우처 발급'}
             </Button>
