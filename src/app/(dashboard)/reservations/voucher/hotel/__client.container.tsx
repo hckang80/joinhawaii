@@ -13,7 +13,6 @@ import {
   Grid,
   Heading,
   Section,
-  Separator,
   Text,
   TextArea,
   TextField
@@ -158,113 +157,113 @@ export default function VoucherHotelClientContainer({
       </Flex>
 
       <Grid columns={{ initial: '1', md: '2' }} gap='4' className='voucher-layout'>
-        <Card className='print:hidden'>
-          <Heading as='h3' size='4' mb='3'>
-            바우처 입력
+        <Section py='0' className='print:hidden'>
+          <Heading as='h2' size='7' mb='4' weight='medium' className={styles['main-title']}>
+            hotel confirmation
           </Heading>
-          <Flex direction='column' gap='3'>
-            <table className={styles['info-table']}>
-              <tbody>
-                <tr>
-                  <th className={styles['info-th']}>hotel</th>
-                  <td className={styles['info-td']} colSpan={3}>
-                    <TextField.Root value={selectedHotel?.hotel_name || ''} readOnly />
-                  </td>
-                </tr>
-                <tr>
-                  <th className={styles['info-th']}>period</th>
-                  <td className={styles['info-td']}>
-                    <TextField.Root
-                      value={
-                        selectedHotel?.check_in_date && selectedHotel?.check_out_date
-                          ? `${selectedHotel.check_in_date} ~ ${selectedHotel.check_out_date}`
-                          : '-'
-                      }
-                      readOnly
-                    />
-                  </td>
-                  <th className={styles['info-th']}>night</th>
-                  <td className={styles['info-td']}>
-                    <TextField.Root
-                      value={selectedHotel?.nights ? `${selectedHotel.nights}박` : '-'}
-                      readOnly
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <th className={styles['info-th']}>room category</th>
-                  <td className={styles['info-td']} colSpan={3}>
-                    <TextField.Root value={selectedHotel?.room_type || ''} readOnly />
-                  </td>
-                </tr>
-                <tr>
-                  <th className={styles['info-th']}>bed type</th>
-                  <td className={styles['info-td']} colSpan={3}>
-                    <TextField.Root value={selectedHotel?.bed_type || ''} readOnly />
-                  </td>
-                </tr>
-                <tr>
-                  <th className={styles['info-th']}>breakfast</th>
-                  <td className={styles['info-td']}>
-                    <TextField.Root
-                      value={selectedHotel?.is_breakfast_included ? '포함' : '미포함'}
-                      readOnly
-                    />
-                  </td>
-                  <th className={styles['info-th']}>resort fee</th>
-                  <td className={styles['info-td']}>
-                    <TextField.Root
-                      value={
-                        selectedHotel?.resort_fee_type === 'INCLUSION'
-                          ? '포함'
-                          : selectedHotel?.resort_fee_type === 'EXCLUSION'
-                            ? '불포함'
-                            : selectedHotel?.resort_fee_type === 'NO RESORT FEE'
-                              ? '없음'
-                              : '-'
-                      }
-                      readOnly
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <th className={styles['info-th']}>confirmation number</th>
-                  <td className={styles['info-td']} colSpan={3}>
-                    <Flex direction='column' gap='1'>
-                      <Controller
-                        name='confirmationNumber'
-                        control={control}
-                        rules={{
-                          required: '확인번호는 필수입니다.',
-                          pattern: {
-                            value: /^\d+$/,
-                            message: '확인번호는 숫자만 입력 가능합니다.'
-                          }
-                        }}
-                        render={({ field }) => (
-                          <TextField.Root
-                            {...field}
-                            type='number'
-                            min='0'
-                            color={errors.confirmationNumber ? 'red' : undefined}
-                          />
-                        )}
-                      />
-                      {errors.confirmationNumber && (
-                        <Text size='1' color='red'>
-                          {errors.confirmationNumber.message}
-                        </Text>
+          <table className={styles['info-table']}>
+            <tbody>
+              <tr>
+                <th className={styles['info-th']}>hotel</th>
+                <td className={styles['info-td']} colSpan={3}>
+                  <TextField.Root value={selectedHotel?.hotel_name || ''} readOnly />
+                </td>
+              </tr>
+              <tr>
+                <th className={styles['info-th']}>period</th>
+                <td className={styles['info-td']}>
+                  <TextField.Root
+                    value={
+                      selectedHotel?.check_in_date && selectedHotel?.check_out_date
+                        ? `${selectedHotel.check_in_date} ~ ${selectedHotel.check_out_date}`
+                        : '-'
+                    }
+                    readOnly
+                  />
+                </td>
+                <th className={styles['info-th']}>night</th>
+                <td className={styles['info-td']}>
+                  <TextField.Root
+                    value={selectedHotel?.nights ? `${selectedHotel.nights}박` : '-'}
+                    readOnly
+                  />
+                </td>
+              </tr>
+              <tr>
+                <th className={styles['info-th']}>room category</th>
+                <td className={styles['info-td']} colSpan={3}>
+                  <TextField.Root value={selectedHotel?.room_type || ''} readOnly />
+                </td>
+              </tr>
+              <tr>
+                <th className={styles['info-th']}>bed type</th>
+                <td className={styles['info-td']} colSpan={3}>
+                  <TextField.Root value={selectedHotel?.bed_type || ''} readOnly />
+                </td>
+              </tr>
+              <tr>
+                <th className={styles['info-th']}>breakfast</th>
+                <td className={styles['info-td']}>
+                  <TextField.Root
+                    value={selectedHotel?.is_breakfast_included ? '포함' : '미포함'}
+                    readOnly
+                  />
+                </td>
+                <th className={styles['info-th']}>resort fee</th>
+                <td className={styles['info-td']}>
+                  <TextField.Root
+                    value={
+                      selectedHotel?.resort_fee_type === 'INCLUSION'
+                        ? '포함'
+                        : selectedHotel?.resort_fee_type === 'EXCLUSION'
+                          ? '불포함'
+                          : selectedHotel?.resort_fee_type === 'NO RESORT FEE'
+                            ? '없음'
+                            : '-'
+                    }
+                    readOnly
+                  />
+                </td>
+              </tr>
+              <tr>
+                <th className={styles['info-th']}>confirmation number</th>
+                <td className={styles['info-td']} colSpan={3}>
+                  <Flex direction='column' gap='1'>
+                    <Controller
+                      name='confirmationNumber'
+                      control={control}
+                      rules={{
+                        required: '확인번호는 필수입니다.',
+                        pattern: {
+                          value: /^\d+$/,
+                          message: '확인번호는 숫자만 입력 가능합니다.'
+                        }
+                      }}
+                      render={({ field }) => (
+                        <TextField.Root
+                          {...field}
+                          type='number'
+                          min='0'
+                          color={errors.confirmationNumber ? 'red' : undefined}
+                        />
                       )}
-                    </Flex>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <Separator size='4' />
-            <div>
-              <Text as='div' size='2' mb='2'>
-                투숙객 선택
-              </Text>
+                    />
+                    {errors.confirmationNumber && (
+                      <Text size='1' color='red'>
+                        {errors.confirmationNumber.message}
+                      </Text>
+                    )}
+                  </Flex>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <Section mt='4' py='0'>
+            <Heading as='h3' mb='2' className={styles['sub-title']}>
+              guest name
+            </Heading>
+            <Grid columns='2' className={styles['guest-grid']}>
               <Controller
                 name='selectedClients'
                 control={control}
@@ -309,40 +308,40 @@ export default function VoucherHotelClientContainer({
                   );
                 }}
               />
-            </div>
-            <Separator size='4' />
-            <label>
-              <Text as='div' size='2' mb='1'>
-                전달사항
-              </Text>
-              <Controller
-                name='deliveryNotes'
-                control={control}
-                render={({ field }) => <TextArea {...field} rows={5} resize='vertical' />}
-              />
-            </label>
-            <label>
-              <Text as='div' size='2' mb='1'>
-                안내사항
-              </Text>
-              <Controller
-                name='guideNotes'
-                control={control}
-                render={({ field }) => <TextArea {...field} rows={5} resize='vertical' />}
-              />
-            </label>
-            <label>
-              <Text as='div' size='2' mb='1'>
-                취소규정
-              </Text>
-              <TextArea value={watch('cancellationPolicy')} readOnly />
-            </label>
+            </Grid>
+          </Section>
 
-            <Button onClick={handleSubmit(onSubmit)} mt='2' disabled={voucherMutation.isPending}>
-              {voucherMutation.isPending ? '제출 중...' : '바우처 발급'}
-            </Button>
-          </Flex>
-        </Card>
+          <label>
+            <Text as='div' size='2' mb='1'>
+              전달사항
+            </Text>
+            <Controller
+              name='deliveryNotes'
+              control={control}
+              render={({ field }) => <TextArea {...field} rows={5} resize='vertical' />}
+            />
+          </label>
+          <label>
+            <Text as='div' size='2' mb='1'>
+              안내사항
+            </Text>
+            <Controller
+              name='guideNotes'
+              control={control}
+              render={({ field }) => <TextArea {...field} rows={5} resize='vertical' />}
+            />
+          </label>
+          <label>
+            <Text as='div' size='2' mb='1'>
+              취소규정
+            </Text>
+            <TextArea value={watch('cancellationPolicy')} readOnly />
+          </label>
+
+          <Button onClick={handleSubmit(onSubmit)} mt='2' disabled={voucherMutation.isPending}>
+            {voucherMutation.isPending ? '제출 중...' : '바우처 발급'}
+          </Button>
+        </Section>
 
         <Section py='0' className='voucher-preview-card'>
           <Heading as='h2' size='7' mb='4' weight='medium' className={styles['main-title']}>
