@@ -6,7 +6,6 @@ type VoucherHotelPageProps = {
   searchParams: Promise<{
     reservation_id?: string;
     hotel_id?: string;
-    index?: string;
   }>;
 };
 
@@ -21,11 +20,7 @@ export default async function VoucherHotelPage({ searchParams }: VoucherHotelPag
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <VoucherHotelClientContainer
-        reservationId={reservationId}
-        hotelId={params.hotel_id}
-        index={params.index}
-      />
+      <VoucherHotelClientContainer reservationId={reservationId} hotelId={params.hotel_id} />
     </HydrationBoundary>
   );
 }

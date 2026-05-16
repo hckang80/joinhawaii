@@ -28,7 +28,6 @@ import styles from './voucher.module.css';
 type VoucherHotelClientContainerProps = {
   reservationId: string;
   hotelId?: string;
-  index?: string;
 };
 
 type VoucherFormState = {
@@ -39,17 +38,12 @@ type VoucherFormState = {
   selectedClients: string[];
 };
 
-function getSelectedHotel(data: ReservationResponse | undefined, hotelId?: string, index?: string) {
+function getSelectedHotel(data: ReservationResponse | undefined, hotelId?: string) {
   const hotels = data?.products?.hotels ?? [];
 
   if (hotelId) {
     const byId = hotels.find(hotel => String(hotel.id) === hotelId);
     if (byId) return byId;
-  }
-
-  const idx = Number(index);
-  if (Number.isInteger(idx) && idx >= 0 && idx < hotels.length) {
-    return hotels[idx];
   }
 
   return hotels[0];
@@ -70,18 +64,14 @@ function renderHotelNameContent(selectedHotel: ReturnType<typeof getSelectedHote
 
 export default function VoucherHotelClientContainer({
   reservationId,
-  hotelId,
-  index
+  hotelId
 }: VoucherHotelClientContainerProps) {
   const { data, isLoading, isError, error } = useQuery({
     ...reservationQueryOptions(reservationId),
     enabled: !!reservationId
   });
 
-  const selectedHotel = useMemo(
-    () => getSelectedHotel(data, hotelId, index),
-    [data, hotelId, index]
-  );
+  const selectedHotel = useMemo(() => getSelectedHotel(data, hotelId), [data, hotelId]);
 
   const voucherMutation = useMutation({
     mutationFn: (payload: Partial<ReservationFormData>) => updateReservation(payload),

@@ -460,18 +460,17 @@ export default function HotelForm({ data, mutation, handleAdditionalOptions }: P
                       </Table.Cell>
                       <Table.Cell>
                         <Button
+                          disabled={!getValues(`hotels.${i}.id`)}
                           size='1'
                           type='button'
                           onClick={() => {
                             const hotelId = getValues(`hotels.${i}.id`);
+                            if (!hotelId) return;
+
                             const query = new URLSearchParams({
                               reservation_id,
-                              index: String(i)
+                              hotel_id: String(hotelId)
                             });
-
-                            if (hotelId) {
-                              query.set('hotel_id', String(hotelId));
-                            }
 
                             window.open(
                               `/reservations/voucher/hotel?${query.toString()}`,
