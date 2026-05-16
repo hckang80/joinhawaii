@@ -250,21 +250,23 @@ export default function VoucherHotelClientContainer({
                     <Controller
                       name='selectedClients'
                       control={control}
-                      render={({ field }) => (
-                        <input
-                          type='checkbox'
-                          checked={field.value.includes(client.korean_name || '')}
-                          onChange={e => {
-                            if (e.target.checked) {
-                              field.onChange([...field.value, client.korean_name || '']);
-                            } else {
-                              field.onChange(
-                                field.value.filter(name => name !== (client.korean_name || ''))
-                              );
-                            }
-                          }}
-                        />
-                      )}
+                      render={({ field }) => {
+                        const clientLabel = `${client.korean_name || ''} ${client.gender || ''}`.trim();
+
+                        return (
+                          <input
+                            type='checkbox'
+                            checked={field.value.includes(clientLabel)}
+                            onChange={e => {
+                              if (e.target.checked) {
+                                field.onChange([...field.value, clientLabel]);
+                              } else {
+                                field.onChange(field.value.filter(item => item !== clientLabel));
+                              }
+                            }}
+                          />
+                        );
+                      }}
                     />
                     <Text size='2'>
                       {client.korean_name} ({client.gender})
