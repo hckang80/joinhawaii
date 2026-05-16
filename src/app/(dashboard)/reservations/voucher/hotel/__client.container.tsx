@@ -169,312 +169,233 @@ export default function VoucherHotelClientContainer({
         </Flex>
       </Flex>
 
-      <Grid columns={{ initial: '1', md: '2' }} gap='4' className='voucher-layout'>
-        <Section py='0' className='print:hidden'>
-          <Heading as='h2' size='7' mb='4' weight='medium' className={styles['main-title']}>
-            hotel confirmation
+      <Section py='0'>
+        <Heading as='h2' size='7' mb='4' weight='medium' className={styles['main-title']}>
+          hotel confirmation
+        </Heading>
+        <table className={styles['info-table']}>
+          <tbody>
+            <tr>
+              <th className={styles['info-th']}>hotel</th>
+              <td className={styles['info-td']} colSpan={3}>
+                {renderHotelNameContent(selectedHotel)}
+              </td>
+            </tr>
+            <tr>
+              <th className={styles['info-th']}>period</th>
+              <td className={styles['info-td']}>
+                {selectedHotel?.check_in_date && selectedHotel?.check_out_date
+                  ? `${selectedHotel.check_in_date} ~ ${selectedHotel.check_out_date}`
+                  : '-'}
+              </td>
+              <th className={styles['info-th']}>night</th>
+              <td className={styles['info-td']}>
+                {selectedHotel?.nights ? `${selectedHotel.nights}박` : '-'}
+              </td>
+            </tr>
+            <tr>
+              <th className={styles['info-th']}>room category</th>
+              <td className={styles['info-td']} colSpan={3}>
+                {selectedHotel?.room_type || '-'}
+              </td>
+            </tr>
+            <tr>
+              <th className={styles['info-th']}>bed type</th>
+              <td className={styles['info-td']} colSpan={3}>
+                {selectedHotel?.bed_type || '-'}
+              </td>
+            </tr>
+            <tr>
+              <th className={styles['info-th']}>breakfast</th>
+              <td className={styles['info-td']}>
+                {selectedHotel?.is_breakfast_included ? '포함' : '미포함'}
+              </td>
+              <th className={styles['info-th']}>resort fee</th>
+              <td className={styles['info-td']}>
+                {selectedHotel?.resort_fee_type === 'INCLUSION'
+                  ? '포함'
+                  : selectedHotel?.resort_fee_type === 'EXCLUSION'
+                    ? '불포함'
+                    : selectedHotel?.resort_fee_type === 'NO RESORT FEE'
+                      ? '없음'
+                      : '-'}
+              </td>
+            </tr>
+            <tr>
+              <th className={styles['info-th']}>confirmation number</th>
+              <td className={styles['info-td']} colSpan={3}>
+                <Flex direction='column' gap='1' className='print:hidden'>
+                  <Controller
+                    name='confirmationNumber'
+                    control={control}
+                    rules={{
+                      required: '확인번호는 필수입니다.',
+                      pattern: {
+                        value: /^\d+$/,
+                        message: '확인번호는 숫자만 입력 가능합니다.'
+                      }
+                    }}
+                    render={({ field }) => (
+                      <TextField.Root
+                        {...field}
+                        type='number'
+                        min='0'
+                        color={errors.confirmationNumber ? 'red' : undefined}
+                      />
+                    )}
+                  />
+                  {errors.confirmationNumber && (
+                    <Text size='1' color='red'>
+                      {errors.confirmationNumber.message}
+                    </Text>
+                  )}
+                </Flex>
+
+                <Text className='print:only'>{watch('confirmationNumber') || '-'}</Text>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <Section mt='4' py='0'>
+          <Heading as='h3' mb='2' className={styles['sub-title']}>
+            guest name
           </Heading>
-          <table className={styles['info-table']}>
-            <tbody>
-              <tr>
-                <th className={styles['info-th']}>hotel</th>
-                <td className={styles['info-td']} colSpan={3}>
-                  {renderHotelNameContent(selectedHotel)}
-                </td>
-              </tr>
-              <tr>
-                <th className={styles['info-th']}>period</th>
-                <td className={styles['info-td']}>
-                  {selectedHotel?.check_in_date && selectedHotel?.check_out_date
-                    ? `${selectedHotel.check_in_date} ~ ${selectedHotel.check_out_date}`
-                    : '-'}
-                </td>
-                <th className={styles['info-th']}>night</th>
-                <td className={styles['info-td']}>
-                  {selectedHotel?.nights ? `${selectedHotel.nights}박` : '-'}
-                </td>
-              </tr>
-              <tr>
-                <th className={styles['info-th']}>room category</th>
-                <td className={styles['info-td']} colSpan={3}>
-                  {selectedHotel?.room_type || '-'}
-                </td>
-              </tr>
-              <tr>
-                <th className={styles['info-th']}>bed type</th>
-                <td className={styles['info-td']} colSpan={3}>
-                  {selectedHotel?.bed_type || '-'}
-                </td>
-              </tr>
-              <tr>
-                <th className={styles['info-th']}>breakfast</th>
-                <td className={styles['info-td']}>
-                  {selectedHotel?.is_breakfast_included ? '포함' : '미포함'}
-                </td>
-                <th className={styles['info-th']}>resort fee</th>
-                <td className={styles['info-td']}>
-                  {selectedHotel?.resort_fee_type === 'INCLUSION'
-                    ? '포함'
-                    : selectedHotel?.resort_fee_type === 'EXCLUSION'
-                      ? '불포함'
-                      : selectedHotel?.resort_fee_type === 'NO RESORT FEE'
-                        ? '없음'
-                        : '-'}
-                </td>
-              </tr>
-              <tr>
-                <th className={styles['info-th']}>confirmation number</th>
-                <td className={styles['info-td']} colSpan={3}>
-                  <Flex direction='column' gap='1'>
-                    <Controller
-                      name='confirmationNumber'
-                      control={control}
-                      rules={{
-                        required: '확인번호는 필수입니다.',
-                        pattern: {
-                          value: /^\d+$/,
-                          message: '확인번호는 숫자만 입력 가능합니다.'
-                        }
+          <Grid columns='2' className={`${styles['guest-grid']} print:hidden`}>
+            <Controller
+              name='selectedClients'
+              control={control}
+              rules={{
+                validate: value => value.length > 0 || '투숙객을 선택해주세요.'
+              }}
+              render={({ field }) => {
+                const orderedClientLabels = (data?.clients ?? []).map(client =>
+                  `${client.english_name || ''} ${client.gender || ''}`.trim()
+                );
+
+                return (
+                  <>
+                    <CheckboxGroup.Root
+                      name='selectedClients'
+                      value={field.value}
+                      onValueChange={values => {
+                        field.onChange(orderedClientLabels.filter(label => values.includes(label)));
                       }}
-                      render={({ field }) => (
-                        <TextField.Root
-                          {...field}
-                          type='number'
-                          min='0'
-                          color={errors.confirmationNumber ? 'red' : undefined}
-                        />
-                      )}
-                    />
-                    {errors.confirmationNumber && (
+                    >
+                      <Flex direction='column' gap='2'>
+                        {data?.clients?.map(client => {
+                          const clientLabel =
+                            `${client.english_name || ''} ${client.gender || ''}`.trim();
+
+                          return (
+                            <CheckboxGroup.Item key={client.id} value={clientLabel}>
+                              {client.english_name} ({client.gender})
+                            </CheckboxGroup.Item>
+                          );
+                        })}
+                      </Flex>
+                    </CheckboxGroup.Root>
+                    {errors.selectedClients && (
                       <Text size='1' color='red'>
-                        {errors.confirmationNumber.message}
+                        {errors.selectedClients.message}
                       </Text>
                     )}
-                  </Flex>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <Section mt='4' py='0'>
-            <Heading as='h3' mb='2' className={styles['sub-title']}>
-              guest name
-            </Heading>
-            <Grid columns='2' className={styles['guest-grid']}>
-              <Controller
-                name='selectedClients'
-                control={control}
-                rules={{
-                  validate: value => value.length > 0 || '투숙객을 선택해주세요.'
-                }}
-                render={({ field }) => {
-                  const orderedClientLabels = (data?.clients ?? []).map(client =>
-                    `${client.english_name || ''} ${client.gender || ''}`.trim()
-                  );
-
-                  return (
-                    <>
-                      <CheckboxGroup.Root
-                        name='selectedClients'
-                        value={field.value}
-                        onValueChange={values => {
-                          field.onChange(
-                            orderedClientLabels.filter(label => values.includes(label))
-                          );
-                        }}
-                      >
-                        <Flex direction='column' gap='2'>
-                          {data?.clients?.map(client => {
-                            const clientLabel =
-                              `${client.english_name || ''} ${client.gender || ''}`.trim();
-
-                            return (
-                              <CheckboxGroup.Item key={client.id} value={clientLabel}>
-                                {client.english_name} ({client.gender})
-                              </CheckboxGroup.Item>
-                            );
-                          })}
-                        </Flex>
-                      </CheckboxGroup.Root>
-                      {errors.selectedClients && (
-                        <Text size='1' color='red'>
-                          {errors.selectedClients.message}
-                        </Text>
-                      )}
-                    </>
-                  );
-                }}
-              />
-            </Grid>
-          </Section>
-
-          <label>
-            <Text as='div' size='2' mb='1'>
-              전달사항
-            </Text>
-            <Controller
-              name='deliveryNotes'
-              control={control}
-              render={({ field }) => <TextArea {...field} rows={5} resize='vertical' />}
-            />
-          </label>
-          <label>
-            <Text as='div' size='2' mb='1'>
-              안내사항
-            </Text>
-            <Controller
-              name='guideNotes'
-              control={control}
-              render={({ field }) => <TextArea {...field} rows={5} resize='vertical' />}
-            />
-          </label>
-          <label>
-            <Text as='div' size='2' mb='1'>
-              취소규정
-            </Text>
-            <TextArea value={watch('cancellationPolicy')} readOnly />
-          </label>
-
-          <Button onClick={handleSubmit(onSubmit)} mt='2' disabled={voucherMutation.isPending}>
-            {voucherMutation.isPending ? '제출 중...' : '바우처 발급'}
-          </Button>
-        </Section>
-
-        <Section py='0' className='voucher-preview-card'>
-          <Heading as='h2' size='7' mb='4' weight='medium' className={styles['main-title']}>
-            hotel confirmation
-          </Heading>
-
-          <table className={styles['info-table']}>
-            <tbody>
-              <tr>
-                <th className={styles['info-th']}>hotel</th>
-                <td className={styles['info-td']} colSpan={3}>
-                  {renderHotelNameContent(selectedHotel)}
-                </td>
-              </tr>
-              <tr>
-                <th className={styles['info-th']}>period</th>
-                <td className={styles['info-td']}>
-                  {selectedHotel?.check_in_date && selectedHotel?.check_out_date
-                    ? `${selectedHotel.check_in_date} ~ ${selectedHotel.check_out_date}`
-                    : '-'}
-                </td>
-                <th className={styles['info-th']}>night</th>
-                <td className={styles['info-td']}>
-                  {selectedHotel?.nights ? `${selectedHotel.nights}박` : '-'}
-                </td>
-              </tr>
-              <tr>
-                <th className={styles['info-th']}>room category</th>
-                <td className={styles['info-td']} colSpan={3}>
-                  {selectedHotel?.room_type || '-'}
-                </td>
-              </tr>
-              <tr>
-                <th className={styles['info-th']}>bed type</th>
-                <td className={styles['info-td']} colSpan={3}>
-                  {selectedHotel?.bed_type || '-'}
-                </td>
-              </tr>
-              <tr>
-                <th className={styles['info-th']}>breakfast</th>
-                <td className={styles['info-td']}>
-                  {selectedHotel?.is_breakfast_included ? '포함' : '미포함'}
-                </td>
-                <th className={styles['info-th']}>resort fee</th>
-                <td className={styles['info-td']}>
-                  {selectedHotel?.resort_fee_type === 'INCLUSION'
-                    ? '포함'
-                    : selectedHotel?.resort_fee_type === 'EXCLUSION'
-                      ? '불포함'
-                      : selectedHotel?.resort_fee_type === 'NO RESORT FEE'
-                        ? '없음'
-                        : '-'}
-                </td>
-              </tr>
-              <tr>
-                <th className={styles['info-th']}>confirmation number</th>
-                <td className={styles['info-td']} colSpan={3}>
-                  {watch('confirmationNumber') || '-'}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <Section mt='4' py='0'>
-            <Heading as='h3' mb='2' className={styles['sub-title']}>
-              guest name
-            </Heading>
-            <Grid columns='2' className={styles['guest-grid']}>
-              {watch('selectedClients').map((client, i) => {
-                const parts = client.split(' ');
-                const gender = parts[parts.length - 1];
-                const name = parts.slice(0, -1).join(' ');
-                return (
-                  <Flex key={i} gap='4' align='center' className={styles['guest-row']}>
-                    <Text>{i + 1}</Text>
-                    <Text>{name}</Text>
-                    <Text>{gender}</Text>
-                  </Flex>
+                  </>
                 );
-              })}
-            </Grid>
-          </Section>
+              }}
+            />
+          </Grid>
 
-          <Box asChild mt='5'>
-            <Card>
-              <Flex gap='4'>
-                <Flex asChild direction='column' align='center' flexShrink='0'>
-                  <Text size='4' weight='bold'>
-                    <Mic />
-                    전달
-                  </Text>
+          <Grid columns='2' className={`${styles['guest-grid']} print:only`}>
+            {watch('selectedClients').map((client, i) => {
+              const parts = client.split(' ');
+              const gender = parts[parts.length - 1];
+              const name = parts.slice(0, -1).join(' ');
+              return (
+                <Flex key={i} gap='4' align='center' className={styles['guest-row']}>
+                  <Text>{i + 1}</Text>
+                  <Text>{name}</Text>
+                  <Text>{gender}</Text>
                 </Flex>
-                <Text style={{ whiteSpace: 'pre-wrap' }}>{watch('deliveryNotes') || '-'}</Text>
-              </Flex>
-            </Card>
-          </Box>
-
-          <Box asChild mt='4'>
-            <Card>
-              <Flex gap='4'>
-                <Flex asChild direction='column' align='center' flexShrink='0'>
-                  <Text size='4' weight='bold'>
-                    <Mic />
-                    알림
-                  </Text>
-                </Flex>
-                <Box>
-                  <Text style={{ whiteSpace: 'pre-wrap' }}>{watch('guideNotes') || '-'}</Text>
-                  <Text as='p' color='red' mt='9'>
-                    [취소규정] {watch('cancellationPolicy') || '-'}
-                  </Text>
-                </Box>
-              </Flex>
-            </Card>
-          </Box>
-
-          <Grid columns={{ initial: '1', md: '2' }} gap='3' mt='5'>
-            <Card>
-              <Flex direction='column' gap='1'>
-                <Text weight='bold'>조인하와이 현지 연락처</Text>
-                <Text>T : (808) 772-2691</Text>
-                <Text>카톡 : joinhawaiiusa</Text>
-                <Text>시간 : 08AM ~ 17PM</Text>
-              </Flex>
-            </Card>
-            <Card>
-              <Flex direction='column' gap='1'>
-                <Text weight='bold'>조인하와이 한국 연락처</Text>
-                <Text>T : 02-402-1040</Text>
-                <Text>카톡 : 조인하와이(채널)</Text>
-                <Text>시간 : 09AM ~ 18PM</Text>
-              </Flex>
-            </Card>
+              );
+            })}
           </Grid>
         </Section>
-      </Grid>
+
+        <Box asChild mt='5'>
+          <Card>
+            <Flex gap='4'>
+              <Flex asChild direction='column' align='center' flexShrink='0'>
+                <Text size='4' weight='bold'>
+                  <Mic />
+                  전달
+                </Text>
+              </Flex>
+              <Box flexGrow='1' className='print:hidden'>
+                <Controller
+                  name='deliveryNotes'
+                  control={control}
+                  render={({ field }) => <TextArea {...field} rows={5} resize='vertical' />}
+                />
+              </Box>
+              <Text className='print:only' style={{ whiteSpace: 'pre-wrap' }}>
+                {watch('deliveryNotes') || '-'}
+              </Text>
+            </Flex>
+          </Card>
+        </Box>
+
+        <Box asChild mt='4'>
+          <Card>
+            <Flex gap='4'>
+              <Flex asChild direction='column' align='center' flexShrink='0'>
+                <Text size='4' weight='bold'>
+                  <Mic />
+                  알림
+                </Text>
+              </Flex>
+              <Box flexGrow='1'>
+                <Box className='print:hidden'>
+                  <Controller
+                    name='guideNotes'
+                    control={control}
+                    render={({ field }) => <TextArea {...field} rows={10} resize='vertical' />}
+                  />
+                </Box>
+                <Text className='print:only' style={{ whiteSpace: 'pre-wrap' }}>
+                  {watch('guideNotes') || '-'}
+                </Text>
+                <Text as='p' color='red' mt='8'>
+                  [취소규정] {watch('cancellationPolicy') || '-'}
+                </Text>
+              </Box>
+            </Flex>
+          </Card>
+        </Box>
+
+        <Grid columns={{ initial: '1', md: '2' }} gap='3' mt='5'>
+          <Card>
+            <Flex direction='column' gap='1'>
+              <Text weight='bold'>조인하와이 현지 연락처</Text>
+              <Text>T : (808) 772-2691</Text>
+              <Text>카톡 : joinhawaiiusa</Text>
+              <Text>시간 : 08AM ~ 17PM</Text>
+            </Flex>
+          </Card>
+          <Card>
+            <Flex direction='column' gap='1'>
+              <Text weight='bold'>조인하와이 한국 연락처</Text>
+              <Text>T : 02-402-1040</Text>
+              <Text>카톡 : 조인하와이(채널)</Text>
+              <Text>시간 : 09AM ~ 18PM</Text>
+            </Flex>
+          </Card>
+        </Grid>
+
+        <Button onClick={handleSubmit(onSubmit)} mt='2' disabled={voucherMutation.isPending}>
+          {voucherMutation.isPending ? '제출 중...' : '바우처 발급'}
+        </Button>
+      </Section>
     </Box>
   );
 }
