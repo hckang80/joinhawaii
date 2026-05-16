@@ -400,19 +400,16 @@ export default function VoucherHotelClientContainer({
                 </tbody>
               </table>
 
-              <Heading as='h3'>guest name</Heading>
-              <Grid columns='2' style={{ borderTop: '2px solid var(--gray-12)' }}>
+              <Heading as='h3' className={styles['sub-title']}>
+                guest name
+              </Heading>
+              <Grid columns='2' className={styles['guest-grid']}>
                 {watch('selectedClients').map((client, i) => {
                   const parts = client.split(' ');
                   const gender = parts[parts.length - 1];
                   const name = parts.slice(0, -1).join(' ');
                   return (
-                    <Flex
-                      key={i}
-                      gap='4'
-                      align='center'
-                      style={{ borderBottom: '1px solid var(--gray-6)' }}
-                    >
+                    <Flex key={i} gap='4' align='center' className={styles['guest-row']}>
                       <Text>{i + 1}</Text>
                       <Text>{name}</Text>
                       <Text>{gender}</Text>
@@ -423,7 +420,7 @@ export default function VoucherHotelClientContainer({
 
               <Separator size='4' />
               <Text weight='bold'>✅ 전달사항</Text>
-              <Text>{watch('deliveryNotes') || '-'}</Text>
+              <Text style={{ whiteSpace: 'pre-wrap' }}>{watch('deliveryNotes') || '-'}</Text>
               <Text weight='bold'>✅ 안내사항</Text>
               <Text>{watch('guideNotes') || '-'}</Text>
               <Text weight='bold' color='red'>
