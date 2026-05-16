@@ -54,6 +54,19 @@ function getSelectedHotel(data: ReservationResponse | undefined, hotelId?: strin
   return hotels[0];
 }
 
+function renderHotelNameContent(selectedHotel: ReturnType<typeof getSelectedHotel>) {
+  const englishLabel =
+    HOTELS[selectedHotel?.region]?.find(hotel => hotel.label === selectedHotel?.hotel_name)
+      ?.en_label || '-';
+
+  return (
+    <>
+      {selectedHotel?.hotel_name || '-'}
+      <Text as='p'>{englishLabel}</Text>
+    </>
+  );
+}
+
 export default function VoucherHotelClientContainer({
   reservationId,
   hotelId,
@@ -166,63 +179,47 @@ export default function VoucherHotelClientContainer({
               <tr>
                 <th className={styles['info-th']}>hotel</th>
                 <td className={styles['info-td']} colSpan={3}>
-                  <TextField.Root value={selectedHotel?.hotel_name || ''} readOnly />
+                  {renderHotelNameContent(selectedHotel)}
                 </td>
               </tr>
               <tr>
                 <th className={styles['info-th']}>period</th>
                 <td className={styles['info-td']}>
-                  <TextField.Root
-                    value={
-                      selectedHotel?.check_in_date && selectedHotel?.check_out_date
-                        ? `${selectedHotel.check_in_date} ~ ${selectedHotel.check_out_date}`
-                        : '-'
-                    }
-                    readOnly
-                  />
+                  {selectedHotel?.check_in_date && selectedHotel?.check_out_date
+                    ? `${selectedHotel.check_in_date} ~ ${selectedHotel.check_out_date}`
+                    : '-'}
                 </td>
                 <th className={styles['info-th']}>night</th>
                 <td className={styles['info-td']}>
-                  <TextField.Root
-                    value={selectedHotel?.nights ? `${selectedHotel.nights}박` : '-'}
-                    readOnly
-                  />
+                  {selectedHotel?.nights ? `${selectedHotel.nights}박` : '-'}
                 </td>
               </tr>
               <tr>
                 <th className={styles['info-th']}>room category</th>
                 <td className={styles['info-td']} colSpan={3}>
-                  <TextField.Root value={selectedHotel?.room_type || ''} readOnly />
+                  {selectedHotel?.room_type || '-'}
                 </td>
               </tr>
               <tr>
                 <th className={styles['info-th']}>bed type</th>
                 <td className={styles['info-td']} colSpan={3}>
-                  <TextField.Root value={selectedHotel?.bed_type || ''} readOnly />
+                  {selectedHotel?.bed_type || '-'}
                 </td>
               </tr>
               <tr>
                 <th className={styles['info-th']}>breakfast</th>
                 <td className={styles['info-td']}>
-                  <TextField.Root
-                    value={selectedHotel?.is_breakfast_included ? '포함' : '미포함'}
-                    readOnly
-                  />
+                  {selectedHotel?.is_breakfast_included ? '포함' : '미포함'}
                 </td>
                 <th className={styles['info-th']}>resort fee</th>
                 <td className={styles['info-td']}>
-                  <TextField.Root
-                    value={
-                      selectedHotel?.resort_fee_type === 'INCLUSION'
-                        ? '포함'
-                        : selectedHotel?.resort_fee_type === 'EXCLUSION'
-                          ? '불포함'
-                          : selectedHotel?.resort_fee_type === 'NO RESORT FEE'
-                            ? '없음'
-                            : '-'
-                    }
-                    readOnly
-                  />
+                  {selectedHotel?.resort_fee_type === 'INCLUSION'
+                    ? '포함'
+                    : selectedHotel?.resort_fee_type === 'EXCLUSION'
+                      ? '불포함'
+                      : selectedHotel?.resort_fee_type === 'NO RESORT FEE'
+                        ? '없음'
+                        : '-'}
                 </td>
               </tr>
               <tr>
@@ -353,13 +350,7 @@ export default function VoucherHotelClientContainer({
               <tr>
                 <th className={styles['info-th']}>hotel</th>
                 <td className={styles['info-td']} colSpan={3}>
-                  {selectedHotel?.hotel_name || '-'}
-
-                  <Text as='p'>
-                    {HOTELS[selectedHotel?.region]?.find(
-                      hotel => hotel.label === selectedHotel?.hotel_name
-                    )?.en_label || '-'}
-                  </Text>
+                  {renderHotelNameContent(selectedHotel)}
                 </td>
               </tr>
               <tr>
