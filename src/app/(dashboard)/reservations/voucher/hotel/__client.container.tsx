@@ -138,7 +138,7 @@ export default function VoucherHotelClientContainer({
 
   if (!reservationId) {
     return (
-      <Box width='1100px' mx='auto'>
+      <Box width='1000px' mx='auto'>
         <Card>
           <Text>reservation_id가 없어 바우처 정보를 불러올 수 없습니다.</Text>
         </Card>
@@ -148,7 +148,7 @@ export default function VoucherHotelClientContainer({
 
   if (isLoading) {
     return (
-      <Box width='1100px' mx='auto'>
+      <Box width='1000px' mx='auto'>
         <Card>
           <Text>바우처 정보를 불러오는 중...</Text>
         </Card>
@@ -157,7 +157,7 @@ export default function VoucherHotelClientContainer({
   }
 
   return (
-    <Box width='1100px' mx='auto' className='voucher-root'>
+    <Box width='1000px' mx='auto' className='voucher-root'>
       <Flex justify='between' align='center' mb='4' className='print:hidden'>
         <Heading as='h2' size='6'>
           호텔 바우처 발급
