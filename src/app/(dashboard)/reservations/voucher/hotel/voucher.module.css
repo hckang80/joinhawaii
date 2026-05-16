@@ -1,3 +1,10 @@
+.main-title {
+  background: var(--red-9);
+  color: #fff;
+  padding: 10px;
+  text-transform: uppercase;
+}
+
 .info-table {
   width: 100%;
   border-collapse: collapse;

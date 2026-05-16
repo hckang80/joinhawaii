@@ -327,8 +327,8 @@ export default function VoucherHotelClientContainer({
 
         <Card className='voucher-preview-card'>
           <Section size='1'>
-            <Heading as='h3' size='4' mb='3'>
-              HOTEL VOUCHER
+            <Heading as='h3' size='4' mb='3' className={styles['main-title']}>
+              hotel confirmation
             </Heading>
             <Flex direction='column' gap='2'>
               <table className={styles['info-table']}>
