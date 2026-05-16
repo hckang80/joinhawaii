@@ -324,7 +324,11 @@ export default function VoucherHotelClientContainer({
               <Text as='div' size='2' mb='1'>
                 안내사항
               </Text>
-              <TextArea value={watch('guideNotes')} readOnly />
+              <Controller
+                name='guideNotes'
+                control={control}
+                render={({ field }) => <TextArea {...field} />}
+              />
             </label>
             <label>
               <Text as='div' size='2' mb='1'>
