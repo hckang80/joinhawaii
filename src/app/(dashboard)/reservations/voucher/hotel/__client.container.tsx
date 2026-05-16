@@ -165,7 +165,7 @@ export default function VoucherHotelClientContainer({
       </Flex>
 
       <Section py='0'>
-        <Heading as='h2' size='7' mb='4' weight='medium' className={styles['main-title']}>
+        <Heading as='h2' size='7' mb='4' weight='bold' className={styles['main-title']}>
           hotel confirmation
         </Heading>
         <table className={styles['info-table']}>
