@@ -1,7 +1,7 @@
 'use client';
 
 import { reservationQueryOptions } from '@/lib/queries';
-import type { Hotel, ReservationResponse } from '@/types';
+import type { ReservationResponse } from '@/types';
 import {
   Box,
   Button,
@@ -27,13 +27,6 @@ type VoucherHotelClientContainerProps = {
 };
 
 type VoucherFormState = {
-  hotelName: string;
-  roomCategory: string;
-  bedType: string;
-  stayPeriod: string;
-  nightsText: string;
-  breakfastText: string;
-  resortFeeText: string;
   confirmationNumber: string;
   deliveryNotes: string;
   guideNotes: string;
@@ -57,13 +50,6 @@ function getSelectedHotel(data: ReservationResponse | undefined, hotelId?: strin
   return hotels[0];
 }
 
-function buildStayPeriod(hotel: Hotel | undefined) {
-  if (!hotel) return '-';
-  const checkIn = hotel.check_in_date || '-';
-  const checkOut = hotel.check_out_date || '-';
-  return `${checkIn} ~ ${checkOut}`;
-}
-
 export default function VoucherHotelClientContainer({
   reservationId,
   hotelId,
@@ -81,20 +67,6 @@ export default function VoucherHotelClientContainer({
 
   const { control, handleSubmit, reset, watch } = useForm<VoucherFormState>({
     defaultValues: {
-      hotelName: selectedHotel?.hotel_name || '',
-      roomCategory: selectedHotel?.room_type || '',
-      bedType: selectedHotel?.bed_type || '',
-      stayPeriod: buildStayPeriod(selectedHotel),
-      nightsText: selectedHotel?.nights ? `${selectedHotel.nights}박` : '-',
-      breakfastText: selectedHotel?.is_breakfast_included ? '포함' : '미포함',
-      resortFeeText:
-        selectedHotel?.resort_fee_type === 'INCLUSION'
-          ? '포함'
-          : selectedHotel?.resort_fee_type === 'EXCLUSION'
-            ? '불포함'
-            : selectedHotel?.resort_fee_type === 'NO RESORT FEE'
-              ? '없음'
-              : '-',
       confirmationNumber: '',
       deliveryNotes: selectedHotel?.notes || '',
       guideNotes: selectedHotel?.remarks || '',
@@ -105,20 +77,6 @@ export default function VoucherHotelClientContainer({
 
   useEffect(() => {
     reset({
-      hotelName: selectedHotel?.hotel_name || '',
-      roomCategory: selectedHotel?.room_type || '',
-      bedType: selectedHotel?.bed_type || '',
-      stayPeriod: buildStayPeriod(selectedHotel),
-      nightsText: selectedHotel?.nights ? `${selectedHotel.nights}박` : '-',
-      breakfastText: selectedHotel?.is_breakfast_included ? '포함' : '미포함',
-      resortFeeText:
-        selectedHotel?.resort_fee_type === 'INCLUSION'
-          ? '포함'
-          : selectedHotel?.resort_fee_type === 'EXCLUSION'
-            ? '불포함'
-            : selectedHotel?.resort_fee_type === 'NO RESORT FEE'
-              ? '없음'
-              : '-',
       confirmationNumber: '',
       deliveryNotes: selectedHotel?.notes || '',
       guideNotes: selectedHotel?.remarks || '',
@@ -176,66 +134,62 @@ export default function VoucherHotelClientContainer({
                 <tr>
                   <th className={styles['info-th']}>hotel</th>
                   <td className={styles['info-td']} colSpan={3}>
-                    <Controller
-                      name='hotelName'
-                      control={control}
-                      render={({ field }) => <TextField.Root {...field} readOnly />}
-                    />
+                    <TextField.Root value={selectedHotel?.hotel_name || ''} readOnly />
                   </td>
                 </tr>
                 <tr>
                   <th className={styles['info-th']}>period</th>
                   <td className={styles['info-td']}>
-                    <Controller
-                      name='stayPeriod'
-                      control={control}
-                      render={({ field }) => <TextField.Root {...field} readOnly />}
+                    <TextField.Root
+                      value={
+                        selectedHotel?.check_in_date && selectedHotel?.check_out_date
+                          ? `${selectedHotel.check_in_date} ~ ${selectedHotel.check_out_date}`
+                          : '-'
+                      }
+                      readOnly
                     />
                   </td>
                   <th className={styles['info-th']}>night</th>
                   <td className={styles['info-td']}>
-                    <Controller
-                      name='nightsText'
-                      control={control}
-                      render={({ field }) => <TextField.Root {...field} readOnly />}
+                    <TextField.Root
+                      value={selectedHotel?.nights ? `${selectedHotel.nights}박` : '-'}
+                      readOnly
                     />
                   </td>
                 </tr>
                 <tr>
                   <th className={styles['info-th']}>room category</th>
                   <td className={styles['info-td']} colSpan={3}>
-                    <Controller
-                      name='roomCategory'
-                      control={control}
-                      render={({ field }) => <TextField.Root {...field} readOnly />}
-                    />
+                    <TextField.Root value={selectedHotel?.room_type || ''} readOnly />
                   </td>
                 </tr>
                 <tr>
                   <th className={styles['info-th']}>bed type</th>
                   <td className={styles['info-td']} colSpan={3}>
-                    <Controller
-                      name='bedType'
-                      control={control}
-                      render={({ field }) => <TextField.Root {...field} readOnly />}
-                    />
+                    <TextField.Root value={selectedHotel?.bed_type || ''} readOnly />
                   </td>
                 </tr>
                 <tr>
                   <th className={styles['info-th']}>breakfast</th>
                   <td className={styles['info-td']}>
-                    <Controller
-                      name='breakfastText'
-                      control={control}
-                      render={({ field }) => <TextField.Root {...field} readOnly />}
+                    <TextField.Root
+                      value={selectedHotel?.is_breakfast_included ? '포함' : '미포함'}
+                      readOnly
                     />
                   </td>
                   <th className={styles['info-th']}>resort fee</th>
                   <td className={styles['info-td']}>
-                    <Controller
-                      name='resortFeeText'
-                      control={control}
-                      render={({ field }) => <TextField.Root {...field} readOnly />}
+                    <TextField.Root
+                      value={
+                        selectedHotel?.resort_fee_type === 'INCLUSION'
+                          ? '포함'
+                          : selectedHotel?.resort_fee_type === 'EXCLUSION'
+                            ? '불포함'
+                            : selectedHotel?.resort_fee_type === 'NO RESORT FEE'
+                              ? '없음'
+                              : '-'
+                      }
+                      readOnly
                     />
                   </td>
                 </tr>
@@ -303,22 +257,15 @@ export default function VoucherHotelClientContainer({
               <Text as='div' size='2' mb='1'>
                 안내사항
               </Text>
-              <Controller
-                name='guideNotes'
-                control={control}
-                render={({ field }) => <TextArea {...field} />}
-              />
+              <TextArea value={watch('guideNotes')} readOnly />
             </label>
             <label>
               <Text as='div' size='2' mb='1'>
                 취소규정
               </Text>
-              <Controller
-                name='cancellationPolicy'
-                control={control}
-                render={({ field }) => <TextArea {...field} readOnly />}
-              />
+              <TextArea value={watch('cancellationPolicy')} readOnly />
             </label>
+
             <Button onClick={handleSubmit(onSubmit)} mt='2'>
               바우처 발급
             </Button>
@@ -341,7 +288,11 @@ export default function VoucherHotelClientContainer({
                   </tr>
                   <tr>
                     <th className={styles['info-th']}>period</th>
-                    <td className={styles['info-td']}>{buildStayPeriod(selectedHotel)}</td>
+                    <td className={styles['info-td']}>
+                      {selectedHotel?.check_in_date && selectedHotel?.check_out_date
+                        ? `${selectedHotel.check_in_date} ~ ${selectedHotel.check_out_date}`
+                        : '-'}
+                    </td>
                     <th className={styles['info-th']}>night</th>
                     <td className={styles['info-td']}>
                       {selectedHotel?.nights ? `${selectedHotel.nights}박` : '-'}
