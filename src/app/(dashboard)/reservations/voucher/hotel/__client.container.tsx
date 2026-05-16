@@ -179,6 +179,7 @@ export default function VoucherHotelClientContainer({
               <TextField.Root
                 value={form.hotelName}
                 onChange={e => setForm(prev => ({ ...prev, hotelName: e.target.value }))}
+                readOnly
               />
             </label>
             <label>
@@ -188,6 +189,7 @@ export default function VoucherHotelClientContainer({
               <TextField.Root
                 value={form.roomCategory}
                 onChange={e => setForm(prev => ({ ...prev, roomCategory: e.target.value }))}
+                readOnly
               />
             </label>
             <label>
@@ -197,6 +199,7 @@ export default function VoucherHotelClientContainer({
               <TextField.Root
                 value={form.bedType}
                 onChange={e => setForm(prev => ({ ...prev, bedType: e.target.value }))}
+                readOnly
               />
             </label>
             <label>
@@ -206,6 +209,7 @@ export default function VoucherHotelClientContainer({
               <TextField.Root
                 value={form.stayPeriod}
                 onChange={e => setForm(prev => ({ ...prev, stayPeriod: e.target.value }))}
+                readOnly
               />
             </label>
             <label>
@@ -215,6 +219,7 @@ export default function VoucherHotelClientContainer({
               <TextField.Root
                 value={form.nightsText}
                 onChange={e => setForm(prev => ({ ...prev, nightsText: e.target.value }))}
+                readOnly
               />
             </label>
             <label>
@@ -224,6 +229,7 @@ export default function VoucherHotelClientContainer({
               <TextField.Root
                 value={form.breakfastText}
                 onChange={e => setForm(prev => ({ ...prev, breakfastText: e.target.value }))}
+                readOnly
               />
             </label>
             <label>
@@ -233,6 +239,7 @@ export default function VoucherHotelClientContainer({
               <TextField.Root
                 value={form.resortFeeText}
                 onChange={e => setForm(prev => ({ ...prev, resortFeeText: e.target.value }))}
+                readOnly
               />
             </label>
             <label>
@@ -269,6 +276,7 @@ export default function VoucherHotelClientContainer({
               <TextArea
                 value={form.cancellationPolicy}
                 onChange={e => setForm(prev => ({ ...prev, cancellationPolicy: e.target.value }))}
+                readOnly
               />
             </label>
           </Flex>
@@ -354,12 +362,6 @@ export default function VoucherHotelClientContainer({
               <Text>카톡 : 조인하와이(채널)</Text>
               <Text>시간 : 09AM ~ 18PM</Text>
             </Flex>
-          </Section>
-
-          <Section size='1'>
-            <Heading as='h3' size='4' mb='3'>
-              guest name
-            </Heading>
           </Section>
         </Card>
       </Grid>
