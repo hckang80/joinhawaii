@@ -6,14 +6,39 @@
   display: none !important;
 }
 
+.print-watermark {
+  display: none;
+}
+
 @media print {
   html,
   body {
     margin: 0;
     padding: 0;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .print-watermark {
+    display: flex !important;
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .print-watermark-image {
+    width: 320px;
+    max-width: 70vw;
+    height: auto;
+    opacity: 0.08;
   }
 
   .voucher-root {
+    position: relative;
+    z-index: 1;
     width: auto !important;
     max-width: none !important;
     margin: 0 !important;

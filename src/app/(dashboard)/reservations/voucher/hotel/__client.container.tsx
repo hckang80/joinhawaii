@@ -19,6 +19,7 @@ import {
 } from '@radix-ui/themes';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { Mic } from 'lucide-react';
+import Image from 'next/image';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -172,6 +173,17 @@ export default function VoucherHotelClientContainer({
 
   return (
     <Box width='1000px' mx='auto' className='voucher-root'>
+      <div className='print-watermark' aria-hidden>
+        <Image
+          src='/images/logo.png'
+          alt=''
+          width={320}
+          height={120}
+          className='print-watermark-image'
+          priority
+        />
+      </div>
+
       <Flex justify='between' align='center' mb='4' className='print:hidden'>
         <Heading as='h2' size='6'>
           바우처 발급
