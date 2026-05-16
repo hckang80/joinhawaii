@@ -160,7 +160,7 @@ export default function VoucherHotelClientContainer({
     <Box width='1000px' mx='auto' className='voucher-root'>
       <Flex justify='between' align='center' mb='4' className='print:hidden'>
         <Heading as='h2' size='6'>
-          호텔 바우처 발급
+          바우처 발급
         </Heading>
         <Flex gap='2'>
           <Button size='3' onClick={() => window.print()}>
