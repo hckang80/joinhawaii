@@ -401,6 +401,30 @@ export default function VoucherHotelClientContainer({
                   </tr>
                 </tbody>
               </table>
+
+              <Heading as='h3'>guest name</Heading>
+              <table className={styles['info-table']}>
+                <tbody>
+                  <tr>
+                    <th className={styles['info-th']}>#</th>
+                    <th className={styles['info-th']}>이름</th>
+                    <th className={styles['info-th']}>성별</th>
+                  </tr>
+                  {watch('selectedClients').map((client, i) => {
+                    const parts = client.split(' ');
+                    const gender = parts[parts.length - 1];
+                    const name = parts.slice(0, -1).join(' ');
+                    return (
+                      <tr key={i}>
+                        <td className={styles['info-td']}>{i + 1}</td>
+                        <td className={styles['info-td']}>{name}</td>
+                        <td className={styles['info-td']}>{gender}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+
               <Separator size='4' />
               <Text weight='bold'>✅ 전달사항</Text>
               <Text>{watch('deliveryNotes') || '-'}</Text>
