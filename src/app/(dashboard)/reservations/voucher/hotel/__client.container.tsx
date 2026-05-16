@@ -245,9 +245,7 @@ export default function VoucherHotelClientContainer({
                     )}
                   />
                   {errors.confirmationNumber && (
-                    <Text size='1' color='red'>
-                      {errors.confirmationNumber.message}
-                    </Text>
+                    <Text color='red'>{errors.confirmationNumber.message}</Text>
                   )}
                 </Flex>
 
@@ -296,9 +294,7 @@ export default function VoucherHotelClientContainer({
                       </Flex>
                     </CheckboxGroup.Root>
                     {errors.selectedClients && (
-                      <Text size='1' color='red'>
-                        {errors.selectedClients.message}
-                      </Text>
+                      <Text color='red'>{errors.selectedClients.message}</Text>
                     )}
                   </>
                 );
