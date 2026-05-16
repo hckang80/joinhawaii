@@ -105,10 +105,6 @@ export default function VoucherHotelClientContainer({
   }, [selectedHotel, reset]);
 
   const onSubmit: SubmitHandler<VoucherFormState> = formData => {
-    if (!selectedHotel?.id) {
-      return toast.warning('호텔 정보를 찾을 수 없습니다.');
-    }
-
     const submitData = {
       reservation_id: reservationId,
       hotels: [
@@ -332,11 +328,7 @@ export default function VoucherHotelClientContainer({
               <TextArea value={watch('cancellationPolicy')} readOnly />
             </label>
 
-            <Button
-              onClick={handleSubmit(onSubmit)}
-              mt='2'
-              disabled={voucherMutation.isPending}
-            >
+            <Button onClick={handleSubmit(onSubmit)} mt='2' disabled={voucherMutation.isPending}>
               {voucherMutation.isPending ? '제출 중...' : '바우처 발급'}
             </Button>
           </Flex>
