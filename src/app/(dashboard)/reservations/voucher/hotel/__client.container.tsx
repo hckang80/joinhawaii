@@ -422,7 +422,7 @@ export default function VoucherHotelClientContainer({
 
               <Card>
                 <Flex gap='4'>
-                  <Flex asChild direction='column' align='center'>
+                  <Flex asChild direction='column' align='center' flexShrink='0'>
                     <Text size='4' weight='bold'>
                       <Mic />
                       전달
@@ -434,7 +434,7 @@ export default function VoucherHotelClientContainer({
 
               <Card>
                 <Flex gap='4'>
-                  <Flex asChild direction='column' align='center'>
+                  <Flex asChild direction='column' align='center' flexShrink='0'>
                     <Text size='4' weight='bold'>
                       <Mic />
                       알림
