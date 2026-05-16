@@ -27,9 +27,13 @@ type VoucherHotelClientContainerProps = {
 type VoucherFormState = {
   guestName: string;
   hotelName: string;
-  roomType: string;
+  roomCategory: string;
+  bedType: string;
   stayPeriod: string;
   nightsText: string;
+  breakfastText: string;
+  resortFeeText: string;
+  confirmationNumber: string;
   deliveryNotes: string;
   guideNotes: string;
   cancellationPolicy: string;
@@ -66,9 +70,13 @@ function buildMailtoLink(form: VoucherFormState, reservationId: string) {
     `예약번호: ${reservationId}`,
     `투숙객명: ${form.guestName || '-'}`,
     `호텔명: ${form.hotelName || '-'}`,
-    `객실정보: ${form.roomType || '-'}`,
+    `객실타입: ${form.roomCategory || '-'}`,
+    `베드타입: ${form.bedType || '-'}`,
     `투숙기간: ${form.stayPeriod || '-'}`,
     `숙박일수: ${form.nightsText || '-'}`,
+    `조식: ${form.breakfastText || '-'}`,
+    `리조트피: ${form.resortFeeText || '-'}`,
+    `컨펌번호: ${form.confirmationNumber || '-'}`,
     '',
     `[전달사항] ${form.deliveryNotes || '-'}`,
     `[안내사항] ${form.guideNotes || '-'}`,
@@ -96,9 +104,20 @@ export default function VoucherHotelClientContainer({
   const [form, setForm] = useState<VoucherFormState>(() => ({
     guestName: data?.main_client_name || '',
     hotelName: selectedHotel?.hotel_name || '',
-    roomType: [selectedHotel?.room_type, selectedHotel?.bed_type].filter(Boolean).join(' / '),
+    roomCategory: selectedHotel?.room_type || '',
+    bedType: selectedHotel?.bed_type || '',
     stayPeriod: buildStayPeriod(selectedHotel),
     nightsText: selectedHotel?.nights ? `${selectedHotel.nights}박` : '-',
+    breakfastText: selectedHotel?.is_breakfast_included ? '포함' : '미포함',
+    resortFeeText:
+      selectedHotel?.resort_fee_type === 'INCLUSION'
+        ? '포함'
+        : selectedHotel?.resort_fee_type === 'EXCLUSION'
+          ? '불포함'
+          : selectedHotel?.resort_fee_type === 'NO RESORT FEE'
+            ? '없음'
+            : '-',
+    confirmationNumber: '',
     deliveryNotes: selectedHotel?.notes || '',
     guideNotes: selectedHotel?.remarks || '',
     cancellationPolicy: selectedHotel?.rule || ''
@@ -108,9 +127,20 @@ export default function VoucherHotelClientContainer({
     setForm({
       guestName: data?.main_client_name || '',
       hotelName: selectedHotel?.hotel_name || '',
-      roomType: [selectedHotel?.room_type, selectedHotel?.bed_type].filter(Boolean).join(' / '),
+      roomCategory: selectedHotel?.room_type || '',
+      bedType: selectedHotel?.bed_type || '',
       stayPeriod: buildStayPeriod(selectedHotel),
       nightsText: selectedHotel?.nights ? `${selectedHotel.nights}박` : '-',
+      breakfastText: selectedHotel?.is_breakfast_included ? '포함' : '미포함',
+      resortFeeText:
+        selectedHotel?.resort_fee_type === 'INCLUSION'
+          ? '포함'
+          : selectedHotel?.resort_fee_type === 'EXCLUSION'
+            ? '불포함'
+            : selectedHotel?.resort_fee_type === 'NO RESORT FEE'
+              ? '없음'
+              : '-',
+      confirmationNumber: '',
       deliveryNotes: selectedHotel?.notes || '',
       guideNotes: selectedHotel?.remarks || '',
       cancellationPolicy: selectedHotel?.rule || ''
@@ -185,11 +215,20 @@ export default function VoucherHotelClientContainer({
             </label>
             <label>
               <Text as='div' size='2' mb='1'>
-                객실정보
+                room category
               </Text>
               <TextField.Root
-                value={form.roomType}
-                onChange={e => setForm(prev => ({ ...prev, roomType: e.target.value }))}
+                value={form.roomCategory}
+                onChange={e => setForm(prev => ({ ...prev, roomCategory: e.target.value }))}
+              />
+            </label>
+            <label>
+              <Text as='div' size='2' mb='1'>
+                bed type
+              </Text>
+              <TextField.Root
+                value={form.bedType}
+                onChange={e => setForm(prev => ({ ...prev, bedType: e.target.value }))}
               />
             </label>
             <label>
@@ -203,11 +242,38 @@ export default function VoucherHotelClientContainer({
             </label>
             <label>
               <Text as='div' size='2' mb='1'>
-                숙박일수
+                night
               </Text>
               <TextField.Root
                 value={form.nightsText}
                 onChange={e => setForm(prev => ({ ...prev, nightsText: e.target.value }))}
+              />
+            </label>
+            <label>
+              <Text as='div' size='2' mb='1'>
+                breakfast
+              </Text>
+              <TextField.Root
+                value={form.breakfastText}
+                onChange={e => setForm(prev => ({ ...prev, breakfastText: e.target.value }))}
+              />
+            </label>
+            <label>
+              <Text as='div' size='2' mb='1'>
+                resort fee
+              </Text>
+              <TextField.Root
+                value={form.resortFeeText}
+                onChange={e => setForm(prev => ({ ...prev, resortFeeText: e.target.value }))}
+              />
+            </label>
+            <label>
+              <Text as='div' size='2' mb='1'>
+                confirmation number
+              </Text>
+              <TextField.Root
+                value={form.confirmationNumber}
+                onChange={e => setForm(prev => ({ ...prev, confirmationNumber: e.target.value }))}
               />
             </label>
             <label>
@@ -248,10 +314,34 @@ export default function VoucherHotelClientContainer({
             <Flex direction='column' gap='2'>
               <Text>예약번호: {data?.reservation_id || '-'}</Text>
               <Text>투숙객명: {form.guestName || '-'}</Text>
-              <Text>호텔명: {form.hotelName || '-'}</Text>
-              <Text>객실정보: {form.roomType || '-'}</Text>
-              <Text>투숙기간: {form.stayPeriod || '-'}</Text>
-              <Text>숙박일수: {form.nightsText || '-'}</Text>
+              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <tbody>
+                  <tr>
+                    <th style={{ textAlign: 'left', padding: '6px 8px', width: '20%' }}>hotel</th>
+                    <td style={{ padding: '6px 8px', width: '30%' }}>{form.hotelName || '-'}</td>
+                    <th style={{ textAlign: 'left', padding: '6px 8px', width: '20%' }}>period</th>
+                    <td style={{ padding: '6px 8px', width: '30%' }}>{form.stayPeriod || '-'}</td>
+                  </tr>
+                  <tr>
+                    <th style={{ textAlign: 'left', padding: '6px 8px' }}>night</th>
+                    <td style={{ padding: '6px 8px' }}>{form.nightsText || '-'}</td>
+                    <th style={{ textAlign: 'left', padding: '6px 8px' }}>room category</th>
+                    <td style={{ padding: '6px 8px' }}>{form.roomCategory || '-'}</td>
+                  </tr>
+                  <tr>
+                    <th style={{ textAlign: 'left', padding: '6px 8px' }}>bed type</th>
+                    <td style={{ padding: '6px 8px' }}>{form.bedType || '-'}</td>
+                    <th style={{ textAlign: 'left', padding: '6px 8px' }}>breakfast</th>
+                    <td style={{ padding: '6px 8px' }}>{form.breakfastText || '-'}</td>
+                  </tr>
+                  <tr>
+                    <th style={{ textAlign: 'left', padding: '6px 8px' }}>resort fee</th>
+                    <td style={{ padding: '6px 8px' }}>{form.resortFeeText || '-'}</td>
+                    <th style={{ textAlign: 'left', padding: '6px 8px' }}>confirmation number</th>
+                    <td style={{ padding: '6px 8px' }}>{form.confirmationNumber || '-'}</td>
+                  </tr>
+                </tbody>
+              </table>
               <Separator size='4' />
               <Text weight='bold'>✅ 전달사항</Text>
               <Text>{form.deliveryNotes || '-'}</Text>
