@@ -30,7 +30,9 @@ type VoucherFormState = {
   roomType: string;
   stayPeriod: string;
   nightsText: string;
-  voucherMemo: string;
+  deliveryNotes: string;
+  guideNotes: string;
+  cancellationPolicy: string;
 };
 
 function getSelectedHotel(data: ReservationResponse | undefined, hotelId?: string, index?: string) {
@@ -56,6 +58,26 @@ function buildStayPeriod(hotel: Hotel | undefined) {
   return `${checkIn} ~ ${checkOut}`;
 }
 
+function buildMailtoLink(form: VoucherFormState, reservationId: string) {
+  const subject = `[호텔 바우처] 예약번호 ${reservationId}`;
+  const body = [
+    '호텔 바우처 안내드립니다.',
+    '',
+    `예약번호: ${reservationId}`,
+    `투숙객명: ${form.guestName || '-'}`,
+    `호텔명: ${form.hotelName || '-'}`,
+    `객실정보: ${form.roomType || '-'}`,
+    `투숙기간: ${form.stayPeriod || '-'}`,
+    `숙박일수: ${form.nightsText || '-'}`,
+    '',
+    `[전달사항] ${form.deliveryNotes || '-'}`,
+    `[안내사항] ${form.guideNotes || '-'}`,
+    `[취소규정] ${form.cancellationPolicy || '-'}`
+  ].join('\n');
+
+  return `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
 export default function VoucherHotelClientContainer({
   reservationId,
   hotelId,
@@ -66,7 +88,10 @@ export default function VoucherHotelClientContainer({
     enabled: !!reservationId
   });
 
-  const selectedHotel = useMemo(() => getSelectedHotel(data, hotelId, index), [data, hotelId, index]);
+  const selectedHotel = useMemo(
+    () => getSelectedHotel(data, hotelId, index),
+    [data, hotelId, index]
+  );
 
   const [form, setForm] = useState<VoucherFormState>(() => ({
     guestName: data?.main_client_name || '',
@@ -74,7 +99,9 @@ export default function VoucherHotelClientContainer({
     roomType: [selectedHotel?.room_type, selectedHotel?.bed_type].filter(Boolean).join(' / '),
     stayPeriod: buildStayPeriod(selectedHotel),
     nightsText: selectedHotel?.nights ? `${selectedHotel.nights}박` : '-',
-    voucherMemo: selectedHotel?.notes || ''
+    deliveryNotes: selectedHotel?.notes || '',
+    guideNotes: selectedHotel?.remarks || '',
+    cancellationPolicy: selectedHotel?.rule || ''
   }));
 
   useEffect(() => {
@@ -84,7 +111,9 @@ export default function VoucherHotelClientContainer({
       roomType: [selectedHotel?.room_type, selectedHotel?.bed_type].filter(Boolean).join(' / '),
       stayPeriod: buildStayPeriod(selectedHotel),
       nightsText: selectedHotel?.nights ? `${selectedHotel.nights}박` : '-',
-      voucherMemo: selectedHotel?.notes || ''
+      deliveryNotes: selectedHotel?.notes || '',
+      guideNotes: selectedHotel?.remarks || '',
+      cancellationPolicy: selectedHotel?.rule || ''
     });
   }, [data?.main_client_name, selectedHotel]);
 
@@ -109,18 +138,29 @@ export default function VoucherHotelClientContainer({
   }
 
   return (
-    <Box width='1100px' mx='auto'>
+    <Box width='1100px' mx='auto' className='voucher-root'>
       <Flex justify='between' align='center' mb='4' className='print:hidden'>
         <Heading as='h2' size='6'>
           호텔 바우처 발급
         </Heading>
-        <Button size='3' onClick={() => window.print()}>
-          인쇄 / PDF 저장
-        </Button>
+        <Flex gap='2'>
+          <Button size='3' onClick={() => window.print()}>
+            PDF 다운
+          </Button>
+          <Button
+            size='3'
+            color='indigo'
+            onClick={() => {
+              window.location.href = buildMailtoLink(form, data?.reservation_id || reservationId);
+            }}
+          >
+            이메일 발송
+          </Button>
+        </Flex>
       </Flex>
 
-      <Grid columns={{ initial: '1', md: '2' }} gap='4'>
-        <Card>
+      <Grid columns={{ initial: '1', md: '2' }} gap='4' className='voucher-layout'>
+        <Card className='print:hidden'>
           <Heading as='h3' size='4' mb='3'>
             바우처 입력
           </Heading>
@@ -172,26 +212,40 @@ export default function VoucherHotelClientContainer({
             </label>
             <label>
               <Text as='div' size='2' mb='1'>
-                전달 메모
+                전달사항
               </Text>
               <TextArea
-                value={form.voucherMemo}
-                onChange={e => setForm(prev => ({ ...prev, voucherMemo: e.target.value }))}
+                value={form.deliveryNotes}
+                onChange={e => setForm(prev => ({ ...prev, deliveryNotes: e.target.value }))}
+              />
+            </label>
+            <label>
+              <Text as='div' size='2' mb='1'>
+                안내사항
+              </Text>
+              <TextArea
+                value={form.guideNotes}
+                onChange={e => setForm(prev => ({ ...prev, guideNotes: e.target.value }))}
+              />
+            </label>
+            <label>
+              <Text as='div' size='2' mb='1'>
+                취소규정
+              </Text>
+              <TextArea
+                value={form.cancellationPolicy}
+                onChange={e => setForm(prev => ({ ...prev, cancellationPolicy: e.target.value }))}
               />
             </label>
           </Flex>
         </Card>
 
-        <Card>
+        <Card className='voucher-preview-card'>
           <Section size='1'>
             <Heading as='h3' size='4' mb='3'>
-              바우처 미리보기
+              HOTEL VOUCHER
             </Heading>
             <Flex direction='column' gap='2'>
-              <Text weight='bold' size='5'>
-                HOTEL VOUCHER
-              </Text>
-              <Separator size='4' />
               <Text>예약번호: {data?.reservation_id || '-'}</Text>
               <Text>투숙객명: {form.guestName || '-'}</Text>
               <Text>호텔명: {form.hotelName || '-'}</Text>
@@ -199,8 +253,24 @@ export default function VoucherHotelClientContainer({
               <Text>투숙기간: {form.stayPeriod || '-'}</Text>
               <Text>숙박일수: {form.nightsText || '-'}</Text>
               <Separator size='4' />
-              <Text>메모</Text>
-              <Text>{form.voucherMemo || '-'}</Text>
+              <Text weight='bold'>✅ 전달사항</Text>
+              <Text>{form.deliveryNotes || '-'}</Text>
+              <Text weight='bold'>✅ 안내사항</Text>
+              <Text>{form.guideNotes || '-'}</Text>
+              <Text weight='bold' color='red'>
+                ✅ 취소규정
+              </Text>
+              <Text color='red'>{form.cancellationPolicy || '-'}</Text>
+              <Separator size='4' />
+              <Text weight='bold'>조인하와이 현지 연락처</Text>
+              <Text>T : (808) 772-2691</Text>
+              <Text>카톡 : joinhawaiiusa</Text>
+              <Text>시간 : 08AM ~ 17PM</Text>
+              <Separator size='4' />
+              <Text weight='bold'>조인하와이 한국 연락처</Text>
+              <Text>T : 02-402-1040</Text>
+              <Text>카톡 : 조인하와이(채널)</Text>
+              <Text>시간 : 09AM ~ 18PM</Text>
             </Flex>
           </Section>
         </Card>

@@ -9,6 +9,22 @@
     padding: 0;
   }
 
+  .voucher-root {
+    width: auto !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 12mm !important;
+  }
+
+  .voucher-layout {
+    display: block !important;
+  }
+
+  .voucher-preview-card {
+    width: 100% !important;
+    max-width: none !important;
+  }
+
   .print\:hidden {
     display: none;
   }
