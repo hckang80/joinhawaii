@@ -7,6 +7,7 @@ import {
   Box,
   Button,
   Card,
+  CheckboxGroup,
   Flex,
   Grid,
   Heading,
@@ -267,56 +268,43 @@ export default function VoucherHotelClientContainer({
                 rules={{
                   validate: value => value.length > 0 || '투숙객을 선택해주세요.'
                 }}
-                render={({ field }) => (
-                  <Flex direction='column' gap='2'>
-                    {data?.clients?.map(client => {
-                      const clientLabel =
-                        `${client.english_name || ''} ${client.gender || ''}`.trim();
+                render={({ field }) => {
+                  const orderedClientLabels = (data?.clients ?? []).map(client =>
+                    `${client.english_name || ''} ${client.gender || ''}`.trim()
+                  );
 
-                      return (
-                        <label
-                          key={client.id}
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '8px',
-                            cursor: 'pointer'
-                          }}
-                        >
-                          <input
-                            type='checkbox'
-                            checked={field.value.includes(clientLabel)}
-                            onChange={e => {
-                              const orderedClientLabels = (data?.clients ?? []).map(item =>
-                                `${item.english_name || ''} ${item.gender || ''}`.trim()
-                              );
+                  return (
+                    <>
+                      <CheckboxGroup.Root
+                        name='selectedClients'
+                        value={field.value}
+                        onValueChange={values => {
+                          field.onChange(
+                            orderedClientLabels.filter(label => values.includes(label))
+                          );
+                        }}
+                      >
+                        <Flex direction='column' gap='2'>
+                          {data?.clients?.map(client => {
+                            const clientLabel =
+                              `${client.english_name || ''} ${client.gender || ''}`.trim();
 
-                              if (e.target.checked) {
-                                const nextValues = Array.from(new Set([...field.value, clientLabel]));
-                                field.onChange(
-                                  orderedClientLabels.filter(label => nextValues.includes(label))
-                                );
-                              } else {
-                                const nextValues = field.value.filter(item => item !== clientLabel);
-                                field.onChange(
-                                  orderedClientLabels.filter(label => nextValues.includes(label))
-                                );
-                              }
-                            }}
-                          />
-                          <Text size='2'>
-                            {client.english_name} ({client.gender})
-                          </Text>
-                        </label>
-                      );
-                    })}
-                    {errors.selectedClients && (
-                      <Text size='1' color='red'>
-                        {errors.selectedClients.message}
-                      </Text>
-                    )}
-                  </Flex>
-                )}
+                            return (
+                              <CheckboxGroup.Item key={client.id} value={clientLabel}>
+                                {client.english_name} ({client.gender})
+                              </CheckboxGroup.Item>
+                            );
+                          })}
+                        </Flex>
+                      </CheckboxGroup.Root>
+                      {errors.selectedClients && (
+                        <Text size='1' color='red'>
+                          {errors.selectedClients.message}
+                        </Text>
+                      )}
+                    </>
+                  );
+                }}
               />
             </div>
             <Separator size='4' />
