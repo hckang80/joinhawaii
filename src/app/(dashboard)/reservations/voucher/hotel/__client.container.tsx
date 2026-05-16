@@ -232,11 +232,16 @@ export default function VoucherHotelClientContainer({
                         control={control}
                         rules={{
                           required: '확인번호는 필수입니다.',
-                          minLength: { value: 1, message: '확인번호를 입력해주세요.' }
+                          pattern: {
+                            value: /^\d+$/,
+                            message: '확인번호는 숫자만 입력 가능합니다.'
+                          }
                         }}
                         render={({ field }) => (
                           <TextField.Root
                             {...field}
+                            type='number'
+                            min='0'
                             color={errors.confirmationNumber ? 'red' : undefined}
                           />
                         )}
