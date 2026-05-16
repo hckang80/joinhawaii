@@ -373,7 +373,7 @@ export default function VoucherHotelClientContainer({
           </Card>
         </Box>
 
-        <Grid columns={{ initial: '1', md: '2' }} gap='3' mt='5'>
+        <Grid columns='2' gap='3' mt='5'>
           <Card>
             <Flex direction='column' gap='1'>
               <Text weight='bold'>조인하와이 현지 연락처</Text>
