@@ -287,10 +287,20 @@ export default function VoucherHotelClientContainer({
                             type='checkbox'
                             checked={field.value.includes(clientLabel)}
                             onChange={e => {
+                              const orderedClientLabels = (data?.clients ?? []).map(item =>
+                                `${item.english_name || ''} ${item.gender || ''}`.trim()
+                              );
+
                               if (e.target.checked) {
-                                field.onChange([...field.value, clientLabel]);
+                                const nextValues = Array.from(new Set([...field.value, clientLabel]));
+                                field.onChange(
+                                  orderedClientLabels.filter(label => nextValues.includes(label))
+                                );
                               } else {
-                                field.onChange(field.value.filter(item => item !== clientLabel));
+                                const nextValues = field.value.filter(item => item !== clientLabel);
+                                field.onChange(
+                                  orderedClientLabels.filter(label => nextValues.includes(label))
+                                );
                               }
                             }}
                           />
