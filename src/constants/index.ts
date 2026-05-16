@@ -955,7 +955,7 @@ export const defaultHotelValues = {
   rule: '',
   confirmation_number: '',
   delivery_notes: '',
-  selected_clients: [],
+  selected_clients: [] as string[],
   ...defaultProductValues,
   ...additionalOptions
 };
