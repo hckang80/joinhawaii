@@ -72,7 +72,7 @@ export default function VoucherHotelClientContainer({
   hotelId,
   index
 }: VoucherHotelClientContainerProps) {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     ...reservationQueryOptions(reservationId),
     enabled: !!reservationId
   });
@@ -151,6 +151,20 @@ export default function VoucherHotelClientContainer({
       <Box width='1000px' mx='auto'>
         <Card>
           <Text>바우처 정보를 불러오는 중...</Text>
+        </Card>
+      </Box>
+    );
+  }
+
+  if (isError) {
+    return (
+      <Box width='1000px' mx='auto'>
+        <Card>
+          <Text color='red'>
+            {error instanceof Error
+              ? error.message
+              : '바우처 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.'}
+          </Text>
         </Card>
       </Box>
     );
