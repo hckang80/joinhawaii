@@ -318,7 +318,7 @@ export default function VoucherHotelClientContainer({
               <Controller
                 name='deliveryNotes'
                 control={control}
-                render={({ field }) => <TextArea {...field} />}
+                render={({ field }) => <TextArea {...field} rows={5} resize='vertical' />}
               />
             </label>
             <label>
@@ -328,7 +328,7 @@ export default function VoucherHotelClientContainer({
               <Controller
                 name='guideNotes'
                 control={control}
-                render={({ field }) => <TextArea {...field} />}
+                render={({ field }) => <TextArea {...field} rows={5} resize='vertical' />}
               />
             </label>
             <label>
