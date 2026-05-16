@@ -261,7 +261,7 @@ export default function VoucherHotelClientContainer({
               name='selectedClients'
               control={control}
               rules={{
-                validate: value => value.length > 0 || '투숙객을 선택해주세요.'
+                validate: value => value.length > 0 || '인원을 선택해주세요.'
               }}
               render={({ field }) => {
                 const orderedClientLabels = (data?.clients ?? []).map(client =>
