@@ -217,7 +217,7 @@ export default function VoucherHotelClientContainer({
               </td>
             </tr>
             <tr>
-              <th className={styles['info-th']}>confirmation number</th>
+              <th className={styles['info-th']}>confirmation</th>
               <td className={styles['info-td']} colSpan={3}>
                 <Flex direction='column' gap='1' className='print:hidden'>
                   <Controller
@@ -236,7 +236,9 @@ export default function VoucherHotelClientContainer({
                         type='number'
                         min='0'
                         color={errors.confirmationNumber ? 'red' : undefined}
-                      />
+                      >
+                        <TextField.Slot>#</TextField.Slot>
+                      </TextField.Root>
                     )}
                   />
                   {errors.confirmationNumber && (
@@ -244,7 +246,7 @@ export default function VoucherHotelClientContainer({
                   )}
                 </Flex>
 
-                <Text className='print:only'>{watch('confirmationNumber') || '-'}</Text>
+                <Text className='print:only'>{`#${watch('confirmationNumber') || '-'}`}</Text>
               </td>
             </tr>
           </tbody>
