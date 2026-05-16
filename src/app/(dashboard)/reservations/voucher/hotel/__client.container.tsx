@@ -449,16 +449,24 @@ export default function VoucherHotelClientContainer({
                 </Flex>
               </Card>
 
-              <Separator size='4' />
-              <Text weight='bold'>조인하와이 현지 연락처</Text>
-              <Text>T : (808) 772-2691</Text>
-              <Text>카톡 : joinhawaiiusa</Text>
-              <Text>시간 : 08AM ~ 17PM</Text>
-              <Separator size='4' />
-              <Text weight='bold'>조인하와이 한국 연락처</Text>
-              <Text>T : 02-402-1040</Text>
-              <Text>카톡 : 조인하와이(채널)</Text>
-              <Text>시간 : 09AM ~ 18PM</Text>
+              <Grid columns={{ initial: '1', md: '2' }} gap='3'>
+                <Card>
+                  <Flex direction='column' gap='1'>
+                    <Text weight='bold'>조인하와이 현지 연락처</Text>
+                    <Text>T : (808) 772-2691</Text>
+                    <Text>카톡 : joinhawaiiusa</Text>
+                    <Text>시간 : 08AM ~ 17PM</Text>
+                  </Flex>
+                </Card>
+                <Card>
+                  <Flex direction='column' gap='1'>
+                    <Text weight='bold'>조인하와이 한국 연락처</Text>
+                    <Text>T : 02-402-1040</Text>
+                    <Text>카톡 : 조인하와이(채널)</Text>
+                    <Text>시간 : 09AM ~ 18PM</Text>
+                  </Flex>
+                </Card>
+              </Grid>
             </Flex>
           </Section>
         </Card>
