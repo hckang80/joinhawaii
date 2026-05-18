@@ -2,14 +2,14 @@ import { reservationQueryOptions } from '@/lib/queries';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import VoucherHotelClientContainer from './__client.container';
 
-type VoucherHotelPageProps = {
+type VoucherProductPageProps = {
   searchParams: Promise<{
     reservation_id?: string;
-    hotel_id?: string;
+    product_id?: string;
   }>;
 };
 
-export default async function VoucherHotelPage({ searchParams }: VoucherHotelPageProps) {
+export default async function VoucherHotelPage({ searchParams }: VoucherProductPageProps) {
   const params = await searchParams;
   const reservationId = params.reservation_id || '';
   const queryClient = new QueryClient();
@@ -20,7 +20,7 @@ export default async function VoucherHotelPage({ searchParams }: VoucherHotelPag
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <VoucherHotelClientContainer reservationId={reservationId} hotelId={params.hotel_id} />
+      <VoucherHotelClientContainer reservationId={reservationId} productId={params.product_id} />
     </HydrationBoundary>
   );
 }

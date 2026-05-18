@@ -469,7 +469,7 @@ export default function HotelForm({ data, mutation, handleAdditionalOptions }: P
 
                             const query = new URLSearchParams({
                               reservation_id,
-                              hotel_id: String(hotelId)
+                              product_id: String(hotelId)
                             });
 
                             window.open(
