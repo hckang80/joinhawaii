@@ -965,6 +965,7 @@ export const defaultTourValues = {
   start_date: null,
   end_date: null,
   name: '',
+  pickup_location: '',
   remarks: '',
   rule: '',
   voucher_number: '',

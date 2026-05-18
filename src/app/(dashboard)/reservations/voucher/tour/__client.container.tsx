@@ -1,5 +1,6 @@
 'use client';
 
+import { Tiptap } from '@/components';
 import { HOTEL_GUIDE_NOTES, TOURS_OPTIONS } from '@/constants';
 import { updateReservation } from '@/http';
 import { reservationQueryOptions } from '@/lib/queries';
@@ -34,6 +35,7 @@ type VoucherProductClientContainerProps = {
 type VoucherFormState = {
   voucherNumber: string;
   confirmationNumber: string;
+  pickupLocation: string;
   deliveryNotes: string;
   guideNotes: string;
   cancellationPolicy: string;
@@ -97,6 +99,7 @@ export default function VoucherTourClientContainer({
     defaultValues: {
       voucherNumber: selectedProduct?.voucher_number || '',
       confirmationNumber: selectedProduct?.confirmation_number || '',
+      pickupLocation: selectedProduct?.pickup_location || '',
       deliveryNotes: selectedProduct?.delivery_notes || '',
       guideNotes: selectedProduct?.guide_notes || HOTEL_GUIDE_NOTES,
       cancellationPolicy: selectedProduct?.rule || '',
@@ -108,6 +111,7 @@ export default function VoucherTourClientContainer({
     reset({
       voucherNumber: selectedProduct?.voucher_number || '',
       confirmationNumber: selectedProduct?.confirmation_number || '',
+      pickupLocation: selectedProduct?.pickup_location || '',
       deliveryNotes: selectedProduct?.delivery_notes || '',
       guideNotes: selectedProduct?.guide_notes || HOTEL_GUIDE_NOTES,
       cancellationPolicy: selectedProduct?.rule || '',
@@ -120,10 +124,12 @@ export default function VoucherTourClientContainer({
 
     const submitData = {
       reservation_id: reservationId,
-      hotels: [
+      tours: [
         {
           id: selectedProduct.id,
+          voucher_number: formData.voucherNumber,
           confirmation_number: formData.confirmationNumber,
+          pickup_location: formData.pickupLocation,
           delivery_notes: formData.deliveryNotes,
           guide_notes: formData.guideNotes,
           selected_clients: formData.selectedClients
@@ -267,6 +273,31 @@ export default function VoucherTourClientContainer({
                 {selectedProduct?.start_date && selectedProduct?.end_date
                   ? `${toReadableDate(selectedProduct.start_date, true)} ~ ${toReadableDate(selectedProduct.end_date, true)}`
                   : '-'}
+              </td>
+            </tr>
+            <tr>
+              <th className={styles['info-th']}>pickup location</th>
+              <td className={styles['info-td']} colSpan={3}>
+                <Box className='print:hidden'>
+                  <Controller
+                    name='pickupLocation'
+                    control={control}
+                    render={({ field }) => (
+                      <Tiptap
+                        value={field.value}
+                        onChange={field.onChange}
+                        enableImage
+                        height='min-h-[220px]'
+                        placeholder='픽업 위치 안내를 입력하세요. 텍스트와 이미지 첨부가 가능합니다.'
+                      />
+                    )}
+                  />
+                </Box>
+                <Box
+                  className='print:only'
+                  style={{ wordBreak: 'break-word' }}
+                  dangerouslySetInnerHTML={{ __html: watch('pickupLocation') || '-' }}
+                />
               </td>
             </tr>
           </tbody>
