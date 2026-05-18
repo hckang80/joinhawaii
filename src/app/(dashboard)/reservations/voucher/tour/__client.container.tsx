@@ -32,6 +32,7 @@ type VoucherProductClientContainerProps = {
 };
 
 type VoucherFormState = {
+  voucherNumber: string;
   confirmationNumber: string;
   deliveryNotes: string;
   guideNotes: string;
@@ -94,6 +95,7 @@ export default function VoucherTourClientContainer({
   } = useForm<VoucherFormState>({
     mode: 'onBlur',
     defaultValues: {
+      voucherNumber: selectedProduct?.voucher_number || '',
       confirmationNumber: selectedProduct?.confirmation_number || '',
       deliveryNotes: selectedProduct?.delivery_notes || '',
       guideNotes: selectedProduct?.guide_notes || HOTEL_GUIDE_NOTES,
@@ -104,6 +106,7 @@ export default function VoucherTourClientContainer({
 
   useEffect(() => {
     reset({
+      voucherNumber: selectedProduct?.voucher_number || '',
       confirmationNumber: selectedProduct?.confirmation_number || '',
       deliveryNotes: selectedProduct?.delivery_notes || '',
       guideNotes: selectedProduct?.guide_notes || HOTEL_GUIDE_NOTES,
@@ -197,16 +200,37 @@ export default function VoucherTourClientContainer({
               </td>
             </tr>
             <tr>
-              <th className={styles['info-th']}>date/time</th>
-              <td className={styles['info-td']} colSpan={3}>
-                {selectedProduct?.start_date && selectedProduct?.end_date
-                  ? `${toReadableDate(selectedProduct.start_date, true)} ~ ${toReadableDate(selectedProduct.end_date, true)}`
-                  : '-'}
+              <th className={styles['info-th']}>voucher</th>
+              <td className={styles['info-td']}>
+                <Flex direction='column' gap='1' className='print:hidden'>
+                  <Controller
+                    name='voucherNumber'
+                    control={control}
+                    rules={{
+                      required: '바우처번호는 필수입니다.',
+                      pattern: {
+                        value: /^\d+$/,
+                        message: '바우처번호는 숫자만 입력 가능합니다.'
+                      }
+                    }}
+                    render={({ field }) => (
+                      <TextField.Root
+                        {...field}
+                        type='number'
+                        min='0'
+                        color={errors.voucherNumber ? 'red' : undefined}
+                      >
+                        <TextField.Slot>#</TextField.Slot>
+                      </TextField.Root>
+                    )}
+                  />
+                  {errors.voucherNumber && <Text color='red'>{errors.voucherNumber.message}</Text>}
+                </Flex>
+
+                <Text className='print:only'>{`#${watch('voucherNumber') || '-'}`}</Text>
               </td>
-            </tr>
-            <tr>
               <th className={styles['info-th']}>confirmation</th>
-              <td className={styles['info-td']} colSpan={3}>
+              <td className={styles['info-td']}>
                 <Flex direction='column' gap='1' className='print:hidden'>
                   <Controller
                     name='confirmationNumber'
@@ -235,6 +259,14 @@ export default function VoucherTourClientContainer({
                 </Flex>
 
                 <Text className='print:only'>{`#${watch('confirmationNumber') || '-'}`}</Text>
+              </td>
+            </tr>
+            <tr>
+              <th className={styles['info-th']}>date/time</th>
+              <td className={styles['info-td']} colSpan={3}>
+                {selectedProduct?.start_date && selectedProduct?.end_date
+                  ? `${toReadableDate(selectedProduct.start_date, true)} ~ ${toReadableDate(selectedProduct.end_date, true)}`
+                  : '-'}
               </td>
             </tr>
           </tbody>
