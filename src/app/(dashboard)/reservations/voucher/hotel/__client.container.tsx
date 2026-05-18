@@ -25,9 +25,9 @@ import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import styles from './voucher.module.css';
 
-type VoucherHotelClientContainerProps = {
+type VoucherProductClientContainerProps = {
   reservationId: string;
-  hotelId?: string;
+  productId?: string;
 };
 
 type VoucherFormState = {
@@ -38,25 +38,25 @@ type VoucherFormState = {
   selectedClients: string[];
 };
 
-function getSelectedHotel(data: ReservationResponse | undefined, hotelId?: string) {
-  const hotels = data?.products?.hotels ?? [];
+function getSelectedProduct(data: ReservationResponse | undefined, productId?: string) {
+  const selectedProducts = data?.products?.hotels ?? [];
 
-  if (hotelId) {
-    const byId = hotels.find(hotel => String(hotel.id) === hotelId);
+  if (productId) {
+    const byId = selectedProducts.find(({ id }) => String(id) === productId);
     if (byId) return byId;
   }
 
-  return hotels[0];
+  return selectedProducts[0];
 }
 
-function renderHotelNameContent(selectedHotel: ReturnType<typeof getSelectedHotel>) {
+function renderProductNameContent(selectedProduct: ReturnType<typeof getSelectedProduct>) {
   const englishLabel =
-    HOTELS[selectedHotel?.region]?.find(hotel => hotel.label === selectedHotel?.hotel_name)
+    HOTELS[selectedProduct?.region]?.find(({ label }) => label === selectedProduct?.hotel_name)
       ?.en_label || '-';
 
   return (
     <>
-      {selectedHotel?.hotel_name || '-'}
+      {selectedProduct?.hotel_name || '-'}
       <Text as='p'>{englishLabel}</Text>
     </>
   );
@@ -64,14 +64,14 @@ function renderHotelNameContent(selectedHotel: ReturnType<typeof getSelectedHote
 
 export default function VoucherHotelClientContainer({
   reservationId,
-  hotelId
-}: VoucherHotelClientContainerProps) {
+  productId
+}: VoucherProductClientContainerProps) {
   const { data, isLoading, isError, error } = useQuery({
     ...reservationQueryOptions(reservationId),
     enabled: !!reservationId
   });
 
-  const selectedHotel = useMemo(() => getSelectedHotel(data, hotelId), [data, hotelId]);
+  const selectedProduct = useMemo(() => getSelectedProduct(data, productId), [data, productId]);
 
   const voucherMutation = useMutation({
     mutationFn: (payload: Partial<ReservationFormData>) => updateReservation(payload),
@@ -92,30 +92,30 @@ export default function VoucherHotelClientContainer({
   } = useForm<VoucherFormState>({
     mode: 'onBlur',
     defaultValues: {
-      confirmationNumber: selectedHotel?.confirmation_number || '',
-      deliveryNotes: selectedHotel?.delivery_notes || '',
-      guideNotes: selectedHotel?.guide_notes || HOTEL_GUIDE_NOTES,
-      cancellationPolicy: selectedHotel?.rule || '',
-      selectedClients: selectedHotel?.selected_clients || []
+      confirmationNumber: selectedProduct?.confirmation_number || '',
+      deliveryNotes: selectedProduct?.delivery_notes || '',
+      guideNotes: selectedProduct?.guide_notes || HOTEL_GUIDE_NOTES,
+      cancellationPolicy: selectedProduct?.rule || '',
+      selectedClients: selectedProduct?.selected_clients || []
     }
   });
 
   useEffect(() => {
     reset({
-      confirmationNumber: selectedHotel?.confirmation_number || '',
-      deliveryNotes: selectedHotel?.delivery_notes || '',
-      guideNotes: selectedHotel?.guide_notes || HOTEL_GUIDE_NOTES,
-      cancellationPolicy: selectedHotel?.rule || '',
-      selectedClients: selectedHotel?.selected_clients || []
+      confirmationNumber: selectedProduct?.confirmation_number || '',
+      deliveryNotes: selectedProduct?.delivery_notes || '',
+      guideNotes: selectedProduct?.guide_notes || HOTEL_GUIDE_NOTES,
+      cancellationPolicy: selectedProduct?.rule || '',
+      selectedClients: selectedProduct?.selected_clients || []
     });
-  }, [selectedHotel, reset]);
+  }, [selectedProduct, reset]);
 
   const onSubmit: SubmitHandler<VoucherFormState> = formData => {
     const submitData = {
       reservation_id: reservationId,
       hotels: [
         {
-          id: selectedHotel.id,
+          id: selectedProduct.id,
           confirmation_number: formData.confirmationNumber,
           delivery_notes: formData.deliveryNotes,
           guide_notes: formData.guideNotes,
@@ -189,45 +189,45 @@ export default function VoucherHotelClientContainer({
             <tr>
               <th className={styles['info-th']}>hotel</th>
               <td className={styles['info-td']} colSpan={3}>
-                {renderHotelNameContent(selectedHotel)}
+                {renderProductNameContent(selectedProduct)}
               </td>
             </tr>
             <tr>
               <th className={styles['info-th']}>period</th>
               <td className={styles['info-td']}>
-                {selectedHotel?.check_in_date && selectedHotel?.check_out_date
-                  ? `${selectedHotel.check_in_date} ~ ${selectedHotel.check_out_date}`
+                {selectedProduct?.check_in_date && selectedProduct?.check_out_date
+                  ? `${selectedProduct.check_in_date} ~ ${selectedProduct.check_out_date}`
                   : '-'}
               </td>
               <th className={styles['info-th']}>night</th>
               <td className={styles['info-td']}>
-                {selectedHotel?.nights ? `${selectedHotel.nights}박` : '-'}
+                {selectedProduct?.nights ? `${selectedProduct.nights}박` : '-'}
               </td>
             </tr>
             <tr>
               <th className={styles['info-th']}>room category</th>
               <td className={styles['info-td']} colSpan={3}>
-                {selectedHotel?.room_type || '-'}
+                {selectedProduct?.room_type || '-'}
               </td>
             </tr>
             <tr>
               <th className={styles['info-th']}>bed type</th>
               <td className={styles['info-td']} colSpan={3}>
-                {selectedHotel?.bed_type || '-'}
+                {selectedProduct?.bed_type || '-'}
               </td>
             </tr>
             <tr>
               <th className={styles['info-th']}>breakfast</th>
               <td className={styles['info-td']}>
-                {selectedHotel?.is_breakfast_included ? '포함' : '미포함'}
+                {selectedProduct?.is_breakfast_included ? '포함' : '미포함'}
               </td>
               <th className={styles['info-th']}>resort fee</th>
               <td className={styles['info-td']}>
-                {selectedHotel?.resort_fee_type === 'INCLUSION'
+                {selectedProduct?.resort_fee_type === 'INCLUSION'
                   ? '포함'
-                  : selectedHotel?.resort_fee_type === 'EXCLUSION'
+                  : selectedProduct?.resort_fee_type === 'EXCLUSION'
                     ? '불포함'
-                    : selectedHotel?.resort_fee_type === 'NO RESORT FEE'
+                    : selectedProduct?.resort_fee_type === 'NO RESORT FEE'
                       ? '없음'
                       : '-'}
               </td>
@@ -421,7 +421,7 @@ export default function VoucherHotelClientContainer({
           <Button size='4' onClick={handleSubmit(onSubmit)} loading={voucherMutation.isPending}>
             바우처 저장
           </Button>
-          <Button size='4' color='indigo' onClick={() => window.print()}>
+          <Button size='4' color='gray' onClick={() => window.print()}>
             인쇄 / PDF 다운로드
           </Button>
         </Flex>
