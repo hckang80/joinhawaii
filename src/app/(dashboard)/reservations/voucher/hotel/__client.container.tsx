@@ -88,7 +88,7 @@ export default function VoucherHotelClientContainer({
     handleSubmit,
     reset,
     watch,
-    formState: { errors }
+    formState: { errors, isDirty }
   } = useForm<VoucherFormState>({
     mode: 'onBlur',
     defaultValues: {
@@ -111,6 +111,8 @@ export default function VoucherHotelClientContainer({
   }, [selectedProduct, reset]);
 
   const onSubmit: SubmitHandler<VoucherFormState> = formData => {
+    if (!isDirty) return toast.info('변경된 내용이 없습니다.');
+
     const submitData = {
       reservation_id: reservationId,
       hotels: [
