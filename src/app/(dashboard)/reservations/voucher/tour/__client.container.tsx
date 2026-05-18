@@ -38,6 +38,7 @@ type VoucherFormState = {
   confirmationNumber: string;
   pickupType: 'PICK UP' | 'CHECK IN';
   pickupLocation: string;
+  liabilityWaiverUrl: string;
   deliveryNotes: string;
   guideNotes: string;
   cancellationPolicy: string;
@@ -45,19 +46,33 @@ type VoucherFormState = {
 };
 
 const PICKUP_TYPE_MARKER_PATTERN = /^<!--pickup_type:(PICK UP|CHECK IN)-->/;
+const LIABILITY_WAIVER_URL_MARKER_PATTERN = /<!--liability_waiver_url:([^>]*)-->/;
 
 function parsePickupLocation(raw: string | undefined) {
   const content = raw || '';
-  const matched = content.match(PICKUP_TYPE_MARKER_PATTERN);
-  const pickupType = (matched?.[1] as VoucherFormState['pickupType']) || 'PICK UP';
-  const pickupLocation = content.replace(PICKUP_TYPE_MARKER_PATTERN, '');
+  const pickupTypeMatched = content.match(PICKUP_TYPE_MARKER_PATTERN);
+  const pickupType = (pickupTypeMatched?.[1] as VoucherFormState['pickupType']) || 'PICK UP';
 
-  return { pickupType, pickupLocation };
+  const waiverUrlMatched = content.match(LIABILITY_WAIVER_URL_MARKER_PATTERN);
+  const liabilityWaiverUrl = waiverUrlMatched?.[1] ? decodeURIComponent(waiverUrlMatched[1]) : '';
+
+  const pickupLocation = content
+    .replace(PICKUP_TYPE_MARKER_PATTERN, '')
+    .replace(LIABILITY_WAIVER_URL_MARKER_PATTERN, '');
+
+  return { pickupType, pickupLocation, liabilityWaiverUrl };
 }
 
-function buildPickupLocation(pickupType: VoucherFormState['pickupType'], pickupLocation: string) {
-  const sanitizedLocation = (pickupLocation || '').replace(PICKUP_TYPE_MARKER_PATTERN, '');
-  return `<!--pickup_type:${pickupType}-->${sanitizedLocation}`;
+function buildPickupLocation(
+  pickupType: VoucherFormState['pickupType'],
+  pickupLocation: string,
+  liabilityWaiverUrl: string
+) {
+  const sanitizedLocation = (pickupLocation || '')
+    .replace(PICKUP_TYPE_MARKER_PATTERN, '')
+    .replace(LIABILITY_WAIVER_URL_MARKER_PATTERN, '');
+  const encodedLiabilityWaiverUrl = encodeURIComponent(liabilityWaiverUrl || '');
+  return `<!--pickup_type:${pickupType}--><!--liability_waiver_url:${encodedLiabilityWaiverUrl}-->${sanitizedLocation}`;
 }
 
 function getSelectedProduct(data: ReservationResponse | undefined, productId?: string) {
@@ -123,6 +138,7 @@ export default function VoucherTourClientContainer({
       confirmationNumber: selectedProduct?.confirmation_number || '',
       pickupType: parsedPickupLocation.pickupType,
       pickupLocation: parsedPickupLocation.pickupLocation,
+      liabilityWaiverUrl: parsedPickupLocation.liabilityWaiverUrl,
       deliveryNotes: selectedProduct?.delivery_notes || '',
       guideNotes: selectedProduct?.guide_notes || HOTEL_GUIDE_NOTES,
       cancellationPolicy: selectedProduct?.rule || '',
@@ -136,6 +152,7 @@ export default function VoucherTourClientContainer({
       confirmationNumber: selectedProduct?.confirmation_number || '',
       pickupType: parsedPickupLocation.pickupType,
       pickupLocation: parsedPickupLocation.pickupLocation,
+      liabilityWaiverUrl: parsedPickupLocation.liabilityWaiverUrl,
       deliveryNotes: selectedProduct?.delivery_notes || '',
       guideNotes: selectedProduct?.guide_notes || HOTEL_GUIDE_NOTES,
       cancellationPolicy: selectedProduct?.rule || '',
@@ -153,7 +170,11 @@ export default function VoucherTourClientContainer({
           id: selectedProduct.id,
           voucher_number: formData.voucherNumber,
           confirmation_number: formData.confirmationNumber,
-          pickup_location: buildPickupLocation(formData.pickupType, formData.pickupLocation),
+          pickup_location: buildPickupLocation(
+            formData.pickupType,
+            formData.pickupLocation,
+            formData.liabilityWaiverUrl
+          ),
           delivery_notes: formData.deliveryNotes,
           guide_notes: formData.guideNotes,
           selected_clients: formData.selectedClients
@@ -352,6 +373,39 @@ export default function VoucherTourClientContainer({
                   style={{ wordBreak: 'break-word' }}
                   dangerouslySetInnerHTML={{ __html: watch('pickupLocation') || '-' }}
                 />
+              </td>
+            </tr>
+            <tr>
+              <th className={styles['info-th']}>liability waiver</th>
+              <td className={styles['info-td']} colSpan={3}>
+                <Box className='print:hidden'>
+                  <Controller
+                    name='liabilityWaiverUrl'
+                    control={control}
+                    rules={{
+                      validate: value =>
+                        !value ||
+                        /^https?:\/\/\S+$/i.test(value) ||
+                        '올바른 URL 형식을 입력해주세요.'
+                    }}
+                    render={({ field }) => (
+                      <TextField.Root
+                        {...field}
+                        type='url'
+                        placeholder='https://example.com/waiver'
+                        color={errors.liabilityWaiverUrl ? 'red' : undefined}
+                      />
+                    )}
+                  />
+                  {errors.liabilityWaiverUrl && (
+                    <Text color='red' mt='1'>
+                      {errors.liabilityWaiverUrl.message}
+                    </Text>
+                  )}
+                </Box>
+                <Text className='print:only' style={{ wordBreak: 'break-all' }}>
+                  {watch('liabilityWaiverUrl') || '-'}
+                </Text>
               </td>
             </tr>
           </tbody>
