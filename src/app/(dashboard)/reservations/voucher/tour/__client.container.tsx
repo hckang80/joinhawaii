@@ -1,6 +1,6 @@
 'use client';
 
-import { Tiptap } from '@/components';
+import { TimeInput, Tiptap } from '@/components';
 import { HOTEL_GUIDE_NOTES, TOURS_OPTIONS } from '@/constants';
 import { updateReservation } from '@/http';
 import { reservationQueryOptions } from '@/lib/queries';
@@ -43,36 +43,45 @@ type VoucherFormState = {
   guideNotes: string;
   cancellationPolicy: string;
   selectedClients: string[];
+  locationTime: string;
 };
 
 const PICKUP_TYPE_MARKER_PATTERN = /^<!--pickup_type:(PICK UP|CHECK IN)-->/;
 const LIABILITY_WAIVER_URL_MARKER_PATTERN = /<!--liability_waiver_url:([^>]*)-->/;
+const LOCATION_TIME_MARKER_PATTERN = /<!--location_time:([^>]*)-->/;
 
 function parsePickupLocation(raw: string | undefined) {
   const content = raw || '';
   const pickupTypeMatched = content.match(PICKUP_TYPE_MARKER_PATTERN);
   const pickupType = (pickupTypeMatched?.[1] as VoucherFormState['pickupType']) || 'PICK UP';
 
+  const locationTimeMatched = content.match(LOCATION_TIME_MARKER_PATTERN);
+  const locationTime = locationTimeMatched?.[1] ? decodeURIComponent(locationTimeMatched[1]) : '';
+
   const waiverUrlMatched = content.match(LIABILITY_WAIVER_URL_MARKER_PATTERN);
   const liabilityWaiverUrl = waiverUrlMatched?.[1] ? decodeURIComponent(waiverUrlMatched[1]) : '';
 
   const pickupLocation = content
     .replace(PICKUP_TYPE_MARKER_PATTERN, '')
+    .replace(LOCATION_TIME_MARKER_PATTERN, '')
     .replace(LIABILITY_WAIVER_URL_MARKER_PATTERN, '');
 
-  return { pickupType, pickupLocation, liabilityWaiverUrl };
+  return { pickupType, locationTime, pickupLocation, liabilityWaiverUrl };
 }
 
 function buildPickupLocation(
   pickupType: VoucherFormState['pickupType'],
+  locationTime: string,
   pickupLocation: string,
   liabilityWaiverUrl: string
 ) {
   const sanitizedLocation = (pickupLocation || '')
     .replace(PICKUP_TYPE_MARKER_PATTERN, '')
+    .replace(LOCATION_TIME_MARKER_PATTERN, '')
     .replace(LIABILITY_WAIVER_URL_MARKER_PATTERN, '');
+  const encodedLocationTime = encodeURIComponent(locationTime || '');
   const encodedLiabilityWaiverUrl = encodeURIComponent(liabilityWaiverUrl || '');
-  return `<!--pickup_type:${pickupType}--><!--liability_waiver_url:${encodedLiabilityWaiverUrl}-->${sanitizedLocation}`;
+  return `<!--pickup_type:${pickupType}--><!--location_time:${encodedLocationTime}--><!--liability_waiver_url:${encodedLiabilityWaiverUrl}-->${sanitizedLocation}`;
 }
 
 function getSelectedProduct(data: ReservationResponse | undefined, productId?: string) {
@@ -137,6 +146,7 @@ export default function VoucherTourClientContainer({
       voucherNumber: selectedProduct?.voucher_number || '',
       confirmationNumber: selectedProduct?.confirmation_number || '',
       pickupType: parsedPickupLocation.pickupType,
+      locationTime: parsedPickupLocation.locationTime,
       pickupLocation: parsedPickupLocation.pickupLocation,
       liabilityWaiverUrl: parsedPickupLocation.liabilityWaiverUrl,
       deliveryNotes: selectedProduct?.delivery_notes || '',
@@ -145,12 +155,14 @@ export default function VoucherTourClientContainer({
       selectedClients: selectedProduct?.selected_clients || []
     }
   });
+  const selectedPickupType = watch('pickupType');
 
   useEffect(() => {
     reset({
       voucherNumber: selectedProduct?.voucher_number || '',
       confirmationNumber: selectedProduct?.confirmation_number || '',
       pickupType: parsedPickupLocation.pickupType,
+      locationTime: parsedPickupLocation.locationTime,
       pickupLocation: parsedPickupLocation.pickupLocation,
       liabilityWaiverUrl: parsedPickupLocation.liabilityWaiverUrl,
       deliveryNotes: selectedProduct?.delivery_notes || '',
@@ -172,6 +184,7 @@ export default function VoucherTourClientContainer({
           confirmation_number: formData.confirmationNumber,
           pickup_location: buildPickupLocation(
             formData.pickupType,
+            formData.locationTime,
             formData.pickupLocation,
             formData.liabilityWaiverUrl
           ),
@@ -351,7 +364,16 @@ export default function VoucherTourClientContainer({
               </td>
             </tr>
             <tr>
-              <th className={styles['info-th']}>pickup location</th>
+              <th className={styles['info-th']}>{`${selectedPickupType} time`}</th>
+              <td className={styles['info-td']} colSpan={3}>
+                <Box className='print:hidden'>
+                  <TimeInput name='locationTime' control={control} />
+                </Box>
+                <Text className='print:only'>{watch('locationTime') || '-'}</Text>
+              </td>
+            </tr>
+            <tr>
+              <th className={styles['info-th']}>{`${selectedPickupType} location`}</th>
               <td className={styles['info-td']} colSpan={3}>
                 <Box className='print:hidden'>
                   <Controller
@@ -383,10 +405,11 @@ export default function VoucherTourClientContainer({
                     name='liabilityWaiverUrl'
                     control={control}
                     rules={{
-                      validate: value =>
-                        !value ||
-                        /^https?:\/\/\S+$/i.test(value) ||
-                        '올바른 URL 형식을 입력해주세요.'
+                      required: '면책동의서 URL은 필수입니다.',
+                      pattern: {
+                        value: /^https?:\/\/\S+$/i,
+                        message: '올바른 URL 형식을 입력해주세요.'
+                      }
                     }}
                     render={({ field }) => (
                       <TextField.Root
