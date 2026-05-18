@@ -421,7 +421,7 @@ export default function VoucherHotelClientContainer({
           <Button size='4' onClick={handleSubmit(onSubmit)} loading={voucherMutation.isPending}>
             바우처 저장
           </Button>
-          <Button size='4' color='indigo' onClick={() => window.print()}>
+          <Button size='4' color='gray' onClick={() => window.print()}>
             인쇄 / PDF 다운로드
           </Button>
         </Flex>
