@@ -23,6 +23,7 @@ import Image from 'next/image';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import { toReadableDate } from '../../../../../utils';
 import styles from './voucher.module.css';
 
 type VoucherProductClientContainerProps = {
@@ -185,54 +186,22 @@ export default function VoucherTourClientContainer({
 
       <Section py='0'>
         <Heading as='h2' size='7' mb='4' weight='bold' className={styles['main-title']}>
-          hotel confirmation
+          tour confirmation
         </Heading>
         <table className={styles['info-table']}>
           <tbody>
             <tr>
-              <th className={styles['info-th']}>hotel</th>
+              <th className={styles['info-th']}>activity</th>
               <td className={styles['info-td']} colSpan={3}>
                 {renderProductNameContent(selectedProduct)}
               </td>
             </tr>
             <tr>
-              <th className={styles['info-th']}>period</th>
-              <td className={styles['info-td']}>
-                {selectedProduct?.check_in_date && selectedProduct?.check_out_date
-                  ? `${selectedProduct.check_in_date} ~ ${selectedProduct.check_out_date}`
+              <th className={styles['info-th']}>date/time</th>
+              <td className={styles['info-td']} colSpan={3}>
+                {selectedProduct?.start_date && selectedProduct?.end_date
+                  ? `${toReadableDate(selectedProduct.start_date, true)} ~ ${toReadableDate(selectedProduct.end_date, true)}`
                   : '-'}
-              </td>
-              <th className={styles['info-th']}>night</th>
-              <td className={styles['info-td']}>
-                {selectedProduct?.nights ? `${selectedProduct.nights}박` : '-'}
-              </td>
-            </tr>
-            <tr>
-              <th className={styles['info-th']}>room category</th>
-              <td className={styles['info-td']} colSpan={3}>
-                {selectedProduct?.room_type || '-'}
-              </td>
-            </tr>
-            <tr>
-              <th className={styles['info-th']}>bed type</th>
-              <td className={styles['info-td']} colSpan={3}>
-                {selectedProduct?.bed_type || '-'}
-              </td>
-            </tr>
-            <tr>
-              <th className={styles['info-th']}>breakfast</th>
-              <td className={styles['info-td']}>
-                {selectedProduct?.is_breakfast_included ? '포함' : '미포함'}
-              </td>
-              <th className={styles['info-th']}>resort fee</th>
-              <td className={styles['info-td']}>
-                {selectedProduct?.resort_fee_type === 'INCLUSION'
-                  ? '포함'
-                  : selectedProduct?.resort_fee_type === 'EXCLUSION'
-                    ? '불포함'
-                    : selectedProduct?.resort_fee_type === 'NO RESORT FEE'
-                      ? '없음'
-                      : '-'}
               </td>
             </tr>
             <tr>
