@@ -143,6 +143,7 @@ export default function TourForm({ data, mutation, handleAdditionalOptions }: Pr
                     <Table.ColumnHeaderCell width='90px'>진행상태</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='70px'>추가옵션</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='200px'>메모</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='60px'>바우처</Table.ColumnHeaderCell>
                   </Table.Row>
                 </Table.Header>
                 {tours.map((tour, i) => (
@@ -468,12 +469,36 @@ export default function TourForm({ data, mutation, handleAdditionalOptions }: Pr
                           })}
                         />
                       </Table.Cell>
+                      <Table.Cell>
+                        <Button
+                          disabled={!getValues(`tours.${i}.id`)}
+                          size='1'
+                          type='button'
+                          onClick={() => {
+                            const tourId = getValues(`tours.${i}.id`);
+                            if (!tourId) return;
+
+                            const query = new URLSearchParams({
+                              reservation_id,
+                              product_id: String(tourId)
+                            });
+
+                            window.open(
+                              `/reservations/voucher/tour?${query.toString()}`,
+                              '_blank',
+                              'noopener,noreferrer'
+                            );
+                          }}
+                        >
+                          발급
+                        </Button>
+                      </Table.Cell>
                       <Table.Cell hidden>
                         <TourTotalCalculator index={i} setValue={setValue} control={control} />
                       </Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                      <Table.Cell colSpan={11}>
+                      <Table.Cell colSpan={12}>
                         <Flex align='center' gap='2'>
                           <Text weight='bold'>비고</Text>
                           <Box flexGrow='1'>
@@ -489,7 +514,7 @@ export default function TourForm({ data, mutation, handleAdditionalOptions }: Pr
                       </Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                      <Table.Cell colSpan={11}>
+                      <Table.Cell colSpan={12}>
                         <Flex align='center' gap='2'>
                           <Text weight='bold'>규정</Text>
                           <Box flexGrow='1'>

@@ -1,0 +1,26 @@
+import { reservationQueryOptions } from '@/lib/queries';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import VoucherTourClientContainer from './__client.container';
+
+type VoucherProductPageProps = {
+  searchParams: Promise<{
+    reservation_id?: string;
+    product_id?: string;
+  }>;
+};
+
+export default async function VoucherTourPage({ searchParams }: VoucherProductPageProps) {
+  const params = await searchParams;
+  const reservationId = params.reservation_id || '';
+  const queryClient = new QueryClient();
+
+  if (reservationId) {
+    await queryClient.prefetchQuery(reservationQueryOptions(reservationId));
+  }
+
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <VoucherTourClientContainer reservationId={reservationId} productId={params.product_id} />
+    </HydrationBoundary>
+  );
+}
