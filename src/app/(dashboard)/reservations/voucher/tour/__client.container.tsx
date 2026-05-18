@@ -13,6 +13,7 @@ import {
   Flex,
   Grid,
   Heading,
+  RadioGroup,
   Section,
   Text,
   TextArea,
@@ -35,12 +36,29 @@ type VoucherProductClientContainerProps = {
 type VoucherFormState = {
   voucherNumber: string;
   confirmationNumber: string;
+  pickupType: 'PICK UP' | 'CHECK IN';
   pickupLocation: string;
   deliveryNotes: string;
   guideNotes: string;
   cancellationPolicy: string;
   selectedClients: string[];
 };
+
+const PICKUP_TYPE_MARKER_PATTERN = /^<!--pickup_type:(PICK UP|CHECK IN)-->/;
+
+function parsePickupLocation(raw: string | undefined) {
+  const content = raw || '';
+  const matched = content.match(PICKUP_TYPE_MARKER_PATTERN);
+  const pickupType = (matched?.[1] as VoucherFormState['pickupType']) || 'PICK UP';
+  const pickupLocation = content.replace(PICKUP_TYPE_MARKER_PATTERN, '');
+
+  return { pickupType, pickupLocation };
+}
+
+function buildPickupLocation(pickupType: VoucherFormState['pickupType'], pickupLocation: string) {
+  const sanitizedLocation = (pickupLocation || '').replace(PICKUP_TYPE_MARKER_PATTERN, '');
+  return `<!--pickup_type:${pickupType}-->${sanitizedLocation}`;
+}
 
 function getSelectedProduct(data: ReservationResponse | undefined, productId?: string) {
   const selectedProducts = data?.products?.tours ?? [];
@@ -77,6 +95,10 @@ export default function VoucherTourClientContainer({
   });
 
   const selectedProduct = useMemo(() => getSelectedProduct(data, productId), [data, productId]);
+  const parsedPickupLocation = useMemo(
+    () => parsePickupLocation(selectedProduct?.pickup_location),
+    [selectedProduct?.pickup_location]
+  );
 
   const voucherMutation = useMutation({
     mutationFn: (payload: Partial<ReservationFormData>) => updateReservation(payload),
@@ -99,7 +121,8 @@ export default function VoucherTourClientContainer({
     defaultValues: {
       voucherNumber: selectedProduct?.voucher_number || '',
       confirmationNumber: selectedProduct?.confirmation_number || '',
-      pickupLocation: selectedProduct?.pickup_location || '',
+      pickupType: parsedPickupLocation.pickupType,
+      pickupLocation: parsedPickupLocation.pickupLocation,
       deliveryNotes: selectedProduct?.delivery_notes || '',
       guideNotes: selectedProduct?.guide_notes || HOTEL_GUIDE_NOTES,
       cancellationPolicy: selectedProduct?.rule || '',
@@ -111,13 +134,14 @@ export default function VoucherTourClientContainer({
     reset({
       voucherNumber: selectedProduct?.voucher_number || '',
       confirmationNumber: selectedProduct?.confirmation_number || '',
-      pickupLocation: selectedProduct?.pickup_location || '',
+      pickupType: parsedPickupLocation.pickupType,
+      pickupLocation: parsedPickupLocation.pickupLocation,
       deliveryNotes: selectedProduct?.delivery_notes || '',
       guideNotes: selectedProduct?.guide_notes || HOTEL_GUIDE_NOTES,
       cancellationPolicy: selectedProduct?.rule || '',
       selectedClients: selectedProduct?.selected_clients || []
     });
-  }, [selectedProduct, reset]);
+  }, [parsedPickupLocation, selectedProduct, reset]);
 
   const onSubmit: SubmitHandler<VoucherFormState> = formData => {
     if (!isDirty) return toast.info('변경된 내용이 없습니다.');
@@ -129,7 +153,7 @@ export default function VoucherTourClientContainer({
           id: selectedProduct.id,
           voucher_number: formData.voucherNumber,
           confirmation_number: formData.confirmationNumber,
-          pickup_location: formData.pickupLocation,
+          pickup_location: buildPickupLocation(formData.pickupType, formData.pickupLocation),
           delivery_notes: formData.deliveryNotes,
           guide_notes: formData.guideNotes,
           selected_clients: formData.selectedClients
@@ -273,6 +297,36 @@ export default function VoucherTourClientContainer({
                 {selectedProduct?.start_date && selectedProduct?.end_date
                   ? `${toReadableDate(selectedProduct.start_date, true)} ~ ${toReadableDate(selectedProduct.end_date, true)}`
                   : '-'}
+              </td>
+            </tr>
+            <tr>
+              <th className={styles['info-th']}>location type</th>
+              <td className={styles['info-td']} colSpan={3}>
+                <Box className='print:hidden'>
+                  <Controller
+                    name='pickupType'
+                    control={control}
+                    render={({ field }) => (
+                      <RadioGroup.Root value={field.value} onValueChange={field.onChange}>
+                        <Flex gap='5' align='center'>
+                          <Flex asChild align='center' gap='1'>
+                            <label>
+                              <RadioGroup.Item value='PICK UP' />
+                              <Text>PICK UP</Text>
+                            </label>
+                          </Flex>
+                          <Flex asChild align='center' gap='1'>
+                            <label>
+                              <RadioGroup.Item value='CHECK IN' />
+                              <Text>CHECK IN</Text>
+                            </label>
+                          </Flex>
+                        </Flex>
+                      </RadioGroup.Root>
+                    )}
+                  />
+                </Box>
+                <Text className='print:only'>{watch('pickupType')}</Text>
               </td>
             </tr>
             <tr>
