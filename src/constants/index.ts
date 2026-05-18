@@ -967,6 +967,11 @@ export const defaultTourValues = {
   name: '',
   remarks: '',
   rule: '',
+  voucher_number: '',
+  confirmation_number: '',
+  delivery_notes: '',
+  guide_notes: '',
+  selected_clients: [] as string[],
   ...defaultPeopleValues,
   ...defaultProductValues,
   ...additionalOptions
@@ -986,6 +991,11 @@ export const defaultCarValues = {
   cost: 0,
   remarks: '',
   rule: '',
+  voucher_number: '',
+  confirmation_number: '',
+  delivery_notes: '',
+  guide_notes: '',
+  selected_clients: [] as string[],
   ...defaultProductValues,
   ...additionalOptions
 };
