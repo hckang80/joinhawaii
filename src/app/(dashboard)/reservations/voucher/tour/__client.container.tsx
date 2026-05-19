@@ -42,7 +42,6 @@ type VoucherFormState = {
   liability_waiver_url: string;
   delivery_notes: string;
   guide_notes: string;
-  cancellation_policy: string;
   selected_clients: string[];
 };
 
@@ -143,8 +142,7 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
       ...baseFormValues,
       arrival_time: toFormTimeValue(arrival_time),
       arrival_location,
-      liability_waiver_url,
-      cancellation_policy: rule
+      liability_waiver_url
     };
   }, [selectedProduct]);
 
@@ -169,7 +167,7 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
   const onSubmit: SubmitHandler<VoucherFormState> = formData => {
     if (!isDirty) return toast.info('변경된 내용이 없습니다.');
 
-    const { arrival_time, arrival_location, cancellation_policy, ...tourData } = formData;
+    const { arrival_time, arrival_location, ...tourData } = formData;
 
     const submitData = {
       reservation_id: reservationId,
@@ -500,7 +498,7 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
                   {watch('guide_notes') || '-'}
                 </Text>
                 <Text as='p' color='red' mt='8'>
-                  [취소규정] {watch('cancellation_policy') || '-'}
+                  [취소규정] {selectedProduct.rule || '-'}
                 </Text>
               </Box>
             </Flex>
