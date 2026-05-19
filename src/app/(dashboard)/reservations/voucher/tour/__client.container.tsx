@@ -68,6 +68,18 @@ function toSqlTime(raw: string) {
   return timeLabel ? `${timeLabel}:00` : '00:00:00';
 }
 
+function formatTimeForPrint(raw: string | null | undefined) {
+  const timeLabel = extractTimeLabel(raw);
+  if (!timeLabel) return '-';
+
+  const [hours, minutes] = timeLabel.split(':');
+  const hour = Number(hours);
+  const meridiem = hour >= 12 ? 'PM' : 'AM';
+  const hour12 = hour % 12 || 12;
+
+  return `${String(hour12).padStart(2, '0')}:${minutes} ${meridiem}`;
+}
+
 function getSelectedProduct(data: ReservationResponse | undefined, productId?: string) {
   const selectedProducts = data?.products?.tours ?? [];
 
@@ -290,7 +302,7 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
                     }
                   />
                 </Box>
-                <Text className='print:only'>{extractTimeLabel(watch('arrival_time')) || '-'}</Text>
+                <Text className='print:only'>{formatTimeForPrint(watch('arrival_time'))}</Text>
               </td>
             </tr>
             <tr>
