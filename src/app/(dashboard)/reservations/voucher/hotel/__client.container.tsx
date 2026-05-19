@@ -442,6 +442,9 @@ export default function VoucherHotelClientContainer({
                             />
                             <Text>{client.english_name}</Text>
                             <Text>({client.gender})</Text>
+                            {['MSTR', 'MISS'].includes(client.gender) && (
+                              <Text>{`(${client.resident_id})`}</Text>
+                            )}
                           </label>
                         </Flex>
                       );
@@ -459,6 +462,11 @@ export default function VoucherHotelClientContainer({
 
           <Grid columns='2' className={`${styles['guest-grid']} print:only`}>
             {watch('selectedClients').map((client, i) => {
+              const selectedClient = (data?.clients ?? []).find(foundClient => {
+                const label =
+                  `${foundClient.english_name || ''} ${foundClient.gender || ''}`.trim();
+                return label === client;
+              });
               const parts = client.split(' ');
               const gender = parts[parts.length - 1];
               const name = parts.slice(0, -1).join(' ');
@@ -467,6 +475,9 @@ export default function VoucherHotelClientContainer({
                   <Text>{i + 1}</Text>
                   <Text>{name}</Text>
                   <Text>{gender}</Text>
+                  {['MSTR', 'MISS'].includes(gender) && selectedClient?.resident_id && (
+                    <Text>{`(${selectedClient.resident_id})`}</Text>
+                  )}
                 </Flex>
               );
             })}
