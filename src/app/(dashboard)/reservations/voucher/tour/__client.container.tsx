@@ -17,7 +17,6 @@ import {
   RadioGroup,
   Section,
   Text,
-  TextArea,
   TextField
 } from '@radix-ui/themes';
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -54,6 +53,28 @@ function getSelectedProduct(data: ReservationResponse | undefined, productId?: s
   }
 
   return selectedProducts[0];
+}
+
+function hasRenderableTiptapContent(content: string | null | undefined) {
+  if (!content) return false;
+
+  const normalized = content.replace(/\u200B/g, '').trim();
+  if (!normalized) return false;
+
+  const withoutEmptyParagraph = normalized
+    .replace(/<p>(?:\s|&nbsp;|<br\s*\/?>)*<\/p>/gi, '')
+    .trim();
+
+  if (/<img\b/i.test(withoutEmptyParagraph)) {
+    return true;
+  }
+
+  const plainText = withoutEmptyParagraph
+    .replace(/<[^>]+>/g, '')
+    .replace(/&nbsp;/g, '')
+    .trim();
+
+  return plainText.length > 0;
 }
 
 const tourOptions = Object.values(TOURS_OPTIONS).flat();
@@ -424,12 +445,23 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
                 <Controller
                   name='delivery_notes'
                   control={control}
-                  render={({ field }) => <TextArea {...field} rows={5} resize='vertical' />}
+                  render={({ field }) => (
+                    <Tiptap
+                      value={field.value}
+                      onChange={field.onChange}
+                      height='min-h-[160px]'
+                      placeholder='전달 사항을 입력하세요.'
+                    />
+                  )}
                 />
               </Box>
-              <Text className='print:only' style={{ whiteSpace: 'pre-wrap' }}>
-                {watch('delivery_notes') || '-'}
-              </Text>
+              <Box className='print:only'>
+                {hasRenderableTiptapContent(watch('delivery_notes')) ? (
+                  <div dangerouslySetInnerHTML={{ __html: watch('delivery_notes') }} />
+                ) : (
+                  <Text>-</Text>
+                )}
+              </Box>
             </Flex>
           </Card>
         </Box>
@@ -448,12 +480,23 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
                   <Controller
                     name='guide_notes'
                     control={control}
-                    render={({ field }) => <TextArea {...field} rows={10} resize='vertical' />}
+                    render={({ field }) => (
+                      <Tiptap
+                        value={field.value}
+                        onChange={field.onChange}
+                        height='min-h-[240px]'
+                        placeholder='알림 내용을 입력하세요.'
+                      />
+                    )}
                   />
                 </Box>
-                <Text className='print:only' style={{ whiteSpace: 'pre-wrap' }}>
-                  {watch('guide_notes') || '-'}
-                </Text>
+                <Box className='print:only'>
+                  {hasRenderableTiptapContent(watch('guide_notes')) ? (
+                    <div dangerouslySetInnerHTML={{ __html: watch('guide_notes') }} />
+                  ) : (
+                    <Text>-</Text>
+                  )}
+                </Box>
                 <Text as='p' color='red' mt='8'>
                   [취소규정] {selectedProduct.rule || '-'}
                 </Text>
