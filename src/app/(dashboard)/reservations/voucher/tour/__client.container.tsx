@@ -113,14 +113,11 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
   });
 
   const defaultFormValues = useMemo<VoucherFormState>(() => {
-    const { arrival_time, arrival_location, liability_waiver_url, ...baseFormValues } =
-      selectedProduct;
+    const { arrival_time, ...baseFormValues } = selectedProduct;
 
     return {
       ...baseFormValues,
-      arrival_time: toFormTimeValue(arrival_time),
-      arrival_location,
-      liability_waiver_url
+      arrival_time: toFormTimeValue(arrival_time)
     };
   }, [selectedProduct]);
 
