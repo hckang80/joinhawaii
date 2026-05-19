@@ -37,13 +37,13 @@ type VoucherFormState = {
   voucher_number: string;
   confirmation_number: string;
   reception: 'PICK UP' | 'CHECK IN';
-  pickup_location: string;
+  arrival_location: string;
+  arrival_time: string;
   liability_waiver_url: string;
   delivery_notes: string;
   guide_notes: string;
   cancellation_policy: string;
   selected_clients: string[];
-  location_time: string;
 };
 
 const PICKUP_TYPE_MARKER_PATTERN = /^<!--pickup_type:(PICK UP|CHECK IN)-->/;
@@ -146,10 +146,10 @@ export default function VoucherTourClientContainer({
       voucher_number: selectedProduct?.voucher_number || '',
       confirmation_number: selectedProduct?.confirmation_number || '',
       reception: selectedProduct?.reception || '',
-      location_time:
+      arrival_time:
         toFormTimeValue(selectedProduct?.arrival_time) ||
         toFormTimeValue(parsedPickupLocation.locationTime),
-      pickup_location: selectedProduct?.arrival_location || parsedPickupLocation.pickupLocation,
+      arrival_location: selectedProduct?.arrival_location || parsedPickupLocation.pickupLocation,
       liability_waiver_url:
         selectedProduct?.liability_waiver || parsedPickupLocation.liabilityWaiverUrl,
       delivery_notes: selectedProduct?.delivery_notes || '',
@@ -172,7 +172,7 @@ export default function VoucherTourClientContainer({
     defaultValues: defaultFormValues
   });
   const selectedReception = watch('reception');
-  const locationTime = watch('location_time');
+  const arrivalTime = watch('arrival_time');
 
   useEffect(() => {
     reset(defaultFormValues);
@@ -181,7 +181,7 @@ export default function VoucherTourClientContainer({
   const onSubmit: SubmitHandler<VoucherFormState> = formData => {
     if (!isDirty) return toast.info('변경된 내용이 없습니다.');
 
-    const { location_time, pickup_location, cancellation_policy, ...tourData } = formData;
+    const { arrival_time, arrival_location, cancellation_policy, ...tourData } = formData;
 
     const submitData = {
       reservation_id: reservationId,
@@ -189,8 +189,8 @@ export default function VoucherTourClientContainer({
         {
           id: selectedProduct.id,
           ...tourData,
-          arrival_time: toSqlTime(location_time),
-          arrival_location: pickup_location
+          arrival_time: toSqlTime(arrival_time),
+          arrival_location
         }
       ]
     } as unknown as Partial<ReservationFormData>;
@@ -354,9 +354,9 @@ export default function VoucherTourClientContainer({
               <td className={styles['info-td']} colSpan={3}>
                 <Box className='print:hidden'>
                   <TimeInput
-                    value={locationTime}
+                    value={arrivalTime}
                     onValueChange={value =>
-                      setValue('location_time', value, {
+                      setValue('arrival_time', value, {
                         shouldDirty: true,
                         shouldTouch: true,
                         shouldValidate: true
@@ -365,7 +365,7 @@ export default function VoucherTourClientContainer({
                   />
                 </Box>
                 <Text className='print:only'>
-                  {extractTimeLabel(watch('location_time')) || '-'}
+                  {extractTimeLabel(watch('arrival_time')) || '-'}
                 </Text>
               </td>
             </tr>
@@ -374,7 +374,7 @@ export default function VoucherTourClientContainer({
               <td className={styles['info-td']} colSpan={3}>
                 <Box className='print:hidden'>
                   <Controller
-                    name='pickup_location'
+                    name='arrival_location'
                     control={control}
                     render={({ field }) => (
                       <Tiptap
@@ -390,7 +390,7 @@ export default function VoucherTourClientContainer({
                 <Box
                   className='print:only'
                   style={{ wordBreak: 'break-word' }}
-                  dangerouslySetInnerHTML={{ __html: watch('pickup_location') || '-' }}
+                  dangerouslySetInnerHTML={{ __html: watch('arrival_location') || '-' }}
                 />
               </td>
             </tr>
