@@ -1,12 +1,15 @@
 import { PaymentStatusKey, ProductStatusKey } from '@/types';
 import type { PostgrestError } from '@supabase/supabase-js';
 import { toast } from 'react-toastify';
+import { TIME_ZONE } from '@/constants';
 
 export function toReadableDate(date: Date | string, includeTime = false) {
   const d = typeof date === 'string' ? new Date(date) : date;
   if (!(d instanceof Date) || Number.isNaN(d.getTime())) return '-';
 
-  return includeTime ? d.toLocaleString('ko-KR') : d.toLocaleDateString('ko-KR');
+  return includeTime
+    ? d.toLocaleString('en-US', { timeZone: TIME_ZONE, hour12: true })
+    : d.toLocaleDateString('ko-KR', { timeZone: TIME_ZONE });
 }
 
 export function toReadableAmount(
