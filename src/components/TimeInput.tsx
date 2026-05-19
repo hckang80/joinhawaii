@@ -50,40 +50,49 @@ function TimeInputFields({
     setMinutesInput(String(next.minutes));
   }, [isoValue]);
 
-  const applyHours = (raw: string) => {
-    if (!/^\d{0,2}$/.test(raw)) return;
+  const parseSegment = (raw: string, max: number): number | '' | null => {
+    if (!/^\d{0,2}$/.test(raw)) return null;
 
     if (raw === '') {
-      setHoursInput(raw);
-      return;
+      return '';
     }
 
-    const nextHours = Number(raw);
-    if (Number.isNaN(nextHours) || nextHours < 0 || nextHours > 23) return;
+    const nextValue = Number(raw);
+    if (Number.isNaN(nextValue) || nextValue < 0 || nextValue > max) return null;
+
+    return nextValue;
+  };
+
+  const applyHours = (raw: string) => {
+    const parsedHours = parseSegment(raw, 23);
+    if (parsedHours === null) return;
+
+    if (parsedHours === '') {
+      setHoursInput('');
+      return;
+    }
 
     setHoursInput(raw);
 
     const currentMinutes = Number(minutesInput);
     const safeMinutes = Number.isNaN(currentMinutes) ? parsedTime.minutes : currentMinutes;
-    handleChange(updateTimeInISO(isoValue, nextHours, safeMinutes));
+    handleChange(updateTimeInISO(isoValue, parsedHours, safeMinutes));
   };
 
   const applyMinutes = (raw: string) => {
-    if (!/^\d{0,2}$/.test(raw)) return;
+    const parsedMinutes = parseSegment(raw, 59);
+    if (parsedMinutes === null) return;
 
-    if (raw === '') {
-      setMinutesInput(raw);
+    if (parsedMinutes === '') {
+      setMinutesInput('');
       return;
     }
-
-    const nextMinutes = Number(raw);
-    if (Number.isNaN(nextMinutes) || nextMinutes < 0 || nextMinutes > 59) return;
 
     setMinutesInput(raw);
 
     const currentHours = Number(hoursInput);
     const safeHours = Number.isNaN(currentHours) ? parsedTime.hours : currentHours;
-    handleChange(updateTimeInISO(isoValue, safeHours, nextMinutes));
+    handleChange(updateTimeInISO(isoValue, safeHours, parsedMinutes));
   };
 
   return (
