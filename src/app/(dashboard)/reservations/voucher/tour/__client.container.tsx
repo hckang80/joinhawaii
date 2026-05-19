@@ -1,7 +1,7 @@
 'use client';
 
 import { TimeInput, Tiptap } from '@/components';
-import { HOTEL_GUIDE_NOTES, TOURS_OPTIONS } from '@/constants';
+import { TOURS_OPTIONS } from '@/constants';
 import { updateReservation } from '@/http';
 import { reservationQueryOptions } from '@/lib/queries';
 import type { ReservationFormData, ReservationResponse } from '@/types';
@@ -153,7 +153,7 @@ export default function VoucherTourClientContainer({
       liability_waiver_url:
         selectedProduct?.liability_waiver || parsedPickupLocation.liabilityWaiverUrl,
       delivery_notes: selectedProduct?.delivery_notes || '',
-      guide_notes: selectedProduct?.guide_notes || HOTEL_GUIDE_NOTES,
+      guide_notes: selectedProduct?.guide_notes || '',
       cancellation_policy: selectedProduct?.rule || '',
       selected_clients: selectedProduct?.selected_clients || []
     }),
