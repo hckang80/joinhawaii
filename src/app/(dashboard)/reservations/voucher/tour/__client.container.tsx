@@ -45,9 +45,6 @@ type VoucherFormState = {
   selected_clients: string[];
 };
 
-const PICKUP_TYPE_MARKER_PATTERN = /^<!--pickup_type:(PICK UP|CHECK IN)-->/;
-const LIABILITY_WAIVER_URL_MARKER_PATTERN = /<!--liability_waiver_url:([^>]*)-->/;
-const LOCATION_TIME_MARKER_PATTERN = /<!--location_time:([^>]*)-->/;
 const TIME_STORAGE_DATE = '1970-01-01';
 
 function extractTimeLabel(raw: string | null | undefined) {
@@ -69,25 +66,6 @@ function toFormTimeValue(raw: string | null | undefined) {
 function toSqlTime(raw: string) {
   const timeLabel = extractTimeLabel(raw);
   return timeLabel ? `${timeLabel}:00` : '00:00:00';
-}
-
-function parsePickupLocation(raw: string | undefined) {
-  const content = raw || '';
-  const pickupTypeMatched = content.match(PICKUP_TYPE_MARKER_PATTERN);
-  const reception = (pickupTypeMatched?.[1] as VoucherFormState['reception']) || 'PICK UP';
-
-  const locationTimeMatched = content.match(LOCATION_TIME_MARKER_PATTERN);
-  const locationTime = locationTimeMatched?.[1] ? decodeURIComponent(locationTimeMatched[1]) : '';
-
-  const waiverUrlMatched = content.match(LIABILITY_WAIVER_URL_MARKER_PATTERN);
-  const liabilityWaiverUrl = waiverUrlMatched?.[1] ? decodeURIComponent(waiverUrlMatched[1]) : '';
-
-  const pickupLocation = content
-    .replace(PICKUP_TYPE_MARKER_PATTERN, '')
-    .replace(LOCATION_TIME_MARKER_PATTERN, '')
-    .replace(LIABILITY_WAIVER_URL_MARKER_PATTERN, '');
-
-  return { reception, locationTime, pickupLocation, liabilityWaiverUrl };
 }
 
 function getSelectedProduct(data: ReservationResponse | undefined, productId?: string) {
@@ -135,7 +113,7 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
   });
 
   const defaultFormValues = useMemo<VoucherFormState>(() => {
-    const { arrival_time, arrival_location, liability_waiver_url, rule, ...baseFormValues } =
+    const { arrival_time, arrival_location, liability_waiver_url, ...baseFormValues } =
       selectedProduct;
 
     return {
