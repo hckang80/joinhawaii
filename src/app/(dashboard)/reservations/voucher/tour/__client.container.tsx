@@ -68,7 +68,7 @@ function toSqlTime(raw: string) {
   return timeLabel ? `${timeLabel}:00` : '00:00:00';
 }
 
-function formatTimeForPrint(raw: string | null | undefined) {
+function formatTimeForPrint(raw: string) {
   const timeLabel = extractTimeLabel(raw);
   if (!timeLabel) return '-';
 
