@@ -23,12 +23,12 @@ import Image from 'next/image';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import {
+  getSelectedProductById,
+  hasRenderableTiptapContent,
+  type VoucherProductClientContainerProps
+} from '../shared';
 import styles from '../voucher.module.css';
-
-type VoucherProductClientContainerProps = {
-  reservationId: string;
-  productId?: string;
-};
 
 type VoucherFormState = {
   check_in_date: string;
@@ -40,26 +40,13 @@ type VoucherFormState = {
   selected_clients: string[];
 };
 
-type SelectedHotelProduct = NonNullable<ReturnType<typeof getSelectedProduct>> & {
+type SelectedHotelProduct = NonNullable<ReservationResponse['products']['hotels'][number]> & {
   start_date?: string | null;
   end_date?: string | null;
   real_nights: number;
 };
 
-function getSelectedProduct(data: ReservationResponse | undefined, productId?: string) {
-  const selectedProducts = data?.products?.hotels ?? [];
-
-  if (productId) {
-    const byId = selectedProducts.find(({ id }) => String(id) === productId);
-    if (byId) return byId;
-  }
-
-  return selectedProducts[0];
-}
-
-function renderProductNameContent(
-  selectedProduct: NonNullable<ReturnType<typeof getSelectedProduct>>
-) {
+function renderProductNameContent(selectedProduct: SelectedHotelProduct) {
   const englishLabel =
     HOTELS[selectedProduct.region]?.find(({ label }) => label === selectedProduct.hotel_name)
       ?.en_label || '-';
@@ -75,28 +62,6 @@ function renderProductNameContent(
 const HOTEL_GUIDE_NOTES_HTML = HOTEL_GUIDE_NOTES.split('\n')
   .map(line => `<p>${line}</p>`)
   .join('');
-
-function hasRenderableTiptapContent(content: string | null | undefined) {
-  if (!content) return false;
-
-  const normalized = content.replace(/\u200B/g, '').trim();
-  if (!normalized) return false;
-
-  const withoutEmptyParagraph = normalized
-    .replace(/<p>(?:\s|&nbsp;|<br\s*\/?>)*<\/p>/gi, '')
-    .trim();
-
-  if (/<img\b/i.test(withoutEmptyParagraph)) {
-    return true;
-  }
-
-  const plainText = withoutEmptyParagraph
-    .replace(/<[^>]+>/g, '')
-    .replace(/&nbsp;/g, '')
-    .trim();
-
-  return plainText.length > 0;
-}
 
 function getDefaultDeliveryNotes(deliveryNotes: string | null | undefined) {
   return hasRenderableTiptapContent(deliveryNotes) ? (deliveryNotes ?? '') : '';
@@ -115,7 +80,10 @@ export default function VoucherHotelClientContainer({
     enabled: !!reservationId
   });
 
-  const selectedProduct = useMemo(() => getSelectedProduct(data, productId), [data, productId]);
+  const selectedProduct = useMemo(
+    () => getSelectedProductById(data?.products?.hotels ?? [], productId),
+    [data, productId]
+  );
 
   if (!reservationId) {
     return (
