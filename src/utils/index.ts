@@ -1,3 +1,4 @@
+import { TIME_ZONE } from '@/constants';
 import { PaymentStatusKey, ProductStatusKey } from '@/types';
 import type { PostgrestError } from '@supabase/supabase-js';
 import { toast } from 'react-toastify';
@@ -6,7 +7,31 @@ export function toReadableDate(date: Date | string, includeTime = false) {
   const d = typeof date === 'string' ? new Date(date) : date;
   if (!(d instanceof Date) || Number.isNaN(d.getTime())) return '-';
 
-  return includeTime ? d.toLocaleString('ko-KR') : d.toLocaleDateString('ko-KR');
+  if (!includeTime) {
+    return d.toLocaleDateString('ko-KR', { timeZone: TIME_ZONE });
+  }
+
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: TIME_ZONE,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true
+  }).formatToParts(d);
+
+  const getPart = (type: Intl.DateTimeFormatPartTypes) =>
+    parts.find(part => part.type === type)?.value || '';
+
+  const year = getPart('year');
+  const month = getPart('month');
+  const day = getPart('day');
+  const hour = getPart('hour');
+  const minute = getPart('minute');
+  const dayPeriod = getPart('dayPeriod').toUpperCase();
+
+  return `${year}-${month}-${day} ${hour}:${minute} ${dayPeriod}`;
 }
 
 export function toReadableAmount(
@@ -301,4 +326,37 @@ export function compareByDateField<T>(field: keyof T) {
         : b[field]
           ? 1
           : 0;
+}
+
+export function extractTimeLabel(raw: string | null | undefined) {
+  if (!raw) return '';
+
+  const match = raw.match(/(?:T)?(\d{1,2}):(\d{2})(?::\d{2})?$/);
+  if (!match) return '';
+
+  return `${match[1].padStart(2, '0')}:${match[2]}`;
+}
+
+export function toFormTimeValue(raw: string, timeStorageDate = '1970-01-01') {
+  if (raw.includes('T')) return raw;
+
+  const timeLabel = extractTimeLabel(raw);
+  return timeLabel ? `${timeStorageDate}T${timeLabel}:00` : '';
+}
+
+export function toSqlTime(raw: string) {
+  const timeLabel = extractTimeLabel(raw);
+  return timeLabel ? `${timeLabel}:00` : '00:00:00';
+}
+
+export function formatTimeForPrint(raw: string | null | undefined) {
+  const timeLabel = extractTimeLabel(raw);
+  if (!timeLabel) return '-';
+
+  const [hours, minutes] = timeLabel.split(':');
+  const hour = Number(hours);
+  const meridiem = hour >= 12 ? 'PM' : 'AM';
+  const hour12 = hour % 12 || 12;
+
+  return `${String(hour12).padStart(2, '0')}:${minutes} ${meridiem}`;
 }

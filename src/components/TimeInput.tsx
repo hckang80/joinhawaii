@@ -43,12 +43,13 @@ function TimeInputFields({
   isoValue: string | null | undefined;
   handleChange: (value: string) => void;
 }) {
-  const parsedTime = extractTime(isoValue);
+  const isDateTimeValue = Boolean(isoValue?.includes('T'));
+  const parsedTime = getTimeParts(isoValue);
   const [hoursInput, setHoursInput] = useState(String(parsedTime.hours));
   const [minutesInput, setMinutesInput] = useState(String(parsedTime.minutes));
 
   useEffect(() => {
-    const next = extractTime(isoValue);
+    const next = getTimeParts(isoValue);
     setHoursInput(String(next.hours));
     setMinutesInput(String(next.minutes));
   }, [isoValue]);
@@ -65,6 +66,9 @@ function TimeInputFields({
   const applyHours = (raw: string) => {
     if (raw === '') {
       setHoursInput('');
+      if (!isDateTimeValue) {
+        handleChange('');
+      }
       return;
     }
 
@@ -72,15 +76,22 @@ function TimeInputFields({
     if (parsedHours === undefined) return;
 
     setHoursInput(raw);
+    const safeMinutes = parsedTime.minutes;
 
-    const currentMinutes = Number(minutesInput);
-    const safeMinutes = Number.isNaN(currentMinutes) ? parsedTime.minutes : currentMinutes;
-    handleChange(updateTimeInISO(isoValue, parsedHours, safeMinutes));
+    if (isDateTimeValue) {
+      handleChange(updateTimeInISO(isoValue, parsedHours, safeMinutes));
+      return;
+    }
+
+    handleChange(`${String(parsedHours).padStart(2, '0')}:${String(safeMinutes).padStart(2, '0')}`);
   };
 
   const applyMinutes = (raw: string) => {
     if (raw === '') {
       setMinutesInput('');
+      if (!isDateTimeValue) {
+        handleChange('');
+      }
       return;
     }
 
@@ -88,10 +99,14 @@ function TimeInputFields({
     if (parsedMinutes === undefined) return;
 
     setMinutesInput(raw);
+    const safeHours = parsedTime.hours;
 
-    const currentHours = Number(hoursInput);
-    const safeHours = Number.isNaN(currentHours) ? parsedTime.hours : currentHours;
-    handleChange(updateTimeInISO(isoValue, safeHours, parsedMinutes));
+    if (isDateTimeValue) {
+      handleChange(updateTimeInISO(isoValue, safeHours, parsedMinutes));
+      return;
+    }
+
+    handleChange(`${String(safeHours).padStart(2, '0')}:${String(parsedMinutes).padStart(2, '0')}`);
   };
 
   return (
@@ -125,4 +140,31 @@ function TimeInputFields({
       />
     </Flex>
   );
+}
+
+function getTimeParts(raw: string | null | undefined): { hours: number; minutes: number } {
+  return raw?.includes('T') ? extractTime(raw) : (parsePlainTime(raw) ?? { hours: 0, minutes: 0 });
+}
+
+function parsePlainTime(raw: string | null | undefined): { hours: number; minutes: number } | null {
+  if (!raw) return null;
+
+  const match = raw.match(/^(\d{1,2}):(\d{2})$/);
+  if (!match) return null;
+
+  const hours = Number(match[1]);
+  const minutes = Number(match[2]);
+
+  if (
+    Number.isNaN(hours) ||
+    Number.isNaN(minutes) ||
+    hours < 0 ||
+    hours > 23 ||
+    minutes < 0 ||
+    minutes > 59
+  ) {
+    return null;
+  }
+
+  return { hours, minutes };
 }

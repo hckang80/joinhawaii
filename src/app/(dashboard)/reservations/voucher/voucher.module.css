@@ -5,6 +5,14 @@
   text-transform: uppercase;
 }
 
+.main-title-tour {
+  background: var(--red-10);
+}
+
+.main-title-hotel {
+  background: var(--blue-10);
+}
+
 .info-table {
   width: 100%;
   border-collapse: collapse;
