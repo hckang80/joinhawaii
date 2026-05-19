@@ -28,20 +28,17 @@ import { toast } from 'react-toastify';
 import {
   getSelectedProductById,
   hasRenderableTiptapContent,
-  type VoucherProductClientContainerProps
+  type VoucherProductClientContainerProps,
+  type VoucherSharedFormState
 } from '../shared';
 import styles from '../voucher.module.css';
 
-type VoucherFormState = {
+type VoucherFormState = VoucherSharedFormState & {
   voucher_number: string;
-  confirmation_number: string;
   reception: 'PICK UP' | 'CHECK IN';
   arrival_location: string;
   arrival_time: string;
   liability_waiver_url: string;
-  delivery_notes: string;
-  guide_notes: string;
-  selected_clients: string[];
 };
 
 const tourOptions = Object.values(TOURS_OPTIONS).flat();
