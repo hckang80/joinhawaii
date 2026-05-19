@@ -1,8 +1,9 @@
 'use client';
 
-import { extractDateString, getTimezoneOffsetString } from '@/utils';
+import { extractDateString, updateDateInISO } from '@/utils';
 import { Flex, TextField } from '@radix-ui/themes';
-import { Controller, type Control, type FieldPath, type FieldValues } from 'react-hook-form';
+import { useEffect, useState } from 'react';
+import { useController, type Control, type FieldPath, type FieldValues } from 'react-hook-form';
 import { TimeInput } from './TimeInput';
 
 interface DateTimeInputProps<TFieldValues extends FieldValues = FieldValues> {
@@ -16,35 +17,42 @@ export function DateTimeInput<TFieldValues extends FieldValues = FieldValues>({
   control,
   required = false
 }: DateTimeInputProps<TFieldValues>) {
+  const { field } = useController({
+    name,
+    control,
+    rules: { required }
+  });
+
+  const [dateValue, setDateValue] = useState(() =>
+    extractDateString(field.value as string | null | undefined)
+  );
+
+  useEffect(() => {
+    const nextDateString = extractDateString(field.value as string | null | undefined);
+    setDateValue(nextDateString);
+  }, [field.value, name]);
+
   return (
     <Flex gap='2'>
-      <Controller
-        name={name}
-        control={control}
-        rules={{ required }}
-        render={({ field }) => {
-          const dateString = extractDateString(field.value);
-          return (
-            <TextField.Root
-              size='1'
-              ref={required ? field.ref : undefined}
-              type='date'
-              value={dateString}
-              onChange={e => {
-                const value = e.target.value;
-                if (value) {
-                  const date = new Date(value + 'T00:00:00');
-                  const tzString = getTimezoneOffsetString(date);
-                  field.onChange(`${value}T00:00:00${tzString}`);
-                } else {
-                  field.onChange(null);
-                }
-              }}
-            />
-          );
+      <TextField.Root
+        size='1'
+        ref={required ? field.ref : undefined}
+        type='date'
+        name={field.name}
+        onBlur={field.onBlur}
+        value={dateValue || ''}
+        onChange={e => {
+          const value = e.target.value;
+          setDateValue(value);
+
+          if (value) {
+            field.onChange(updateDateInISO(field.value as string | null | undefined, value));
+          } else {
+            field.onChange(null);
+          }
         }}
       />
-      <TimeInput name={name} control={control} />
+      <TimeInput value={field.value as string | null | undefined} onValueChange={field.onChange} />
     </Flex>
   );
 }

@@ -1,7 +1,6 @@
 import { PaymentStatusKey, ProductStatusKey } from '@/types';
 import type { PostgrestError } from '@supabase/supabase-js';
 import { toast } from 'react-toastify';
-import { TIME_ZONE } from '../constants';
 
 export function toReadableDate(date: Date | string, includeTime = false) {
   const d = typeof date === 'string' ? new Date(date) : date;
@@ -169,16 +168,17 @@ export const getPaymentStatus = ({
 
 /**
  * ISO 날짜 문자열에서 날짜 부분만 추출합니다 (YYYY-MM-DD)
+ * '2026-03-25T15:00:00+00:00' -> '2026-03-25'
  */
 export function extractDateString(isoString: string | null | undefined): string {
   if (!isoString) return '';
 
-  const date = new Date(isoString);
-  return new Intl.DateTimeFormat('en-CA', { timeZone: TIME_ZONE }).format(date);
+  return isoString.slice(0, 10);
 }
 
 /**
  * ISO 날짜 문자열에서 시간과 분을 추출합니다
+ * '2026-03-25T15:00:00+00:00' -> { hours: 15, minutes: 0 }
  */
 export function extractTime(isoString: string | null | undefined): {
   hours: number;
@@ -191,10 +191,34 @@ export function extractTime(isoString: string | null | undefined): {
     };
   }
 
-  const date = new Date(isoString);
+  const match = isoString.match(/T(\d{2}):(\d{2})(?::\d{2})?(?:Z|[+-]\d{2}:?\d{2})?$/);
+  if (!match) {
+    return {
+      hours: 0,
+      minutes: 0
+    };
+  }
+
+  const hours = Number(match[1]);
+  const minutes = Number(match[2]);
+
+  if (
+    Number.isNaN(hours) ||
+    Number.isNaN(minutes) ||
+    hours < 0 ||
+    hours > 23 ||
+    minutes < 0 ||
+    minutes > 59
+  ) {
+    return {
+      hours: 0,
+      minutes: 0
+    };
+  }
+
   return {
-    hours: date.getHours(),
-    minutes: date.getMinutes()
+    hours,
+    minutes
   };
 }
 
@@ -205,10 +229,11 @@ export function updateDateInISO(
   currentISO: string | null | undefined,
   newDateString: string
 ): string {
-  const currentDate = currentISO ? new Date(currentISO) : new Date();
-  const [year, month, day] = newDateString.split('-').map(Number);
-  currentDate.setFullYear(year, month - 1, day);
-  return currentDate.toISOString();
+  const [, rest = ''] = currentISO?.split('T') ?? [];
+  const timezonePart = rest.match(/(Z|[+-]\d{2}:?\d{2})$/)?.[1] ?? '';
+  const timePart = rest.replace(/(Z|[+-]\d{2}:?\d{2})$/, '') || '00:00:00';
+
+  return `${newDateString}T${timePart}${timezonePart}`;
 }
 
 /**
@@ -231,9 +256,12 @@ export function updateTimeInISO(
   hours: number,
   minutes: number
 ): string {
-  const currentDate = currentISO ? new Date(currentISO) : new Date();
-  currentDate.setHours(hours, minutes, 0, 0);
-  return currentDate.toISOString();
+  const nextTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:00`;
+
+  const [datePart = '1970-01-01', rest = ''] = currentISO?.split('T') ?? [];
+  const timezonePart = rest.match(/(Z|[+-]\d{2}:?\d{2})$/)?.[1] ?? '';
+
+  return `${datePart}T${nextTime}${timezonePart}`;
 }
 
 /**
