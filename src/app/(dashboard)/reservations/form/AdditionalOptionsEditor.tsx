@@ -264,7 +264,7 @@ export default function AdditionalOptionsEditor({
             >
               <Minus size='20' /> 삭제
             </Button>
-            <Button disabled={mutation.isPending} variant='outline'>
+            <Button loading={mutation.isPending} variant='outline'>
               <Save />
               변경사항 저장
             </Button>

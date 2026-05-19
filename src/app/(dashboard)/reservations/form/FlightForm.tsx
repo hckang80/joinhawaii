@@ -321,7 +321,7 @@ export default function FlightForm({ data, mutation }: ProductFormProps) {
             >
               <Minus size='20' /> 삭제
             </Button>
-            <Button disabled={mutation.isPending || !flights.length} variant='outline'>
+            <Button loading={mutation.isPending || !flights.length} variant='outline'>
               <Save /> 변경사항 저장
             </Button>
           </Flex>

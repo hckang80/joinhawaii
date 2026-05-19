@@ -544,7 +544,7 @@ export default function ClientForm({
             진행사항
           </Button>
         )}
-        <Button disabled={mutation.isPending} variant='outline' size='3'>
+        <Button loading={mutation.isPending} variant='outline' size='3'>
           {isModify ? (
             <>
               <Save /> 변경사항 저장

@@ -525,7 +525,7 @@ export default function TourForm({ data, mutation, handleAdditionalOptions }: Pr
               >
                 <Minus size='20' /> 삭제
               </Button>
-              <Button disabled={mutation.isPending || !tours.length} variant='outline'>
+              <Button loading={mutation.isPending || !tours.length} variant='outline'>
                 <Save /> 변경사항 저장
               </Button>
             </Flex>
