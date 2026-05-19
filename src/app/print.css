@@ -41,6 +41,10 @@
     display: revert !important;
   }
 
+  .print\:only.rt-Grid {
+    display: grid !important;
+  }
+
   .print-watermark {
     display: flex !important;
     position: fixed;
