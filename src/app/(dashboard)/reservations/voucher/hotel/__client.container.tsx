@@ -89,6 +89,31 @@ function getPreferredHotelNights(selectedProduct: ReturnType<typeof getSelectedP
   return preferredNights ?? selectedProduct?.nights ?? 1;
 }
 
+const HOTEL_GUIDE_NOTES_HTML = HOTEL_GUIDE_NOTES.split('\n')
+  .map(line => `<p>${line}</p>`)
+  .join('');
+
+function getDefaultGuideNotes(guideNotes: string | null | undefined) {
+  if (!guideNotes) return HOTEL_GUIDE_NOTES_HTML;
+
+  const normalized = guideNotes.replace(/\u200B/g, '').trim();
+  if (!normalized) return HOTEL_GUIDE_NOTES_HTML;
+
+  const withoutEmptyParagraph = normalized
+    .replace(/<p>(?:\s|&nbsp;|<br\s*\/?>)*<\/p>/gi, '')
+    .trim();
+
+  if (/<img\b/i.test(withoutEmptyParagraph)) {
+    return guideNotes;
+  }
+
+  const plainText = withoutEmptyParagraph
+    .replace(/<[^>]+>/g, '')
+    .replace(/&nbsp;/g, '')
+    .trim();
+  return plainText ? guideNotes : HOTEL_GUIDE_NOTES_HTML;
+}
+
 export default function VoucherHotelClientContainer({
   reservationId,
   productId
@@ -132,7 +157,7 @@ export default function VoucherHotelClientContainer({
       nights: getPreferredHotelNights(selectedProduct),
       confirmationNumber: selectedProduct?.confirmation_number || '',
       deliveryNotes: selectedProduct?.delivery_notes || '',
-      guideNotes: selectedProduct?.guide_notes || HOTEL_GUIDE_NOTES,
+      guideNotes: getDefaultGuideNotes(selectedProduct?.guide_notes),
       cancellationPolicy: selectedProduct?.rule || '',
       selectedClients: selectedProduct?.selected_clients || []
     }
@@ -153,7 +178,7 @@ export default function VoucherHotelClientContainer({
       nights: getPreferredHotelNights(selectedProduct),
       confirmationNumber: selectedProduct?.confirmation_number || '',
       deliveryNotes: selectedProduct?.delivery_notes || '',
-      guideNotes: selectedProduct?.guide_notes || HOTEL_GUIDE_NOTES,
+      guideNotes: getDefaultGuideNotes(selectedProduct?.guide_notes),
       cancellationPolicy: selectedProduct?.rule || '',
       selectedClients: selectedProduct?.selected_clients || []
     });
