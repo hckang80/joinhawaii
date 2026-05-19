@@ -181,13 +181,7 @@ export default function VoucherTourClientContainer({
   const onSubmit: SubmitHandler<VoucherFormState> = formData => {
     if (!isDirty) return toast.info('변경된 내용이 없습니다.');
 
-    const {
-      location_time,
-      pickup_location,
-      liability_waiver_url,
-      cancellation_policy,
-      ...tourData
-    } = formData;
+    const { location_time, pickup_location, cancellation_policy, ...tourData } = formData;
 
     const submitData = {
       reservation_id: reservationId,
@@ -196,8 +190,7 @@ export default function VoucherTourClientContainer({
           id: selectedProduct.id,
           ...tourData,
           arrival_time: toSqlTime(location_time),
-          arrival_location: pickup_location,
-          liability_waiver: liability_waiver_url
+          arrival_location: pickup_location
         }
       ]
     } as unknown as Partial<ReservationFormData>;
