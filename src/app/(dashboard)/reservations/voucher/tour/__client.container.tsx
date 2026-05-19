@@ -271,7 +271,11 @@ export default function VoucherTourClientContainer({
                     name='voucherNumber'
                     control={control}
                     render={({ field }) => (
-                      <TextField.Root {...field} type='text' color={errors.voucherNumber ? 'red' : undefined}>
+                      <TextField.Root
+                        {...field}
+                        type='text'
+                        color={errors.voucherNumber ? 'red' : undefined}
+                      >
                         <TextField.Slot>#</TextField.Slot>
                       </TextField.Root>
                     )}
