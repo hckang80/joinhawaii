@@ -86,7 +86,11 @@ function getPreferredHotelNights(selectedProduct: ReturnType<typeof getSelectedP
     >
   )?.real_nights;
 
-  return preferredNights ?? selectedProduct?.nights ?? 1;
+  if (typeof preferredNights === 'number' && preferredNights > 0) {
+    return preferredNights;
+  }
+
+  return selectedProduct?.nights ?? 1;
 }
 
 const HOTEL_GUIDE_NOTES_HTML = HOTEL_GUIDE_NOTES.split('\n')
