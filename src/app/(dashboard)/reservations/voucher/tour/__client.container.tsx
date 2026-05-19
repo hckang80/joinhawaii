@@ -141,20 +141,16 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
   });
 
   const defaultFormValues = useMemo<VoucherFormState>(() => {
-    const baseFormValues: Omit<
-      VoucherFormState,
-      'arrival_time' | 'arrival_location' | 'liability_waiver_url' | 'cancellation_policy'
-    > = selectedProduct;
+    const { arrival_time, arrival_location, liability_waiver, rule, ...baseFormValues } =
+      selectedProduct;
 
     return {
       ...baseFormValues,
       arrival_time:
-        toFormTimeValue(selectedProduct.arrival_time) ||
-        toFormTimeValue(parsedPickupLocation.locationTime),
-      arrival_location: selectedProduct.arrival_location || parsedPickupLocation.pickupLocation,
-      liability_waiver_url:
-        selectedProduct.liability_waiver || parsedPickupLocation.liabilityWaiverUrl,
-      cancellation_policy: selectedProduct.rule
+        toFormTimeValue(arrival_time) || toFormTimeValue(parsedPickupLocation.locationTime),
+      arrival_location: arrival_location || parsedPickupLocation.pickupLocation,
+      liability_waiver_url: liability_waiver || parsedPickupLocation.liabilityWaiverUrl,
+      cancellation_policy: rule
     };
   }, [parsedPickupLocation, selectedProduct]);
 
