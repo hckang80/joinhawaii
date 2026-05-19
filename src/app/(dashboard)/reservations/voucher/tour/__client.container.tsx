@@ -141,24 +141,34 @@ export default function VoucherTourClientContainer({
     }
   });
 
-  const defaultFormValues = useMemo<VoucherFormState>(
-    () => ({
-      voucher_number: selectedProduct?.voucher_number || '',
-      confirmation_number: selectedProduct?.confirmation_number || '',
-      reception: selectedProduct?.reception || '',
+  const defaultFormValues = useMemo<VoucherFormState>(() => {
+    const {
+      voucher_number = '',
+      confirmation_number = '',
+      reception = 'PICK UP',
+      arrival_location = '',
+      arrival_time = '',
+      liability_waiver: liabilityWaiver = '',
+      delivery_notes = '',
+      guide_notes = '',
+      rule: cancellation_policy = '',
+      selected_clients = []
+    } = selectedProduct ?? {};
+
+    return {
+      voucher_number,
+      confirmation_number,
+      reception,
       arrival_time:
-        toFormTimeValue(selectedProduct?.arrival_time) ||
-        toFormTimeValue(parsedPickupLocation.locationTime),
-      arrival_location: selectedProduct?.arrival_location || parsedPickupLocation.pickupLocation,
-      liability_waiver_url:
-        selectedProduct?.liability_waiver || parsedPickupLocation.liabilityWaiverUrl,
-      delivery_notes: selectedProduct?.delivery_notes || '',
-      guide_notes: selectedProduct?.guide_notes || '',
-      cancellation_policy: selectedProduct?.rule || '',
-      selected_clients: selectedProduct?.selected_clients || []
-    }),
-    [parsedPickupLocation, selectedProduct]
-  );
+        toFormTimeValue(arrival_time) || toFormTimeValue(parsedPickupLocation.locationTime),
+      arrival_location: arrival_location || parsedPickupLocation.pickupLocation,
+      liability_waiver_url: liabilityWaiver || parsedPickupLocation.liabilityWaiverUrl,
+      delivery_notes,
+      guide_notes,
+      cancellation_policy,
+      selected_clients
+    };
+  }, [parsedPickupLocation, selectedProduct]);
 
   const {
     control,
