@@ -52,12 +52,16 @@ function TimeInputFields({
 
   const applyHours = (raw: string) => {
     if (!/^\d{0,2}$/.test(raw)) return;
-    setHoursInput(raw);
 
-    if (raw === '') return;
+    if (raw === '') {
+      setHoursInput(raw);
+      return;
+    }
 
     const nextHours = Number(raw);
     if (Number.isNaN(nextHours) || nextHours < 0 || nextHours > 23) return;
+
+    setHoursInput(raw);
 
     const currentMinutes = Number(minutesInput);
     const safeMinutes = Number.isNaN(currentMinutes) ? parsedTime.minutes : currentMinutes;
@@ -66,12 +70,16 @@ function TimeInputFields({
 
   const applyMinutes = (raw: string) => {
     if (!/^\d{0,2}$/.test(raw)) return;
-    setMinutesInput(raw);
 
-    if (raw === '') return;
+    if (raw === '') {
+      setMinutesInput(raw);
+      return;
+    }
 
     const nextMinutes = Number(raw);
     if (Number.isNaN(nextMinutes) || nextMinutes < 0 || nextMinutes > 59) return;
+
+    setMinutesInput(raw);
 
     const currentHours = Number(hoursInput);
     const safeHours = Number.isNaN(currentHours) ? parsedTime.hours : currentHours;
