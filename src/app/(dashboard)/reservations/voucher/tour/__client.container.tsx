@@ -155,7 +155,13 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
       </Flex>
 
       <Section py='0'>
-        <Heading as='h2' size='7' mb='4' weight='bold' className={styles['main-title']}>
+        <Heading
+          as='h2'
+          size='7'
+          mb='4'
+          weight='bold'
+          className={`${styles['main-title']} ${styles['main-title-tour']}`}
+        >
           tour confirmation
         </Heading>
         <table className={styles['info-table']}>

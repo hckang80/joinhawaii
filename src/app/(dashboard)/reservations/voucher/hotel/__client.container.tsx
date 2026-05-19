@@ -273,7 +273,13 @@ export default function VoucherHotelClientContainer({
       </Flex>
 
       <Section py='0'>
-        <Heading as='h2' size='7' mb='4' weight='bold' className={styles['main-title']}>
+        <Heading
+          as='h2'
+          size='7'
+          mb='4'
+          weight='bold'
+          className={`${styles['main-title']} ${styles['main-title-hotel']}`}
+        >
           hotel confirmation
         </Heading>
         <table className={styles['info-table']}>
