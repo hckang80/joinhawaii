@@ -40,6 +40,12 @@ type VoucherFormState = {
   selected_clients: string[];
 };
 
+type SelectedHotelProduct = NonNullable<ReturnType<typeof getSelectedProduct>> & {
+  start_date?: string | null;
+  end_date?: string | null;
+  real_nights: number;
+};
+
 function getSelectedProduct(data: ReservationResponse | undefined, productId?: string) {
   const selectedProducts = data?.products?.hotels ?? [];
 
@@ -64,34 +70,6 @@ function renderProductNameContent(
       <Text as='p'>{englishLabel}</Text>
     </>
   );
-}
-
-function getPreferredHotelDate(
-  selectedProduct: ReturnType<typeof getSelectedProduct>,
-  key: 'start_date' | 'end_date',
-  fallback: string | null | undefined
-) {
-  const preferredDate = (
-    selectedProduct as { start_date?: string | null; end_date?: string | null } & NonNullable<
-      ReturnType<typeof getSelectedProduct>
-    >
-  )?.[key];
-
-  return preferredDate || fallback || '';
-}
-
-function getPreferredHotelNights(selectedProduct: ReturnType<typeof getSelectedProduct>) {
-  const preferredNights = (
-    selectedProduct as { real_nights?: number | null } & NonNullable<
-      ReturnType<typeof getSelectedProduct>
-    >
-  )?.real_nights;
-
-  if (typeof preferredNights === 'number' && preferredNights > 0) {
-    return preferredNights;
-  }
-
-  return selectedProduct?.nights ?? 1;
 }
 
 const HOTEL_GUIDE_NOTES_HTML = HOTEL_GUIDE_NOTES.split('\n')
@@ -183,10 +161,12 @@ export default function VoucherHotelClientContainer({
     );
   }
 
+  const selectedHotelProduct = selectedProduct as SelectedHotelProduct;
+
   return (
     <VoucherHotelForm
       reservationId={reservationId}
-      selectedProduct={selectedProduct}
+      selectedProduct={selectedHotelProduct}
       clients={data?.clients ?? []}
     />
   );
@@ -194,7 +174,7 @@ export default function VoucherHotelClientContainer({
 
 type VoucherHotelFormProps = {
   reservationId: string;
-  selectedProduct: NonNullable<ReturnType<typeof getSelectedProduct>>;
+  selectedProduct: SelectedHotelProduct;
   clients: ReservationResponse['clients'];
 };
 
@@ -211,17 +191,9 @@ function VoucherHotelForm({ reservationId, selectedProduct, clients }: VoucherHo
 
   const defaultFormValues = useMemo<VoucherFormState>(() => {
     return {
-      check_in_date: getPreferredHotelDate(
-        selectedProduct,
-        'start_date',
-        selectedProduct.check_in_date
-      ),
-      check_out_date: getPreferredHotelDate(
-        selectedProduct,
-        'end_date',
-        selectedProduct.check_out_date
-      ),
-      real_nights: getPreferredHotelNights(selectedProduct),
+      check_in_date: selectedProduct.start_date || selectedProduct.check_in_date || '',
+      check_out_date: selectedProduct.end_date || selectedProduct.check_out_date || '',
+      real_nights: selectedProduct.real_nights,
       confirmation_number: selectedProduct.confirmation_number || '',
       delivery_notes: getDefaultDeliveryNotes(selectedProduct.delivery_notes),
       guide_notes: getDefaultGuideNotes(selectedProduct.guide_notes),
