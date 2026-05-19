@@ -175,7 +175,7 @@ export default function ReservationsFormClientContainer({
                 <Table.Root variant='surface'>
                   <Table.Header>
                     <Table.Row>
-                      <Table.ColumnHeaderCell>상품 종류</Table.ColumnHeaderCell>
+                      <Table.ColumnHeaderCell></Table.ColumnHeaderCell>
                       {PRODUCT_OPTIONS.filter(({ value }) => value !== 'flight').map(product => (
                         <Table.ColumnHeaderCell key={product.value} align='right'>
                           {product.label}
@@ -187,7 +187,7 @@ export default function ReservationsFormClientContainer({
                     <Table.Row>
                       <Table.ColumnHeaderCell align='right'>
                         <Text as='div' size='3'>
-                          상품
+                          금액
                         </Text>
                       </Table.ColumnHeaderCell>
                       {PRODUCT_OPTIONS.filter(({ value }) => value !== 'flight').map(product => (
