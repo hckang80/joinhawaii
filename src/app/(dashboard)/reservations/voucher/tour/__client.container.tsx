@@ -36,7 +36,7 @@ type VoucherProductClientContainerProps = {
 type VoucherFormState = {
   voucherNumber: string;
   confirmationNumber: string;
-  pickupType: 'PICK UP' | 'CHECK IN';
+  reception: 'PICK UP' | 'CHECK IN';
   pickupLocation: string;
   liabilityWaiverUrl: string;
   deliveryNotes: string;
@@ -63,7 +63,7 @@ function toSqlTime(raw: string) {
 function parsePickupLocation(raw: string | undefined) {
   const content = raw || '';
   const pickupTypeMatched = content.match(PICKUP_TYPE_MARKER_PATTERN);
-  const pickupType = (pickupTypeMatched?.[1] as VoucherFormState['pickupType']) || 'PICK UP';
+  const reception = (pickupTypeMatched?.[1] as VoucherFormState['reception']) || 'PICK UP';
 
   const locationTimeMatched = content.match(LOCATION_TIME_MARKER_PATTERN);
   const locationTime = locationTimeMatched?.[1] ? decodeURIComponent(locationTimeMatched[1]) : '';
@@ -76,7 +76,7 @@ function parsePickupLocation(raw: string | undefined) {
     .replace(LOCATION_TIME_MARKER_PATTERN, '')
     .replace(LIABILITY_WAIVER_URL_MARKER_PATTERN, '');
 
-  return { pickupType, locationTime, pickupLocation, liabilityWaiverUrl };
+  return { reception, locationTime, pickupLocation, liabilityWaiverUrl };
 }
 
 function getSelectedProduct(data: ReservationResponse | undefined, productId?: string) {
@@ -129,6 +129,23 @@ export default function VoucherTourClientContainer({
     }
   });
 
+  const defaultFormValues = useMemo<VoucherFormState>(
+    () => ({
+      voucherNumber: selectedProduct?.voucher_number || '',
+      confirmationNumber: selectedProduct?.confirmation_number || '',
+      reception: selectedProduct?.reception || '',
+      locationTime: toUiTime(selectedProduct?.arrival_time) || parsedPickupLocation.locationTime,
+      pickupLocation: selectedProduct?.arrival_location || parsedPickupLocation.pickupLocation,
+      liabilityWaiverUrl:
+        selectedProduct?.liability_waiver || parsedPickupLocation.liabilityWaiverUrl,
+      deliveryNotes: selectedProduct?.delivery_notes || '',
+      guideNotes: selectedProduct?.guide_notes || HOTEL_GUIDE_NOTES,
+      cancellationPolicy: selectedProduct?.rule || '',
+      selectedClients: selectedProduct?.selected_clients || []
+    }),
+    [parsedPickupLocation, selectedProduct]
+  );
+
   const {
     control,
     handleSubmit,
@@ -137,37 +154,13 @@ export default function VoucherTourClientContainer({
     formState: { errors, isDirty }
   } = useForm<VoucherFormState>({
     mode: 'onBlur',
-    defaultValues: {
-      voucherNumber: selectedProduct?.voucher_number || selectedProduct?.voucher_number || '',
-      confirmationNumber: selectedProduct?.confirmation_number || '',
-      pickupType: selectedProduct?.reception || parsedPickupLocation.pickupType,
-      locationTime: toUiTime(selectedProduct?.arrival_time) || parsedPickupLocation.locationTime,
-      pickupLocation: selectedProduct?.arrival_location || parsedPickupLocation.pickupLocation,
-      liabilityWaiverUrl:
-        selectedProduct?.liability_waiver || parsedPickupLocation.liabilityWaiverUrl,
-      deliveryNotes: selectedProduct?.delivery_notes || '',
-      guideNotes: selectedProduct?.guide_notes || HOTEL_GUIDE_NOTES,
-      cancellationPolicy: selectedProduct?.rule || '',
-      selectedClients: selectedProduct?.selected_clients || []
-    }
+    defaultValues: defaultFormValues
   });
-  const selectedPickupType = watch('pickupType');
+  const selectedReception = watch('reception');
 
   useEffect(() => {
-    reset({
-      voucherNumber: selectedProduct?.voucher_number || selectedProduct?.voucher_number || '',
-      confirmationNumber: selectedProduct?.confirmation_number || '',
-      pickupType: selectedProduct?.reception || parsedPickupLocation.pickupType,
-      locationTime: toUiTime(selectedProduct?.arrival_time) || parsedPickupLocation.locationTime,
-      pickupLocation: selectedProduct?.arrival_location || parsedPickupLocation.pickupLocation,
-      liabilityWaiverUrl:
-        selectedProduct?.liability_waiver || parsedPickupLocation.liabilityWaiverUrl,
-      deliveryNotes: selectedProduct?.delivery_notes || '',
-      guideNotes: selectedProduct?.guide_notes || HOTEL_GUIDE_NOTES,
-      cancellationPolicy: selectedProduct?.rule || '',
-      selectedClients: selectedProduct?.selected_clients || []
-    });
-  }, [parsedPickupLocation, selectedProduct, reset]);
+    reset(defaultFormValues);
+  }, [defaultFormValues, reset]);
 
   const onSubmit: SubmitHandler<VoucherFormState> = formData => {
     if (!isDirty) return toast.info('변경된 내용이 없습니다.');
@@ -179,7 +172,7 @@ export default function VoucherTourClientContainer({
           id: selectedProduct.id,
           voucher_number: formData.voucherNumber,
           confirmation_number: formData.confirmationNumber,
-          reception: formData.pickupType,
+          reception: formData.reception,
           arrival_time: toSqlTime(formData.locationTime),
           arrival_location: formData.pickupLocation,
           liability_waiver: formData.liabilityWaiverUrl,
@@ -317,7 +310,7 @@ export default function VoucherTourClientContainer({
               <td className={styles['info-td']} colSpan={3}>
                 <Box className='print:hidden'>
                   <Controller
-                    name='pickupType'
+                    name='reception'
                     control={control}
                     render={({ field }) => (
                       <RadioGroup.Root value={field.value} onValueChange={field.onChange}>
@@ -339,11 +332,11 @@ export default function VoucherTourClientContainer({
                     )}
                   />
                 </Box>
-                <Text className='print:only'>{watch('pickupType')}</Text>
+                <Text className='print:only'>{watch('reception')}</Text>
               </td>
             </tr>
             <tr>
-              <th className={styles['info-th']}>{`${selectedPickupType} time`}</th>
+              <th className={styles['info-th']}>{`${selectedReception} time`}</th>
               <td className={styles['info-td']} colSpan={3}>
                 <Box className='print:hidden'>
                   <TimeInput name='locationTime' control={control} />
@@ -352,7 +345,7 @@ export default function VoucherTourClientContainer({
               </td>
             </tr>
             <tr>
-              <th className={styles['info-th']}>{`${selectedPickupType} location`}</th>
+              <th className={styles['info-th']}>{`${selectedReception} location`}</th>
               <td className={styles['info-td']} colSpan={3}>
                 <Box className='print:hidden'>
                   <Controller
