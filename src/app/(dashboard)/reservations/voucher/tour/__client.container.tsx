@@ -138,7 +138,7 @@ export default function VoucherTourClientContainer({
   } = useForm<VoucherFormState>({
     mode: 'onBlur',
     defaultValues: {
-      voucherNumber: selectedProduct?.voucher || selectedProduct?.voucher_number || '',
+      voucherNumber: selectedProduct?.voucher_number || selectedProduct?.voucher_number || '',
       confirmationNumber: selectedProduct?.confirmation_number || '',
       pickupType: selectedProduct?.reception || parsedPickupLocation.pickupType,
       locationTime: toUiTime(selectedProduct?.arrival_time) || parsedPickupLocation.locationTime,
@@ -155,7 +155,7 @@ export default function VoucherTourClientContainer({
 
   useEffect(() => {
     reset({
-      voucherNumber: selectedProduct?.voucher || selectedProduct?.voucher_number || '',
+      voucherNumber: selectedProduct?.voucher_number || selectedProduct?.voucher_number || '',
       confirmationNumber: selectedProduct?.confirmation_number || '',
       pickupType: selectedProduct?.reception || parsedPickupLocation.pickupType,
       locationTime: toUiTime(selectedProduct?.arrival_time) || parsedPickupLocation.locationTime,
@@ -177,7 +177,6 @@ export default function VoucherTourClientContainer({
       tours: [
         {
           id: selectedProduct.id,
-          voucher: formData.voucherNumber,
           voucher_number: formData.voucherNumber,
           confirmation_number: formData.confirmationNumber,
           reception: formData.pickupType,
