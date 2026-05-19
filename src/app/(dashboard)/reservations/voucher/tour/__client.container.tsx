@@ -242,6 +242,16 @@ export default function VoucherTourClientContainer({
     );
   }
 
+  if (!selectedProduct) {
+    return (
+      <Box width='1000px' mx='auto'>
+        <Card>
+          <Text>선택된 투어 정보를 찾을 수 없습니다.</Text>
+        </Card>
+      </Box>
+    );
+  }
+
   return (
     <Box width='1000px' mx='auto' className='voucher-root'>
       <div className='print-watermark' aria-hidden>
