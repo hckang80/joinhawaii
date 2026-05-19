@@ -54,6 +54,69 @@ interface ToolbarButtonProps {
   title: string;
 }
 
+const MAX_IMAGE_WIDTH = 1920;
+const MAX_IMAGE_HEIGHT = 1920;
+const IMAGE_OUTPUT_QUALITY = 0.85;
+
+const readFileAsDataUrl = (file: File) =>
+  new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      if (typeof reader.result === 'string') {
+        resolve(reader.result);
+        return;
+      }
+      reject(new Error('이미지 데이터를 읽을 수 없습니다.'));
+    };
+
+    reader.onerror = () => {
+      reject(new Error('이미지 파일 읽기에 실패했습니다.'));
+    };
+
+    reader.readAsDataURL(file);
+  });
+
+const loadImage = (src: string) =>
+  new Promise<HTMLImageElement>((resolve, reject) => {
+    const img = new Image();
+
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error('이미지 로드에 실패했습니다.'));
+    img.src = src;
+  });
+
+const resizeImageDataUrlIfNeeded = async (file: File) => {
+  const sourceDataUrl = await readFileAsDataUrl(file);
+  const image = await loadImage(sourceDataUrl);
+
+  const shouldResize = image.width > MAX_IMAGE_WIDTH || image.height > MAX_IMAGE_HEIGHT;
+
+  if (!shouldResize) {
+    return sourceDataUrl;
+  }
+
+  const scale = Math.min(MAX_IMAGE_WIDTH / image.width, MAX_IMAGE_HEIGHT / image.height);
+  const targetWidth = Math.max(1, Math.round(image.width * scale));
+  const targetHeight = Math.max(1, Math.round(image.height * scale));
+
+  const canvas = document.createElement('canvas');
+  canvas.width = targetWidth;
+  canvas.height = targetHeight;
+
+  const context = canvas.getContext('2d');
+  if (!context) {
+    return sourceDataUrl;
+  }
+
+  context.drawImage(image, 0, 0, targetWidth, targetHeight);
+
+  const outputType = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+  const resizedDataUrl = canvas.toDataURL(outputType, IMAGE_OUTPUT_QUALITY);
+
+  return resizedDataUrl;
+};
+
 export const Tiptap = ({
   value,
   onChange,
@@ -88,44 +151,40 @@ export const Tiptap = ({
       FileHandler.configure({
         allowedMimeTypes: ['image/png', 'image/jpeg', 'image/gif', 'image/webp'],
         onDrop: (currentEditor, files, pos) => {
-          files.forEach(file => {
-            const fileReader = new FileReader();
+          files.forEach(async file => {
+            const resizedImage = await resizeImageDataUrlIfNeeded(file);
 
-            fileReader.readAsDataURL(file);
-            fileReader.onload = () => {
-              currentEditor
-                .chain()
-                .insertContentAt(pos, {
-                  type: 'image',
-                  attrs: {
-                    src: fileReader.result
-                  }
-                })
-                .focus()
-                .run();
-            };
+            currentEditor
+              .chain()
+              .insertContentAt(pos, {
+                type: 'image',
+                attrs: {
+                  src: resizedImage
+                }
+              })
+              .focus()
+              .run();
           });
         },
         onPaste: (currentEditor, files, htmlContent) => {
           if (htmlContent) return false;
 
-          files.forEach(file => {
-            const fileReader = new FileReader();
+          files.forEach(async file => {
+            const resizedImage = await resizeImageDataUrlIfNeeded(file);
 
-            fileReader.readAsDataURL(file);
-            fileReader.onload = () => {
-              currentEditor
-                .chain()
-                .insertContentAt(currentEditor.state.selection.anchor, {
-                  type: 'image',
-                  attrs: {
-                    src: fileReader.result
-                  }
-                })
-                .focus()
-                .run();
-            };
+            currentEditor
+              .chain()
+              .insertContentAt(currentEditor.state.selection.anchor, {
+                type: 'image',
+                attrs: {
+                  src: resizedImage
+                }
+              })
+              .focus()
+              .run();
           });
+
+          return true;
         }
       })
     ],
@@ -163,9 +222,8 @@ export const Tiptap = ({
     const file = event.target.files?.[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = e => {
-      const base64 = e.target?.result as string;
+    void (async () => {
+      const base64 = await resizeImageDataUrlIfNeeded(file);
       if (editor && base64) {
         editor
           .chain()
@@ -173,8 +231,7 @@ export const Tiptap = ({
           .insertContent({ type: 'image', attrs: { src: base64 } })
           .run();
       }
-    };
-    reader.readAsDataURL(file);
+    })();
 
     event.target.value = '';
   };
