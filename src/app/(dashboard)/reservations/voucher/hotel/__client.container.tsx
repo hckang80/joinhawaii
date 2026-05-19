@@ -1,5 +1,6 @@
 'use client';
 
+import { Tiptap } from '@/components';
 import { HOTEL_GUIDE_NOTES, HOTELS } from '@/constants';
 import { updateReservation } from '@/http';
 import { reservationQueryOptions } from '@/lib/queries';
@@ -14,7 +15,6 @@ import {
   Heading,
   Section,
   Text,
-  TextArea,
   TextField
 } from '@radix-ui/themes';
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -452,12 +452,23 @@ export default function VoucherHotelClientContainer({
                 <Controller
                   name='deliveryNotes'
                   control={control}
-                  render={({ field }) => <TextArea {...field} rows={5} resize='vertical' />}
+                  render={({ field }) => (
+                    <Tiptap
+                      value={field.value}
+                      onChange={field.onChange}
+                      height='min-h-[160px]'
+                      placeholder='전달 사항을 입력하세요.'
+                    />
+                  )}
                 />
               </Box>
-              <Text className='print:only' style={{ whiteSpace: 'pre-wrap' }}>
-                {watch('deliveryNotes') || '-'}
-              </Text>
+              <Box className='print:only'>
+                {watch('deliveryNotes') ? (
+                  <div dangerouslySetInnerHTML={{ __html: watch('deliveryNotes') }} />
+                ) : (
+                  <Text>-</Text>
+                )}
+              </Box>
             </Flex>
           </Card>
         </Box>
@@ -476,12 +487,23 @@ export default function VoucherHotelClientContainer({
                   <Controller
                     name='guideNotes'
                     control={control}
-                    render={({ field }) => <TextArea {...field} rows={10} resize='vertical' />}
+                    render={({ field }) => (
+                      <Tiptap
+                        value={field.value}
+                        onChange={field.onChange}
+                        height='min-h-[240px]'
+                        placeholder='알림 내용을 입력하세요.'
+                      />
+                    )}
                   />
                 </Box>
-                <Text className='print:only' style={{ whiteSpace: 'pre-wrap' }}>
-                  {watch('guideNotes') || '-'}
-                </Text>
+                <Box className='print:only'>
+                  {watch('guideNotes') ? (
+                    <div dangerouslySetInnerHTML={{ __html: watch('guideNotes') }} />
+                  ) : (
+                    <Text>-</Text>
+                  )}
+                </Box>
                 <Text as='p' color='red' mt='8'>
                   [취소규정] {watch('cancellationPolicy') || '-'}
                 </Text>
