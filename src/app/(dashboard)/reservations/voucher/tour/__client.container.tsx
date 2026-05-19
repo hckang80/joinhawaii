@@ -167,7 +167,7 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
   const onSubmit: SubmitHandler<VoucherFormState> = formData => {
     if (!isDirty) return toast.info('변경된 내용이 없습니다.');
 
-    const { arrival_time, arrival_location, ...tourData } = formData;
+    const { arrival_time, ...tourData } = formData;
 
     const submitData = {
       reservation_id: reservationId,
@@ -175,8 +175,7 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
         {
           id: selectedProduct.id,
           ...tourData,
-          arrival_time: toSqlTime(arrival_time),
-          arrival_location
+          arrival_time: toSqlTime(arrival_time)
         }
       ]
     } as unknown as Partial<ReservationFormData>;
