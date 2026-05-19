@@ -31,6 +31,8 @@ type VoucherProductClientContainerProps = {
 };
 
 type VoucherFormState = {
+  checkInDate: string;
+  checkOutDate: string;
   confirmationNumber: string;
   deliveryNotes: string;
   guideNotes: string;
@@ -92,6 +94,8 @@ export default function VoucherHotelClientContainer({
   } = useForm<VoucherFormState>({
     mode: 'onBlur',
     defaultValues: {
+      checkInDate: selectedProduct?.check_in_date || '',
+      checkOutDate: selectedProduct?.check_out_date || '',
       confirmationNumber: selectedProduct?.confirmation_number || '',
       deliveryNotes: selectedProduct?.delivery_notes || '',
       guideNotes: selectedProduct?.guide_notes || HOTEL_GUIDE_NOTES,
@@ -102,6 +106,8 @@ export default function VoucherHotelClientContainer({
 
   useEffect(() => {
     reset({
+      checkInDate: selectedProduct?.check_in_date || '',
+      checkOutDate: selectedProduct?.check_out_date || '',
       confirmationNumber: selectedProduct?.confirmation_number || '',
       deliveryNotes: selectedProduct?.delivery_notes || '',
       guideNotes: selectedProduct?.guide_notes || HOTEL_GUIDE_NOTES,
@@ -118,8 +124,8 @@ export default function VoucherHotelClientContainer({
       hotels: [
         {
           id: selectedProduct.id,
-          start_date: selectedProduct.check_in_date,
-          end_date: selectedProduct.check_out_date,
+          check_in_date: formData.checkInDate || null,
+          check_out_date: formData.checkOutDate || null,
           confirmation_number: formData.confirmationNumber,
           delivery_notes: formData.deliveryNotes,
           guide_notes: formData.guideNotes,
@@ -199,9 +205,45 @@ export default function VoucherHotelClientContainer({
             <tr>
               <th className={styles['info-th']}>period</th>
               <td className={styles['info-td']}>
-                {selectedProduct?.check_in_date && selectedProduct?.check_out_date
-                  ? `${selectedProduct.check_in_date} ~ ${selectedProduct.check_out_date}`
-                  : '-'}
+                <Flex gap='2' align='center' className='print:hidden'>
+                  <Controller
+                    name='checkInDate'
+                    control={control}
+                    render={({ field }) => (
+                      <TextField.Root
+                        type='date'
+                        value={field.value || ''}
+                        onChange={field.onChange}
+                      />
+                    )}
+                  />
+                  <Text>~</Text>
+                  <Controller
+                    name='checkOutDate'
+                    control={control}
+                    render={({ field }) => {
+                      const checkInDate = watch('checkInDate');
+                      return (
+                        <TextField.Root
+                          type='date'
+                          min={checkInDate || undefined}
+                          value={field.value || ''}
+                          onChange={field.onChange}
+                          onFocus={() => {
+                            if (!field.value && checkInDate) {
+                              field.onChange(checkInDate);
+                            }
+                          }}
+                        />
+                      );
+                    }}
+                  />
+                </Flex>
+                <Text className='print:only'>
+                  {watch('checkInDate') && watch('checkOutDate')
+                    ? `${watch('checkInDate')} ~ ${watch('checkOutDate')}`
+                    : '-'}
+                </Text>
               </td>
               <th className={styles['info-th']}>night</th>
               <td className={styles['info-td']}>
