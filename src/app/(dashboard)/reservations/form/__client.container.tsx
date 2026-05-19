@@ -109,6 +109,30 @@ export default function ReservationsFormClientContainer({
     status$.isAdditionalOptionsOpen.set(true);
   };
 
+  const getProductTotalAmount = (products: Array<{ status: string; total_amount: number }>) => {
+    return products.reduce(
+      (sum, product) => sum + (product.status !== 'Refunded' ? product.total_amount : 0),
+      0
+    );
+  };
+
+  const getAdditionalOptionsTotalAmount = (
+    products: Array<{ status: string; additional_options?: AdditionalOptions[] }>
+  ) => {
+    return products.reduce(
+      (sum, product) =>
+        sum +
+        (product.status !== 'Refunded'
+          ? (product.additional_options ?? []).reduce(
+              (optionSum, option) =>
+                optionSum + (option.status !== 'Refunded' ? option.total_amount : 0),
+              0
+            )
+          : 0),
+      0
+    );
+  };
+
   return (
     <div className={styles.root}>
       <Heading as='h2' mb='4' size='7'>
@@ -172,28 +196,12 @@ export default function ReservationsFormClientContainer({
                           <Grid>
                             <Text size='3'>
                               {toReadableAmount(
-                                data?.products[product.table].reduce(
-                                  (prev, curr) =>
-                                    prev + (curr.status !== 'Refunded' ? curr.total_amount : 0),
-                                  0
-                                )
+                                getProductTotalAmount(data?.products[product.table] ?? [])
                               )}
                             </Text>
                             <Text>
                               {toReadableAmount(
-                                data?.products[product.table].reduce(
-                                  (prev, curr) =>
-                                    prev +
-                                    (curr.status !== 'Refunded'
-                                      ? curr.additional_options?.reduce(
-                                          (sum, opt) =>
-                                            sum +
-                                            (opt.status !== 'Refunded' ? opt.total_amount : 0),
-                                          0
-                                        )
-                                      : 0),
-                                  0
-                                )
+                                getAdditionalOptionsTotalAmount(data?.products[product.table] ?? [])
                               )}
                             </Text>
                           </Grid>
