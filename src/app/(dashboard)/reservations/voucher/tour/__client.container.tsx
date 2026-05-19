@@ -34,16 +34,16 @@ type VoucherProductClientContainerProps = {
 };
 
 type VoucherFormState = {
-  voucherNumber: string;
-  confirmationNumber: string;
+  voucher_number: string;
+  confirmation_number: string;
   reception: 'PICK UP' | 'CHECK IN';
-  pickupLocation: string;
-  liabilityWaiverUrl: string;
-  deliveryNotes: string;
-  guideNotes: string;
-  cancellationPolicy: string;
-  selectedClients: string[];
-  locationTime: string;
+  pickup_location: string;
+  liability_waiver_url: string;
+  delivery_notes: string;
+  guide_notes: string;
+  cancellation_policy: string;
+  selected_clients: string[];
+  location_time: string;
 };
 
 const PICKUP_TYPE_MARKER_PATTERN = /^<!--pickup_type:(PICK UP|CHECK IN)-->/;
@@ -143,19 +143,19 @@ export default function VoucherTourClientContainer({
 
   const defaultFormValues = useMemo<VoucherFormState>(
     () => ({
-      voucherNumber: selectedProduct?.voucher_number || '',
-      confirmationNumber: selectedProduct?.confirmation_number || '',
+      voucher_number: selectedProduct?.voucher_number || '',
+      confirmation_number: selectedProduct?.confirmation_number || '',
       reception: selectedProduct?.reception || '',
-      locationTime:
+      location_time:
         toFormTimeValue(selectedProduct?.arrival_time) ||
         toFormTimeValue(parsedPickupLocation.locationTime),
-      pickupLocation: selectedProduct?.arrival_location || parsedPickupLocation.pickupLocation,
-      liabilityWaiverUrl:
+      pickup_location: selectedProduct?.arrival_location || parsedPickupLocation.pickupLocation,
+      liability_waiver_url:
         selectedProduct?.liability_waiver || parsedPickupLocation.liabilityWaiverUrl,
-      deliveryNotes: selectedProduct?.delivery_notes || '',
-      guideNotes: selectedProduct?.guide_notes || HOTEL_GUIDE_NOTES,
-      cancellationPolicy: selectedProduct?.rule || '',
-      selectedClients: selectedProduct?.selected_clients || []
+      delivery_notes: selectedProduct?.delivery_notes || '',
+      guide_notes: selectedProduct?.guide_notes || HOTEL_GUIDE_NOTES,
+      cancellation_policy: selectedProduct?.rule || '',
+      selected_clients: selectedProduct?.selected_clients || []
     }),
     [parsedPickupLocation, selectedProduct]
   );
@@ -172,7 +172,7 @@ export default function VoucherTourClientContainer({
     defaultValues: defaultFormValues
   });
   const selectedReception = watch('reception');
-  const locationTime = watch('locationTime');
+  const locationTime = watch('location_time');
 
   useEffect(() => {
     reset(defaultFormValues);
@@ -186,15 +186,15 @@ export default function VoucherTourClientContainer({
       tours: [
         {
           id: selectedProduct.id,
-          voucher_number: formData.voucherNumber,
-          confirmation_number: formData.confirmationNumber,
+          voucher_number: formData.voucher_number,
+          confirmation_number: formData.confirmation_number,
           reception: formData.reception,
-          arrival_time: toSqlTime(formData.locationTime),
-          arrival_location: formData.pickupLocation,
-          liability_waiver: formData.liabilityWaiverUrl,
-          delivery_notes: formData.deliveryNotes,
-          guide_notes: formData.guideNotes,
-          selected_clients: formData.selectedClients
+          arrival_time: toSqlTime(formData.location_time),
+          arrival_location: formData.pickup_location,
+          liability_waiver: formData.liability_waiver_url,
+          delivery_notes: formData.delivery_notes,
+          guide_notes: formData.guide_notes,
+          selected_clients: formData.selected_clients
         }
       ]
     } as unknown as Partial<ReservationFormData>;
@@ -272,45 +272,47 @@ export default function VoucherTourClientContainer({
               <td className={styles['info-td']}>
                 <Flex direction='column' gap='1' className='print:hidden'>
                   <Controller
-                    name='voucherNumber'
+                    name='voucher_number'
                     control={control}
                     render={({ field }) => (
                       <TextField.Root
                         {...field}
                         type='text'
-                        color={errors.voucherNumber ? 'red' : undefined}
+                        color={errors.voucher_number ? 'red' : undefined}
                       >
                         <TextField.Slot>#</TextField.Slot>
                       </TextField.Root>
                     )}
                   />
-                  {errors.voucherNumber && <Text color='red'>{errors.voucherNumber.message}</Text>}
+                  {errors.voucher_number && (
+                    <Text color='red'>{errors.voucher_number.message}</Text>
+                  )}
                 </Flex>
 
-                <Text className='print:only'>{`#${watch('voucherNumber') || '-'}`}</Text>
+                <Text className='print:only'>{`#${watch('voucher_number') || '-'}`}</Text>
               </td>
               <th className={styles['info-th']}>confirmation</th>
               <td className={styles['info-td']}>
                 <Flex direction='column' gap='1' className='print:hidden'>
                   <Controller
-                    name='confirmationNumber'
+                    name='confirmation_number'
                     control={control}
                     render={({ field }) => (
                       <TextField.Root
                         {...field}
                         type='text'
-                        color={errors.confirmationNumber ? 'red' : undefined}
+                        color={errors.confirmation_number ? 'red' : undefined}
                       >
                         <TextField.Slot>#</TextField.Slot>
                       </TextField.Root>
                     )}
                   />
-                  {errors.confirmationNumber && (
-                    <Text color='red'>{errors.confirmationNumber.message}</Text>
+                  {errors.confirmation_number && (
+                    <Text color='red'>{errors.confirmation_number.message}</Text>
                   )}
                 </Flex>
 
-                <Text className='print:only'>{`#${watch('confirmationNumber') || '-'}`}</Text>
+                <Text className='print:only'>{`#${watch('confirmation_number') || '-'}`}</Text>
               </td>
             </tr>
             <tr>
@@ -358,7 +360,7 @@ export default function VoucherTourClientContainer({
                   <TimeInput
                     value={locationTime}
                     onValueChange={value =>
-                      setValue('locationTime', value, {
+                      setValue('location_time', value, {
                         shouldDirty: true,
                         shouldTouch: true,
                         shouldValidate: true
@@ -366,7 +368,9 @@ export default function VoucherTourClientContainer({
                     }
                   />
                 </Box>
-                <Text className='print:only'>{extractTimeLabel(watch('locationTime')) || '-'}</Text>
+                <Text className='print:only'>
+                  {extractTimeLabel(watch('location_time')) || '-'}
+                </Text>
               </td>
             </tr>
             <tr>
@@ -374,7 +378,7 @@ export default function VoucherTourClientContainer({
               <td className={styles['info-td']} colSpan={3}>
                 <Box className='print:hidden'>
                   <Controller
-                    name='pickupLocation'
+                    name='pickup_location'
                     control={control}
                     render={({ field }) => (
                       <Tiptap
@@ -390,7 +394,7 @@ export default function VoucherTourClientContainer({
                 <Box
                   className='print:only'
                   style={{ wordBreak: 'break-word' }}
-                  dangerouslySetInnerHTML={{ __html: watch('pickupLocation') || '-' }}
+                  dangerouslySetInnerHTML={{ __html: watch('pickup_location') || '-' }}
                 />
               </td>
             </tr>
@@ -399,7 +403,7 @@ export default function VoucherTourClientContainer({
               <td className={styles['info-td']} colSpan={3}>
                 <Box className='print:hidden'>
                   <Controller
-                    name='liabilityWaiverUrl'
+                    name='liability_waiver_url'
                     control={control}
                     rules={{
                       pattern: {
@@ -412,13 +416,13 @@ export default function VoucherTourClientContainer({
                         {...field}
                         type='url'
                         placeholder='https://example.com/waiver'
-                        color={errors.liabilityWaiverUrl ? 'red' : undefined}
+                        color={errors.liability_waiver_url ? 'red' : undefined}
                       />
                     )}
                   />
                 </Box>
                 <Text className='print:only' style={{ wordBreak: 'break-all' }}>
-                  {watch('liabilityWaiverUrl') || '-'}
+                  {watch('liability_waiver_url') || '-'}
                 </Text>
               </td>
             </tr>
@@ -431,7 +435,7 @@ export default function VoucherTourClientContainer({
           </Heading>
           <Grid columns='2' className={`${styles['guest-grid']} print:hidden`}>
             <Controller
-              name='selectedClients'
+              name='selected_clients'
               control={control}
               rules={{
                 validate: value => value.length > 0 || '인원을 선택해주세요.'
@@ -462,7 +466,7 @@ export default function VoucherTourClientContainer({
                               onCheckedChange={checked => {
                                 const nextSelectedClients = checked
                                   ? [...field.value, clientLabel]
-                                  : field.value.filter(value => value !== clientLabel);
+                                  : field.value.filter(item => item !== clientLabel);
 
                                 field.onChange(
                                   orderedClientLabels.filter(label =>
@@ -482,14 +486,14 @@ export default function VoucherTourClientContainer({
               }}
             />
           </Grid>
-          {errors.selectedClients && (
+          {errors.selected_clients && (
             <Text color='red' as='p' mt='1'>
-              {errors.selectedClients.message}
+              {errors.selected_clients.message}
             </Text>
           )}
 
           <Grid columns='2' className={`${styles['guest-grid']} print:only`}>
-            {watch('selectedClients').map((client, i) => {
+            {watch('selected_clients').map((client, i) => {
               const parts = client.split(' ');
               const gender = parts[parts.length - 1];
               const name = parts.slice(0, -1).join(' ');
@@ -515,13 +519,13 @@ export default function VoucherTourClientContainer({
               </Flex>
               <Box flexGrow='1' className='print:hidden'>
                 <Controller
-                  name='deliveryNotes'
+                  name='delivery_notes'
                   control={control}
                   render={({ field }) => <TextArea {...field} rows={5} resize='vertical' />}
                 />
               </Box>
               <Text className='print:only' style={{ whiteSpace: 'pre-wrap' }}>
-                {watch('deliveryNotes') || '-'}
+                {watch('delivery_notes') || '-'}
               </Text>
             </Flex>
           </Card>
@@ -539,16 +543,16 @@ export default function VoucherTourClientContainer({
               <Box flexGrow='1'>
                 <Box className='print:hidden'>
                   <Controller
-                    name='guideNotes'
+                    name='guide_notes'
                     control={control}
                     render={({ field }) => <TextArea {...field} rows={10} resize='vertical' />}
                   />
                 </Box>
                 <Text className='print:only' style={{ whiteSpace: 'pre-wrap' }}>
-                  {watch('guideNotes') || '-'}
+                  {watch('guide_notes') || '-'}
                 </Text>
                 <Text as='p' color='red' mt='8'>
-                  [취소규정] {watch('cancellationPolicy') || '-'}
+                  [취소규정] {watch('cancellation_policy') || '-'}
                 </Text>
               </Box>
             </Flex>
