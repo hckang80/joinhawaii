@@ -1,7 +1,6 @@
 import { PaymentStatusKey, ProductStatusKey } from '@/types';
 import type { PostgrestError } from '@supabase/supabase-js';
 import { toast } from 'react-toastify';
-import { TIME_ZONE } from '../constants';
 
 export function toReadableDate(date: Date | string, includeTime = false) {
   const d = typeof date === 'string' ? new Date(date) : date;
@@ -169,16 +168,18 @@ export const getPaymentStatus = ({
 
 /**
  * ISO 날짜 문자열에서 날짜 부분만 추출합니다 (YYYY-MM-DD)
+ * '2026-03-25T15:00:00+00:00' -> '2026-03-25'
  */
 export function extractDateString(isoString: string | null | undefined): string {
   if (!isoString) return '';
 
-  const date = new Date(isoString);
-  return new Intl.DateTimeFormat('en-CA', { timeZone: TIME_ZONE }).format(date);
+  const match = isoString.match(/^\d{4}-\d{2}-\d{2}/);
+  return match ? match[0] : '';
 }
 
 /**
  * ISO 날짜 문자열에서 시간과 분을 추출합니다
+ * '2026-03-25T15:00:00+00:00' -> { hours: 15, minutes: 0 }
  */
 export function extractTime(isoString: string | null | undefined): {
   hours: number;
