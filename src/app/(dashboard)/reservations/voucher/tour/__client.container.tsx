@@ -179,7 +179,6 @@ export default function VoucherTourClientContainer({
   }, [defaultFormValues, reset]);
 
   const onSubmit: SubmitHandler<VoucherFormState> = formData => {
-    console.log({ formData });
     if (!isDirty) return toast.info('변경된 내용이 없습니다.');
 
     const {
@@ -198,8 +197,7 @@ export default function VoucherTourClientContainer({
           ...tourData,
           arrival_time: toSqlTime(location_time),
           arrival_location: pickup_location,
-          liability_waiver: liability_waiver_url,
-          rule: cancellation_policy
+          liability_waiver: liability_waiver_url
         }
       ]
     } as unknown as Partial<ReservationFormData>;
