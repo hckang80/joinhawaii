@@ -79,21 +79,6 @@ function parsePickupLocation(raw: string | undefined) {
   return { pickupType, locationTime, pickupLocation, liabilityWaiverUrl };
 }
 
-function buildPickupLocation(
-  pickupType: VoucherFormState['pickupType'],
-  locationTime: string,
-  pickupLocation: string,
-  liabilityWaiverUrl: string
-) {
-  const sanitizedLocation = (pickupLocation || '')
-    .replace(PICKUP_TYPE_MARKER_PATTERN, '')
-    .replace(LOCATION_TIME_MARKER_PATTERN, '')
-    .replace(LIABILITY_WAIVER_URL_MARKER_PATTERN, '');
-  const encodedLocationTime = encodeURIComponent(locationTime || '');
-  const encodedLiabilityWaiverUrl = encodeURIComponent(liabilityWaiverUrl || '');
-  return `<!--pickup_type:${pickupType}--><!--location_time:${encodedLocationTime}--><!--liability_waiver_url:${encodedLiabilityWaiverUrl}-->${sanitizedLocation}`;
-}
-
 function getSelectedProduct(data: ReservationResponse | undefined, productId?: string) {
   const selectedProducts = data?.products?.tours ?? [];
 
@@ -199,12 +184,6 @@ export default function VoucherTourClientContainer({
           arrival_time: toSqlTime(formData.locationTime),
           arrival_location: formData.pickupLocation,
           liability_waiver: formData.liabilityWaiverUrl,
-          pickup_location: buildPickupLocation(
-            formData.pickupType,
-            formData.locationTime,
-            formData.pickupLocation,
-            formData.liabilityWaiverUrl
-          ),
           delivery_notes: formData.deliveryNotes,
           guide_notes: formData.guideNotes,
           selected_clients: formData.selectedClients
