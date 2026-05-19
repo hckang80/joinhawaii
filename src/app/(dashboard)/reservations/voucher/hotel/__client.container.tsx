@@ -118,6 +118,8 @@ export default function VoucherHotelClientContainer({
       hotels: [
         {
           id: selectedProduct.id,
+          start_date: selectedProduct.check_in_date,
+          end_date: selectedProduct.check_out_date,
           confirmation_number: formData.confirmationNumber,
           delivery_notes: formData.deliveryNotes,
           guide_notes: formData.guideNotes,
