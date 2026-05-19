@@ -165,7 +165,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
               <th className={styles.th}>이름</th>
               <th className={styles.th}>영문</th>
               <th className={styles.th}>성별</th>
-              <th className={styles.th}>주민번호</th>
+              <th className={styles.th}>생년월일</th>
               <th className={styles.th}>연락처</th>
               <th className={styles.th}>이메일</th>
             </tr>
