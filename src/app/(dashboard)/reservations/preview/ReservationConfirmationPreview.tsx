@@ -261,27 +261,27 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                   <td className={styles.td}>{formatDateTime(flight.arrival_datetime)}</td>
                   <td className={styles.td}>{flight.arrival_city || '-'}</td>
                 </tr>
-                {(flight.rule || flight.remarks) && (
+                {(flight.remarks || flight.rule) && (
                   <tr>
                     <td className={styles.td} colSpan={5}>
                       <Grid columns='1' gap='1'>
-                        {flight.rule && (
+                        {flight.remarks && (
                           <Flex gap='2' align='center' wrap='nowrap'>
                             <Text size='2' weight='bold'>
                               비고:
                             </Text>
                             <Text size='2' color='blue'>
-                              {flight.rule}
+                              {flight.remarks}
                             </Text>
                           </Flex>
                         )}
-                        {flight.remarks && (
+                        {flight.rule && (
                           <Flex gap='2' align='center' wrap='nowrap'>
                             <Text size='2' weight='bold'>
                               규정:
                             </Text>
                             <Text size='2' color='red'>
-                              {flight.remarks}
+                              {flight.rule}
                             </Text>
                           </Flex>
                         )}
@@ -356,27 +356,27 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                   </td>
                   <td className={styles.td}>{toReadableAmount(hotel.total_amount)}</td>
                 </tr>
-                {(hotel.rule || hotel.remarks) && (
+                {(hotel.remarks || hotel.rule) && (
                   <tr>
                     <td className={styles.td} colSpan={7}>
                       <Grid columns='1' gap='1'>
-                        {hotel.rule && (
+                        {hotel.remarks && (
                           <Flex gap='2' align='center' wrap='nowrap'>
                             <Text size='2' weight='bold'>
                               비고:
                             </Text>
                             <Text size='2' color='blue'>
-                              {hotel.rule}
+                              {hotel.remarks}
                             </Text>
                           </Flex>
                         )}
-                        {hotel.remarks && (
+                        {hotel.rule && (
                           <Flex gap='2' align='center' wrap='nowrap'>
                             <Text size='2' weight='bold'>
                               규정:
                             </Text>
                             <Text size='2' color='red'>
-                              {hotel.remarks}
+                              {hotel.rule}
                             </Text>
                           </Flex>
                         )}
@@ -429,27 +429,27 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                   </td>
                   <td className={styles.td}>{toReadableAmount(tour.total_amount)}</td>
                 </tr>
-                {(tour.rule || tour.remarks) && (
+                {(tour.remarks || tour.rule) && (
                   <tr>
                     <td className={styles.td} colSpan={4}>
                       <Grid columns='1' gap='1'>
-                        {tour.rule && (
+                        {tour.remarks && (
                           <Flex gap='2' align='center' wrap='nowrap'>
                             <Text size='2' weight='bold'>
                               비고:
                             </Text>
                             <Text size='2' color='blue'>
-                              {tour.rule}
+                              {tour.remarks}
                             </Text>
                           </Flex>
                         )}
-                        {tour.remarks && (
+                        {tour.rule && (
                           <Flex gap='2' align='center' wrap='nowrap'>
                             <Text size='2' weight='bold'>
                               규정:
                             </Text>
                             <Text size='2' color='red'>
-                              {tour.remarks}
+                              {tour.rule}
                             </Text>
                           </Flex>
                         )}
@@ -518,27 +518,27 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                   <td className={styles.td}>{car.rental_days ?? '-'}일</td>
                   <td className={styles.td}>{toReadableAmount(car.total_amount)}</td>
                 </tr>
-                {(car.rule || car.remarks) && (
+                {(car.remarks || car.rule) && (
                   <tr>
                     <td className={styles.td} colSpan={8}>
                       <Grid columns='1' gap='1'>
-                        {car.rule && (
+                        {car.remarks && (
                           <Flex gap='2' align='center' wrap='nowrap'>
                             <Text size='2' weight='bold'>
                               비고:
                             </Text>
                             <Text size='2' color='blue'>
-                              {car.rule}
+                              {car.remarks}
                             </Text>
                           </Flex>
                         )}
-                        {car.remarks && (
+                        {car.rule && (
                           <Flex gap='2' align='center' wrap='nowrap'>
                             <Text size='2' weight='bold'>
                               규정:
                             </Text>
                             <Text size='2' color='red'>
-                              {car.remarks}
+                              {car.rule}
                             </Text>
                           </Flex>
                         )}
@@ -586,27 +586,27 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                   </td>
                   <td className={styles.td}>{toReadableAmount(insurance.total_amount)}</td>
                 </tr>
-                {(insurance.rule || insurance.remarks) && (
+                {(insurance.remarks || insurance.rule) && (
                   <tr>
                     <td className={styles.td} colSpan={4}>
                       <Grid columns='1' gap='1'>
-                        {insurance.rule && (
+                        {insurance.remarks && (
                           <Flex gap='2' align='center' wrap='nowrap'>
                             <Text size='2' weight='bold'>
                               비고:
                             </Text>
                             <Text size='2' color='blue'>
-                              {insurance.rule}
+                              {insurance.remarks}
                             </Text>
                           </Flex>
                         )}
-                        {insurance.remarks && (
+                        {insurance.rule && (
                           <Flex gap='2' align='center' wrap='nowrap'>
                             <Text size='2' weight='bold'>
                               규정:
                             </Text>
                             <Text size='2' color='red'>
-                              {insurance.remarks}
+                              {insurance.rule}
                             </Text>
                           </Flex>
                         )}
