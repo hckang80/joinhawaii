@@ -44,19 +44,15 @@ function TimeInputFields({
   handleChange: (value: string) => void;
 }) {
   const isDateTimeValue = Boolean(isoValue?.includes('T'));
-  const parsedTime = isDateTimeValue
-    ? extractTime(isoValue)
-    : (parsePlainTime(isoValue) ?? { hours: 0, minutes: 0 });
+  const parsedTime = getTimeParts(isoValue);
   const [hoursInput, setHoursInput] = useState(String(parsedTime.hours));
   const [minutesInput, setMinutesInput] = useState(String(parsedTime.minutes));
 
   useEffect(() => {
-    const next = isDateTimeValue
-      ? extractTime(isoValue)
-      : (parsePlainTime(isoValue) ?? { hours: 0, minutes: 0 });
+    const next = getTimeParts(isoValue);
     setHoursInput(String(next.hours));
     setMinutesInput(String(next.minutes));
-  }, [isDateTimeValue, isoValue]);
+  }, [isoValue]);
 
   const parseSegment = (raw: string, max: number): number | undefined => {
     if (!/^\d{1,2}$/.test(raw)) return;
@@ -144,6 +140,10 @@ function TimeInputFields({
       />
     </Flex>
   );
+}
+
+function getTimeParts(raw: string | null | undefined): { hours: number; minutes: number } {
+  return raw?.includes('T') ? extractTime(raw) : (parsePlainTime(raw) ?? { hours: 0, minutes: 0 });
 }
 
 function parsePlainTime(raw: string | null | undefined): { hours: number; minutes: number } | null {

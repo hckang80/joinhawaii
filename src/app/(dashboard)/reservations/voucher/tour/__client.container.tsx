@@ -51,34 +51,25 @@ const LIABILITY_WAIVER_URL_MARKER_PATTERN = /<!--liability_waiver_url:([^>]*)-->
 const LOCATION_TIME_MARKER_PATTERN = /<!--location_time:([^>]*)-->/;
 const TIME_STORAGE_DATE = '1970-01-01';
 
-function normalizeTimeLabel(raw: string | null | undefined) {
+function extractTimeLabel(raw: string | null | undefined) {
   if (!raw) return '';
 
-  if (raw.includes('T')) {
-    return raw.slice(raw.indexOf('T') + 1, raw.indexOf('T') + 6);
-  }
-
-  const match = raw.match(/^(\d{1,2}):(\d{2})(?::\d{2})?$/);
-  if (!match) return raw;
+  const match = raw.match(/(?:T)?(\d{1,2}):(\d{2})(?::\d{2})?$/);
+  if (!match) return '';
 
   return `${match[1].padStart(2, '0')}:${match[2]}`;
 }
 
 function toFormTimeValue(raw: string | null | undefined) {
-  const normalized = normalizeTimeLabel(raw);
-  if (!normalized) return '';
   if (raw?.includes('T')) return raw;
-  return `${TIME_STORAGE_DATE}T${normalized}:00`;
+
+  const timeLabel = extractTimeLabel(raw);
+  return timeLabel ? `${TIME_STORAGE_DATE}T${timeLabel}:00` : '';
 }
 
 function toSqlTime(raw: string) {
-  if (!raw) return '00:00:00';
-
-  if (raw.includes('T')) {
-    return `${raw.slice(raw.indexOf('T') + 1, raw.indexOf('T') + 6)}:00`;
-  }
-
-  return raw.length === 5 ? `${raw}:00` : raw;
+  const timeLabel = extractTimeLabel(raw);
+  return timeLabel ? `${timeLabel}:00` : '00:00:00';
 }
 
 function parsePickupLocation(raw: string | undefined) {
@@ -375,9 +366,7 @@ export default function VoucherTourClientContainer({
                     }
                   />
                 </Box>
-                <Text className='print:only'>
-                  {normalizeTimeLabel(watch('locationTime')) || '-'}
-                </Text>
+                <Text className='print:only'>{extractTimeLabel(watch('locationTime')) || '-'}</Text>
               </td>
             </tr>
             <tr>
