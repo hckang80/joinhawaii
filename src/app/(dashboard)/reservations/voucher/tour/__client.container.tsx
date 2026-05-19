@@ -375,7 +375,9 @@ export default function VoucherTourClientContainer({
                     }
                   />
                 </Box>
-                <Text className='print:only'>{normalizeTimeLabel(watch('locationTime')) || '-'}</Text>
+                <Text className='print:only'>
+                  {normalizeTimeLabel(watch('locationTime')) || '-'}
+                </Text>
               </td>
             </tr>
             <tr>

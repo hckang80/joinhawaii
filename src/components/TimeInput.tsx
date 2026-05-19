@@ -46,14 +46,14 @@ function TimeInputFields({
   const isDateTimeValue = Boolean(isoValue?.includes('T'));
   const parsedTime = isDateTimeValue
     ? extractTime(isoValue)
-    : parsePlainTime(isoValue) ?? { hours: 0, minutes: 0 };
+    : (parsePlainTime(isoValue) ?? { hours: 0, minutes: 0 });
   const [hoursInput, setHoursInput] = useState(String(parsedTime.hours));
   const [minutesInput, setMinutesInput] = useState(String(parsedTime.minutes));
 
   useEffect(() => {
     const next = isDateTimeValue
       ? extractTime(isoValue)
-      : parsePlainTime(isoValue) ?? { hours: 0, minutes: 0 };
+      : (parsePlainTime(isoValue) ?? { hours: 0, minutes: 0 });
     setHoursInput(String(next.hours));
     setMinutesInput(String(next.minutes));
   }, [isDateTimeValue, isoValue]);
