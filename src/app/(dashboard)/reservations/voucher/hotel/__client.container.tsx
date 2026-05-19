@@ -51,14 +51,16 @@ function getSelectedProduct(data: ReservationResponse | undefined, productId?: s
   return selectedProducts[0];
 }
 
-function renderProductNameContent(selectedProduct: ReturnType<typeof getSelectedProduct>) {
+function renderProductNameContent(
+  selectedProduct: NonNullable<ReturnType<typeof getSelectedProduct>>
+) {
   const englishLabel =
-    HOTELS[selectedProduct?.region]?.find(({ label }) => label === selectedProduct?.hotel_name)
+    HOTELS[selectedProduct.region]?.find(({ label }) => label === selectedProduct.hotel_name)
       ?.en_label || '-';
 
   return (
     <>
-      {selectedProduct?.hotel_name || '-'}
+      {selectedProduct.hotel_name || '-'}
       <Text as='p'>{englishLabel}</Text>
     </>
   );
@@ -137,76 +139,6 @@ export default function VoucherHotelClientContainer({
 
   const selectedProduct = useMemo(() => getSelectedProduct(data, productId), [data, productId]);
 
-  const voucherMutation = useMutation({
-    mutationFn: (payload: Partial<ReservationFormData>) => updateReservation(payload),
-    onSuccess: () => {
-      toast.success('바우처가 성공적으로 제출되었습니다.');
-    },
-    onError: (error: Error) => {
-      toast.error(error.message || '바우처 제출에 실패했습니다.');
-    }
-  });
-
-  const defaultFormValues = useMemo<VoucherFormState>(() => {
-    return {
-      check_in_date: getPreferredHotelDate(
-        selectedProduct,
-        'start_date',
-        selectedProduct?.check_in_date
-      ),
-      check_out_date: getPreferredHotelDate(
-        selectedProduct,
-        'end_date',
-        selectedProduct?.check_out_date
-      ),
-      real_nights: getPreferredHotelNights(selectedProduct),
-      confirmation_number: selectedProduct?.confirmation_number || '',
-      delivery_notes: getDefaultDeliveryNotes(selectedProduct?.delivery_notes),
-      guide_notes: getDefaultGuideNotes(selectedProduct?.guide_notes),
-      selected_clients: selectedProduct?.selected_clients || []
-    };
-  }, [selectedProduct]);
-
-  const {
-    control,
-    handleSubmit,
-    reset,
-    watch,
-    formState: { errors, isDirty }
-  } = useForm<VoucherFormState>({
-    mode: 'onBlur',
-    defaultValues: defaultFormValues
-  });
-
-  useEffect(() => {
-    reset(defaultFormValues);
-  }, [defaultFormValues, reset]);
-
-  const onSubmit: SubmitHandler<VoucherFormState> = formData => {
-    if (!isDirty) return toast.info('변경된 내용이 없습니다.');
-
-    if (!selectedProduct) {
-      toast.error('선택된 호텔 정보를 찾을 수 없습니다.');
-      return;
-    }
-
-    const { check_in_date, check_out_date, ...hotelData } = formData;
-
-    const submitData = {
-      reservation_id: reservationId,
-      hotels: [
-        {
-          id: selectedProduct.id,
-          ...hotelData,
-          start_date: check_in_date || null,
-          end_date: check_out_date || null
-        }
-      ]
-    } as unknown as Partial<ReservationFormData>;
-
-    voucherMutation.mutate(submitData);
-  };
-
   if (!reservationId) {
     return (
       <Box width='1000px' mx='auto'>
@@ -240,6 +172,97 @@ export default function VoucherHotelClientContainer({
       </Box>
     );
   }
+
+  if (!selectedProduct) {
+    return (
+      <Box width='1000px' mx='auto'>
+        <Card>
+          <Text>선택된 호텔 정보를 찾을 수 없습니다.</Text>
+        </Card>
+      </Box>
+    );
+  }
+
+  return (
+    <VoucherHotelForm
+      reservationId={reservationId}
+      selectedProduct={selectedProduct}
+      clients={data?.clients ?? []}
+    />
+  );
+}
+
+type VoucherHotelFormProps = {
+  reservationId: string;
+  selectedProduct: NonNullable<ReturnType<typeof getSelectedProduct>>;
+  clients: ReservationResponse['clients'];
+};
+
+function VoucherHotelForm({ reservationId, selectedProduct, clients }: VoucherHotelFormProps) {
+  const voucherMutation = useMutation({
+    mutationFn: (payload: Partial<ReservationFormData>) => updateReservation(payload),
+    onSuccess: () => {
+      toast.success('바우처가 성공적으로 제출되었습니다.');
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || '바우처 제출에 실패했습니다.');
+    }
+  });
+
+  const defaultFormValues = useMemo<VoucherFormState>(() => {
+    return {
+      check_in_date: getPreferredHotelDate(
+        selectedProduct,
+        'start_date',
+        selectedProduct.check_in_date
+      ),
+      check_out_date: getPreferredHotelDate(
+        selectedProduct,
+        'end_date',
+        selectedProduct.check_out_date
+      ),
+      real_nights: getPreferredHotelNights(selectedProduct),
+      confirmation_number: selectedProduct.confirmation_number || '',
+      delivery_notes: getDefaultDeliveryNotes(selectedProduct.delivery_notes),
+      guide_notes: getDefaultGuideNotes(selectedProduct.guide_notes),
+      selected_clients: selectedProduct.selected_clients || []
+    };
+  }, [selectedProduct]);
+
+  const {
+    control,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors, isDirty }
+  } = useForm<VoucherFormState>({
+    mode: 'onBlur',
+    defaultValues: defaultFormValues
+  });
+
+  useEffect(() => {
+    reset(defaultFormValues);
+  }, [defaultFormValues, reset]);
+
+  const onSubmit: SubmitHandler<VoucherFormState> = formData => {
+    if (!isDirty) return toast.info('변경된 내용이 없습니다.');
+
+    const { check_in_date, check_out_date, ...hotelData } = formData;
+
+    const submitData = {
+      reservation_id: reservationId,
+      hotels: [
+        {
+          id: selectedProduct.id,
+          ...hotelData,
+          start_date: check_in_date || null,
+          end_date: check_out_date || null
+        }
+      ]
+    } as unknown as Partial<ReservationFormData>;
+
+    voucherMutation.mutate(submitData);
+  };
 
   return (
     <Box width='1000px' mx='auto' className='voucher-root'>
@@ -346,22 +369,22 @@ export default function VoucherHotelClientContainer({
             <tr>
               <th className={styles['info-th']}>room category</th>
               <td className={styles['info-td']} colSpan={3}>
-                {selectedProduct?.room_type || '-'}
+                {selectedProduct.room_type || '-'}
               </td>
             </tr>
             <tr>
               <th className={styles['info-th']}>bed type</th>
               <td className={styles['info-td']} colSpan={3}>
-                {selectedProduct?.bed_type || '-'}
+                {selectedProduct.bed_type || '-'}
               </td>
             </tr>
             <tr>
               <th className={styles['info-th']}>breakfast</th>
               <td className={styles['info-td']}>
-                {selectedProduct?.is_breakfast_included ? 'INCLUSION' : 'EXCLUSION'}
+                {selectedProduct.is_breakfast_included ? 'INCLUSION' : 'EXCLUSION'}
               </td>
               <th className={styles['info-th']}>resort fee</th>
-              <td className={styles['info-td']}>{selectedProduct?.resort_fee_type || '-'}</td>
+              <td className={styles['info-td']}>{selectedProduct.resort_fee_type || '-'}</td>
             </tr>
             <tr>
               <th className={styles['info-th']}>confirmation</th>
@@ -406,13 +429,13 @@ export default function VoucherHotelClientContainer({
                 validate: value => value.length > 0 || '인원을 선택해주세요.'
               }}
               render={({ field }) => {
-                const orderedClientLabels = (data?.clients ?? []).map(client =>
+                const orderedClientLabels = clients.map(client =>
                   `${client.english_name || ''} ${client.gender || ''}`.trim()
                 );
 
                 return (
                   <>
-                    {data?.clients?.map(client => {
+                    {clients.map(client => {
                       const clientLabel =
                         `${client.english_name || ''} ${client.gender || ''}`.trim();
                       const isChecked = field.value.includes(clientLabel);
@@ -462,7 +485,7 @@ export default function VoucherHotelClientContainer({
 
           <Grid columns='2' className={`${styles['guest-grid']} print:only`}>
             {watch('selected_clients').map((client, i) => {
-              const selectedClient = (data?.clients ?? []).find(foundClient => {
+              const selectedClient = clients.find(foundClient => {
                 const label =
                   `${foundClient.english_name || ''} ${foundClient.gender || ''}`.trim();
                 return label === client;
@@ -550,7 +573,7 @@ export default function VoucherHotelClientContainer({
                   )}
                 </Box>
                 <Text as='p' color='red' mt='8'>
-                  [취소규정] {selectedProduct?.rule || '-'}
+                  [취소규정] {selectedProduct.rule || '-'}
                 </Text>
               </Box>
             </Flex>
