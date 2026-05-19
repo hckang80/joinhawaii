@@ -33,6 +33,7 @@ type VoucherProductClientContainerProps = {
 type VoucherFormState = {
   checkInDate: string;
   checkOutDate: string;
+  nights: number;
   confirmationNumber: string;
   deliveryNotes: string;
   guideNotes: string;
@@ -78,6 +79,16 @@ function getPreferredHotelDate(
   return preferredDate || fallback || '';
 }
 
+function getPreferredHotelNights(selectedProduct: ReturnType<typeof getSelectedProduct>) {
+  const preferredNights = (
+    selectedProduct as { real_nights?: number | null } & NonNullable<
+      ReturnType<typeof getSelectedProduct>
+    >
+  )?.real_nights;
+
+  return preferredNights ?? selectedProduct?.nights ?? 1;
+}
+
 export default function VoucherHotelClientContainer({
   reservationId,
   productId
@@ -118,6 +129,7 @@ export default function VoucherHotelClientContainer({
         'end_date',
         selectedProduct?.check_out_date
       ),
+      nights: getPreferredHotelNights(selectedProduct),
       confirmationNumber: selectedProduct?.confirmation_number || '',
       deliveryNotes: selectedProduct?.delivery_notes || '',
       guideNotes: selectedProduct?.guide_notes || HOTEL_GUIDE_NOTES,
@@ -138,6 +150,7 @@ export default function VoucherHotelClientContainer({
         'end_date',
         selectedProduct?.check_out_date
       ),
+      nights: getPreferredHotelNights(selectedProduct),
       confirmationNumber: selectedProduct?.confirmation_number || '',
       deliveryNotes: selectedProduct?.delivery_notes || '',
       guideNotes: selectedProduct?.guide_notes || HOTEL_GUIDE_NOTES,
@@ -156,6 +169,7 @@ export default function VoucherHotelClientContainer({
           id: selectedProduct.id,
           check_in_date: formData.checkInDate || null,
           check_out_date: formData.checkOutDate || null,
+          nights: formData.nights,
           confirmation_number: formData.confirmationNumber,
           delivery_notes: formData.deliveryNotes,
           guide_notes: formData.guideNotes,
@@ -277,7 +291,22 @@ export default function VoucherHotelClientContainer({
               </td>
               <th className={styles['info-th']}>night</th>
               <td className={styles['info-td']}>
-                {selectedProduct?.nights ? `${selectedProduct.nights}박` : '-'}
+                <Box className='print:hidden'>
+                  <Controller
+                    name='nights'
+                    control={control}
+                    rules={{ min: 1 }}
+                    render={({ field }) => (
+                      <TextField.Root
+                        type='number'
+                        min='1'
+                        value={field.value || 1}
+                        onChange={event => field.onChange(Number(event.target.value))}
+                      />
+                    )}
+                  />
+                </Box>
+                <Text className='print:only'>{watch('nights') ? `${watch('nights')}박` : '-'}</Text>
               </td>
             </tr>
             <tr>
