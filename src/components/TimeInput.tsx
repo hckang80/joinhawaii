@@ -50,27 +50,23 @@ function TimeInputFields({
     setMinutesInput(String(next.minutes));
   }, [isoValue]);
 
-  const parseSegment = (raw: string, max: number): number | '' | null => {
-    if (!/^\d{0,2}$/.test(raw)) return null;
-
-    if (raw === '') {
-      return '';
-    }
+  const parseSegment = (raw: string, max: number): number | undefined => {
+    if (!/^\d{1,2}$/.test(raw)) return;
 
     const nextValue = Number(raw);
-    if (Number.isNaN(nextValue) || nextValue < 0 || nextValue > max) return null;
+    if (Number.isNaN(nextValue) || nextValue < 0 || nextValue > max) return;
 
     return nextValue;
   };
 
   const applyHours = (raw: string) => {
-    const parsedHours = parseSegment(raw, 23);
-    if (parsedHours === null) return;
-
-    if (parsedHours === '') {
+    if (raw === '') {
       setHoursInput('');
       return;
     }
+
+    const parsedHours = parseSegment(raw, 23);
+    if (parsedHours === undefined) return;
 
     setHoursInput(raw);
 
@@ -80,13 +76,13 @@ function TimeInputFields({
   };
 
   const applyMinutes = (raw: string) => {
-    const parsedMinutes = parseSegment(raw, 59);
-    if (parsedMinutes === null) return;
-
-    if (parsedMinutes === '') {
+    if (raw === '') {
       setMinutesInput('');
       return;
     }
+
+    const parsedMinutes = parseSegment(raw, 59);
+    if (parsedMinutes === undefined) return;
 
     setMinutesInput(raw);
 
