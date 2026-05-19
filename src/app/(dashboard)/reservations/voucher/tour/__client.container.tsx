@@ -125,11 +125,6 @@ type VoucherTourFormProps = {
 };
 
 function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTourFormProps) {
-  const parsedPickupLocation = useMemo(
-    () => parsePickupLocation(selectedProduct.pickup_location),
-    [selectedProduct.pickup_location]
-  );
-
   const voucherMutation = useMutation({
     mutationFn: (payload: Partial<ReservationFormData>) => updateReservation(payload),
     onSuccess: () => {
@@ -146,13 +141,12 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
 
     return {
       ...baseFormValues,
-      arrival_time:
-        toFormTimeValue(arrival_time) || toFormTimeValue(parsedPickupLocation.locationTime),
-      arrival_location: arrival_location || parsedPickupLocation.pickupLocation,
-      liability_waiver_url: liability_waiver || parsedPickupLocation.liabilityWaiverUrl,
+      arrival_time: toFormTimeValue(arrival_time),
+      arrival_location,
+      liability_waiver_url: liability_waiver,
       cancellation_policy: rule
     };
-  }, [parsedPickupLocation, selectedProduct]);
+  }, [selectedProduct]);
 
   const {
     control,
