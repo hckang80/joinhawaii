@@ -189,19 +189,16 @@ export default function ReservationsFormClientContainer({
                         <Text as='div' size='3'>
                           상품
                         </Text>
-                        <Text as='div'>추가옵션</Text>
                       </Table.ColumnHeaderCell>
                       {PRODUCT_OPTIONS.filter(({ value }) => value !== 'flight').map(product => (
                         <Table.Cell key={product.value} width='100px' align='right'>
                           <Grid>
                             <Text size='3'>
                               {toReadableAmount(
-                                getProductTotalAmount(data?.products[product.table] ?? [])
-                              )}
-                            </Text>
-                            <Text>
-                              {toReadableAmount(
-                                getAdditionalOptionsTotalAmount(data?.products[product.table] ?? [])
+                                getProductTotalAmount(data?.products[product.table] ?? []) +
+                                  getAdditionalOptionsTotalAmount(
+                                    data?.products[product.table] ?? []
+                                  )
                               )}
                             </Text>
                           </Grid>
