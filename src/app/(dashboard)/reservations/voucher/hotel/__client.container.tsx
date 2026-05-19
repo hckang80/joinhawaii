@@ -190,14 +190,26 @@ function VoucherHotelForm({ reservationId, selectedProduct, clients }: VoucherHo
   });
 
   const defaultFormValues = useMemo<VoucherFormState>(() => {
+    const {
+      start_date,
+      end_date,
+      check_in_date,
+      check_out_date,
+      real_nights,
+      confirmation_number,
+      delivery_notes,
+      guide_notes,
+      selected_clients
+    } = selectedProduct;
+
     return {
-      check_in_date: selectedProduct.start_date || selectedProduct.check_in_date || '',
-      check_out_date: selectedProduct.end_date || selectedProduct.check_out_date || '',
-      real_nights: selectedProduct.real_nights,
-      confirmation_number: selectedProduct.confirmation_number || '',
-      delivery_notes: getDefaultDeliveryNotes(selectedProduct.delivery_notes),
-      guide_notes: getDefaultGuideNotes(selectedProduct.guide_notes),
-      selected_clients: selectedProduct.selected_clients || []
+      check_in_date: start_date ?? check_in_date ?? '',
+      check_out_date: end_date ?? check_out_date ?? '',
+      real_nights,
+      confirmation_number,
+      delivery_notes: getDefaultDeliveryNotes(delivery_notes),
+      guide_notes: getDefaultGuideNotes(guide_notes),
+      selected_clients
     };
   }, [selectedProduct]);
 
