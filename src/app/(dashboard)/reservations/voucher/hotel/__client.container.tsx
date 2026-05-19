@@ -324,18 +324,10 @@ export default function VoucherHotelClientContainer({
             <tr>
               <th className={styles['info-th']}>breakfast</th>
               <td className={styles['info-td']}>
-                {selectedProduct?.is_breakfast_included ? '포함' : '미포함'}
+                {selectedProduct?.is_breakfast_included ? 'INCLUSION' : 'EXCLUSION'}
               </td>
               <th className={styles['info-th']}>resort fee</th>
-              <td className={styles['info-td']}>
-                {selectedProduct?.resort_fee_type === 'INCLUSION'
-                  ? '포함'
-                  : selectedProduct?.resort_fee_type === 'EXCLUSION'
-                    ? '불포함'
-                    : selectedProduct?.resort_fee_type === 'NO RESORT FEE'
-                      ? '없음'
-                      : '-'}
-              </td>
+              <td className={styles['info-td']}>{selectedProduct?.resort_fee_type || '-'}</td>
             </tr>
             <tr>
               <th className={styles['info-th']}>confirmation</th>
