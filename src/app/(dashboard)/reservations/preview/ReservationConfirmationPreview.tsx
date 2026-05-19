@@ -268,7 +268,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                         {flight.rule && (
                           <Flex gap='2' align='center' wrap='nowrap'>
                             <Text size='2' weight='bold'>
-                              rule:
+                              비고:
                             </Text>
                             <Text size='2' color='blue'>
                               {flight.rule}
@@ -278,7 +278,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                         {flight.remarks && (
                           <Flex gap='2' align='center' wrap='nowrap'>
                             <Text size='2' weight='bold'>
-                              remarks:
+                              규정:
                             </Text>
                             <Text size='2' color='red'>
                               {flight.remarks}
@@ -363,7 +363,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                         {hotel.rule && (
                           <Flex gap='2' align='center' wrap='nowrap'>
                             <Text size='2' weight='bold'>
-                              rule:
+                              비고:
                             </Text>
                             <Text size='2' color='blue'>
                               {hotel.rule}
@@ -373,7 +373,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                         {hotel.remarks && (
                           <Flex gap='2' align='center' wrap='nowrap'>
                             <Text size='2' weight='bold'>
-                              remarks:
+                              규정:
                             </Text>
                             <Text size='2' color='red'>
                               {hotel.remarks}
@@ -436,7 +436,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                         {tour.rule && (
                           <Flex gap='2' align='center' wrap='nowrap'>
                             <Text size='2' weight='bold'>
-                              rule:
+                              비고:
                             </Text>
                             <Text size='2' color='blue'>
                               {tour.rule}
@@ -446,7 +446,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                         {tour.remarks && (
                           <Flex gap='2' align='center' wrap='nowrap'>
                             <Text size='2' weight='bold'>
-                              remarks:
+                              규정:
                             </Text>
                             <Text size='2' color='red'>
                               {tour.remarks}
@@ -525,7 +525,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                         {car.rule && (
                           <Flex gap='2' align='center' wrap='nowrap'>
                             <Text size='2' weight='bold'>
-                              rule:
+                              비고:
                             </Text>
                             <Text size='2' color='blue'>
                               {car.rule}
@@ -535,7 +535,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                         {car.remarks && (
                           <Flex gap='2' align='center' wrap='nowrap'>
                             <Text size='2' weight='bold'>
-                              remarks:
+                              규정:
                             </Text>
                             <Text size='2' color='red'>
                               {car.remarks}
@@ -593,7 +593,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                         {insurance.rule && (
                           <Flex gap='2' align='center' wrap='nowrap'>
                             <Text size='2' weight='bold'>
-                              rule:
+                              비고:
                             </Text>
                             <Text size='2' color='blue'>
                               {insurance.rule}
@@ -603,7 +603,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                         {insurance.remarks && (
                           <Flex gap='2' align='center' wrap='nowrap'>
                             <Text size='2' weight='bold'>
-                              remarks:
+                              규정:
                             </Text>
                             <Text size='2' color='red'>
                               {insurance.remarks}
