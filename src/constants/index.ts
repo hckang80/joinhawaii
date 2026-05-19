@@ -469,23 +469,23 @@ export const TOURS_OPTIONS: Record<TourCategory, GroupSelectOption[]> = {
       en_label: 'OAHU ISLAND TOUR JOIN'
     },
     {
-      value: '[일일관광]빅아일랜드 와이키키픽업',
-      label: '[일일관광]빅아일랜드 와이키키픽업',
+      value: '[일일관광]빅아일랜드 일일관광 와이키키픽업',
+      label: '[일일관광]빅아일랜드 일일관광 와이키키픽업',
       en_label: 'ONE DAY BIGISLAND TOUR WAIKIKI'
     },
     {
-      value: '[일일관광]빅아일랜드 코나/힐로픽업',
-      label: '[일일관광]빅아일랜드 코나/힐로픽업',
+      value: '[일일관광]빅아일랜드 일일관광 코나/힐로픽업',
+      label: '[일일관광]빅아일랜드 일일관광 코나/힐로픽업',
       en_label: 'ONE DAY BIGISLAND TOUR KONA/HILLO'
     },
     {
-      value: '[일일관광]마우이',
-      label: '[일일관광]마우이',
+      value: '[일일관광]마우이 일일관광',
+      label: '[일일관광]마우이 일일관광',
       en_label: 'ONE DAY MAUI TOUR'
     },
     {
-      value: '[일일관광]카우아이',
-      label: '[일일관광]카우아이',
+      value: '[일일관광]카우아이 일일관광',
+      label: '[일일관광]카우아이 일일관광',
       en_label: 'ONE DAY KAUAI TOUR'
     }
   ],
