@@ -345,17 +345,12 @@ export default function VoucherHotelClientContainer({
                     name='confirmationNumber'
                     control={control}
                     rules={{
-                      required: '확인번호는 필수입니다.',
-                      pattern: {
-                        value: /^\d+$/,
-                        message: '확인번호는 숫자만 입력 가능합니다.'
-                      }
+                      required: '확인번호는 필수입니다.'
                     }}
                     render={({ field }) => (
                       <TextField.Root
                         {...field}
-                        type='number'
-                        min='0'
+                        type='text'
                         color={errors.confirmationNumber ? 'red' : undefined}
                       >
                         <TextField.Slot>#</TextField.Slot>
