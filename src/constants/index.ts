@@ -969,7 +969,7 @@ export const defaultTourValues = {
   reception: 'PICK UP' as const,
   arrival_time: '00:00:00',
   arrival_location: '',
-  liability_waiver: '',
+  liability_waiver_url: '',
   remarks: '',
   rule: '',
   voucher_number: '',
