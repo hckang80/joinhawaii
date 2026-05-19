@@ -386,8 +386,8 @@ export const PLATFORMS = ['B2C', 'B2B', '플랫폼'] as const;
 export type Platform = (typeof PLATFORMS)[number] | (string & {});
 export const BOOKING_PLATFORM_OPTIONS: Record<Platform, GroupSelectOption[]> = {
   B2C: [
-    { value: '홈피', label: '홈피' },
-    { value: '조인', label: '조인' }
+    { value: '홈페이지', label: '홈페이지' },
+    { value: '조인하와이', label: '조인하와이' }
   ],
   B2B: [
     { value: '샬레', label: '샬레' },
