@@ -55,7 +55,7 @@ export function DateTimeInput<TFieldValues extends FieldValues = FieldValues>({
           }
         }}
       />
-      <TimeInput name={name} control={control} value={field.value} onValueChange={field.onChange} />
+      <TimeInput value={field.value as string | null | undefined} onValueChange={field.onChange} />
     </Flex>
   );
 }
