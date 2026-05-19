@@ -192,10 +192,34 @@ export function extractTime(isoString: string | null | undefined): {
     };
   }
 
-  const date = new Date(isoString);
+  const match = isoString.match(/T(\d{2}):(\d{2})/);
+  if (!match) {
+    return {
+      hours: 0,
+      minutes: 0
+    };
+  }
+
+  const hours = Number(match[1]);
+  const minutes = Number(match[2]);
+
+  if (
+    Number.isNaN(hours) ||
+    Number.isNaN(minutes) ||
+    hours < 0 ||
+    hours > 23 ||
+    minutes < 0 ||
+    minutes > 59
+  ) {
+    return {
+      hours: 0,
+      minutes: 0
+    };
+  }
+
   return {
-    hours: date.getHours(),
-    minutes: date.getMinutes()
+    hours,
+    minutes
   };
 }
 
