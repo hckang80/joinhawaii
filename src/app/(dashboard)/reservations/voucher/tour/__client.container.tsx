@@ -26,7 +26,7 @@ import { useEffect, useMemo } from 'react';
 import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { toReadableDate } from '../../../../../utils';
-import styles from './voucher.module.css';
+import styles from '../voucher.module.css';
 
 type VoucherProductClientContainerProps = {
   reservationId: string;
