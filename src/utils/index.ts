@@ -173,8 +173,7 @@ export const getPaymentStatus = ({
 export function extractDateString(isoString: string | null | undefined): string {
   if (!isoString) return '';
 
-  const match = isoString.match(/^\d{4}-\d{2}-\d{2}/);
-  return match ? match[0] : '';
+  return isoString.slice(0, 10);
 }
 
 /**
@@ -192,7 +191,7 @@ export function extractTime(isoString: string | null | undefined): {
     };
   }
 
-  const match = isoString.match(/T(\d{2}):(\d{2})/);
+  const match = isoString.match(/T(\d{2}):(\d{2})(?::\d{2})?(?:Z|[+-]\d{2}:?\d{2})?$/);
   if (!match) {
     return {
       hours: 0,
@@ -230,10 +229,11 @@ export function updateDateInISO(
   currentISO: string | null | undefined,
   newDateString: string
 ): string {
-  const currentDate = currentISO ? new Date(currentISO) : new Date();
-  const [year, month, day] = newDateString.split('-').map(Number);
-  currentDate.setFullYear(year, month - 1, day);
-  return currentDate.toISOString();
+  const [, rest = ''] = currentISO?.split('T') ?? [];
+  const timezonePart = rest.match(/(Z|[+-]\d{2}:?\d{2})$/)?.[1] ?? '';
+  const timePart = rest.replace(/(Z|[+-]\d{2}:?\d{2})$/, '') || '00:00:00';
+
+  return `${newDateString}T${timePart}${timezonePart}`;
 }
 
 /**
@@ -256,9 +256,12 @@ export function updateTimeInISO(
   hours: number,
   minutes: number
 ): string {
-  const currentDate = currentISO ? new Date(currentISO) : new Date();
-  currentDate.setHours(hours, minutes, 0, 0);
-  return currentDate.toISOString();
+  const nextTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:00`;
+
+  const [datePart = '1970-01-01', rest = ''] = currentISO?.split('T') ?? [];
+  const timezonePart = rest.match(/(Z|[+-]\d{2}:?\d{2})$/)?.[1] ?? '';
+
+  return `${datePart}T${nextTime}${timezonePart}`;
 }
 
 /**

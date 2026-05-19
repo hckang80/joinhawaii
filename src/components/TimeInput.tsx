@@ -5,45 +5,27 @@ import { Flex, TextField } from '@radix-ui/themes';
 import { useEffect, useState } from 'react';
 import { Controller, type Control, type FieldPath, type FieldValues } from 'react-hook-form';
 
-interface TimeInputRHFProps<TFieldValues extends FieldValues = FieldValues> {
-  name: FieldPath<TFieldValues>;
-  control: Control<TFieldValues>;
-  value?: never;
-  onValueChange?: never;
+interface TimeInputProps<TFieldValues extends FieldValues = FieldValues> {
+  name?: FieldPath<TFieldValues>;
+  control?: Control<TFieldValues>;
+  value?: string | null;
+  onValueChange?: (value: string) => void;
 }
 
-interface TimeInputControlledProps {
-  value: string | null | undefined;
-  onValueChange: (value: string) => void;
-  name?: never;
-  control?: never;
-}
-
-type TimeInputProps<TFieldValues extends FieldValues = FieldValues> =
-  | TimeInputRHFProps<TFieldValues>
-  | TimeInputControlledProps;
-
-function isControlledProps<TFieldValues extends FieldValues = FieldValues>(
-  props: TimeInputProps<TFieldValues>
-): props is TimeInputControlledProps {
-  return typeof (props as TimeInputControlledProps).onValueChange === 'function';
-}
-
-export function TimeInput<TFieldValues extends FieldValues = FieldValues>(
-  props: TimeInputProps<TFieldValues>
-) {
-  if (isControlledProps(props)) {
-    const { value, onValueChange } = props;
-
+export function TimeInput<TFieldValues extends FieldValues = FieldValues>({
+  name,
+  control,
+  value,
+  onValueChange
+}: TimeInputProps<TFieldValues>) {
+  if (onValueChange) {
     return <TimeInputFields isoValue={value} handleChange={onValueChange} />;
   }
 
-  const { name, control } = props;
-
   return (
     <Controller
-      name={name}
-      control={control}
+      name={name as FieldPath<TFieldValues>}
+      control={control as Control<TFieldValues>}
       render={({ field }) => (
         <TimeInputFields
           isoValue={field.value as string | null | undefined}
