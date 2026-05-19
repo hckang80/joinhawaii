@@ -179,6 +179,7 @@ export default function VoucherTourClientContainer({
   }, [defaultFormValues, reset]);
 
   const onSubmit: SubmitHandler<VoucherFormState> = formData => {
+    console.log({ formData });
     if (!isDirty) return toast.info('변경된 내용이 없습니다.');
 
     const {
