@@ -385,7 +385,6 @@ export default function VoucherTourClientContainer({
                     name='liabilityWaiverUrl'
                     control={control}
                     rules={{
-                      required: '면책동의서 URL은 필수입니다.',
                       pattern: {
                         value: /^https?:\/\/\S+$/i,
                         message: '올바른 URL 형식을 입력해주세요.'
@@ -400,11 +399,6 @@ export default function VoucherTourClientContainer({
                       />
                     )}
                   />
-                  {errors.liabilityWaiverUrl && (
-                    <Text color='red' mt='1'>
-                      {errors.liabilityWaiverUrl.message}
-                    </Text>
-                  )}
                 </Box>
                 <Text className='print:only' style={{ wordBreak: 'break-all' }}>
                   {watch('liabilityWaiverUrl') || '-'}
