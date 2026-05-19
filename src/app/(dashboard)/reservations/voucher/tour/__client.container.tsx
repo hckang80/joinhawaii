@@ -49,14 +49,35 @@ type VoucherFormState = {
 const PICKUP_TYPE_MARKER_PATTERN = /^<!--pickup_type:(PICK UP|CHECK IN)-->/;
 const LIABILITY_WAIVER_URL_MARKER_PATTERN = /<!--liability_waiver_url:([^>]*)-->/;
 const LOCATION_TIME_MARKER_PATTERN = /<!--location_time:([^>]*)-->/;
+const TIME_STORAGE_DATE = '1970-01-01';
 
-function toUiTime(raw: string | null | undefined) {
+function normalizeTimeLabel(raw: string | null | undefined) {
   if (!raw) return '';
-  return raw.slice(0, 5);
+
+  if (raw.includes('T')) {
+    return raw.slice(raw.indexOf('T') + 1, raw.indexOf('T') + 6);
+  }
+
+  const match = raw.match(/^(\d{1,2}):(\d{2})(?::\d{2})?$/);
+  if (!match) return raw;
+
+  return `${match[1].padStart(2, '0')}:${match[2]}`;
+}
+
+function toFormTimeValue(raw: string | null | undefined) {
+  const normalized = normalizeTimeLabel(raw);
+  if (!normalized) return '';
+  if (raw?.includes('T')) return raw;
+  return `${TIME_STORAGE_DATE}T${normalized}:00`;
 }
 
 function toSqlTime(raw: string) {
   if (!raw) return '00:00:00';
+
+  if (raw.includes('T')) {
+    return `${raw.slice(raw.indexOf('T') + 1, raw.indexOf('T') + 6)}:00`;
+  }
+
   return raw.length === 5 ? `${raw}:00` : raw;
 }
 
@@ -134,7 +155,9 @@ export default function VoucherTourClientContainer({
       voucherNumber: selectedProduct?.voucher_number || '',
       confirmationNumber: selectedProduct?.confirmation_number || '',
       reception: selectedProduct?.reception || '',
-      locationTime: toUiTime(selectedProduct?.arrival_time) || parsedPickupLocation.locationTime,
+      locationTime:
+        toFormTimeValue(selectedProduct?.arrival_time) ||
+        toFormTimeValue(parsedPickupLocation.locationTime),
       pickupLocation: selectedProduct?.arrival_location || parsedPickupLocation.pickupLocation,
       liabilityWaiverUrl:
         selectedProduct?.liability_waiver || parsedPickupLocation.liabilityWaiverUrl,
@@ -150,6 +173,7 @@ export default function VoucherTourClientContainer({
     control,
     handleSubmit,
     reset,
+    setValue,
     watch,
     formState: { errors, isDirty }
   } = useForm<VoucherFormState>({
@@ -157,6 +181,7 @@ export default function VoucherTourClientContainer({
     defaultValues: defaultFormValues
   });
   const selectedReception = watch('reception');
+  const locationTime = watch('locationTime');
 
   useEffect(() => {
     reset(defaultFormValues);
@@ -339,9 +364,18 @@ export default function VoucherTourClientContainer({
               <th className={styles['info-th']}>{`${selectedReception} time`}</th>
               <td className={styles['info-td']} colSpan={3}>
                 <Box className='print:hidden'>
-                  <TimeInput name='locationTime' control={control} />
+                  <TimeInput
+                    value={locationTime}
+                    onValueChange={value =>
+                      setValue('locationTime', value, {
+                        shouldDirty: true,
+                        shouldTouch: true,
+                        shouldValidate: true
+                      })
+                    }
+                  />
                 </Box>
-                <Text className='print:only'>{watch('locationTime') || '-'}</Text>
+                <Text className='print:only'>{normalizeTimeLabel(watch('locationTime')) || '-'}</Text>
               </td>
             </tr>
             <tr>
