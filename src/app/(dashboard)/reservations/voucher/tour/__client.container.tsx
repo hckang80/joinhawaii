@@ -56,8 +56,8 @@ function extractTimeLabel(raw: string | null | undefined) {
   return `${match[1].padStart(2, '0')}:${match[2]}`;
 }
 
-function toFormTimeValue(raw: string | null | undefined) {
-  if (raw?.includes('T')) return raw;
+function toFormTimeValue(raw: string) {
+  if (raw.includes('T')) return raw;
 
   const timeLabel = extractTimeLabel(raw);
   return timeLabel ? `${TIME_STORAGE_DATE}T${timeLabel}:00` : '';
