@@ -93,25 +93,34 @@ const HOTEL_GUIDE_NOTES_HTML = HOTEL_GUIDE_NOTES.split('\n')
   .map(line => `<p>${line}</p>`)
   .join('');
 
-function getDefaultGuideNotes(guideNotes: string | null | undefined) {
-  if (!guideNotes) return HOTEL_GUIDE_NOTES_HTML;
+function hasRenderableTiptapContent(content: string | null | undefined) {
+  if (!content) return false;
 
-  const normalized = guideNotes.replace(/\u200B/g, '').trim();
-  if (!normalized) return HOTEL_GUIDE_NOTES_HTML;
+  const normalized = content.replace(/\u200B/g, '').trim();
+  if (!normalized) return false;
 
   const withoutEmptyParagraph = normalized
     .replace(/<p>(?:\s|&nbsp;|<br\s*\/?>)*<\/p>/gi, '')
     .trim();
 
   if (/<img\b/i.test(withoutEmptyParagraph)) {
-    return guideNotes;
+    return true;
   }
 
   const plainText = withoutEmptyParagraph
     .replace(/<[^>]+>/g, '')
     .replace(/&nbsp;/g, '')
     .trim();
-  return plainText ? guideNotes : HOTEL_GUIDE_NOTES_HTML;
+
+  return plainText.length > 0;
+}
+
+function getDefaultDeliveryNotes(deliveryNotes: string | null | undefined) {
+  return hasRenderableTiptapContent(deliveryNotes) ? (deliveryNotes ?? '') : '';
+}
+
+function getDefaultGuideNotes(guideNotes: string | null | undefined) {
+  return hasRenderableTiptapContent(guideNotes) ? (guideNotes ?? '') : HOTEL_GUIDE_NOTES_HTML;
 }
 
 export default function VoucherHotelClientContainer({
@@ -156,7 +165,7 @@ export default function VoucherHotelClientContainer({
       ),
       nights: getPreferredHotelNights(selectedProduct),
       confirmationNumber: selectedProduct?.confirmation_number || '',
-      deliveryNotes: selectedProduct?.delivery_notes || '',
+      deliveryNotes: getDefaultDeliveryNotes(selectedProduct?.delivery_notes),
       guideNotes: getDefaultGuideNotes(selectedProduct?.guide_notes),
       cancellationPolicy: selectedProduct?.rule || '',
       selectedClients: selectedProduct?.selected_clients || []
@@ -177,7 +186,7 @@ export default function VoucherHotelClientContainer({
       ),
       nights: getPreferredHotelNights(selectedProduct),
       confirmationNumber: selectedProduct?.confirmation_number || '',
-      deliveryNotes: selectedProduct?.delivery_notes || '',
+      deliveryNotes: getDefaultDeliveryNotes(selectedProduct?.delivery_notes),
       guideNotes: getDefaultGuideNotes(selectedProduct?.guide_notes),
       cancellationPolicy: selectedProduct?.rule || '',
       selectedClients: selectedProduct?.selected_clients || []
@@ -488,7 +497,7 @@ export default function VoucherHotelClientContainer({
                 />
               </Box>
               <Box className='print:only'>
-                {watch('deliveryNotes') ? (
+                {hasRenderableTiptapContent(watch('deliveryNotes')) ? (
                   <div dangerouslySetInnerHTML={{ __html: watch('deliveryNotes') }} />
                 ) : (
                   <Text>-</Text>
@@ -523,7 +532,7 @@ export default function VoucherHotelClientContainer({
                   />
                 </Box>
                 <Box className='print:only'>
-                  {watch('guideNotes') ? (
+                  {hasRenderableTiptapContent(watch('guideNotes')) ? (
                     <div dangerouslySetInnerHTML={{ __html: watch('guideNotes') }} />
                   ) : (
                     <Text>-</Text>
