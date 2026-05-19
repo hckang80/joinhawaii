@@ -902,6 +902,13 @@ export const defaultProductValues = {
   notes: ''
 };
 
+export const defaultVoucherValues = {
+  confirmation_number: '',
+  delivery_notes: '',
+  guide_notes: '',
+  selected_clients: [] as string[]
+};
+
 export const HOTEL_GUIDE_NOTES = `* 호텔 룸 BED TYPE 은 당일 호텔 사정에 의해 1BED 또는 2BED 로 배정 받으실 수도 있습니다.
 * 하와이의 모든 호텔은 BED TYPE 과 층수의 확정 예약이 불가 합니다.
 * 체크인 시 예약자 본인임을 확인할 수 있는 여권과 본인 신용카드를 제시하셔야 합니다.
@@ -951,11 +958,8 @@ export const defaultHotelValues = {
   nightly_rate: 0,
   cost: 0,
   remarks: '',
-  guide_notes: '',
   rule: '',
-  confirmation_number: '',
-  delivery_notes: '',
-  selected_clients: [] as string[],
+  ...defaultVoucherValues,
   ...defaultProductValues,
   ...additionalOptions
 };
@@ -973,10 +977,7 @@ export const defaultTourValues = {
   remarks: '',
   rule: '',
   voucher_number: '',
-  confirmation_number: '',
-  delivery_notes: '',
-  guide_notes: '',
-  selected_clients: [] as string[],
+  ...defaultVoucherValues,
   ...defaultPeopleValues,
   ...defaultProductValues,
   ...additionalOptions
@@ -997,10 +998,7 @@ export const defaultCarValues = {
   remarks: '',
   rule: '',
   voucher_number: '',
-  confirmation_number: '',
-  delivery_notes: '',
-  guide_notes: '',
-  selected_clients: [] as string[],
+  ...defaultVoucherValues,
   ...defaultProductValues,
   ...additionalOptions
 };

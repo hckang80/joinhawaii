@@ -1,7 +1,11 @@
+import { defaultVoucherValues } from '@/constants';
+
 export type VoucherProductClientContainerProps = {
   reservationId: string;
   productId?: string;
 };
+
+export type VoucherSharedFormState = typeof defaultVoucherValues;
 
 type ProductWithId = {
   id?: number | string;
