@@ -50,6 +50,16 @@ const PICKUP_TYPE_MARKER_PATTERN = /^<!--pickup_type:(PICK UP|CHECK IN)-->/;
 const LIABILITY_WAIVER_URL_MARKER_PATTERN = /<!--liability_waiver_url:([^>]*)-->/;
 const LOCATION_TIME_MARKER_PATTERN = /<!--location_time:([^>]*)-->/;
 
+function toUiTime(raw: string | null | undefined) {
+  if (!raw) return '';
+  return raw.slice(0, 5);
+}
+
+function toSqlTime(raw: string) {
+  if (!raw) return '00:00:00';
+  return raw.length === 5 ? `${raw}:00` : raw;
+}
+
 function parsePickupLocation(raw: string | undefined) {
   const content = raw || '';
   const pickupTypeMatched = content.match(PICKUP_TYPE_MARKER_PATTERN);
@@ -143,12 +153,13 @@ export default function VoucherTourClientContainer({
   } = useForm<VoucherFormState>({
     mode: 'onBlur',
     defaultValues: {
-      voucherNumber: selectedProduct?.voucher_number || '',
+      voucherNumber: selectedProduct?.voucher || selectedProduct?.voucher_number || '',
       confirmationNumber: selectedProduct?.confirmation_number || '',
-      pickupType: parsedPickupLocation.pickupType,
-      locationTime: parsedPickupLocation.locationTime,
-      pickupLocation: parsedPickupLocation.pickupLocation,
-      liabilityWaiverUrl: parsedPickupLocation.liabilityWaiverUrl,
+      pickupType: selectedProduct?.reception || parsedPickupLocation.pickupType,
+      locationTime: toUiTime(selectedProduct?.arrival_time) || parsedPickupLocation.locationTime,
+      pickupLocation: selectedProduct?.arrival_location || parsedPickupLocation.pickupLocation,
+      liabilityWaiverUrl:
+        selectedProduct?.liability_waiver || parsedPickupLocation.liabilityWaiverUrl,
       deliveryNotes: selectedProduct?.delivery_notes || '',
       guideNotes: selectedProduct?.guide_notes || HOTEL_GUIDE_NOTES,
       cancellationPolicy: selectedProduct?.rule || '',
@@ -159,12 +170,13 @@ export default function VoucherTourClientContainer({
 
   useEffect(() => {
     reset({
-      voucherNumber: selectedProduct?.voucher_number || '',
+      voucherNumber: selectedProduct?.voucher || selectedProduct?.voucher_number || '',
       confirmationNumber: selectedProduct?.confirmation_number || '',
-      pickupType: parsedPickupLocation.pickupType,
-      locationTime: parsedPickupLocation.locationTime,
-      pickupLocation: parsedPickupLocation.pickupLocation,
-      liabilityWaiverUrl: parsedPickupLocation.liabilityWaiverUrl,
+      pickupType: selectedProduct?.reception || parsedPickupLocation.pickupType,
+      locationTime: toUiTime(selectedProduct?.arrival_time) || parsedPickupLocation.locationTime,
+      pickupLocation: selectedProduct?.arrival_location || parsedPickupLocation.pickupLocation,
+      liabilityWaiverUrl:
+        selectedProduct?.liability_waiver || parsedPickupLocation.liabilityWaiverUrl,
       deliveryNotes: selectedProduct?.delivery_notes || '',
       guideNotes: selectedProduct?.guide_notes || HOTEL_GUIDE_NOTES,
       cancellationPolicy: selectedProduct?.rule || '',
@@ -180,8 +192,13 @@ export default function VoucherTourClientContainer({
       tours: [
         {
           id: selectedProduct.id,
+          voucher: formData.voucherNumber,
           voucher_number: formData.voucherNumber,
           confirmation_number: formData.confirmationNumber,
+          reception: formData.pickupType,
+          arrival_time: toSqlTime(formData.locationTime),
+          arrival_location: formData.pickupLocation,
+          liability_waiver: formData.liabilityWaiverUrl,
           pickup_location: buildPickupLocation(
             formData.pickupType,
             formData.locationTime,
