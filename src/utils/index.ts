@@ -7,9 +7,31 @@ export function toReadableDate(date: Date | string, includeTime = false) {
   const d = typeof date === 'string' ? new Date(date) : date;
   if (!(d instanceof Date) || Number.isNaN(d.getTime())) return '-';
 
-  return includeTime
-    ? d.toLocaleString('en-US', { timeZone: TIME_ZONE, hour12: true })
-    : d.toLocaleDateString('ko-KR', { timeZone: TIME_ZONE });
+  if (!includeTime) {
+    return d.toLocaleDateString('ko-KR', { timeZone: TIME_ZONE });
+  }
+
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: TIME_ZONE,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true
+  }).formatToParts(d);
+
+  const getPart = (type: Intl.DateTimeFormatPartTypes) =>
+    parts.find(part => part.type === type)?.value || '';
+
+  const year = getPart('year');
+  const month = getPart('month');
+  const day = getPart('day');
+  const hour = getPart('hour');
+  const minute = getPart('minute');
+  const dayPeriod = getPart('dayPeriod').toUpperCase();
+
+  return `${year}-${month}-${day} ${hour}:${minute} ${dayPeriod}`;
 }
 
 export function toReadableAmount(
