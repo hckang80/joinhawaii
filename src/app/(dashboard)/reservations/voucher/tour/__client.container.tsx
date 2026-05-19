@@ -116,19 +116,16 @@ function renderProductNameContent(selectedProduct: ReturnType<typeof getSelected
   );
 }
 
-export default function VoucherTourClientContainer({
-  reservationId,
-  productId
-}: VoucherProductClientContainerProps) {
-  const { data, isLoading, isError, error } = useQuery({
-    ...reservationQueryOptions(reservationId),
-    enabled: !!reservationId
-  });
+type VoucherTourFormProps = {
+  reservationId: string;
+  selectedProduct: NonNullable<ReturnType<typeof getSelectedProduct>>;
+  clients: ReservationResponse['clients'];
+};
 
-  const selectedProduct = useMemo(() => getSelectedProduct(data, productId), [data, productId]);
+function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTourFormProps) {
   const parsedPickupLocation = useMemo(
-    () => parsePickupLocation(selectedProduct?.pickup_location),
-    [selectedProduct?.pickup_location]
+    () => parsePickupLocation(selectedProduct.pickup_location),
+    [selectedProduct.pickup_location]
   );
 
   const voucherMutation = useMutation({
@@ -153,7 +150,7 @@ export default function VoucherTourClientContainer({
       guide_notes = '',
       rule: cancellation_policy = '',
       selected_clients = []
-    } = selectedProduct ?? {};
+    } = selectedProduct;
 
     return {
       voucher_number,
@@ -207,50 +204,6 @@ export default function VoucherTourClientContainer({
 
     voucherMutation.mutate(submitData);
   };
-
-  if (!reservationId) {
-    return (
-      <Box width='1000px' mx='auto'>
-        <Card>
-          <Text>reservation_id가 없어 바우처 정보를 불러올 수 없습니다.</Text>
-        </Card>
-      </Box>
-    );
-  }
-
-  if (isLoading) {
-    return (
-      <Box width='1000px' mx='auto'>
-        <Card>
-          <Text>바우처 정보를 불러오는 중...</Text>
-        </Card>
-      </Box>
-    );
-  }
-
-  if (isError) {
-    return (
-      <Box width='1000px' mx='auto'>
-        <Card>
-          <Text color='red'>
-            {error instanceof Error
-              ? error.message
-              : '바우처 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.'}
-          </Text>
-        </Card>
-      </Box>
-    );
-  }
-
-  if (!selectedProduct) {
-    return (
-      <Box width='1000px' mx='auto'>
-        <Card>
-          <Text>선택된 투어 정보를 찾을 수 없습니다.</Text>
-        </Card>
-      </Box>
-    );
-  }
 
   return (
     <Box width='1000px' mx='auto' className='voucher-root'>
@@ -334,7 +287,7 @@ export default function VoucherTourClientContainer({
             <tr>
               <th className={styles['info-th']}>date/time</th>
               <td className={styles['info-td']} colSpan={3}>
-                {selectedProduct?.start_date && selectedProduct?.end_date
+                {selectedProduct.start_date && selectedProduct.end_date
                   ? `${toReadableDate(selectedProduct.start_date, true)} ~ ${toReadableDate(selectedProduct.end_date, true)}`
                   : '-'}
               </td>
@@ -455,13 +408,13 @@ export default function VoucherTourClientContainer({
                 validate: value => value.length > 0 || '인원을 선택해주세요.'
               }}
               render={({ field }) => {
-                const orderedClientLabels = (data?.clients ?? []).map(client =>
+                const orderedClientLabels = clients.map(client =>
                   `${client.english_name || ''} ${client.gender || ''}`.trim()
                 );
 
                 return (
                   <>
-                    {data?.clients?.map(client => {
+                    {clients.map(client => {
                       const clientLabel =
                         `${client.english_name || ''} ${client.gender || ''}`.trim();
                       const isChecked = field.value.includes(clientLabel);
@@ -602,5 +555,68 @@ export default function VoucherTourClientContainer({
         </Flex>
       </Section>
     </Box>
+  );
+}
+
+export default function VoucherTourClientContainer({
+  reservationId,
+  productId
+}: VoucherProductClientContainerProps) {
+  const { data, isLoading, isError, error } = useQuery({
+    ...reservationQueryOptions(reservationId),
+    enabled: !!reservationId
+  });
+
+  const selectedProduct = useMemo(() => getSelectedProduct(data, productId), [data, productId]);
+  if (!reservationId) {
+    return (
+      <Box width='1000px' mx='auto'>
+        <Card>
+          <Text>reservation_id가 없어 바우처 정보를 불러올 수 없습니다.</Text>
+        </Card>
+      </Box>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <Box width='1000px' mx='auto'>
+        <Card>
+          <Text>바우처 정보를 불러오는 중...</Text>
+        </Card>
+      </Box>
+    );
+  }
+
+  if (isError) {
+    return (
+      <Box width='1000px' mx='auto'>
+        <Card>
+          <Text color='red'>
+            {error instanceof Error
+              ? error.message
+              : '바우처 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.'}
+          </Text>
+        </Card>
+      </Box>
+    );
+  }
+
+  if (!selectedProduct) {
+    return (
+      <Box width='1000px' mx='auto'>
+        <Card>
+          <Text>선택된 투어 정보를 찾을 수 없습니다.</Text>
+        </Card>
+      </Box>
+    );
+  }
+
+  return (
+    <VoucherTourForm
+      reservationId={reservationId}
+      selectedProduct={selectedProduct}
+      clients={data?.clients ?? []}
+    />
   );
 }
