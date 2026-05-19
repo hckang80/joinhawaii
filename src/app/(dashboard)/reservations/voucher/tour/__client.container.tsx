@@ -384,6 +384,7 @@ export default function VoucherTourClientContainer({
                         value={field.value}
                         onChange={field.onChange}
                         enableImage
+                        simpleMode
                         height='min-h-[220px]'
                         placeholder='위치 안내를 입력하세요. 텍스트와 이미지 첨부가 가능합니다.'
                       />

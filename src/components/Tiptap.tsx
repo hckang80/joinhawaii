@@ -6,7 +6,6 @@ import { Box, Button, Flex, IconButton, Separator, Tooltip } from '@radix-ui/the
 import { Color } from '@tiptap/extension-color';
 import FileHandler from '@tiptap/extension-file-handler';
 import Highlight from '@tiptap/extension-highlight';
-import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
 import TextAlign from '@tiptap/extension-text-align';
 import { TextStyle } from '@tiptap/extension-text-style';
@@ -43,6 +42,7 @@ interface TiptapProps {
   value: string;
   onChange: (content: string) => void;
   enableImage?: boolean;
+  simpleMode?: boolean;
   height?: string;
   placeholder?: string;
 }
@@ -58,6 +58,7 @@ export const Tiptap = ({
   value,
   onChange,
   enableImage = false,
+  simpleMode = false,
   height = 'min-h-[400px]',
   placeholder = '이미지를 올려놓거나 붙여넣기, 선택 후 리사이즈가 가능합니다.'
 }: TiptapProps) => {
@@ -66,14 +67,7 @@ export const Tiptap = ({
 
   const editor = useEditor({
     extensions: [
-      StarterKit,
-      Image.configure({
-        inline: false,
-        allowBase64: true,
-        HTMLAttributes: {
-          class: 'max-w-full h-auto rounded-lg'
-        }
-      }),
+      StarterKit.configure({ link: false }),
       ResizableImage.configure({
         withCaption: false
       }),
@@ -173,7 +167,7 @@ export const Tiptap = ({
     reader.onload = e => {
       const base64 = e.target?.result as string;
       if (editor && base64) {
-        editor.chain().focus().setImage({ src: base64 }).run();
+        editor.chain().focus().insertContent({ type: 'image', attrs: { src: base64 } }).run();
       }
     };
     reader.readAsDataURL(file);
@@ -256,7 +250,7 @@ export const Tiptap = ({
     <Box className={styles['tiptap-root']}>
       <Flex wrap='wrap' align='center' gap='2' p='3' className={styles['tiptap-toolbar']}>
         {/* 스타일 그룹 */}
-        <Flex align='center' gap='1'>
+        {!simpleMode && <Flex align='center' gap='1'>
           <ToolbarButton
             onClick={() => editor.chain().focus().toggleBold().run()}
             isActive={editor.isActive('bold')}
@@ -285,9 +279,9 @@ export const Tiptap = ({
           >
             <Code size={16} />
           </ToolbarButton>
-        </Flex>
+        </Flex>}
 
-        <Separator orientation='vertical' />
+        {!simpleMode && <><Separator orientation='vertical' />
 
         {/* 단락 그룹 */}
         <Flex align='center' gap='1'>
@@ -404,20 +398,20 @@ export const Tiptap = ({
               title='Blue Highlight'
             />
           </Flex>
-        </Flex>
-
-        <Separator orientation='vertical' />
+        </Flex></>
+        }
 
         {/* 콘텐츠 삽입 그룹 */}
         <Flex align='center' gap='1'>
-          <ToolbarButton onClick={setLink} isActive={editor.isActive('link')} title='Insert Link'>
+          {!simpleMode && <ToolbarButton onClick={setLink} isActive={editor.isActive('link')} title='Insert Link'>
             <LinkIcon size={16} />
-          </ToolbarButton>
+          </ToolbarButton>}
           {enableImage && (
             <ToolbarButton onClick={handleImageUpload} isActive={false} title='Insert Image'>
               <ImageIcon size={16} />
             </ToolbarButton>
           )}
+          {!simpleMode && <>
           <ToolbarButton
             onClick={() => editor.chain().focus().toggleBlockquote().run()}
             isActive={editor.isActive('blockquote')}
@@ -432,9 +426,10 @@ export const Tiptap = ({
           >
             <Minus size={16} />
           </ToolbarButton>
+          </>}
         </Flex>
 
-        <Separator orientation='vertical' />
+        {!simpleMode && <><Separator orientation='vertical' />
 
         {/* 기록 그룹 */}
         <Flex align='center' gap='1'>
@@ -452,7 +447,7 @@ export const Tiptap = ({
           >
             <Redo size={16} />
           </ToolbarButton>
-        </Flex>
+        </Flex></>}
       </Flex>
 
       <Box p='4'>
