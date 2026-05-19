@@ -339,7 +339,7 @@ export default function ClientForm({
                   <Table.ColumnHeaderCell width='80px'>이름</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='160px'>영문</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='80px'>성별</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell width='150px'>주민번호</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell width='150px'>생년월일</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='140px'>연락처</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='180px'>이메일</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell width='90px'>진행상태</Table.ColumnHeaderCell>
