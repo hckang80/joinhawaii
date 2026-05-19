@@ -64,6 +64,20 @@ function renderProductNameContent(selectedProduct: ReturnType<typeof getSelected
   );
 }
 
+function getPreferredHotelDate(
+  selectedProduct: ReturnType<typeof getSelectedProduct>,
+  key: 'start_date' | 'end_date',
+  fallback: string | null | undefined
+) {
+  const preferredDate = (
+    selectedProduct as { start_date?: string | null; end_date?: string | null } & NonNullable<
+      ReturnType<typeof getSelectedProduct>
+    >
+  )?.[key];
+
+  return preferredDate || fallback || '';
+}
+
 export default function VoucherHotelClientContainer({
   reservationId,
   productId
@@ -94,8 +108,16 @@ export default function VoucherHotelClientContainer({
   } = useForm<VoucherFormState>({
     mode: 'onBlur',
     defaultValues: {
-      checkInDate: selectedProduct?.check_in_date || '',
-      checkOutDate: selectedProduct?.check_out_date || '',
+      checkInDate: getPreferredHotelDate(
+        selectedProduct,
+        'start_date',
+        selectedProduct?.check_in_date
+      ),
+      checkOutDate: getPreferredHotelDate(
+        selectedProduct,
+        'end_date',
+        selectedProduct?.check_out_date
+      ),
       confirmationNumber: selectedProduct?.confirmation_number || '',
       deliveryNotes: selectedProduct?.delivery_notes || '',
       guideNotes: selectedProduct?.guide_notes || HOTEL_GUIDE_NOTES,
@@ -106,8 +128,16 @@ export default function VoucherHotelClientContainer({
 
   useEffect(() => {
     reset({
-      checkInDate: selectedProduct?.check_in_date || '',
-      checkOutDate: selectedProduct?.check_out_date || '',
+      checkInDate: getPreferredHotelDate(
+        selectedProduct,
+        'start_date',
+        selectedProduct?.check_in_date
+      ),
+      checkOutDate: getPreferredHotelDate(
+        selectedProduct,
+        'end_date',
+        selectedProduct?.check_out_date
+      ),
       confirmationNumber: selectedProduct?.confirmation_number || '',
       deliveryNotes: selectedProduct?.delivery_notes || '',
       guideNotes: selectedProduct?.guide_notes || HOTEL_GUIDE_NOTES,
