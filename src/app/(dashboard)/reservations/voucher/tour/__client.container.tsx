@@ -270,20 +270,8 @@ export default function VoucherTourClientContainer({
                   <Controller
                     name='voucherNumber'
                     control={control}
-                    rules={{
-                      required: '바우처번호는 필수입니다.',
-                      pattern: {
-                        value: /^\d+$/,
-                        message: '바우처번호는 숫자만 입력 가능합니다.'
-                      }
-                    }}
                     render={({ field }) => (
-                      <TextField.Root
-                        {...field}
-                        type='number'
-                        min='0'
-                        color={errors.voucherNumber ? 'red' : undefined}
-                      >
+                      <TextField.Root {...field} type='text' color={errors.voucherNumber ? 'red' : undefined}>
                         <TextField.Slot>#</TextField.Slot>
                       </TextField.Root>
                     )}
@@ -299,18 +287,10 @@ export default function VoucherTourClientContainer({
                   <Controller
                     name='confirmationNumber'
                     control={control}
-                    rules={{
-                      required: '확인번호는 필수입니다.',
-                      pattern: {
-                        value: /^\d+$/,
-                        message: '확인번호는 숫자만 입력 가능합니다.'
-                      }
-                    }}
                     render={({ field }) => (
                       <TextField.Root
                         {...field}
-                        type='number'
-                        min='0'
+                        type='text'
                         color={errors.confirmationNumber ? 'red' : undefined}
                       >
                         <TextField.Slot>#</TextField.Slot>
@@ -384,7 +364,6 @@ export default function VoucherTourClientContainer({
                         value={field.value}
                         onChange={field.onChange}
                         enableImage
-                        simpleMode
                         height='min-h-[220px]'
                         placeholder='위치 안내를 입력하세요. 텍스트와 이미지 첨부가 가능합니다.'
                       />
