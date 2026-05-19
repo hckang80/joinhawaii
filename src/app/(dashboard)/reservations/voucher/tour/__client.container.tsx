@@ -364,9 +364,7 @@ export default function VoucherTourClientContainer({
                     }
                   />
                 </Box>
-                <Text className='print:only'>
-                  {extractTimeLabel(watch('arrival_time')) || '-'}
-                </Text>
+                <Text className='print:only'>{extractTimeLabel(watch('arrival_time')) || '-'}</Text>
               </td>
             </tr>
             <tr>
