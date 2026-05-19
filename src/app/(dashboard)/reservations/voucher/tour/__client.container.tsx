@@ -104,13 +104,15 @@ function getSelectedProduct(data: ReservationResponse | undefined, productId?: s
 
 const tourOptions = Object.values(TOURS_OPTIONS).flat();
 
-function renderProductNameContent(selectedProduct: ReturnType<typeof getSelectedProduct>) {
+function renderProductNameContent(
+  selectedProduct: NonNullable<ReturnType<typeof getSelectedProduct>>
+) {
   const englishLabel =
-    tourOptions?.find(({ label }) => label === selectedProduct?.name)?.en_label || '-';
+    tourOptions?.find(({ label }) => label === selectedProduct.name)?.en_label || '-';
 
   return (
     <>
-      {selectedProduct?.name || '-'}
+      {selectedProduct.name || '-'}
       <Text as='p'>{englishLabel}</Text>
     </>
   );
@@ -140,16 +142,16 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
 
   const defaultFormValues = useMemo<VoucherFormState>(() => {
     const {
-      voucher_number = '',
-      confirmation_number = '',
-      reception = 'PICK UP',
-      arrival_location = '',
-      arrival_time = '',
-      liability_waiver: liabilityWaiver = '',
-      delivery_notes = '',
-      guide_notes = '',
-      rule: cancellation_policy = '',
-      selected_clients = []
+      voucher_number,
+      confirmation_number,
+      reception,
+      arrival_location,
+      arrival_time,
+      liability_waiver,
+      delivery_notes,
+      guide_notes,
+      rule,
+      selected_clients
     } = selectedProduct;
 
     return {
@@ -159,10 +161,10 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
       arrival_time:
         toFormTimeValue(arrival_time) || toFormTimeValue(parsedPickupLocation.locationTime),
       arrival_location: arrival_location || parsedPickupLocation.pickupLocation,
-      liability_waiver_url: liabilityWaiver || parsedPickupLocation.liabilityWaiverUrl,
+      liability_waiver_url: liability_waiver || parsedPickupLocation.liabilityWaiverUrl,
       delivery_notes,
       guide_notes,
-      cancellation_policy,
+      cancellation_policy: rule,
       selected_clients
     };
   }, [parsedPickupLocation, selectedProduct]);
