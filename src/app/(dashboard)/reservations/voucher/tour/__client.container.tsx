@@ -385,7 +385,7 @@ export default function VoucherTourClientContainer({
                         onChange={field.onChange}
                         enableImage
                         height='min-h-[220px]'
-                        placeholder='픽업 위치 안내를 입력하세요. 텍스트와 이미지 첨부가 가능합니다.'
+                        placeholder='위치 안내를 입력하세요. 텍스트와 이미지 첨부가 가능합니다.'
                       />
                     )}
                   />
