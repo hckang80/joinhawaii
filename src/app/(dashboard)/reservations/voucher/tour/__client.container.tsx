@@ -5,6 +5,7 @@ import { TOURS_OPTIONS } from '@/constants';
 import { updateReservation } from '@/http';
 import { reservationQueryOptions } from '@/lib/queries';
 import type { ReservationFormData, ReservationResponse } from '@/types';
+import { formatTimeForPrint, toFormTimeValue, toReadableDate, toSqlTime } from '@/utils';
 import {
   Box,
   Button,
@@ -25,7 +26,6 @@ import Image from 'next/image';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { toReadableDate } from '../../../../../utils';
 import styles from '../voucher.module.css';
 
 type VoucherProductClientContainerProps = {
@@ -44,41 +44,6 @@ type VoucherFormState = {
   guide_notes: string;
   selected_clients: string[];
 };
-
-const TIME_STORAGE_DATE = '1970-01-01';
-
-function extractTimeLabel(raw: string | null | undefined) {
-  if (!raw) return '';
-
-  const match = raw.match(/(?:T)?(\d{1,2}):(\d{2})(?::\d{2})?$/);
-  if (!match) return '';
-
-  return `${match[1].padStart(2, '0')}:${match[2]}`;
-}
-
-function toFormTimeValue(raw: string) {
-  if (raw.includes('T')) return raw;
-
-  const timeLabel = extractTimeLabel(raw);
-  return timeLabel ? `${TIME_STORAGE_DATE}T${timeLabel}:00` : '';
-}
-
-function toSqlTime(raw: string) {
-  const timeLabel = extractTimeLabel(raw);
-  return timeLabel ? `${timeLabel}:00` : '00:00:00';
-}
-
-function formatTimeForPrint(raw: string) {
-  const timeLabel = extractTimeLabel(raw);
-  if (!timeLabel) return '-';
-
-  const [hours, minutes] = timeLabel.split(':');
-  const hour = Number(hours);
-  const meridiem = hour >= 12 ? 'PM' : 'AM';
-  const hour12 = hour % 12 || 12;
-
-  return `${String(hour12).padStart(2, '0')}:${minutes} ${meridiem}`;
-}
 
 function getSelectedProduct(data: ReservationResponse | undefined, productId?: string) {
   const selectedProducts = data?.products?.tours ?? [];

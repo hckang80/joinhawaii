@@ -1,7 +1,7 @@
+import { TIME_ZONE } from '@/constants';
 import { PaymentStatusKey, ProductStatusKey } from '@/types';
 import type { PostgrestError } from '@supabase/supabase-js';
 import { toast } from 'react-toastify';
-import { TIME_ZONE } from '@/constants';
 
 export function toReadableDate(date: Date | string, includeTime = false) {
   const d = typeof date === 'string' ? new Date(date) : date;
@@ -326,4 +326,37 @@ export function compareByDateField<T>(field: keyof T) {
         : b[field]
           ? 1
           : 0;
+}
+
+export function extractTimeLabel(raw: string | null | undefined) {
+  if (!raw) return '';
+
+  const match = raw.match(/(?:T)?(\d{1,2}):(\d{2})(?::\d{2})?$/);
+  if (!match) return '';
+
+  return `${match[1].padStart(2, '0')}:${match[2]}`;
+}
+
+export function toFormTimeValue(raw: string, timeStorageDate = '1970-01-01') {
+  if (raw.includes('T')) return raw;
+
+  const timeLabel = extractTimeLabel(raw);
+  return timeLabel ? `${timeStorageDate}T${timeLabel}:00` : '';
+}
+
+export function toSqlTime(raw: string) {
+  const timeLabel = extractTimeLabel(raw);
+  return timeLabel ? `${timeLabel}:00` : '00:00:00';
+}
+
+export function formatTimeForPrint(raw: string | null | undefined) {
+  const timeLabel = extractTimeLabel(raw);
+  if (!timeLabel) return '-';
+
+  const [hours, minutes] = timeLabel.split(':');
+  const hour = Number(hours);
+  const meridiem = hour >= 12 ? 'PM' : 'AM';
+  const hour12 = hour % 12 || 12;
+
+  return `${String(hour12).padStart(2, '0')}:${minutes} ${meridiem}`;
 }
