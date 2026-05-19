@@ -300,7 +300,7 @@ export default function VoucherHotelClientContainer({
                       <TextField.Root
                         type='number'
                         min='1'
-                        value={field.value || 1}
+                        value={field.value || ''}
                         onChange={event => field.onChange(Number(event.target.value))}
                       />
                     )}
