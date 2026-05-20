@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useReducer, useRef } from 'react';
+import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 
 import { Box, Button, Flex, IconButton, Separator, Tooltip } from '@radix-ui/themes';
 import type { Editor } from '@tiptap/core';
@@ -204,6 +204,7 @@ export const Tiptap = ({
   placeholder = '이미지를 올려놓거나 붙여넣기, 선택 후 리사이즈가 가능합니다.'
 }: TiptapProps) => {
   const [, forceUpdate] = useReducer(x => x + 1, 0);
+  const [uploadingCount, setUploadingCount] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const editor = useEditor({
@@ -232,6 +233,7 @@ export const Tiptap = ({
         allowedMimeTypes: ['image/png', 'image/jpeg', 'image/gif', 'image/webp'],
         onDrop: (currentEditor, files, pos) => {
           void (async () => {
+            setUploadingCount(c => c + files.length);
             for (const file of files) {
               try {
                 await insertUploadedImage(currentEditor, file, imageUploadFolder, pos);
@@ -239,6 +241,8 @@ export const Tiptap = ({
                 const message =
                   error instanceof Error ? error.message : '이미지 업로드에 실패했습니다.';
                 window.alert(message);
+              } finally {
+                setUploadingCount(c => c - 1);
               }
             }
           })();
@@ -247,6 +251,7 @@ export const Tiptap = ({
           if (htmlContent) return false;
 
           void (async () => {
+            setUploadingCount(c => c + files.length);
             for (const file of files) {
               try {
                 await insertUploadedImage(
@@ -259,6 +264,8 @@ export const Tiptap = ({
                 const message =
                   error instanceof Error ? error.message : '이미지 업로드에 실패했습니다.';
                 window.alert(message);
+              } finally {
+                setUploadingCount(c => c - 1);
               }
             }
           })();
@@ -303,11 +310,14 @@ export const Tiptap = ({
 
     void (async () => {
       if (editor) {
+        setUploadingCount(c => c + 1);
         try {
           await insertUploadedImage(editor, file, imageUploadFolder);
         } catch (error) {
           const message = error instanceof Error ? error.message : '이미지 업로드에 실패했습니다.';
           window.alert(message);
+        } finally {
+          setUploadingCount(c => c - 1);
         }
       }
     })();
@@ -619,8 +629,22 @@ export const Tiptap = ({
         )}
       </Flex>
 
-      <Box p='4'>
+      <Box p='4' position='relative'>
         <EditorContent editor={editor} />
+        {uploadingCount > 0 && (
+          <Flex
+            position='absolute'
+            inset='0'
+            align='center'
+            justify='center'
+            className={styles['tiptap-upload-overlay']}
+          >
+            <Flex align='center' gap='2' className={styles['tiptap-upload-badge']}>
+              <span className={styles['tiptap-upload-spinner']} />
+              <span>이미지 업로드 중...</span>
+            </Flex>
+          </Flex>
+        )}
       </Box>
 
       {enableImage && (

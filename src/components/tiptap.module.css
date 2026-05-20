@@ -23,3 +23,37 @@
   width: 100%;
   height: auto;
 }
+
+.tiptap-upload-overlay {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 0 0 8px 8px;
+  backdrop-filter: blur(2px);
+  z-index: 10;
+}
+
+.tiptap-upload-badge {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 13px;
+  color: #374151;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.tiptap-upload-spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid #d1d5db;
+  border-top-color: #6366f1;
+  border-radius: 50%;
+  animation: tiptap-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes tiptap-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
