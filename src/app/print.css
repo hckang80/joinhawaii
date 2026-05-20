@@ -45,6 +45,11 @@
     display: grid !important;
   }
 
+  .Toastify,
+  .Toastify__toast-container {
+    display: none !important;
+  }
+
   .print-watermark {
     display: flex !important;
     position: fixed;
