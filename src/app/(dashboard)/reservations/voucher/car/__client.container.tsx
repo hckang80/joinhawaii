@@ -5,16 +5,8 @@ import { HOTEL_GUIDE_NOTES } from '@/constants';
 import { updateReservation } from '@/http';
 import { reservationQueryOptions } from '@/lib/queries';
 import type { ReservationFormData, ReservationResponse } from '@/types';
-import {
-  Box,
-  Button,
-  Card,
-  Flex,
-  Heading,
-  Section,
-  Text,
-  TextField
-} from '@radix-ui/themes';
+import { toReadableDate } from '@/utils';
+import { Box, Button, Card, Flex, Heading, Section, Text, TextField } from '@radix-ui/themes';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { Mic } from 'lucide-react';
 import Image from 'next/image';
@@ -145,7 +137,7 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
       issue_date: '',
       confirmation_number,
       delivery_notes: getDefaultDeliveryNotes(delivery_notes),
-      guide_notes: getDefaultGuideNotes(guide_notes),
+      guide_notes: getDefaultGuideNotes(guide_notes)
     };
   }, [selectedProduct]);
 
@@ -269,7 +261,12 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
             <tr>
               <th className={styles['info-th']}>pick up information</th>
               <td className={styles['info-td']} colSpan={3}>
-                {[selectedProduct.pickup_location, selectedProduct.pickup_date]
+                {[
+                  selectedProduct.pickup_location,
+                  selectedProduct.pickup_date
+                    ? toReadableDate(selectedProduct.pickup_date, true)
+                    : ''
+                ]
                   .filter(Boolean)
                   .join(' / ')}
               </td>
@@ -277,7 +274,12 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
             <tr>
               <th className={styles['info-th']}>drop off information</th>
               <td className={styles['info-td']} colSpan={3}>
-                {[selectedProduct.return_location, selectedProduct.return_date]
+                {[
+                  selectedProduct.return_location,
+                  selectedProduct.return_date
+                    ? toReadableDate(selectedProduct.return_date, true)
+                    : ''
+                ]
                   .filter(Boolean)
                   .join(' / ')}
               </td>
