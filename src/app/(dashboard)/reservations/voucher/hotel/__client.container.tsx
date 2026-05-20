@@ -34,13 +34,13 @@ import styles from '../voucher.module.css';
 type VoucherFormState = VoucherSharedFormState & {
   check_in_date: string;
   check_out_date: string;
-  real_nights: number;
+  real_nights?: number;
 };
 
 type SelectedHotelProduct = NonNullable<ReservationResponse['products']['hotels'][number]> & {
   start_date?: string | null;
   end_date?: string | null;
-  real_nights: number;
+  real_nights?: number;
 };
 
 function renderProductNameContent(selectedProduct: SelectedHotelProduct) {
@@ -161,6 +161,7 @@ function VoucherHotelForm({ reservationId, selectedProduct, clients }: VoucherHo
       check_in_date,
       check_out_date,
       real_nights,
+      nights,
       confirmation_number,
       delivery_notes,
       guide_notes,
@@ -170,7 +171,7 @@ function VoucherHotelForm({ reservationId, selectedProduct, clients }: VoucherHo
     return {
       check_in_date: start_date ?? check_in_date ?? '',
       check_out_date: end_date ?? check_out_date ?? '',
-      real_nights,
+      real_nights: real_nights && real_nights > 0 ? real_nights : (nights ?? 1),
       confirmation_number,
       delivery_notes: getDefaultDeliveryNotes(delivery_notes),
       guide_notes: getDefaultGuideNotes(guide_notes),
