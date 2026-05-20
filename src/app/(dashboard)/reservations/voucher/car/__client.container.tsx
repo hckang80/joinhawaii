@@ -1,7 +1,7 @@
 'use client';
 
 import { Tiptap } from '@/components';
-import { CAR_GUIDE_NOTES } from '@/constants';
+import { CAR_DELIVERY_NOTES, CAR_GUIDE_NOTES } from '@/constants';
 import { updateReservation } from '@/http';
 import { reservationQueryOptions } from '@/lib/queries';
 import type { ReservationFormData, ReservationResponse } from '@/types';
@@ -24,6 +24,7 @@ import styles from '../voucher.module.css';
 
 type VoucherFormState = Omit<VoucherSharedFormState, 'selected_clients'> & {
   issue_date: string;
+  company: string;
 };
 
 type SelectedCarProduct = NonNullable<ReservationResponse['products']['rental_cars'][number]> & {
@@ -37,7 +38,12 @@ const CAR_GUIDE_NOTES_HTML = CAR_GUIDE_NOTES.split('\n')
   .join('');
 
 function getDefaultDeliveryNotes(deliveryNotes: string | null | undefined) {
-  return hasRenderableTiptapContent(deliveryNotes) ? (deliveryNotes ?? '') : '';
+  if (hasRenderableTiptapContent(deliveryNotes)) {
+    return deliveryNotes ?? '';
+  }
+  return CAR_DELIVERY_NOTES.split('\n')
+    .map(line => `<p>${line}</p>`)
+    .join('');
 }
 
 function getDefaultGuideNotes(guideNotes: string | null | undefined) {
@@ -131,13 +137,13 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
   });
 
   const defaultFormValues = useMemo<VoucherFormState>(() => {
-    const { confirmation_number, delivery_notes, guide_notes } = selectedProduct;
-
+    const { confirmation_number, delivery_notes, guide_notes, company } = selectedProduct as any;
     return {
       issue_date: '',
       confirmation_number,
       delivery_notes: getDefaultDeliveryNotes(delivery_notes),
-      guide_notes: getDefaultGuideNotes(guide_notes)
+      guide_notes: getDefaultGuideNotes(guide_notes),
+      company: company || 'HERTZ',
     };
   }, [selectedProduct]);
 
@@ -244,6 +250,36 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
               <th className={styles['info-th']}>vehicle type</th>
               <td className={styles['info-td']} colSpan={3}>
                 {selectedProduct.model}
+              </td>
+            </tr>
+            <tr>
+              <th className={styles['info-th']}>company</th>
+              <td className={styles['info-td']} colSpan={3}>
+                <Box className="print:hidden">
+                  <Controller
+                    name="company"
+                    control={control}
+                    render={({ field }) => (
+                      <RadioGroup.Root value={field.value} onValueChange={field.onChange}>
+                        <Flex gap="5" align="center">
+                          <Flex asChild align="center" gap="1">
+                            <label>
+                              <RadioGroup.Item value="HERTZ" />
+                              <Text>HERTZ</Text>
+                            </label>
+                          </Flex>
+                          <Flex asChild align="center" gap="1">
+                            <label>
+                              <RadioGroup.Item value="DOLLAR" />
+                              <Text>DOLLAR</Text>
+                            </label>
+                          </Flex>
+                        </Flex>
+                      </RadioGroup.Root>
+                    )}
+                  />
+                </Box>
+                <Text className="print:only">{watch('company')}</Text>
               </td>
             </tr>
             <tr>
