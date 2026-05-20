@@ -997,7 +997,6 @@ export const defaultCarValues = {
   cost: 0,
   remarks: '',
   rule: '',
-  voucher_number: '',
   ...defaultVoucherValues,
   ...defaultProductValues,
   ...additionalOptions

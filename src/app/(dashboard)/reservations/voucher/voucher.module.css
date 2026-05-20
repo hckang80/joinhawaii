@@ -13,6 +13,10 @@
   background: var(--blue-10);
 }
 
+.main-title-car {
+  background: var(--lime-10);
+}
+
 .info-table {
   width: 100%;
   border-collapse: collapse;
