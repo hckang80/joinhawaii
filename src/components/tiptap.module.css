@@ -18,3 +18,8 @@
   outline: 1px solid #ccc;
   background-color: var(--color, #fff);
 }
+
+.tiptap-root :global(.ProseMirror) img {
+  width: 100%;
+  height: auto;
+}
