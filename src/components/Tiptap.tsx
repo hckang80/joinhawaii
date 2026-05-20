@@ -179,7 +179,10 @@ async function insertUploadedImage(
     attrs: {
       src: url,
       alt: file.name,
-      'data-storage-path': path
+      'data-storage-path': path,
+      'data-keep-ratio': false,
+      width: null,
+      height: null
     }
   };
 
@@ -207,7 +210,9 @@ export const Tiptap = ({
     extensions: [
       StarterKit.configure({ link: false }),
       ResizableImage.configure({
-        withCaption: false
+        withCaption: false,
+        defaultWidth: undefined,
+        defaultHeight: undefined
       }),
       Link.configure({
         openOnClick: false,
