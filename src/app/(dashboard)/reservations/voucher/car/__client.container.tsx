@@ -346,7 +346,19 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
             <tr>
               <th className={styles['info-th']}>issue date</th>
               <td className={styles['info-td']} colSpan={3}>
-                -
+                <Box className='print:hidden'>
+                  <Controller
+                    name='issue_date'
+                    control={control}
+                    render={({ field }) => (
+                      <TextField.Root
+                        {...field}
+                        type='date'
+                      />
+                    )}
+                  />
+                </Box>
+                <Text className='print:only'>{watch('issue_date') || '-'}</Text>
               </td>
             </tr>
           </tbody>
