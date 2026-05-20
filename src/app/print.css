@@ -74,6 +74,10 @@
     box-shadow: none !important;
   }
 
+  .voucher-root .rt-Card {
+    border: 1px solid #d1d5db !important;
+  }
+
   .voucher-root table th,
   .voucher-root table td {
     background: transparent !important;
