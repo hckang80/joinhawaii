@@ -147,12 +147,14 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
   });
 
   const defaultFormValues = useMemo<VoucherFormState>(() => {
-    const { confirmation_number, delivery_notes, guide_notes } = selectedProduct;
+    const { confirmation_number, delivery_notes, guide_notes, company } =
+      selectedProduct as SelectedCarProduct & { company?: 'HERTZ' | 'DOLLAR' };
     return {
       issue_date: '',
       confirmation_number,
       delivery_notes: getDefaultDeliveryNotes(delivery_notes),
-      guide_notes: getDefaultGuideNotes(guide_notes)
+      guide_notes: getDefaultGuideNotes(guide_notes),
+      company
     };
   }, [selectedProduct]);
 
