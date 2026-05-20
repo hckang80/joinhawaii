@@ -272,6 +272,8 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
                       <Tiptap
                         value={field.value}
                         onChange={field.onChange}
+                        enableImage
+                        imageUploadFolder={`reservations/${reservationId}/location`}
                         height='min-h-[220px]'
                         placeholder='위치 안내를 입력하세요. 텍스트와 이미지 첨부가 가능합니다.'
                       />

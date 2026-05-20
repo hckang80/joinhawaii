@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useReducer, useRef } from 'react';
 
 import { Box, Button, Flex, IconButton, Separator, Tooltip } from '@radix-ui/themes';
+import type { Editor } from '@tiptap/core';
 import { Color } from '@tiptap/extension-color';
 import FileHandler from '@tiptap/extension-file-handler';
 import Highlight from '@tiptap/extension-highlight';
@@ -42,6 +43,7 @@ interface TiptapProps {
   value: string;
   onChange: (content: string) => void;
   enableImage?: boolean;
+  imageUploadFolder?: string;
   simpleMode?: boolean;
   height?: string;
   placeholder?: string;
@@ -57,6 +59,7 @@ interface ToolbarButtonProps {
 const MAX_IMAGE_WIDTH = 1920;
 const MAX_IMAGE_HEIGHT = 1920;
 const IMAGE_OUTPUT_QUALITY = 0.85;
+const MAX_IMAGE_UPLOAD_SIZE_BYTES = 10 * 1024 * 1024;
 
 const readFileAsDataUrl = (file: File) =>
   new Promise<string>((resolve, reject) => {
@@ -117,10 +120,82 @@ const resizeImageDataUrlIfNeeded = async (file: File) => {
   return resizedDataUrl;
 };
 
+const dataUrlToFile = async (dataUrl: string, fileName: string, mimeType: string) => {
+  const response = await fetch(dataUrl);
+  const blob = await response.blob();
+  return new File([blob], fileName, { type: mimeType });
+};
+
+async function uploadImageToStorage(file: File, imageUploadFolder?: string) {
+  if (file.size > MAX_IMAGE_UPLOAD_SIZE_BYTES) {
+    throw new Error('이미지 파일 용량은 15MB 이하만 업로드할 수 있습니다.');
+  }
+
+  const resizedImageDataUrl = await resizeImageDataUrlIfNeeded(file);
+  const uploadFile = await dataUrlToFile(
+    resizedImageDataUrl,
+    file.name,
+    file.type === 'image/png' ? 'image/png' : 'image/jpeg'
+  );
+
+  const formData = new FormData();
+  formData.append('file', uploadFile);
+
+  if (imageUploadFolder) {
+    formData.append('folder', imageUploadFolder);
+  }
+
+  const response = await fetch('/api/location-images', {
+    method: 'POST',
+    body: formData
+  });
+
+  const responseJson = (await response.json()) as {
+    url?: string;
+    path?: string;
+    message?: string;
+  };
+
+  if (!response.ok || !responseJson.url) {
+    throw new Error(responseJson.message || '이미지 업로드에 실패했습니다.');
+  }
+
+  return {
+    url: responseJson.url,
+    path: responseJson.path || ''
+  };
+}
+
+async function insertUploadedImage(
+  currentEditor: Editor,
+  file: File,
+  imageUploadFolder?: string,
+  position?: number
+) {
+  const { url, path } = await uploadImageToStorage(file, imageUploadFolder);
+
+  const imageNode = {
+    type: 'image',
+    attrs: {
+      src: url,
+      alt: file.name,
+      'data-storage-path': path
+    }
+  };
+
+  if (typeof position === 'number') {
+    currentEditor.chain().insertContentAt(position, imageNode).focus().run();
+    return;
+  }
+
+  currentEditor.chain().focus().insertContent(imageNode).run();
+}
+
 export const Tiptap = ({
   value,
   onChange,
   enableImage = false,
+  imageUploadFolder,
   simpleMode = false,
   height = 'min-h-[400px]',
   placeholder = '이미지를 올려놓거나 붙여넣기, 선택 후 리사이즈가 가능합니다.'
@@ -151,38 +226,37 @@ export const Tiptap = ({
       FileHandler.configure({
         allowedMimeTypes: ['image/png', 'image/jpeg', 'image/gif', 'image/webp'],
         onDrop: (currentEditor, files, pos) => {
-          files.forEach(async file => {
-            const resizedImage = await resizeImageDataUrlIfNeeded(file);
-
-            currentEditor
-              .chain()
-              .insertContentAt(pos, {
-                type: 'image',
-                attrs: {
-                  src: resizedImage
-                }
-              })
-              .focus()
-              .run();
-          });
+          void (async () => {
+            for (const file of files) {
+              try {
+                await insertUploadedImage(currentEditor, file, imageUploadFolder, pos);
+              } catch (error) {
+                const message =
+                  error instanceof Error ? error.message : '이미지 업로드에 실패했습니다.';
+                window.alert(message);
+              }
+            }
+          })();
         },
         onPaste: (currentEditor, files, htmlContent) => {
           if (htmlContent) return false;
 
-          files.forEach(async file => {
-            const resizedImage = await resizeImageDataUrlIfNeeded(file);
-
-            currentEditor
-              .chain()
-              .insertContentAt(currentEditor.state.selection.anchor, {
-                type: 'image',
-                attrs: {
-                  src: resizedImage
-                }
-              })
-              .focus()
-              .run();
-          });
+          void (async () => {
+            for (const file of files) {
+              try {
+                await insertUploadedImage(
+                  currentEditor,
+                  file,
+                  imageUploadFolder,
+                  currentEditor.state.selection.anchor
+                );
+              } catch (error) {
+                const message =
+                  error instanceof Error ? error.message : '이미지 업로드에 실패했습니다.';
+                window.alert(message);
+              }
+            }
+          })();
 
           return true;
         }
@@ -223,13 +297,13 @@ export const Tiptap = ({
     if (!file) return;
 
     void (async () => {
-      const base64 = await resizeImageDataUrlIfNeeded(file);
-      if (editor && base64) {
-        editor
-          .chain()
-          .focus()
-          .insertContent({ type: 'image', attrs: { src: base64 } })
-          .run();
+      if (editor) {
+        try {
+          await insertUploadedImage(editor, file, imageUploadFolder);
+        } catch (error) {
+          const message = error instanceof Error ? error.message : '이미지 업로드에 실패했습니다.';
+          window.alert(message);
+        }
       }
     })();
 
