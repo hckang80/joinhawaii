@@ -60,6 +60,7 @@ const MAX_IMAGE_WIDTH = 1920;
 const MAX_IMAGE_HEIGHT = 1920;
 const IMAGE_OUTPUT_QUALITY = 0.85;
 const MAX_IMAGE_UPLOAD_SIZE_BYTES = 10 * 1024 * 1024;
+const ALLOWED_IMAGE_MIME_TYPES = ['image/png', 'image/jpeg', 'image/webp'];
 
 const readFileAsDataUrl = (file: File) =>
   new Promise<string>((resolve, reject) => {
@@ -128,7 +129,7 @@ const dataUrlToFile = async (dataUrl: string, fileName: string, mimeType: string
 
 async function uploadImageToStorage(file: File, imageUploadFolder?: string) {
   if (file.size > MAX_IMAGE_UPLOAD_SIZE_BYTES) {
-    throw new Error('이미지 파일 용량은 15MB 이하만 업로드할 수 있습니다.');
+    throw new Error('이미지 파일 용량은 10MB 이하만 업로드할 수 있습니다.');
   }
 
   const resizedImageDataUrl = await resizeImageDataUrlIfNeeded(file);
@@ -207,6 +208,25 @@ export const Tiptap = ({
   const [uploadingCount, setUploadingCount] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const uploadImages = useCallback(
+    async (currentEditor: Editor, files: File[], position?: number) => {
+      if (files.length === 0) {
+        return;
+      }
+
+      setUploadingCount(count => count + files.length);
+
+      try {
+        for (const file of files) {
+          await insertUploadedImage(currentEditor, file, imageUploadFolder, position);
+        }
+      } finally {
+        setUploadingCount(count => Math.max(0, count - files.length));
+      }
+    },
+    [imageUploadFolder]
+  );
+
   const editor = useEditor({
     extensions: [
       StarterKit.configure({ link: false }),
@@ -230,20 +250,15 @@ export const Tiptap = ({
         multicolor: true
       }),
       FileHandler.configure({
-        allowedMimeTypes: ['image/png', 'image/jpeg', 'image/gif', 'image/webp'],
+        allowedMimeTypes: ALLOWED_IMAGE_MIME_TYPES,
         onDrop: (currentEditor, files, pos) => {
           void (async () => {
-            setUploadingCount(c => c + files.length);
-            for (const file of files) {
-              try {
-                await insertUploadedImage(currentEditor, file, imageUploadFolder, pos);
-              } catch (error) {
-                const message =
-                  error instanceof Error ? error.message : '이미지 업로드에 실패했습니다.';
-                window.alert(message);
-              } finally {
-                setUploadingCount(c => c - 1);
-              }
+            try {
+              await uploadImages(currentEditor, files, pos);
+            } catch (error) {
+              const message =
+                error instanceof Error ? error.message : '이미지 업로드에 실패했습니다.';
+              window.alert(message);
             }
           })();
         },
@@ -251,22 +266,12 @@ export const Tiptap = ({
           if (htmlContent) return false;
 
           void (async () => {
-            setUploadingCount(c => c + files.length);
-            for (const file of files) {
-              try {
-                await insertUploadedImage(
-                  currentEditor,
-                  file,
-                  imageUploadFolder,
-                  currentEditor.state.selection.anchor
-                );
-              } catch (error) {
-                const message =
-                  error instanceof Error ? error.message : '이미지 업로드에 실패했습니다.';
-                window.alert(message);
-              } finally {
-                setUploadingCount(c => c - 1);
-              }
+            try {
+              await uploadImages(currentEditor, files, currentEditor.state.selection.anchor);
+            } catch (error) {
+              const message =
+                error instanceof Error ? error.message : '이미지 업로드에 실패했습니다.';
+              window.alert(message);
             }
           })();
 
@@ -310,14 +315,11 @@ export const Tiptap = ({
 
     void (async () => {
       if (editor) {
-        setUploadingCount(c => c + 1);
         try {
-          await insertUploadedImage(editor, file, imageUploadFolder);
+          await uploadImages(editor, [file]);
         } catch (error) {
           const message = error instanceof Error ? error.message : '이미지 업로드에 실패했습니다.';
           window.alert(message);
-        } finally {
-          setUploadingCount(c => c - 1);
         }
       }
     })();
