@@ -1,7 +1,7 @@
 'use client';
 
 import { Tiptap } from '@/components';
-import { HOTEL_GUIDE_NOTES } from '@/constants';
+import { CAR_GUIDE_NOTES } from '@/constants';
 import { updateReservation } from '@/http';
 import { reservationQueryOptions } from '@/lib/queries';
 import type { ReservationFormData, ReservationResponse } from '@/types';
@@ -32,7 +32,7 @@ type SelectedCarProduct = NonNullable<ReservationResponse['products']['rental_ca
   real_nights?: number;
 };
 
-const HOTEL_GUIDE_NOTES_HTML = HOTEL_GUIDE_NOTES.split('\n')
+const CAR_GUIDE_NOTES_HTML = CAR_GUIDE_NOTES.split('\n')
   .map(line => `<p>${line}</p>`)
   .join('');
 
@@ -41,7 +41,7 @@ function getDefaultDeliveryNotes(deliveryNotes: string | null | undefined) {
 }
 
 function getDefaultGuideNotes(guideNotes: string | null | undefined) {
-  return hasRenderableTiptapContent(guideNotes) ? (guideNotes ?? '') : HOTEL_GUIDE_NOTES_HTML;
+  return hasRenderableTiptapContent(guideNotes) ? (guideNotes ?? '') : CAR_GUIDE_NOTES_HTML;
 }
 
 export default function VoucherCarClientContainer({
