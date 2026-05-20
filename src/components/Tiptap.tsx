@@ -36,6 +36,7 @@ import {
   Strikethrough,
   Undo
 } from 'lucide-react';
+import { toast } from 'react-toastify';
 import { ResizableImage } from 'tiptap-extension-resizable-image';
 import styles from './tiptap.module.css';
 
@@ -195,6 +196,79 @@ async function insertUploadedImage(
   currentEditor.chain().focus().insertContent(imageNode).run();
 }
 
+async function refreshSignedImageUrls(currentEditor: Editor) {
+  const imageNodes: Array<{ position: number; path: string; src: string }> = [];
+
+  currentEditor.state.doc.descendants((node, position) => {
+    if (node.type.name !== 'image' || typeof node.attrs['data-storage-path'] !== 'string') {
+      return;
+    }
+
+    imageNodes.push({
+      position,
+      path: node.attrs['data-storage-path'],
+      src: typeof node.attrs.src === 'string' ? node.attrs.src : ''
+    });
+  });
+
+  if (imageNodes.length === 0) {
+    return;
+  }
+
+  const refreshedImages = await Promise.all(
+    imageNodes.map(async imageNode => {
+      try {
+        const response = await fetch(
+          `/api/location-images?path=${encodeURIComponent(imageNode.path)}`,
+          { cache: 'no-store' }
+        );
+
+        if (!response.ok) {
+          return null;
+        }
+
+        const responseJson = (await response.json()) as { url?: string };
+
+        if (!responseJson.url || responseJson.url === imageNode.src) {
+          return null;
+        }
+
+        return {
+          ...imageNode,
+          url: responseJson.url
+        };
+      } catch {
+        return null;
+      }
+    })
+  );
+
+  const transaction = currentEditor.state.tr;
+  let hasChanges = false;
+
+  refreshedImages.forEach(imageNode => {
+    if (!imageNode) {
+      return;
+    }
+
+    const existingNode = transaction.doc.nodeAt(imageNode.position);
+
+    if (!existingNode || existingNode.type.name !== 'image') {
+      return;
+    }
+
+    transaction.setNodeMarkup(imageNode.position, undefined, {
+      ...existingNode.attrs,
+      src: imageNode.url
+    });
+    hasChanges = true;
+  });
+
+  if (hasChanges) {
+    currentEditor.view.dispatch(transaction);
+  }
+}
+
 export const Tiptap = ({
   value,
   onChange,
@@ -207,6 +281,7 @@ export const Tiptap = ({
   const [, forceUpdate] = useReducer(x => x + 1, 0);
   const [uploadingCount, setUploadingCount] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const isRefreshingImageUrlsRef = useRef(false);
 
   const uploadImages = useCallback(
     async (currentEditor: Editor, files: File[], position?: number) => {
@@ -226,6 +301,20 @@ export const Tiptap = ({
     },
     [imageUploadFolder]
   );
+
+  const syncSignedImageUrls = useCallback(async (currentEditor: Editor) => {
+    if (isRefreshingImageUrlsRef.current) {
+      return;
+    }
+
+    isRefreshingImageUrlsRef.current = true;
+
+    try {
+      await refreshSignedImageUrls(currentEditor);
+    } finally {
+      isRefreshingImageUrlsRef.current = false;
+    }
+  }, []);
 
   const editor = useEditor({
     extensions: [
@@ -258,7 +347,7 @@ export const Tiptap = ({
             } catch (error) {
               const message =
                 error instanceof Error ? error.message : '이미지 업로드에 실패했습니다.';
-              window.alert(message);
+              toast.error(message);
             }
           })();
         },
@@ -271,7 +360,7 @@ export const Tiptap = ({
             } catch (error) {
               const message =
                 error instanceof Error ? error.message : '이미지 업로드에 실패했습니다.';
-              window.alert(message);
+              toast.error(message);
             }
           })();
 
@@ -298,10 +387,17 @@ export const Tiptap = ({
   });
 
   useEffect(() => {
+    if (editor) {
+      void syncSignedImageUrls(editor);
+    }
+  }, [editor, syncSignedImageUrls]);
+
+  useEffect(() => {
     if (editor && value !== editor.getHTML()) {
       editor.commands.setContent(value || '');
+      void syncSignedImageUrls(editor);
     }
-  }, [value, editor]);
+  }, [value, editor, syncSignedImageUrls]);
 
   // 이미지 업로드 핸들러
   const handleImageUpload = () => {
@@ -319,7 +415,7 @@ export const Tiptap = ({
           await uploadImages(editor, [file]);
         } catch (error) {
           const message = error instanceof Error ? error.message : '이미지 업로드에 실패했습니다.';
-          window.alert(message);
+          toast.error(message);
         }
       }
     })();
