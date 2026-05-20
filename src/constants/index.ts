@@ -1009,6 +1009,7 @@ export const defaultCarValues = {
   model: '',
   options: '',
   driver: '',
+  company: 'HERTZ' as const,
   pickup_location: '',
   return_location: '',
   rental_days: 1,
