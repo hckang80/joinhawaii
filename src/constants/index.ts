@@ -9,7 +9,7 @@ import type {
 
 export * from './query-keys';
 
-export const TIME_ZONE = 'Asia/Seoul';
+export const TIME_ZONE = 'UTC';
 
 export const CUSTOM_LABEL = '직접입력';
 
