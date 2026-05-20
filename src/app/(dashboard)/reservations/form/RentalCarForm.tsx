@@ -508,7 +508,7 @@ export default function RentalCarForm({
                       </Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                      <Table.Cell colSpan={14}>
+                      <Table.Cell colSpan={15}>
                         <Flex align='center' gap='2'>
                           <Text weight='bold'>비고</Text>
                           <Box flexGrow='1'>
@@ -524,7 +524,7 @@ export default function RentalCarForm({
                       </Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                      <Table.Cell colSpan={14}>
+                      <Table.Cell colSpan={15}>
                         <Flex align='center' gap='2'>
                           <Text weight='bold'>규정</Text>
                           <Box flexGrow='1'>
