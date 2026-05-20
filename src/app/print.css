@@ -45,6 +45,11 @@
     display: grid !important;
   }
 
+  .Toastify,
+  .Toastify__toast-container {
+    display: none !important;
+  }
+
   .print-watermark {
     display: flex !important;
     position: fixed;
@@ -69,8 +74,18 @@
     box-shadow: none !important;
   }
 
+  .voucher-root .rt-Card {
+    border: 1px solid #d1d5db !important;
+  }
+
   .voucher-root table th,
   .voucher-root table td {
     background: transparent !important;
+  }
+
+  .ProseMirror img {
+    max-width: 100% !important;
+    width: 100% !important;
+    height: auto !important;
   }
 }
