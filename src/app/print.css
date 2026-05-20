@@ -73,4 +73,10 @@
   .voucher-root table td {
     background: transparent !important;
   }
+
+  .ProseMirror img {
+    max-width: 100% !important;
+    width: 100% !important;
+    height: auto !important;
+  }
 }
