@@ -909,6 +909,10 @@ export const defaultVoucherValues = {
   selected_clients: [] as string[]
 };
 
+export const defaultCarVoucherValues = Object.fromEntries(
+  Object.entries(defaultVoucherValues).filter(([key]) => key !== 'selected_clients')
+) as Omit<typeof defaultVoucherValues, 'selected_clients'>;
+
 export const HOTEL_GUIDE_NOTES = `* 호텔 룸 BED TYPE 은 당일 호텔 사정에 의해 1BED 또는 2BED 로 배정 받으실 수도 있습니다.
 * 하와이의 모든 호텔은 BED TYPE 과 층수의 확정 예약이 불가 합니다.
 * 체크인 시 예약자 본인임을 확인할 수 있는 여권과 본인 신용카드를 제시하셔야 합니다.
@@ -997,7 +1001,7 @@ export const defaultCarValues = {
   cost: 0,
   remarks: '',
   rule: '',
-  ...defaultVoucherValues,
+  ...defaultCarVoucherValues,
   ...defaultProductValues,
   ...additionalOptions
 };

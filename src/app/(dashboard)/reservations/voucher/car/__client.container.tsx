@@ -30,7 +30,7 @@ import {
 } from '../shared';
 import styles from '../voucher.module.css';
 
-type VoucherFormState = VoucherSharedFormState & {
+type VoucherFormState = Omit<VoucherSharedFormState, 'selected_clients'> & {
   issue_date: string;
 };
 
