@@ -61,8 +61,10 @@ export async function POST(request: Request) {
       );
     }
 
-    const folderInput = String(formData.get('folder') || `reservations/${user.id}`);
-    const folder = sanitizeFolder(folderInput);
+    const defaultFolder = `reservations/${user.id}`;
+    const folderInput = String(formData.get('folder') || defaultFolder);
+    const sanitizedFolder = sanitizeFolder(folderInput);
+    const folder = sanitizedFolder || defaultFolder;
     const extension = getFileExtension(file.type, file.name);
     const path = `${folder}/${crypto.randomUUID()}.${extension}`;
 
