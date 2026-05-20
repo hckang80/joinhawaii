@@ -119,8 +119,9 @@ export async function GET(request: Request) {
 
     const url = new URL(request.url);
     const path = (url.searchParams.get('path') || '').trim().replace(/^\/+/, '');
+    const allowedPrefix = `reservations/${user.id}/`;
 
-    if (!path || path.includes('..')) {
+    if (!path || path.includes('..') || !path.startsWith(allowedPrefix)) {
       return NextResponse.json({ message: '유효하지 않은 경로입니다.' }, { status: 400 });
     }
 
