@@ -25,62 +25,26 @@ import Image from 'next/image';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import {
+  getSelectedProductById,
+  hasRenderableTiptapContent,
+  type VoucherProductClientContainerProps,
+  type VoucherSharedFormState
+} from '../shared';
 import styles from '../voucher.module.css';
 
-type VoucherProductClientContainerProps = {
-  reservationId: string;
-  productId?: string;
-};
-
-type VoucherFormState = {
+type VoucherFormState = VoucherSharedFormState & {
   voucher_number: string;
-  confirmation_number: string;
   reception: 'PICK UP' | 'CHECK IN';
   arrival_location: string;
   arrival_time: string;
   liability_waiver_url: string;
-  delivery_notes: string;
-  guide_notes: string;
-  selected_clients: string[];
 };
-
-function getSelectedProduct(data: ReservationResponse | undefined, productId?: string) {
-  const selectedProducts = data?.products?.tours ?? [];
-
-  if (productId) {
-    const byId = selectedProducts.find(({ id }) => String(id) === productId);
-    if (byId) return byId;
-  }
-
-  return selectedProducts[0];
-}
-
-function hasRenderableTiptapContent(content: string | null | undefined) {
-  if (!content) return false;
-
-  const normalized = content.replace(/\u200B/g, '').trim();
-  if (!normalized) return false;
-
-  const withoutEmptyParagraph = normalized
-    .replace(/<p>(?:\s|&nbsp;|<br\s*\/?>)*<\/p>/gi, '')
-    .trim();
-
-  if (/<img\b/i.test(withoutEmptyParagraph)) {
-    return true;
-  }
-
-  const plainText = withoutEmptyParagraph
-    .replace(/<[^>]+>/g, '')
-    .replace(/&nbsp;/g, '')
-    .trim();
-
-  return plainText.length > 0;
-}
 
 const tourOptions = Object.values(TOURS_OPTIONS).flat();
 
 function renderProductNameContent(
-  selectedProduct: NonNullable<ReturnType<typeof getSelectedProduct>>
+  selectedProduct: NonNullable<ReservationResponse['products']['tours'][number]>
 ) {
   const englishLabel =
     tourOptions?.find(({ label }) => label === selectedProduct.name)?.en_label || '-';
@@ -95,7 +59,7 @@ function renderProductNameContent(
 
 type VoucherTourFormProps = {
   reservationId: string;
-  selectedProduct: NonNullable<ReturnType<typeof getSelectedProduct>>;
+  selectedProduct: NonNullable<ReservationResponse['products']['tours'][number]>;
   clients: ReservationResponse['clients'];
 };
 
@@ -545,7 +509,10 @@ export default function VoucherTourClientContainer({
     enabled: !!reservationId
   });
 
-  const selectedProduct = useMemo(() => getSelectedProduct(data, productId), [data, productId]);
+  const selectedProduct = useMemo(
+    () => getSelectedProductById(data?.products?.tours ?? [], productId),
+    [data, productId]
+  );
   if (!reservationId) {
     return (
       <Box width='1000px' mx='auto'>

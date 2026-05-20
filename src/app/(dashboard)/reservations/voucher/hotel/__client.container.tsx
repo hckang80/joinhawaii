@@ -23,101 +23,42 @@ import Image from 'next/image';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import {
+  getSelectedProductById,
+  hasRenderableTiptapContent,
+  type VoucherProductClientContainerProps,
+  type VoucherSharedFormState
+} from '../shared';
 import styles from '../voucher.module.css';
 
-type VoucherProductClientContainerProps = {
-  reservationId: string;
-  productId?: string;
+type VoucherFormState = VoucherSharedFormState & {
+  check_in_date: string;
+  check_out_date: string;
+  real_nights?: number;
 };
 
-type VoucherFormState = {
-  checkInDate: string;
-  checkOutDate: string;
-  nights: number;
-  confirmationNumber: string;
-  deliveryNotes: string;
-  guideNotes: string;
-  cancellationPolicy: string;
-  selectedClients: string[];
+type SelectedHotelProduct = NonNullable<ReservationResponse['products']['hotels'][number]> & {
+  start_date?: string | null;
+  end_date?: string | null;
+  real_nights?: number;
 };
 
-function getSelectedProduct(data: ReservationResponse | undefined, productId?: string) {
-  const selectedProducts = data?.products?.hotels ?? [];
-
-  if (productId) {
-    const byId = selectedProducts.find(({ id }) => String(id) === productId);
-    if (byId) return byId;
-  }
-
-  return selectedProducts[0];
-}
-
-function renderProductNameContent(selectedProduct: ReturnType<typeof getSelectedProduct>) {
+function renderProductNameContent(selectedProduct: SelectedHotelProduct) {
   const englishLabel =
-    HOTELS[selectedProduct?.region]?.find(({ label }) => label === selectedProduct?.hotel_name)
+    HOTELS[selectedProduct.region]?.find(({ label }) => label === selectedProduct.hotel_name)
       ?.en_label || '-';
 
   return (
     <>
-      {selectedProduct?.hotel_name || '-'}
+      {selectedProduct.hotel_name || '-'}
       <Text as='p'>{englishLabel}</Text>
     </>
   );
 }
 
-function getPreferredHotelDate(
-  selectedProduct: ReturnType<typeof getSelectedProduct>,
-  key: 'start_date' | 'end_date',
-  fallback: string | null | undefined
-) {
-  const preferredDate = (
-    selectedProduct as { start_date?: string | null; end_date?: string | null } & NonNullable<
-      ReturnType<typeof getSelectedProduct>
-    >
-  )?.[key];
-
-  return preferredDate || fallback || '';
-}
-
-function getPreferredHotelNights(selectedProduct: ReturnType<typeof getSelectedProduct>) {
-  const preferredNights = (
-    selectedProduct as { real_nights?: number | null } & NonNullable<
-      ReturnType<typeof getSelectedProduct>
-    >
-  )?.real_nights;
-
-  if (typeof preferredNights === 'number' && preferredNights > 0) {
-    return preferredNights;
-  }
-
-  return selectedProduct?.nights ?? 1;
-}
-
 const HOTEL_GUIDE_NOTES_HTML = HOTEL_GUIDE_NOTES.split('\n')
   .map(line => `<p>${line}</p>`)
   .join('');
-
-function hasRenderableTiptapContent(content: string | null | undefined) {
-  if (!content) return false;
-
-  const normalized = content.replace(/\u200B/g, '').trim();
-  if (!normalized) return false;
-
-  const withoutEmptyParagraph = normalized
-    .replace(/<p>(?:\s|&nbsp;|<br\s*\/?>)*<\/p>/gi, '')
-    .trim();
-
-  if (/<img\b/i.test(withoutEmptyParagraph)) {
-    return true;
-  }
-
-  const plainText = withoutEmptyParagraph
-    .replace(/<[^>]+>/g, '')
-    .replace(/&nbsp;/g, '')
-    .trim();
-
-  return plainText.length > 0;
-}
 
 function getDefaultDeliveryNotes(deliveryNotes: string | null | undefined) {
   return hasRenderableTiptapContent(deliveryNotes) ? (deliveryNotes ?? '') : '';
@@ -136,88 +77,10 @@ export default function VoucherHotelClientContainer({
     enabled: !!reservationId
   });
 
-  const selectedProduct = useMemo(() => getSelectedProduct(data, productId), [data, productId]);
-
-  const voucherMutation = useMutation({
-    mutationFn: (payload: Partial<ReservationFormData>) => updateReservation(payload),
-    onSuccess: () => {
-      toast.success('바우처가 성공적으로 제출되었습니다.');
-    },
-    onError: (error: Error) => {
-      toast.error(error.message || '바우처 제출에 실패했습니다.');
-    }
-  });
-
-  const {
-    control,
-    handleSubmit,
-    reset,
-    watch,
-    formState: { errors, isDirty }
-  } = useForm<VoucherFormState>({
-    mode: 'onBlur',
-    defaultValues: {
-      checkInDate: getPreferredHotelDate(
-        selectedProduct,
-        'start_date',
-        selectedProduct?.check_in_date
-      ),
-      checkOutDate: getPreferredHotelDate(
-        selectedProduct,
-        'end_date',
-        selectedProduct?.check_out_date
-      ),
-      nights: getPreferredHotelNights(selectedProduct),
-      confirmationNumber: selectedProduct?.confirmation_number || '',
-      deliveryNotes: getDefaultDeliveryNotes(selectedProduct?.delivery_notes),
-      guideNotes: getDefaultGuideNotes(selectedProduct?.guide_notes),
-      cancellationPolicy: selectedProduct?.rule || '',
-      selectedClients: selectedProduct?.selected_clients || []
-    }
-  });
-
-  useEffect(() => {
-    reset({
-      checkInDate: getPreferredHotelDate(
-        selectedProduct,
-        'start_date',
-        selectedProduct?.check_in_date
-      ),
-      checkOutDate: getPreferredHotelDate(
-        selectedProduct,
-        'end_date',
-        selectedProduct?.check_out_date
-      ),
-      nights: getPreferredHotelNights(selectedProduct),
-      confirmationNumber: selectedProduct?.confirmation_number || '',
-      deliveryNotes: getDefaultDeliveryNotes(selectedProduct?.delivery_notes),
-      guideNotes: getDefaultGuideNotes(selectedProduct?.guide_notes),
-      cancellationPolicy: selectedProduct?.rule || '',
-      selectedClients: selectedProduct?.selected_clients || []
-    });
-  }, [selectedProduct, reset]);
-
-  const onSubmit: SubmitHandler<VoucherFormState> = formData => {
-    if (!isDirty) return toast.info('변경된 내용이 없습니다.');
-
-    const submitData = {
-      reservation_id: reservationId,
-      hotels: [
-        {
-          id: selectedProduct.id,
-          start_date: formData.checkInDate || null,
-          end_date: formData.checkOutDate || null,
-          real_nights: formData.nights,
-          confirmation_number: formData.confirmationNumber,
-          delivery_notes: formData.deliveryNotes,
-          guide_notes: formData.guideNotes,
-          selected_clients: formData.selectedClients
-        }
-      ]
-    } as unknown as Partial<ReservationFormData>;
-
-    voucherMutation.mutate(submitData);
-  };
+  const selectedProduct = useMemo(
+    () => getSelectedProductById(data?.products?.hotels ?? [], productId),
+    [data, productId]
+  );
 
   if (!reservationId) {
     return (
@@ -252,6 +115,104 @@ export default function VoucherHotelClientContainer({
       </Box>
     );
   }
+
+  if (!selectedProduct) {
+    return (
+      <Box width='1000px' mx='auto'>
+        <Card>
+          <Text>선택된 호텔 정보를 찾을 수 없습니다.</Text>
+        </Card>
+      </Box>
+    );
+  }
+
+  const selectedHotelProduct = selectedProduct as SelectedHotelProduct;
+
+  return (
+    <VoucherHotelForm
+      reservationId={reservationId}
+      selectedProduct={selectedHotelProduct}
+      clients={data?.clients ?? []}
+    />
+  );
+}
+
+type VoucherHotelFormProps = {
+  reservationId: string;
+  selectedProduct: SelectedHotelProduct;
+  clients: ReservationResponse['clients'];
+};
+
+function VoucherHotelForm({ reservationId, selectedProduct, clients }: VoucherHotelFormProps) {
+  const voucherMutation = useMutation({
+    mutationFn: (payload: Partial<ReservationFormData>) => updateReservation(payload),
+    onSuccess: () => {
+      toast.success('바우처가 성공적으로 제출되었습니다.');
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || '바우처 제출에 실패했습니다.');
+    }
+  });
+
+  const defaultFormValues = useMemo<VoucherFormState>(() => {
+    const {
+      start_date,
+      end_date,
+      check_in_date,
+      check_out_date,
+      real_nights,
+      nights,
+      confirmation_number,
+      delivery_notes,
+      guide_notes,
+      selected_clients
+    } = selectedProduct;
+
+    return {
+      check_in_date: start_date ?? check_in_date ?? '',
+      check_out_date: end_date ?? check_out_date ?? '',
+      real_nights: real_nights && real_nights > 0 ? real_nights : (nights ?? 1),
+      confirmation_number,
+      delivery_notes: getDefaultDeliveryNotes(delivery_notes),
+      guide_notes: getDefaultGuideNotes(guide_notes),
+      selected_clients
+    };
+  }, [selectedProduct]);
+
+  const {
+    control,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors, isDirty }
+  } = useForm<VoucherFormState>({
+    mode: 'onBlur',
+    defaultValues: defaultFormValues
+  });
+
+  useEffect(() => {
+    reset(defaultFormValues);
+  }, [defaultFormValues, reset]);
+
+  const onSubmit: SubmitHandler<VoucherFormState> = formData => {
+    if (!isDirty) return toast.info('변경된 내용이 없습니다.');
+
+    const { check_in_date, check_out_date, ...hotelData } = formData;
+
+    const submitData = {
+      reservation_id: reservationId,
+      hotels: [
+        {
+          id: selectedProduct.id,
+          ...hotelData,
+          start_date: check_in_date || null,
+          end_date: check_out_date || null
+        }
+      ]
+    } as unknown as Partial<ReservationFormData>;
+
+    voucherMutation.mutate(submitData);
+  };
 
   return (
     <Box width='1000px' mx='auto' className='voucher-root'>
@@ -295,7 +256,7 @@ export default function VoucherHotelClientContainer({
               <td className={styles['info-td']}>
                 <Flex gap='2' align='center' className='print:hidden'>
                   <Controller
-                    name='checkInDate'
+                    name='check_in_date'
                     control={control}
                     render={({ field }) => (
                       <TextField.Root
@@ -307,10 +268,10 @@ export default function VoucherHotelClientContainer({
                   />
                   <Text>~</Text>
                   <Controller
-                    name='checkOutDate'
+                    name='check_out_date'
                     control={control}
                     render={({ field }) => {
-                      const checkInDate = watch('checkInDate');
+                      const checkInDate = watch('check_in_date');
                       return (
                         <TextField.Root
                           type='date'
@@ -328,8 +289,8 @@ export default function VoucherHotelClientContainer({
                   />
                 </Flex>
                 <Text className='print:only'>
-                  {watch('checkInDate') && watch('checkOutDate')
-                    ? `${watch('checkInDate')} ~ ${watch('checkOutDate')}`
+                  {watch('check_in_date') && watch('check_out_date')
+                    ? `${watch('check_in_date')} ~ ${watch('check_out_date')}`
                     : '-'}
                 </Text>
               </td>
@@ -337,7 +298,7 @@ export default function VoucherHotelClientContainer({
               <td className={styles['info-td']}>
                 <Box className='print:hidden'>
                   <Controller
-                    name='nights'
+                    name='real_nights'
                     control={control}
                     rules={{ min: 1 }}
                     render={({ field }) => (
@@ -350,35 +311,37 @@ export default function VoucherHotelClientContainer({
                     )}
                   />
                 </Box>
-                <Text className='print:only'>{watch('nights') ? `${watch('nights')}박` : '-'}</Text>
+                <Text className='print:only'>
+                  {watch('real_nights') ? `${watch('real_nights')}박` : '-'}
+                </Text>
               </td>
             </tr>
             <tr>
               <th className={styles['info-th']}>room category</th>
               <td className={styles['info-td']} colSpan={3}>
-                {selectedProduct?.room_type || '-'}
+                {selectedProduct.room_type || '-'}
               </td>
             </tr>
             <tr>
               <th className={styles['info-th']}>bed type</th>
               <td className={styles['info-td']} colSpan={3}>
-                {selectedProduct?.bed_type || '-'}
+                {selectedProduct.bed_type || '-'}
               </td>
             </tr>
             <tr>
               <th className={styles['info-th']}>breakfast</th>
               <td className={styles['info-td']}>
-                {selectedProduct?.is_breakfast_included ? 'INCLUSION' : 'EXCLUSION'}
+                {selectedProduct.is_breakfast_included ? 'INCLUSION' : 'EXCLUSION'}
               </td>
               <th className={styles['info-th']}>resort fee</th>
-              <td className={styles['info-td']}>{selectedProduct?.resort_fee_type || '-'}</td>
+              <td className={styles['info-td']}>{selectedProduct.resort_fee_type || '-'}</td>
             </tr>
             <tr>
               <th className={styles['info-th']}>confirmation</th>
               <td className={styles['info-td']} colSpan={3}>
                 <Flex direction='column' gap='1' className='print:hidden'>
                   <Controller
-                    name='confirmationNumber'
+                    name='confirmation_number'
                     control={control}
                     rules={{
                       required: '확인번호는 필수입니다.'
@@ -387,18 +350,18 @@ export default function VoucherHotelClientContainer({
                       <TextField.Root
                         {...field}
                         type='text'
-                        color={errors.confirmationNumber ? 'red' : undefined}
+                        color={errors.confirmation_number ? 'red' : undefined}
                       >
                         <TextField.Slot>#</TextField.Slot>
                       </TextField.Root>
                     )}
                   />
-                  {errors.confirmationNumber && (
-                    <Text color='red'>{errors.confirmationNumber.message}</Text>
+                  {errors.confirmation_number && (
+                    <Text color='red'>{errors.confirmation_number.message}</Text>
                   )}
                 </Flex>
 
-                <Text className='print:only'>{`#${watch('confirmationNumber') || '-'}`}</Text>
+                <Text className='print:only'>{`#${watch('confirmation_number') || '-'}`}</Text>
               </td>
             </tr>
           </tbody>
@@ -410,19 +373,19 @@ export default function VoucherHotelClientContainer({
           </Heading>
           <Grid columns='2' className={`${styles['guest-grid']} print:hidden`}>
             <Controller
-              name='selectedClients'
+              name='selected_clients'
               control={control}
               rules={{
                 validate: value => value.length > 0 || '인원을 선택해주세요.'
               }}
               render={({ field }) => {
-                const orderedClientLabels = (data?.clients ?? []).map(client =>
+                const orderedClientLabels = clients.map(client =>
                   `${client.english_name || ''} ${client.gender || ''}`.trim()
                 );
 
                 return (
                   <>
-                    {data?.clients?.map(client => {
+                    {clients.map(client => {
                       const clientLabel =
                         `${client.english_name || ''} ${client.gender || ''}`.trim();
                       const isChecked = field.value.includes(clientLabel);
@@ -464,15 +427,15 @@ export default function VoucherHotelClientContainer({
               }}
             />
           </Grid>
-          {errors.selectedClients && (
+          {errors.selected_clients && (
             <Text color='red' as='p' mt='1'>
-              {errors.selectedClients.message}
+              {errors.selected_clients.message}
             </Text>
           )}
 
           <Grid columns='2' className={`${styles['guest-grid']} print:only`}>
-            {watch('selectedClients').map((client, i) => {
-              const selectedClient = (data?.clients ?? []).find(foundClient => {
+            {watch('selected_clients').map((client, i) => {
+              const selectedClient = clients.find(foundClient => {
                 const label =
                   `${foundClient.english_name || ''} ${foundClient.gender || ''}`.trim();
                 return label === client;
@@ -505,7 +468,7 @@ export default function VoucherHotelClientContainer({
               </Flex>
               <Box flexGrow='1' className='print:hidden'>
                 <Controller
-                  name='deliveryNotes'
+                  name='delivery_notes'
                   control={control}
                   render={({ field }) => (
                     <Tiptap
@@ -518,8 +481,8 @@ export default function VoucherHotelClientContainer({
                 />
               </Box>
               <Box className='print:only'>
-                {hasRenderableTiptapContent(watch('deliveryNotes')) ? (
-                  <div dangerouslySetInnerHTML={{ __html: watch('deliveryNotes') }} />
+                {hasRenderableTiptapContent(watch('delivery_notes')) ? (
+                  <div dangerouslySetInnerHTML={{ __html: watch('delivery_notes') }} />
                 ) : (
                   <Text>-</Text>
                 )}
@@ -540,7 +503,7 @@ export default function VoucherHotelClientContainer({
               <Box flexGrow='1'>
                 <Box className='print:hidden'>
                   <Controller
-                    name='guideNotes'
+                    name='guide_notes'
                     control={control}
                     render={({ field }) => (
                       <Tiptap
@@ -553,14 +516,14 @@ export default function VoucherHotelClientContainer({
                   />
                 </Box>
                 <Box className='print:only'>
-                  {hasRenderableTiptapContent(watch('guideNotes')) ? (
-                    <div dangerouslySetInnerHTML={{ __html: watch('guideNotes') }} />
+                  {hasRenderableTiptapContent(watch('guide_notes')) ? (
+                    <div dangerouslySetInnerHTML={{ __html: watch('guide_notes') }} />
                   ) : (
                     <Text>-</Text>
                   )}
                 </Box>
                 <Text as='p' color='red' mt='8'>
-                  [취소규정] {watch('cancellationPolicy') || '-'}
+                  [취소규정] {selectedProduct.rule || '-'}
                 </Text>
               </Box>
             </Flex>

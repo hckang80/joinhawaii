@@ -10,5 +10,6 @@
     "source.fixAll.eslint": "explicit"
   },
   "typescript.preferences.importModuleSpecifier": "relative",
-  "typescript.suggest.autoImports": true
+  "typescript.suggest.autoImports": true,
+  "cSpell.words": ["renderable"]
 }
