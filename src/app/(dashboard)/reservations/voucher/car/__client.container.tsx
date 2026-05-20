@@ -350,12 +350,7 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
                   <Controller
                     name='issue_date'
                     control={control}
-                    render={({ field }) => (
-                      <TextField.Root
-                        {...field}
-                        type='date'
-                      />
-                    )}
+                    render={({ field }) => <TextField.Root {...field} type='date' />}
                   />
                 </Box>
                 <Text className='print:only'>{watch('issue_date') || '-'}</Text>
