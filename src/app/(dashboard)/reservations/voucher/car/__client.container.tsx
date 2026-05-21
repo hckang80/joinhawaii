@@ -37,6 +37,7 @@ type VoucherFormState = Omit<VoucherSharedFormState, 'selected_clients'> & {
   company: 'HERTZ' | 'DOLLAR';
   included_items: string;
   optional_items: string;
+  office_guide_notes: string;
 };
 
 type SelectedCarProduct = NonNullable<ReservationResponse['products']['rental_cars'][number]> & {
@@ -45,6 +46,7 @@ type SelectedCarProduct = NonNullable<ReservationResponse['products']['rental_ca
   real_nights?: number;
   included_items?: string | null;
   optional_items?: string | null;
+  office_guide_notes?: string | null;
 };
 
 const CAR_GUIDE_NOTES_HTML = CAR_GUIDE_NOTES.split('\n')
@@ -157,7 +159,8 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
       guide_notes,
       company,
       included_items,
-      optional_items
+      optional_items,
+      office_guide_notes
     } = selectedProduct as SelectedCarProduct & { company?: 'HERTZ' | 'DOLLAR' };
     return {
       issue_date: '',
@@ -166,7 +169,8 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
       guide_notes: getDefaultGuideNotes(guide_notes),
       company: company ?? 'HERTZ',
       included_items: included_items ?? '',
-      optional_items: optional_items ?? ''
+      optional_items: optional_items ?? '',
+      office_guide_notes: office_guide_notes ?? ''
     };
   }, [selectedProduct]);
 
@@ -457,6 +461,42 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
                 <Text as='p' color='red' mt='8'>
                   [취소규정] {selectedProduct.rule || '-'}
                 </Text>
+              </Box>
+            </Flex>
+          </Card>
+        </Box>
+
+        <Box asChild mt='4'>
+          <Card>
+            <Flex gap='4'>
+              <Flex asChild direction='column' align='center' flexShrink='0'>
+                <Text size='4' weight='bold'>
+                  <Mic />
+                  영업소 안내
+                </Text>
+              </Flex>
+              <Box flexGrow='1'>
+                <Box className='print:hidden'>
+                  <Controller
+                    name='office_guide_notes'
+                    control={control}
+                    render={({ field }) => (
+                      <Tiptap
+                        value={field.value}
+                        onChange={field.onChange}
+                        height='min-h-[180px]'
+                        placeholder='영업소 안내 내용을 입력하세요.'
+                      />
+                    )}
+                  />
+                </Box>
+                <Box className='print:only'>
+                  {hasRenderableTiptapContent(watch('office_guide_notes')) ? (
+                    <div dangerouslySetInnerHTML={{ __html: watch('office_guide_notes') }} />
+                  ) : (
+                    <Text>-</Text>
+                  )}
+                </Box>
               </Box>
             </Flex>
           </Card>
