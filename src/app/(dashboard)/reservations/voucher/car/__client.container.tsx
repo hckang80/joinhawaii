@@ -44,6 +44,7 @@ type VoucherFormState = Omit<VoucherSharedFormState, 'selected_clients'> & {
 type SelectedCarProduct = NonNullable<ReservationResponse['products']['rental_cars'][number]> & {
   start_date?: string | null;
   end_date?: string | null;
+  issue_date?: string | null;
   real_nights?: number;
   included_items?: string | null;
   optional_items?: string | null;
@@ -75,6 +76,14 @@ function getDefaultOfficeGuideNotes(officeGuideNotes: string | null | undefined)
   return hasRenderableTiptapContent(officeGuideNotes)
     ? (officeGuideNotes ?? '')
     : CAR_OFFICE_GUIDE_NOTES_HTML;
+}
+
+function toDateInputValue(value: string | null | undefined) {
+  if (!value) {
+    return '';
+  }
+
+  return value.slice(0, 10);
 }
 
 export default function VoucherCarClientContainer({
@@ -158,6 +167,7 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
 
   const defaultFormValues = useMemo<VoucherFormState>(() => {
     const {
+      issue_date,
       confirmation_number,
       delivery_notes,
       guide_notes,
@@ -167,7 +177,7 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
       office_guide_notes
     } = selectedProduct as SelectedCarProduct & { company?: 'HERTZ' | 'DOLLAR' };
     return {
-      issue_date: '',
+      issue_date: toDateInputValue(issue_date),
       confirmation_number,
       delivery_notes: getDefaultDeliveryNotes(delivery_notes),
       guide_notes: getDefaultGuideNotes(guide_notes),
