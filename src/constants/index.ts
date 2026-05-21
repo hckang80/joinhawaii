@@ -909,6 +909,10 @@ export const defaultVoucherValues = {
   selected_clients: [] as string[]
 };
 
+export const defaultCarVoucherValues = Object.fromEntries(
+  Object.entries(defaultVoucherValues).filter(([key]) => key !== 'selected_clients')
+) as Omit<typeof defaultVoucherValues, 'selected_clients'>;
+
 export const HOTEL_GUIDE_NOTES = `* 호텔 룸 BED TYPE 은 당일 호텔 사정에 의해 1BED 또는 2BED 로 배정 받으실 수도 있습니다.
 * 하와이의 모든 호텔은 BED TYPE 과 층수의 확정 예약이 불가 합니다.
 * 체크인 시 예약자 본인임을 확인할 수 있는 여권과 본인 신용카드를 제시하셔야 합니다.
@@ -918,6 +922,31 @@ export const HOTEL_GUIDE_NOTES = `* 호텔 룸 BED TYPE 은 당일 호텔 사정
 * 체크아웃 시 객실키를 반납하시고 객실료외 기타 청구내역의 유무를 꼭 확인하시기 바랍니다.
 * 전화기에 불이 깜빡이면 메시지가 저장되어 있습니다. 확인하시기 바랍니다.
 * 메이드 팁은 객실당 1일 $2 정도 침대 위에 놓아 주시면 됩니다.`;
+
+export const CAR_DELIVERY_NOTES = `* 운전자분의 여권, 한국면허증, 국제면허증, 운전자의 해외용 신용카드, 렌터카바우처 (5가지 미지참 시 인수불가)
+* 위 준비물은 모두 여권상 영문성함과 스펠링이 같아야 하며, 트래블월렛/체크카드는 사용불가입니다.
+* 렌터카 픽업 시 고객 서명 후 진행된 사항은 조인하와이에서 책임지지 않습니다. 
+* 현지 변경은 불가하며, 전체 임차일 중 사용하지 않은 임차일의 비용은 환불되지 않습니다.
+* 허츠렌터카 24시 응급 콜센터  (800) 654 5060`;
+
+export const CAR_GUIDE_NOTES = `* Child Seat/Booster Seat등의 추가 장비는 현지결제 시 적용됩니다.(TAX + 제반비용별도) 
+* 렌터카내에서는 금연입니다. 적발 시 $100 이상의 벌금이 부과됩니다.
+* PICK UP 시간으로부터 30분이상 지나면 예약이 취소될 수 있습니다. 
+  단, 공항 픽업 시 항공기 연착으로 인한 늦은 픽업은 예약이 유지됩니다.(항공스케줄 예약 시 기입 조건)
+* 임차계약서 서명 시 내용을 꼭 확인하시고 영수증은 보관하셔야 합니다. 임차계약서 서명 후에는 변경이 불가합니다.
+* 반납 시간을 어길 경우 추가 요금이 발생됩니다.
+* 렌터카 대여는 24시간 기준입니다
+* 본 바우처의 내용은 허츠렌터카 상황에 따라 예고없이 변경될 수 있습니다.`;
+
+export const CAR_OFFICE_GUIDE_NOTES = `※ 영업소의 영업시간은 현지사정에 의해 예고없이 변경될 수 있습니다.
+Honolulu Airport : AM05:30~AM24:00
+Kahala Hotel and Resort : AM07:00~PM15:00 (호텔투숙객만 픽업/반납가능)
+Hyatt Regency Waikiki (2F) : AM08:00~PM15:30 (영업시간 이후 반납 불가)
+Imperial Hotel : AM07:00~PM15:00 (영업시간이후 무인반납은 호텔투숙객만 가능)
+Kahului Airport Maui : AM05:30~PM23:00
+Kona Keahole Airport : AM05:00~PM22:30
+Hilo Airport : AM06:00~PM22:00
+Lihue Airport : AM05:00~PM23:00`;
 
 export const defaultPeopleValues = {
   adult_count: 0,
@@ -983,6 +1012,8 @@ export const defaultTourValues = {
   ...additionalOptions
 };
 
+export type CarCompany = 'HERTZ' | 'DOLLAR';
+
 export const defaultCarValues = {
   region: REGIONS[0],
   pickup_date: null,
@@ -990,6 +1021,7 @@ export const defaultCarValues = {
   model: '',
   options: '',
   driver: '',
+  company: 'HERTZ' as CarCompany,
   pickup_location: '',
   return_location: '',
   rental_days: 1,
@@ -997,8 +1029,7 @@ export const defaultCarValues = {
   cost: 0,
   remarks: '',
   rule: '',
-  voucher_number: '',
-  ...defaultVoucherValues,
+  ...defaultCarVoucherValues,
   ...defaultProductValues,
   ...additionalOptions
 };

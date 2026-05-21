@@ -68,7 +68,7 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
   const voucherMutation = useMutation({
     mutationFn: (payload: Partial<ReservationFormData>) => updateReservation(payload),
     onSuccess: () => {
-      toast.success('바우처가 성공적으로 저장되었습니다.');
+      toast.success('내용이 저장되었습니다.');
     },
     onError: (error: Error) => {
       toast.error(error.message || '바우처 저장에 실패했습니다.');
@@ -463,9 +463,11 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
                     <Text>-</Text>
                   )}
                 </Box>
-                <Text as='p' color='red' mt='8'>
-                  [취소규정] {selectedProduct.rule || '-'}
-                </Text>
+                {selectedProduct.rule && (
+                  <Text as='p' color='red' mt='8'>
+                    [취소규정] {selectedProduct.rule}
+                  </Text>
+                )}
               </Box>
             </Flex>
           </Card>

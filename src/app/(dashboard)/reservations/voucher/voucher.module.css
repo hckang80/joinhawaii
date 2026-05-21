@@ -13,6 +13,10 @@
   background: var(--blue-10);
 }
 
+.main-title-car {
+  background: var(--lime-10);
+}
+
 .info-table {
   width: 100%;
   border-collapse: collapse;
@@ -35,8 +39,24 @@
 }
 
 .sub-title {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-transform: uppercase;
+}
+
+.sub-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 8px;
+}
+
+.sub-title-logo {
+  display: block;
+  height: auto;
+  object-fit: contain;
 }
 
 .guest-grid {

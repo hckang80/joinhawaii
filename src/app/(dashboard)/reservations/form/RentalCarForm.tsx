@@ -154,6 +154,7 @@ export default function RentalCarForm({
                     <Table.ColumnHeaderCell width='90px'>진행상태</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='70px'>추가옵션</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='200px'>메모</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='60px'>바우처</Table.ColumnHeaderCell>
                   </Table.Row>
                 </Table.Header>
                 {rentalCars.map((car, i) => (
@@ -478,12 +479,36 @@ export default function RentalCarForm({
                           })}
                         />
                       </Table.Cell>
+                      <Table.Cell>
+                        <Button
+                          disabled={!getValues(`rental_cars.${i}.id`)}
+                          size='1'
+                          type='button'
+                          onClick={() => {
+                            const carId = getValues(`rental_cars.${i}.id`);
+                            if (!carId) return;
+
+                            const query = new URLSearchParams({
+                              reservation_id,
+                              product_id: String(carId)
+                            });
+
+                            window.open(
+                              `/reservations/voucher/car?${query.toString()}`,
+                              '_blank',
+                              'noopener,noreferrer'
+                            );
+                          }}
+                        >
+                          발급
+                        </Button>
+                      </Table.Cell>
                       <Table.Cell hidden>
                         <CarTotalCalculator index={i} setValue={setValue} control={control} />
                       </Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                      <Table.Cell colSpan={14}>
+                      <Table.Cell colSpan={15}>
                         <Flex align='center' gap='2'>
                           <Text weight='bold'>비고</Text>
                           <Box flexGrow='1'>
@@ -499,7 +524,7 @@ export default function RentalCarForm({
                       </Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                      <Table.Cell colSpan={14}>
+                      <Table.Cell colSpan={15}>
                         <Flex align='center' gap='2'>
                           <Text weight='bold'>규정</Text>
                           <Box flexGrow='1'>

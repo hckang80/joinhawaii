@@ -45,6 +45,10 @@
     display: grid !important;
   }
 
+  .print\:only.rt-DataListRoot {
+    display: grid !important;
+  }
+
   .Toastify,
   .Toastify__toast-container {
     display: none !important;
