@@ -129,7 +129,7 @@ export default function VoucherCarClientContainer({
     return (
       <Box width='1000px' mx='auto'>
         <Card>
-          <Text>선택된 호텔 정보를 찾을 수 없습니다.</Text>
+          <Text>선택된 렌터카 정보를 찾을 수 없습니다.</Text>
         </Card>
       </Box>
     );
