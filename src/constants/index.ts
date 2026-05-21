@@ -1012,6 +1012,8 @@ export const defaultTourValues = {
   ...additionalOptions
 };
 
+export type CarCompany = 'HERTZ' | 'DOLLAR';
+
 export const defaultCarValues = {
   region: REGIONS[0],
   pickup_date: null,
@@ -1019,7 +1021,7 @@ export const defaultCarValues = {
   model: '',
   options: '',
   driver: '',
-  company: 'HERTZ' as const,
+  company: 'HERTZ' as CarCompany,
   pickup_location: '',
   return_location: '',
   rental_days: 1,
