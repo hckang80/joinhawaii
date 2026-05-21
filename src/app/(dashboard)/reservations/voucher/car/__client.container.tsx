@@ -138,18 +138,13 @@ export default function VoucherCarClientContainer({
   const selectedCarProduct = selectedProduct as SelectedCarProduct;
 
   return (
-    <VoucherCarForm
-      reservationId={reservationId}
-      selectedProduct={selectedCarProduct}
-      clients={data?.clients ?? []}
-    />
+    <VoucherCarForm reservationId={reservationId} selectedProduct={selectedCarProduct} />
   );
 }
 
 type VoucherCarFormProps = {
   reservationId: string;
   selectedProduct: SelectedCarProduct;
-  clients: ReservationResponse['clients'];
 };
 
 function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps) {
