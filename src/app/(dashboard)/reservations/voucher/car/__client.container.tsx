@@ -5,7 +5,7 @@ import { CAR_DELIVERY_NOTES, CAR_GUIDE_NOTES, CAR_OFFICE_GUIDE_NOTES } from '@/c
 import { updateReservation } from '@/http';
 import { reservationQueryOptions } from '@/lib/queries';
 import type { ReservationFormData, ReservationResponse } from '@/types';
-import { toReadableDate } from '@/utils';
+import { extractDateString, toReadableDate } from '@/utils';
 import {
   Box,
   Button,
@@ -76,14 +76,6 @@ function getDefaultOfficeGuideNotes(officeGuideNotes: string | null | undefined)
   return hasRenderableTiptapContent(officeGuideNotes)
     ? (officeGuideNotes ?? '')
     : CAR_OFFICE_GUIDE_NOTES_HTML;
-}
-
-function toDateInputValue(value: string | null | undefined) {
-  if (!value) {
-    return '';
-  }
-
-  return value.slice(0, 10);
 }
 
 export default function VoucherCarClientContainer({
@@ -177,7 +169,7 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
       office_guide_notes
     } = selectedProduct as SelectedCarProduct & { company?: 'HERTZ' | 'DOLLAR' };
     return {
-      issue_date: toDateInputValue(issue_date),
+      issue_date: extractDateString(issue_date),
       confirmation_number,
       delivery_notes: getDefaultDeliveryNotes(delivery_notes),
       guide_notes: getDefaultGuideNotes(guide_notes),
