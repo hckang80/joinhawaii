@@ -196,8 +196,7 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
   });
 
   const selectedCompany = watch('company');
-  const companyLogoSrc =
-    selectedCompany === 'DOLLAR' ? '/images/dollar.png' : '/images/hertz.png';
+  const companyLogoSrc = selectedCompany === 'DOLLAR' ? '/images/dollar.png' : '/images/hertz.png';
 
   useEffect(() => {
     reset(defaultFormValues);
@@ -266,7 +265,7 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
         </Heading>
         <table className={styles['info-table']}>
           <tbody>
-            <tr>
+            <tr className='print:hidden'>
               <th className={styles['info-th']}>company</th>
               <td className={styles['info-td']} colSpan={3}>
                 <Box className='print:hidden'>
@@ -293,7 +292,6 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
                     )}
                   />
                 </Box>
-                <Text className='print:only'>{watch('company')}</Text>
               </td>
             </tr>
             <tr>
