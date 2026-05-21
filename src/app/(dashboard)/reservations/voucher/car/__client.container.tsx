@@ -256,6 +256,36 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
         <table className={styles['info-table']}>
           <tbody>
             <tr>
+              <th className={styles['info-th']}>company</th>
+              <td className={styles['info-td']} colSpan={3}>
+                <Box className='print:hidden'>
+                  <Controller
+                    name='company'
+                    control={control}
+                    render={({ field }) => (
+                      <RadioGroup.Root value={field.value} onValueChange={field.onChange}>
+                        <Flex gap='5' align='center'>
+                          <Flex asChild align='center' gap='1'>
+                            <label>
+                              <RadioGroup.Item value='HERTZ' />
+                              <Text>HERTZ</Text>
+                            </label>
+                          </Flex>
+                          <Flex asChild align='center' gap='1'>
+                            <label>
+                              <RadioGroup.Item value='DOLLAR' />
+                              <Text>DOLLAR</Text>
+                            </label>
+                          </Flex>
+                        </Flex>
+                      </RadioGroup.Root>
+                    )}
+                  />
+                </Box>
+                <Text className='print:only'>{watch('company')}</Text>
+              </td>
+            </tr>
+            <tr>
               <th className={styles['info-th']}>confirmation</th>
               <td className={styles['info-td']} colSpan={3}>
                 <Flex direction='column' gap='1' className='print:hidden'>
@@ -293,36 +323,6 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
               <th className={styles['info-th']}>vehicle type</th>
               <td className={styles['info-td']} colSpan={3}>
                 {selectedProduct.model}
-              </td>
-            </tr>
-            <tr>
-              <th className={styles['info-th']}>company</th>
-              <td className={styles['info-td']} colSpan={3}>
-                <Box className='print:hidden'>
-                  <Controller
-                    name='company'
-                    control={control}
-                    render={({ field }) => (
-                      <RadioGroup.Root value={field.value} onValueChange={field.onChange}>
-                        <Flex gap='5' align='center'>
-                          <Flex asChild align='center' gap='1'>
-                            <label>
-                              <RadioGroup.Item value='HERTZ' />
-                              <Text>HERTZ</Text>
-                            </label>
-                          </Flex>
-                          <Flex asChild align='center' gap='1'>
-                            <label>
-                              <RadioGroup.Item value='DOLLAR' />
-                              <Text>DOLLAR</Text>
-                            </label>
-                          </Flex>
-                        </Flex>
-                      </RadioGroup.Root>
-                    )}
-                  />
-                </Box>
-                <Text className='print:only'>{watch('company')}</Text>
               </td>
             </tr>
             <tr>
