@@ -39,17 +39,22 @@
 }
 
 .sub-title {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-transform: uppercase;
 }
 
 .sub-title-row {
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
   gap: 8px;
 }
 
 .sub-title-logo {
+  display: block;
   height: auto;
   object-fit: contain;
 }
