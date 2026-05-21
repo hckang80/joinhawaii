@@ -468,9 +468,6 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
                     <Text>-</Text>
                   )}
                 </Box>
-                <Text as='p' color='red' mt='8'>
-                  [취소규정] {selectedProduct.rule || '-'}
-                </Text>
               </Box>
             </Flex>
           </Card>
@@ -509,6 +506,9 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
                     <Text>-</Text>
                   )}
                 </Box>
+                <Text as='p' color='red' mt='8'>
+                  [취소규정] {selectedProduct.rule || '-'}
+                </Text>
               </Box>
             </Flex>
           </Card>
