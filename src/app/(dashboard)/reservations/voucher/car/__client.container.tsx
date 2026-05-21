@@ -43,6 +43,8 @@ type SelectedCarProduct = NonNullable<ReservationResponse['products']['rental_ca
   start_date?: string | null;
   end_date?: string | null;
   real_nights?: number;
+  included_items?: string | null;
+  optional_items?: string | null;
 };
 
 const CAR_GUIDE_NOTES_HTML = CAR_GUIDE_NOTES.split('\n')
@@ -149,16 +151,22 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
   });
 
   const defaultFormValues = useMemo<VoucherFormState>(() => {
-    const { confirmation_number, delivery_notes, guide_notes, company } =
-      selectedProduct as SelectedCarProduct & { company?: 'HERTZ' | 'DOLLAR' };
+    const {
+      confirmation_number,
+      delivery_notes,
+      guide_notes,
+      company,
+      included_items,
+      optional_items
+    } = selectedProduct as SelectedCarProduct & { company?: 'HERTZ' | 'DOLLAR' };
     return {
       issue_date: '',
       confirmation_number,
       delivery_notes: getDefaultDeliveryNotes(delivery_notes),
       guide_notes: getDefaultGuideNotes(guide_notes),
       company: company ?? 'HERTZ',
-      included_items: '',
-      optional_items: ''
+      included_items: included_items ?? '',
+      optional_items: optional_items ?? ''
     };
   }, [selectedProduct]);
 
@@ -182,7 +190,7 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
   const onSubmit: SubmitHandler<VoucherFormState> = formData => {
     if (!isDirty) return toast.info('변경된 내용이 없습니다.');
 
-    const { issue_date, included_items, optional_items, ...carData } = formData;
+    const { issue_date, ...carData } = formData;
 
     const submitData = {
       reservation_id: reservationId,
@@ -190,8 +198,6 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
         {
           id: selectedProduct.id,
           ...carData,
-          remarks: included_items,
-          options: optional_items,
           issue_date: issue_date || null
         }
       ]
