@@ -10,6 +10,7 @@ import {
   Box,
   Button,
   Card,
+  DataList,
   Flex,
   Heading,
   RadioGroup,
@@ -332,9 +333,19 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
               <th className={styles['info-th']}>vehicle type</th>
               <td className={styles['info-td']} colSpan={3}>
                 {selectedProduct.model}
+                <DataList.Root size='1' mt='3' className='print:only'>
+                  <DataList.Item align='center'>
+                    <DataList.Label minWidth='88px'>포함사항</DataList.Label>
+                    <DataList.Value>{watch('included_items') || '-'}</DataList.Value>
+                  </DataList.Item>
+                  <DataList.Item>
+                    <DataList.Label minWidth='88px'>선택사항</DataList.Label>
+                    <DataList.Value>{watch('optional_items') || '-'}</DataList.Value>
+                  </DataList.Item>
+                </DataList.Root>
               </td>
             </tr>
-            <tr>
+            <tr className='print:hidden'>
               <th className={styles['info-th']}>포함사항</th>
               <td className={styles['info-td']} colSpan={3}>
                 <Box className='print:hidden'>
@@ -346,10 +357,9 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
                     )}
                   />
                 </Box>
-                <Text className='print:only'>{watch('included_items') || '-'}</Text>
               </td>
             </tr>
-            <tr>
+            <tr className='print:hidden'>
               <th className={styles['info-th']}>선택사항</th>
               <td className={styles['info-td']} colSpan={3}>
                 <Box className='print:hidden'>
@@ -361,7 +371,6 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
                     )}
                   />
                 </Box>
-                <Text className='print:only'>{watch('optional_items') || '-'}</Text>
               </td>
             </tr>
             <tr>
