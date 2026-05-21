@@ -43,6 +43,17 @@
   text-transform: uppercase;
 }
 
+.sub-title-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sub-title-logo {
+  height: auto;
+  object-fit: contain;
+}
+
 .guest-grid {
   border-top: 2px solid var(--gray-12);
 }

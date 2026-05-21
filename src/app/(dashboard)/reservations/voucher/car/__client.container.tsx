@@ -196,6 +196,8 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
   });
 
   const selectedCompany = watch('company');
+  const companyLogoSrc =
+    selectedCompany === 'DOLLAR' ? '/images/dollar.png' : '/images/hertz.png';
 
   useEffect(() => {
     reset(defaultFormValues);
@@ -251,7 +253,16 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
         </Heading>
 
         <Heading as='h3' size='5' mb='4' className={styles['sub-title']}>
-          {`${selectedCompany} rent a car`}
+          <span className={styles['sub-title-row']}>
+            <Image
+              src={companyLogoSrc}
+              alt={`${selectedCompany} logo`}
+              width={120}
+              height={28}
+              className={styles['sub-title-logo']}
+            />
+            {`${selectedCompany} rent a car`}
+          </span>
         </Heading>
         <table className={styles['info-table']}>
           <tbody>
