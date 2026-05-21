@@ -9,7 +9,7 @@ type VoucherProductPageProps = {
   }>;
 };
 
-export default async function VoucherHotelPage({ searchParams }: VoucherProductPageProps) {
+export default async function VoucherCarPage({ searchParams }: VoucherProductPageProps) {
   const params = await searchParams;
   const reservationId = params.reservation_id || '';
   const queryClient = new QueryClient();
