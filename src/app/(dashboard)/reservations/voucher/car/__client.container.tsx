@@ -154,7 +154,7 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
       confirmation_number,
       delivery_notes: getDefaultDeliveryNotes(delivery_notes),
       guide_notes: getDefaultGuideNotes(guide_notes),
-      company
+      company: company ?? 'HERTZ'
     };
   }, [selectedProduct]);
 
@@ -186,7 +186,7 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
         {
           id: selectedProduct.id,
           ...carData,
-          issue_date
+          issue_date: issue_date || null
         }
       ]
     } as unknown as Partial<ReservationFormData>;
