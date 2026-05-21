@@ -35,6 +35,8 @@ import styles from '../voucher.module.css';
 type VoucherFormState = Omit<VoucherSharedFormState, 'selected_clients'> & {
   issue_date: string;
   company: 'HERTZ' | 'DOLLAR';
+  included_items: string;
+  optional_items: string;
 };
 
 type SelectedCarProduct = NonNullable<ReservationResponse['products']['rental_cars'][number]> & {
@@ -154,7 +156,9 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
       confirmation_number,
       delivery_notes: getDefaultDeliveryNotes(delivery_notes),
       guide_notes: getDefaultGuideNotes(guide_notes),
-      company: company ?? 'HERTZ'
+      company: company ?? 'HERTZ',
+      included_items: '',
+      optional_items: ''
     };
   }, [selectedProduct]);
 
@@ -178,7 +182,7 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
   const onSubmit: SubmitHandler<VoucherFormState> = formData => {
     if (!isDirty) return toast.info('변경된 내용이 없습니다.');
 
-    const { issue_date, ...carData } = formData;
+    const { issue_date, included_items, optional_items, ...carData } = formData;
 
     const submitData = {
       reservation_id: reservationId,
@@ -186,6 +190,8 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
         {
           id: selectedProduct.id,
           ...carData,
+          remarks: included_items,
+          options: optional_items,
           issue_date: issue_date || null
         }
       ]
@@ -302,13 +308,31 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
             <tr>
               <th className={styles['info-th']}>포함사항</th>
               <td className={styles['info-td']} colSpan={3}>
-                -
+                <Box className='print:hidden'>
+                  <Controller
+                    name='included_items'
+                    control={control}
+                    render={({ field }) => (
+                      <TextField.Root {...field} type='text' placeholder='포함사항을 입력하세요.' />
+                    )}
+                  />
+                </Box>
+                <Text className='print:only'>{watch('included_items') || '-'}</Text>
               </td>
             </tr>
             <tr>
               <th className={styles['info-th']}>선택사항</th>
               <td className={styles['info-td']} colSpan={3}>
-                -
+                <Box className='print:hidden'>
+                  <Controller
+                    name='optional_items'
+                    control={control}
+                    render={({ field }) => (
+                      <TextField.Root {...field} type='text' placeholder='선택사항을 입력하세요.' />
+                    )}
+                  />
+                </Box>
+                <Text className='print:only'>{watch('optional_items') || '-'}</Text>
               </td>
             </tr>
             <tr>
