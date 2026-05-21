@@ -250,7 +250,7 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
           rent a car confirmation
         </Heading>
 
-        <Heading as='h3' size='5' mb='4' className='uppercase'>
+        <Heading as='h3' size='5' mb='4' className={styles['sub-title']}>
           {`${selectedCompany} rent a car`}
         </Heading>
         <table className={styles['info-table']}>
