@@ -463,9 +463,11 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
                     <Text>-</Text>
                   )}
                 </Box>
-                <Text as='p' color='red' mt='8'>
-                  [취소규정] {selectedProduct.rule || '-'}
-                </Text>
+                {selectedProduct.rule && (
+                  <Text as='p' color='red' mt='8'>
+                    [취소규정] {selectedProduct.rule}
+                  </Text>
+                )}
               </Box>
             </Flex>
           </Card>
