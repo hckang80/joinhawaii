@@ -938,6 +938,16 @@ export const CAR_GUIDE_NOTES = `* Child Seat/Booster Seat등의 추가 장비는
 * 렌터카 대여는 24시간 기준입니다
 * 본 바우처의 내용은 허츠렌터카 상황에 따라 예고없이 변경될 수 있습니다.`;
 
+export const CAR_OFFICE_GUIDE_NOTES = `※ 영업소의 영업시간은 현지사정에 의해 예고없이 변경될 수 있습니다.
+Honolulu Airport : AM05:30~AM24:00
+Kahala Hotel and Resort : AM07:00~PM15:00 (호텔투숙객만 픽업/반납가능)
+Hyatt Regency Waikiki (2F) : AM08:00~PM15:30 (영업시간 이후 반납 불가)
+Imperial Hotel : AM07:00~PM15:00 (영업시간이후 무인반납은 호텔투숙객만 가능)
+Kahului Airport Maui : AM05:30~PM23:00
+Kona Keahole Airport : AM05:00~PM22:30
+Hilo Airport : AM06:00~PM22:00
+Lihue Airport : AM05:00~PM23:00`;
+
 export const defaultPeopleValues = {
   adult_count: 0,
   children_count: 0,

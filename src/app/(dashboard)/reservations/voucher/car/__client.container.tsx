@@ -1,7 +1,7 @@
 'use client';
 
 import { Tiptap } from '@/components';
-import { CAR_DELIVERY_NOTES, CAR_GUIDE_NOTES } from '@/constants';
+import { CAR_DELIVERY_NOTES, CAR_GUIDE_NOTES, CAR_OFFICE_GUIDE_NOTES } from '@/constants';
 import { updateReservation } from '@/http';
 import { reservationQueryOptions } from '@/lib/queries';
 import type { ReservationFormData, ReservationResponse } from '@/types';
@@ -53,6 +53,10 @@ const CAR_GUIDE_NOTES_HTML = CAR_GUIDE_NOTES.split('\n')
   .map(line => `<p>${line}</p>`)
   .join('');
 
+const CAR_OFFICE_GUIDE_NOTES_HTML = CAR_OFFICE_GUIDE_NOTES.split('\n')
+  .map(line => `<p>${line}</p>`)
+  .join('');
+
 function getDefaultDeliveryNotes(deliveryNotes: string | null | undefined) {
   if (hasRenderableTiptapContent(deliveryNotes)) {
     return deliveryNotes ?? '';
@@ -64,6 +68,12 @@ function getDefaultDeliveryNotes(deliveryNotes: string | null | undefined) {
 
 function getDefaultGuideNotes(guideNotes: string | null | undefined) {
   return hasRenderableTiptapContent(guideNotes) ? (guideNotes ?? '') : CAR_GUIDE_NOTES_HTML;
+}
+
+function getDefaultOfficeGuideNotes(officeGuideNotes: string | null | undefined) {
+  return hasRenderableTiptapContent(officeGuideNotes)
+    ? (officeGuideNotes ?? '')
+    : CAR_OFFICE_GUIDE_NOTES_HTML;
 }
 
 export default function VoucherCarClientContainer({
@@ -170,7 +180,7 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
       company: company ?? 'HERTZ',
       included_items: included_items ?? '',
       optional_items: optional_items ?? '',
-      office_guide_notes: office_guide_notes ?? ''
+      office_guide_notes: getDefaultOfficeGuideNotes(office_guide_notes)
     };
   }, [selectedProduct]);
 
@@ -470,9 +480,11 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
           <Card>
             <Flex gap='4'>
               <Flex asChild direction='column' align='center' flexShrink='0'>
-                <Text size='4' weight='bold'>
+                <Text size='4' weight='bold' align='center'>
                   <Mic />
-                  영업소 안내
+                  영업소
+                  <br />
+                  안내
                 </Text>
               </Flex>
               <Box flexGrow='1'>
