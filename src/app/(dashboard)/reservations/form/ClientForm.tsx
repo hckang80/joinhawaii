@@ -393,7 +393,7 @@ export default function ClientForm({
                               const newValue = e.target.value.toUpperCase().trim();
                               field.onChange(newValue);
                             }}
-                            placeholder='HONG GILDONG'
+                            placeholder='KANG HEECHANG'
                           />
                         )}
                       />

@@ -143,7 +143,7 @@ export default function RentalCarForm({
                     <Table.ColumnHeaderCell width='250px'>픽업</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='250px'>리턴</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='180px'>차종</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='80px'>운전자</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='160px'>운전자(영문)</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='180px'>조건</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='80px'>💰1일요금</Table.ColumnHeaderCell>
@@ -313,6 +313,7 @@ export default function RentalCarForm({
                       <Table.Cell>
                         <TextField.Root
                           size='1'
+                          placeholder='KANG HEECHANG'
                           {...register(`rental_cars.${i}.driver`, {
                             setValueAs: value => (typeof value === 'string' ? value.trim() : value)
                           })}
