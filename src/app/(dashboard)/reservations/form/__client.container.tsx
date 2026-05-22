@@ -13,6 +13,7 @@ import { handleApiError, handleApiSuccess, toReadableAmount } from '@/utils';
 import { observable } from '@legendapp/state';
 import { Badge, Button, Flex, Heading, Table, Text, TextField } from '@radix-ui/themes';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { FileText } from 'lucide-react';
 import { useEffect } from 'react';
 import { Controller, type SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -319,9 +320,26 @@ export default function ReservationsFormClientContainer({
                     </Table.Row>
                     <Table.Row>
                       <Table.Cell colSpan={3}>
-                        <Flex justify='end'>
+                        <Flex justify='end' gap='2'>
                           <Button disabled={mutation.isPending} size='3'>
                             저장
+                          </Button>
+                          <Button
+                            variant='outline'
+                            size='3'
+                            type='button'
+                            onClick={() => {
+                              if (data?.reservation_id) {
+                                window.open(
+                                  `/reservations/preview?reservation_id=${encodeURIComponent(data.reservation_id)}`,
+                                  '_blank',
+                                  'noopener,noreferrer'
+                                );
+                              }
+                            }}
+                          >
+                            <FileText />
+                            예약확인서
                           </Button>
                         </Flex>
                       </Table.Cell>
