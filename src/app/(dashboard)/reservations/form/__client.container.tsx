@@ -254,6 +254,15 @@ export default function ReservationsFormClientContainer({
                           )}
                         />
                       </Table.Cell>
+                      <Table.Cell rowSpan={3} style={{ borderLeft: '1px solid var(--gray-6);' }}>
+                        <Badge
+                          size='3'
+                          color={PAYMENT_STATUS_COLOR[data.payment_status]}
+                          variant='soft'
+                        >
+                          {PaymentStatus[data.payment_status]}
+                        </Badge>
+                      </Table.Cell>
                     </Table.Row>
                     <Table.Row>
                       <Table.RowHeaderCell>
