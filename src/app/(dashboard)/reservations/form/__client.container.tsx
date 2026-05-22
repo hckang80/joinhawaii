@@ -178,7 +178,9 @@ export default function ReservationsFormClientContainer({
                     <Table.Row>
                       <Table.ColumnHeaderCell
                         align='center'
-                        colSpan={PRODUCT_OPTIONS.filter(({ value }) => value !== 'flight').length + 2}
+                        colSpan={
+                          PRODUCT_OPTIONS.filter(({ value }) => value !== 'flight').length + 2
+                        }
                       >
                         결제사항
                       </Table.ColumnHeaderCell>
