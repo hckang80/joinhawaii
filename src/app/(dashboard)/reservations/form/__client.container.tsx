@@ -293,6 +293,16 @@ export default function ReservationsFormClientContainer({
                       </Table.Cell>
                     </Table.Row>
                     <Table.Row>
+                      <Table.RowHeaderCell>
+                        <Text as='label' weight='medium'>
+                          잔금
+                        </Text>
+                      </Table.RowHeaderCell>
+                      <Table.Cell>
+                        {toReadableAmount(Number(data?.total_amount ?? 0) - (depositValue || 0))}
+                      </Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
                       <Table.Cell colSpan={3}>
                         <Flex justify='end'>
                           <Button disabled={mutation.isPending} size='3'>
