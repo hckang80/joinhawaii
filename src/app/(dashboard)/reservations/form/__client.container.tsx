@@ -180,8 +180,6 @@ export default function ReservationsFormClientContainer({
                         결제사항
                       </Table.ColumnHeaderCell>
                     </Table.Row>
-                  </Table.Header>
-                  <Table.Header>
                     <Table.Row>
                       {PRODUCT_OPTIONS.filter(({ value }) => value !== 'flight').map(product => (
                         <Table.ColumnHeaderCell key={product.value} align='center'>
