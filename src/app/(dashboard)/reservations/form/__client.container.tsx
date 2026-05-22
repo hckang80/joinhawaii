@@ -181,7 +181,9 @@ export default function ReservationsFormClientContainer({
                           {product.label}
                         </Table.ColumnHeaderCell>
                       ))}
-                      <Table.ColumnHeaderCell align='right'>총액</Table.ColumnHeaderCell>
+                      <Table.ColumnHeaderCell align='right' colSpan={2}>
+                        총액
+                      </Table.ColumnHeaderCell>
                     </Table.Row>
                   </Table.Header>
                   <Table.Body>
@@ -208,6 +210,13 @@ export default function ReservationsFormClientContainer({
                       <Table.Cell width='100px' align='right'>
                         <Grid>
                           <Text size='3'>{toReadableAmount(Number(data?.total_amount ?? 0))}</Text>
+                        </Grid>
+                      </Table.Cell>
+                      <Table.Cell width='100px' align='right'>
+                        <Grid>
+                          <Text size='3'>
+                            {toReadableAmount(Number(data?.total_amount_krw ?? 0), 'ko-KR', 'KRW')}
+                          </Text>
                         </Grid>
                       </Table.Cell>
                     </Table.Row>
