@@ -175,26 +175,20 @@ export default function ReservationsFormClientContainer({
                 <Table.Root variant='surface'>
                   <Table.Header>
                     <Table.Row>
-                      <Table.ColumnHeaderCell></Table.ColumnHeaderCell>
                       {PRODUCT_OPTIONS.filter(({ value }) => value !== 'flight').map(product => (
-                        <Table.ColumnHeaderCell key={product.value} align='right'>
+                        <Table.ColumnHeaderCell key={product.value} align='center'>
                           {product.label}
                         </Table.ColumnHeaderCell>
                       ))}
-                      <Table.ColumnHeaderCell align='right' colSpan={2}>
+                      <Table.ColumnHeaderCell align='center' colSpan={2}>
                         총액
                       </Table.ColumnHeaderCell>
                     </Table.Row>
                   </Table.Header>
                   <Table.Body>
                     <Table.Row>
-                      <Table.ColumnHeaderCell align='right'>
-                        <Text as='div' size='3'>
-                          금액
-                        </Text>
-                      </Table.ColumnHeaderCell>
                       {PRODUCT_OPTIONS.filter(({ value }) => value !== 'flight').map(product => (
-                        <Table.Cell key={product.value} width='100px' align='right'>
+                        <Table.Cell key={product.value} width='100px' align='center'>
                           <Grid>
                             <Text size='3'>
                               {toReadableAmount(
@@ -207,12 +201,12 @@ export default function ReservationsFormClientContainer({
                           </Grid>
                         </Table.Cell>
                       ))}
-                      <Table.Cell width='100px' align='right'>
+                      <Table.Cell width='100px' align='center'>
                         <Grid>
                           <Text size='3'>{toReadableAmount(Number(data?.total_amount ?? 0))}</Text>
                         </Grid>
                       </Table.Cell>
-                      <Table.Cell width='100px' align='right'>
+                      <Table.Cell width='100px' align='center'>
                         <Grid>
                           <Text size='3'>
                             {toReadableAmount(Number(data?.total_amount_krw ?? 0), 'ko-KR', 'KRW')}
