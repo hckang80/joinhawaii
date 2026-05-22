@@ -232,9 +232,6 @@ export default function ReservationsFormClientContainer({
                           예약금
                         </Text>
                       </Table.RowHeaderCell>
-                      <Table.Cell width='32px' align='center'>
-                        ₩
-                      </Table.Cell>
                       <Table.Cell>
                         <Controller
                           name='reservation_fee'
@@ -251,7 +248,9 @@ export default function ReservationsFormClientContainer({
                                 field.onChange(value === '' ? 0 : +value);
                               }}
                               placeholder='0'
-                            />
+                            >
+                              <TextField.Slot>₩</TextField.Slot>
+                            </TextField.Root>
                           )}
                         />
                       </Table.Cell>
@@ -262,9 +261,6 @@ export default function ReservationsFormClientContainer({
                           입금액
                         </Text>
                       </Table.RowHeaderCell>
-                      <Table.Cell width='32px' align='center'>
-                        $
-                      </Table.Cell>
                       <Table.Cell>
                         <Controller
                           name='deposit'
@@ -289,7 +285,9 @@ export default function ReservationsFormClientContainer({
                                 field.onChange(value === '' ? 0 : +value);
                               }}
                               placeholder='0'
-                            />
+                            >
+                              <TextField.Slot>$</TextField.Slot>
+                            </TextField.Root>
                           )}
                         />
                       </Table.Cell>
