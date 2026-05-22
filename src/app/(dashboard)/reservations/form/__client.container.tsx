@@ -347,42 +347,6 @@ export default function ReservationsFormClientContainer({
                   </Table.Body>
                 </Table.Root>
               </Flex>
-
-              <Flex mt='2' justify='end' gap='1'>
-                <Text as='label' weight='medium'>
-                  입금액 {toReadableAmount(Number(depositValue || 0))} +
-                </Text>
-                <Text as='label' weight='medium'>
-                  잔금 {toReadableAmount(Number(data?.total_amount ?? 0) - (depositValue || 0))}
-                </Text>
-                <Text as='label' weight='medium'>
-                  = 총액 {toReadableAmount(Number(data?.total_amount ?? 0))}(
-                  {toReadableAmount(Number(data?.total_amount_krw ?? 0), 'ko-KR', 'KRW')})
-                </Text>
-                <Badge size='3' color={PAYMENT_STATUS_COLOR[data.payment_status]} variant='soft'>
-                  {PaymentStatus[data.payment_status]}
-                </Badge>
-
-                <Button
-                  size='3'
-                  type='button'
-                  onClick={() => {
-                    if (data?.reservation_id) {
-                      window.open(
-                        `/reservations/preview?reservation_id=${encodeURIComponent(data.reservation_id)}`,
-                        '_blank',
-                        'noopener,noreferrer'
-                      );
-                    }
-                  }}
-                >
-                  예약확인서
-                </Button>
-              </Flex>
-
-              <Text as='p' align='right' mt='2' weight='bold' color='ruby'>
-                환율이 입력된 상품만 한화에 반영됩니다.
-              </Text>
             </form>
           </Flex>
         )}
