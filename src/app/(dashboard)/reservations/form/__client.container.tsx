@@ -188,8 +188,8 @@ export default function ReservationsFormClientContainer({
                   <Table.Body>
                     <Table.Row>
                       {PRODUCT_OPTIONS.filter(({ value }) => value !== 'flight').map(product => (
-                        <Table.Cell key={product.value} width='100px' align='center'>
-                          <Flex wrap='nowrap' asChild>
+                        <Table.Cell key={product.value} width='100px'>
+                          <Flex justify='center' wrap='nowrap' asChild>
                             <Text size='3'>
                               {toReadableAmount(
                                 getProductTotalAmount(data?.products[product.table] ?? []) +
@@ -201,13 +201,13 @@ export default function ReservationsFormClientContainer({
                           </Flex>
                         </Table.Cell>
                       ))}
-                      <Table.Cell width='100px' align='center'>
-                        <Flex wrap='nowrap' asChild>
+                      <Table.Cell width='100px'>
+                        <Flex justify='center' wrap='nowrap' asChild>
                           <Text size='3'>{toReadableAmount(Number(data?.total_amount ?? 0))}</Text>
                         </Flex>
                       </Table.Cell>
-                      <Table.Cell width='100px' align='center'>
-                        <Flex wrap='nowrap' asChild>
+                      <Table.Cell width='100px'>
+                        <Flex justify='center' wrap='nowrap' asChild>
                           <Text size='3'>
                             {toReadableAmount(Number(data?.total_amount_krw ?? 0), 'ko-KR', 'KRW')}
                           </Text>
