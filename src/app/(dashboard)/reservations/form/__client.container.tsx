@@ -299,7 +299,13 @@ export default function ReservationsFormClientContainer({
                         </Text>
                       </Table.RowHeaderCell>
                       <Table.Cell>
-                        {toReadableAmount(Number(data?.total_amount ?? 0) - (depositValue || 0))}
+                        <TextField.Root
+                          readOnly
+                          size='3'
+                          value={Number(data?.total_amount ?? 0) - (depositValue || 0)}
+                        >
+                          <TextField.Slot>$</TextField.Slot>
+                        </TextField.Root>
                       </Table.Cell>
                     </Table.Row>
                     <Table.Row>
