@@ -11,8 +11,9 @@ import type {
 } from '@/types';
 import { handleApiError, handleApiSuccess, toReadableAmount } from '@/utils';
 import { observable } from '@legendapp/state';
-import { Badge, Button, Card, Flex, Grid, Heading, Table, Text, TextField } from '@radix-ui/themes';
+import { Badge, Button, Flex, Heading, Table, Text, TextField } from '@radix-ui/themes';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { FileText } from 'lucide-react';
 import { useEffect } from 'react';
 import { Controller, type SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -175,25 +176,31 @@ export default function ReservationsFormClientContainer({
                 <Table.Root variant='surface'>
                   <Table.Header>
                     <Table.Row>
-                      <Table.ColumnHeaderCell></Table.ColumnHeaderCell>
+                      <Table.ColumnHeaderCell
+                        align='center'
+                        colSpan={
+                          PRODUCT_OPTIONS.filter(({ value }) => value !== 'flight').length + 2
+                        }
+                      >
+                        결제사항
+                      </Table.ColumnHeaderCell>
+                    </Table.Row>
+                    <Table.Row>
                       {PRODUCT_OPTIONS.filter(({ value }) => value !== 'flight').map(product => (
-                        <Table.ColumnHeaderCell key={product.value} align='right'>
+                        <Table.ColumnHeaderCell key={product.value} align='center'>
                           {product.label}
                         </Table.ColumnHeaderCell>
                       ))}
-                      <Table.ColumnHeaderCell align='right'>총액</Table.ColumnHeaderCell>
+                      <Table.ColumnHeaderCell align='center' colSpan={2}>
+                        총액
+                      </Table.ColumnHeaderCell>
                     </Table.Row>
                   </Table.Header>
                   <Table.Body>
                     <Table.Row>
-                      <Table.ColumnHeaderCell align='right'>
-                        <Text as='div' size='3'>
-                          금액
-                        </Text>
-                      </Table.ColumnHeaderCell>
                       {PRODUCT_OPTIONS.filter(({ value }) => value !== 'flight').map(product => (
-                        <Table.Cell key={product.value} width='100px' align='right'>
-                          <Grid>
+                        <Table.Cell key={product.value} width='100px'>
+                          <Flex justify='center' wrap='nowrap' asChild>
                             <Text size='3'>
                               {toReadableAmount(
                                 getProductTotalAmount(data?.products[product.table] ?? []) +
@@ -202,119 +209,147 @@ export default function ReservationsFormClientContainer({
                                   )
                               )}
                             </Text>
-                          </Grid>
+                          </Flex>
                         </Table.Cell>
                       ))}
-                      <Table.Cell width='100px' align='right'>
-                        <Grid>
+                      <Table.Cell width='100px'>
+                        <Flex justify='center' wrap='nowrap' asChild>
                           <Text size='3'>{toReadableAmount(Number(data?.total_amount ?? 0))}</Text>
-                        </Grid>
+                        </Flex>
+                      </Table.Cell>
+                      <Table.Cell width='100px'>
+                        <Flex justify='center' wrap='nowrap' asChild>
+                          <Text size='3'>
+                            {toReadableAmount(Number(data?.total_amount_krw ?? 0), 'ko-KR', 'KRW')}
+                          </Text>
+                        </Flex>
                       </Table.Cell>
                     </Table.Row>
                   </Table.Body>
                 </Table.Root>
 
-                <Card>
-                  <Flex direction='column' gap='2'>
-                    <Flex align='center' gap='1' justify='end'>
-                      <Text as='label' weight='medium'>
-                        예약금{' '}
-                      </Text>
-                      ₩
-                      <Controller
-                        name='reservation_fee'
-                        control={control}
-                        render={({ field }) => (
-                          <TextField.Root
+                <Table.Root variant='surface'>
+                  <Table.Body>
+                    <Table.Row>
+                      <Table.RowHeaderCell>
+                        <Text as='label' weight='medium'>
+                          예약금
+                        </Text>
+                      </Table.RowHeaderCell>
+                      <Table.Cell>
+                        <Controller
+                          name='reservation_fee'
+                          control={control}
+                          render={({ field }) => (
+                            <TextField.Root
+                              size='3'
+                              type='number'
+                              step='1'
+                              inputMode='numeric'
+                              value={field.value === 0 ? '' : field.value}
+                              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                const value = e.target.value;
+                                field.onChange(value === '' ? 0 : +value);
+                              }}
+                              placeholder='0'
+                            >
+                              <TextField.Slot>₩</TextField.Slot>
+                            </TextField.Root>
+                          )}
+                        />
+                      </Table.Cell>
+                      <Table.Cell rowSpan={3} style={{ borderLeft: '1px solid var(--gray-6)' }}>
+                        <Badge
+                          size='3'
+                          color={PAYMENT_STATUS_COLOR[data.payment_status]}
+                          variant='soft'
+                        >
+                          {PaymentStatus[data.payment_status]}
+                        </Badge>
+                      </Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                      <Table.RowHeaderCell>
+                        <Text as='label' weight='medium'>
+                          입금액
+                        </Text>
+                      </Table.RowHeaderCell>
+                      <Table.Cell>
+                        <Controller
+                          name='deposit'
+                          control={control}
+                          rules={{
+                            required: true,
+                            validate: value => {
+                              const numValue = value ? Number(value) : 0;
+                              return numValue <= Number(data?.total_amount);
+                            }
+                          }}
+                          render={({ field }) => (
+                            <TextField.Root
+                              size='3'
+                              type='number'
+                              step='0.01'
+                              max={Number(data?.total_amount || 0)}
+                              inputMode='decimal'
+                              value={field.value === 0 ? '' : field.value}
+                              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                const value = e.target.value;
+                                field.onChange(value === '' ? 0 : +value);
+                              }}
+                              placeholder='0'
+                            >
+                              <TextField.Slot>$</TextField.Slot>
+                            </TextField.Root>
+                          )}
+                        />
+                      </Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                      <Table.RowHeaderCell>
+                        <Text as='label' weight='medium'>
+                          잔금
+                        </Text>
+                      </Table.RowHeaderCell>
+                      <Table.Cell>
+                        <TextField.Root
+                          readOnly
+                          size='3'
+                          value={Number(data?.total_amount ?? 0) - (depositValue || 0)}
+                        >
+                          <TextField.Slot>$</TextField.Slot>
+                        </TextField.Root>
+                      </Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                      <Table.Cell colSpan={3}>
+                        <Flex justify='end' gap='2'>
+                          <Button disabled={mutation.isPending} size='3'>
+                            저장
+                          </Button>
+                          <Button
+                            variant='outline'
                             size='3'
-                            type='number'
-                            step='1'
-                            inputMode='numeric'
-                            value={field.value === 0 ? '' : field.value}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                              const value = e.target.value;
-                              field.onChange(value === '' ? 0 : +value);
+                            type='button'
+                            onClick={() => {
+                              if (data?.reservation_id) {
+                                window.open(
+                                  `/reservations/preview?reservation_id=${encodeURIComponent(data.reservation_id)}`,
+                                  '_blank',
+                                  'noopener,noreferrer'
+                                );
+                              }
                             }}
-                            placeholder='0'
-                          />
-                        )}
-                      />
-                    </Flex>
-                    <Flex align='center' gap='1' justify='end'>
-                      <Text as='label' weight='medium'>
-                        입금액{' '}
-                      </Text>
-                      $
-                      <Controller
-                        name='deposit'
-                        control={control}
-                        rules={{
-                          required: true,
-                          validate: value => {
-                            const numValue = value ? Number(value) : 0;
-                            return numValue <= Number(data?.total_amount);
-                          }
-                        }}
-                        render={({ field }) => (
-                          <TextField.Root
-                            size='3'
-                            type='number'
-                            step='0.01'
-                            max={Number(data?.total_amount || 0)}
-                            inputMode='decimal'
-                            value={field.value === 0 ? '' : field.value}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                              const value = e.target.value;
-                              field.onChange(value === '' ? 0 : +value);
-                            }}
-                            placeholder='0'
-                          />
-                        )}
-                      />
-                    </Flex>
-
-                    <Button disabled={mutation.isPending} size='3'>
-                      저장
-                    </Button>
-                  </Flex>
-                </Card>
+                          >
+                            <FileText />
+                            예약확인서
+                          </Button>
+                        </Flex>
+                      </Table.Cell>
+                    </Table.Row>
+                  </Table.Body>
+                </Table.Root>
               </Flex>
-
-              <Flex mt='2' justify='end' gap='1'>
-                <Text as='label' weight='medium'>
-                  입금액 {toReadableAmount(Number(depositValue || 0))} +
-                </Text>
-                <Text as='label' weight='medium'>
-                  잔금 {toReadableAmount(Number(data?.total_amount ?? 0) - (depositValue || 0))}
-                </Text>
-                <Text as='label' weight='medium'>
-                  = 총액 {toReadableAmount(Number(data?.total_amount ?? 0))}(
-                  {toReadableAmount(Number(data?.total_amount_krw ?? 0), 'ko-KR', 'KRW')})
-                </Text>
-                <Badge size='3' color={PAYMENT_STATUS_COLOR[data.payment_status]} variant='soft'>
-                  {PaymentStatus[data.payment_status]}
-                </Badge>
-
-                <Button
-                  size='3'
-                  type='button'
-                  onClick={() => {
-                    if (data?.reservation_id) {
-                      window.open(
-                        `/reservations/preview?reservation_id=${encodeURIComponent(data.reservation_id)}`,
-                        '_blank',
-                        'noopener,noreferrer'
-                      );
-                    }
-                  }}
-                >
-                  예약확인서
-                </Button>
-              </Flex>
-
-              <Text as='p' align='right' mt='2' weight='bold' color='ruby'>
-                환율이 입력된 상품만 한화에 반영됩니다.
-              </Text>
             </form>
           </Flex>
         )}
