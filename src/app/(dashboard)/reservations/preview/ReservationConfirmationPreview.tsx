@@ -1,6 +1,7 @@
+import { PAYMENT_STATUS_COLOR, PaymentStatus } from '@/constants';
 import type { AdditionalOptions, ReservationResponse } from '@/types';
 import { toReadableAmount } from '@/utils';
-import { Blockquote, Box, Flex, Grid, Heading, Section, Text } from '@radix-ui/themes';
+import { Badge, Blockquote, Box, Flex, Grid, Heading, Section, Text } from '@radix-ui/themes';
 import styles from './preview-table.module.css';
 
 type ReservationConfirmationPreviewProps = {
@@ -186,9 +187,14 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
       </Section>
 
       <Section size='1'>
-        <Heading as='h3' mb='2'>
-          결제사항
-        </Heading>
+        <Flex asChild align='center' gap='1' mb='2'>
+          <header>
+            <Heading as='h3'>결제사항</Heading>
+            <Badge size='3' color={PAYMENT_STATUS_COLOR[data.payment_status]} variant='soft'>
+              {PaymentStatus[data.payment_status]}
+            </Badge>
+          </header>
+        </Flex>
         <table className={styles.table}>
           <thead>
             <tr>
