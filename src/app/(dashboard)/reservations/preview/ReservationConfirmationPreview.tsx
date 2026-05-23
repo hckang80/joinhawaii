@@ -47,7 +47,7 @@ function formatClientTitle(data: ReservationResponse) {
   const orderedNames = [mainClient, ...names.filter(name => name !== mainClient)];
 
   if (orderedNames.length <= 2) {
-    return `${orderedNames.join(', ')} 귀하`;
+    return `${orderedNames.join(', ')}님 귀하`;
   }
 
   return `${orderedNames[0]} 외 ${orderedNames.length - 1}인 귀하`;
