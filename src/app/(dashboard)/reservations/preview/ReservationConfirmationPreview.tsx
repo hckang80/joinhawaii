@@ -476,7 +476,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                                 .filter(Boolean)
                                 .join(' ~ ')}
                             </td>
-                            <td className={styles.td}></td>
+                            <td className={styles.td}>{toReadableAmount(tour.adult_price)}</td>
                             <td className={styles.td}>
                               {tour.adult_count + tour.children_count + tour.kids_count}
                             </td>
