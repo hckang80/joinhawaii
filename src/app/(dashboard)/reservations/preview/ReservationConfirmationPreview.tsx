@@ -477,7 +477,9 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                                 .join(' ~ ')}
                             </td>
                             <td className={styles.td}></td>
-                            <td className={styles.td}></td>
+                            <td className={styles.td}>
+                              {tour.adult_count + tour.children_count + tour.kids_count}
+                            </td>
                             <td className={styles.td}>{toReadableAmount(tour.total_amount)}</td>
                           </tr>
                         </tbody>
