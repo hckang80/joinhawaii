@@ -1,3 +1,4 @@
+import { CONTACT_NUMBER } from '@/constants';
 import { Card, Flex, Grid, Text } from '@radix-ui/themes';
 
 export function ContactInfoCards() {
@@ -14,7 +15,7 @@ export function ContactInfoCards() {
       <Card>
         <Flex direction='column' gap='1'>
           <Text weight='bold'>조인하와이 한국 연락처</Text>
-          <Text>T : 02-402-1040</Text>
+          <Text>T : {CONTACT_NUMBER}</Text>
           <Text>카톡 : 조인하와이(채널)</Text>
           <Text>시간 : 09AM ~ 18PM</Text>
         </Flex>

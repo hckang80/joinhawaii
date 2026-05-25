@@ -38,6 +38,8 @@ export enum PaymentStatus {
   Refunded = '환불'
 }
 
+export const CONTACT_NUMBER = '02-402-1040';
+
 export const JOB_FUNCTION: Record<string, string> = {
   'joinhawaiikoreausa@gmail.com': '대표',
   'joinhawaii@joinhawaii.com': '대표',
