@@ -309,34 +309,24 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
           <table className={styles.table}>
             <colgroup>
               <col width='80px' />
-              <col width='200px' />
-              <col width='60px' />
               <col />
               <col width='70px' />
               <col width='70px' />
-              <col width='100px' />
             </colgroup>
             <thead>
               <tr>
                 <th className={styles.th}>지역</th>
-                <th className={styles.th}>날짜</th>
-                <th className={styles.th}>숙박일</th>
                 <th className={styles.th}>호텔</th>
                 <th className={styles.th}>조식</th>
                 <th className={styles.th}>리조트피</th>
-                <th className={styles.th}>합계</th>
               </tr>
             </thead>
             {hotels.map((hotel, idx) => (
               <tbody key={hotel.id ?? idx}>
                 <tr>
-                  <td className={styles.td}>{hotel.region || '-'}</td>
-                  <td className={styles.td}>
-                    {[formatDate(hotel.check_in_date), formatDate(hotel.check_out_date)]
-                      .filter(Boolean)
-                      .join(' ~ ')}
+                  <td className={styles.td} rowSpan={2}>
+                    {hotel.region || '-'}
                   </td>
-                  <td className={styles.td}>{hotel.nights ?? '-'}박</td>
                   <td className={styles.td}>
                     {[
                       hotel.hotel_name,
@@ -360,7 +350,40 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                           ? '없음'
                           : '-'}
                   </td>
-                  <td className={styles.td}>{toReadableAmount(hotel.total_amount)}</td>
+                </tr>
+                <tr>
+                  <td colSpan={3}>
+                    <Box m='-1px'>
+                      <table className={styles.table}>
+                        <colgroup>
+                          <col />
+                          <col width='100px' />
+                          <col width='60px' />
+                          <col width='100px' />
+                        </colgroup>
+                        <thead>
+                          <tr>
+                            <th className={styles.th}>날짜</th>
+                            <th className={styles.th}>1박요금</th>
+                            <th className={styles.th}>숙박일</th>
+                            <th className={styles.th}>합계</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td className={styles.td}>
+                              {[formatDate(hotel.check_in_date), formatDate(hotel.check_out_date)]
+                                .filter(Boolean)
+                                .join(' ~ ')}
+                            </td>
+                            <td className={styles.td}>{toReadableAmount(hotel.nightly_rate)}</td>
+                            <td className={styles.td}>{hotel.nights ?? '-'}박</td>
+                            <td className={styles.td}>{toReadableAmount(hotel.total_amount)}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </Box>
+                  </td>
                 </tr>
                 {(hotel.remarks || hotel.rule) && (
                   <tr>
