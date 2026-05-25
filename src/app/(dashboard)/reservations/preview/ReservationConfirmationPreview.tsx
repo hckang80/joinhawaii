@@ -310,8 +310,8 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
             <colgroup>
               <col width='80px' />
               <col />
-              <col width='70px' />
-              <col width='70px' />
+              <col width='120px' />
+              <col width='120px' />
             </colgroup>
             <thead>
               <tr>
@@ -357,9 +357,9 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                       <table className={styles.table}>
                         <colgroup>
                           <col />
-                          <col width='100px' />
-                          <col width='60px' />
-                          <col width='100px' />
+                          <col width='120px' />
+                          <col width='120px' />
+                          <col width='120px' />
                         </colgroup>
                         <thead>
                           <tr>
@@ -456,9 +456,9 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                       <table className={styles.table}>
                         <colgroup>
                           <col />
-                          <col width='80px' />
-                          <col width='80px' />
-                          <col width='80px' />
+                          <col width='120px' />
+                          <col width='120px' />
+                          <col width='120px' />
                         </colgroup>
                         <thead>
                           <tr>
@@ -527,8 +527,8 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
             <colgroup>
               <col width='80px' />
               <col />
-              <col width='80px' />
-              <col width='60px' />
+              <col width='120px' />
+              <col width='120px' />
             </colgroup>
             <thead>
               <tr>
@@ -541,7 +541,9 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
             {rentalCars.map((car, idx) => (
               <tbody key={car.id ?? idx}>
                 <tr>
-                  <td className={styles.td}>{car.region || '-'}</td>
+                  <td className={styles.td} rowSpan={2}>
+                    {car.region || '-'}
+                  </td>
                   <td className={styles.td}>
                     {car.model || '-'}
                     {car.additional_options.length > 0 && (
@@ -554,15 +556,15 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                   <td className={styles.td}>{car.options || '-'}</td>
                 </tr>
                 <tr>
-                  <td colSpan={4}>
+                  <td colSpan={3}>
                     <Box m='-1px'>
                       <table className={styles.table}>
                         <colgroup>
-                          <col width='240px' />
-                          <col width='240px' />
                           <col />
-                          <col width='60px' />
-                          <col width='100px' />
+                          <col />
+                          <col width='120px' />
+                          <col width='120px' />
+                          <col width='120px' />
                         </colgroup>
                         <thead>
                           <tr>
