@@ -1127,9 +1127,9 @@ export const PRODUCT_LABEL: Record<ProductType, string> = PRODUCT_OPTIONS.reduce
 );
 
 export const PRODUCT_COLOR: Record<ProductType, typeof selectTriggerPropDefs.color.default> = {
-  flight: 'blue',
-  hotel: 'green',
-  tour: 'amber',
-  rental_car: 'violet',
-  insurance: 'ruby'
+  flight: 'green',
+  hotel: 'blue',
+  tour: 'ruby',
+  rental_car: 'lime',
+  insurance: 'amber'
 };
