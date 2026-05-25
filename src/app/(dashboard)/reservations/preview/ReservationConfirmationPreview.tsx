@@ -387,7 +387,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                 </tr>
                 {(hotel.remarks || hotel.rule) && (
                   <tr>
-                    <td className={styles.td} colSpan={7}>
+                    <td className={styles.td} colSpan={4}>
                       <Grid columns='1' gap='1'>
                         {hotel.remarks && (
                           <Flex gap='2' align='center' wrap='nowrap'>
@@ -427,26 +427,19 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
           <table className={styles.table}>
             <colgroup>
               <col width='80px' />
-              <col width='160px' />
               <col />
-              <col width='100px' />
             </colgroup>
             <thead>
               <tr>
                 <th className={styles.th}>지역</th>
-                <th className={styles.th}>날짜</th>
                 <th className={styles.th}>상품명</th>
-                <th className={styles.th}>합계</th>
               </tr>
             </thead>
             {tours.map((tour, idx) => (
               <tbody key={tour.id ?? idx}>
                 <tr>
-                  <td className={styles.td}>{tour.region || '-'}</td>
-                  <td className={styles.td}>
-                    {[formatDateTime(tour.start_date), formatDateTime(tour.end_date)]
-                      .filter(Boolean)
-                      .join(' ~ ')}
+                  <td className={styles.td} rowSpan={2}>
+                    {tour.region || '-'}
                   </td>
                   <td className={styles.td}>
                     {tour.name || '-'}
@@ -456,11 +449,44 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                       </Text>
                     )}
                   </td>
-                  <td className={styles.td}>{toReadableAmount(tour.total_amount)}</td>
+                </tr>
+                <tr>
+                  <td>
+                    <Box m='-1px'>
+                      <table className={styles.table}>
+                        <colgroup>
+                          <col />
+                          <col width='80px' />
+                          <col width='80px' />
+                          <col width='80px' />
+                        </colgroup>
+                        <thead>
+                          <tr>
+                            <th className={styles.th}>날짜</th>
+                            <th className={styles.th}>성인요금</th>
+                            <th className={styles.th}>인원수</th>
+                            <th className={styles.th}>합계</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td className={styles.td}>
+                              {[formatDateTime(tour.start_date), formatDateTime(tour.end_date)]
+                                .filter(Boolean)
+                                .join(' ~ ')}
+                            </td>
+                            <td className={styles.td}></td>
+                            <td className={styles.td}></td>
+                            <td className={styles.td}>{toReadableAmount(tour.total_amount)}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </Box>
+                  </td>
                 </tr>
                 {(tour.remarks || tour.rule) && (
                   <tr>
-                    <td className={styles.td} colSpan={4}>
+                    <td className={styles.td} colSpan={2}>
                       <Grid columns='1' gap='1'>
                         {tour.remarks && (
                           <Flex gap='2' align='center' wrap='nowrap'>
@@ -500,40 +526,22 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
           <table className={styles.table}>
             <colgroup>
               <col width='80px' />
-              <col width='240px' />
-              <col width='240px' />
               <col />
               <col width='80px' />
               <col width='60px' />
-              <col width='60px' />
-              <col width='100px' />
             </colgroup>
             <thead>
               <tr>
                 <th className={styles.th}>지역</th>
-                <th className={styles.th}>픽업장소/시간</th>
-                <th className={styles.th}>반납장소/시간</th>
                 <th className={styles.th}>차종</th>
                 <th className={styles.th}>운전자</th>
                 <th className={styles.th}>조건</th>
-                <th className={styles.th}>대여일</th>
-                <th className={styles.th}>합계</th>
               </tr>
             </thead>
             {rentalCars.map((car, idx) => (
               <tbody key={car.id ?? idx}>
                 <tr>
                   <td className={styles.td}>{car.region || '-'}</td>
-                  <td className={styles.td} style={{ whiteSpace: 'pre-line' }}>
-                    {[car.pickup_location, formatDateTime(car.pickup_date)]
-                      .filter(Boolean)
-                      .join('\n')}
-                  </td>
-                  <td className={styles.td} style={{ whiteSpace: 'pre-line' }}>
-                    {[car.return_location, formatDateTime(car.return_date)]
-                      .filter(Boolean)
-                      .join('\n')}
-                  </td>
                   <td className={styles.td}>
                     {car.model || '-'}
                     {car.additional_options.length > 0 && (
@@ -544,12 +552,51 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                   </td>
                   <td className={styles.td}>{car.driver || '-'}</td>
                   <td className={styles.td}>{car.options || '-'}</td>
-                  <td className={styles.td}>{car.rental_days ?? '-'}일</td>
-                  <td className={styles.td}>{toReadableAmount(car.total_amount)}</td>
+                </tr>
+                <tr>
+                  <td colSpan={4}>
+                    <Box m='-1px'>
+                      <table className={styles.table}>
+                        <colgroup>
+                          <col width='240px' />
+                          <col width='240px' />
+                          <col />
+                          <col width='60px' />
+                          <col width='100px' />
+                        </colgroup>
+                        <thead>
+                          <tr>
+                            <th className={styles.th}>픽업장소/시간</th>
+                            <th className={styles.th}>반납장소/시간</th>
+                            <th className={styles.th}>1일요금</th>
+                            <th className={styles.th}>대여일</th>
+                            <th className={styles.th}>합계</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td className={styles.td} style={{ whiteSpace: 'pre-line' }}>
+                              {[car.pickup_location, formatDateTime(car.pickup_date)]
+                                .filter(Boolean)
+                                .join('\n')}
+                            </td>
+                            <td className={styles.td} style={{ whiteSpace: 'pre-line' }}>
+                              {[car.return_location, formatDateTime(car.return_date)]
+                                .filter(Boolean)
+                                .join('\n')}
+                            </td>
+                            <td className={styles.td}>{toReadableAmount(car.daily_rate)}</td>
+                            <td className={styles.td}>{car.rental_days ?? '-'}일</td>
+                            <td className={styles.td}>{toReadableAmount(car.total_amount)}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </Box>
+                  </td>
                 </tr>
                 {(car.remarks || car.rule) && (
                   <tr>
-                    <td className={styles.td} colSpan={8}>
+                    <td className={styles.td} colSpan={4}>
                       <Grid columns='1' gap='1'>
                         {car.remarks && (
                           <Flex gap='2' align='center' wrap='nowrap'>
