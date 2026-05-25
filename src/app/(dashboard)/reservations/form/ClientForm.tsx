@@ -3,6 +3,7 @@ import {
   BOOKING_PLATFORM_OPTIONS,
   defaultClientValues,
   GENDER_TYPE,
+  JOB_FUNCTION,
   PRODUCT_STATUS_COLOR,
   ProductStatus,
   TRAVEL_CATEGORIES,
@@ -202,7 +203,11 @@ export default function ClientForm({
                   <Table.RowHeaderCell>
                     <Text weight='bold'>담당자</Text>
                   </Table.RowHeaderCell>
-                  <Table.Cell>{data?.author || '-'}</Table.Cell>
+                  <Table.Cell>
+                    {[data?.author, JOB_FUNCTION[data?.author_email || ''] || '-']
+                      .filter(Boolean)
+                      .join(' ')}
+                  </Table.Cell>
                   <Table.RowHeaderCell>
                     <Text weight='bold'>카카오톡</Text>
                   </Table.RowHeaderCell>

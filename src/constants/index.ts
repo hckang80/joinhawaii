@@ -38,6 +38,13 @@ export enum PaymentStatus {
   Refunded = '환불'
 }
 
+export const JOB_FUNCTION: Record<string, string> = {
+  'joinhawaiikoreausa@gmail.com': '대표',
+  'joinhawaii@joinhawaii.com': '대표',
+  'tjsdk525@gmail.com': '팀장',
+  'hckang80@gmail.com': '관리자'
+};
+
 export const RENTAL_CAR_SPECIAL_OPTIONS = ['3종보험', '3종보험, 주유, 추가운전자'];
 
 export const PICKUP_LOCATIONS = [

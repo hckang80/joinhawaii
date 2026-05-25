@@ -1,4 +1,4 @@
-import { PAYMENT_STATUS_COLOR, PaymentStatus } from '@/constants';
+import { JOB_FUNCTION, PAYMENT_STATUS_COLOR, PaymentStatus } from '@/constants';
 import type { AdditionalOptions, ReservationResponse } from '@/types';
 import { toReadableAmount } from '@/utils';
 import { Badge, Blockquote, Box, Flex, Grid, Heading, Section, Text } from '@radix-ui/themes';
@@ -123,7 +123,10 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
               </td>
               <th className={styles.th}>담당자</th>
               <td className={styles.td}>
-                {data.author || '-'} / {'02-402-1040'}
+                {[data.author, JOB_FUNCTION[data.author_email || ''] || '-']
+                  .filter(Boolean)
+                  .join(' ')}{' '}
+                / {'02-402-1040'}
               </td>
               <th className={styles.th}>email</th>
               <td className={styles.td}>
