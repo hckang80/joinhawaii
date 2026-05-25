@@ -3,14 +3,13 @@ import {
   BOOKING_PLATFORM_OPTIONS,
   defaultClientValues,
   GENDER_TYPE,
-  JOB_FUNCTION,
   PRODUCT_STATUS_COLOR,
   ProductStatus,
   TRAVEL_CATEGORIES,
   TRIP_TYPES
 } from '@/constants';
 import type { ReservationFormData, ReservationResponse } from '@/types';
-import { isDev, toReadableDate } from '@/utils';
+import { isDev, jobTitles, toReadableDate } from '@/utils';
 import {
   Button,
   Card,
@@ -204,9 +203,7 @@ export default function ClientForm({
                     <Text weight='bold'>담당자</Text>
                   </Table.RowHeaderCell>
                   <Table.Cell>
-                    {[data?.author, JOB_FUNCTION[data?.author_email || ''] || '-']
-                      .filter(Boolean)
-                      .join(' ')}
+                    {[data?.author, jobTitles(data?.author_email)].filter(Boolean).join(' ')}
                   </Table.Cell>
                   <Table.RowHeaderCell>
                     <Text weight='bold'>카카오톡</Text>

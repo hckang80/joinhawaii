@@ -1,7 +1,13 @@
-import { TIME_ZONE } from '@/constants';
+import { JOB_FUNCTION, TIME_ZONE } from '@/constants';
 import { PaymentStatusKey, ProductStatusKey } from '@/types';
 import type { PostgrestError } from '@supabase/supabase-js';
 import { toast } from 'react-toastify';
+
+export function jobTitles(email?: string) {
+  if (!email) return '';
+
+  return JOB_FUNCTION[email] || '';
+}
 
 export function toReadableDate(date: Date | string, includeTime = false) {
   const d = typeof date === 'string' ? new Date(date) : date;

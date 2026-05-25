@@ -1,6 +1,6 @@
-import { CONTACT_NUMBER, JOB_FUNCTION, PAYMENT_STATUS_COLOR, PaymentStatus } from '@/constants';
+import { CONTACT_NUMBER, PAYMENT_STATUS_COLOR, PaymentStatus } from '@/constants';
 import type { AdditionalOptions, ReservationResponse } from '@/types';
-import { toReadableAmount } from '@/utils';
+import { jobTitles, toReadableAmount } from '@/utils';
 import { Badge, Blockquote, Box, Flex, Grid, Heading, Section, Text } from '@radix-ui/themes';
 import styles from './preview-table.module.css';
 
@@ -123,10 +123,8 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
               </td>
               <th className={styles.th}>담당자</th>
               <td className={styles.td}>
-                {[data.author, JOB_FUNCTION[data.author_email || ''] || '-']
-                  .filter(Boolean)
-                  .join(' ')}{' '}
-                / {CONTACT_NUMBER}
+                {[data.author, jobTitles(data.author_email)].filter(Boolean).join(' ')} /{' '}
+                {CONTACT_NUMBER}
               </td>
               <th className={styles.th}>email</th>
               <td className={styles.td}>
