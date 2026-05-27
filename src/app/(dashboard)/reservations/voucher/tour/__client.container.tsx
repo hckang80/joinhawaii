@@ -58,6 +58,22 @@ function renderProductNameContent(
   );
 }
 
+function renderTourDateTimeContent(
+  selectedProduct: NonNullable<ReservationResponse['products']['tours'][number]>
+) {
+  const { start_date, end_date } = selectedProduct;
+
+  if (start_date && end_date) {
+    return `${toReadableDate(start_date, true)} ~ ${toReadableDate(end_date, true)}`;
+  }
+
+  if (start_date) {
+    return toReadableDate(start_date, true);
+  }
+
+  return '-';
+}
+
 type VoucherTourFormProps = {
   reservationId: string;
   selectedProduct: NonNullable<ReservationResponse['products']['tours'][number]>;
@@ -213,9 +229,7 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
             <tr>
               <th className={styles['info-th']}>date/time</th>
               <td className={styles['info-td']} colSpan={3}>
-                {selectedProduct.start_date && selectedProduct.end_date
-                  ? `${toReadableDate(selectedProduct.start_date, true)} ~ ${toReadableDate(selectedProduct.end_date, true)}`
-                  : '-'}
+                {renderTourDateTimeContent(selectedProduct)}
               </td>
             </tr>
             <tr>
