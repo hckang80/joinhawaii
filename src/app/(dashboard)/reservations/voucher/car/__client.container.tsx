@@ -315,7 +315,9 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
                   )}
                 </Flex>
 
-                <Text className='print:only'>{`#${watch('confirmation_number') || '-'}`}</Text>
+                <Text className='print:only'>
+                  {watch('confirmation_number') ? `#${watch('confirmation_number')}` : '-'}
+                </Text>
               </td>
             </tr>
             <tr>

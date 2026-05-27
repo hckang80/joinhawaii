@@ -180,7 +180,9 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
                   )}
                 </Flex>
 
-                <Text className='print:only'>{`#${watch('voucher_number') || '-'}`}</Text>
+                <Text className='print:only'>
+                  {watch('voucher_number') ? `#${watch('voucher_number')}` : '-'}
+                </Text>
               </td>
               <th className={styles['info-th']}>confirmation</th>
               <td className={styles['info-td']}>
@@ -203,7 +205,9 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
                   )}
                 </Flex>
 
-                <Text className='print:only'>{`#${watch('confirmation_number') || '-'}`}</Text>
+                <Text className='print:only'>
+                  {watch('confirmation_number') ? `#${watch('confirmation_number')}` : '-'}
+                </Text>
               </td>
             </tr>
             <tr>

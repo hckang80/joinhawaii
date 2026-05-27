@@ -362,7 +362,9 @@ function VoucherHotelForm({ reservationId, selectedProduct, clients }: VoucherHo
                   )}
                 </Flex>
 
-                <Text className='print:only'>{`#${watch('confirmation_number') || '-'}`}</Text>
+                <Text className='print:only'>
+                  {watch('confirmation_number') ? `#${watch('confirmation_number')}` : '-'}
+                </Text>
               </td>
             </tr>
           </tbody>
