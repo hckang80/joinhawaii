@@ -81,6 +81,11 @@ type VoucherTourFormProps = {
 };
 
 function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTourFormProps) {
+  const orderedClientLabels = useMemo(
+    () => clients.map(client => `${client.english_name || ''} ${client.gender || ''}`.trim()),
+    [clients]
+  );
+
   const voucherMutation = useMutation({
     mutationFn: (payload: Partial<ReservationFormData>) => updateReservation(payload),
     onSuccess: () => {
@@ -92,13 +97,17 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
   });
 
   const defaultFormValues = useMemo<VoucherFormState>(() => {
-    const { arrival_time, ...baseFormValues } = selectedProduct;
+    const { arrival_time, selected_clients, ...baseFormValues } = selectedProduct;
+
+    const normalizedSelectedClients =
+      selected_clients && selected_clients.length > 0 ? selected_clients : orderedClientLabels;
 
     return {
       ...baseFormValues,
-      arrival_time: toFormTimeValue(arrival_time)
+      arrival_time: toFormTimeValue(arrival_time),
+      selected_clients: normalizedSelectedClients
     };
-  }, [selectedProduct]);
+  }, [orderedClientLabels, selectedProduct]);
 
   const {
     control,
@@ -349,10 +358,6 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
                 validate: value => value.length > 0 || '인원을 선택해주세요.'
               }}
               render={({ field }) => {
-                const orderedClientLabels = clients.map(client =>
-                  `${client.english_name || ''} ${client.gender || ''}`.trim()
-                );
-
                 return (
                   <>
                     {clients.map(client => {

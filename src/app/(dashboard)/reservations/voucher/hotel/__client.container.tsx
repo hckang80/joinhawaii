@@ -145,6 +145,11 @@ type VoucherHotelFormProps = {
 };
 
 function VoucherHotelForm({ reservationId, selectedProduct, clients }: VoucherHotelFormProps) {
+  const orderedClientLabels = useMemo(
+    () => clients.map(client => `${client.english_name || ''} ${client.gender || ''}`.trim()),
+    [clients]
+  );
+
   const voucherMutation = useMutation({
     mutationFn: (payload: Partial<ReservationFormData>) => updateReservation(payload),
     onSuccess: () => {
@@ -169,6 +174,9 @@ function VoucherHotelForm({ reservationId, selectedProduct, clients }: VoucherHo
       selected_clients
     } = selectedProduct;
 
+    const normalizedSelectedClients =
+      selected_clients && selected_clients.length > 0 ? selected_clients : orderedClientLabels;
+
     return {
       check_in_date: start_date ?? check_in_date ?? '',
       check_out_date: end_date ?? check_out_date ?? '',
@@ -176,9 +184,9 @@ function VoucherHotelForm({ reservationId, selectedProduct, clients }: VoucherHo
       confirmation_number,
       delivery_notes: getDefaultDeliveryNotes(delivery_notes),
       guide_notes: getDefaultGuideNotes(guide_notes),
-      selected_clients
+      selected_clients: normalizedSelectedClients
     };
-  }, [selectedProduct]);
+  }, [orderedClientLabels, selectedProduct]);
 
   const {
     control,
@@ -382,10 +390,6 @@ function VoucherHotelForm({ reservationId, selectedProduct, clients }: VoucherHo
                 validate: value => value.length > 0 || '인원을 선택해주세요.'
               }}
               render={({ field }) => {
-                const orderedClientLabels = clients.map(client =>
-                  `${client.english_name || ''} ${client.gender || ''}`.trim()
-                );
-
                 return (
                   <>
                     {clients.map(client => {
