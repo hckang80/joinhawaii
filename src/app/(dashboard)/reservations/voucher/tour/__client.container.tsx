@@ -309,7 +309,7 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
                   />
                 </Box>
                 <Box
-                  className='print:only'
+                  className='print:only editor-content'
                   style={{ wordBreak: 'break-word' }}
                   dangerouslySetInnerHTML={{ __html: watch('arrival_location') || '-' }}
                 />
@@ -444,7 +444,7 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
                   )}
                 />
               </Box>
-              <Box className='print:only'>
+              <Box className='print:only editor-content'>
                 {hasRenderableTiptapContent(watch('delivery_notes')) ? (
                   <div dangerouslySetInnerHTML={{ __html: watch('delivery_notes') }} />
                 ) : (
@@ -479,7 +479,7 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
                     )}
                   />
                 </Box>
-                <Box className='print:only'>
+                <Box className='print:only editor-content'>
                   {hasRenderableTiptapContent(watch('guide_notes')) ? (
                     <div dangerouslySetInnerHTML={{ __html: watch('guide_notes') }} />
                   ) : (

@@ -176,3 +176,7 @@ button:not(:disabled) {
 .tiptap img:not([src]) {
   display: none !important;
 }
+
+.editor-content p:empty {
+  padding: 12px 0;
+}

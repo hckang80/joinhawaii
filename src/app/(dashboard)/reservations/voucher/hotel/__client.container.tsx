@@ -487,7 +487,7 @@ function VoucherHotelForm({ reservationId, selectedProduct, clients }: VoucherHo
                   )}
                 />
               </Box>
-              <Box className='print:only'>
+              <Box className='print:only editor-content'>
                 {hasRenderableTiptapContent(watch('delivery_notes')) ? (
                   <div dangerouslySetInnerHTML={{ __html: watch('delivery_notes') }} />
                 ) : (
@@ -522,7 +522,7 @@ function VoucherHotelForm({ reservationId, selectedProduct, clients }: VoucherHo
                     )}
                   />
                 </Box>
-                <Box className='print:only'>
+                <Box className='print:only editor-content'>
                   {hasRenderableTiptapContent(watch('guide_notes')) ? (
                     <div dangerouslySetInnerHTML={{ __html: watch('guide_notes') }} />
                   ) : (

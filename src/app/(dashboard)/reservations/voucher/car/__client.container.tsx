@@ -441,7 +441,7 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
                   )}
                 />
               </Box>
-              <Box className='print:only'>
+              <Box className='print:only editor-content'>
                 {hasRenderableTiptapContent(watch('delivery_notes')) ? (
                   <div dangerouslySetInnerHTML={{ __html: watch('delivery_notes') }} />
                 ) : (
@@ -476,7 +476,7 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
                     )}
                   />
                 </Box>
-                <Box className='print:only'>
+                <Box className='print:only editor-content'>
                   {hasRenderableTiptapContent(watch('guide_notes')) ? (
                     <div dangerouslySetInnerHTML={{ __html: watch('guide_notes') }} />
                   ) : (
@@ -514,7 +514,7 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
                     )}
                   />
                 </Box>
-                <Box className='print:only'>
+                <Box className='print:only editor-content'>
                   {hasRenderableTiptapContent(watch('office_guide_notes')) ? (
                     <div dangerouslySetInnerHTML={{ __html: watch('office_guide_notes') }} />
                   ) : (
