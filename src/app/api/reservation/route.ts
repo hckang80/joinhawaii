@@ -237,12 +237,12 @@ export async function GET(request: Request) {
           addKoreanWonFields(
             flights
               .map(item => ({ ...item, type: 'flight' as ProductType }))
-              .toSorted(compareByDateField('departure_datetime'))
+              .toSorted(compareByDateFieldThenId('departure_datetime'))
           ),
           addKoreanWonFields(
             hotels
               .map(item => ({ ...item, type: 'hotel' as ProductType }))
-              .toSorted(compareByDateField('check_in_date'))
+              .toSorted(compareByDateFieldThenId('check_in_date'))
           ),
           addKoreanWonFields(
             tours
@@ -252,12 +252,12 @@ export async function GET(request: Request) {
           addKoreanWonFields(
             rental_cars
               .map(item => ({ ...item, type: 'rental_car' as ProductType }))
-              .toSorted(compareByDateField('pickup_date'))
+              .toSorted(compareByDateFieldThenId('pickup_date'))
           ),
           addKoreanWonFields(
             insurances
               .map(item => ({ ...item, type: 'insurance' as ProductType }))
-              .toSorted(compareByDateField('start_date'))
+              .toSorted(compareByDateFieldThenId('start_date'))
           )
         ]);
 
@@ -487,18 +487,30 @@ export async function PATCH(request: Request) {
 
     const [flightsWithKrw, hotelsWithKrw, toursWithKrw, carsWithKrw, insurancesWithKrw] =
       await Promise.all([
-        addKoreanWonFields(flightsData.map(item => ({ ...item, type: 'flight' as ProductType }))),
-        addKoreanWonFields(hotelsData.map(item => ({ ...item, type: 'hotel' as ProductType }))),
+        addKoreanWonFields(
+          flightsData
+            .map(item => ({ ...item, type: 'flight' as ProductType }))
+            .toSorted(compareByDateFieldThenId('departure_datetime'))
+        ),
+        addKoreanWonFields(
+          hotelsData
+            .map(item => ({ ...item, type: 'hotel' as ProductType }))
+            .toSorted(compareByDateFieldThenId('check_in_date'))
+        ),
         addKoreanWonFields(
           toursData
             .map(item => ({ ...item, type: 'tour' as ProductType }))
             .toSorted(compareByDateFieldThenId('start_date'))
         ),
         addKoreanWonFields(
-          rentalCarsData.map(item => ({ ...item, type: 'rental_car' as ProductType }))
+          rentalCarsData
+            .map(item => ({ ...item, type: 'rental_car' as ProductType }))
+            .toSorted(compareByDateFieldThenId('pickup_date'))
         ),
         addKoreanWonFields(
-          insurancesData.map(item => ({ ...item, type: 'insurance' as ProductType }))
+          insurancesData
+            .map(item => ({ ...item, type: 'insurance' as ProductType }))
+            .toSorted(compareByDateFieldThenId('start_date'))
         )
       ]);
 
