@@ -5,13 +5,14 @@
   font-size: 14px;
 }
 .th {
-  text-align: left;
+  text-align: center;
   padding: 6px;
   border: 1px solid #ddd;
   background: #f8f8f8;
 }
 .td {
-  padding: 6px;
+  text-align: center;
+  padding: 8px 6px;
   border: 1px solid #ddd;
 }
 
