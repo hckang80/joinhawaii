@@ -139,7 +139,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                 {[data.author, jobTitles(data.author_email)].filter(Boolean).join(' ')} /{' '}
                 {CONTACT_NUMBER}
               </td>
-              <th className={styles.th}>email</th>
+              <th className={styles.th}>이메일</th>
               <td className={styles.td}>
                 <a href='mailto:joinhawaii@joinhawaii.com'>joinhawaii@joinhawaii.com</a>
               </td>
@@ -164,7 +164,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
 
       <Section size='1'>
         <Heading as='h3' mb='2'>
-          고객정보
+          고객 정보
         </Heading>
         <table className={styles.table}>
           <colgroup>
@@ -203,7 +203,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
       <Section size='1'>
         <Flex asChild align='center' gap='1' mb='2'>
           <header>
-            <Heading as='h3'>결제사항</Heading>
+            <Heading as='h3'>결제 정보</Heading>
             <Badge size='3' color={PAYMENT_STATUS_COLOR[data.payment_status]} variant='soft'>
               {PaymentStatus[data.payment_status]}
             </Badge>
@@ -649,7 +649,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
       {insurances.length > 0 && (
         <Section size='1'>
           <Heading as='h3' mb='2'>
-            보험
+            여행자보험
           </Heading>
           <table className={styles.table}>
             <colgroup>
