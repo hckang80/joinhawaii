@@ -1007,7 +1007,6 @@ export const defaultTourValues = {
   start_date: null,
   end_date: null,
   name: '',
-  pickup_location: '',
   reception: 'PICK UP' as const,
   arrival_time: '00:00:00',
   arrival_location: '',
