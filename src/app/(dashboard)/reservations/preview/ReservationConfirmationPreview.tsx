@@ -75,26 +75,6 @@ function formatClientName(client: { korean_name: string; is_main_client: boolean
   return label ? `${name}${label}` : name;
 }
 
-function formatHotelStaySummary(hotels: ReservationResponse['products']['hotels'] = []) {
-  const nightsByRegion = hotels.reduce<Record<string, number>>((acc, hotel) => {
-    if (hotel.status === 'Refunded') return acc;
-
-    const region = hotel.region?.trim() || '-';
-    const nights = Number(hotel.nights ?? 0);
-
-    acc[region] = (acc[region] ?? 0) + (Number.isFinite(nights) ? nights : 0);
-
-    return acc;
-  }, {});
-
-  const summary = Object.entries(nightsByRegion)
-    .filter(([, nights]) => nights > 0)
-    .map(([region, nights]) => `${region} ${nights}박`)
-    .join(' / ');
-
-  return summary || '-';
-}
-
 export function ReservationConfirmationPreview({ data }: ReservationConfirmationPreviewProps) {
   const flights = (data.products?.flights ?? []).filter(product => product.status !== 'Refunded');
   const hotels = (data.products?.hotels ?? []).filter(product => product.status !== 'Refunded');
@@ -236,20 +216,18 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                 {`(${toReadableAmount(Number(data?.total_amount_krw ?? 0), 'ko-KR', 'KRW')})`}
               </td>
             </tr>
-            <tr>
-              <td className={styles.td} colSpan={4}>
-                {data.clients?.length}인기준(상세내역은 하단참조) {formatHotelStaySummary(hotels)}
-              </td>
-            </tr>
-            <tr>
-              <td className={styles.td} colSpan={4}>
-                신한은행 110-341-818 061 예금주 :조인하와이 김홍석
-                <br />
-                환율은 예약금 / 잔금 지불시점의 매입환율 기준입니다.
-              </td>
-            </tr>
           </tbody>
         </table>
+
+        <Box mt='4'>
+          <Blockquote>
+            예약 확인서는 계약서를 대신합니다. 아래 정보를 꼭 확인하시기 바랍니다.
+            <br />
+            신한은행 110-341-818-061 예금주: 조인하와이 김홍석
+            <br />
+            환율은 각 결제시점의 매입환율 기준입니다.
+          </Blockquote>
+        </Box>
       </Section>
 
       {flights.length > 0 && (
