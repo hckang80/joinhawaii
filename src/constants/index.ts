@@ -47,7 +47,7 @@ export const JOB_FUNCTION: Record<string, string> = {
   'hckang80@gmail.com': '관리자'
 };
 
-export const RENTAL_CAR_SPECIAL_OPTIONS = ['3종보험', '3종보험, 주유, 추가운전자'];
+export const RENTAL_CAR_SPECIAL_OPTIONS = ['3종보험, TAX', '3종보험, TAX, 주유, 추가운전자'];
 
 export const PICKUP_LOCATIONS = [
   'Honolulu Airport',
