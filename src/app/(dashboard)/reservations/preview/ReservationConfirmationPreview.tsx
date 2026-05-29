@@ -457,14 +457,20 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                           <col />
                           <col width='120px' />
                           <col width='120px' />
+                          <col width='80px' />
+                          <col width='80px' />
+                          <col width='80px' />
                           <col width='120px' />
                         </colgroup>
                         <thead>
                           <tr>
-                            <th className={styles.th}>날짜</th>
+                            <th className={styles.th}>행사일</th>
                             <th className={styles.th}>성인요금</th>
-                            <th className={styles.th}>인원수</th>
-                            <th className={styles.th}>합계</th>
+                            <th className={styles.th}>소아요금</th>
+                            <th className={styles.th}>성인인원</th>
+                            <th className={styles.th}>소아인원</th>
+                            <th className={styles.th}>유아인원</th>
+                            <th className={styles.th}>계</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -472,13 +478,20 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                             <td className={styles.td}>
                               {[formatDateTime(tour.start_date), formatDateTime(tour.end_date)]
                                 .filter(Boolean)
-                                .join(' ~ ')}
+                                .join(' / ')}
                             </td>
-                            <td className={styles.td}>{toReadableAmount(tour.adult_price)}</td>
-                            <td className={styles.td}>
-                              {tour.adult_count + tour.children_count + tour.kids_count}
+                            <td className={styles.td} align='right'>
+                              {toReadableAmount(tour.adult_price)}
                             </td>
-                            <td className={styles.td}>{toReadableAmount(tour.total_amount)}</td>
+                            <td className={styles.td} align='right'>
+                              {toReadableAmount(tour.children_price)}
+                            </td>
+                            <td className={styles.td}>{tour.adult_count}</td>
+                            <td className={styles.td}>{tour.children_count}</td>
+                            <td className={styles.td}>{tour.kids_count}</td>
+                            <td className={styles.td} align='right'>
+                              {toReadableAmount(tour.total_amount)}
+                            </td>
                           </tr>
                         </tbody>
                       </table>
