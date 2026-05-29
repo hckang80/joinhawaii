@@ -96,9 +96,9 @@ export async function GET(request: Request) {
           event_date: hotel.check_in_date,
           main_client_name,
           booking_platform,
-          product_name: [hotel.region, hotel.hotel_name, hotel.room_type, hotel.bed_type].join(
-            ' / '
-          ),
+          product_name: [hotel.region, hotel.hotel_name, hotel.room_type, hotel.bed_type]
+            .filter(Boolean)
+            .join(' / '),
           type: 'hotel' as const,
           additional_options: optionsByKey.get(`hotel_${String(hotel.id)}`) ?? [],
           total_amount:
@@ -133,7 +133,7 @@ export async function GET(request: Request) {
         event_date: tour.start_date,
         main_client_name,
         booking_platform,
-        product_name: `${tour.region} / ${tour.name}`,
+        product_name: [tour.region, tour.name].filter(Boolean).join(' / '),
         type: 'tour' as const,
         additional_options: optionsByKey.get(`tour_${String(tour.id)}`) ?? [],
         total_amount:
@@ -167,7 +167,7 @@ export async function GET(request: Request) {
           event_date: rentalCar.pickup_date,
           main_client_name,
           booking_platform,
-          product_name: `${rentalCar.region} / ${rentalCar.model}`,
+          product_name: [rentalCar.region, rentalCar.model].filter(Boolean).join(' / '),
           type: 'rental_car' as const,
           additional_options: optionsByKey.get(`rental_car_${String(rentalCar.id)}`) ?? [],
           total_amount:
