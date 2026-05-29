@@ -15,6 +15,22 @@ import type {
 import { compareByDateField, isPostgrestError } from '@/utils';
 import { NextResponse } from 'next/server';
 
+const toComparableId = (id: unknown) => {
+  const numericId = Number(id);
+  return Number.isFinite(numericId) ? numericId : Number.MAX_SAFE_INTEGER;
+};
+
+const compareByDateFieldThenId = <T extends { id?: unknown }>(field: keyof T) => {
+  const compareDate = compareByDateField<T>(field);
+
+  return (a: T, b: T) => {
+    const dateResult = compareDate(a, b);
+    if (dateResult !== 0) return dateResult;
+
+    return toComparableId(a.id) - toComparableId(b.id);
+  };
+};
+
 type ReservationWritePayload = Pick<
   ReservationRequest,
   | 'main_client_name'
@@ -231,7 +247,7 @@ export async function GET(request: Request) {
           addKoreanWonFields(
             tours
               .map(item => ({ ...item, type: 'tour' as ProductType }))
-              .toSorted(compareByDateField('start_date'))
+              .toSorted(compareByDateFieldThenId('start_date'))
           ),
           addKoreanWonFields(
             rental_cars
@@ -473,7 +489,11 @@ export async function PATCH(request: Request) {
       await Promise.all([
         addKoreanWonFields(flightsData.map(item => ({ ...item, type: 'flight' as ProductType }))),
         addKoreanWonFields(hotelsData.map(item => ({ ...item, type: 'hotel' as ProductType }))),
-        addKoreanWonFields(toursData.map(item => ({ ...item, type: 'tour' as ProductType }))),
+        addKoreanWonFields(
+          toursData
+            .map(item => ({ ...item, type: 'tour' as ProductType }))
+            .toSorted(compareByDateFieldThenId('start_date'))
+        ),
         addKoreanWonFields(
           rentalCarsData.map(item => ({ ...item, type: 'rental_car' as ProductType }))
         ),
