@@ -201,7 +201,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
       </Section>
 
       <Section size='1'>
-        <Flex asChild align='center' gap='1' mb='2'>
+        <Flex asChild justify='between' align='center' gap='1' mb='2'>
           <header>
             <Heading as='h3'>결제 정보</Heading>
             <Badge size='3' color={PAYMENT_STATUS_COLOR[data.payment_status]} variant='soft'>
