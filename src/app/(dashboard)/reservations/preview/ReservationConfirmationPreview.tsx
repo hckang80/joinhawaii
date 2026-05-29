@@ -193,9 +193,9 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
           <thead>
             <tr>
               <th className={styles.th}>예약금</th>
-              <th className={styles.th}>입금액</th>
-              <th className={styles.th}>잔금</th>
-              <th className={styles.th}>총액(원화)</th>
+              <th className={styles.th}>입금액 &#36;</th>
+              <th className={styles.th}>잔금 &#36;</th>
+              <th className={styles.th}>총액 &#8361;</th>
             </tr>
           </thead>
           <tbody>
