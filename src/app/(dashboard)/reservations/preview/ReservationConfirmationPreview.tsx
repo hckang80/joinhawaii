@@ -51,7 +51,7 @@ function formatClientTitle(data: ReservationResponse) {
     return `${orderedNames.join(', ')}님 귀하`;
   }
 
-  return `${orderedNames[0]} 외 ${orderedNames.length - 1}인 귀하`;
+  return `${orderedNames[0]}님 외 ${orderedNames.length - 1}인 귀하`;
 }
 
 function formatClientName(client: { korean_name: string; is_main_client: boolean }) {
