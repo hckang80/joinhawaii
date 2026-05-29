@@ -621,7 +621,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                 </tr>
                 {(car.remarks || car.rule) && (
                   <tr>
-                    <td className={styles.td} colSpan={4}>
+                    <td className={styles.td} colSpan={5}>
                       <Grid columns='1' gap='1'>
                         {car.remarks && (
                           <Flex gap='2' align='center' wrap='nowrap'>
@@ -663,14 +663,24 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
               <col width='100px' />
               <col width='200px' />
               <col />
+              <col width='120px' />
+              <col width='120px' />
+              <col width='80px' />
+              <col width='80px' />
+              <col width='80px' />
               <col width='100px' />
             </colgroup>
             <thead>
               <tr>
                 <th className={styles.th}>보험사</th>
-                <th className={styles.th}>기간</th>
+                <th className={styles.th}>날짜</th>
                 <th className={styles.th}>추가옵션</th>
-                <th className={styles.th}>합계</th>
+                <th className={styles.th}>성인요금</th>
+                <th className={styles.th}>소아요금</th>
+                <th className={styles.th}>성인인원</th>
+                <th className={styles.th}>소아인원</th>
+                <th className={styles.th}>유아인원</th>
+                <th className={styles.th}>계</th>
               </tr>
             </thead>
             {insurances.map((insurance, idx) => (
@@ -685,11 +695,22 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                   <td className={styles.td}>
                     {formatAdditionalOptions(insurance.additional_options)}
                   </td>
-                  <td className={styles.td}>{toReadableAmount(insurance.total_amount)}</td>
+                  <td className={styles.td} align='right'>
+                    {toReadableAmount(insurance.adult_price)}
+                  </td>
+                  <td className={styles.td} align='right'>
+                    {toReadableAmount(insurance.children_price)}
+                  </td>
+                  <td className={styles.td}>{insurance.adult_count}</td>
+                  <td className={styles.td}>{insurance.children_count}</td>
+                  <td className={styles.td}>{insurance.kids_count}</td>
+                  <td className={styles.td} align='right'>
+                    {toReadableAmount(insurance.total_amount)}
+                  </td>
                 </tr>
                 {(insurance.remarks || insurance.rule) && (
                   <tr>
-                    <td className={styles.td} colSpan={4}>
+                    <td className={styles.td} colSpan={9}>
                       <Grid columns='1' gap='1'>
                         {insurance.remarks && (
                           <Flex gap='2' align='center' wrap='nowrap'>
