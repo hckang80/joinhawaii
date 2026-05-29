@@ -140,6 +140,7 @@ export default function RentalCarForm({
                   <Table.Row>
                     <Table.ColumnHeaderCell width='90px'>환율</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='100px'>지역</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='100px'>업체명</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='250px'>픽업</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='250px'>리턴</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='180px'>차종</Table.ColumnHeaderCell>
@@ -209,6 +210,33 @@ export default function RentalCarForm({
                               <Select.Trigger placeholder='지역 선택'>{field.value}</Select.Trigger>
                               <Select.Content>
                                 {REGIONS.map(value => (
+                                  <Select.Item value={value} key={value}>
+                                    {value}
+                                  </Select.Item>
+                                ))}
+                              </Select.Content>
+                            </Select.Root>
+                          )}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Controller
+                          name={`rental_cars.${i}.company`}
+                          control={control}
+                          render={({ field }) => (
+                            <Select.Root
+                              size='1'
+                              value={field.value}
+                              onValueChange={value => {
+                                field.onChange(value);
+                              }}
+                              name={field.name}
+                            >
+                              <Select.Trigger placeholder='업체명 선택'>
+                                {field.value}
+                              </Select.Trigger>
+                              <Select.Content>
+                                {['HERTZ', 'DOLLAR'].map(value => (
                                   <Select.Item value={value} key={value}>
                                     {value}
                                   </Select.Item>

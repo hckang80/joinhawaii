@@ -540,6 +540,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
           <table className={styles.table}>
             <colgroup>
               <col width='80px' />
+              <col width='100px' />
               <col />
               <col width='240px' />
               <col width='180px' />
@@ -547,6 +548,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
             <thead>
               <tr>
                 <th className={styles.th}>지역</th>
+                <th className={styles.th}>업체명</th>
                 <th className={styles.th}>차종</th>
                 <th className={styles.th}>조건</th>
                 <th className={styles.th}>운전자</th>
@@ -557,6 +559,9 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                 <tr>
                   <td className={styles.td} rowSpan={2}>
                     {car.region || '-'}
+                  </td>
+                  <td className={styles.td} rowSpan={2}>
+                    {car.company || '-'}
                   </td>
                   <td className={styles.td}>
                     {car.model || '-'}
