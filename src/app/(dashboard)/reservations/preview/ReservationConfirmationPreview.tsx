@@ -541,15 +541,15 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
             <colgroup>
               <col width='80px' />
               <col />
-              <col width='120px' />
-              <col width='120px' />
+              <col width='240px' />
+              <col width='180px' />
             </colgroup>
             <thead>
               <tr>
                 <th className={styles.th}>지역</th>
                 <th className={styles.th}>차종</th>
-                <th className={styles.th}>운전자</th>
                 <th className={styles.th}>조건</th>
+                <th className={styles.th}>운전자</th>
               </tr>
             </thead>
             {rentalCars.map((car, idx) => (
@@ -566,8 +566,8 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                       </Text>
                     )}
                   </td>
-                  <td className={styles.td}>{car.driver || '-'}</td>
                   <td className={styles.td}>{car.options || '-'}</td>
+                  <td className={styles.td}>{car.driver || '-'}</td>
                 </tr>
                 <tr>
                   <td colSpan={3}>
@@ -577,16 +577,16 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                           <col />
                           <col />
                           <col width='120px' />
-                          <col width='120px' />
+                          <col width='60px' />
                           <col width='120px' />
                         </colgroup>
                         <thead>
                           <tr>
-                            <th className={styles.th}>픽업장소/시간</th>
-                            <th className={styles.th}>반납장소/시간</th>
-                            <th className={styles.th}>1일요금</th>
+                            <th className={styles.th}>인수 장소 / 시간</th>
+                            <th className={styles.th}>반납 장소 / 시간</th>
+                            <th className={styles.th}>1일 요금</th>
                             <th className={styles.th}>대여일</th>
-                            <th className={styles.th}>합계</th>
+                            <th className={styles.th}>계</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -601,9 +601,13 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                                 .filter(Boolean)
                                 .join('\n')}
                             </td>
-                            <td className={styles.td}>{toReadableAmount(car.daily_rate)}</td>
+                            <td className={styles.td} align='right'>
+                              {toReadableAmount(car.daily_rate)}
+                            </td>
                             <td className={styles.td}>{car.rental_days ?? '-'}일</td>
-                            <td className={styles.td}>{toReadableAmount(car.total_amount)}</td>
+                            <td className={styles.td} align='right'>
+                              {toReadableAmount(car.total_amount)}
+                            </td>
                           </tr>
                         </tbody>
                       </table>
