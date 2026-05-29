@@ -1045,6 +1045,7 @@ export const defaultCarValues = {
 export const defaultInsuranceValues = {
   company: '',
   days: 1,
+  condition: '',
   start_date: null,
   end_date: null,
   remarks: '',

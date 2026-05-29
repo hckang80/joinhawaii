@@ -674,7 +674,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
               <tr>
                 <th className={styles.th}>보험사</th>
                 <th className={styles.th}>날짜</th>
-                <th className={styles.th}>추가옵션</th>
+                <th className={styles.th}>조건</th>
                 <th className={styles.th}>성인요금</th>
                 <th className={styles.th}>소아요금</th>
                 <th className={styles.th}>성인인원</th>
@@ -692,9 +692,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                       .filter(Boolean)
                       .join(' ~ ')}
                   </td>
-                  <td className={styles.td}>
-                    {formatAdditionalOptions(insurance.additional_options)}
-                  </td>
+                  <td className={styles.td}>{insurance.condition || '-'}</td>
                   <td className={styles.td} align='right'>
                     {toReadableAmount(insurance.adult_price)}
                   </td>

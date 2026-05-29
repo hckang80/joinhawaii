@@ -23,7 +23,7 @@ import {
   TextField
 } from '@radix-ui/themes';
 import clsx from 'clsx';
-import { BookText, Minus, Plus, Save } from 'lucide-react';
+import { BookText, Minus, Save } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import {
@@ -146,6 +146,7 @@ export default function InsuranceForm({
                     <Table.ColumnHeaderCell width='120px'>보험사</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='170px'>날짜</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='70px'>여행일수</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width='120px'>조건</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='80px'>💸원가</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='80px'>💰요금</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='70px'>수량</Table.ColumnHeaderCell>
@@ -153,7 +154,6 @@ export default function InsuranceForm({
                       합계(<Text color='blue'>원가</Text>/판매가)
                     </Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='90px'>진행상태</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell width='70px'>추가옵션</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell width='200px'>메모</Table.ColumnHeaderCell>
                   </Table.Row>
                 </Table.Header>
@@ -242,6 +242,15 @@ export default function InsuranceForm({
                             getValues(`insurances.${i}.start_date`),
                             getValues(`insurances.${i}.end_date`)
                           )}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <TextField.Root
+                          size='1'
+                          {...register(`insurances.${i}.condition`, {
+                            required: true,
+                            setValueAs: value => (typeof value === 'string' ? value.trim() : value)
+                          })}
                         />
                       </Table.Cell>
                       <Table.Cell>
@@ -462,24 +471,6 @@ export default function InsuranceForm({
                             </Select.Root>
                           )}
                         />
-                      </Table.Cell>
-                      <Table.Cell>
-                        <Button
-                          disabled={!getValues(`insurances.${i}.id`)}
-                          title='추가옵션'
-                          size='1'
-                          type='button'
-                          onClick={() =>
-                            handleAdditionalOptions({
-                              id: Number(getValues(`insurances.${i}.id`)),
-                              type: 'insurance',
-                              title: getValues(`insurances.${i}.company`),
-                              data: getValues(`insurances.${i}.additional_options`)
-                            })
-                          }
-                        >
-                          <Plus size={16} />
-                        </Button>
                       </Table.Cell>
                       <Table.Cell>
                         <TextArea
