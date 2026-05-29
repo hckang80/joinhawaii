@@ -224,7 +224,7 @@ function VoucherHotelForm({ reservationId, selectedProduct, clients }: VoucherHo
   };
 
   return (
-    <Box width='1000px' mx='auto' className='voucher-root'>
+    <Box width='794px' mx='auto' className='voucher-root'>
       <div className='print-watermark' aria-hidden>
         <Image
           src='/images/logo.png'
