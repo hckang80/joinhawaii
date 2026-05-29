@@ -306,13 +306,17 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
               <col />
               <col width='120px' />
               <col width='120px' />
+              <col width='120px' />
+              <col width='120px' />
             </colgroup>
             <thead>
               <tr>
                 <th className={styles.th}>지역</th>
-                <th className={styles.th}>호텔</th>
-                <th className={styles.th}>조식</th>
+                <th className={styles.th}>호텔명</th>
+                <th className={styles.th}>객실타입</th>
+                <th className={styles.th}>베드타입</th>
                 <th className={styles.th}>리조트피</th>
+                <th className={styles.th}>조식</th>
               </tr>
             </thead>
             {hotels.map((hotel, idx) => (
@@ -322,19 +326,15 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                     {hotel.region || '-'}
                   </td>
                   <td className={styles.td}>
-                    {[
-                      hotel.hotel_name,
-                      [hotel.room_type, hotel.bed_type].filter(Boolean).join(' / ')
-                    ]
-                      .filter(Boolean)
-                      .join(' > ')}
+                    {hotel.hotel_name || '-'}
                     {hotel.additional_options.length > 0 && (
                       <Text as='div' size='1'>
                         {formatAdditionalOptions(hotel.additional_options)}
                       </Text>
                     )}
                   </td>
-                  <td className={styles.td}>{hotel.is_breakfast_included ? '포함' : '미포함'}</td>
+                  <td className={styles.td}>{hotel.room_type || '-'}</td>
+                  <td className={styles.td}>{hotel.bed_type || '-'}</td>
                   <td className={styles.td}>
                     {hotel.resort_fee_type === 'INCLUSION'
                       ? '포함'
@@ -344,23 +344,24 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                           ? '없음'
                           : '-'}
                   </td>
+                  <td className={styles.td}>{hotel.is_breakfast_included ? '포함' : '미포함'}</td>
                 </tr>
                 <tr>
-                  <td colSpan={3}>
+                  <td colSpan={5}>
                     <Box m='-1px'>
                       <table className={styles.table}>
                         <colgroup>
                           <col />
                           <col width='120px' />
                           <col width='120px' />
-                          <col width='120px' />
+                          <col width='240px' />
                         </colgroup>
                         <thead>
                           <tr>
-                            <th className={styles.th}>날짜</th>
-                            <th className={styles.th}>1박요금</th>
+                            <th className={styles.th}>숙박기간</th>
+                            <th className={styles.th}>1박 요금</th>
                             <th className={styles.th}>숙박일</th>
-                            <th className={styles.th}>합계</th>
+                            <th className={styles.th}>계</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -370,9 +371,13 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                                 .filter(Boolean)
                                 .join(' ~ ')}
                             </td>
-                            <td className={styles.td}>{toReadableAmount(hotel.nightly_rate)}</td>
+                            <td className={styles.td} align='right'>
+                              {toReadableAmount(hotel.nightly_rate)}
+                            </td>
                             <td className={styles.td}>{hotel.nights ?? '-'}박</td>
-                            <td className={styles.td}>{toReadableAmount(hotel.total_amount)}</td>
+                            <td className={styles.td} align='right'>
+                              {toReadableAmount(hotel.total_amount)}
+                            </td>
                           </tr>
                         </tbody>
                       </table>
@@ -381,7 +386,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                 </tr>
                 {(hotel.remarks || hotel.rule) && (
                   <tr>
-                    <td className={styles.td} colSpan={4}>
+                    <td className={styles.td} colSpan={6}>
                       <Grid columns='1' gap='1'>
                         {hotel.remarks && (
                           <Flex gap='2' align='center' wrap='nowrap'>
