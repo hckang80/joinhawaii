@@ -347,8 +347,8 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                   <td className={styles.td}>{hotel.is_breakfast_included ? '포함' : '미포함'}</td>
                 </tr>
                 <tr>
-                  <td colSpan={5}>
-                    <Box m='-1px' mb='0'>
+                  <td colSpan={5} className={styles['inner-td']}>
+                    <Box m='-1px' mr='0'>
                       <table className={styles.table}>
                         <colgroup>
                           <col />
@@ -450,8 +450,8 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                   </td>
                 </tr>
                 <tr>
-                  <td>
-                    <Box m='-1px'>
+                  <td className={styles['inner-td']}>
+                    <Box m='-1px' mr='0'>
                       <table className={styles.table}>
                         <colgroup>
                           <col />
@@ -575,8 +575,8 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                   <td className={styles.td}>{car.driver || '-'}</td>
                 </tr>
                 <tr>
-                  <td colSpan={3}>
-                    <Box m='-1px'>
+                  <td colSpan={3} className={styles['inner-td']}>
+                    <Box m='-1px' mr='0'>
                       <table className={styles.table}>
                         <colgroup>
                           <col />

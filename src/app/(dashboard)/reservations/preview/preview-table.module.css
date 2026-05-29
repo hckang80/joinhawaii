@@ -27,6 +27,11 @@
   }
 }
 
+.inner-td {
+  overflow: hidden;
+  border-bottom: 1px solid #ddd;
+}
+
 @media print {
   .table {
     page-break-inside: avoid;
