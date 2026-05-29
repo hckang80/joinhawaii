@@ -2,6 +2,7 @@ import { CONTACT_NUMBER, PAYMENT_STATUS_COLOR, PaymentStatus } from '@/constants
 import type { AdditionalOptions, ReservationResponse } from '@/types';
 import { jobTitles, toReadableAmount } from '@/utils';
 import { Badge, Blockquote, Box, Flex, Grid, Heading, Section, Text } from '@radix-ui/themes';
+import type { ReactNode } from 'react';
 import styles from './preview-table.module.css';
 
 type ReservationConfirmationPreviewProps = {
@@ -38,7 +39,7 @@ function formatAdditionalOptions(value: AdditionalOptions[] | null | undefined) 
   return labels.length ? labels.join(', ') : '-';
 }
 
-function formatClientTitle(data: ReservationResponse) {
+function formatClientTitle(data: ReservationResponse): ReactNode {
   const clients = data.clients ?? [];
   const names = clients.map(client => client.korean_name?.trim()).filter(Boolean);
 
@@ -48,10 +49,24 @@ function formatClientTitle(data: ReservationResponse) {
   const orderedNames = [mainClient, ...names.filter(name => name !== mainClient)];
 
   if (orderedNames.length <= 2) {
-    return `${orderedNames.join(', ')}님 귀하`;
+    return (
+      <>
+        <Text as='span' size='4' weight='bold'>
+          {orderedNames.join(', ')}
+        </Text>
+        <Text as='span'>님 귀하</Text>
+      </>
+    );
   }
 
-  return `${orderedNames[0]}님 외 ${orderedNames.length - 1}인 귀하`;
+  return (
+    <>
+      <Text as='span' size='4' weight='bold'>
+        {`${orderedNames[0]}님`}
+      </Text>
+      <Text as='span'>{` 외 ${orderedNames.length - 1}인 귀하`}</Text>
+    </>
+  );
 }
 
 function formatClientName(client: { korean_name: string; is_main_client: boolean }) {
@@ -100,10 +115,8 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
       </Flex>
 
       <Section size='1'>
-        <Flex justify='end' mb='1'>
-          <Text size='4' weight='bold'>
-            {formatClientTitle(data)}
-          </Text>
+        <Flex justify='end' align='end' gap='1' mb='1'>
+          {formatClientTitle(data)}
         </Flex>
 
         <table className={styles.table}>
