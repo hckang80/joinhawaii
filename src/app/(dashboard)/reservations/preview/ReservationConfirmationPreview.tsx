@@ -245,7 +245,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
             </colgroup>
             <thead>
               <tr>
-                <th className={styles.th}>항공편</th>
+                <th className={styles.th}>편명</th>
                 <th className={styles.th}>출발시간</th>
                 <th className={styles.th}>출발지</th>
                 <th className={styles.th}>도착시간</th>
