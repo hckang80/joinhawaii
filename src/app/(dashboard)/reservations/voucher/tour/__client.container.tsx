@@ -147,7 +147,7 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
   };
 
   return (
-    <Box width='1000px' mx='auto' className='voucher-root'>
+    <Box width='794px' mx='auto' className='voucher-root'>
       <div className='print-watermark' aria-hidden>
         <Image
           src='/images/logo.png'
