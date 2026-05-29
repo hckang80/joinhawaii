@@ -296,31 +296,31 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
       )}
 
       {hotels.length > 0 && (
-        <Section size='1'>
+        <Section size='1' className={styles.section}>
           <Heading as='h3' mb='2'>
             호텔
           </Heading>
-          <table className={styles.table}>
-            <colgroup>
-              <col width='80px' />
-              <col />
-              <col width='120px' />
-              <col width='120px' />
-              <col width='120px' />
-              <col width='120px' />
-            </colgroup>
-            <thead>
-              <tr>
-                <th className={styles.th}>지역</th>
-                <th className={styles.th}>호텔명</th>
-                <th className={styles.th}>객실타입</th>
-                <th className={styles.th}>베드타입</th>
-                <th className={styles.th}>리조트피</th>
-                <th className={styles.th}>조식</th>
-              </tr>
-            </thead>
-            {hotels.map((hotel, idx) => (
-              <tbody key={hotel.id ?? idx}>
+          {hotels.map((hotel, idx) => (
+            <table className={styles.table} key={hotel.id ?? idx}>
+              <colgroup>
+                <col width='80px' />
+                <col />
+                <col width='120px' />
+                <col width='120px' />
+                <col width='120px' />
+                <col width='120px' />
+              </colgroup>
+              <thead>
+                <tr>
+                  <th className={styles.th}>지역</th>
+                  <th className={styles.th}>호텔명</th>
+                  <th className={styles.th}>객실타입</th>
+                  <th className={styles.th}>베드타입</th>
+                  <th className={styles.th}>리조트피</th>
+                  <th className={styles.th}>조식</th>
+                </tr>
+              </thead>
+              <tbody>
                 <tr>
                   <td className={styles.td} rowSpan={2}>
                     {hotel.region || '-'}
@@ -348,7 +348,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                 </tr>
                 <tr>
                   <td colSpan={5}>
-                    <Box m='-1px'>
+                    <Box m='-1px' mb='0'>
                       <table className={styles.table}>
                         <colgroup>
                           <col />
@@ -413,8 +413,8 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                   </tr>
                 )}
               </tbody>
-            ))}
-          </table>
+            </table>
+          ))}
         </Section>
       )}
 

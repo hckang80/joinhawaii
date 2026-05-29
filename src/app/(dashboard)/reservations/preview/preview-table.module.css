@@ -1,3 +1,8 @@
+.section {
+  .table + .table {
+    margin-top: -1px;
+  }
+}
 .table {
   table-layout: fixed;
   width: 100%;
