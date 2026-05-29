@@ -89,14 +89,11 @@
 
   .ProseMirror img {
     max-width: 100% !important;
-    width: 100% !important;
     height: auto !important;
   }
 
   .voucher-root .print\:only img {
-    display: block;
     max-width: 100% !important;
-    width: auto !important;
     height: auto !important;
   }
 }
