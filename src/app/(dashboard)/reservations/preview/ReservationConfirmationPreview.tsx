@@ -424,29 +424,35 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                 )}
                 {(hotel.remarks || hotel.rule) && (
                   <tr>
-                    <td className={styles.td} colSpan={6}>
-                      <Grid columns='1' gap='1'>
-                        {hotel.remarks && (
-                          <Flex gap='2' align='center' wrap='nowrap'>
-                            <Text size='2' weight='bold'>
-                              비고:
-                            </Text>
-                            <Text size='2' color='blue'>
-                              {hotel.remarks}
-                            </Text>
-                          </Flex>
-                        )}
-                        {hotel.rule && (
-                          <Flex gap='2' align='center' wrap='nowrap'>
-                            <Text size='2' weight='bold'>
-                              규정:
-                            </Text>
-                            <Text size='2' color='red'>
-                              {hotel.rule}
-                            </Text>
-                          </Flex>
-                        )}
-                      </Grid>
+                    <td className={styles['inner-td']} colSpan={6}>
+                      <Box m='-1px' mr='0'>
+                        <table className={styles.table}>
+                          <colgroup>
+                            <col width='80px' />
+                            <col />
+                          </colgroup>
+                          <tbody>
+                            {hotel.remarks && (
+                              <tr>
+                                <th className={styles.th}>비고</th>
+                                <td className={styles.td} align='left'>
+                                  {hotel.remarks}
+                                </td>
+                              </tr>
+                            )}
+                            {hotel.rule && (
+                              <tr>
+                                <th className={styles.th}>
+                                  <Text color='red'>규정</Text>
+                                </th>
+                                <td className={styles.td} align='left'>
+                                  <Text color='red'>{hotel.rule}</Text>
+                                </td>
+                              </tr>
+                            )}
+                          </tbody>
+                        </table>
+                      </Box>
                     </td>
                   </tr>
                 )}
