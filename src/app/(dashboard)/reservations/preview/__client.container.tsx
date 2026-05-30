@@ -2,6 +2,7 @@
 import { reservationQueryOptions } from '@/lib/queries';
 import { Box, Button, Flex, Text } from '@radix-ui/themes';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { FileText } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import { useState } from 'react';
 import { ReservationConfirmationPreview } from './ReservationConfirmationPreview';
@@ -51,17 +52,17 @@ export default function ReservationPreviewClient({ reservation_id }: { reservati
     <Box width='1000px' mx='auto'>
       <ReservationConfirmationPreview data={data} />
       <Flex justify='center' mt='6' gap='3' className='print:hidden'>
-        <Button size='4' onClick={() => window.print()}>
-          인쇄 / PDF 다운로드
-        </Button>
         <Button
           size='4'
-          color='indigo'
           disabled
           style={{ minWidth: 140 }}
           onClick={() => sendMailMutation.mutate()}
         >
           {sendMailMutation.isPending ? '전송 중...' : '메일 보내기'}
+        </Button>
+        <Button size='4' onClick={() => window.print()} variant='soft'>
+          <FileText />
+          인쇄 / PDF 다운로드
         </Button>
       </Flex>
       <Flex justify='center' mt='2' className='print:hidden'>

@@ -19,7 +19,7 @@ import {
   TextField
 } from '@radix-ui/themes';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { Mic } from 'lucide-react';
+import { FileText, Mic } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
@@ -537,7 +537,8 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
           <Button size='4' onClick={handleSubmit(onSubmit)} loading={voucherMutation.isPending}>
             바우처 저장
           </Button>
-          <Button size='4' color='gray' onClick={() => window.print()}>
+          <Button size='4' color='gray' onClick={() => window.print()} variant='soft'>
+            <FileText />
             인쇄 / PDF 다운로드
           </Button>
         </Flex>
