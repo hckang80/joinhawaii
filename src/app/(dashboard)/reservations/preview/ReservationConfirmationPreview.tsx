@@ -1,7 +1,7 @@
 import { CONTACT_NUMBER, PAYMENT_STATUS_COLOR, PaymentStatus } from '@/constants';
 import type { AdditionalOptions, ReservationResponse } from '@/types';
 import { jobTitles, toReadableAmount } from '@/utils';
-import { Badge, Blockquote, Box, Flex, Grid, Heading, Section, Text } from '@radix-ui/themes';
+import { Badge, Blockquote, Box, Flex, Heading, Section, Text } from '@radix-ui/themes';
 import type { ReactNode } from 'react';
 import styles from './preview-table.module.css';
 
@@ -263,29 +263,35 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                 </tr>
                 {(flight.remarks || flight.rule) && (
                   <tr>
-                    <td className={styles.td} colSpan={5}>
-                      <Grid columns='1' gap='1'>
-                        {flight.remarks && (
-                          <Flex gap='2' align='center' wrap='nowrap'>
-                            <Text size='2' weight='bold'>
-                              비고:
-                            </Text>
-                            <Text size='2' color='blue'>
-                              {flight.remarks}
-                            </Text>
-                          </Flex>
-                        )}
-                        {flight.rule && (
-                          <Flex gap='2' align='center' wrap='nowrap'>
-                            <Text size='2' weight='bold'>
-                              규정:
-                            </Text>
-                            <Text size='2' color='red'>
-                              {flight.rule}
-                            </Text>
-                          </Flex>
-                        )}
-                      </Grid>
+                    <td className={styles['inner-td']} colSpan={5}>
+                      <Box m='-1px' mr='0'>
+                        <table className={styles.table}>
+                          <colgroup>
+                            <col width='80px' />
+                            <col />
+                          </colgroup>
+                          <tbody>
+                            {flight.remarks && (
+                              <tr>
+                                <th className={styles.th}>비고</th>
+                                <td className={styles.td} align='left'>
+                                  {flight.remarks}
+                                </td>
+                              </tr>
+                            )}
+                            {flight.rule && (
+                              <tr>
+                                <th className={styles.th}>
+                                  <Text color='red'>규정</Text>
+                                </th>
+                                <td className={styles.td} align='left'>
+                                  <Text color='red'>{flight.rule}</Text>
+                                </td>
+                              </tr>
+                            )}
+                          </tbody>
+                        </table>
+                      </Box>
                     </td>
                   </tr>
                 )}
@@ -544,29 +550,35 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                 </tr>
                 {(tour.remarks || tour.rule) && (
                   <tr>
-                    <td className={styles.td} colSpan={2}>
-                      <Grid columns='1' gap='1'>
-                        {tour.remarks && (
-                          <Flex gap='2' align='center' wrap='nowrap'>
-                            <Text size='2' weight='bold'>
-                              비고:
-                            </Text>
-                            <Text size='2' color='blue'>
-                              {tour.remarks}
-                            </Text>
-                          </Flex>
-                        )}
-                        {tour.rule && (
-                          <Flex gap='2' align='center' wrap='nowrap'>
-                            <Text size='2' weight='bold'>
-                              규정:
-                            </Text>
-                            <Text size='2' color='red'>
-                              {tour.rule}
-                            </Text>
-                          </Flex>
-                        )}
-                      </Grid>
+                    <td className={styles['inner-td']} colSpan={2}>
+                      <Box m='-1px' mr='0'>
+                        <table className={styles.table}>
+                          <colgroup>
+                            <col width='80px' />
+                            <col />
+                          </colgroup>
+                          <tbody>
+                            {tour.remarks && (
+                              <tr>
+                                <th className={styles.th}>비고</th>
+                                <td className={styles.td} align='left'>
+                                  {tour.remarks}
+                                </td>
+                              </tr>
+                            )}
+                            {tour.rule && (
+                              <tr>
+                                <th className={styles.th}>
+                                  <Text color='red'>규정</Text>
+                                </th>
+                                <td className={styles.td} align='left'>
+                                  <Text color='red'>{tour.rule}</Text>
+                                </td>
+                              </tr>
+                            )}
+                          </tbody>
+                        </table>
+                      </Box>
                     </td>
                   </tr>
                 )}
@@ -665,29 +677,35 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                 </tr>
                 {(car.remarks || car.rule) && (
                   <tr>
-                    <td className={styles.td} colSpan={5}>
-                      <Grid columns='1' gap='1'>
-                        {car.remarks && (
-                          <Flex gap='2' align='center' wrap='nowrap'>
-                            <Text size='2' weight='bold'>
-                              비고:
-                            </Text>
-                            <Text size='2' color='blue'>
-                              {car.remarks}
-                            </Text>
-                          </Flex>
-                        )}
-                        {car.rule && (
-                          <Flex gap='2' align='center' wrap='nowrap'>
-                            <Text size='2' weight='bold'>
-                              규정:
-                            </Text>
-                            <Text size='2' color='red'>
-                              {car.rule}
-                            </Text>
-                          </Flex>
-                        )}
-                      </Grid>
+                    <td className={styles['inner-td']} colSpan={5}>
+                      <Box m='-1px' mr='0'>
+                        <table className={styles.table}>
+                          <colgroup>
+                            <col width='80px' />
+                            <col />
+                          </colgroup>
+                          <tbody>
+                            {car.remarks && (
+                              <tr>
+                                <th className={styles.th}>비고</th>
+                                <td className={styles.td} align='left'>
+                                  {car.remarks}
+                                </td>
+                              </tr>
+                            )}
+                            {car.rule && (
+                              <tr>
+                                <th className={styles.th}>
+                                  <Text color='red'>규정</Text>
+                                </th>
+                                <td className={styles.td} align='left'>
+                                  <Text color='red'>{car.rule}</Text>
+                                </td>
+                              </tr>
+                            )}
+                          </tbody>
+                        </table>
+                      </Box>
                     </td>
                   </tr>
                 )}
@@ -752,29 +770,35 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                 </tr>
                 {(insurance.remarks || insurance.rule) && (
                   <tr>
-                    <td className={styles.td} colSpan={9}>
-                      <Grid columns='1' gap='1'>
-                        {insurance.remarks && (
-                          <Flex gap='2' align='center' wrap='nowrap'>
-                            <Text size='2' weight='bold'>
-                              비고:
-                            </Text>
-                            <Text size='2' color='blue'>
-                              {insurance.remarks}
-                            </Text>
-                          </Flex>
-                        )}
-                        {insurance.rule && (
-                          <Flex gap='2' align='center' wrap='nowrap'>
-                            <Text size='2' weight='bold'>
-                              규정:
-                            </Text>
-                            <Text size='2' color='red'>
-                              {insurance.rule}
-                            </Text>
-                          </Flex>
-                        )}
-                      </Grid>
+                    <td className={styles['inner-td']} colSpan={9}>
+                      <Box m='-1px' mr='0'>
+                        <table className={styles.table}>
+                          <colgroup>
+                            <col width='80px' />
+                            <col />
+                          </colgroup>
+                          <tbody>
+                            {insurance.remarks && (
+                              <tr>
+                                <th className={styles.th}>비고</th>
+                                <td className={styles.td} align='left'>
+                                  {insurance.remarks}
+                                </td>
+                              </tr>
+                            )}
+                            {insurance.rule && (
+                              <tr>
+                                <th className={styles.th}>
+                                  <Text color='red'>규정</Text>
+                                </th>
+                                <td className={styles.td} align='left'>
+                                  <Text color='red'>{insurance.rule}</Text>
+                                </td>
+                              </tr>
+                            )}
+                          </tbody>
+                        </table>
+                      </Box>
                     </td>
                   </tr>
                 )}
