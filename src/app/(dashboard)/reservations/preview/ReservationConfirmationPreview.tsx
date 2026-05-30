@@ -267,7 +267,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                       <Box m='-1px' mr='0'>
                         <table className={styles.table}>
                           <colgroup>
-                            <col width='80px' />
+                            <col width='79.5px' />
                             <col />
                           </colgroup>
                           <tbody>
@@ -360,7 +360,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                           <col />
                           <col width='120px' />
                           <col width='120px' />
-                          <col width='240px' />
+                          <col width='238px' />
                         </colgroup>
                         <thead>
                           <tr>
@@ -399,7 +399,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                             <col />
                             <col width='120px' />
                             <col width='120px' />
-                            <col width='240px' />
+                            <col width='238px' />
                           </colgroup>
                           <thead>
                             <tr>
@@ -434,7 +434,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                       <Box m='-1px' mr='0'>
                         <table className={styles.table}>
                           <colgroup>
-                            <col width='80px' />
+                            <col width='79.5px' />
                             <col />
                           </colgroup>
                           <tbody>
@@ -554,7 +554,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                       <Box m='-1px' mr='0'>
                         <table className={styles.table}>
                           <colgroup>
-                            <col width='80px' />
+                            <col width='79.5px' />
                             <col />
                           </colgroup>
                           <tbody>
@@ -639,7 +639,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                           <col />
                           <col width='120px' />
                           <col width='60px' />
-                          <col width='120px' />
+                          <col width='118px' />
                         </colgroup>
                         <thead>
                           <tr>
@@ -681,7 +681,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                       <Box m='-1px' mr='0'>
                         <table className={styles.table}>
                           <colgroup>
-                            <col width='80px' />
+                            <col width='79.5px' />
                             <col />
                           </colgroup>
                           <tbody>
@@ -774,7 +774,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                       <Box m='-1px' mr='0'>
                         <table className={styles.table}>
                           <colgroup>
-                            <col width='80px' />
+                            <col width='79.5px' />
                             <col />
                           </colgroup>
                           <tbody>
