@@ -322,7 +322,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
               </thead>
               <tbody>
                 <tr>
-                  <td className={styles.td} rowSpan={2}>
+                  <td className={styles.td} rowSpan={hotel.additional_options.length ? 3 : 2}>
                     {hotel.region || '-'}
                   </td>
                   <td className={styles.td}>
@@ -384,6 +384,44 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                     </Box>
                   </td>
                 </tr>
+                {hotel.additional_options.length > 0 && (
+                  <tr>
+                    <td colSpan={5} className={styles['inner-td']}>
+                      <Box m='-1px' mr='0'>
+                        <table className={styles.table}>
+                          <colgroup>
+                            <col />
+                            <col width='120px' />
+                            <col width='120px' />
+                            <col width='240px' />
+                          </colgroup>
+                          <thead>
+                            <tr>
+                              <th className={styles.th}>추가사항</th>
+                              <th className={styles.th}>요금</th>
+                              <th className={styles.th}>수량</th>
+                              <th className={styles.th}>계</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {hotel.additional_options.map((option, idx) => (
+                              <tr key={option.id ?? idx}>
+                                <td className={styles.td}>{option.title || '-'}</td>
+                                <td className={styles.td} align='right'>
+                                  {toReadableAmount(option.adult_price)}
+                                </td>
+                                <td className={styles.td}>{option.adult_count}</td>
+                                <td className={styles.td} align='right'>
+                                  {toReadableAmount(option.total_amount)}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </Box>
+                    </td>
+                  </tr>
+                )}
                 {(hotel.remarks || hotel.rule) && (
                   <tr>
                     <td className={styles.td} colSpan={6}>
