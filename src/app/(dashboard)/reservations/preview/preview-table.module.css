@@ -8,6 +8,7 @@
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
+  border: 3px solid #171717;
 }
 .th {
   padding: 6px;
@@ -30,6 +31,9 @@
 .inner-td {
   overflow: hidden;
   border-bottom: 1px solid #ddd;
+}
+.inner-td .table {
+  border: 0;
 }
 
 @media print {
