@@ -4,8 +4,56 @@ import { Box, Button, Flex, Text } from '@radix-ui/themes';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { FileText } from 'lucide-react';
 import { notFound } from 'next/navigation';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { ReservationConfirmationPreview } from './ReservationConfirmationPreview';
+
+function toPrintableFileNamePart(value: string | null | undefined, fallback: string) {
+  const sanitized = (value ?? '')
+    .trim()
+    .replace(/[\\/:*?"<>|]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .replace(/\.+$/g, '')
+    .trim();
+
+  return sanitized || fallback;
+}
+
+function toPrintableDate(value: string | null | undefined) {
+  if (!value) return new Date().toISOString().slice(0, 10);
+
+  const date = new Date(value);
+  if (isNaN(date.getTime())) {
+    return new Date().toISOString().slice(0, 10);
+  }
+
+  const year = String(date.getUTCFullYear());
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(date.getUTCDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+}
+
+function printWithDocumentTitle(fileName: string) {
+  const previousTitle = document.title;
+  let restored = false;
+
+  const restoreTitle = () => {
+    if (restored) return;
+    restored = true;
+    document.title = previousTitle;
+    window.removeEventListener('afterprint', restoreTitle);
+    window.removeEventListener('focus', handleWindowFocus);
+  };
+
+  const handleWindowFocus = () => {
+    setTimeout(restoreTitle, 0);
+  };
+
+  document.title = fileName;
+  window.addEventListener('afterprint', restoreTitle, { once: true });
+  window.addEventListener('focus', handleWindowFocus, { once: true });
+  window.print();
+}
 
 export default function ReservationPreviewClient({ reservation_id }: { reservation_id: string }) {
   const { data } = useQuery({
@@ -18,6 +66,16 @@ export default function ReservationPreviewClient({ reservation_id }: { reservati
   // 메일 전송 상태 관리
   const [emailSent, setEmailSent] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
+
+  const printFileName = useMemo(() => {
+    const representativeName = toPrintableFileNamePart(
+      data.main_client_name || data.clients?.[0]?.korean_name || data.clients?.[0]?.english_name,
+      '고객'
+    );
+    const datePart = toPrintableDate(data.start_date ?? data.created_at);
+
+    return `${datePart}_${representativeName}_예약확인서`;
+  }, [data.clients, data.created_at, data.main_client_name, data.start_date]);
 
   const sendMailMutation = useMutation({
     mutationFn: async () => {
@@ -60,7 +118,7 @@ export default function ReservationPreviewClient({ reservation_id }: { reservati
         >
           {sendMailMutation.isPending ? '전송 중...' : '메일 보내기'}
         </Button>
-        <Button size='4' onClick={() => window.print()} variant='soft'>
+        <Button size='4' onClick={() => printWithDocumentTitle(printFileName)} variant='soft'>
           <FileText />
           인쇄 / PDF 다운로드
         </Button>
