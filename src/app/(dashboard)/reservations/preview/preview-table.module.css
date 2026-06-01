@@ -54,16 +54,14 @@
   .table th,
   .table td,
   .inner-td,
-  .section,
-  :global(.rt-Section) {
+  .section {
     page-break-inside: avoid;
     break-inside: avoid-page;
   }
 
   .section h3,
   .section h4,
-  :global(.rt-Section h3),
-  :global(.rt-Section h4) {
+  .table thead {
     page-break-after: avoid;
     break-after: avoid-page;
   }
