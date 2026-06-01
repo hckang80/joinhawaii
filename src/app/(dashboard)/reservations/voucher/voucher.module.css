@@ -94,3 +94,45 @@
 .note-textarea {
   min-height: 140px;
 }
+
+@media print {
+  .main-title,
+  .sub-title {
+    page-break-after: avoid;
+    break-after: avoid-page;
+  }
+
+  .info-table {
+    page-break-inside: auto;
+    break-inside: auto;
+  }
+
+  .info-table tr,
+  .info-th,
+  .info-td,
+  .guest-grid,
+  .guest-row {
+    page-break-inside: avoid;
+    break-inside: avoid-page;
+  }
+
+  :global(.voucher-root .rt-Section) {
+    page-break-inside: auto;
+    break-inside: auto;
+  }
+
+  :global(.voucher-root .rt-Card) {
+    page-break-inside: avoid;
+    break-inside: avoid-page;
+  }
+
+  :global(.voucher-root .editor-content),
+  :global(.voucher-root .editor-content > div),
+  :global(.voucher-root .editor-content p),
+  :global(.voucher-root .editor-content li) {
+    page-break-inside: auto;
+    break-inside: auto;
+    orphans: 3;
+    widows: 3;
+  }
+}
