@@ -41,3 +41,51 @@ export function hasRenderableTiptapContent(content: string | null | undefined) {
 
   return plainText.length > 0;
 }
+
+export function toPrintableFileNamePart(value: string | null | undefined, fallback: string) {
+  const sanitized = (value ?? '')
+    .trim()
+    .replace(/[\\/:*?"<>|]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .replace(/\.+$/g, '')
+    .trim();
+
+  return sanitized || fallback;
+}
+
+export function toPrintableDate(value: string | null | undefined) {
+  if (!value) return new Date().toISOString().slice(0, 10);
+
+  const date = new Date(value);
+  if (isNaN(date.getTime())) {
+    return new Date().toISOString().slice(0, 10);
+  }
+
+  const year = String(date.getUTCFullYear());
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(date.getUTCDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+}
+
+export function printWithDocumentTitle(fileName: string) {
+  const previousTitle = document.title;
+  let restored = false;
+
+  const restoreTitle = () => {
+    if (restored) return;
+    restored = true;
+    document.title = previousTitle;
+    window.removeEventListener('afterprint', restoreTitle);
+    window.removeEventListener('focus', handleWindowFocus);
+  };
+
+  const handleWindowFocus = () => {
+    setTimeout(restoreTitle, 0);
+  };
+
+  document.title = fileName;
+  window.addEventListener('afterprint', restoreTitle, { once: true });
+  window.addEventListener('focus', handleWindowFocus, { once: true });
+  window.print();
+}
