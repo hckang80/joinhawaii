@@ -38,6 +38,33 @@
 
 @media print {
   .table {
+    page-break-inside: auto;
+    break-inside: auto;
+  }
+
+  .table thead {
+    display: table-header-group;
+  }
+
+  .table tfoot {
+    display: table-footer-group;
+  }
+
+  .table tr,
+  .table th,
+  .table td,
+  .inner-td,
+  .section,
+  :global(.rt-Section) {
     page-break-inside: avoid;
+    break-inside: avoid-page;
+  }
+
+  .section h3,
+  .section h4,
+  :global(.rt-Section h3),
+  :global(.rt-Section h4) {
+    page-break-after: avoid;
+    break-after: avoid-page;
   }
 }
