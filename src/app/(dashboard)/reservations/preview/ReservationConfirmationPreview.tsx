@@ -160,8 +160,8 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
             </colgroup>
             <thead>
               <tr>
-                <th className={styles.th}>이름</th>
-                <th className={styles.th}>영문</th>
+                <th className={styles.th}>한글이름</th>
+                <th className={styles.th}>영문이름</th>
                 <th className={styles.th}>성별</th>
                 <th className={styles.th}>생년월일</th>
                 <th className={styles.th}>연락처</th>
