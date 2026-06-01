@@ -94,7 +94,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
         </Heading>
       </Flex>
 
-      <Section size='1'>
+      <Section size='1' className={styles.section}>
         <Flex justify='end' align='end' gap='1' mb='1'>
           {formatClientTitle(data)}
         </Flex>
@@ -142,7 +142,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
         </table>
       </Section>
 
-      <Section size='1'>
+      <Section size='1' className={styles.section}>
         <Heading as='h3' mb='2'>
           고객 정보
         </Heading>
@@ -180,7 +180,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
         </table>
       </Section>
 
-      <Section size='1'>
+      <Section size='1' className={styles.section}>
         <Flex asChild justify='between' align='center' gap='1' mb='2'>
           <header>
             <Heading as='h3'>결제 정보</Heading>
@@ -231,7 +231,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
       </Section>
 
       {flights.length > 0 && (
-        <Section size='1'>
+        <Section size='1' className={styles.section}>
           <Heading as='h3' mb='2'>
             항공
           </Heading>
@@ -469,7 +469,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
       )}
 
       {tours.length > 0 && (
-        <Section size='1'>
+        <Section size='1' className={styles.section}>
           <Heading as='h3' mb='2'>
             선택관광
           </Heading>
@@ -589,7 +589,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
       )}
 
       {rentalCars.length > 0 && (
-        <Section size='1'>
+        <Section size='1' className={styles.section}>
           <Heading as='h3' mb='2'>
             렌터카
           </Heading>
@@ -716,7 +716,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
       )}
 
       {insurances.length > 0 && (
-        <Section size='1'>
+        <Section size='1' className={styles.section}>
           <Heading as='h3' mb='2'>
             여행자보험
           </Heading>
