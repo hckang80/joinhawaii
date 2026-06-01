@@ -99,85 +99,89 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
           {formatClientTitle(data)}
         </Flex>
 
-        <table className={styles.table}>
-          <colgroup>
-            <col width='100px' />
-            <col width='150px' />
-            <col width='100px' />
-            <col />
-            <col width='100px' />
-            <col width='300px' />
-          </colgroup>
-          <tbody>
-            <tr>
-              <th className={styles.th}>발행일</th>
-              <td className={styles.td}>
-                {data.created_at ? new Date(data.created_at).toLocaleDateString() : '-'}
-              </td>
-              <th className={styles.th}>담당자</th>
-              <td className={styles.td}>
-                {[data.author, jobTitles(data.author_email)].filter(Boolean).join(' ')} /{' '}
-                {CONTACT_NUMBER}
-              </td>
-              <th className={styles.th}>이메일</th>
-              <td className={styles.td}>
-                <a href='mailto:joinhawaii@joinhawaii.com'>joinhawaii@joinhawaii.com</a>
-              </td>
-            </tr>
-            <tr>
-              <th className={styles.th}>예약번호</th>
-              <td className={styles.td}>{data.reservation_id || '-'}</td>
-              <th className={styles.th}>여행종류</th>
-              <td className={styles.td}>
-                {[data.trip_type, `${data.clients?.length ?? 0}명`].filter(Boolean).join(' / ')}
-              </td>
-              <th className={styles.th}>여행일정</th>
-              <td className={styles.td}>
-                {data.start_date ? formatDate(data.start_date) : '-'} ~{' '}
-                {data.end_date ? formatDate(data.end_date) : '-'}
-                {data.nights && data.days ? ` (${data.nights}박 ${data.days}일)` : ''}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div className={styles.outline}>
+          <table className={styles.table}>
+            <colgroup>
+              <col width='100px' />
+              <col width='150px' />
+              <col width='100px' />
+              <col />
+              <col width='100px' />
+              <col width='300px' />
+            </colgroup>
+            <tbody>
+              <tr>
+                <th className={styles.th}>발행일</th>
+                <td className={styles.td}>
+                  {data.created_at ? new Date(data.created_at).toLocaleDateString() : '-'}
+                </td>
+                <th className={styles.th}>담당자</th>
+                <td className={styles.td}>
+                  {[data.author, jobTitles(data.author_email)].filter(Boolean).join(' ')} /{' '}
+                  {CONTACT_NUMBER}
+                </td>
+                <th className={styles.th}>이메일</th>
+                <td className={styles.td}>
+                  <a href='mailto:joinhawaii@joinhawaii.com'>joinhawaii@joinhawaii.com</a>
+                </td>
+              </tr>
+              <tr>
+                <th className={styles.th}>예약번호</th>
+                <td className={styles.td}>{data.reservation_id || '-'}</td>
+                <th className={styles.th}>여행종류</th>
+                <td className={styles.td}>
+                  {[data.trip_type, `${data.clients?.length ?? 0}명`].filter(Boolean).join(' / ')}
+                </td>
+                <th className={styles.th}>여행일정</th>
+                <td className={styles.td}>
+                  {data.start_date ? formatDate(data.start_date) : '-'} ~{' '}
+                  {data.end_date ? formatDate(data.end_date) : '-'}
+                  {data.nights && data.days ? ` (${data.nights}박 ${data.days}일)` : ''}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </Section>
 
       <Section size='1' className={styles.section}>
         <Heading as='h3' mb='2'>
           고객 정보
         </Heading>
-        <table className={styles.table}>
-          <colgroup>
-            <col width='140px' />
-            <col width='200px' />
-            <col width='60px' />
-            <col width='180px' />
-            <col width='160px' />
-            <col />
-          </colgroup>
-          <thead>
-            <tr>
-              <th className={styles.th}>이름</th>
-              <th className={styles.th}>영문</th>
-              <th className={styles.th}>성별</th>
-              <th className={styles.th}>생년월일</th>
-              <th className={styles.th}>연락처</th>
-              <th className={styles.th}>이메일</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.clients?.map((client, idx) => (
-              <tr key={idx}>
-                <td className={styles.td}>{formatClientName(client)}</td>
-                <td className={styles.td}>{client.english_name}</td>
-                <td className={styles.td}>{client.gender}</td>
-                <td className={styles.td}>{client.resident_id}</td>
-                <td className={styles.td}>{client.phone_number}</td>
-                <td className={styles.td}>{client.email}</td>
+        <div className={styles.outline}>
+          <table className={styles.table}>
+            <colgroup>
+              <col width='140px' />
+              <col width='200px' />
+              <col width='60px' />
+              <col width='180px' />
+              <col width='160px' />
+              <col />
+            </colgroup>
+            <thead>
+              <tr>
+                <th className={styles.th}>이름</th>
+                <th className={styles.th}>영문</th>
+                <th className={styles.th}>성별</th>
+                <th className={styles.th}>생년월일</th>
+                <th className={styles.th}>연락처</th>
+                <th className={styles.th}>이메일</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {data.clients?.map((client, idx) => (
+                <tr key={idx}>
+                  <td className={styles.td}>{formatClientName(client)}</td>
+                  <td className={styles.td}>{client.english_name}</td>
+                  <td className={styles.td}>{client.gender}</td>
+                  <td className={styles.td}>{client.resident_id}</td>
+                  <td className={styles.td}>{client.phone_number}</td>
+                  <td className={styles.td}>{client.email}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </Section>
 
       <Section size='1' className={styles.section}>
@@ -189,35 +193,37 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
             </Badge>
           </header>
         </Flex>
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th className={styles.th}>예약금</th>
-              <th className={styles.th}>입금액 &#36;</th>
-              <th className={styles.th}>잔금 &#36;</th>
-              <th className={styles.th}>총액 &#8361;</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className={styles.td} align='right'>
-                <Text weight='bold' size='4' color='red'>
-                  {toReadableAmount(Number(data?.reservation_fee), 'ko-KR', 'KRW')}
-                </Text>
-              </td>
-              <td className={styles.td} align='right'>
-                {toReadableAmount(Number(data?.deposit ?? 0))}
-              </td>
-              <td className={styles.td} align='right'>
-                {toReadableAmount(Number(data?.total_amount ?? 0) - (Number(data?.deposit) || 0))}
-              </td>
-              <td className={styles.td} align='right'>
-                {toReadableAmount(Number(data?.total_amount ?? 0))}
-                {`(${toReadableAmount(Number(data?.total_amount_krw ?? 0), 'ko-KR', 'KRW')})`}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div className={styles.outline}>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th className={styles.th}>예약금</th>
+                <th className={styles.th}>입금액 &#36;</th>
+                <th className={styles.th}>잔금 &#36;</th>
+                <th className={styles.th}>총액 &#8361;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className={styles.td} align='right'>
+                  <Text weight='bold' size='4' color='red'>
+                    {toReadableAmount(Number(data?.reservation_fee), 'ko-KR', 'KRW')}
+                  </Text>
+                </td>
+                <td className={styles.td} align='right'>
+                  {toReadableAmount(Number(data?.deposit ?? 0))}
+                </td>
+                <td className={styles.td} align='right'>
+                  {toReadableAmount(Number(data?.total_amount ?? 0) - (Number(data?.deposit) || 0))}
+                </td>
+                <td className={styles.td} align='right'>
+                  {toReadableAmount(Number(data?.total_amount ?? 0))}
+                  {`(${toReadableAmount(Number(data?.total_amount_krw ?? 0), 'ko-KR', 'KRW')})`}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <Box mt='4'>
           <Blockquote>
@@ -235,69 +241,71 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
           <Heading as='h3' mb='2'>
             항공
           </Heading>
-          <table className={styles.table}>
-            <colgroup>
-              <col width='100px' />
-              <col width='160px' />
-              <col />
-              <col width='160px' />
-              <col />
-            </colgroup>
-            <thead>
-              <tr>
-                <th className={styles.th}>편명</th>
-                <th className={styles.th}>출발시간</th>
-                <th className={styles.th}>출발지</th>
-                <th className={styles.th}>도착시간</th>
-                <th className={styles.th}>도착지</th>
-              </tr>
-            </thead>
-            {flights.map((flight, idx) => (
-              <tbody key={flight.id ?? idx}>
+          <div className={styles.outline}>
+            <table className={styles.table}>
+              <colgroup>
+                <col width='100px' />
+                <col width='160px' />
+                <col />
+                <col width='160px' />
+                <col />
+              </colgroup>
+              <thead>
                 <tr>
-                  <td className={styles.td}>{flight.flight_number || '-'}</td>
-                  <td className={styles.td}>{formatDateTime(flight.departure_datetime)}</td>
-                  <td className={styles.td}>{flight.departure_city || '-'}</td>
-                  <td className={styles.td}>{formatDateTime(flight.arrival_datetime)}</td>
-                  <td className={styles.td}>{flight.arrival_city || '-'}</td>
+                  <th className={styles.th}>편명</th>
+                  <th className={styles.th}>출발시간</th>
+                  <th className={styles.th}>출발지</th>
+                  <th className={styles.th}>도착시간</th>
+                  <th className={styles.th}>도착지</th>
                 </tr>
-                {(flight.remarks || flight.rule) && (
+              </thead>
+              {flights.map((flight, idx) => (
+                <tbody key={flight.id ?? idx}>
                   <tr>
-                    <td className={styles['inner-td']} colSpan={5}>
-                      <Box m='-1px' mr='0'>
-                        <table className={styles.table}>
-                          <colgroup>
-                            <col width='79.5px' />
-                            <col />
-                          </colgroup>
-                          <tbody>
-                            {flight.remarks && (
-                              <tr>
-                                <th className={styles.th}>비고</th>
-                                <td className={styles.td} align='left'>
-                                  {flight.remarks}
-                                </td>
-                              </tr>
-                            )}
-                            {flight.rule && (
-                              <tr>
-                                <th className={styles.th}>
-                                  <Text color='red'>규정</Text>
-                                </th>
-                                <td className={styles.td} align='left'>
-                                  <Text color='red'>{flight.rule}</Text>
-                                </td>
-                              </tr>
-                            )}
-                          </tbody>
-                        </table>
-                      </Box>
-                    </td>
+                    <td className={styles.td}>{flight.flight_number || '-'}</td>
+                    <td className={styles.td}>{formatDateTime(flight.departure_datetime)}</td>
+                    <td className={styles.td}>{flight.departure_city || '-'}</td>
+                    <td className={styles.td}>{formatDateTime(flight.arrival_datetime)}</td>
+                    <td className={styles.td}>{flight.arrival_city || '-'}</td>
                   </tr>
-                )}
-              </tbody>
-            ))}
-          </table>
+                  {(flight.remarks || flight.rule) && (
+                    <tr>
+                      <td className={styles['inner-td']} colSpan={5}>
+                        <Box m='-1px' mr='0'>
+                          <table className={styles.table}>
+                            <colgroup>
+                              <col width='79.5px' />
+                              <col />
+                            </colgroup>
+                            <tbody>
+                              {flight.remarks && (
+                                <tr>
+                                  <th className={styles.th}>비고</th>
+                                  <td className={styles.td} align='left'>
+                                    {flight.remarks}
+                                  </td>
+                                </tr>
+                              )}
+                              {flight.rule && (
+                                <tr>
+                                  <th className={styles.th}>
+                                    <Text color='red'>규정</Text>
+                                  </th>
+                                  <td className={styles.td} align='left'>
+                                    <Text color='red'>{flight.rule}</Text>
+                                  </td>
+                                </tr>
+                              )}
+                            </tbody>
+                          </table>
+                        </Box>
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              ))}
+            </table>
+          </div>
         </Section>
       )}
 
@@ -306,91 +314,53 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
           <Heading as='h3' mb='2'>
             호텔
           </Heading>
-          {hotels.map((hotel, idx) => (
-            <table className={styles.table} key={hotel.id ?? idx}>
-              <colgroup>
-                <col width='80px' />
-                <col />
-                <col width='120px' />
-                <col width='120px' />
-                <col width='120px' />
-                <col width='120px' />
-              </colgroup>
-              <thead>
-                <tr>
-                  <th className={styles.th}>지역</th>
-                  <th className={styles.th}>호텔명</th>
-                  <th className={styles.th}>객실타입</th>
-                  <th className={styles.th}>베드타입</th>
-                  <th className={styles.th}>리조트피</th>
-                  <th className={styles.th}>조식</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className={styles.td} rowSpan={hotel.additional_options.length ? 3 : 2}>
-                    {hotel.region || '-'}
-                  </td>
-                  <td className={styles.td}>
-                    {hotel.hotel_name || '-'}
-                    {hotel.additional_options.length > 0 && (
-                      <Text as='div' size='1'>
-                        {formatAdditionalOptions(hotel.additional_options)}
-                      </Text>
-                    )}
-                  </td>
-                  <td className={styles.td}>{hotel.room_type || '-'}</td>
-                  <td className={styles.td}>{hotel.bed_type || '-'}</td>
-                  <td className={styles.td}>
-                    {hotel.resort_fee_type === 'INCLUSION'
-                      ? '포함'
-                      : hotel.resort_fee_type === 'EXCLUSION'
-                        ? '불포함'
-                        : hotel.resort_fee_type === 'NO RESORT FEE'
-                          ? '없음'
-                          : '-'}
-                  </td>
-                  <td className={styles.td}>{hotel.is_breakfast_included ? '포함' : '미포함'}</td>
-                </tr>
-                <tr>
-                  <td colSpan={5} className={styles['inner-td']}>
-                    <Box m='-1px' mr='0'>
-                      <table className={styles.table}>
-                        <colgroup>
-                          <col />
-                          <col width='120px' />
-                          <col width='120px' />
-                          <col width='238px' />
-                        </colgroup>
-                        <thead>
-                          <tr>
-                            <th className={styles.th}>숙박기간</th>
-                            <th className={styles.th}>1박 요금</th>
-                            <th className={styles.th}>숙박일</th>
-                            <th className={styles.th}>계</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td className={styles.td}>
-                              {[formatDate(hotel.check_in_date), formatDate(hotel.check_out_date)]
-                                .filter(Boolean)
-                                .join(' ~ ')}
-                            </td>
-                            <td className={styles.td} align='right'>
-                              {toReadableAmount(hotel.nightly_rate)}
-                            </td>
-                            <td className={styles.td}>{hotel.nights ?? '-'}박</td>
-                            <td className={styles.td} align='right'>
-                              {toReadableAmount(hotel.total_amount)}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </Box>
-                  </td>
-                </tr>
-                {hotel.additional_options.length > 0 && (
+          <div className={styles.outline}>
+            {hotels.map((hotel, idx) => (
+              <table className={styles.table} key={hotel.id ?? idx}>
+                <colgroup>
+                  <col width='80px' />
+                  <col />
+                  <col width='120px' />
+                  <col width='120px' />
+                  <col width='120px' />
+                  <col width='120px' />
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th className={styles.th}>지역</th>
+                    <th className={styles.th}>호텔명</th>
+                    <th className={styles.th}>객실타입</th>
+                    <th className={styles.th}>베드타입</th>
+                    <th className={styles.th}>리조트피</th>
+                    <th className={styles.th}>조식</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className={styles.td} rowSpan={hotel.additional_options.length ? 3 : 2}>
+                      {hotel.region || '-'}
+                    </td>
+                    <td className={styles.td}>
+                      {hotel.hotel_name || '-'}
+                      {hotel.additional_options.length > 0 && (
+                        <Text as='div' size='1'>
+                          {formatAdditionalOptions(hotel.additional_options)}
+                        </Text>
+                      )}
+                    </td>
+                    <td className={styles.td}>{hotel.room_type || '-'}</td>
+                    <td className={styles.td}>{hotel.bed_type || '-'}</td>
+                    <td className={styles.td}>
+                      {hotel.resort_fee_type === 'INCLUSION'
+                        ? '포함'
+                        : hotel.resort_fee_type === 'EXCLUSION'
+                          ? '불포함'
+                          : hotel.resort_fee_type === 'NO RESORT FEE'
+                            ? '없음'
+                            : '-'}
+                    </td>
+                    <td className={styles.td}>{hotel.is_breakfast_included ? '포함' : '미포함'}</td>
+                  </tr>
                   <tr>
                     <td colSpan={5} className={styles['inner-td']}>
                       <Box m='-1px' mr='0'>
@@ -403,68 +373,108 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                           </colgroup>
                           <thead>
                             <tr>
-                              <th className={styles.th}>추가사항</th>
-                              <th className={styles.th}>요금</th>
-                              <th className={styles.th}>수량</th>
+                              <th className={styles.th}>숙박기간</th>
+                              <th className={styles.th}>1박 요금</th>
+                              <th className={styles.th}>숙박일</th>
                               <th className={styles.th}>계</th>
                             </tr>
                           </thead>
                           <tbody>
-                            {hotel.additional_options.map((option, idx) => (
-                              <tr key={option.id ?? idx}>
-                                <td className={styles.td}>{option.title || '-'}</td>
-                                <td className={styles.td} align='right'>
-                                  {toReadableAmount(option.adult_price)}
-                                </td>
-                                <td className={styles.td}>{option.adult_count}</td>
-                                <td className={styles.td} align='right'>
-                                  {toReadableAmount(option.total_amount)}
-                                </td>
-                              </tr>
-                            ))}
+                            <tr>
+                              <td className={styles.td}>
+                                {[formatDate(hotel.check_in_date), formatDate(hotel.check_out_date)]
+                                  .filter(Boolean)
+                                  .join(' ~ ')}
+                              </td>
+                              <td className={styles.td} align='right'>
+                                {toReadableAmount(hotel.nightly_rate)}
+                              </td>
+                              <td className={styles.td}>{hotel.nights ?? '-'}박</td>
+                              <td className={styles.td} align='right'>
+                                {toReadableAmount(hotel.total_amount)}
+                              </td>
+                            </tr>
                           </tbody>
                         </table>
                       </Box>
                     </td>
                   </tr>
-                )}
-                {(hotel.remarks || hotel.rule) && (
-                  <tr>
-                    <td className={styles['inner-td']} colSpan={6}>
-                      <Box m='-1px' mr='0'>
-                        <table className={styles.table}>
-                          <colgroup>
-                            <col width='79.5px' />
-                            <col />
-                          </colgroup>
-                          <tbody>
-                            {hotel.remarks && (
+                  {hotel.additional_options.length > 0 && (
+                    <tr>
+                      <td colSpan={5} className={styles['inner-td']}>
+                        <Box m='-1px' mr='0'>
+                          <table className={styles.table}>
+                            <colgroup>
+                              <col />
+                              <col width='120px' />
+                              <col width='120px' />
+                              <col width='238px' />
+                            </colgroup>
+                            <thead>
                               <tr>
-                                <th className={styles.th}>비고</th>
-                                <td className={styles.td} align='left'>
-                                  {hotel.remarks}
-                                </td>
+                                <th className={styles.th}>추가사항</th>
+                                <th className={styles.th}>요금</th>
+                                <th className={styles.th}>수량</th>
+                                <th className={styles.th}>계</th>
                               </tr>
-                            )}
-                            {hotel.rule && (
-                              <tr>
-                                <th className={styles.th}>
-                                  <Text color='red'>규정</Text>
-                                </th>
-                                <td className={styles.td} align='left'>
-                                  <Text color='red'>{hotel.rule}</Text>
-                                </td>
-                              </tr>
-                            )}
-                          </tbody>
-                        </table>
-                      </Box>
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          ))}
+                            </thead>
+                            <tbody>
+                              {hotel.additional_options.map((option, idx) => (
+                                <tr key={option.id ?? idx}>
+                                  <td className={styles.td}>{option.title || '-'}</td>
+                                  <td className={styles.td} align='right'>
+                                    {toReadableAmount(option.adult_price)}
+                                  </td>
+                                  <td className={styles.td}>{option.adult_count}</td>
+                                  <td className={styles.td} align='right'>
+                                    {toReadableAmount(option.total_amount)}
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </Box>
+                      </td>
+                    </tr>
+                  )}
+                  {(hotel.remarks || hotel.rule) && (
+                    <tr>
+                      <td className={styles['inner-td']} colSpan={6}>
+                        <Box m='-1px' mr='0'>
+                          <table className={styles.table}>
+                            <colgroup>
+                              <col width='79.5px' />
+                              <col />
+                            </colgroup>
+                            <tbody>
+                              {hotel.remarks && (
+                                <tr>
+                                  <th className={styles.th}>비고</th>
+                                  <td className={styles.td} align='left'>
+                                    {hotel.remarks}
+                                  </td>
+                                </tr>
+                              )}
+                              {hotel.rule && (
+                                <tr>
+                                  <th className={styles.th}>
+                                    <Text color='red'>규정</Text>
+                                  </th>
+                                  <td className={styles.td} align='left'>
+                                    <Text color='red'>{hotel.rule}</Text>
+                                  </td>
+                                </tr>
+                              )}
+                            </tbody>
+                          </table>
+                        </Box>
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            ))}
+          </div>
         </Section>
       )}
 
@@ -473,118 +483,120 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
           <Heading as='h3' mb='2'>
             선택관광
           </Heading>
-          <table className={styles.table}>
-            <colgroup>
-              <col width='80px' />
-              <col />
-            </colgroup>
-            <thead>
-              <tr>
-                <th className={styles.th}>지역</th>
-                <th className={styles.th}>상품명</th>
-              </tr>
-            </thead>
-            {tours.map((tour, idx) => (
-              <tbody key={tour.id ?? idx}>
+          <div className={styles.outline}>
+            <table className={styles.table}>
+              <colgroup>
+                <col width='80px' />
+                <col />
+              </colgroup>
+              <thead>
                 <tr>
-                  <td className={styles.td} rowSpan={2}>
-                    {tour.region || '-'}
-                  </td>
-                  <td className={styles.td}>
-                    {tour.name || '-'}
-                    {tour.additional_options.length > 0 && (
-                      <Text as='div' size='1'>
-                        {formatAdditionalOptions(tour.additional_options)}
-                      </Text>
-                    )}
-                  </td>
+                  <th className={styles.th}>지역</th>
+                  <th className={styles.th}>상품명</th>
                 </tr>
-                <tr>
-                  <td className={styles['inner-td']}>
-                    <Box m='-1px' mr='0'>
-                      <table className={styles.table}>
-                        <colgroup>
-                          <col />
-                          <col width='120px' />
-                          <col width='120px' />
-                          <col width='80px' />
-                          <col width='80px' />
-                          <col width='80px' />
-                          <col width='120px' />
-                        </colgroup>
-                        <thead>
-                          <tr>
-                            <th className={styles.th}>행사일</th>
-                            <th className={styles.th}>성인요금</th>
-                            <th className={styles.th}>소아요금</th>
-                            <th className={styles.th}>성인인원</th>
-                            <th className={styles.th}>소아인원</th>
-                            <th className={styles.th}>유아인원</th>
-                            <th className={styles.th}>계</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td className={styles.td}>
-                              {[formatDateTime(tour.start_date), formatDateTime(tour.end_date)]
-                                .filter(Boolean)
-                                .join(' / ')}
-                            </td>
-                            <td className={styles.td} align='right'>
-                              {toReadableAmount(tour.adult_price)}
-                            </td>
-                            <td className={styles.td} align='right'>
-                              {toReadableAmount(tour.children_price)}
-                            </td>
-                            <td className={styles.td}>{tour.adult_count}</td>
-                            <td className={styles.td}>{tour.children_count}</td>
-                            <td className={styles.td}>{tour.kids_count}</td>
-                            <td className={styles.td} align='right'>
-                              {toReadableAmount(tour.total_amount)}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </Box>
-                  </td>
-                </tr>
-                {(tour.remarks || tour.rule) && (
+              </thead>
+              {tours.map((tour, idx) => (
+                <tbody key={tour.id ?? idx}>
                   <tr>
-                    <td className={styles['inner-td']} colSpan={2}>
+                    <td className={styles.td} rowSpan={2}>
+                      {tour.region || '-'}
+                    </td>
+                    <td className={styles.td}>
+                      {tour.name || '-'}
+                      {tour.additional_options.length > 0 && (
+                        <Text as='div' size='1'>
+                          {formatAdditionalOptions(tour.additional_options)}
+                        </Text>
+                      )}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className={styles['inner-td']}>
                       <Box m='-1px' mr='0'>
                         <table className={styles.table}>
                           <colgroup>
-                            <col width='79.5px' />
                             <col />
+                            <col width='120px' />
+                            <col width='120px' />
+                            <col width='80px' />
+                            <col width='80px' />
+                            <col width='80px' />
+                            <col width='120px' />
                           </colgroup>
+                          <thead>
+                            <tr>
+                              <th className={styles.th}>행사일</th>
+                              <th className={styles.th}>성인요금</th>
+                              <th className={styles.th}>소아요금</th>
+                              <th className={styles.th}>성인인원</th>
+                              <th className={styles.th}>소아인원</th>
+                              <th className={styles.th}>유아인원</th>
+                              <th className={styles.th}>계</th>
+                            </tr>
+                          </thead>
                           <tbody>
-                            {tour.remarks && (
-                              <tr>
-                                <th className={styles.th}>비고</th>
-                                <td className={styles.td} align='left'>
-                                  {tour.remarks}
-                                </td>
-                              </tr>
-                            )}
-                            {tour.rule && (
-                              <tr>
-                                <th className={styles.th}>
-                                  <Text color='red'>규정</Text>
-                                </th>
-                                <td className={styles.td} align='left'>
-                                  <Text color='red'>{tour.rule}</Text>
-                                </td>
-                              </tr>
-                            )}
+                            <tr>
+                              <td className={styles.td}>
+                                {[formatDateTime(tour.start_date), formatDateTime(tour.end_date)]
+                                  .filter(Boolean)
+                                  .join(' / ')}
+                              </td>
+                              <td className={styles.td} align='right'>
+                                {toReadableAmount(tour.adult_price)}
+                              </td>
+                              <td className={styles.td} align='right'>
+                                {toReadableAmount(tour.children_price)}
+                              </td>
+                              <td className={styles.td}>{tour.adult_count}</td>
+                              <td className={styles.td}>{tour.children_count}</td>
+                              <td className={styles.td}>{tour.kids_count}</td>
+                              <td className={styles.td} align='right'>
+                                {toReadableAmount(tour.total_amount)}
+                              </td>
+                            </tr>
                           </tbody>
                         </table>
                       </Box>
                     </td>
                   </tr>
-                )}
-              </tbody>
-            ))}
-          </table>
+                  {(tour.remarks || tour.rule) && (
+                    <tr>
+                      <td className={styles['inner-td']} colSpan={2}>
+                        <Box m='-1px' mr='0'>
+                          <table className={styles.table}>
+                            <colgroup>
+                              <col width='79.5px' />
+                              <col />
+                            </colgroup>
+                            <tbody>
+                              {tour.remarks && (
+                                <tr>
+                                  <th className={styles.th}>비고</th>
+                                  <td className={styles.td} align='left'>
+                                    {tour.remarks}
+                                  </td>
+                                </tr>
+                              )}
+                              {tour.rule && (
+                                <tr>
+                                  <th className={styles.th}>
+                                    <Text color='red'>규정</Text>
+                                  </th>
+                                  <td className={styles.td} align='left'>
+                                    <Text color='red'>{tour.rule}</Text>
+                                  </td>
+                                </tr>
+                              )}
+                            </tbody>
+                          </table>
+                        </Box>
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              ))}
+            </table>
+          </div>
         </Section>
       )}
 
@@ -593,125 +605,127 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
           <Heading as='h3' mb='2'>
             렌터카
           </Heading>
-          <table className={styles.table}>
-            <colgroup>
-              <col width='80px' />
-              <col width='100px' />
-              <col />
-              <col width='240px' />
-              <col width='180px' />
-            </colgroup>
-            <thead>
-              <tr>
-                <th className={styles.th}>지역</th>
-                <th className={styles.th}>업체명</th>
-                <th className={styles.th}>차종</th>
-                <th className={styles.th}>조건</th>
-                <th className={styles.th}>운전자</th>
-              </tr>
-            </thead>
-            {rentalCars.map((car, idx) => (
-              <tbody key={car.id ?? idx}>
+          <div className={styles.outline}>
+            <table className={styles.table}>
+              <colgroup>
+                <col width='80px' />
+                <col width='100px' />
+                <col />
+                <col width='240px' />
+                <col width='180px' />
+              </colgroup>
+              <thead>
                 <tr>
-                  <td className={styles.td} rowSpan={2}>
-                    {car.region || '-'}
-                  </td>
-                  <td className={styles.td} rowSpan={2}>
-                    {car.company || '-'}
-                  </td>
-                  <td className={styles.td}>
-                    {car.model || '-'}
-                    {car.additional_options.length > 0 && (
-                      <Text as='div' size='1'>
-                        {formatAdditionalOptions(car.additional_options)}
-                      </Text>
-                    )}
-                  </td>
-                  <td className={styles.td}>{car.options || '-'}</td>
-                  <td className={styles.td}>{car.driver || '-'}</td>
+                  <th className={styles.th}>지역</th>
+                  <th className={styles.th}>업체명</th>
+                  <th className={styles.th}>차종</th>
+                  <th className={styles.th}>조건</th>
+                  <th className={styles.th}>운전자</th>
                 </tr>
-                <tr>
-                  <td colSpan={3} className={styles['inner-td']}>
-                    <Box m='-1px' mr='0'>
-                      <table className={styles.table}>
-                        <colgroup>
-                          <col />
-                          <col />
-                          <col width='120px' />
-                          <col width='60px' />
-                          <col width='118px' />
-                        </colgroup>
-                        <thead>
-                          <tr>
-                            <th className={styles.th}>인수 장소 / 시간</th>
-                            <th className={styles.th}>반납 장소 / 시간</th>
-                            <th className={styles.th}>1일 요금</th>
-                            <th className={styles.th}>대여일</th>
-                            <th className={styles.th}>계</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td className={styles.td} style={{ whiteSpace: 'pre-line' }}>
-                              {[car.pickup_location, formatDateTime(car.pickup_date)]
-                                .filter(Boolean)
-                                .join('\n')}
-                            </td>
-                            <td className={styles.td} style={{ whiteSpace: 'pre-line' }}>
-                              {[car.return_location, formatDateTime(car.return_date)]
-                                .filter(Boolean)
-                                .join('\n')}
-                            </td>
-                            <td className={styles.td} align='right'>
-                              {toReadableAmount(car.daily_rate)}
-                            </td>
-                            <td className={styles.td}>{car.rental_days ?? '-'}일</td>
-                            <td className={styles.td} align='right'>
-                              {toReadableAmount(car.total_amount)}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </Box>
-                  </td>
-                </tr>
-                {(car.remarks || car.rule) && (
+              </thead>
+              {rentalCars.map((car, idx) => (
+                <tbody key={car.id ?? idx}>
                   <tr>
-                    <td className={styles['inner-td']} colSpan={5}>
+                    <td className={styles.td} rowSpan={2}>
+                      {car.region || '-'}
+                    </td>
+                    <td className={styles.td} rowSpan={2}>
+                      {car.company || '-'}
+                    </td>
+                    <td className={styles.td}>
+                      {car.model || '-'}
+                      {car.additional_options.length > 0 && (
+                        <Text as='div' size='1'>
+                          {formatAdditionalOptions(car.additional_options)}
+                        </Text>
+                      )}
+                    </td>
+                    <td className={styles.td}>{car.options || '-'}</td>
+                    <td className={styles.td}>{car.driver || '-'}</td>
+                  </tr>
+                  <tr>
+                    <td colSpan={3} className={styles['inner-td']}>
                       <Box m='-1px' mr='0'>
                         <table className={styles.table}>
                           <colgroup>
-                            <col width='79.5px' />
                             <col />
+                            <col />
+                            <col width='120px' />
+                            <col width='60px' />
+                            <col width='118px' />
                           </colgroup>
+                          <thead>
+                            <tr>
+                              <th className={styles.th}>인수 장소 / 시간</th>
+                              <th className={styles.th}>반납 장소 / 시간</th>
+                              <th className={styles.th}>1일 요금</th>
+                              <th className={styles.th}>대여일</th>
+                              <th className={styles.th}>계</th>
+                            </tr>
+                          </thead>
                           <tbody>
-                            {car.remarks && (
-                              <tr>
-                                <th className={styles.th}>비고</th>
-                                <td className={styles.td} align='left'>
-                                  {car.remarks}
-                                </td>
-                              </tr>
-                            )}
-                            {car.rule && (
-                              <tr>
-                                <th className={styles.th}>
-                                  <Text color='red'>규정</Text>
-                                </th>
-                                <td className={styles.td} align='left'>
-                                  <Text color='red'>{car.rule}</Text>
-                                </td>
-                              </tr>
-                            )}
+                            <tr>
+                              <td className={styles.td} style={{ whiteSpace: 'pre-line' }}>
+                                {[car.pickup_location, formatDateTime(car.pickup_date)]
+                                  .filter(Boolean)
+                                  .join('\n')}
+                              </td>
+                              <td className={styles.td} style={{ whiteSpace: 'pre-line' }}>
+                                {[car.return_location, formatDateTime(car.return_date)]
+                                  .filter(Boolean)
+                                  .join('\n')}
+                              </td>
+                              <td className={styles.td} align='right'>
+                                {toReadableAmount(car.daily_rate)}
+                              </td>
+                              <td className={styles.td}>{car.rental_days ?? '-'}일</td>
+                              <td className={styles.td} align='right'>
+                                {toReadableAmount(car.total_amount)}
+                              </td>
+                            </tr>
                           </tbody>
                         </table>
                       </Box>
                     </td>
                   </tr>
-                )}
-              </tbody>
-            ))}
-          </table>
+                  {(car.remarks || car.rule) && (
+                    <tr>
+                      <td className={styles['inner-td']} colSpan={5}>
+                        <Box m='-1px' mr='0'>
+                          <table className={styles.table}>
+                            <colgroup>
+                              <col width='79.5px' />
+                              <col />
+                            </colgroup>
+                            <tbody>
+                              {car.remarks && (
+                                <tr>
+                                  <th className={styles.th}>비고</th>
+                                  <td className={styles.td} align='left'>
+                                    {car.remarks}
+                                  </td>
+                                </tr>
+                              )}
+                              {car.rule && (
+                                <tr>
+                                  <th className={styles.th}>
+                                    <Text color='red'>규정</Text>
+                                  </th>
+                                  <td className={styles.td} align='left'>
+                                    <Text color='red'>{car.rule}</Text>
+                                  </td>
+                                </tr>
+                              )}
+                            </tbody>
+                          </table>
+                        </Box>
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              ))}
+            </table>
+          </div>
         </Section>
       )}
 
@@ -720,91 +734,93 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
           <Heading as='h3' mb='2'>
             여행자보험
           </Heading>
-          <table className={styles.table}>
-            <colgroup>
-              <col width='100px' />
-              <col width='200px' />
-              <col />
-              <col width='120px' />
-              <col width='120px' />
-              <col width='80px' />
-              <col width='80px' />
-              <col width='80px' />
-              <col width='100px' />
-            </colgroup>
-            <thead>
-              <tr>
-                <th className={styles.th}>보험사</th>
-                <th className={styles.th}>날짜</th>
-                <th className={styles.th}>조건</th>
-                <th className={styles.th}>성인요금</th>
-                <th className={styles.th}>소아요금</th>
-                <th className={styles.th}>성인인원</th>
-                <th className={styles.th}>소아인원</th>
-                <th className={styles.th}>유아인원</th>
-                <th className={styles.th}>계</th>
-              </tr>
-            </thead>
-            {insurances.map((insurance, idx) => (
-              <tbody key={insurance.id ?? idx}>
+          <div className={styles.outline}>
+            <table className={styles.table}>
+              <colgroup>
+                <col width='100px' />
+                <col width='200px' />
+                <col />
+                <col width='120px' />
+                <col width='120px' />
+                <col width='80px' />
+                <col width='80px' />
+                <col width='80px' />
+                <col width='100px' />
+              </colgroup>
+              <thead>
                 <tr>
-                  <td className={styles.td}>{insurance.company || '-'}</td>
-                  <td className={styles.td}>
-                    {[formatDate(insurance.start_date), formatDate(insurance.end_date)]
-                      .filter(Boolean)
-                      .join(' ~ ')}
-                  </td>
-                  <td className={styles.td}>{insurance.condition || '-'}</td>
-                  <td className={styles.td} align='right'>
-                    {toReadableAmount(insurance.adult_price)}
-                  </td>
-                  <td className={styles.td} align='right'>
-                    {toReadableAmount(insurance.children_price)}
-                  </td>
-                  <td className={styles.td}>{insurance.adult_count}</td>
-                  <td className={styles.td}>{insurance.children_count}</td>
-                  <td className={styles.td}>{insurance.kids_count}</td>
-                  <td className={styles.td} align='right'>
-                    {toReadableAmount(insurance.total_amount)}
-                  </td>
+                  <th className={styles.th}>보험사</th>
+                  <th className={styles.th}>날짜</th>
+                  <th className={styles.th}>조건</th>
+                  <th className={styles.th}>성인요금</th>
+                  <th className={styles.th}>소아요금</th>
+                  <th className={styles.th}>성인인원</th>
+                  <th className={styles.th}>소아인원</th>
+                  <th className={styles.th}>유아인원</th>
+                  <th className={styles.th}>계</th>
                 </tr>
-                {(insurance.remarks || insurance.rule) && (
+              </thead>
+              {insurances.map((insurance, idx) => (
+                <tbody key={insurance.id ?? idx}>
                   <tr>
-                    <td className={styles['inner-td']} colSpan={9}>
-                      <Box m='-1px' mr='0'>
-                        <table className={styles.table}>
-                          <colgroup>
-                            <col width='79.5px' />
-                            <col />
-                          </colgroup>
-                          <tbody>
-                            {insurance.remarks && (
-                              <tr>
-                                <th className={styles.th}>비고</th>
-                                <td className={styles.td} align='left'>
-                                  {insurance.remarks}
-                                </td>
-                              </tr>
-                            )}
-                            {insurance.rule && (
-                              <tr>
-                                <th className={styles.th}>
-                                  <Text color='red'>규정</Text>
-                                </th>
-                                <td className={styles.td} align='left'>
-                                  <Text color='red'>{insurance.rule}</Text>
-                                </td>
-                              </tr>
-                            )}
-                          </tbody>
-                        </table>
-                      </Box>
+                    <td className={styles.td}>{insurance.company || '-'}</td>
+                    <td className={styles.td}>
+                      {[formatDate(insurance.start_date), formatDate(insurance.end_date)]
+                        .filter(Boolean)
+                        .join(' ~ ')}
+                    </td>
+                    <td className={styles.td}>{insurance.condition || '-'}</td>
+                    <td className={styles.td} align='right'>
+                      {toReadableAmount(insurance.adult_price)}
+                    </td>
+                    <td className={styles.td} align='right'>
+                      {toReadableAmount(insurance.children_price)}
+                    </td>
+                    <td className={styles.td}>{insurance.adult_count}</td>
+                    <td className={styles.td}>{insurance.children_count}</td>
+                    <td className={styles.td}>{insurance.kids_count}</td>
+                    <td className={styles.td} align='right'>
+                      {toReadableAmount(insurance.total_amount)}
                     </td>
                   </tr>
-                )}
-              </tbody>
-            ))}
-          </table>
+                  {(insurance.remarks || insurance.rule) && (
+                    <tr>
+                      <td className={styles['inner-td']} colSpan={9}>
+                        <Box m='-1px' mr='0'>
+                          <table className={styles.table}>
+                            <colgroup>
+                              <col width='79.5px' />
+                              <col />
+                            </colgroup>
+                            <tbody>
+                              {insurance.remarks && (
+                                <tr>
+                                  <th className={styles.th}>비고</th>
+                                  <td className={styles.td} align='left'>
+                                    {insurance.remarks}
+                                  </td>
+                                </tr>
+                              )}
+                              {insurance.rule && (
+                                <tr>
+                                  <th className={styles.th}>
+                                    <Text color='red'>규정</Text>
+                                  </th>
+                                  <td className={styles.td} align='left'>
+                                    <Text color='red'>{insurance.rule}</Text>
+                                  </td>
+                                </tr>
+                              )}
+                            </tbody>
+                          </table>
+                        </Box>
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              ))}
+            </table>
+          </div>
         </Section>
       )}
 
