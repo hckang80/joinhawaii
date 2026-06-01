@@ -116,20 +116,20 @@
     break-inside: avoid-page;
   }
 
-  :global(.voucher-root .rt-Section) {
+  .section {
     page-break-inside: auto;
     break-inside: auto;
   }
 
-  :global(.voucher-root .rt-Card) {
+  .section :global(.rt-Card) {
     page-break-inside: avoid;
     break-inside: avoid-page;
   }
 
-  :global(.voucher-root .editor-content),
-  :global(.voucher-root .editor-content > div),
-  :global(.voucher-root .editor-content p),
-  :global(.voucher-root .editor-content li) {
+  .section :global(.editor-content),
+  .section :global(.editor-content > div),
+  .section :global(.editor-content p),
+  .section :global(.editor-content li) {
     page-break-inside: auto;
     break-inside: auto;
     orphans: 3;

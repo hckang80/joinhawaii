@@ -165,7 +165,7 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
         </Heading>
       </Flex>
 
-      <Section py='0'>
+      <Section py='0' className={styles.section}>
         <Heading
           as='h2'
           size='7'
