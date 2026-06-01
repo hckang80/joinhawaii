@@ -26,11 +26,10 @@ import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { ContactInfoCards } from '../ContactInfoCards';
 import {
+  buildVoucherPrintFileName,
   getSelectedProductById,
   hasRenderableTiptapContent,
   printWithDocumentTitle,
-  toPrintableDate,
-  toPrintableFileNamePart,
   type VoucherProductClientContainerProps,
   type VoucherSharedFormState
 } from '../shared';
@@ -205,15 +204,12 @@ function VoucherCarForm({ reservationId, selectedProduct, clients }: VoucherCarF
   const companyLogoSrc = selectedCompany === 'DOLLAR' ? '/images/dollar.png' : '/images/hertz.png';
 
   const printFileName = useMemo(() => {
-    const representativeClient = clients.find(client => client.is_main_client) ?? clients[0];
-    const representativeName = toPrintableFileNamePart(
-      representativeClient?.korean_name || representativeClient?.english_name,
-      '고객'
-    );
-    const productName = toPrintableFileNamePart(selectedProduct.model, '렌터카');
-    const datePart = toPrintableDate(selectedProduct.pickup_date ?? selectedProduct.issue_date);
-
-    return `${datePart}_${representativeName}_${productName}`;
+    return buildVoucherPrintFileName({
+      clients,
+      date: selectedProduct.pickup_date ?? selectedProduct.issue_date,
+      productName: selectedProduct.model,
+      productFallback: '렌터카'
+    });
   }, [clients, selectedProduct.issue_date, selectedProduct.model, selectedProduct.pickup_date]);
 
   useEffect(() => {

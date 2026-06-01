@@ -7,6 +7,12 @@ export type VoucherProductClientContainerProps = {
 
 export type VoucherSharedFormState = typeof defaultVoucherValues;
 
+type VoucherClient = {
+  is_main_client?: boolean;
+  korean_name?: string;
+  english_name?: string;
+};
+
 type ProductWithId = {
   id?: number | string;
 };
@@ -88,4 +94,30 @@ export function printWithDocumentTitle(fileName: string) {
   window.addEventListener('afterprint', restoreTitle, { once: true });
   window.addEventListener('focus', handleWindowFocus, { once: true });
   window.print();
+}
+
+type BuildVoucherPrintFileNameArgs = {
+  clients: VoucherClient[];
+  date: string | null | undefined;
+  productName: string | null | undefined;
+  productFallback: string;
+  clientFallback?: string;
+};
+
+export function buildVoucherPrintFileName({
+  clients,
+  date,
+  productName,
+  productFallback,
+  clientFallback = '고객'
+}: BuildVoucherPrintFileNameArgs) {
+  const representativeClient = clients.find(client => client.is_main_client) ?? clients[0];
+  const representativeName = toPrintableFileNamePart(
+    representativeClient?.korean_name || representativeClient?.english_name,
+    clientFallback
+  );
+  const productLabel = toPrintableFileNamePart(productName, productFallback);
+  const datePart = toPrintableDate(date);
+
+  return `${datePart}_${representativeName}_${productLabel}`;
 }

@@ -25,11 +25,10 @@ import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { ContactInfoCards } from '../ContactInfoCards';
 import {
+  buildVoucherPrintFileName,
   getSelectedProductById,
   hasRenderableTiptapContent,
   printWithDocumentTitle,
-  toPrintableDate,
-  toPrintableFileNamePart,
   type VoucherProductClientContainerProps,
   type VoucherSharedFormState
 } from '../shared';
@@ -203,15 +202,12 @@ function VoucherHotelForm({ reservationId, selectedProduct, clients }: VoucherHo
   });
 
   const printFileName = useMemo(() => {
-    const representativeClient = clients.find(client => client.is_main_client) ?? clients[0];
-    const representativeName = toPrintableFileNamePart(
-      representativeClient?.korean_name || representativeClient?.english_name,
-      '고객'
-    );
-    const productName = toPrintableFileNamePart(selectedProduct.hotel_name, '호텔');
-    const datePart = toPrintableDate(selectedProduct.start_date ?? selectedProduct.check_in_date);
-
-    return `${datePart}_${representativeName}_${productName}`;
+    return buildVoucherPrintFileName({
+      clients,
+      date: selectedProduct.start_date ?? selectedProduct.check_in_date,
+      productName: selectedProduct.hotel_name,
+      productFallback: '호텔'
+    });
   }, [
     clients,
     selectedProduct.check_in_date,

@@ -27,11 +27,10 @@ import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { ContactInfoCards } from '../ContactInfoCards';
 import {
+  buildVoucherPrintFileName,
   getSelectedProductById,
   hasRenderableTiptapContent,
   printWithDocumentTitle,
-  toPrintableDate,
-  toPrintableFileNamePart,
   type VoucherProductClientContainerProps,
   type VoucherSharedFormState
 } from '../shared';
@@ -127,15 +126,12 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
   const arrivalTime = watch('arrival_time');
 
   const printFileName = useMemo(() => {
-    const representativeClient = clients.find(client => client.is_main_client) ?? clients[0];
-    const representativeName = toPrintableFileNamePart(
-      representativeClient?.korean_name || representativeClient?.english_name,
-      '고객'
-    );
-    const productName = toPrintableFileNamePart(selectedProduct.name, '투어');
-    const datePart = toPrintableDate(selectedProduct.start_date);
-
-    return `${datePart}_${representativeName}_${productName}`;
+    return buildVoucherPrintFileName({
+      clients,
+      date: selectedProduct.start_date,
+      productName: selectedProduct.name,
+      productFallback: '투어'
+    });
   }, [clients, selectedProduct.name, selectedProduct.start_date]);
 
   useEffect(() => {
