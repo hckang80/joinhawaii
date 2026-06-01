@@ -27,6 +27,9 @@ import { ContactInfoCards } from '../ContactInfoCards';
 import {
   getSelectedProductById,
   hasRenderableTiptapContent,
+  printWithDocumentTitle,
+  toPrintableDate,
+  toPrintableFileNamePart,
   type VoucherProductClientContainerProps,
   type VoucherSharedFormState
 } from '../shared';
@@ -198,6 +201,23 @@ function VoucherHotelForm({ reservationId, selectedProduct, clients }: VoucherHo
     mode: 'onBlur',
     defaultValues: defaultFormValues
   });
+
+  const printFileName = useMemo(() => {
+    const representativeClient = clients.find(client => client.is_main_client) ?? clients[0];
+    const representativeName = toPrintableFileNamePart(
+      representativeClient?.korean_name || representativeClient?.english_name,
+      '고객'
+    );
+    const productName = toPrintableFileNamePart(selectedProduct.hotel_name, '호텔');
+    const datePart = toPrintableDate(selectedProduct.start_date ?? selectedProduct.check_in_date);
+
+    return `${datePart}_${representativeName}_${productName}`;
+  }, [
+    clients,
+    selectedProduct.check_in_date,
+    selectedProduct.hotel_name,
+    selectedProduct.start_date
+  ]);
 
   useEffect(() => {
     reset(defaultFormValues);
@@ -545,7 +565,12 @@ function VoucherHotelForm({ reservationId, selectedProduct, clients }: VoucherHo
           <Button size='4' onClick={handleSubmit(onSubmit)} loading={voucherMutation.isPending}>
             바우처 저장
           </Button>
-          <Button size='4' color='gray' onClick={() => window.print()} variant='soft'>
+          <Button
+            size='4'
+            color='gray'
+            onClick={() => printWithDocumentTitle(printFileName)}
+            variant='soft'
+          >
             <FileText />
             인쇄 / PDF 다운로드
           </Button>

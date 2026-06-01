@@ -28,6 +28,9 @@ import { ContactInfoCards } from '../ContactInfoCards';
 import {
   getSelectedProductById,
   hasRenderableTiptapContent,
+  printWithDocumentTitle,
+  toPrintableDate,
+  toPrintableFileNamePart,
   type VoucherProductClientContainerProps,
   type VoucherSharedFormState
 } from '../shared';
@@ -138,15 +141,22 @@ export default function VoucherCarClientContainer({
 
   const selectedCarProduct = selectedProduct as SelectedCarProduct;
 
-  return <VoucherCarForm reservationId={reservationId} selectedProduct={selectedCarProduct} />;
+  return (
+    <VoucherCarForm
+      reservationId={reservationId}
+      selectedProduct={selectedCarProduct}
+      clients={data?.clients ?? []}
+    />
+  );
 }
 
 type VoucherCarFormProps = {
   reservationId: string;
   selectedProduct: SelectedCarProduct;
+  clients: ReservationResponse['clients'];
 };
 
-function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps) {
+function VoucherCarForm({ reservationId, selectedProduct, clients }: VoucherCarFormProps) {
   const voucherMutation = useMutation({
     mutationFn: (payload: Partial<ReservationFormData>) => updateReservation(payload),
     onSuccess: () => {
@@ -193,6 +203,18 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
 
   const selectedCompany = watch('company');
   const companyLogoSrc = selectedCompany === 'DOLLAR' ? '/images/dollar.png' : '/images/hertz.png';
+
+  const printFileName = useMemo(() => {
+    const representativeClient = clients.find(client => client.is_main_client) ?? clients[0];
+    const representativeName = toPrintableFileNamePart(
+      representativeClient?.korean_name || representativeClient?.english_name,
+      '고객'
+    );
+    const productName = toPrintableFileNamePart(selectedProduct.model, '렌터카');
+    const datePart = toPrintableDate(selectedProduct.pickup_date ?? selectedProduct.issue_date);
+
+    return `${datePart}_${representativeName}_${productName}`;
+  }, [clients, selectedProduct.issue_date, selectedProduct.model, selectedProduct.pickup_date]);
 
   useEffect(() => {
     reset(defaultFormValues);
@@ -537,7 +559,12 @@ function VoucherCarForm({ reservationId, selectedProduct }: VoucherCarFormProps)
           <Button size='4' onClick={handleSubmit(onSubmit)} loading={voucherMutation.isPending}>
             바우처 저장
           </Button>
-          <Button size='4' color='gray' onClick={() => window.print()} variant='soft'>
+          <Button
+            size='4'
+            color='gray'
+            onClick={() => printWithDocumentTitle(printFileName)}
+            variant='soft'
+          >
             <FileText />
             인쇄 / PDF 다운로드
           </Button>
