@@ -1,7 +1,7 @@
 import { CONTACT_NUMBER, PAYMENT_STATUS_COLOR, PaymentStatus } from '@/constants';
 import type { AdditionalOptions, ReservationResponse } from '@/types';
 import { jobTitles, toReadableAmount } from '@/utils';
-import { Badge, Blockquote, Box, Flex, Heading, Section, Text } from '@radix-ui/themes';
+import { Badge, Blockquote, Box, Flex, Heading, Section, Strong, Text } from '@radix-ui/themes';
 import type { ReactNode } from 'react';
 import styles from './preview-table.module.css';
 
@@ -227,11 +227,13 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
 
         <Box mt='4'>
           <Blockquote>
-            예약 확인서는 계약서를 대신합니다. 아래 정보를 꼭 확인하시기 바랍니다.
+            본 예약확인서는 계약서를 대신합니다.
             <br />
-            신한은행 110-341-818-061 예금주: 조인하와이 김홍석
+            각 정보를 꼼꼼히 확인하시고 결제하시기 바랍니다.
             <br />
-            환율은 각 결제시점의 매입환율 기준입니다.
+            현금영수증은 국세청법에 의한 알선수수료에 대해서만 발행됩니다.
+            <br />
+            환율은 각 결제시점의 매입환율이 적용됩니다.
           </Blockquote>
         </Box>
       </Section>
@@ -825,25 +827,22 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
       )}
 
       <Blockquote>
-        <Text as='p' weight='bold' size='2'>
-          홈페이지 : www.joinhawaii.co.kr
-        </Text>
-        <Text as='p' weight='bold' size='2'>
-          네이버 스마트 스토어 : https://smartstore.naver.com/joinhawaii
-        </Text>
-        <Text as='p' weight='bold' size='2'>
-          네이버까페 착한하와이 : http://cafe.naver.com/goodhawaii
-        </Text>
-        <Text as='p' weight='bold' size='2'>
-          카카오톡 ID : joinhawaii
-        </Text>
+        <Strong>홈페이지</Strong> https://www.joinhawaii.co.kr
         <br />
-        <Text as='p' weight='bold'>
-          <Text>조인하와이 하와이 (OPEN AM10:00~PM6:00)</Text>{' '}
-          <Text color='red'>12월25일, 1월1일 휴무</Text>
-        </Text>
-        <Text as='p'>* 현지명 : JOINHAWAIIUSA T. 1 808 772 2691</Text>
-        <Text as='p'>* 한국 연락사무소 연락처 T. 02 402 1040, 02 392 1044 F. 0303 0950 1044</Text>
+        <Strong>스마트 스토어</Strong> https://smartstore.naver.com/joinhawaii
+        <br />
+        <Strong>네이버 카페</Strong> http://cafe.naver.com/goodhawaii
+        <br />
+        <Strong>카카오톡 채널 ID </Strong>조인하와이
+        <br />
+        <br />
+        <Strong>하와이 사무소</Strong>
+        <br />
+        <Strong>OPEN</Strong> 10:00 AM - 06:00 PM (현지 기준, 공휴일 휴무)
+        <br />
+        <Strong>TEL</Strong> 1 808 772 2691
+        <br />
+        <Strong>카카오톡 ID</Strong> joinhawaiiusa
       </Blockquote>
     </Box>
   );
