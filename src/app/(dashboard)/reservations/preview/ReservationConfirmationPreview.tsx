@@ -227,13 +227,10 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
 
         <Box mt='4'>
           <Blockquote>
-            본 예약확인서는 계약서를 대신합니다.
-            <br />
-            각 정보를 꼼꼼히 확인하시고 결제하시기 바랍니다.
-            <br />
-            현금영수증은 국세청법에 의한 알선수수료에 대해서만 발행됩니다.
-            <br />
-            환율은 각 결제시점의 매입환율이 적용됩니다.
+            <Text as='p'>본 예약확인서는 계약서를 대신합니다.</Text>
+            <Text as='p'>각 정보를 꼼꼼히 확인하시고 결제하시기 바랍니다.</Text>
+            <Text as='p'>현금영수증은 국세청법에 의한 알선수수료에 대해서만 발행됩니다.</Text>
+            <Text as='p'>환율은 각 결제시점의 매입환율이 적용됩니다.</Text>
           </Blockquote>
         </Box>
       </Section>
@@ -827,22 +824,37 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
       )}
 
       <Blockquote>
-        <Strong>홈페이지</Strong> https://www.joinhawaii.co.kr
-        <br />
-        <Strong>스마트 스토어</Strong> https://smartstore.naver.com/joinhawaii
-        <br />
-        <Strong>네이버 카페</Strong> http://cafe.naver.com/goodhawaii
-        <br />
-        <Strong>카카오톡 채널 ID </Strong>조인하와이
-        <br />
-        <br />
-        <Strong>하와이 사무소</Strong>
-        <br />
-        <Strong>OPEN</Strong> 10:00 AM - 06:00 PM (현지 기준, 공휴일 휴무)
-        <br />
-        <Strong>TEL</Strong> 1 808 772 2691
-        <br />
-        <Strong>카카오톡 ID</Strong> joinhawaiiusa
+        <Box>
+          <Text as='p'>
+            <Strong>홈페이지</Strong> https://www.joinhawaii.co.kr
+          </Text>
+          <Text as='p'>
+            <Strong>스마트 스토어</Strong> https://smartstore.naver.com/joinhawaii
+          </Text>
+          <Text as='p'>
+            <Strong>네이버 카페</Strong> http://cafe.naver.com/goodhawaii
+          </Text>
+          <Text as='p'>
+            <Strong>카카오톡 채널 ID</Strong> 조인하와이
+          </Text>
+        </Box>
+
+        <Box asChild mt='3'>
+          <address style={{ fontStyle: 'normal' }}>
+            <Text as='p'>
+              <Strong>하와이 사무소</Strong>
+            </Text>
+            <Text as='p'>
+              <Strong>OPEN</Strong> 10:00 AM - 06:00 PM (현지 기준, 공휴일 휴무)
+            </Text>
+            <Text as='p'>
+              <Strong>TEL</Strong> 1 808 772 2691
+            </Text>
+            <Text as='p'>
+              <Strong>카카오톡 ID</Strong> joinhawaiiusa
+            </Text>
+          </address>
+        </Box>
       </Blockquote>
     </Box>
   );
