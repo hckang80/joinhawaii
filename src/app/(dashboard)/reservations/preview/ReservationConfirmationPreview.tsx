@@ -826,16 +826,28 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
       <Blockquote>
         <Box>
           <Text as='p'>
-            <Strong>홈페이지</Strong> https://www.joinhawaii.co.kr
+            <Strong>홈페이지</Strong>{' '}
+            <a href='https://www.joinhawaii.co.kr' target='_blank' rel='noreferrer'>
+              https://www.joinhawaii.co.kr
+            </a>
           </Text>
           <Text as='p'>
-            <Strong>스마트 스토어</Strong> https://smartstore.naver.com/joinhawaii
+            <Strong>스마트 스토어</Strong>{' '}
+            <a href='https://smartstore.naver.com/joinhawaii' target='_blank' rel='noreferrer'>
+              https://smartstore.naver.com/joinhawaii
+            </a>
           </Text>
           <Text as='p'>
-            <Strong>네이버 카페</Strong> http://cafe.naver.com/goodhawaii
+            <Strong>네이버 카페</Strong>{' '}
+            <a href='http://cafe.naver.com/goodhawaii' target='_blank' rel='noreferrer'>
+              http://cafe.naver.com/goodhawaii
+            </a>
           </Text>
           <Text as='p'>
-            <Strong>카카오톡 채널 ID</Strong> 조인하와이
+            <Strong>카카오톡 채널 ID</Strong>{' '}
+            <a href='http://pf.kakao.com/_Hnhxkxd' target='_blank' rel='noreferrer'>
+              조인하와이
+            </a>
           </Text>
         </Box>
 
@@ -851,7 +863,10 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
               <Strong>TEL</Strong> 1 808 772 2691
             </Text>
             <Text as='p'>
-              <Strong>카카오톡 ID</Strong> joinhawaiiusa
+              <Strong>카카오톡 ID</Strong>{' '}
+              <a href='https://open.kakao.com/o/s4bqvFmh' target='_blank' rel='noreferrer'>
+                joinhawaiiusa
+              </a>
             </Text>
           </address>
         </Box>
