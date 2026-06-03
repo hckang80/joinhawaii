@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 
-import { Box, Button, Flex, IconButton, Separator, Tooltip } from '@radix-ui/themes';
-import type { Editor } from '@tiptap/core';
+import { Box, Button, Flex, IconButton, Separator, Text, Tooltip } from '@radix-ui/themes';
+import { Extension, type Editor } from '@tiptap/core';
 import { Color } from '@tiptap/extension-color';
 import FileHandler from '@tiptap/extension-file-handler';
 import Highlight from '@tiptap/extension-highlight';
@@ -62,6 +62,44 @@ const MAX_IMAGE_HEIGHT = 1920;
 const IMAGE_OUTPUT_QUALITY = 0.85;
 const MAX_IMAGE_UPLOAD_SIZE_BYTES = 10 * 1024 * 1024;
 const ALLOWED_IMAGE_MIME_TYPES = ['image/png', 'image/jpeg', 'image/webp'];
+const DEFAULT_FONT_SIZE_PX = 16;
+const MIN_FONT_SIZE_PX = 10;
+const MAX_FONT_SIZE_PX = 48;
+const FONT_SIZE_STEP_PX = 2;
+
+const FontSize = Extension.create({
+  name: 'fontSize',
+
+  addGlobalAttributes() {
+    return [
+      {
+        types: ['textStyle'],
+        attributes: {
+          fontSize: {
+            default: null,
+            parseHTML: element => element.style.fontSize || null,
+            renderHTML: attributes => {
+              if (!attributes.fontSize) {
+                return {};
+              }
+
+              return { style: `font-size: ${attributes.fontSize}` };
+            }
+          }
+        }
+      }
+    ];
+  }
+});
+
+const getFontSizePxFromStyle = (fontSize: string | null | undefined) => {
+  if (!fontSize) return DEFAULT_FONT_SIZE_PX;
+
+  const parsed = Number.parseInt(fontSize, 10);
+  if (!Number.isFinite(parsed)) return DEFAULT_FONT_SIZE_PX;
+
+  return parsed;
+};
 
 const readFileAsDataUrl = (file: File) =>
   new Promise<string>((resolve, reject) => {
@@ -334,6 +372,7 @@ export const Tiptap = ({
         types: ['heading', 'paragraph', 'image']
       }),
       TextStyle,
+      FontSize,
       Color,
       Highlight.configure({
         multicolor: true
@@ -455,6 +494,30 @@ export const Tiptap = ({
     editor?.chain().focus().toggleHighlight({ color }).run();
     return false;
   };
+
+  const setFontSize = (fontSize: number) => {
+    const normalized = Math.min(MAX_FONT_SIZE_PX, Math.max(MIN_FONT_SIZE_PX, fontSize));
+
+    editor
+      ?.chain()
+      .focus()
+      .setMark('textStyle', { fontSize: `${normalized}px` })
+      .run();
+
+    forceUpdate();
+    return false;
+  };
+
+  const clearFontSize = () => {
+    editor?.chain().focus().setMark('textStyle', { fontSize: null }).removeEmptyTextStyle().run();
+    forceUpdate();
+    return false;
+  };
+
+  const currentFontSize = getFontSizePxFromStyle(editor?.getAttributes('textStyle').fontSize);
+
+  const decreaseFontSize = () => setFontSize(currentFontSize - FONT_SIZE_STEP_PX);
+  const increaseFontSize = () => setFontSize(currentFontSize + FONT_SIZE_STEP_PX);
 
   if (!editor) return null;
 
@@ -618,6 +681,29 @@ export const Tiptap = ({
 
             {/* 색상 그룹 */}
             <Flex align='center' gap='2'>
+              <Flex align='center' gap='1'>
+                <Tooltip content='글자 크기 줄이기'>
+                  <Button type='button' variant='soft' size='1' onClick={decreaseFontSize}>
+                    A-
+                  </Button>
+                </Tooltip>
+                <Tooltip content='글자 크기 기본값으로'>
+                  <Button type='button' variant='soft' size='1' onClick={clearFontSize}>
+                    A
+                  </Button>
+                </Tooltip>
+                <Tooltip content='글자 크기 키우기'>
+                  <Button type='button' variant='soft' size='1' onClick={increaseFontSize}>
+                    A+
+                  </Button>
+                </Tooltip>
+                <Text size='1' color='gray'>
+                  {currentFontSize}px
+                </Text>
+              </Flex>
+
+              <Separator orientation='vertical' />
+
               <Flex align='center' gap='1'>
                 <Palette size={16} className='text-gray-600' />
                 <ColorButton
