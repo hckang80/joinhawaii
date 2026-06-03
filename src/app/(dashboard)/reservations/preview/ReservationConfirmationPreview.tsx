@@ -266,7 +266,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                         <Box m='-1px' mr='0'>
                           <table className={styles.table}>
                             <colgroup>
-                              <col width='79.5px' />
+                              <col width='100.5객px' />
                               <col />
                             </colgroup>
                             <tbody>
@@ -312,7 +312,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                 <colgroup>
                   <col width='80px' />
                   <col />
-                  <col width='120px' />
+                  <col width='200px' />
                   <col width='120px' />
                   <col width='120px' />
                   <col width='120px' />
@@ -352,9 +352,9 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                         <table className={styles.table}>
                           <colgroup>
                             <col />
+                            <col width='200px' />
                             <col width='120px' />
-                            <col width='120px' />
-                            <col width='238px' />
+                            <col width='239.5px' />
                           </colgroup>
                           <thead>
                             <tr>
@@ -391,9 +391,9 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                           <table className={styles.table}>
                             <colgroup>
                               <col />
+                              <col width='200px' />
                               <col width='120px' />
-                              <col width='120px' />
-                              <col width='238px' />
+                              <col width='239.5px' />
                             </colgroup>
                             <thead>
                               <tr>
