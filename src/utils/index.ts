@@ -15,6 +15,12 @@ export function jobTel(email?: string) {
   return JOB_FUNCTION[email]?.tel || '';
 }
 
+export function getJobInfo(name: string, email: string) {
+  return [[name, jobTitles(email)].filter(Boolean).join(' '), jobTel(email)]
+    .filter(Boolean)
+    .join(' / ');
+}
+
 export function toReadableDate(date: Date | string, includeTime = false) {
   const d = typeof date === 'string' ? new Date(date) : date;
   if (!(d instanceof Date) || Number.isNaN(d.getTime())) return '-';
