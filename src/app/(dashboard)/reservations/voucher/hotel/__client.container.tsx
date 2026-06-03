@@ -484,7 +484,7 @@ function VoucherHotelForm({ reservationId, selectedProduct, clients }: VoucherHo
           <Card>
             <Flex gap='4'>
               <Flex asChild direction='column' align='center' flexShrink='0'>
-                <Text size='4' weight='bold'>
+                <Text size='3' weight='bold'>
                   <Mic />
                   전달
                 </Text>
@@ -518,7 +518,7 @@ function VoucherHotelForm({ reservationId, selectedProduct, clients }: VoucherHo
           <Card>
             <Flex gap='4'>
               <Flex asChild direction='column' align='center' flexShrink='0'>
-                <Text size='4' weight='bold'>
+                <Text size='3' weight='bold'>
                   <Mic />
                   알림
                 </Text>

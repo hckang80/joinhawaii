@@ -436,7 +436,7 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
           <Card>
             <Flex gap='4'>
               <Flex asChild direction='column' align='center' flexShrink='0'>
-                <Text size='4' weight='bold'>
+                <Text size='3' weight='bold'>
                   <Mic />
                   전달
                 </Text>
@@ -470,7 +470,7 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
           <Card>
             <Flex gap='4'>
               <Flex asChild direction='column' align='center' flexShrink='0'>
-                <Text size='4' weight='bold'>
+                <Text size='3' weight='bold'>
                   <Mic />
                   알림
                 </Text>
