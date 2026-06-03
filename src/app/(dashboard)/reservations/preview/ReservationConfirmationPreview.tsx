@@ -1,5 +1,5 @@
 import { PAYMENT_STATUS_COLOR, PaymentStatus } from '@/constants';
-import type { AdditionalOptions, ReservationResponse } from '@/types';
+import type { ReservationResponse } from '@/types';
 import { getJobInfo, toReadableAmount } from '@/utils';
 import { Badge, Blockquote, Box, Flex, Heading, Section, Strong, Text } from '@radix-ui/themes';
 import Image from 'next/image';
@@ -30,14 +30,6 @@ function formatDate(value: string | null | undefined) {
   const d = new Date(value);
   if (isNaN(d.getTime())) return value;
   return d.toLocaleDateString('ko-KR', { timeZone: 'Asia/Seoul' });
-}
-
-function formatAdditionalOptions(value: AdditionalOptions[] | null | undefined) {
-  if (!value?.length) return '-';
-
-  const labels = value.map(option => option.title.trim()).filter(Boolean);
-
-  return labels.length ? labels.join(', ') : '-';
 }
 
 function formatClientTitle(data: ReservationResponse): ReactNode {
@@ -340,14 +332,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                     <td className={styles.td} rowSpan={hotel.additional_options.length ? 3 : 2}>
                       {hotel.region || '-'}
                     </td>
-                    <td className={styles.td}>
-                      {hotel.hotel_name || '-'}
-                      {hotel.additional_options.length > 0 && (
-                        <Text as='div' size='1'>
-                          {formatAdditionalOptions(hotel.additional_options)}
-                        </Text>
-                      )}
-                    </td>
+                    <td className={styles.td}>{hotel.hotel_name || '-'}</td>
                     <td className={styles.td}>{hotel.room_type || '-'}</td>
                     <td className={styles.td}>{hotel.bed_type || '-'}</td>
                     <td className={styles.td}>
@@ -501,14 +486,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                     <td className={styles.td} rowSpan={2}>
                       {tour.region || '-'}
                     </td>
-                    <td className={styles.td}>
-                      {tour.name || '-'}
-                      {tour.additional_options.length > 0 && (
-                        <Text as='div' size='1'>
-                          {formatAdditionalOptions(tour.additional_options)}
-                        </Text>
-                      )}
-                    </td>
+                    <td className={styles.td}>{tour.name || '-'}</td>
                   </tr>
                   <tr>
                     <td className={styles['inner-td']}>
@@ -632,14 +610,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                     <td className={styles.td} rowSpan={2}>
                       {car.company || '-'}
                     </td>
-                    <td className={styles.td}>
-                      {car.model || '-'}
-                      {car.additional_options.length > 0 && (
-                        <Text as='div' size='1'>
-                          {formatAdditionalOptions(car.additional_options)}
-                        </Text>
-                      )}
-                    </td>
+                    <td className={styles.td}>{car.model || '-'}</td>
                     <td className={styles.td}>{car.options || '-'}</td>
                     <td className={styles.td}>{car.driver || '-'}</td>
                   </tr>
