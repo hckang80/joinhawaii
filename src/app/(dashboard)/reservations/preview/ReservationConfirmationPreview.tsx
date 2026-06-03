@@ -428,7 +428,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                         <Box m='-1px' mr='0'>
                           <table className={styles.table}>
                             <colgroup>
-                              <col width='79.5px' />
+                              <col width='80.5px' />
                               <col />
                             </colgroup>
                             <tbody>
@@ -543,7 +543,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                         <Box m='-1px' mr='0'>
                           <table className={styles.table}>
                             <colgroup>
-                              <col width='79.5px' />
+                              <col width='80.5px' />
                               <col />
                             </colgroup>
                             <tbody>
