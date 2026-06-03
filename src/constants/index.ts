@@ -50,6 +50,9 @@ export const JOB_FUNCTION: Record<string, { title: string }> = {
   'tjsdk525@gmail.com': {
     title: '팀장'
   },
+  'minji5686@gmail.com': {
+    title: '팀장'
+  },
   'hckang80@gmail.com': {
     title: '관리자'
   }
