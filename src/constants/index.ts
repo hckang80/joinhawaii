@@ -40,18 +40,22 @@ export enum PaymentStatus {
 
 export const CONTACT_NUMBER = '02-402-1040';
 
-export const JOB_FUNCTION: Record<string, { title: string }> = {
+export const JOB_FUNCTION: Record<string, { title: string; tel?: string }> = {
   'joinhawaiikoreausa@gmail.com': {
-    title: '대표'
+    title: '대표',
+    tel: CONTACT_NUMBER
   },
   'joinhawaii@joinhawaii.com': {
-    title: '대표'
+    title: '대표',
+    tel: CONTACT_NUMBER
   },
   'tjsdk525@gmail.com': {
-    title: '팀장'
+    title: '팀장',
+    tel: '02-393-1044'
   },
   'minji5686@gmail.com': {
-    title: '팀장'
+    title: '팀장',
+    tel: '02-312-1044'
   },
   'hckang80@gmail.com': {
     title: '관리자'
