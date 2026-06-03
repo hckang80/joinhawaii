@@ -9,6 +9,12 @@ export function jobTitles(email?: string) {
   return JOB_FUNCTION[email]?.title || '';
 }
 
+export function jobTel(email?: string) {
+  if (!email) return '';
+
+  return JOB_FUNCTION[email]?.tel || '';
+}
+
 export function toReadableDate(date: Date | string, includeTime = false) {
   const d = typeof date === 'string' ? new Date(date) : date;
   if (!(d instanceof Date) || Number.isNaN(d.getTime())) return '-';
