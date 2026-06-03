@@ -2,6 +2,7 @@ import { PAYMENT_STATUS_COLOR, PaymentStatus } from '@/constants';
 import type { AdditionalOptions, ReservationResponse } from '@/types';
 import { getJobInfo, toReadableAmount } from '@/utils';
 import { Badge, Blockquote, Box, Flex, Heading, Section, Strong, Text } from '@radix-ui/themes';
+import Image from 'next/image';
 import type { ReactNode } from 'react';
 import styles from './preview-table.module.css';
 
@@ -88,8 +89,9 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
 
   return (
     <Box>
-      <Flex justify='center'>
-        <Heading as='h2' mb='3' size='7'>
+      <Flex justify='center' align='center' gap='4' mb='3'>
+        <Image src='/images/logo.png' width='90' height='40' alt='조인하와이' priority></Image>
+        <Heading as='h2' size='7'>
           {`예약확인서 (${data.booking_platform})`}
         </Heading>
       </Flex>
