@@ -40,11 +40,19 @@ export enum PaymentStatus {
 
 export const CONTACT_NUMBER = '02-402-1040';
 
-export const JOB_FUNCTION: Record<string, string> = {
-  'joinhawaiikoreausa@gmail.com': '대표',
-  'joinhawaii@joinhawaii.com': '대표',
-  'tjsdk525@gmail.com': '팀장',
-  'hckang80@gmail.com': '관리자'
+export const JOB_FUNCTION: Record<string, { title: string }> = {
+  'joinhawaiikoreausa@gmail.com': {
+    title: '대표'
+  },
+  'joinhawaii@joinhawaii.com': {
+    title: '대표'
+  },
+  'tjsdk525@gmail.com': {
+    title: '팀장'
+  },
+  'hckang80@gmail.com': {
+    title: '관리자'
+  }
 };
 
 export const RENTAL_CAR_SPECIAL_OPTIONS = ['3종보험, TAX', '3종보험, TAX, 주유, 추가운전자'];

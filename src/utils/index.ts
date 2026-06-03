@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 export function jobTitles(email?: string) {
   if (!email) return '';
 
-  return JOB_FUNCTION[email] || '';
+  return JOB_FUNCTION[email]?.title || '';
 }
 
 export function toReadableDate(date: Date | string, includeTime = false) {
