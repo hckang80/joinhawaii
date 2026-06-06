@@ -31,6 +31,17 @@ const compareByDateFieldThenId = <T extends { id?: unknown }>(field: keyof T) =>
   };
 };
 
+const compareByCreatedAtThenId = <T extends { created_at?: string | null; id?: unknown }>() => {
+  return (a: T, b: T) => {
+    const createdAtDiff =
+      new Date(a.created_at ?? '').getTime() - new Date(b.created_at ?? '').getTime();
+
+    if (createdAtDiff !== 0) return createdAtDiff;
+
+    return toComparableId(a.id) - toComparableId(b.id);
+  };
+};
+
 type ReservationWritePayload = Pick<
   ReservationRequest,
   | 'main_client_name'
@@ -163,7 +174,7 @@ export async function POST(request: Request) {
       success: true,
       data: {
         ...data,
-        clients: clientData
+        clients: clientData?.toSorted(compareByCreatedAtThenId()) ?? []
       }
     });
   } catch (error) {
