@@ -112,8 +112,13 @@ export default function ClientForm({
       },
       {
         onSuccess: ({ data }) => {
-          reset({ ...formData, clients: normalizedClients });
-          if (data.reservation_id) redirectModifyForm(data.reservation_id);
+          reset({
+            ...formData,
+            clients: data?.clients ?? normalizedClients,
+            main_client_name: data?.main_client_name ?? formData.main_client_name ?? ''
+          });
+          const reservationId = data?.reservation_id;
+          if (reservationId) redirectModifyForm(reservationId);
         }
       }
     );

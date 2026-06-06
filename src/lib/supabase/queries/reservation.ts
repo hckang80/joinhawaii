@@ -9,6 +9,22 @@ import type {
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { RESERVATION_SELECT_QUERY } from '../schema';
 
+const toComparableId = (id: unknown) => {
+  const numericId = Number(id);
+  return Number.isFinite(numericId) ? numericId : Number.MAX_SAFE_INTEGER;
+};
+
+const compareByCreatedAtThenId = <T extends { created_at?: string | null; id?: unknown }>() => {
+  return (a: T, b: T) => {
+    const createdAtDiff =
+      new Date(a.created_at ?? '').getTime() - new Date(b.created_at ?? '').getTime();
+
+    if (createdAtDiff !== 0) return createdAtDiff;
+
+    return toComparableId(a.id) - toComparableId(b.id);
+  };
+};
+
 export const getReservation = async (
   supabase: SupabaseClient<Database, 'public'>,
   reservationId: string
@@ -20,7 +36,11 @@ export const getReservation = async (
     .single();
 
   if (error) throw error;
-  return data;
+
+  return {
+    ...data,
+    clients: data.clients?.toSorted(compareByCreatedAtThenId()) ?? []
+  };
 };
 
 export const updateReservationProducts = async (
