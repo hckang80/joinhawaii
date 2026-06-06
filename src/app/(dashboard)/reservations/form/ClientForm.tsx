@@ -117,7 +117,8 @@ export default function ClientForm({
             clients: data?.clients ?? normalizedClients,
             main_client_name: data?.main_client_name ?? formData.main_client_name ?? ''
           });
-          if (data.reservation_id) redirectModifyForm(data.reservation_id);
+          const reservationId = data?.reservation_id;
+          if (reservationId) redirectModifyForm(reservationId);
         }
       }
     );
