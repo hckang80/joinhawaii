@@ -1,3 +1,8 @@
+.root :global(section[id]) {
+  scroll-margin-left: 130px;
+  scroll-margin-inline-start: 130px;
+}
+
 .form-field-group {
   padding: 5px;
   border-radius: 12px;
