@@ -62,7 +62,7 @@ const MAX_IMAGE_HEIGHT = 1920;
 const IMAGE_OUTPUT_QUALITY = 0.85;
 const MAX_IMAGE_UPLOAD_SIZE_BYTES = 10 * 1024 * 1024;
 const ALLOWED_IMAGE_MIME_TYPES = ['image/png', 'image/jpeg', 'image/webp'];
-const DEFAULT_FONT_SIZE_PX = 16;
+const DEFAULT_FONT_SIZE_PX = 12;
 const MIN_FONT_SIZE_PX = 10;
 const MAX_FONT_SIZE_PX = 48;
 const FONT_SIZE_STEP_PX = 2;
@@ -813,7 +813,11 @@ export const Tiptap = ({
         )}
       </Flex>
 
-      <Box p='4' position='relative'>
+      <Box
+        p='4'
+        position='relative'
+        style={{ '--tiptap-base-font-size': `${DEFAULT_FONT_SIZE_PX}px` } as React.CSSProperties}
+      >
         <EditorContent editor={editor} />
         {uploadingCount > 0 && (
           <Flex

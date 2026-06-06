@@ -92,6 +92,7 @@ button:not(:disabled) {
   overflow: auto;
   height: 220px;
   padding: 2px;
+  font-size: var(--tiptap-base-font-size, 12px);
 
   &::before {
     content: attr(data-placeholder);
