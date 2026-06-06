@@ -519,6 +519,7 @@ export async function PATCH(request: Request) {
       success: true,
       data: {
         ...updatedReservation,
+        clients: reservation.clients,
         products: {
           flights: flightsWithKrw,
           hotels: hotelsWithKrw,
