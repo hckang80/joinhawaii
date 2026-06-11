@@ -11,6 +11,7 @@ import {
 import type { ReservationFormData, ReservationResponse } from '@/types';
 import { isDev, jobTitles, toReadableDate } from '@/utils';
 import {
+  Box,
   Button,
   Card,
   Flex,
@@ -29,6 +30,7 @@ import { useRouter } from 'nextjs-toploader/app';
 import React, { useMemo } from 'react';
 import { Controller, SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import styles from './page.module.css';
 
 export default function ClientForm({
   data,
@@ -173,6 +175,7 @@ export default function ClientForm({
   };
 
   const isRemoveClientDisabled = clients.length <= (data?.clients.length || 1);
+  const hasProgressContent = Boolean(content?.trim());
 
   const redirectModifyForm = async (reservationId: string) => {
     if (isModify) return;
@@ -540,18 +543,22 @@ export default function ClientForm({
 
       <Flex justify='end' mt='4' gap='1'>
         {isModify && (
-          <Button
-            type='button'
-            size='3'
-            onClick={() => {
-              window.open(
-                `/progress?reservation_id=${encodeURIComponent(reservation_id)}`,
-                '_blank'
-              );
-            }}
-          >
-            진행사항
-          </Button>
+          <Box asChild position='relative'>
+            <Button
+              type='button'
+              size='3'
+              className={styles['progress-button']}
+              onClick={() => {
+                window.open(
+                  `/progress?reservation_id=${encodeURIComponent(reservation_id)}`,
+                  '_blank'
+                );
+              }}
+            >
+              진행사항
+              {hasProgressContent && <span className={styles['progress-badge']} />}
+            </Button>
+          </Box>
         )}
         <Button loading={mutation.isPending} variant='outline' size='3'>
           {isModify ? (
