@@ -38,9 +38,9 @@ export default function ProgressClientContainer({ reservation_id }: { reservatio
     onError: handleApiError
   });
 
-  const onSubmit: SubmitHandler<Partial<ReservationFormData>> = formData => {
+  const onSubmit: SubmitHandler<Partial<ReservationFormData>> = async formData => {
     if (!isDirty) return toast.info('변경된 내용이 없습니다.');
-    mutation.mutate({
+    await mutation.mutateAsync({
       ...formData,
       reservation_id
     });
