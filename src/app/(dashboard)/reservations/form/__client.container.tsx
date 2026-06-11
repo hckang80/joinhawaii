@@ -63,6 +63,7 @@ export default function ReservationsFormClientContainer({
     const handleMessage = (event: MessageEvent) => {
       if (event.data?.type === 'update-content-success') {
         toast.success('진행사항이 업데이트되었습니다.');
+        refetch();
       }
     };
     window.addEventListener('message', handleMessage);
@@ -70,7 +71,7 @@ export default function ReservationsFormClientContainer({
     return () => {
       window.removeEventListener('message', handleMessage);
     };
-  }, []);
+  }, [refetch]);
 
   const isModify = !!data && !!reservation_id;
 

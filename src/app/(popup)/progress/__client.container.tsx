@@ -32,7 +32,7 @@ export default function ProgressClientContainer({ reservation_id }: { reservatio
     onSuccess: () => {
       if (window.opener) {
         window.opener.postMessage({ type: 'update-content-success' }, '*');
-        window.close();
+        setTimeout(() => window.close(), 100);
       }
     },
     onError: handleApiError
@@ -40,7 +40,10 @@ export default function ProgressClientContainer({ reservation_id }: { reservatio
 
   const onSubmit: SubmitHandler<Partial<ReservationFormData>> = formData => {
     if (!isDirty) return toast.info('변경된 내용이 없습니다.');
-    mutation.mutate(formData);
+    mutation.mutate({
+      ...formData,
+      reservation_id
+    });
   };
 
   return (

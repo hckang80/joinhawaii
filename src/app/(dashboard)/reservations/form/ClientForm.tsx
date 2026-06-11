@@ -52,6 +52,7 @@ export default function ClientForm({
     deposit,
     id,
     products,
+    content,
     ...updateData
   } = data || {};
 
@@ -103,13 +104,15 @@ export default function ClientForm({
       is_main_client: index === formSelectedIndex
     }));
 
+    const { content, ...submitData } = formData;
+
     mutation.mutate(
       {
-        ...formData,
+        ...submitData,
         clients: normalizedClients,
         main_client_name:
           normalizedClients[formSelectedIndex]?.korean_name ?? formData.main_client_name ?? ''
-      },
+      } as ReservationFormData,
       {
         onSuccess: ({ data }) => {
           reset({
