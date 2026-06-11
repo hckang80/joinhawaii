@@ -3,9 +3,11 @@ import {
   defaultTourValues,
   PRODUCT_STATUS_COLOR,
   ProductStatus,
+  QUERY_KEYS,
   REGIONS,
   TOURS_OPTIONS
 } from '@/constants';
+import { deleteProduct } from '@/http';
 import type { ProductFormProps, ProductFormType, ReservationFormData } from '@/types';
 import {
   calculateTotalAmount,
@@ -15,6 +17,7 @@ import {
   toReadableAmount
 } from '@/utils';
 import {
+  AlertDialog,
   Box,
   Button,
   Card,
@@ -28,8 +31,9 @@ import {
   TextArea,
   TextField
 } from '@radix-ui/themes';
+import { useQueryClient } from '@tanstack/react-query';
 import clsx from 'clsx';
-import { Binoculars, Minus, Plus, Save } from 'lucide-react';
+import { Binoculars, Minus, Plus, Save, Trash2 } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import {
@@ -74,6 +78,46 @@ export default function TourForm({ data, mutation, handleAdditionalOptions }: Pr
   }, [data.products.tours, reservation_id, reset]);
 
   const tours = useWatch({ control, name: 'tours' }) ?? [defaultTourValues];
+  const queryClient = useQueryClient();
+  const [pendingDeleteTourIndex, setPendingDeleteTourIndex] = useState<number | null>(null);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
+  const handleDeleteTour = async (index: number) => {
+    const items = getValues('tours');
+    const tourToDelete = items[index];
+    const deletedId = tourToDelete?.id;
+
+    if (typeof deletedId === 'number') {
+      try {
+        await deleteProduct({ table: 'tours', id: deletedId });
+        toast.success('선택관광 정보가 삭제되었습니다.');
+        queryClient.invalidateQueries({ queryKey: QUERY_KEYS.products.detail(reservation_id) });
+      } catch (error) {
+        console.error('선택관광 삭제 실패:', error);
+        toast.error('선택관광 삭제에 실패했습니다.');
+        return;
+      }
+    }
+
+    setValue(
+      'tours',
+      items.filter((_, itemIndex) => itemIndex !== index)
+    );
+    setPendingDeleteTourIndex(null);
+    setIsDeleteDialogOpen(false);
+  };
+
+  const openDeleteDialog = (index: number) => {
+    setPendingDeleteTourIndex(index);
+    setIsDeleteDialogOpen(true);
+  };
+
+  const handleDeleteDialogOpenChange = (open: boolean) => {
+    setIsDeleteDialogOpen(open);
+    if (!open) {
+      setPendingDeleteTourIndex(null);
+    }
+  };
 
   const onSubmit: SubmitHandler<ReservationFormData> = formData => {
     if (!isDirty) return toast.info('변경된 내용이 없습니다.');
@@ -461,13 +505,29 @@ export default function TourForm({ data, mutation, handleAdditionalOptions }: Pr
                         </Button>
                       </Table.Cell>
                       <Table.Cell>
-                        <TextArea
-                          size='3'
-                          resize='vertical'
-                          {...register(`tours.${i}.notes`, {
-                            setValueAs: value => (typeof value === 'string' ? value.trim() : value)
-                          })}
-                        />
+                        <Flex justify='center' align='center' gap='2'>
+                          <Box flexGrow='1'>
+                            <TextArea
+                              size='3'
+                              resize='vertical'
+                              style={{ width: '100%' }}
+                              {...register(`tours.${i}.notes`, {
+                                setValueAs: value =>
+                                  typeof value === 'string' ? value.trim() : value
+                              })}
+                            />
+                          </Box>
+                          <Button
+                            type='button'
+                            size='1'
+                            color='ruby'
+                            variant='soft'
+                            style={{ minWidth: '2.5rem', padding: '0.4rem' }}
+                            onClick={() => openDeleteDialog(i)}
+                          >
+                            <Trash2 size='16' />
+                          </Button>
+                        </Flex>
                       </Table.Cell>
                       <Table.Cell>
                         <Button
@@ -550,6 +610,34 @@ export default function TourForm({ data, mutation, handleAdditionalOptions }: Pr
                 <Save /> 변경사항 저장
               </Button>
             </Flex>
+
+            <AlertDialog.Root open={isDeleteDialogOpen} onOpenChange={handleDeleteDialogOpenChange}>
+              <AlertDialog.Content maxWidth='450px'>
+                <AlertDialog.Title>선택관광 삭제 확인</AlertDialog.Title>
+                <AlertDialog.Description size='2'>
+                  선택한 선택관광 정보를 삭제하시겠습니까? 삭제한 항목은 복구할 수 없습니다.
+                </AlertDialog.Description>
+                <Flex gap='1' mt='4' justify='end'>
+                  <AlertDialog.Cancel>
+                    <Button variant='soft' color='gray'>
+                      취소
+                    </Button>
+                  </AlertDialog.Cancel>
+                  <AlertDialog.Action>
+                    <Button
+                      color='ruby'
+                      onClick={() => {
+                        if (pendingDeleteTourIndex !== null) {
+                          handleDeleteTour(pendingDeleteTourIndex);
+                        }
+                      }}
+                    >
+                      삭제
+                    </Button>
+                  </AlertDialog.Action>
+                </Flex>
+              </AlertDialog.Content>
+            </AlertDialog.Root>
 
             {isDev() && (
               <pre>{isDev() && <pre>{JSON.stringify(watch('tours'), null, 2)}</pre>}</pre>

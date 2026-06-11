@@ -5,9 +5,11 @@ import {
   PICKUP_LOCATIONS,
   PRODUCT_STATUS_COLOR,
   ProductStatus,
+  QUERY_KEYS,
   REGIONS,
   RENTAL_CAR_SPECIAL_OPTIONS
 } from '@/constants';
+import { deleteProduct } from '@/http';
 import type { ProductFormProps, ProductFormType, ReservationFormData } from '@/types';
 import {
   extractDateString,
@@ -18,6 +20,7 @@ import {
   updateDateInISO
 } from '@/utils';
 import {
+  AlertDialog,
   Box,
   Button,
   Card,
@@ -30,8 +33,9 @@ import {
   TextArea,
   TextField
 } from '@radix-ui/themes';
+import { useQueryClient } from '@tanstack/react-query';
 import clsx from 'clsx';
-import { Car, Minus, Plus, Save } from 'lucide-react';
+import { Car, Minus, Plus, Save, Trash2 } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import {
@@ -80,6 +84,48 @@ export default function RentalCarForm({
   }, [data.products.rental_cars, reservation_id, reset]);
 
   const rentalCars = useWatch({ control, name: 'rental_cars' }) ?? [defaultCarValues];
+  const queryClient = useQueryClient();
+  const [pendingDeleteRentalCarIndex, setPendingDeleteRentalCarIndex] = useState<number | null>(
+    null
+  );
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
+  const handleDeleteRentalCar = async (index: number) => {
+    const items = getValues('rental_cars');
+    const carToDelete = items[index];
+    const deletedId = carToDelete?.id;
+
+    if (typeof deletedId === 'number') {
+      try {
+        await deleteProduct({ table: 'rental_cars', id: deletedId });
+        toast.success('렌터카 정보가 삭제되었습니다.');
+        queryClient.invalidateQueries({ queryKey: QUERY_KEYS.products.detail(reservation_id) });
+      } catch (error) {
+        console.error('렌터카 삭제 실패:', error);
+        toast.error('렌터카 삭제에 실패했습니다.');
+        return;
+      }
+    }
+
+    setValue(
+      'rental_cars',
+      items.filter((_, itemIndex) => itemIndex !== index)
+    );
+    setPendingDeleteRentalCarIndex(null);
+    setIsDeleteDialogOpen(false);
+  };
+
+  const openDeleteDialog = (index: number) => {
+    setPendingDeleteRentalCarIndex(index);
+    setIsDeleteDialogOpen(true);
+  };
+
+  const handleDeleteDialogOpenChange = (open: boolean) => {
+    setIsDeleteDialogOpen(open);
+    if (!open) {
+      setPendingDeleteRentalCarIndex(null);
+    }
+  };
 
   const onSubmit: SubmitHandler<ReservationFormData> = formData => {
     if (!isDirty) return toast.info('변경된 내용이 없습니다.');
@@ -500,13 +546,29 @@ export default function RentalCarForm({
                         </Button>
                       </Table.Cell>
                       <Table.Cell>
-                        <TextArea
-                          size='3'
-                          resize='vertical'
-                          {...register(`rental_cars.${i}.notes`, {
-                            setValueAs: value => (typeof value === 'string' ? value.trim() : value)
-                          })}
-                        />
+                        <Flex justify='center' align='center' gap='2'>
+                          <Box flexGrow='1'>
+                            <TextArea
+                              size='3'
+                              resize='vertical'
+                              style={{ width: '100%' }}
+                              {...register(`rental_cars.${i}.notes`, {
+                                setValueAs: value =>
+                                  typeof value === 'string' ? value.trim() : value
+                              })}
+                            />
+                          </Box>
+                          <Button
+                            type='button'
+                            size='1'
+                            color='ruby'
+                            variant='soft'
+                            style={{ minWidth: '2.5rem', padding: '0.4rem' }}
+                            onClick={() => openDeleteDialog(i)}
+                          >
+                            <Trash2 size='16' />
+                          </Button>
+                        </Flex>
                       </Table.Cell>
                       <Table.Cell>
                         <Button
@@ -533,7 +595,7 @@ export default function RentalCarForm({
                       </Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                      <Table.Cell colSpan={15}>
+                      <Table.Cell colSpan={16}>
                         <Flex align='center' gap='2'>
                           <Text weight='bold'>비고</Text>
                           <Box flexGrow='1'>
@@ -549,7 +611,7 @@ export default function RentalCarForm({
                       </Table.Cell>
                     </Table.Row>
                     <Table.Row>
-                      <Table.Cell colSpan={15}>
+                      <Table.Cell colSpan={16}>
                         <Flex align='center' gap='2'>
                           <Text weight='bold'>규정</Text>
                           <Box flexGrow='1'>
@@ -589,6 +651,34 @@ export default function RentalCarForm({
                 <Save /> 변경사항 저장
               </Button>
             </Flex>
+
+            <AlertDialog.Root open={isDeleteDialogOpen} onOpenChange={handleDeleteDialogOpenChange}>
+              <AlertDialog.Content maxWidth='450px'>
+                <AlertDialog.Title>렌터카 삭제 확인</AlertDialog.Title>
+                <AlertDialog.Description size='2'>
+                  선택한 렌터카 정보를 삭제하시겠습니까? 삭제한 항목은 복구할 수 없습니다.
+                </AlertDialog.Description>
+                <Flex gap='1' mt='4' justify='end'>
+                  <AlertDialog.Cancel>
+                    <Button variant='soft' color='gray'>
+                      취소
+                    </Button>
+                  </AlertDialog.Cancel>
+                  <AlertDialog.Action>
+                    <Button
+                      color='ruby'
+                      onClick={() => {
+                        if (pendingDeleteRentalCarIndex !== null) {
+                          handleDeleteRentalCar(pendingDeleteRentalCarIndex);
+                        }
+                      }}
+                    >
+                      삭제
+                    </Button>
+                  </AlertDialog.Action>
+                </Flex>
+              </AlertDialog.Content>
+            </AlertDialog.Root>
 
             {isDev() && <pre>{JSON.stringify(watch('rental_cars'), null, 2)}</pre>}
           </Section>
