@@ -84,9 +84,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { data: publicData } = supabase.storage
-      .from(LOCATION_IMAGE_BUCKET)
-      .getPublicUrl(path);
+    const { data: publicData } = supabase.storage.from(LOCATION_IMAGE_BUCKET).getPublicUrl(path);
 
     return NextResponse.json({
       bucket: LOCATION_IMAGE_BUCKET,
@@ -118,9 +116,7 @@ export async function GET(request: Request) {
       return NextResponse.json({ message: '유효하지 않은 경로입니다.' }, { status: 400 });
     }
 
-    const { data: publicData } = supabase.storage
-      .from(LOCATION_IMAGE_BUCKET)
-      .getPublicUrl(path);
+    const { data: publicData } = supabase.storage.from(LOCATION_IMAGE_BUCKET).getPublicUrl(path);
 
     return NextResponse.json({ url: publicData.publicUrl, path });
   } catch {
