@@ -1,6 +1,6 @@
 import { PER_PAGE } from '@/constants';
 import { createClient } from '@/lib/supabase/server';
-import type { AdditionalOptions, ProductWithReservation, TablesRow } from '@/types';
+import type { AdditionalOptions, ProductWithReservation, ProductsType, TablesRow } from '@/types';
 import { NextResponse } from 'next/server';
 
 type HotelRow = ProductWithReservation<TablesRow<'hotels'>>;
@@ -341,6 +341,74 @@ export async function GET(request: Request) {
       {
         success: false,
         error: error instanceof Error ? error.message : '상품 조회 실패'
+      },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(request: Request) {
+  try {
+    const body = (await request.json()) as {
+      table: ProductsType;
+      id: number;
+    };
+
+    const allowedTables: ProductsType[] = [
+      'flights',
+      'hotels',
+      'tours',
+      'rental_cars',
+      'insurances'
+    ];
+
+    if (!allowedTables.includes(body.table)) {
+      throw new Error('지원하지 않는 삭제 테이블입니다.');
+    }
+
+    if (!Number.isFinite(body.id)) {
+      throw new Error('유효한 id가 필요합니다.');
+    }
+
+    const supabase = await createClient();
+
+    const { data: deletedRow, error: deleteError } = await supabase
+      .from(body.table)
+      .delete()
+      .select('reservation_id')
+      .eq('id', body.id)
+      .single();
+
+    if (deleteError) {
+      throw deleteError;
+    }
+
+    if (!deletedRow?.reservation_id) {
+      throw new Error('삭제된 항목의 예약 정보를 찾을 수 없습니다.');
+    }
+
+    const { error: totalError } = await supabase.rpc('calculate_reservation_total', {
+      p_reservation_id: deletedRow.reservation_id
+    });
+
+    if (totalError) {
+      throw totalError;
+    }
+
+    return NextResponse.json({
+      success: true,
+      data: {
+        table: body.table,
+        id: body.id,
+        reservation_id: deletedRow.reservation_id
+      }
+    });
+  } catch (error) {
+    console.error('상품 삭제 에러:', error);
+    return NextResponse.json(
+      {
+        success: false,
+        error: error instanceof Error ? error.message : '상품 삭제에 실패했습니다.'
       },
       { status: 500 }
     );

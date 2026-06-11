@@ -170,6 +170,23 @@ export const updateReservation = async (data: Partial<ReservationFormData>) => {
   return result;
 };
 
+export const deleteProduct = async (params: { table: 'flights' | 'hotels' | 'tours' | 'rental_cars' | 'insurances'; id: number }) => {
+  const response = await fetch('/api/product', {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(params)
+  });
+
+  const result = await response.json();
+
+  if (!response.ok || !result.success) {
+    throw new Error(result.error || '상품 삭제에 실패했습니다.');
+  }
+
+  return result;
+};
 export async function updateAdditionalOptions(data: AdditionalOptions[]) {
   const payload = data.map(({ total_amount_krw, total_cost_krw, ...rest }) => rest);
 

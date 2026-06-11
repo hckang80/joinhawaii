@@ -1,5 +1,6 @@
 import { DateTimeInput, NoData, TimeInput } from '@/components';
-import { defaultFlightValues, PRODUCT_STATUS_COLOR, ProductStatus } from '@/constants';
+import { defaultFlightValues, PRODUCT_STATUS_COLOR, ProductStatus, QUERY_KEYS } from '@/constants';
+import { deleteProduct } from '@/http';
 import type { ProductFormProps, ProductFormType, ReservationFormData } from '@/types';
 import {
   calculateTotalAmount,
@@ -9,6 +10,7 @@ import {
   updateDateInISO
 } from '@/utils';
 import {
+  AlertDialog,
   Box,
   Button,
   Card,
@@ -22,10 +24,11 @@ import {
   TextArea,
   TextField
 } from '@radix-ui/themes';
+import { useQueryClient } from '@tanstack/react-query';
 import clsx from 'clsx';
-import { Minus, Plane, Save } from 'lucide-react';
+import { Minus, Plane, Save, Trash2 } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   type Control,
   Controller,
@@ -67,6 +70,46 @@ export default function FlightForm({ data, mutation }: ProductFormProps) {
   }, [data.products.flights, reservation_id, reset]);
 
   const flights = useWatch({ control, name: 'flights' }) ?? [defaultFlightValues];
+  const queryClient = useQueryClient();
+  const [pendingDeleteFlightIndex, setPendingDeleteFlightIndex] = useState<number | null>(null);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
+  const handleDeleteFlight = async (index: number) => {
+    const items = getValues('flights');
+    const flightToDelete = items[index];
+    const deletedId = flightToDelete?.id;
+
+    if (typeof deletedId === 'number') {
+      try {
+        await deleteProduct({ table: 'flights', id: deletedId });
+        toast.success('항공 정보가 삭제되었습니다.');
+        queryClient.invalidateQueries({ queryKey: QUERY_KEYS.products.detail(reservation_id) });
+      } catch (error) {
+        console.error('항공 삭제 실패:', error);
+        toast.error('항공 삭제에 실패했습니다.');
+        return;
+      }
+    }
+
+    setValue(
+      'flights',
+      items.filter((_, itemIndex) => itemIndex !== index)
+    );
+    setPendingDeleteFlightIndex(null);
+    setIsDeleteDialogOpen(false);
+  };
+
+  const openDeleteDialog = (index: number) => {
+    setPendingDeleteFlightIndex(index);
+    setIsDeleteDialogOpen(true);
+  };
+
+  const handleDeleteDialogOpenChange = (open: boolean) => {
+    setIsDeleteDialogOpen(open);
+    if (!open) {
+      setPendingDeleteFlightIndex(null);
+    }
+  };
 
   const onSubmit: SubmitHandler<ReservationFormData> = formData => {
     if (!isDirty) return toast.info('변경된 내용이 없습니다.');
@@ -256,13 +299,29 @@ export default function FlightForm({ data, mutation }: ProductFormProps) {
                       />
                     </Table.Cell>
                     <Table.Cell>
-                      <TextArea
-                        size='3'
-                        resize='vertical'
-                        {...register(`flights.${i}.notes`, {
-                          setValueAs: value => (typeof value === 'string' ? value.trim() : value)
-                        })}
-                      />
+                      <Flex justify='center' align='center' gap='2'>
+                        <Box flexGrow='1'>
+                          <TextArea
+                            size='3'
+                            resize='vertical'
+                            style={{ width: '100%' }}
+                            {...register(`flights.${i}.notes`, {
+                              setValueAs: value =>
+                                typeof value === 'string' ? value.trim() : value
+                            })}
+                          />
+                        </Box>
+                        <Button
+                          type='button'
+                          size='1'
+                          color='ruby'
+                          variant='soft'
+                          style={{ minWidth: '2.5rem', padding: '0.4rem' }}
+                          onClick={() => openDeleteDialog(i)}
+                        >
+                          <Trash2 size='16' />
+                        </Button>
+                      </Flex>
                     </Table.Cell>
                     <Table.Cell hidden>
                       <FlightTotalCalculator index={i} setValue={setValue} control={control} />
@@ -327,6 +386,34 @@ export default function FlightForm({ data, mutation }: ProductFormProps) {
           </Flex>
 
           {isDev() && <pre>{JSON.stringify(watch('flights'), null, 2)}</pre>}
+
+          <AlertDialog.Root open={isDeleteDialogOpen} onOpenChange={handleDeleteDialogOpenChange}>
+            <AlertDialog.Content maxWidth='450px'>
+              <AlertDialog.Title>항공 삭제 확인</AlertDialog.Title>
+              <AlertDialog.Description size='2'>
+                선택한 항공 정보를 삭제하시겠습니까? 삭제한 항공은 복구할 수 없습니다.
+              </AlertDialog.Description>
+              <Flex gap='1' mt='4' justify='end'>
+                <AlertDialog.Cancel>
+                  <Button variant='soft' color='gray'>
+                    취소
+                  </Button>
+                </AlertDialog.Cancel>
+                <AlertDialog.Action>
+                  <Button
+                    color='ruby'
+                    onClick={() => {
+                      if (pendingDeleteFlightIndex !== null) {
+                        handleDeleteFlight(pendingDeleteFlightIndex);
+                      }
+                    }}
+                  >
+                    삭제
+                  </Button>
+                </AlertDialog.Action>
+              </Flex>
+            </AlertDialog.Content>
+          </AlertDialog.Root>
         </Section>
       </Card>
     </form>
