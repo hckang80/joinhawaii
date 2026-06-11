@@ -483,11 +483,7 @@ export default function TourForm({ data, mutation, handleAdditionalOptions }: Pr
                               product_id: String(tourId)
                             });
 
-                            window.open(
-                              `/reservations/voucher/tour?${query.toString()}`,
-                              '_blank',
-                              'noopener,noreferrer'
-                            );
+                            window.open(`/reservations/voucher/tour?${query.toString()}`, '_blank');
                           }}
                         >
                           발급

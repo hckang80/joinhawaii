@@ -48,6 +48,18 @@ export default function ReservationsFormClientContainer({
   });
 
   useEffect(() => {
+    const handleWindowFocus = () => {
+      refetch();
+    };
+
+    window.addEventListener('focus', handleWindowFocus);
+
+    return () => {
+      window.removeEventListener('focus', handleWindowFocus);
+    };
+  }, [refetch]);
+
+  useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
       if (event.data?.type === 'update-content-success') {
         toast.success('진행사항이 업데이트되었습니다.');

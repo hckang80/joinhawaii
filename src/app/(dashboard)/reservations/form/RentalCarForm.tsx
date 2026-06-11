@@ -522,11 +522,7 @@ export default function RentalCarForm({
                               product_id: String(carId)
                             });
 
-                            window.open(
-                              `/reservations/voucher/car?${query.toString()}`,
-                              '_blank',
-                              'noopener,noreferrer'
-                            );
+                            window.open(`/reservations/voucher/car?${query.toString()}`, '_blank');
                           }}
                         >
                           발급

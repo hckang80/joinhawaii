@@ -474,8 +474,7 @@ export default function HotelForm({ data, mutation, handleAdditionalOptions }: P
 
                             window.open(
                               `/reservations/voucher/hotel?${query.toString()}`,
-                              '_blank',
-                              'noopener,noreferrer'
+                              '_blank'
                             );
                           }}
                         >
