@@ -517,16 +517,19 @@ export default function TourForm({ data, mutation, handleAdditionalOptions }: Pr
                               })}
                             />
                           </Box>
-                          <Button
-                            type='button'
-                            size='1'
-                            color='ruby'
-                            variant='soft'
-                            style={{ minWidth: '2.5rem', padding: '0.4rem' }}
-                            onClick={() => openDeleteDialog(i)}
-                          >
-                            <Trash2 size='16' />
-                          </Button>
+
+                          <Box asChild display='none'>
+                            <Button
+                              type='button'
+                              size='1'
+                              color='ruby'
+                              variant='soft'
+                              style={{ minWidth: '2.5rem', padding: '0.4rem' }}
+                              onClick={() => openDeleteDialog(i)}
+                            >
+                              <Trash2 size='16' />
+                            </Button>
+                          </Box>
                         </Flex>
                       </Table.Cell>
                       <Table.Cell>
