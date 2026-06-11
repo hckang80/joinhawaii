@@ -170,7 +170,10 @@ export const updateReservation = async (data: Partial<ReservationFormData>) => {
   return result;
 };
 
-export const deleteProduct = async (params: { table: 'flights' | 'hotels' | 'tours' | 'rental_cars' | 'insurances'; id: number }) => {
+export const deleteProduct = async (params: {
+  table: 'flights' | 'hotels' | 'tours' | 'rental_cars' | 'insurances';
+  id: number;
+}) => {
   const response = await fetch('/api/product', {
     method: 'DELETE',
     headers: {
