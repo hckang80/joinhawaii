@@ -543,8 +543,7 @@ export default function ClientForm({
             onClick={() => {
               window.open(
                 `/progress?reservation_id=${encodeURIComponent(reservation_id)}`,
-                '_blank',
-                'noopener,noreferrer'
+                '_blank'
               );
             }}
           >
