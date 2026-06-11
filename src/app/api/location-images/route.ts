@@ -84,21 +84,14 @@ export async function POST(request: Request) {
       );
     }
 
-    const { data: signedData, error: signedError } = await supabase.storage
+    const { data: publicData } = supabase.storage
       .from(LOCATION_IMAGE_BUCKET)
-      .createSignedUrl(path, 60 * 60 * 24 * 7);
-
-    if (signedError || !signedData?.signedUrl) {
-      return NextResponse.json(
-        { message: signedError?.message || '이미지 URL 생성에 실패했습니다.' },
-        { status: 500 }
-      );
-    }
+      .getPublicUrl(path);
 
     return NextResponse.json({
       bucket: LOCATION_IMAGE_BUCKET,
       path,
-      url: signedData.signedUrl
+      url: publicData.publicUrl
     });
   } catch {
     return NextResponse.json({ message: '이미지 업로드 중 오류가 발생했습니다.' }, { status: 500 });
@@ -125,18 +118,11 @@ export async function GET(request: Request) {
       return NextResponse.json({ message: '유효하지 않은 경로입니다.' }, { status: 400 });
     }
 
-    const { data: signedData, error: signedError } = await supabase.storage
+    const { data: publicData } = supabase.storage
       .from(LOCATION_IMAGE_BUCKET)
-      .createSignedUrl(path, 60 * 60 * 24);
+      .getPublicUrl(path);
 
-    if (signedError || !signedData?.signedUrl) {
-      return NextResponse.json(
-        { message: signedError?.message || '이미지 URL 생성에 실패했습니다.' },
-        { status: 500 }
-      );
-    }
-
-    return NextResponse.json({ url: signedData.signedUrl, path });
+    return NextResponse.json({ url: publicData.publicUrl, path });
   } catch {
     return NextResponse.json(
       { message: '이미지 URL 생성 중 오류가 발생했습니다.' },
