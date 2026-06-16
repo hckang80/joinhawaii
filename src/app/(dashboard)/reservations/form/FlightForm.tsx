@@ -192,7 +192,6 @@ export default function FlightForm({ data, mutation }: ProductFormProps) {
                         render={({ field }) => {
                           const departureDate = watch(`flights.${i}.departure_datetime`);
                           const dateString = extractDateString(field.value);
-                          const minDate = extractDateString(departureDate);
 
                           return (
                             <Flex gap='2'>
@@ -200,7 +199,6 @@ export default function FlightForm({ data, mutation }: ProductFormProps) {
                                 {...field}
                                 size='1'
                                 type='date'
-                                min={minDate}
                                 value={dateString}
                                 onChange={e => {
                                   const value = e.target.value;
