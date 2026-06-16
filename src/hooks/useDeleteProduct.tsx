@@ -18,10 +18,29 @@ export default function useDeleteProduct(opts: {
 }) {
   const { table, reservationId, getValues, setValue } = opts;
   const [pendingIndex, setPendingIndex] = useState<number | null>(null);
+  const [pendingLabel, setPendingLabel] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const queryClient = useQueryClient();
 
+  const getItemLabel = (item: any): string => {
+    const date = (d: string | null | undefined) => d?.slice(0, 10) ?? '';
+    switch (table) {
+      case 'flights':
+        return [item.flight_number, date(item.departure_datetime)].filter(Boolean).join(' / ');
+      case 'hotels':
+        return [item.hotel_name, date(item.check_in_date)].filter(Boolean).join(' / ');
+      case 'tours':
+        return [item.name, date(item.start_date)].filter(Boolean).join(' / ');
+      case 'rental_cars':
+        return [item.model, date(item.pickup_date)].filter(Boolean).join(' / ');
+      case 'insurances':
+        return [item.company, date(item.start_date)].filter(Boolean).join(' / ');
+    }
+  };
+
   const openDeleteDialog = (index: number) => {
+    const items = (getValues(table as any) as any[]) || [];
+    setPendingLabel(getItemLabel(items[index]));
     setPendingIndex(index);
     setIsOpen(true);
   };
@@ -69,7 +88,7 @@ export default function useDeleteProduct(opts: {
       <AlertDialog.Content maxWidth='450px'>
         <AlertDialog.Title>삭제 확인</AlertDialog.Title>
         <AlertDialog.Description size='2'>
-          선택한 항목을 삭제하시겠습니까? 삭제한 항목은 복구할 수 없습니다.
+          <strong>{pendingLabel}</strong>을(를) 삭제하시겠습니까? 삭제한 항목은 복구할 수 없습니다.
         </AlertDialog.Description>
         <Flex gap='1' mt='4' justify='end'>
           <AlertDialog.Cancel>
