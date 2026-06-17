@@ -1,11 +1,6 @@
-import { NoData } from '@/components';
-import {
-  defaultInsuranceValues,
-  PRODUCT_STATUS_COLOR,
-  ProductStatus,
-  QUERY_KEYS
-} from '@/constants';
-import { deleteProduct } from '@/http';
+import { NoData, ProductDeleteButton } from '@/components';
+import { defaultInsuranceValues, PRODUCT_STATUS_COLOR, ProductStatus } from '@/constants';
+import useDeleteProduct from '@/hooks/useDeleteProduct';
 import type { ProductFormProps, ProductFormType, ReservationFormData } from '@/types';
 import {
   calculateTotalAmount,
@@ -15,7 +10,6 @@ import {
   toReadableAmount
 } from '@/utils';
 import {
-  AlertDialog,
   Box,
   Button,
   Card,
@@ -29,9 +23,8 @@ import {
   TextArea,
   TextField
 } from '@radix-ui/themes';
-import { useQueryClient } from '@tanstack/react-query';
 import clsx from 'clsx';
-import { BookText, Minus, Save, Trash2 } from 'lucide-react';
+import { BookText, Minus, Save } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import {
@@ -92,48 +85,12 @@ export default function InsuranceForm({
   }, [data.products.insurances, reservation_id, reset]);
 
   const insurances = useWatch({ control, name: 'insurances' }) ?? [defaultInsuranceValues];
-  const queryClient = useQueryClient();
-  const [pendingDeleteInsuranceIndex, setPendingDeleteInsuranceIndex] = useState<number | null>(
-    null
-  );
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-
-  const handleDeleteInsurance = async (index: number) => {
-    const items = getValues('insurances');
-    const insuranceToDelete = items[index];
-    const deletedId = insuranceToDelete?.id;
-
-    if (typeof deletedId === 'number') {
-      try {
-        await deleteProduct({ table: 'insurances', id: deletedId });
-        toast.success('보험 정보가 삭제되었습니다.');
-        queryClient.invalidateQueries({ queryKey: QUERY_KEYS.products.detail(reservation_id) });
-      } catch (error) {
-        console.error('보험 삭제 실패:', error);
-        toast.error('보험 삭제에 실패했습니다.');
-        return;
-      }
-    }
-
-    setValue(
-      'insurances',
-      items.filter((_, itemIndex) => itemIndex !== index)
-    );
-    setPendingDeleteInsuranceIndex(null);
-    setIsDeleteDialogOpen(false);
-  };
-
-  const openDeleteDialog = (index: number) => {
-    setPendingDeleteInsuranceIndex(index);
-    setIsDeleteDialogOpen(true);
-  };
-
-  const handleDeleteDialogOpenChange = (open: boolean) => {
-    setIsDeleteDialogOpen(open);
-    if (!open) {
-      setPendingDeleteInsuranceIndex(null);
-    }
-  };
+  const { openDeleteDialog, DeleteDialog } = useDeleteProduct({
+    table: 'insurances',
+    reservationId: reservation_id,
+    getValues,
+    setValue
+  });
 
   const onSubmit: SubmitHandler<ReservationFormData> = formData => {
     if (!isDirty) return toast.info('변경된 내용이 없습니다.');
@@ -535,18 +492,7 @@ export default function InsuranceForm({
                               })}
                             />
                           </Box>
-                          <Box asChild display='none'>
-                            <Button
-                              type='button'
-                              size='1'
-                              color='ruby'
-                              variant='soft'
-                              style={{ minWidth: '2.5rem', padding: '0.4rem' }}
-                              onClick={() => openDeleteDialog(i)}
-                            >
-                              <Trash2 size='16' />
-                            </Button>
-                          </Box>
+                          <ProductDeleteButton onClick={() => openDeleteDialog(i)} />
                         </Flex>
                       </Table.Cell>
                       <Table.Cell hidden>
@@ -611,33 +557,7 @@ export default function InsuranceForm({
               </Button>
             </Flex>
 
-            <AlertDialog.Root open={isDeleteDialogOpen} onOpenChange={handleDeleteDialogOpenChange}>
-              <AlertDialog.Content maxWidth='450px'>
-                <AlertDialog.Title>보험 삭제 확인</AlertDialog.Title>
-                <AlertDialog.Description size='2'>
-                  선택한 보험 정보를 삭제하시겠습니까? 삭제한 항목은 복구할 수 없습니다.
-                </AlertDialog.Description>
-                <Flex gap='1' mt='4' justify='end'>
-                  <AlertDialog.Cancel>
-                    <Button variant='soft' color='gray'>
-                      취소
-                    </Button>
-                  </AlertDialog.Cancel>
-                  <AlertDialog.Action>
-                    <Button
-                      color='ruby'
-                      onClick={() => {
-                        if (pendingDeleteInsuranceIndex !== null) {
-                          handleDeleteInsurance(pendingDeleteInsuranceIndex);
-                        }
-                      }}
-                    >
-                      삭제
-                    </Button>
-                  </AlertDialog.Action>
-                </Flex>
-              </AlertDialog.Content>
-            </AlertDialog.Root>
+            {DeleteDialog}
 
             {isDev() && <pre>{JSON.stringify(watch('insurances'), null, 2)}</pre>}
           </Section>

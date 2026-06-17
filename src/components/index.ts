@@ -4,6 +4,7 @@ export { GroupSelect } from './GroupSelect';
 export { Loader } from './Loader';
 export { NoData } from './NoData';
 export { Paginate } from './Paginate';
+export { ProductDeleteButton } from './ProductDeleteButton';
 export { ProductOptionBadge } from './ProductOptionBadge';
 export { SearchForm } from './SearchForm';
 export { TimeInput } from './TimeInput';
