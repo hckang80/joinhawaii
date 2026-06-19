@@ -265,7 +265,7 @@ function VoucherCarForm({ reservationId, selectedProduct, clients }: VoucherCarF
           weight='bold'
           className={`${styles['main-title']} ${styles['main-title-car']}`}
         >
-          rent a car confirmation
+          rent a car voucher
         </Heading>
 
         <Heading as='h3' size='5' mb='4' className={styles['sub-title']}>

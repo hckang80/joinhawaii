@@ -184,7 +184,7 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
           weight='bold'
           className={`${styles['main-title']} ${styles['main-title-tour']}`}
         >
-          tour confirmation
+          tour voucher
         </Heading>
         <table className={styles['info-table']}>
           <tbody>
