@@ -183,8 +183,11 @@ function VoucherCarForm({ reservationId, selectedProduct, clients }: VoucherCarF
       delivery_notes: getDefaultDeliveryNotes(delivery_notes),
       guide_notes: getDefaultGuideNotes(guide_notes),
       company: company ?? 'HERTZ',
-      included_items: included_items ?? '',
-      optional_items: optional_items ?? '',
+      included_items:
+        included_items ||
+        '3종보험(차량손실 면책 프로그램(LDW), 임차인 상해 및 휴대품 분실(PAI&PEC), 대인/대물 추가 책임보험(LIS)), Tax 및 각종 Surcharge',
+      optional_items:
+        optional_items || '카시트, 부스터, 추가운전자, 프리미엄 긴급 지원 서비스 (PERS)',
       office_guide_notes: getDefaultOfficeGuideNotes(office_guide_notes)
     };
   }, [selectedProduct]);
