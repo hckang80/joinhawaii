@@ -1,4 +1,4 @@
-import { PAYMENT_STATUS_COLOR, PaymentStatus } from '@/constants';
+import { PAYMENT_STATUS_COLOR, PaymentStatus, TIME_ZONE } from '@/constants';
 import type { ReservationResponse } from '@/types';
 import { getJobInfo, toReadableAmount } from '@/utils';
 import { Badge, Blockquote, Box, Flex, Heading, Section, Strong, Text } from '@radix-ui/themes';
@@ -15,7 +15,7 @@ function formatDateTime(value: string | null | undefined) {
   const d = new Date(value);
   if (isNaN(d.getTime())) return value;
   return d.toLocaleString('ko-KR', {
-    timeZone: 'Asia/Seoul',
+    timeZone: TIME_ZONE,
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
