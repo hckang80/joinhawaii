@@ -41,6 +41,13 @@
 }
 
 @media print {
+  .table {
+    &:nth-of-type(n + 2),
+    tbody:nth-of-type(n + 2) {
+      border-top-width: 2px;
+    }
+  }
+
   .table thead {
     display: table-header-group;
   }
