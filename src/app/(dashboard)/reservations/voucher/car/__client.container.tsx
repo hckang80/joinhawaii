@@ -278,6 +278,10 @@ function VoucherCarForm({ reservationId, selectedProduct, clients }: VoucherCarF
           </span>
         </Heading>
         <table className={styles['info-table']}>
+          <colgroup>
+            <col width='200px' />
+            <col />
+          </colgroup>
           <tbody>
             <tr className='print:hidden'>
               <th className={styles['info-th']}>company</th>

@@ -24,7 +24,6 @@
 }
 
 .info-th {
-  width: 20%;
   padding: 6px 8px;
   font-size: 12px;
   text-align: left;
@@ -34,7 +33,6 @@
 }
 
 .info-td {
-  width: 30%;
   padding: 6px 8px;
   font-size: 14px;
   border-bottom: 1px solid var(--gray-6);
