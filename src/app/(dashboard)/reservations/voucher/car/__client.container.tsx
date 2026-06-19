@@ -446,7 +446,7 @@ function VoucherCarForm({ reservationId, selectedProduct, clients }: VoucherCarF
         <Box asChild mt='4'>
           <Card>
             <Flex gap='4'>
-              <Flex asChild direction='column' align='center' flexShrink='0'>
+              <Flex asChild direction='column' align='center' flexShrink='0' flexBasis='44px'>
                 <Text size='3' weight='bold'>
                   <Mic />
                   전달
@@ -480,7 +480,7 @@ function VoucherCarForm({ reservationId, selectedProduct, clients }: VoucherCarF
         <Box asChild mt='4'>
           <Card>
             <Flex gap='4'>
-              <Flex asChild direction='column' align='center' flexShrink='0'>
+              <Flex asChild direction='column' align='center' flexShrink='0' flexBasis='44px'>
                 <Text size='3' weight='bold'>
                   <Mic />
                   알림
@@ -516,7 +516,7 @@ function VoucherCarForm({ reservationId, selectedProduct, clients }: VoucherCarF
         <Box asChild mt='4'>
           <Card>
             <Flex gap='4'>
-              <Flex asChild direction='column' align='center' flexShrink='0'>
+              <Flex asChild direction='column' align='center' flexShrink='0' flexBasis='44px'>
                 <Text size='3' weight='bold' align='center'>
                   <Mic />
                   영업소
