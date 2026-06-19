@@ -57,6 +57,11 @@ interface ToolbarButtonProps {
   title: string;
 }
 
+const cleanTiptapHTML = (html: string): string => {
+  const cleaned = html.replace(/(<p>(\s|<br[^>]*>)*<\/p>\s*)+$/gi, '').trim();
+  return cleaned === '<p></p>' ? '' : cleaned;
+};
+
 const MAX_IMAGE_WIDTH = 1920;
 const MAX_IMAGE_HEIGHT = 1920;
 const IMAGE_OUTPUT_QUALITY = 0.85;
@@ -320,6 +325,8 @@ export const Tiptap = ({
   const [uploadingCount, setUploadingCount] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const isRefreshingImageUrlsRef = useRef(false);
+  const onChangeRef = useRef(onChange);
+  onChangeRef.current = onChange;
 
   const uploadImages = useCallback(
     async (currentEditor: Editor, files: File[], position?: number) => {
@@ -419,8 +426,7 @@ export const Tiptap = ({
     },
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
-      const html = editor.getHTML();
-      onChange(html);
+      onChange(cleanTiptapHTML(editor.getHTML()));
     },
     onSelectionUpdate: forceUpdate
   });
@@ -434,6 +440,10 @@ export const Tiptap = ({
   useEffect(() => {
     if (editor && value !== editor.getHTML()) {
       editor.commands.setContent(value || '');
+      const cleaned = cleanTiptapHTML(editor.getHTML());
+      if (cleaned !== value) {
+        onChangeRef.current(cleaned);
+      }
       void syncSignedImageUrls(editor);
     }
   }, [value, editor, syncSignedImageUrls]);
