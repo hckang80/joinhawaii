@@ -14,7 +14,7 @@
 
   &:nth-of-type(n + 2),
   tbody:nth-of-type(n + 2) {
-    border-top: 2px solid #ddd;
+    border-top: 2px solid var(--accent-a6);
   }
 }
 .th {
