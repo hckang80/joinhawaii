@@ -1,5 +1,5 @@
 .outline {
-  border: 3px solid var(--background);
+  border: 3px solid #171717;
 }
 .section {
   .table + .table {
