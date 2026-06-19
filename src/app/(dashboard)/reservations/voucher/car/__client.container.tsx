@@ -547,7 +547,7 @@ function VoucherCarForm({ reservationId, selectedProduct, clients }: VoucherCarF
                   )}
                 </Box>
                 {selectedProduct.rule && (
-                  <Text as='p' color='red' mt='8'>
+                  <Text as='p' color='red' mt='1'>
                     [취소규정] {selectedProduct.rule}
                   </Text>
                 )}
