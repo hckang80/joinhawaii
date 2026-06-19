@@ -255,16 +255,6 @@ function VoucherCarForm({ reservationId, selectedProduct, clients }: VoucherCarF
       </Flex>
 
       <Section py='0' className={styles.section}>
-        <Heading
-          as='h2'
-          size='7'
-          mb='4'
-          weight='bold'
-          className={`${styles['main-title']} ${styles['main-title-car']}`}
-        >
-          rent a car confirmation
-        </Heading>
-
         <Heading as='h3' size='5' mb='4' className={styles['sub-title']}>
           <span className={styles['sub-title-row']}>
             <Image
