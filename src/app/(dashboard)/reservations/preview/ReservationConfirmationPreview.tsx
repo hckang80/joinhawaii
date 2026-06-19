@@ -310,7 +310,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
             {hotels.map((hotel, idx) => (
               <table className={styles.table} key={hotel.id ?? idx}>
                 <colgroup>
-                  <col width='80px' />
+                  <col width='90px' />
                   <col />
                   <col width='200px' />
                   <col width='120px' />
@@ -428,7 +428,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                         <Box m='-1px' mr='0'>
                           <table className={styles.table}>
                             <colgroup>
-                              <col width='80.5px' />
+                              <col width='90.5px' />
                               <col />
                             </colgroup>
                             <tbody>
@@ -471,7 +471,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
           <div className={styles.outline}>
             <table className={styles.table}>
               <colgroup>
-                <col width='80px' />
+                <col width='90px' />
                 <col />
               </colgroup>
               <thead>
@@ -543,7 +543,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                         <Box m='-1px' mr='0'>
                           <table className={styles.table}>
                             <colgroup>
-                              <col width='80.5px' />
+                              <col width='90.5px' />
                               <col />
                             </colgroup>
                             <tbody>
@@ -586,7 +586,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
           <div className={styles.outline}>
             <table className={styles.table}>
               <colgroup>
-                <col width='80px' />
+                <col width='90px' />
                 <col width='100px' />
                 <col />
                 <col width='240px' />
@@ -665,7 +665,7 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                         <Box m='-1px' mr='0'>
                           <table className={styles.table}>
                             <colgroup>
-                              <col width='80.5px' />
+                              <col width='90.5px' />
                               <col />
                             </colgroup>
                             <tbody>
