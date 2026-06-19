@@ -273,7 +273,7 @@ function VoucherCarForm({ reservationId, selectedProduct, clients }: VoucherCarF
             <Image
               src={companyLogoSrc}
               alt={`${selectedCompany} logo`}
-              width={120}
+              width={100}
               height={28}
               className={styles['sub-title-logo']}
             />
