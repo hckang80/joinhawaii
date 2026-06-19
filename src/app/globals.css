@@ -178,6 +178,11 @@ button:not(:disabled) {
   display: none !important;
 }
 
+.editor-content ul,
+.editor-content ol {
+  padding-left: 2em;
+}
+
 .editor-content p:empty {
   padding: 12px 0;
 }
