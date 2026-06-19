@@ -101,4 +101,8 @@
     page-break-after: avoid;
     break-after: avoid-page;
   }
+
+  .main-title-car {
+    display: none;
+  }
 }
