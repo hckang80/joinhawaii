@@ -103,38 +103,4 @@
     page-break-after: avoid;
     break-after: avoid-page;
   }
-
-  .info-table {
-    page-break-inside: auto;
-    break-inside: auto;
-  }
-
-  .info-table tr,
-  .info-th,
-  .info-td,
-  .guest-grid,
-  .guest-row {
-    page-break-inside: avoid;
-    break-inside: avoid-page;
-  }
-
-  .section {
-    page-break-inside: auto;
-    break-inside: auto;
-  }
-
-  .section :global(.rt-Card) {
-    page-break-inside: avoid;
-    break-inside: avoid-page;
-  }
-
-  .section :global(.editor-content),
-  .section :global(.editor-content > div),
-  .section :global(.editor-content p),
-  .section :global(.editor-content li) {
-    page-break-inside: auto;
-    break-inside: auto;
-    orphans: 3;
-    widows: 3;
-  }
 }
