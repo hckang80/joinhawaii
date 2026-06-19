@@ -3,7 +3,7 @@ import { Box, Card, Flex, Grid, Text } from '@radix-ui/themes';
 
 export function ContactInfoCards() {
   return (
-    <Grid columns='2' gap='3' mt='5'>
+    <Grid columns='2' gap='3' mt='4'>
       <Card>
         <Box>
           <Flex gap='1' align='end'>

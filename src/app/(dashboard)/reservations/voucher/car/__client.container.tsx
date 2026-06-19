@@ -443,7 +443,7 @@ function VoucherCarForm({ reservationId, selectedProduct, clients }: VoucherCarF
           </tbody>
         </table>
 
-        <Box asChild mt='5'>
+        <Box asChild mt='4'>
           <Card>
             <Flex gap='4'>
               <Flex asChild direction='column' align='center' flexShrink='0'>
