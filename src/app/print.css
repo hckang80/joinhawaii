@@ -11,6 +11,10 @@
   display: none;
 }
 
+.voucher-root {
+  font-size: 14px;
+}
+
 @media print {
   html,
   body {

@@ -186,7 +186,3 @@ button:not(:disabled) {
 .editor-content p:empty {
   padding: 12px 0;
 }
-
-.voucher-root {
-  font-size: 14px;
-}
