@@ -187,6 +187,12 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
           tour voucher
         </Heading>
         <table className={styles['info-table']}>
+          <colgroup>
+            <col width='120px' />
+            <col />
+            <col width='120px' />
+            <col />
+          </colgroup>
           <tbody>
             <tr>
               <th className={styles['info-th']}>activity</th>

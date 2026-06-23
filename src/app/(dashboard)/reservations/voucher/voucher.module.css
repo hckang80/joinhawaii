@@ -18,6 +18,7 @@
 }
 
 .info-table {
+  table-layout: fixed;
   width: 100%;
   border-collapse: collapse;
   border-top: 2px solid var(--gray-12);

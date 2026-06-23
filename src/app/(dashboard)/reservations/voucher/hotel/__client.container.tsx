@@ -269,6 +269,12 @@ function VoucherHotelForm({ reservationId, selectedProduct, clients }: VoucherHo
           hotel confirmation
         </Heading>
         <table className={styles['info-table']}>
+          <colgroup>
+            <col width='120px' />
+            <col />
+            <col width='120px' />
+            <col width='200px' />
+          </colgroup>
           <tbody>
             <tr>
               <th className={styles['info-th']}>hotel</th>
