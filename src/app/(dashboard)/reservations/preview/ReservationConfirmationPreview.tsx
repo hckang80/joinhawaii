@@ -318,27 +318,27 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
           </Heading>
           <div className={styles.outline}>
             <Box m='-1px'>
-              {hotels.map((hotel, idx) => (
-                <table className={styles.table} key={hotel.id ?? idx}>
-                  <colgroup>
-                    <col width='90px' />
-                    <col />
-                    <col width='200px' />
-                    <col width='120px' />
-                    <col width='120px' />
-                    <col width='120px' />
-                  </colgroup>
-                  <thead>
-                    <tr>
-                      <th className={styles.th}>지역</th>
-                      <th className={styles.th}>호텔명</th>
-                      <th className={styles.th}>객실타입</th>
-                      <th className={styles.th}>베드타입</th>
-                      <th className={styles.th}>리조트피</th>
-                      <th className={styles.th}>조식</th>
-                    </tr>
-                  </thead>
-                  <tbody>
+              <table className={styles.table}>
+                <colgroup>
+                  <col width='90px' />
+                  <col />
+                  <col width='200px' />
+                  <col width='120px' />
+                  <col width='120px' />
+                  <col width='120px' />
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th className={styles.th}>지역</th>
+                    <th className={styles.th}>호텔명</th>
+                    <th className={styles.th}>객실타입</th>
+                    <th className={styles.th}>베드타입</th>
+                    <th className={styles.th}>리조트피</th>
+                    <th className={styles.th}>조식</th>
+                  </tr>
+                </thead>
+                {hotels.map((hotel, idx) => (
+                  <tbody key={hotel.id ?? idx}>
                     <tr>
                       <td className={styles.td} rowSpan={hotel.additional_options.length ? 3 : 2}>
                         {hotel.region || '-'}
@@ -473,8 +473,8 @@ export function ReservationConfirmationPreview({ data }: ReservationConfirmation
                       </tr>
                     )}
                   </tbody>
-                </table>
-              ))}
+                ))}
+              </table>
             </Box>
           </div>
         </Section>
