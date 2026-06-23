@@ -12,3 +12,9 @@
   flex-grow: 1;
   padding: 1.5rem;
 }
+
+@media print {
+  .main {
+    padding-block: 0;
+  }
+}
