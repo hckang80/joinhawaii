@@ -333,7 +333,7 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
               </td>
             </tr>
             <tr>
-              <th className={styles['info-th']}>liability waiver</th>
+              <th className={styles['info-th']}>면책동의서</th>
               <td className={styles['info-td']} colSpan={3}>
                 <Box className='print:hidden'>
                   <Controller
