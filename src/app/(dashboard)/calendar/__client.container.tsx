@@ -7,7 +7,6 @@ import { format, getDay, parse, startOfWeek } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { useRouter } from 'next/navigation';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
 import styles from './calendar.module.css';
 
 const locales = { ko };
@@ -177,11 +176,12 @@ export default function CalendarClientContainer() {
           events={events}
           culture='ko'
           messages={messages}
-          startAccessor='start'
-          endAccessor='end'
+          startAccessor={e => e.start}
+          endAccessor={e => e.end}
           eventPropGetter={eventPropGetter}
           onSelectEvent={handleSelectEvent}
           components={{ event: CustomEvent }}
+          style={{ height: 'calc(100vh - 240px)' }}
           popup
         />
       </div>

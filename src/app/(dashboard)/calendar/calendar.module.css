@@ -28,14 +28,7 @@
 }
 
 .calendarWrapper {
-  flex: 1;
-  min-height: 0;
-  /* react-big-calendar requires an explicit height */
-  height: calc(100vh - 160px);
-}
-
-.calendarWrapper :global(.rbc-calendar) {
-  height: 100%;
+  /* height is set via style prop on Calendar directly */
 }
 
 .calendarWrapper :global(.rbc-toolbar button) {

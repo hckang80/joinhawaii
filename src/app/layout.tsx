@@ -1,5 +1,6 @@
 import { Theme } from '@radix-ui/themes';
 import '@radix-ui/themes/styles.css';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { Slide, ToastContainer } from 'react-toastify';
