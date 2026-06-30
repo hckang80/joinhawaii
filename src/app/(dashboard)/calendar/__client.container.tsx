@@ -162,7 +162,7 @@ export default function CalendarClientContainer() {
   return (
     <div>
       <Heading as='h2' mb='4' size='7'>
-        일정캘린더
+        일정캘린더(베타)
       </Heading>
       <div className={styles.root}>
         <div className={styles.legend}>
