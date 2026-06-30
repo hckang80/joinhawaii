@@ -2,6 +2,7 @@
 
 import { calendarQueryOptions } from '@/lib/queries';
 import type { ReservationResponse } from '@/types';
+import { Heading } from '@radix-ui/themes';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { format, getDay, parse, startOfWeek } from 'date-fns';
 import { ko } from 'date-fns/locale';
@@ -159,31 +160,36 @@ export default function CalendarClientContainer() {
   };
 
   return (
-    <div className={styles.root}>
-      <div className={styles.legend}>
-        {(
-          Object.entries(TYPE_CONFIG) as [CalendarEventType, { label: string; color: string }][]
-        ).map(([type, { label, color }]) => (
-          <div key={type} className={styles.legendItem}>
-            <span className={styles.legendDot} style={{ background: color }} />
-            <span>{label}</span>
-          </div>
-        ))}
-      </div>
-      <div className={styles.calendarWrapper}>
-        <Calendar<CalendarEvent>
-          localizer={localizer}
-          events={events}
-          culture='ko'
-          messages={messages}
-          startAccessor={e => e.start}
-          endAccessor={e => e.end}
-          eventPropGetter={eventPropGetter}
-          onSelectEvent={handleSelectEvent}
-          components={{ event: CustomEvent }}
-          style={{ height: 'calc(100vh - 240px)' }}
-          popup
-        />
+    <div>
+      <Heading as='h2' mb='4' size='7'>
+        일정캘린더
+      </Heading>
+      <div className={styles.root}>
+        <div className={styles.legend}>
+          {(
+            Object.entries(TYPE_CONFIG) as [CalendarEventType, { label: string; color: string }][]
+          ).map(([type, { label, color }]) => (
+            <div key={type} className={styles.legendItem}>
+              <span className={styles.legendDot} style={{ background: color }} />
+              <span>{label}</span>
+            </div>
+          ))}
+        </div>
+        <div className={styles.calendarWrapper}>
+          <Calendar<CalendarEvent>
+            localizer={localizer}
+            events={events}
+            culture='ko'
+            messages={messages}
+            startAccessor={e => e.start}
+            endAccessor={e => e.end}
+            eventPropGetter={eventPropGetter}
+            onSelectEvent={handleSelectEvent}
+            components={{ event: CustomEvent }}
+            style={{ height: 'calc(100vh - 240px)' }}
+            popup
+          />
+        </div>
       </div>
     </div>
   );

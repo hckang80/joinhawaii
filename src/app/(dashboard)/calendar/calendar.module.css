@@ -2,8 +2,6 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  height: 100%;
-  padding: 20px;
 }
 
 .legend {
@@ -25,10 +23,6 @@
   height: 10px;
   border-radius: 50%;
   flex-shrink: 0;
-}
-
-.calendarWrapper {
-  /* height is set via style prop on Calendar directly */
 }
 
 .calendarWrapper :global(.rbc-toolbar button) {
