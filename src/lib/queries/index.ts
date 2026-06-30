@@ -3,6 +3,13 @@ import { fetchProducts, fetchSettlement } from '@/http';
 import { queryOptions } from '@tanstack/react-query';
 import { ReservationResponse } from '../../types';
 
+export const calendarQueryOptions = () =>
+  queryOptions({
+    queryKey: [...QUERY_KEYS.reservations.all],
+    queryFn: () => fetchSettlement<ReservationResponse[]>(),
+    staleTime: 5 * 60 * 1000
+  });
+
 export const productsQueryOptions = (
   page = '1',
   perPage = PER_PAGE,

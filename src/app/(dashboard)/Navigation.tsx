@@ -1,7 +1,7 @@
 'use client';
 
 import { Link as StyledLink } from '@radix-ui/themes';
-import { NotebookPen, Sigma } from 'lucide-react';
+import { CalendarRange, NotebookPen, Sigma } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { createElement } from 'react';
 import styles from './navigation.module.css';
@@ -19,6 +19,11 @@ export default function Navigation() {
       icon: Sigma,
       label: '정산관리',
       href: '/settlement'
+    },
+    {
+      icon: CalendarRange,
+      label: '일정캘린더',
+      href: '/calendar'
     }
   ];
 
