@@ -6,6 +6,7 @@
 .aside {
   padding: 1.25rem 0.5rem;
   border-right: 1px solid var(--gray-5);
+  flex-shrink: 0;
 }
 
 .main {

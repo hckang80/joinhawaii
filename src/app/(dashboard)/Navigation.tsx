@@ -1,7 +1,7 @@
 'use client';
 
 import { Link as StyledLink } from '@radix-ui/themes';
-import { NotebookPen, Sigma } from 'lucide-react';
+import { CalendarRange, NotebookPen, Sigma } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { createElement } from 'react';
 import styles from './navigation.module.css';
@@ -10,6 +10,11 @@ export default function Navigation() {
   const pathname = usePathname();
   const isActive = (path: string) => pathname.startsWith(path);
   const navigation = [
+    {
+      icon: CalendarRange,
+      label: '일정확인',
+      href: '/calendar'
+    },
     {
       icon: NotebookPen,
       label: '예약관리',

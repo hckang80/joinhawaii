@@ -1,0 +1,78 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.legend {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.legendDot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.calendarWrapper :global(.rbc-toolbar button) {
+  cursor: pointer;
+}
+
+.calendarWrapper :global(.rbc-toolbar button:hover) {
+  background-color: var(--gray-3);
+  border-color: var(--gray-6);
+}
+
+.calendarWrapper :global(.rbc-toolbar button.rbc-active) {
+  background-color: var(--gray-4);
+  border-color: var(--gray-7);
+  font-weight: 600;
+}
+
+.calendarWrapper :global(.rbc-today) {
+  background-color: var(--blue-2);
+}
+
+.calendarWrapper :global(.rbc-event) {
+  border-radius: 4px;
+  padding: 2px 5px;
+}
+
+.calendarWrapper :global(.rbc-event:focus) {
+  outline: 2px solid var(--blue-8);
+  outline-offset: 1px;
+}
+
+.eventContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  overflow: hidden;
+}
+
+.eventName {
+  font-weight: 600;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.eventClient {
+  font-size: 11px;
+  opacity: 0.9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
