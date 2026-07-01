@@ -78,10 +78,10 @@ interface CalendarEvent {
 }
 
 const TYPE_CONFIG: Record<CalendarEventType, { label: string; color: string }> = {
-  flight: { label: '항공', color: '#3b82f6' },
-  hotel: { label: '호텔', color: '#22c55e' },
-  tour: { label: '선택관광', color: '#f97316' },
-  rental_car: { label: '렌터카', color: '#a855f7' }
+  flight: { label: '항공', color: 'var(--green-9)' },
+  hotel: { label: '호텔', color: 'var(--blue-9)' },
+  tour: { label: '선택관광', color: 'var(--red-9)' },
+  rental_car: { label: '렌터카', color: 'var(--lime-9)' }
 };
 
 function parseLocalDate(dateStr: string): Date {
