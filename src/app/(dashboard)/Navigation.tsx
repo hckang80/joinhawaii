@@ -11,6 +11,11 @@ export default function Navigation() {
   const isActive = (path: string) => pathname.startsWith(path);
   const navigation = [
     {
+      icon: CalendarRange,
+      label: '일정확인',
+      href: '/calendar'
+    },
+    {
       icon: NotebookPen,
       label: '예약관리',
       href: '/reservations'
@@ -19,11 +24,6 @@ export default function Navigation() {
       icon: Sigma,
       label: '정산관리',
       href: '/settlement'
-    },
-    {
-      icon: CalendarRange,
-      label: '일정확인',
-      href: '/calendar'
     }
   ];
 
