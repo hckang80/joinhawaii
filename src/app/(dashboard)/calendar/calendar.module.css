@@ -25,6 +25,11 @@
   flex-shrink: 0;
 }
 
+.calendarWrapper :global(.rbc-agenda-content),
+.calendarWrapper :global(.rbc-time-slot) {
+  font-size: 14px;
+}
+
 .calendarWrapper :global(.rbc-toolbar button) {
   cursor: pointer;
 }
