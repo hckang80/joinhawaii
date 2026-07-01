@@ -22,7 +22,7 @@ export default function Navigation() {
     },
     {
       icon: CalendarRange,
-      label: '일정캘린더(β)',
+      label: '일정확인',
       href: '/calendar'
     }
   ];
