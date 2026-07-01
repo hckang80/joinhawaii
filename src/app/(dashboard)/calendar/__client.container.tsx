@@ -20,6 +20,31 @@ const localizer = dateFnsLocalizer({
   locales
 });
 
+const calendarFormats = {
+  monthHeaderFormat: 'yyyy년 M월',
+  weekdayFormat: 'cccc',
+  dayFormat: 'M월 d일 (ccc)',
+  dayHeaderFormat: 'yyyy년 M월 d일 (cccc)',
+  dateFormat: 'd',
+  agendaDateFormat: 'M월 d일 (ccc)',
+  dayRangeHeaderFormat: (
+    { start, end }: { start: Date; end: Date },
+    culture?: string,
+    localizer?: { format: (date: Date, str: string, culture?: string) => string }
+  ) =>
+    localizer
+      ? `${localizer.format(start, 'yyyy년 M월 d일', culture)} - ${localizer.format(end, 'M월 d일', culture)}`
+      : '',
+  agendaHeaderFormat: (
+    { start, end }: { start: Date; end: Date },
+    culture?: string,
+    localizer?: { format: (date: Date, str: string, culture?: string) => string }
+  ) =>
+    localizer
+      ? `${localizer.format(start, 'yyyy년 M월 d일', culture)} - ${localizer.format(end, 'M월 d일', culture)}`
+      : ''
+};
+
 const messages = {
   allDay: '종일',
   previous: '이전',
@@ -181,6 +206,7 @@ export default function CalendarClientContainer() {
             events={events}
             culture='ko'
             messages={messages}
+            formats={calendarFormats}
             startAccessor={e => e.start}
             endAccessor={e => e.end}
             eventPropGetter={eventPropGetter}
