@@ -245,7 +245,11 @@ export async function GET(request: Request) {
 
       const [flightsWithKrw, hotelsWithKrw, toursWithKrw, carsWithKrw, insurancesWithKrw] =
         await Promise.all([
-          addKoreanWonFields(flights.map(item => ({ ...item, type: 'flight' as ProductType }))),
+          addKoreanWonFields(
+            flights
+              .map(item => ({ ...item, type: 'flight' as ProductType }))
+              .toSorted(compareByCreatedAtThenId())
+          ),
           addKoreanWonFields(
             hotels
               .map(item => ({ ...item, type: 'hotel' as ProductType }))
@@ -494,7 +498,11 @@ export async function PATCH(request: Request) {
 
     const [flightsWithKrw, hotelsWithKrw, toursWithKrw, carsWithKrw, insurancesWithKrw] =
       await Promise.all([
-        addKoreanWonFields(flightsData.map(item => ({ ...item, type: 'flight' as ProductType }))),
+        addKoreanWonFields(
+          flightsData
+            .map(item => ({ ...item, type: 'flight' as ProductType }))
+            .toSorted(compareByCreatedAtThenId())
+        ),
         addKoreanWonFields(
           hotelsData
             .map(item => ({ ...item, type: 'hotel' as ProductType }))
