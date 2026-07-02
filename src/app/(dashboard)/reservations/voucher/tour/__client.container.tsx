@@ -46,6 +46,35 @@ type VoucherFormState = VoucherSharedFormState & {
 
 const tourOptions = Object.values(TOURS_OPTIONS).flat();
 
+function toParagraphHtml(text: string) {
+  return text
+    .split('\n')
+    .map(line => `<p>${line}</p>`)
+    .join('');
+}
+
+function getTourOption(name: string) {
+  return tourOptions.find(option => option.value === name);
+}
+
+function getDefaultArrivalLocation(name: string, arrivalLocation: string | null | undefined) {
+  if (hasRenderableTiptapContent(arrivalLocation)) return arrivalLocation ?? '';
+  const fallback = getTourOption(name)?.arrival_location;
+  return fallback ? toParagraphHtml(fallback) : '';
+}
+
+function getDefaultDeliveryNotes(name: string, deliveryNotes: string | null | undefined) {
+  if (hasRenderableTiptapContent(deliveryNotes)) return deliveryNotes ?? '';
+  const fallback = getTourOption(name)?.delivery_notes;
+  return fallback ? toParagraphHtml(fallback) : '';
+}
+
+function getDefaultGuideNotes(name: string, guideNotes: string | null | undefined) {
+  if (hasRenderableTiptapContent(guideNotes)) return guideNotes ?? '';
+  const fallback = getTourOption(name)?.guide_notes;
+  return fallback ? toParagraphHtml(fallback) : '';
+}
+
 function renderProductNameContent(
   selectedProduct: NonNullable<ReservationResponse['products']['tours'][number]>
 ) {
@@ -107,6 +136,12 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
     return {
       ...baseFormValues,
       arrival_time: toFormTimeValue(arrival_time),
+      arrival_location: getDefaultArrivalLocation(
+        selectedProduct.name,
+        selectedProduct.arrival_location
+      ),
+      delivery_notes: getDefaultDeliveryNotes(selectedProduct.name, selectedProduct.delivery_notes),
+      guide_notes: getDefaultGuideNotes(selectedProduct.name, selectedProduct.guide_notes),
       selected_clients: normalizedSelectedClients
     };
   }, [orderedClientLabels, selectedProduct]);
