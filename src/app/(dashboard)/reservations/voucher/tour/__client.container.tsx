@@ -48,6 +48,7 @@ const tourOptions = Object.values(TOURS_OPTIONS).flat();
 
 function toParagraphHtml(text: string) {
   return text
+    .trim()
     .split('\n')
     .map(line => `<p>${line}</p>`)
     .join('');
