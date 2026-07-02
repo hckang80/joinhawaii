@@ -46,6 +46,47 @@ type VoucherFormState = VoucherSharedFormState & {
 
 const tourOptions = Object.values(TOURS_OPTIONS).flat();
 
+function toParagraphHtml(text: string) {
+  const trimmed = text.trim();
+
+  // 이미 HTML 마크업 형태로 저장된 값은 그대로 사용 (다시 <p>로 감싸면 잘못된 중첩이 생김)
+  if (/^<[a-z][\s\S]*>$/i.test(trimmed)) {
+    return trimmed;
+  }
+
+  return trimmed
+    .split('\n')
+    .map(line => `<p>${line}</p>`)
+    .join('');
+}
+
+function getTourOption(name: string) {
+  return tourOptions.find(option => option.value === name);
+}
+
+function getDefaultArrivalLocation(name: string, arrivalLocation: string | null | undefined) {
+  if (hasRenderableTiptapContent(arrivalLocation)) return arrivalLocation ?? '';
+  const fallback = getTourOption(name)?.arrival_location;
+  return fallback ? toParagraphHtml(fallback) : '';
+}
+
+function getDefaultDeliveryNotes(name: string, deliveryNotes: string | null | undefined) {
+  if (hasRenderableTiptapContent(deliveryNotes)) return deliveryNotes ?? '';
+  const fallback = getTourOption(name)?.delivery_notes;
+  return fallback ? toParagraphHtml(fallback) : '';
+}
+
+function getDefaultGuideNotes(name: string, guideNotes: string | null | undefined) {
+  if (hasRenderableTiptapContent(guideNotes)) return guideNotes ?? '';
+  const fallback = getTourOption(name)?.guide_notes;
+  return fallback ? toParagraphHtml(fallback) : '';
+}
+
+function getDefaultConfirmationNumber(name: string, confirmationNumber: string | null | undefined) {
+  if (confirmationNumber) return confirmationNumber;
+  return getTourOption(name)?.confirmation_number ?? '';
+}
+
 function renderProductNameContent(
   selectedProduct: NonNullable<ReservationResponse['products']['tours'][number]>
 ) {
@@ -107,6 +148,16 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
     return {
       ...baseFormValues,
       arrival_time: toFormTimeValue(arrival_time),
+      arrival_location: getDefaultArrivalLocation(
+        selectedProduct.name,
+        selectedProduct.arrival_location
+      ),
+      delivery_notes: getDefaultDeliveryNotes(selectedProduct.name, selectedProduct.delivery_notes),
+      guide_notes: getDefaultGuideNotes(selectedProduct.name, selectedProduct.guide_notes),
+      confirmation_number: getDefaultConfirmationNumber(
+        selectedProduct.name,
+        selectedProduct.confirmation_number
+      ),
       selected_clients: normalizedSelectedClients
     };
   }, [orderedClientLabels, selectedProduct]);
