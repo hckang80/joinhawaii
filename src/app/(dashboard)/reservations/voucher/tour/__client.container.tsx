@@ -82,6 +82,11 @@ function getDefaultGuideNotes(name: string, guideNotes: string | null | undefine
   return fallback ? toParagraphHtml(fallback) : '';
 }
 
+function getDefaultConfirmationNumber(name: string, confirmationNumber: string | null | undefined) {
+  if (confirmationNumber) return confirmationNumber;
+  return getTourOption(name)?.confirmation_number ?? '';
+}
+
 function renderProductNameContent(
   selectedProduct: NonNullable<ReservationResponse['products']['tours'][number]>
 ) {
@@ -149,6 +154,10 @@ function VoucherTourForm({ reservationId, selectedProduct, clients }: VoucherTou
       ),
       delivery_notes: getDefaultDeliveryNotes(selectedProduct.name, selectedProduct.delivery_notes),
       guide_notes: getDefaultGuideNotes(selectedProduct.name, selectedProduct.guide_notes),
+      confirmation_number: getDefaultConfirmationNumber(
+        selectedProduct.name,
+        selectedProduct.confirmation_number
+      ),
       selected_clients: normalizedSelectedClients
     };
   }, [orderedClientLabels, selectedProduct]);

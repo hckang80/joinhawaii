@@ -442,6 +442,7 @@ export type TourOption = GroupSelectOption & {
   arrival_location?: string;
   delivery_notes?: string;
   guide_notes?: string;
+  confirmation_number?: string;
 };
 export const TOURS_OPTIONS: Record<TourCategory, TourOption[]> = {
   공항셔틀: [
@@ -549,6 +550,7 @@ export const TOURS_OPTIONS: Record<TourCategory, TourOption[]> = {
       value: '[하나우마베이 스노클링]디럭스 프리미엄',
       label: '[하나우마베이 스노클링]디럭스 프리미엄',
       en_label: 'HANAUMA BAY SNORKELING PREMIUM',
+      confirmation_number: 'LEE',
       arrival_location:
         '<p>SHERATON WAIKIKI 호텔 - 고객 전용 주차장 건물 입구 Donho Lane (돈호레인)</p><p></p><p><span class="node-image"><span class="image-component"><img src="https://hpwrnhxgnawyfmhwqqsm.supabase.co/storage/v1/object/public/location-images/reservations/20260529-JH001/location/e0f80ccb-6c1c-432e-a4e9-f613d2c002da.jpg" alt="SHERATON WAIKIKI 호텔 - 고객 전용 주차장 건물 입구 Donho Lane (돈호레인) 1.jpg" title="" width="467.36810302734375" height="288.07832107521386" style="max-width: 467.36810302734375px" data-keep-ratio="true" class=""></span></span></p>',
       delivery_notes:
