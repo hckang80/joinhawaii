@@ -436,6 +436,76 @@ export const BOOKING_PLATFORM_OPTIONS: Record<Platform, GroupSelectOption[]> = {
   ]
 };
 
+const DIAMOND_HEAD_HIKING = {
+  arrival_location:
+    '<p>쉐라톤 와이키키 입구 - 벨보이 있는 곳</p><p></p><p><span class="node-image"><span class="image-component"><img src="https://hpwrnhxgnawyfmhwqqsm.supabase.co/storage/v1/object/public/location-images/reservations/20260529-JH001/location/a0cdec72-76d1-4847-a236-44ab4a543519.png" alt="쉐라톤 입구.png" title="" width="null" height="null" style="max-width: nullpx" data-keep-ratio="true" class=""></span></span></p>',
+  delivery_notes:
+    '<ul><li><p><span style="color: rgb(59, 130, 246);"><strong>별도 첨부드린 다이아몬드헤드 입장권(인쇄본) 필수 지참하셔야 합니다.</strong></span></p></li><li><p><span style="color: rgb(59, 130, 246);"><strong>해당 입장권의 QR코드는 1회용으로 반드시 입장하실 때 스캔하셔야 합니다. (미리 스캔 시 입장/환불 불가)</strong></span></p></li><li><p><strong>택시 하차 전 기사님과 호텔 복귀편 택시 미팅 시간 직접 조율하시기 바랍니다.</strong></p></li><li><p>(하이킹 왕복 평균 소요시간은 대략 1시간30분~2시간 정도 입니다.)</p></li></ul><p></p>',
+  guide_notes:
+    '<ul><li><p>본 바우처를 캡쳐 또는 출력하여 가져가시기 바랍니다. 바우처 미 지참시 진행이 불가합니다.</p></li><li><p><span style="color: rgb(59, 130, 246);"><strong>별도 첨부드린 다이아몬드헤드 입장권은 인쇄하여 필수 지참하셔야 합니다. </strong></span><span style="color: rgb(23, 23, 23);">해당 입장권의 QR코드는 1회용으로 반드시 입장하실 때 스캔하셔야 합니다. (미리 스캔 시 입장/환불 불가)</span></p></li><li><p>준비물 : 편안한 복장&amp;신발(운동화), 생수, 선크림, 선글라스 등 개인물품 (짐은 최소한으로 준비하시기 바랍니다.) 추위를 타신다면 가벼운 겉옷 지참 권장드립니다.</p></li><li><p>당일 교통사정에 의해 픽업시간이 5~10분 정도 지연되더라도 정해진 픽업장소를 이탈하지 마시고, 조인하와이 현지 연락처로 연락주시기 바랍니다.</p></li><li><p>개인행동으로 인한 행사 불참 시에는 별도의 연락없이 진행되며 전액 환불 불가합니다.</p></li><li><p>바우처에 기재된 장소를 모르실 경우 현지 조인하와이로 문의하여 안내 받으시기 바랍니다.</p></li><li><p>택시 하차 전 기사님과 호텔 복귀편 택시 미팅 시간 직접 조율하시기 바랍니다. (하이킹 총 소요시간 대략 1시간30분~2시간)</p></li><li><p>정해진 일정 외 장소 방문은 불가합니다.</p></li><li><p>카시트/부스터는 제공되지 않으며 장착도 불가합니다.</p></li><li><p><span style="color: rgb(239, 68, 68);"><strong>취소나 변경이 불가합니다.</strong></span></p></li></ul><p></p>'
+};
+
+const STAR_OF_HONOLULU_3STAR_NO_PICKUP = {
+  arrival_location:
+    '<p><strong>Star of Honolulu 라고 써있는 배 입구 쪽에서 직원에게 바우처 제시 부탁드립니다.</strong></p><p></p><p>ALOHA TOWER MARKETPLACE Pier 8 또는</p><p>1 ALOHA TOWER DRIVE HONOLULU, HI 96813 를 네비게이션에 검색하시면 됩니다.</p>',
+  guide_notes:
+    '<ul><li><p><span style="color: rgb(59, 130, 246);"><strong>본 바우처를 출력 또는 핸드폰 캡쳐본으로 제시해주셔야 합니다. 바우처 미지참 시 투어 진행/환불 불가합니다.</strong></span></p></li><li><p>체크인 시간 불이행으로 인한 행사 불참 시 별도의 연락없이 진행되며 전액 환불 불가합니다.</p></li><li><p>바우처에 기재된 장소를 모르실 경우 현지 조인하와이로 사전 문의하셔서 안내 받으시기 바랍니다.</p></li><li><p>별도 드레스 코드는 없으나 남성 : 소매없는 나시, 쪼리 / 여성 : 쪼리 착용 시 투어 참여/환불 불가합니다.</p></li><li><p>저녁에는 쌀쌀해지므로 겉옷 지참 권장드립니다.</p></li><li><p>현지 사정으로 인해 투어 일정이 예고없이 변경되거나 취소될 수 있습니다.</p></li></ul><p></p>'
+};
+
+const STAR_OF_HONOLULU_3STAR_PICKUP = {
+  arrival_location:
+    '<p><strong>SHERATON WAIKIKI 호텔 - ALOHA LANDING (알로하 랜딩)</strong></p><p></p><p><span class="node-image"><span class="image-component"><img src="https://hpwrnhxgnawyfmhwqqsm.supabase.co/storage/v1/object/public/location-images/reservations/20260529-JH001/location/37c83481-8a80-428d-8e74-e80598b26f43.jpg" alt="SHERATON WAIKIKI 호텔 - ALOHA LANDING (알로하 랜딩) 1.jpg" title="" width="459.795166015625" height="217.69793701171875" style="max-width: 459.795166015625px" data-keep-ratio="true" class=""></span></span></p>',
+  delivery_notes:
+    "<ul><li><p><strong>차량에 'ROYAL STAR'라고 적혀있습니다.</strong></p></li><li><p>흰색 상의 뒷면에 'STAR OF HONOLULU'라고 적혀있는 옷을 입은 직원이 성함호명.</p></li><li><p>외국인 직원의 발음이 부정확할 수 있으므로 먼저 확인하신 후 차량 탑승하시기 바랍니다.</p></li></ul>",
+  guide_notes:
+    '<ul><li><p><span style="color: rgb(59, 130, 246);"><strong>본 바우처를 출력 또는 핸드폰 캡쳐본으로 제시해주셔야 합니다. 바우처 미지참 시 투어 진행/환불 불가합니다.</strong></span></p></li><li><p>픽업시간 보다 10분 일찍 픽업장소에서 대기하여 주시기 바랍니다.</p></li><li><p>픽업시간이 5분 정도 지연될 경우 픽업장소를 이탈하지 마시고, 조인하와이 현지 연락처로 연락주시기 바랍니다.</p></li><li><p>픽업시간 지연 시 연락을 주시지 않아 픽업이 안되었을 경우 취소 및 환불이 불가합니다.</p></li><li><p>시간 불이행으로 인한 행사 불참 시에는 별도의 연락은 드리지 않으며, 전액 환불 불가합니다.</p></li><li><p>바우처에 기재된 장소를 모르실 경우 현지 조인하와이로 문의하여 안내 받으시기 바랍니다.</p></li><li><p>별도 드레스 코드는 없으나 남성 : 소매없는 나시, 쪼리 / 여성 : 쪼리 착용 시 투어 참여/환불 불가합니다.</p></li><li><p>저녁에는 쌀쌀해지므로 겉옷 지참 권장드립니다.</p></li><li><p>현지 사정으로 인해 투어 일정이 예고없이 변경되거나 취소될 수 있습니다.</p></li></ul>'
+};
+
+const ONE_DAY_TOUR = {
+  arrival_location:
+    '<p><span style="color: rgb(23, 23, 23);"><strong>평균 06:20 AM ~ 07:20 AM (투어 전 날 정확한 픽업 시간 안내드립니다.)</strong></span></p><p></p><p>SHERATON WAIKIKI 호텔 - 고객 전용 주차장 건물 입구 Donho Lane (돈호레인)</p><p><span class="node-image"><span class="image-component"><img src="https://hpwrnhxgnawyfmhwqqsm.supabase.co/storage/v1/object/public/location-images/reservations/20260529-JH001/location/72d604c5-553a-49c7-ad6d-2ae44b7a77c0.jpg" alt="SHERATON WAIKIKI 호텔 - 고객 전용 주차장 건물 입구 Donho Lane (돈호레인) 1.jpg" title="" width="433.1458435058594" height="214.78125" style="max-width: 433.1458435058594px" data-keep-ratio="true" class=""></span></span></p>',
+  delivery_notes:
+    '<ul><li><p>카카오톡 설정 - 친구 카테고리에서<span style="color: rgb(239, 68, 68);"><strong> \'전화번호로 친구 추가 허용\'을 활성화 </strong></span>해주시기 바랍니다. &nbsp;</p></li><li><p>17시까지 카톡을 못 받으셨을 경우 <span style="color: rgb(59, 130, 246);"><strong>현지 연락처로 먼저 연락</strong></span> 부탁드립니다. (카톡ID : joinhawaiiusa / 연락처 : 1-808-772-2691 )</p></li></ul>',
+  guide_notes:
+    '<ul><li><p><span style="color: rgb(59, 130, 246);"><strong>픽업시간은 투어 전날 오후 5시 이전에 별도로 안내드립니다. 안내를 못받으셨다면 조인하와이 현지 연락처로 연락주시기 바랍니다.</strong></span></p></li><li><p><span style="color: rgb(59, 130, 246);"><strong>본 바우처와 모든 분들의 여권을 준비하여 가시기 바랍니다. 미 지참시 투어 참여/환불 불가합니다.</strong></span></p></li><li><p><span style="color: rgb(59, 130, 246);"><strong>가이드팁 1인당 $10, 점심 팁 1인당 $3 별도로 준비하여 주시기 바랍니다.</strong></span></p></li><li><p>겉옷 지참 부탁드립니다.</p></li><li><p>픽업시간 보다 10분 일찍 픽업장소에서 대기하여 주시기 바랍니다.</p></li><li><p>픽업시간이 5분 정도 지연될 경우 픽업장소를 이탈하지 마시고, 조인하와이 현지 연락처로 연락주시기 바랍니다.</p></li><li><p>픽업시간 지연 시 연락을 주시지 않아 픽업이 안되었을 경우 취소 및 환불이 불가합니다.</p></li><li><p>픽업시간 불이행으로 인한 행사 불참 시에는 별도의 연락은 드리지 않습니다.</p></li><li><p>멀미약은 필요 시 개별적으로 사전 복용 하셔야 하며, 멀미로 인한 환불은 불가합니다.</p></li><li><p>취소, 변경, 환불이 불가한 투어입니다.</p></li></ul>'
+};
+
+const KUALOA_RANCH_UTV_RAPTOR_ADVENTURE_NO_PICKUP = {
+  arrival_location:
+    '<p><strong>쿠알로아 랜치 </strong><span style="color: rgb(59, 130, 246);"><strong>티켓 오피스</strong></span><strong>에 가셔서 </strong><span style="color: rgb(59, 130, 246);"><strong>바우처와 여권 제시</strong></span><strong> 부탁드립니다.</strong></p><p></p><p>티켓 오피스에서 체크인 하시고 인쇄 탑승권 또는 모바일 탑승권을 수령하신 후 안내받으신 투어 장소로 이동하시면 됩니다.</p><p>투어 장소에 있는 <strong>가이드에게</strong> 다시 한 번 <strong>체크인</strong> 하시면 됩니다.</p><p></p><p><strong>[GPS, 구글 지도 입력] Kualoa Ranch Ticket Office</strong></p><p><strong>[Kualoa Ranch 주소] 49-560 Kamehameha Hwy, Kaneohe, HI 96744</strong></p>',
+  delivery_notes:
+    '<ul><li><p>투어 참여하시는 <span style="color: rgb(239, 68, 68);"><strong>모든</strong></span><strong> 분들은 쿠알로아랜치에서 고객님 메일로 직접 발송드린 </strong><span style="color: rgb(239, 68, 68);"><strong>면책 동의서 사전 제출</strong></span>하셔야 참여 가능합니다.</p></li><li><p>동의서 <strong>한국어</strong>로 설정 변경 가능하며 미리 등록하셔도 되고, 늦어도 체크인 하시기 전까지 제출하셔야 합니다. Kualoa Ranch 이름으로 발송된 메일 확인 부탁드리며, 스팸함도 함께 확인해보시기 바랍니다. <span style="color: rgb(239, 68, 68);"><strong>(미제출 시 투어 참여, 환불 불가)</strong></span></p></li></ul><p></p>',
+  guide_notes:
+    '<ul><li><p>본 바우처를 출력 또는 캡쳐하여 가져가시기 바랍니다. 바우처 미 지참시 진행이 불가합니다.</p></li><li><p><span style="color: rgb(59, 130, 246);"><strong>준비물 : 바우처(캡처본), 대표 예약자의 여권(지참 또는 사진촬영본 가능), UTV 운전자분의 국제운전면허증 실물 지참</strong></span></p></li><li><p><span style="color: rgb(59, 130, 246);"><strong>바우처와 여권은 예약자명과 일치하여야 하며 여권은 본인 확인을 위해 사진이 있는 전체 페이지를 제시해주셔야 합니다.</strong></span></p></li><li><p><span style="color: rgb(59, 130, 246);"><strong>UTV 운전자는 만 21세 이상이여야 하며, 운전자 명의 국제운전면허증 지참하셔야 합니다. 준비물 미지참 시 투어 참여 불가하며, 전액 환불 불가합니다.</strong></span></p></li><li><p><span style="color: rgb(59, 130, 246);"><strong>투어 참여에 적절한 편안한 복장 &amp; 운동화 착용과 햇빛(자외선)이 강할 수 있어 필요 시 썬글라스와 썬크림 지참 권장드립니다.</strong></span></p></li><li><p><span style="color: rgb(59, 130, 246);"><strong>위에 기재된 체크인 시간에 늦지 않게 도착하시기 바랍니다. (쿠알로아랜치 규정 상 프로그램 시간 45분 전까지 체크인 하셔야 합니다.) </strong></span>투어 당일 렌터카 픽업하시는 분들께선 렌터카 픽업이 지연될 경우 쿠알로아 체크인 시간까지 도착 못하실 수 있습니다. 체크인 시간 불이행으로 인한 행사 불참 시 별도의 연락없이 진행되며 전액 환불 불가합니다.</p></li><li><p>투어 참여하시는 모든 분들은 쿠알로아랜치에서 메일로 발송드린 <span style="color: rgb(239, 68, 68);"><strong>면책 동의서 제출</strong></span>하셔야 참여 가능합니다. (미제출 시 투어 참여, 환불 불가) Kualoa Ranch 이름으로 발송된 메일 확인 부탁드리며, 스팸함도 함께 확인해보시기 바랍니다.</p></li><li><p>개인 부주의 또는 무모한 운전으로 인해 랩터, 장비에 손상이 발생할 경우 보상 비용이 별도 청구될 수 있습니다.</p></li><li><p>본 투어는 차량의 흔들림(진동)이 심할 수 있습니다. 오프로드를 달리는 투어로 신체에 기존 또는 반복적인 불편이 있으신 분에겐 권장드리지 않으며 임산부는 참여 불가합니다.</p></li><li><p>만 5세 이상부터 탑승 가능하며, 만 17세 이하는 성인 보호자와 항상 동반해야 합니다.</p></li><li><p>투어 요건을 충족하지 못하실 경우 투어에 참여하실 수 없으며 환불이나 일정 변경 불가능 합니다.</p></li><li><p>현지 사정으로 인해 투어 일정이 예고없이 변경되거나 취소될 수 있습니다.</p></li></ul><p></p>'
+};
+
+const KUALOA_RANCH_UTV_RAPTOR_ADVENTURE_PICKUP = {
+  arrival_location:
+    '<p>SHERATON WAIKIKI 호텔 - ALOHA LANDING (알로하 랜딩)</p><p><span class="node-image"><span class="image-component"><img src="https://hpwrnhxgnawyfmhwqqsm.supabase.co/storage/v1/object/public/location-images/reservations/20260529-JH001/location/37c83481-8a80-428d-8e74-e80598b26f43.jpg" alt="SHERATON WAIKIKI 호텔 - ALOHA LANDING (알로하 랜딩) 1.jpg" title="" width="265.7569580078125" height="181.45709924783793" style="max-width: 265.7569580078125px" data-keep-ratio="true" class=""></span></span></p><ul><li><p>차량에 Fly shuttle 또는 Kualoa Ranch 라고 적혀있습니다.</p></li><li><p>셔틀 탑승 후 쿠알로아랜치 직원이 버스 티켓을 드립니다.해당 티켓 잘 지참하셨다가 <strong>호텔 복귀 셔틀 탑승 시 제출</strong>하셔야 셔틀 탑승 가능합니다. 복귀 셔틀 탑승 장소와 시간은 쿠알로아랜치 하차 시 직원이 안내드립니다.</p></li><li><p>셔틀 탑승 후 쿠알로아랜치 직원이 체크인 해드립니다. 간혹 쿠알로아랜치 직원의 실수로 체크인이 누락되는 경우가 있어 <span style="color: rgb(59, 130, 246);"><strong>투어 45분 전까지티켓오피스(매표소)</strong></span>에 가셔서 바우처 제시하시고 체크인 잘 되어 있는지 확인하시기 바랍니다. 정상적으로 체크인 되어 있을 경우 투어 장소로 이동하시면 됩니다.</p></li></ul>',
+  delivery_notes:
+    '<ul><li><p>투어 참여하시는 <span style="color: rgb(239, 68, 68);"><strong>모든</strong></span><strong> 분들은 쿠알로아랜치에서 고객님 메일로 직접 발송드린 </strong><span style="color: rgb(239, 68, 68);"><strong>면책 동의서를 사전 제출</strong></span>하셔야 참여 가능합니다.</p></li><li><p>동의서 <strong>한국어</strong>로 설정 변경 가능하며 미리 등록하셔도 되고, 늦어도 체크인 하시기 전까지 제출하셔야 합니다. Kualoa Ranch 이름으로 발송된 메일 확인 부탁드리며, 스팸함도 함께 확인해보시기 바랍니다. <span style="color: rgb(239, 68, 68);"><strong>(미제출 시 투어 참여, 환불 불가)</strong></span></p></li></ul>',
+  guide_notes:
+    '<ul><li><p>본 바우처를 출력 또는 캡쳐하여 가져가시기 바랍니다. 바우처 미 지참시 진행이 불가합니다.</p></li><li><p><span style="color: rgb(59, 130, 246);"><strong>준비물 : 바우처(캡처본), 대표 예약자의 여권(지참 또는 사진촬영본 가능), UTV 운전자분의 국제운전면허증 실물 지참</strong></span></p></li><li><p><span style="color: rgb(59, 130, 246);"><strong>바우처와 여권은 예약자명과 일치하여야 하며 여권은 본인 확인을 위해 사진이 있는 전체 페이지를 제시해주셔야 합니다.</strong></span></p></li><li><p><span style="color: rgb(59, 130, 246);"><strong>UTV 운전자는 만 21세 이상이여야 하며, 운전자 명의 국제운전면허증 지참하셔야 합니다. 준비물 미지참 시 투어 참여 불가하며, 전액 환불 불가합니다.</strong></span></p></li><li><p><span style="color: rgb(59, 130, 246);"><strong>투어 참여에 적절한 편안한 복장 &amp; 운동화 착용과 햇빛(자외선)이 강할 수 있어 필요 시 썬글라스와 썬크림 지참 권장드립니다.</strong></span></p></li><li><p>셔틀시간 보다 10분 일찍 픽업장소에서 대기하여 주시기 바랍니다.</p></li><li><p>셔틀시간이 5분 정도 지연될 경우 픽업장소를 이탈하지 마시고, 조인하와이 현지 연락처로 연락주시기 바랍니다. 시간 지연 시 연락을 주시지 않아 픽업이 안되었을 경우 취소 및 환불이 불가합니다.</p></li><li><p><span style="color: rgb(59, 130, 246);"><strong>투어 종료 후 쿠알로아에서 약 " "PM 출발입니다. (미리 셔틀 탑승 장소에서 대기하시기 바랍니다.)</strong></span></p></li><li><p>투어 참여하시는 모든 분들은 쿠알로아랜치에서 메일로 발송드린 <span style="color: rgb(239, 68, 68);"><strong>면책 동의서를 제출</strong></span>하셔야 참여 가능합니다. (미제출 시 투어 참여, 환불 불가) Kualoa Ranch 이름으로 발송된 메일 확인 부탁드리며, 스팸함도 함께 확인해보시기 바랍니다.</p></li><li><p>개인 부주의 또는 무모한 운전으로 인해 랩터, 장비에 손상이 발생할 경우 보상 비용이 별도 청구될 수 있습니다.</p></li><li><p>본 투어는 차량의 흔들림(진동)이 심할 수 있습니다. 오프로드를 달리는 투어로 신체에 기존 또는 반복적인 불편이 있으신 분에겐 권장드리지 않으며 임산부는 참여 불가합니다.</p></li><li><p>만 5세 이상부터 탑승 가능하며, 만 17세 이하는 성인 보호자와 항상 동반해야 합니다.</p></li><li><p>투어 요건을 충족하지 못하실 경우 투어에 참여하실 수 없으며 환불이나 일정 변경 불가능 합니다.</p></li><li><p>현지 사정으로 인해 투어 일정이 예고없이 변경되거나 취소될 수 있습니다.</p></li></ul>'
+};
+
+const KUALOA_RANCH_UTV_RIDE_ALONG_ADVENTURE_NO_PICKUP = {
+  arrival_location:
+    '<p><strong>쿠알로아 랜치 </strong><span style="color: rgb(59, 130, 246);"><strong>티켓 오피스</strong></span><strong>에 가셔서 </strong><span style="color: rgb(59, 130, 246);"><strong>바우처와 여권 제시</strong></span><strong> 부탁드립니다.</strong></p><p></p><p>티켓 오피스에서 체크인 하시고 인쇄 탑승권 또는 모바일 탑승권을 수령하신 후 안내받으신 투어 장소로 이동하시면 됩니다.</p><p>투어 장소에 있는 <strong>가이드에게</strong> 다시 한 번 <strong>체크인</strong> 하시면 됩니다.</p><p></p><p><strong>[GPS, 구글 지도 입력] Kualoa Ranch Ticket Office</strong></p><p><strong>[Kualoa Ranch 주소] 49-560 Kamehameha Hwy, Kaneohe, HI 96744</strong></p>',
+  delivery_notes:
+    '<ul><li><p>투어 참여하시는 <span style="color: rgb(239, 68, 68);"><strong>모든</strong></span><strong> 분들은 쿠알로아랜치에서 고객님 메일로 직접 발송드린 </strong><span style="color: rgb(239, 68, 68);"><strong>면책 동의서를 사전 제출</strong></span>하셔야 참여 가능합니다.</p></li><li><p>동의서 <strong>한국어</strong>로 설정 변경 가능하며 미리 등록하셔도 되고, 늦어도 체크인 하시기 전까지 제출하셔야 합니다. Kualoa Ranch 이름으로 발송된 메일 확인 부탁드리며, 스팸함도 함께 확인해보시기 바랍니다. <span style="color: rgb(239, 68, 68);"><strong>(미제출 시 투어 참여, 환불 불가)</strong></span></p></li></ul>',
+  guide_notes:
+    '<ul><li><p>본 바우처를 출력 또는 캡쳐하여 가져가시기 바랍니다. 바우처 미 지참시 진행이 불가합니다.</p></li><li><p><span style="color: rgb(59, 130, 246);"><strong>준비물 : 바우처(캡처본), 대표 예약자의 여권(지참 또는 사진촬영본 가능)</strong></span></p></li><li><p><span style="color: rgb(59, 130, 246);"><strong>바우처와 여권은 예약자명과 일치하여야 하며 여권은 본인 확인을 위해 사진이 있는 전체 페이지를 제시해주셔야 합니다.</strong></span></p></li><li><p><span style="color: rgb(59, 130, 246);"><strong>UTV 운전자는 만 21세 이상이여야 하며, 운전자 명의 국제운전면허증 지참하셔야 합니다. 준비물 미지참 시 투어 참여 불가하며, 전액 환불 불가합니다.</strong></span></p></li><li><p><span style="color: rgb(59, 130, 246);"><strong>투어 참여에 적절한 편안한 복장 &amp; 운동화 착용과 햇빛(자외선)이 강할 수 있어 필요 시 썬글라스와 썬크림 지참 권장드립니다.</strong></span></p></li><li><p><span style="color: rgb(59, 130, 246);"><strong>위에 기재된 체크인 시간에 늦지 않게 도착하시기 바랍니다. (쿠알로아랜치 규정 상 프로그램 시간 45분 전까지 체크인 하셔야 합니다.) </strong></span>투어 당일 렌터카 픽업하시는 분들께선 렌터카 픽업이 지연될 경우 쿠알로아 체크인 시간까지 도착 못하실 수 있습니다. 체크인 시간 불이행으로 인한 행사 불참 시 별도의 연락없이 진행되며 전액 환불 불가합니다.</p></li><li><p>투어 참여하시는 모든 분들은 쿠알로아랜치에서 메일로 발송드린 <span style="color: rgb(239, 68, 68);"><strong>면책 동의서를 제출</strong></span>하셔야 참여 가능합니다. (미제출 시 투어 참여, 환불 불가) Kualoa Ranch 이름으로 발송된 메일 확인 부탁드리며, 스팸함도 함께 확인해보시기 바랍니다.</p></li><li><p>본 투어는 차량의 흔들림(진동)이 심할 수 있습니다. 오프로드를 달리는 투어로 신체에 기존 또는 반복적인 불편이 있으신 분에겐 권장드리지 않으며 임산부는 참여 불가합니다.</p></li><li><p>만 5세 이상부터 탑승 가능하며, 만 17세 이하는 성인 보호자와 항상 동반해야 합니다.</p></li><li><p>투어 요건을 충족하지 못하실 경우 투어에 참여하실 수 없으며 환불이나 일정 변경 불가능 합니다.</p></li><li><p>현지 사정으로 인해 투어 일정이 예고없이 변경되거나 취소될 수 있습니다.</p></li></ul>'
+};
+
+const KUALOA_RANCH_UTV_RIDE_ALONG_ADVENTURE_PICKUP = {
+  arrival_location:
+    '<p>SHERATON WAIKIKI 호텔 - ALOHA LANDING (알로하 랜딩)</p><p><span class="node-image"><span class="image-component"><img src="https://hpwrnhxgnawyfmhwqqsm.supabase.co/storage/v1/object/public/location-images/reservations/20260529-JH001/location/37c83481-8a80-428d-8e74-e80598b26f43.jpg" alt="SHERATON WAIKIKI 호텔 - ALOHA LANDING (알로하 랜딩) 1.jpg" title="" width="265.7569580078125" height="181.45709924783793" style="max-width: 265.7569580078125px" data-keep-ratio="true" class=""></span></span></p><ul><li><p>차량에 Fly shuttle 또는 Kualoa Ranch 라고 적혀있습니다.</p></li><li><p>셔틀 탑승 후 쿠알로아랜치 직원이 버스 티켓을 드립니다.해당 티켓 잘 지참하셨다가 <strong>호텔 복귀 셔틀 탑승 시 제출</strong>하셔야 셔틀 탑승 가능합니다. 복귀 셔틀 탑승 장소와 시간은 쿠알로아랜치 하차 시 직원이 안내드립니다.</p></li><li><p>셔틀 탑승 후 쿠알로아랜치 직원이 체크인 해드립니다. 간혹 쿠알로아랜치 직원의 실수로 체크인이 누락되는 경우가 있어 <span style="color: rgb(59, 130, 246);"><strong>투어 45분 전까지티켓오피스(매표소)</strong></span>에 가셔서 바우처 제시하시고 체크인 잘 되어 있는지 확인하시기 바랍니다. 정상적으로 체크인 되어 있을 경우 투어 장소로 이동하시면 됩니다.</p></li></ul>',
+  delivery_notes:
+    '<ul><li><p>투어 참여하시는 <span style="color: rgb(239, 68, 68);"><strong>모든</strong></span><strong> 분들은 쿠알로아랜치에서 고객님 메일로 직접 발송드린 </strong><span style="color: rgb(239, 68, 68);"><strong>면책 동의서를 사전 제출</strong></span>하셔야 참여 가능합니다.</p></li><li><p>동의서 <strong>한국어</strong>로 설정 변경 가능하며 미리 등록하셔도 되고, 늦어도 체크인 하시기 전까지 제출하셔야 합니다. Kualoa Ranch 이름으로 발송된 메일 확인 부탁드리며, 스팸함도 함께 확인해보시기 바랍니다. <span style="color: rgb(239, 68, 68);"><strong>(미제출 시 투어 참여, 환불 불가)</strong></span></p></li></ul>',
+  guide_notes:
+    '<ul><li><p>본 바우처를 출력 또는 캡쳐하여 가져가시기 바랍니다. 바우처 미 지참시 진행이 불가합니다.</p></li><li><p><span style="color: rgb(59, 130, 246);"><strong>준비물 : 바우처(캡처본), 대표 예약자의 여권(지참 또는 사진촬영본 가능)</strong></span></p></li><li><p><span style="color: rgb(59, 130, 246);"><strong>바우처와 여권은 예약자명과 일치하여야 하며 여권은 본인 확인을 위해 사진이 있는 전체 페이지를 제시해주셔야 합니다. 준비물 미지참 시 투어 참여 불가하며, 전액 환불 불가합니다.</strong></span></p></li><li><p><span style="color: rgb(59, 130, 246);"><strong>투어 참여에 적절한 편안한 복장 &amp; 운동화 착용과 햇빛(자외선)이 강할 수 있어 필요 시 썬글라스와 썬크림 지참 권장드립니다.</strong></span></p></li><li><p>셔틀시간 보다 10분 일찍 픽업장소에서 대기하여 주시기 바랍니다.</p></li><li><p>셔틀시간이 5분 정도 지연될 경우 픽업장소를 이탈하지 마시고, 조인하와이 현지 연락처로 연락주시기 바랍니다. 시간 지연 시 연락을 주시지 않아 픽업이 안되었을 경우 취소 및 환불이 불가합니다.</p></li><li><p><span style="color: rgb(59, 130, 246);"><strong>투어 종료 후 쿠알로아에서 약 " "PM 출발입니다. (미리 셔틀 탑승 장소에서 대기하시기 바랍니다.)</strong></span></p></li><li><p>투어 참여하시는 모든 분들은 쿠알로아랜치에서 메일로 발송드린 <span style="color: rgb(239, 68, 68);"><strong>면책 동의서를 제출</strong></span>하셔야 참여 가능합니다. (미제출 시 투어 참여, 환불 불가) Kualoa Ranch 이름으로 발송된 메일 확인 부탁드리며, 스팸함도 함께 확인해보시기 바랍니다.</p></li><li><p>시간 불이행으로 인한 행사 불참 시 별도의 연락없이 진행되며 전액 환불 불가합니다.</p></li><li><p>개인 부주의로 인해 랩터, 장비에 손상이 발생할 경우 보상 비용이 별도 청구될 수 있습니다.</p></li><li><p>본 투어는 차량의 흔들림(진동)이 심할 수 있습니다. 오프로드를 달리는 투어로 신체에 기존 또는 반복적인 불편이 있으신 분에겐 권장드리지 않으며 임산부는 참여 불가합니다.</p></li><li><p>만 5세 이상부터 탑승 가능하며, 만 17세 이하는 성인 보호자와 항상 동반해야 합니다.</p></li><li><p>투어 요건을 충족하지 못하실 경우 투어에 참여하실 수 없으며 환불이나 일정 변경 불가능 합니다.</p></li><li><p>현지 사정으로 인해 투어 일정이 예고없이 변경되거나 취소될 수 있습니다.</p></li></ul>'
+};
+
 export const TOURS = ['공항셔틀', '일주관광', '해양스포츠', '액티비티', '스냅', '기타'] as const;
 export type TourCategory = (typeof TOURS)[number] | (string & {});
 export type TourOption = GroupSelectOption & {
@@ -449,17 +519,35 @@ export const TOURS_OPTIONS: Record<TourCategory, TourOption[]> = {
     {
       value: '[공항 셔틀서비스]한인택시 단독 공항-와이키키 픽업',
       label: '[공항 셔틀서비스]한인택시 단독 공항-와이키키 픽업',
-      en_label: 'AIRPORT TRANSPORTATION AIRPORT-WAIKIKI PICKUP'
+      en_label: 'AIRPORT TRANSPORTATION AIRPORT-WAIKIKI PICKUP',
+      arrival_location:
+        '<p>비행기 내리신 후 (수화물 찾기 전) 1-808-554-7788 택시 업체 번호로 도착하셨다고 전화 또는</p><p>카카오톡 연락 부탁드립니다. (번호 연결이 안될 시 1-1808-554-7788로 검색) 기사님과의 미팅</p><p>장소 안내드립니다.</p><p>※ 문의사항이 있으시거나 도움이 필요하실 경우 하단에 기재된 조인하와이 현지 연락처로</p><p>문의주시기 바랍니다.</p>',
+      delivery_notes:
+        '<ul><li><p><strong>카카오톡 친구 추가 방법</strong></p></li><li><p>카카오톡 상단 사람 아이콘 클릭 - 연락처로 추가 - 이름과 연락처(국가번호 +1 선택) 기입 후 확인</p></li></ul><p><span class="node-image"><span class="image-component"><img src="https://hpwrnhxgnawyfmhwqqsm.supabase.co/storage/v1/object/public/location-images/reservations/20260529-JH001/location/d749cede-0817-4727-b2e1-56f88b1eeb95.png" alt="공항픽업.png" title="" width="null" height="null" style="max-width: nullpx" data-keep-ratio="true" class=""></span></span></p>',
+      guide_notes:
+        '<ul><li><p>본 바우처를 캡쳐 또는 출력하여 가져가시기 바랍니다. 바우처 미 지참시 진행이 불가합니다.</p></li><li><p>수화물은 최대 4개까지 적재 가능합니다.</p></li><li><p>오아후(호놀룰루) 공항 도착하시는대로 안내 되어있는 택시 업체 번호로 연락하시기 바랍니다.</p></li><li><p><span style="color: rgb(239, 68, 68);"><strong>항공 스케줄 변경이나 연착이 있을 경우 위 택시 연락처로 꼭 연락을 주셔야 픽업 진행이 가능하며, 연락이 없을 경우 진행이 불가할 수 있습니다.</strong></span></p></li><li><p>입국심사 또는 수화물 수령이 지연되는 경우 위 택시 연락처로 연락주시기 바랍니다.</p></li><li><p>당일 교통사정에 의해 픽업시간이 5~10분 정도 지연될 수 있으며, 정해진 픽업장소를 이탈하지 마시고, 택시 업체로 연락주시기 바랍니다.</p></li><li><p>개인행동으로 인한 행사 불참 시에는 별도의 연락없이 진행되며 전액 환불 불가합니다.</p></li><li><p>상업용 차량에는 카시트 장착의 의무가 없으며, 장착이 불가합니다.</p></li></ul><p></p>'
     },
     {
       value: '[공항 셔틀서비스]한인택시 단독 와이키키-공항 샌딩',
       label: '[공항 셔틀서비스]한인택시 단독 와이키키-공항 샌딩',
-      en_label: 'AIRPORT TRANSPORTATION WAIKIKI-AIRPORT SANDING'
+      en_label: 'AIRPORT TRANSPORTATION WAIKIKI-AIRPORT SANDING',
+      arrival_location:
+        '<p>샌딩의 시간과 장소는<strong> 샌딩 전 날 17시까지 </strong>1-808-554-7788 택시 업체 번호 전화 또는 카카오톡</p><p>연락하시어 미팅 희망하시는 시간/장소 직접 말씀하시기 바랍니다. (번호 연결이 안될 시 1-1808-554-7788로 검색)</p><p>※ 문의사항이 있으시거나 도움이 필요하실 경우 하단에 기재된 조인하와이 현지 연락처로</p><p>문의주시기 바랍니다.</p>',
+      delivery_notes:
+        '<ul><li><p><strong>카카오톡 친구 추가 방법</strong></p></li><li><p>카카오톡 상단 사람 아이콘 클릭 - 연락처로 추가 - 이름과 연락처(국가번호 +1 선택) 기입 후 확인</p></li></ul><p><span class="node-image"><span class="image-component"><img src="https://hpwrnhxgnawyfmhwqqsm.supabase.co/storage/v1/object/public/location-images/reservations/20260529-JH001/location/ab76acc0-32b8-46b7-840b-9c095a7d3aeb.png" alt="공항픽업.png" title="" width="null" height="null" style="max-width: nullpx" data-keep-ratio="true" class=""></span></span></p>',
+      guide_notes:
+        '<ul><li><p>본 바우처를 캡쳐 또는 출력하여 가져가시기 바랍니다. 바우처 미 지참시 진행이 불가합니다.</p></li><li><p>수화물은 최대 4개까지 적재 가능합니다.</p></li><li><p><span style="color: rgb(239, 68, 68);"><strong>항공 스케줄 변경이나 연착이 있을 경우 위 택시 연락처로 꼭 연락을 주셔야 픽업 진행이 가능하며, 연락이 없을 경우 진행이 불가할 수 있습니다.</strong></span></p></li><li><p>당일 교통사정에 의해 픽업시간이 5~10분 정도 지연될 수 있으며, 정해진 픽업장소를 이탈하지 마시고, 택시 업체로 연락주시기 바랍니다.</p></li><li><p><span style="color: rgb(239, 68, 68);"><strong>픽업장소와 시간은 샌딩 전 날 17시까지 정하셔서 전화 또는 카카오톡으로 요청 부탁드립니다. 도움이 필요하신 경우에는 조인하와이 현지 연락처로 연락주시기 바랍니다.</strong></span></p></li><li><p>개인행동으로 인한 행사 불참 시에는 별도의 연락없이 진행되며 전액 환불 불가합니다.</p></li><li><p>상업용 차량에는 카시트 장착의 의무가 없으며, 장착이 불가합니다.</p></li></ul><p></p>'
     },
     {
       value: '[공항 셔틀서비스]한인택시 단독 공항-와이키키 픽업샌딩 왕복',
       label: '[공항 셔틀서비스]한인택시 단독 공항-와이키키 픽업샌딩 왕복',
-      en_label: 'AIRPORT TRANSPORTATION AIRPORT-WAIKIKI'
+      en_label: 'AIRPORT TRANSPORTATION AIRPORT-WAIKIKI',
+      arrival_location:
+        '<p><span style="color: rgb(23, 23, 23);"><strong>하와이 입국 셔틀 : </strong></span>비행기 내리신 후 (수화물 찾기 전) 1-808-554-7788 택시 업체 번호로 도착하셨다고 전화 또는 카카오톡 연락 부탁드립니다. (번호 연결이 안될 시 1-1808-554-7788로 검색)</p><p>기사님과의 미팅 장소 안내드립니다.</p><p></p><p><span style="color: rgb(23, 23, 23);"><strong>하와이 출국 셔틀 : </strong></span>샌딩의 시간과 장소는 샌딩 전 날 17시까지 1-808-554-7788 택시 업체 번호</p><p>전화 또는 카카오톡 연락하시어 미팅 희망하시는 시간/장소 직접 말씀하시기 바랍니다.</p><p>(번호 연결이 안될 시 1-1808-554-7788로 검색)</p><p></p><p>※ 문의사항이 있으시거나 도움이 필요하실 경우 하단에 기재된 조인하와이 현지 연락처로 문의주시기 바랍니다.</p>',
+      delivery_notes:
+        '<ul><li><p><strong>카카오톡 친구 추가 방법</strong></p></li><li><p>카카오톡 상단 사람 아이콘 클릭 - 연락처로 추가 - 이름과 연락처(국가번호 +1 선택) 기입 후 확인<span class="node-image"><span class="image-component"><img src="https://hpwrnhxgnawyfmhwqqsm.supabase.co/storage/v1/object/public/location-images/reservations/20260529-JH001/location/c7b79365-df47-4078-94f8-499bc9ccfbc7.png" alt="공항픽업.png" title="" width="null" height="null" style="max-width: nullpx" data-keep-ratio="true" class=""></span></span></p></li></ul>',
+      guide_notes:
+        '<ul><li><p>본 바우처를 캡쳐 또는 출력하여 가져가시기 바랍니다. 바우처 미 지참시 진행이 불가합니다.</p></li><li><p>수화물은 최대 4개까지 적재 가능합니다.</p></li><li><p>오아후(호놀룰루) 공항 도착하시는대로 안내 되어있는 택시 업체 번호로 연락하시기 바랍니다.</p></li><li><p><span style="color: rgb(239, 68, 68);"><strong>항공 스케줄 변경이나 연착이 있을 경우 위 택시 연락처로 꼭 연락을 주셔야 픽업 진행이 가능하며, 연락이 없을 경우 진행이 불가할 수 있습니다.</strong></span></p></li><li><p>입국심사 또는 수화물 수령이 지연되는 경우 위 택시 연락처로 연락주시기 바랍니다.</p></li><li><p>당일 교통사정에 의해 픽업시간이 5~10분 정도 지연될 수 있으며, 정해진 픽업장소를 이탈하지 마시고, 택시 업체로 연락주시기 바랍니다.</p></li><li><p><span style="color: rgb(239, 68, 68);"><strong>하와이 출국 셔틀 : 픽업장소와 시간은 샌딩 전 날 17시까지 정하셔서 전화 또는 카카오톡으로 요청 부탁드립니다. 도움이 필요하신 경우에는 조인하와이 현지 연락처로 연락주시기 바랍니다.</strong></span></p></li><li><p>개인행동으로 인한 행사 불참 시에는 별도의 연락없이 진행되며 전액 환불 불가합니다.</p></li><li><p>상업용 차량에는 카시트 장착의 의무가 없으며, 장착이 불가합니다.</p></li></ul><p></p>'
     },
     {
       value: '[공항 셔틀서비스]10인승 단독 공항-와이키키 픽업',
@@ -496,27 +584,42 @@ export const TOURS_OPTIONS: Record<TourCategory, TourOption[]> = {
     {
       value: '[오아후섬 투어]합류',
       label: '[오아후섬 투어]합류',
-      en_label: 'OAHU ISLAND TOUR JOIN'
+      en_label: 'OAHU ISLAND TOUR JOIN',
+      arrival_location:
+        '<p><strong>섬투어 전날 가이드 분께서 카카오톡으로 픽업장소와 시간 안내드립니다.</strong></p><p><span style="color: rgb(59, 130, 246);"><strong>투어 전날 오후 5시까지</strong></span> 안내를 받지 못하셨다면, 조인하와이 현지 연락처 (1-808-772-2691)로</p><p>연락부탁드립니다.</p>',
+      delivery_notes:
+        '<ul><li><p>카카오톡 설정 - 친구 카테고리에서 <span style="color: rgb(239, 68, 68);"><strong>\'전화번호로 친구 추가 허용\'</strong></span>을 활성화 해주시기 바랍니다.</p></li></ul>',
+      guide_notes:
+        '<ul><li><p>본 바우처를 출력 또는 캡쳐하여 가져가시기 바랍니다.</p></li><li><p>중식(카후쿠 새우트럭) 포함입니다.</p></li><li><p><span style="color: rgb(59, 130, 246);"><strong>가이드팁($10/인) 현장결제 입니다.</strong></span></p></li><li><p>픽업시간 보다 10분 일찍 픽업장소에서 대기하여 주시기 바랍니다.</p></li><li><p>픽업시간이 5분 정도 지연될 경우 픽업장소를 이탈하지 마시고, 조인하와이 현지 연락처로 연락주시기 바랍니다.</p></li><li><p>픽업시간 지연 시 연락을 주시지 않아 픽업이 안되었을 경우 취소 및 환불이 불가합니다.</p></li><li><p>픽업시간 불이행으로 인한 행사 불참 시에는 별도의 연락은 드리지 않으며, 전액 환불 불가합니다.</p></li></ul>'
     },
     {
       value: '[일일관광]빅아일랜드 일일관광 와이키키픽업',
       label: '[일일관광]빅아일랜드 일일관광 와이키키픽업',
-      en_label: 'ONE DAY BIGISLAND TOUR WAIKIKI'
+      en_label: 'ONE DAY BIGISLAND TOUR WAIKIKI',
+      ...ONE_DAY_TOUR
     },
     {
       value: '[일일관광]빅아일랜드 일일관광 코나/힐로픽업',
       label: '[일일관광]빅아일랜드 일일관광 코나/힐로픽업',
-      en_label: 'ONE DAY BIGISLAND TOUR KONA/HILLO'
+      en_label: 'ONE DAY BIGISLAND TOUR KONA/HILLO',
+      arrival_location:
+        '<p><strong>평균 08:30 AM ~ 09:30 AM (투어 전 날 정확한 픽업 시간 안내드립니다.)</strong></p><p></p><p>King Kamehameha&nbsp; 호텔 - 주차장 입구쪽에 있는 벤치 입니다.</p><p><span class="node-image"><span class="image-component"><img src="https://hpwrnhxgnawyfmhwqqsm.supabase.co/storage/v1/object/public/location-images/reservations/20260529-JH001/location/f3e3af9d-e59f-47c3-b01c-fc479a942afb.png" alt="King Kamehameha 빅섬.png" title="" width="null" height="null" style="max-width: nullpx" data-keep-ratio="true" class=""></span></span></p>',
+      delivery_notes:
+        '<ul><li><p>카카오톡 설정 - 친구 카테고리에서<span style="color: rgb(239, 68, 68);"><strong> \'전화번호로 친구 추가 허용\'을 활성화 </strong></span>해주시기 바랍니다. &nbsp;</p></li><li><p>17시까지 카톡을 못 받으셨을 경우 <span style="color: rgb(59, 130, 246);"><strong>현지 연락처로 먼저 연락</strong></span> 부탁드립니다. (카톡ID : joinhawaiiusa / 연락처 : 1-808-772-2691 )</p></li></ul>',
+      guide_notes:
+        '<ul><li><p><span style="color: rgb(59, 130, 246);"><strong>픽업시간은 투어 전날 오후 5시 이전에 별도로 안내드립니다. 안내를 못받으셨다면 조인하와이 현지 연락처로 연락주시기 바랍니다.</strong></span></p></li><li><p><span style="color: rgb(59, 130, 246);"><strong>본 바우처를 준비하여 가시기 바랍니다. 미 지참시 투어 참여/환불 불가합니다.</strong></span></p></li><li><p><span style="color: rgb(59, 130, 246);"><strong>가이드팁 1인당 $10, 점심 팁 1인당 $3 별도로 준비하여 주시기 바랍니다.</strong></span></p></li><li><p>겉옷 지참 부탁드립니다.</p></li><li><p>픽업시간 보다 10분 일찍 픽업장소에서 대기하여 주시기 바랍니다.</p></li><li><p>픽업시간이 5분 정도 지연될 경우 픽업장소를 이탈하지 마시고, 조인하와이 현지 연락처로 연락주시기 바랍니다.</p></li><li><p>픽업시간 지연 시 연락을 주시지 않아 픽업이 안되었을 경우 취소 및 환불이 불가합니다.</p></li><li><p>픽업시간 불이행으로 인한 행사 불참 시에는 별도의 연락은 드리지 않습니다.</p></li><li><p>멀미약은 필요 시 개별적으로 사전 복용 하셔야 하며, 멀미로 인한 환불은 불가합니다.</p></li></ul>'
     },
     {
       value: '[일일관광]마우이 일일관광',
       label: '[일일관광]마우이 일일관광',
-      en_label: 'ONE DAY MAUI TOUR'
+      en_label: 'ONE DAY MAUI TOUR',
+      ...ONE_DAY_TOUR
     },
     {
       value: '[일일관광]카우아이 일일관광',
       label: '[일일관광]카우아이 일일관광',
-      en_label: 'ONE DAY KAUAI TOUR'
+      en_label: 'ONE DAY KAUAI TOUR',
+      ...ONE_DAY_TOUR
     }
   ],
   해양스포츠: [
@@ -535,7 +638,13 @@ export const TOURS_OPTIONS: Record<TourCategory, TourOption[]> = {
     {
       value: '(빅아일랜드) 코나 만타레이 선셋 스노클링',
       label: '(빅아일랜드) 코나 만타레이 선셋 스노클링',
-      en_label: 'KONA MANTARAY SNOKELING'
+      en_label: 'KONA MANTARAY SNOKELING',
+      arrival_location:
+        '<p><span style="font-size: 12px; color: rgb(59, 130, 246);"><strong>IRUKA </strong></span><span style="font-size: 12px;"><strong>라고 써 있는 곳에서 체크인 하시면 됩니다.</strong></span></p><p><span style="font-size: 12px;"><strong>[주소] Slip A-17, 74-380 Kealakehe Pkwy, Kailua-Kona, HI 96740</strong></span></p><p><span style="font-size: 12px;"><strong>구글맵 검색 : Iruka Hawaii Dolphin and Manta Tours</strong></span></p><p></p><p><span style="font-size: 12px;">하와이 익스피리언스 가는 길 참고 영상 : </span><a target="_blank" rel="noopener noreferrer nofollow" class="text-blue-600 underline" href="https://youtu.be/h8RU5Hlmu4E"><span style="font-size: 12px;">https://youtu.be/h8RU5Hlmu4E</span></a></p><p><span style="font-size: 12px;">1. 지도에서 HONOKOHAU HARBOR를 검색하십시오.</span></p><p><span style="font-size: 12px;">2. Hwy 19 Queen Kaahumanu Hwy -"HONOKOHAU MARINA"라는 표지판이 보입니다.</span></p><p><span style="font-size: 12px;">3. Keakakehe Pkwy를 내려와 첫 번째길에서 우회전 - 약 0.4마일</span></p><p><span style="font-size: 12px;">4. 두 개의 노란색 기둥( 사진 참조)을 지나갈 때까지 항구까지 길을 따라 운전하십시오. 체크인 지점이 있습니다!</span></p><p><span style="font-size: 12px;">※ 현 시점 무료로 주차 가능하나 이는 예고없이 변경될 수 있습니다.</span></p><p><span class="node-image"><span class="image-component"><img src="https://hpwrnhxgnawyfmhwqqsm.supabase.co/storage/v1/object/public/location-images/reservations/20260529-JH001/location/cc1d0541-db75-44c8-8c18-9ea0c65ae295.png" alt="만타1.png" title="" width="468.35418701171875" height="219.33942536883333" style="max-width: 468.35418701171875px" data-keep-ratio="true" class=""></span></span><span class="node-image"><span class="image-component"><img src="https://hpwrnhxgnawyfmhwqqsm.supabase.co/storage/v1/object/public/location-images/reservations/20260529-JH001/location/baf89647-e037-4404-9e95-37a3da958333.png" alt="만타2.png" title="" width="468.3680725097656" height="248.87381107047278" style="max-width: 468.3680725097656px" data-keep-ratio="true" class=""></span></span></p>',
+      delivery_notes:
+        '<ul><li><p><span style="font-size: 12px;">투어 참여하시는 <strong>모든 분들은 스노클링 업체에서 제공하는 위 링크 </strong></span><span style="font-size: 12px; color: rgb(239, 68, 68);"><strong>면책 동의서를 제출</strong></span><span style="font-size: 12px;">하셔야 참여 가능합니다.</span></p></li><li><p><span style="font-size: 12px;">동의서는 미리 등록하셔도 되고, 늦어도 체크인 하시기 전까지 제출하셔야 합니다. (미제출 시 투어 참여, 환불 불가)</span></p></li></ul>',
+      guide_notes:
+        '<ul><li><p><span style="font-size: 12px; color: rgb(59, 130, 246);"><strong>본 바우처를 출력 또는 캡쳐하여 가져가시기 바랍니다. 바우처 미 지참시 진행이 불가합니다.</strong></span></p></li><li><p><span style="font-size: 12px;">체크인 시간보다 최소 10분 일찍 도착하시는 것을 권장드립니다.</span></p></li><li><p><span style="font-size: 12px;">알코올 음료는 실물 여권 지참하셔야 드실 수 있습니다.</span></p></li><li><p><span style="font-size: 12px; color: rgb(59, 130, 246);"><strong>수영복(옷 안에 미리 착용), 비치타올 (큰 사이즈 권장), 모자, 선글라스, 선크림, 여벌 옷(긴팔 등) 등 개인 물품을 준비하여 가시기 바랍니다.</strong></span></p></li><li><p><span style="font-size: 12px;">웻수트(잠수복)은 $10/인 결제 후 대여 가능합니다.</span></p></li><li><p><span style="font-size: 12px;">웻수트 대여 시 개인 수영복 착용하신 후 그 위에 웻수트 착용하셔야 합니다.</span></p></li><li><p><span style="font-size: 12px;">멀미약은 필요 시 개별적으로 사전 복용 하셔야 하며, 멀미로 인한 환불은 불가합니다.</span></p></li><li><p><span style="font-size: 12px;">투어 포함 사항 : 스노클링 세트, 안전조끼 대여, 간단한 스낵 (물, 핫초코, 에너지바)</span></p></li><li><p><span style="font-size: 12px;">체크인 시간 불이행으로 인한 행사 불참 시 별도의 연락없이 진행되며 전액 환불 불가합니다.</span></p></li><li><p><span style="font-size: 12px;">투어 참여하시는 모든 분들은 기재된 링크의 면책 동의서 작성하셔야 참여 가능합니다. (미제출 시 투어 참여, 환불 불가)</span></p></li><li><p><span style="font-size: 12px;">자연에 서식하는 해양동물을 만나지 못하는 경우 환불 및 보상은 불가합니다.</span></p></li><li><p><span style="font-size: 12px;">스노클링 업체에서 자체적으로 사진/영상을 촬영하여 무료로 제공해 드립니다. (투어 당일 이후 제공 불가) (투어 종료 후 직원 안내받으시고 촬영본 수령하실 개인 메일을 전달하셔야 합니다.) 다만 투어 당일 촬영이 어려울 경우 별도 고지 없이 촬영본은 제공해 드리지 않으며 이로 인한 취소/환불은 어렵습니다.</span></p></li><li><p><span style="font-size: 12px; color: rgb(59, 130, 246);"><strong>투어에 만족하셨다면 현장 스탭에게 매너팁($10/인) 주시는걸 권장드립니다.</strong></span></p></li></ul>'
     },
     {
       value: '[카네오헤 샌드바 어드밴처]스탠다드',
@@ -711,42 +820,50 @@ export const TOURS_OPTIONS: Record<TourCategory, TourOption[]> = {
     {
       value: '[쿠알로아랜치]UTV 랩터 어드벤처 2시간 픽업불포함',
       label: '[쿠알로아랜치]UTV 랩터 어드벤처 2시간 픽업불포함',
-      en_label: 'KUALOA RANCH UTV RAPTOR ADVENTURE 2H NO PICKUP'
+      en_label: 'KUALOA RANCH UTV RAPTOR ADVENTURE 2H NO PICKUP',
+      ...KUALOA_RANCH_UTV_RAPTOR_ADVENTURE_NO_PICKUP
     },
     {
       value: '[쿠알로아랜치]UTV 랩터 어드벤처 2시간 픽업포함',
       label: '[쿠알로아랜치]UTV 랩터 어드벤처 2시간 픽업포함',
-      en_label: 'KUALOA RANCH UTV RAPTOR ADVENTURE 2H PICKUP'
+      en_label: 'KUALOA RANCH UTV RAPTOR ADVENTURE 2H PICKUP',
+      ...KUALOA_RANCH_UTV_RAPTOR_ADVENTURE_PICKUP
     },
     {
       value: '[쿠알로아랜치]UTV 어드벤처 2시간 가이드운전 픽업불포함',
       label: '[쿠알로아랜치]UTV 어드벤처 2시간 가이드운전 픽업불포함',
-      en_label: 'KUALOA RANCH UTV RIDE ALONG ADVENTURE 2H NO PICKUP'
+      en_label: 'KUALOA RANCH UTV RIDE ALONG ADVENTURE 2H NO PICKUP',
+      ...KUALOA_RANCH_UTV_RIDE_ALONG_ADVENTURE_NO_PICKUP
     },
     {
       value: '[쿠알로아랜치]UTV 어드벤처 2시간 가이드운전 픽업포함',
       label: '[쿠알로아랜치]UTV 어드벤처 2시간 가이드운전 픽업포함',
-      en_label: 'KUALOA RANCH UTV RIDE ALONG ADVENTURE 2H PICKUP'
+      en_label: 'KUALOA RANCH UTV RIDE ALONG ADVENTURE 2H PICKUP',
+      ...KUALOA_RANCH_UTV_RIDE_ALONG_ADVENTURE_PICKUP
     },
     {
       value: '[쿠알로아랜치]UTV 랩터 어드벤처 3시간 픽업불포함',
       label: '[쿠알로아랜치]UTV 랩터 어드벤처 3시간 픽업불포함',
-      en_label: 'KUALOA RANCH UTV RAPTOR ADVENTURE 3H NO PICKUP'
+      en_label: 'KUALOA RANCH UTV RAPTOR ADVENTURE 3H NO PICKUP',
+      ...KUALOA_RANCH_UTV_RAPTOR_ADVENTURE_NO_PICKUP
     },
     {
       value: '[쿠알로아랜치]UTV 랩터 어드벤처 3시간 픽업포함',
       label: '[쿠알로아랜치]UTV 랩터 어드벤처 3시간 픽업포함',
-      en_label: 'KUALOA RANCH UTV RAPTOR ADVENTURE 3H PICKUP'
+      en_label: 'KUALOA RANCH UTV RAPTOR ADVENTURE 3H PICKUP',
+      ...KUALOA_RANCH_UTV_RAPTOR_ADVENTURE_PICKUP
     },
     {
       value: '[쿠알로아랜치]UTV 어드벤처 3시간 가이드운전 픽업불포함',
       label: '[쿠알로아랜치]UTV 어드벤처 3시간 가이드운전 픽업불포함',
-      en_label: 'KUALOA RANCH UTV ADVENTURE 3H NO PICKUP'
+      en_label: 'KUALOA RANCH UTV ADVENTURE 3H NO PICKUP',
+      ...KUALOA_RANCH_UTV_RIDE_ALONG_ADVENTURE_NO_PICKUP
     },
     {
       value: '[쿠알로아랜치]UTV 어드벤처 3시간 가이드운전 픽업포함',
       label: '[쿠알로아랜치]UTV 어드벤처 3시간 가이드운전 픽업포함',
-      en_label: 'KUALOA RANCH UTV ADVENTURE 3H PICKUP'
+      en_label: 'KUALOA RANCH UTV ADVENTURE 3H PICKUP',
+      ...KUALOA_RANCH_UTV_RIDE_ALONG_ADVENTURE_PICKUP
     },
     {
       value: '[쿠알로아랜치]무비사이트 픽업불포함',
@@ -870,12 +987,14 @@ export const TOURS_OPTIONS: Record<TourCategory, TourOption[]> = {
     {
       value: '[다이아몬드 헤드 하이킹]1~2명',
       label: '[다이아몬드 헤드 하이킹]1~2명',
-      en_label: 'DIAMOND HEAD HIKING 1~2PAX'
+      en_label: 'DIAMOND HEAD HIKING 1~2PAX',
+      ...DIAMOND_HEAD_HIKING
     },
     {
       value: '[다이아몬드 헤드 하이킹]3~4명',
       label: '[다이아몬드 헤드 하이킹]3~4명',
-      en_label: 'DIAMOND HEAD HIKING 3~4PAX'
+      en_label: 'DIAMOND HEAD HIKING 3~4PAX',
+      ...DIAMOND_HEAD_HIKING
     },
     {
       value: '(빅아일랜드) 마우나케아 서밋 & 스타스',
@@ -885,42 +1004,50 @@ export const TOURS_OPTIONS: Record<TourCategory, TourOption[]> = {
     {
       value: '[스타 오브 호놀룰루]3스타 픽업불포함',
       label: '[스타 오브 호놀룰루]3스타 픽업불포함',
-      en_label: 'STAR OF HONOLULU 3STAR NO PICKUP'
+      en_label: 'STAR OF HONOLULU 3STAR NO PICKUP',
+      ...STAR_OF_HONOLULU_3STAR_NO_PICKUP
     },
     {
       value: '[스타 오브 호놀룰루]3스타 픽업포함',
       label: '[스타 오브 호놀룰루]3스타 픽업포함',
-      en_label: 'STAR OF HONOLULU 3STAR PICKUP'
+      en_label: 'STAR OF HONOLULU 3STAR PICKUP',
+      ...STAR_OF_HONOLULU_3STAR_PICKUP
     },
     {
       value: '[스타 오브 호놀룰루]3스타 금요일 불꽃놀이 픽업불포함',
       label: '[스타 오브 호놀룰루]3스타 금요일 불꽃놀이 픽업불포함',
-      en_label: 'STAR OF HONOLULU 3STAR FRIDAY NO PICKUP'
+      en_label: 'STAR OF HONOLULU 3STAR FRIDAY NO PICKUP',
+      ...STAR_OF_HONOLULU_3STAR_NO_PICKUP
     },
     {
       value: '[스타 오브 호놀룰루]3스타 금요일 불꽃놀이 픽업포함',
       label: '[스타 오브 호놀룰루]3스타 금요일 불꽃놀이 픽업포함',
-      en_label: 'STAR OF HONOLULU 3STAR FRIDAY PICKUP'
+      en_label: 'STAR OF HONOLULU 3STAR FRIDAY PICKUP',
+      ...STAR_OF_HONOLULU_3STAR_PICKUP
     },
     {
       value: '[스타 오브 호놀룰루]3스타 셀레브레이션 픽업불포함',
       label: '[스타 오브 호놀룰루]3스타 셀레브레이션 픽업불포함',
-      en_label: 'STAR OF HONOLULU 3STAR CELEBRATION NO PICKUP'
+      en_label: 'STAR OF HONOLULU 3STAR CELEBRATION NO PICKUP',
+      ...STAR_OF_HONOLULU_3STAR_NO_PICKUP
     },
     {
       value: '[스타 오브 호놀룰루]3스타 셀레브레이션 픽업포함',
       label: '[스타 오브 호놀룰루]3스타 셀레브레이션 픽업포함',
-      en_label: 'STAR OF HONOLULU 3STAR CELEBRATION PICKUP'
+      en_label: 'STAR OF HONOLULU 3STAR CELEBRATION PICKUP',
+      ...STAR_OF_HONOLULU_3STAR_PICKUP
     },
     {
       value: '[스타 오브 호놀룰루]3스타 금요일 불꽃놀이 셀레브레이션 픽업불포함',
       label: '[스타 오브 호놀룰루]3스타 금요일 불꽃놀이 셀레브레이션 픽업불포함',
-      en_label: 'STAR OF HONOLULU 3STAR FRIDAY CELEBRATION NO PICKUP'
+      en_label: 'STAR OF HONOLULU 3STAR FRIDAY CELEBRATION NO PICKUP',
+      ...STAR_OF_HONOLULU_3STAR_NO_PICKUP
     },
     {
       value: '[스타 오브 호놀룰루]3스타 금요일 불꽃놀이 셀레브레이션 픽업포함',
       label: '[스타 오브 호놀룰루]3스타 금요일 불꽃놀이 셀레브레이션 픽업포함',
-      en_label: 'STAR OF HONOLULU 3STAR FRIDAY CELEBRATION PICKUP'
+      en_label: 'STAR OF HONOLULU 3STAR FRIDAY CELEBRATION PICKUP',
+      ...STAR_OF_HONOLULU_3STAR_PICKUP
     }
   ]
 };
