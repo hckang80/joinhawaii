@@ -5,6 +5,7 @@ import { HOTEL_GUIDE_NOTES, HOTELS } from '@/constants';
 import { updateReservation } from '@/http';
 import { reservationQueryOptions } from '@/lib/queries';
 import type { ReservationFormData, ReservationResponse } from '@/types';
+import { toParagraphHtml } from '@/utils';
 import {
   Box,
   Button,
@@ -57,20 +58,6 @@ function renderProductNameContent(selectedProduct: SelectedHotelProduct) {
       <Text as='p'>{englishLabel}</Text>
     </>
   );
-}
-
-function toParagraphHtml(text: string) {
-  const trimmed = text.trim();
-
-  // 이미 HTML 마크업 형태로 저장된 값은 그대로 사용 (다시 <p>로 감싸면 잘못된 중첩이 생김)
-  if (/^<[a-z][\s\S]*>$/i.test(trimmed)) {
-    return trimmed;
-  }
-
-  return trimmed
-    .split('\n')
-    .map(line => `<p>${line}</p>`)
-    .join('');
 }
 
 function getDefaultDeliveryNotes(deliveryNotes: string | null | undefined) {

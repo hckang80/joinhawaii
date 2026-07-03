@@ -378,3 +378,17 @@ export function formatTimeForPrint(raw: string | null | undefined) {
 
   return `${String(hour12).padStart(2, '0')}:${minutes} ${meridiem}`;
 }
+
+export function toParagraphHtml(text: string) {
+  const trimmed = text.trim();
+
+  // 이미 HTML 마크업 형태로 저장된 값은 그대로 사용 (다시 <p>로 감싸면 잘못된 중첩이 생김)
+  if (/^<[a-z][\s\S]*>$/i.test(trimmed)) {
+    return trimmed;
+  }
+
+  return trimmed
+    .split('\n')
+    .map(line => `<p>${line}</p>`)
+    .join('');
+}
