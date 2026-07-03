@@ -9,6 +9,11 @@ import type {
 
 import {
   DIAMOND_HEAD_HIKING,
+  HAWAII_SNAP,
+  HAWAII_SURFING,
+  KANEOHE_SANDBAR_ADVENTURE,
+  KUALOA_RANCH_ELECTRIC_MOUNTAIN_BIKE_TOUR_NO_PICKUP,
+  KUALOA_RANCH_ELECTRIC_MOUNTAIN_BIKE_TOUR_PICKUP,
   KUALOA_RANCH_UTV_RAPTOR_ADVENTURE_NO_PICKUP,
   KUALOA_RANCH_UTV_RAPTOR_ADVENTURE_PICKUP,
   KUALOA_RANCH_UTV_RIDE_ALONG_ADVENTURE_NO_PICKUP,
@@ -590,12 +595,14 @@ export const TOURS_OPTIONS: Record<TourCategory, TourOption[]> = {
     {
       value: '[카네오헤 샌드바 어드밴처]스탠다드',
       label: '[카네오헤 샌드바 어드밴처]스탠다드',
-      en_label: 'KANEOHE SANDBAR ADVENTURE STANDARD'
+      en_label: 'KANEOHE SANDBAR ADVENTURE STANDARD',
+      ...KANEOHE_SANDBAR_ADVENTURE
     },
     {
       value: '[카네오헤 샌드바 어드밴처]디럭스',
       label: '[카네오헤 샌드바 어드밴처]디럭스',
-      en_label: 'KANEOHE SANDBAR ADVENTURE DELUXE'
+      en_label: 'KANEOHE SANDBAR ADVENTURE DELUXE',
+      ...KANEOHE_SANDBAR_ADVENTURE
     },
     {
       value: '[하나우마베이 스노클링]디럭스 스탠다드',
@@ -629,17 +636,20 @@ export const TOURS_OPTIONS: Record<TourCategory, TourOption[]> = {
     {
       value: '[하와이 서핑]소그룹 2~3인',
       label: '[하와이 서핑]소그룹 2~3인',
-      en_label: 'HAWAII SURFING 2~3PAX'
+      en_label: 'HAWAII SURFING 2~3PAX',
+      ...HAWAII_SURFING
     },
     {
       value: '[하와이 서핑]프라이빗 1인',
       label: '[하와이 서핑]프라이빗 1인',
-      en_label: 'HAWAII SURFING PRIVATE 1PAX'
+      en_label: 'HAWAII SURFING PRIVATE 1PAX',
+      ...HAWAII_SURFING
     },
     {
       value: '[하와이 서핑]라이더',
       label: '[하와이 서핑]라이더',
-      en_label: 'HAWAII SURFING RIDER'
+      en_label: 'HAWAII SURFING RIDER',
+      ...HAWAII_SURFING
     },
     {
       value: '혹등고래 관찰 크루즈',
@@ -849,12 +859,14 @@ export const TOURS_OPTIONS: Record<TourCategory, TourOption[]> = {
     {
       value: '[쿠알로아랜치]전기 산악바이크 투어 픽업불포함',
       label: '[쿠알로아랜치]전기 산악바이크 투어 픽업불포함',
-      en_label: 'KUALOA RANCH ELECTRIC MOUNTAIN BIKE TOUR NO PICKUP'
+      en_label: 'KUALOA RANCH ELECTRIC MOUNTAIN BIKE TOUR NO PICKUP',
+      ...KUALOA_RANCH_ELECTRIC_MOUNTAIN_BIKE_TOUR_NO_PICKUP
     },
     {
       value: '[쿠알로아랜치]전기 산악바이크 투어 픽업포함',
       label: '[쿠알로아랜치]전기 산악바이크 투어 픽업포함',
-      en_label: 'KUALOA RANCH ELECTRIC MOUNTAIN BIKE TOUR PICKUP'
+      en_label: 'KUALOA RANCH ELECTRIC MOUNTAIN BIKE TOUR PICKUP',
+      ...KUALOA_RANCH_ELECTRIC_MOUNTAIN_BIKE_TOUR_PICKUP
     },
     {
       value: '[쿠알로아랜치]정글투어 픽업불포함',
@@ -901,22 +913,26 @@ export const TOURS_OPTIONS: Record<TourCategory, TourOption[]> = {
     {
       value: '[하와이 스냅]와이키키 커플스냅 30분',
       label: '[하와이 스냅]와이키키 커플스냅 30분',
-      en_label: 'HAWAII SNAP WAIKIKI COUPLE 30MIN'
+      en_label: 'HAWAII SNAP WAIKIKI COUPLE 30MIN',
+      ...HAWAII_SNAP
     },
     {
       value: '[하와이 스냅]와이키키 커플스냅 1시간',
       label: '[하와이 스냅]와이키키 커플스냅 1시간',
-      en_label: 'HAWAII SNAP WAIKIKI COUPLE 60MIN'
+      en_label: 'HAWAII SNAP WAIKIKI COUPLE 60MIN',
+      ...HAWAII_SNAP
     },
     {
       value: '[하와이 스냅]와이키키 가족스냅 30분',
       label: '[하와이 스냅]와이키키 가족스냅 30분',
-      en_label: 'HAWAII SNAP WAIKIKI FAMILY 30MIN'
+      en_label: 'HAWAII SNAP WAIKIKI FAMILY 30MIN',
+      ...HAWAII_SNAP
     },
     {
       value: '[하와이 스냅]와이키키 가족스냅 1시간',
       label: '[하와이 스냅]와이키키 가족스냅 1시간',
-      en_label: 'HAWAII SNAP WAIKIKI FAMILY 60MIN'
+      en_label: 'HAWAII SNAP WAIKIKI FAMILY 60MIN',
+      ...HAWAII_SNAP
     },
     {
       value: '[하와이 스냅]비치선셋 1시간',
