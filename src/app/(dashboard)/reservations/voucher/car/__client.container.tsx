@@ -5,7 +5,7 @@ import { CAR_DELIVERY_NOTES, CAR_GUIDE_NOTES, CAR_OFFICE_GUIDE_NOTES } from '@/c
 import { updateReservation } from '@/http';
 import { reservationQueryOptions } from '@/lib/queries';
 import type { ReservationFormData, ReservationResponse } from '@/types';
-import { extractDateString, toReadableDate } from '@/utils';
+import { extractDateString, toParagraphHtml, toReadableDate } from '@/utils';
 import {
   Box,
   Button,
@@ -53,31 +53,23 @@ type SelectedCarProduct = NonNullable<ReservationResponse['products']['rental_ca
   office_guide_notes?: string | null;
 };
 
-const CAR_GUIDE_NOTES_HTML = CAR_GUIDE_NOTES.split('\n')
-  .map(line => `<p>${line}</p>`)
-  .join('');
-
-const CAR_OFFICE_GUIDE_NOTES_HTML = CAR_OFFICE_GUIDE_NOTES.split('\n')
-  .map(line => `<p>${line}</p>`)
-  .join('');
-
 function getDefaultDeliveryNotes(deliveryNotes: string | null | undefined) {
   if (hasRenderableTiptapContent(deliveryNotes)) {
     return deliveryNotes ?? '';
   }
-  return CAR_DELIVERY_NOTES.split('\n')
-    .map(line => `<p>${line}</p>`)
-    .join('');
+  return toParagraphHtml(CAR_DELIVERY_NOTES);
 }
 
 function getDefaultGuideNotes(guideNotes: string | null | undefined) {
-  return hasRenderableTiptapContent(guideNotes) ? (guideNotes ?? '') : CAR_GUIDE_NOTES_HTML;
+  return hasRenderableTiptapContent(guideNotes)
+    ? (guideNotes ?? '')
+    : toParagraphHtml(CAR_GUIDE_NOTES);
 }
 
 function getDefaultOfficeGuideNotes(officeGuideNotes: string | null | undefined) {
   return hasRenderableTiptapContent(officeGuideNotes)
     ? (officeGuideNotes ?? '')
-    : CAR_OFFICE_GUIDE_NOTES_HTML;
+    : toParagraphHtml(CAR_OFFICE_GUIDE_NOTES);
 }
 
 export default function VoucherCarClientContainer({

@@ -1050,30 +1050,14 @@ export const defaultCarVoucherValues = Object.fromEntries(
 export const HOTEL_GUIDE_NOTES =
   '<ul><li><p>호텔 룸 BED TYPE 은 당일 호텔 사정에 의해 1BED 또는 2BED 로 배정 받으실 수도 있습니다.</p></li><li><p>하와이의 모든 호텔은 BED TYPE 과 층수의 확정 예약이 불가 합니다.</p></li><li><p>체크인 시 예약자 본인임을 확인할 수 있는 여권과 본인 신용카드를 제시하셔야 합니다.</p></li><li><p>신용카드는 룸서비스 또는 디파짓(보증금)용 으로 사용됩니다.</p></li><li><p>모든 객실은 금연입니다. 흡연이 확인되면 벌금이 부과되며, 퇴실 당할 수 있습니다.</p></li><li><p>샤워가운이나 슬리퍼, 치약, 칫솔의 지급은 호텔마다 다릅니다.</p></li><li><p>체크아웃 시 객실키를 반납하시고 객실료외 기타 청구내역의 유무를 꼭 확인하시기 바랍니다.</p></li><li><p>전화기에 불이 깜빡이면 메시지가 저장되어 있습니다. 확인하시기 바랍니다.</p></li><li><p>메이드 팁은 객실당 1일 $2 정도 침대 위에 놓아 주시면 됩니다.</p></li></ul><p></p>';
 
-export const CAR_DELIVERY_NOTES = `* 운전자분의 여권, 한국면허증, 국제면허증, 운전자의 해외용 신용카드, 렌터카바우처 (5가지 미지참 시 인수불가)
-* 위 준비물은 모두 여권상 영문성함과 스펠링이 같아야 하며, 트래블월렛/체크카드는 사용불가입니다.
-* 렌터카 픽업 시 고객 서명 후 진행된 사항은 조인하와이에서 책임지지 않습니다. 
-* 현지 변경은 불가하며, 전체 임차일 중 사용하지 않은 임차일의 비용은 환불되지 않습니다.
-* 허츠렌터카 24시 응급 콜센터  (800) 654 5060`;
+export const CAR_DELIVERY_NOTES =
+  '<ul><li><p><span style="font-size: 12px; color: rgb(239, 68, 68);">운전자분의 여권, 한국면허증, 국제면허증, 운전자의 해외용 신용카드, 렌터카바우처 (5가지 미지참 시 인수불가)</span></p></li><li><p><span style="font-size: 12px;">위 준비물은 모두 여권상 영문성함과 스펠링이 같아야 하며, 트래블월렛/체크카드는 사용불가입니다.</span></p></li><li><p><span style="font-size: 12px;">렌터카 픽업 시 고객 서명 후 진행된 사항은 조인하와이에서 책임지지 않습니다.</span></p></li><li><p><span style="font-size: 12px;">현지 변경은 불가하며, 전체 임차일 중 사용하지 않은 임차일의 비용은 환불되지 않습니다.</span></p></li></ul><p></p>';
 
-export const CAR_GUIDE_NOTES = `* Child Seat/Booster Seat등의 추가 장비는 현지결제 시 적용됩니다.(TAX + 제반비용별도) 
-* 렌터카내에서는 금연입니다. 적발 시 $100 이상의 벌금이 부과됩니다.
-* PICK UP 시간으로부터 30분이상 지나면 예약이 취소될 수 있습니다. 
-  단, 공항 픽업 시 항공기 연착으로 인한 늦은 픽업은 예약이 유지됩니다.(항공스케줄 예약 시 기입 조건)
-* 임차계약서 서명 시 내용을 꼭 확인하시고 영수증은 보관하셔야 합니다. 임차계약서 서명 후에는 변경이 불가합니다.
-* 반납 시간을 어길 경우 추가 요금이 발생됩니다.
-* 렌터카 대여는 24시간 기준입니다
-* 본 바우처의 내용은 허츠렌터카 상황에 따라 예고없이 변경될 수 있습니다.`;
+export const CAR_GUIDE_NOTES =
+  '<ul><li><p><span style="font-size: 12px;">만 25세 이상 임차할 수 있는 조건입니다. (만 25세 미만은 사전에 알려주시기 바랍니다. 추가금 발생)</span></p></li><li><p><span style="font-size: 12px;">PICK UP / DROP OFF 장소가 틀릴경우 추가금이 발생됩니다.</span></p></li><li><p><span style="font-size: 12px;">교통법규 위반은 법칙금 및 Administration Fee가 사전고지 없이 임차인의 신용카드로 청구되며 높은 교통범칙금이 적용됩니다.</span></p></li><li><p><span style="font-size: 12px;">차량 고장 발생 시 허츠렌터카 24시 응급 콜센터로 연락하십시요. 허츠렌터카 24시 응급 콜센터 (800) 654 5060</span></p></li><li><p><span style="font-size: 12px;">사고 발생 시 차량을 가까운 공공장소까지 이동 후 반드시 경찰과 허츠렌터카 24시 응급서비스에 신고하고 현지에서 사고경위서를 작성하여 허츠렌터카에 제출하여 주십시요. (사고경위서는 Copy요망)</span></p></li><li><p><span style="font-size: 12px;">사고 발생 시 경찰에 신고하지 않은 경우 보상이 적용되지 않습니다.</span></p></li><li><p><span style="font-size: 12px;">임차인 상해보험 및 휴대품분실보험에 가입했을 경우 반드시 사고 발생 후 20일 이내에 PAI&amp;PEC Claim Form을 허츠렌터카에 제출하여야 합니다.</span></p></li><li><p><span style="font-size: 12px;">렌터카 수령 후 렌터카가 정상 작동하는지 꼭 확인 후 출차하시기 바랍니다.</span></p></li></ul>';
 
-export const CAR_OFFICE_GUIDE_NOTES = `※ 영업소의 영업시간은 현지사정에 의해 예고없이 변경될 수 있습니다.
-Honolulu Airport : AM05:30~AM24:00
-Kahala Hotel and Resort : AM07:00~PM15:00 (호텔투숙객만 픽업/반납가능)
-Hyatt Regency Waikiki (2F) : AM08:00~PM15:30 (영업시간 이후 반납 불가)
-Imperial Hotel : AM07:00~PM15:00 (영업시간이후 무인반납은 호텔투숙객만 가능)
-Kahului Airport Maui : AM05:30~PM23:00
-Kona Keahole Airport : AM05:00~PM22:30
-Hilo Airport : AM06:00~PM22:00
-Lihue Airport : AM05:00~PM23:00`;
+export const CAR_OFFICE_GUIDE_NOTES =
+  '<ul><li><p><span style="font-size: 12px; color: rgb(239, 68, 68);"><strong>영업소의 영업시간은 현지사정에 의해 예고없이 변경될 수 있습니다.</strong></span></p></li><li><p><span style="font-size: 12px;">Honolulu Airport : AM05:30~AM24:00</span></p></li><li><p><span style="font-size: 12px;">Hyatt Regency Waikiki (2F) : AM08:00~PM15:30 (영업시간 이후 반납 불가)</span></p></li><li><p><span style="font-size: 12px;">Imperial Hotel : AM07:00~PM15:00 (영업시간이후 무인반납은 호텔투숙객만 가능)</span></p></li><li><p><span style="font-size: 12px;">Kahului Airport Maui : AM05:30~PM23:00</span></p></li><li><p><span style="font-size: 12px;">Kona Keahole Airport : AM05:00~PM22:30</span></p></li><li><p><span style="font-size: 12px;">Hilo Airport : AM06:00~PM22:00</span></p></li><li><p><span style="font-size: 12px;">Lihue Airport : AM05:00~PM23:00</span></p></li></ul>';
 
 export const defaultPeopleValues = {
   adult_count: 0,
