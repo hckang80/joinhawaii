@@ -59,16 +59,28 @@ function renderProductNameContent(selectedProduct: SelectedHotelProduct) {
   );
 }
 
-const HOTEL_GUIDE_NOTES_HTML = HOTEL_GUIDE_NOTES.split('\n')
-  .map(line => `<p>${line}</p>`)
-  .join('');
+function toParagraphHtml(text: string) {
+  const trimmed = text.trim();
+
+  // 이미 HTML 마크업 형태로 저장된 값은 그대로 사용 (다시 <p>로 감싸면 잘못된 중첩이 생김)
+  if (/^<[a-z][\s\S]*>$/i.test(trimmed)) {
+    return trimmed;
+  }
+
+  return trimmed
+    .split('\n')
+    .map(line => `<p>${line}</p>`)
+    .join('');
+}
 
 function getDefaultDeliveryNotes(deliveryNotes: string | null | undefined) {
   return hasRenderableTiptapContent(deliveryNotes) ? (deliveryNotes ?? '') : '';
 }
 
 function getDefaultGuideNotes(guideNotes: string | null | undefined) {
-  return hasRenderableTiptapContent(guideNotes) ? (guideNotes ?? '') : HOTEL_GUIDE_NOTES_HTML;
+  return hasRenderableTiptapContent(guideNotes)
+    ? (guideNotes ?? '')
+    : toParagraphHtml(HOTEL_GUIDE_NOTES);
 }
 
 export default function VoucherHotelClientContainer({
