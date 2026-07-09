@@ -65,6 +65,9 @@ export const JOB_FUNCTION: Record<string, { title: string; tel?: string }> = {
     title: '대표',
     tel: CONTACT_NUMBER
   },
+  'joinhawaiiusa@gmail.com': {
+    title: '실장'
+  },
   'tjsdk525@gmail.com': {
     title: '팀장',
     tel: '02-393-1044'
