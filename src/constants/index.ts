@@ -469,6 +469,7 @@ export const TOURS_OPTIONS: Record<TourCategory, TourOption[]> = {
       value: '[공항 셔틀서비스]한인택시 단독 공항-와이키키 픽업',
       label: '[공항 셔틀서비스]한인택시 단독 공항-와이키키 픽업',
       en_label: 'AIRPORT TRANSPORTATION AIRPORT-WAIKIKI PICKUP',
+      confirmation_number: 'ROYAL',
       arrival_location:
         '<p>비행기 내리신 후 (수화물 찾기 전) 1-808-554-7788 택시 업체 번호로 도착하셨다고 전화 또는</p><p>카카오톡 연락 부탁드립니다. (번호 연결이 안될 시 1-1808-554-7788로 검색) 기사님과의 미팅</p><p>장소 안내드립니다.</p><p>※ 문의사항이 있으시거나 도움이 필요하실 경우 하단에 기재된 조인하와이 현지 연락처로</p><p>문의주시기 바랍니다.</p>',
       delivery_notes:
@@ -480,6 +481,7 @@ export const TOURS_OPTIONS: Record<TourCategory, TourOption[]> = {
       value: '[공항 셔틀서비스]한인택시 단독 와이키키-공항 샌딩',
       label: '[공항 셔틀서비스]한인택시 단독 와이키키-공항 샌딩',
       en_label: 'AIRPORT TRANSPORTATION WAIKIKI-AIRPORT SANDING',
+      confirmation_number: 'ROYAL',
       arrival_location:
         '<p>샌딩의 시간과 장소는<strong> 샌딩 전 날 17시까지 </strong>1-808-554-7788 택시 업체 번호 전화 또는 카카오톡</p><p>연락하시어 미팅 희망하시는 시간/장소 직접 말씀하시기 바랍니다. (번호 연결이 안될 시 1-1808-554-7788로 검색)</p><p>※ 문의사항이 있으시거나 도움이 필요하실 경우 하단에 기재된 조인하와이 현지 연락처로</p><p>문의주시기 바랍니다.</p>',
       delivery_notes:
@@ -491,6 +493,7 @@ export const TOURS_OPTIONS: Record<TourCategory, TourOption[]> = {
       value: '[공항 셔틀서비스]한인택시 단독 공항-와이키키 픽업샌딩 왕복',
       label: '[공항 셔틀서비스]한인택시 단독 공항-와이키키 픽업샌딩 왕복',
       en_label: 'AIRPORT TRANSPORTATION AIRPORT-WAIKIKI',
+      confirmation_number: 'ROYAL',
       arrival_location:
         '<p><span style="color: rgb(23, 23, 23);"><strong>하와이 입국 셔틀 : </strong></span>비행기 내리신 후 (수화물 찾기 전) 1-808-554-7788 택시 업체 번호로 도착하셨다고 전화 또는 카카오톡 연락 부탁드립니다. (번호 연결이 안될 시 1-1808-554-7788로 검색)</p><p>기사님과의 미팅 장소 안내드립니다.</p><p></p><p><span style="color: rgb(23, 23, 23);"><strong>하와이 출국 셔틀 : </strong></span>샌딩의 시간과 장소는 샌딩 전 날 17시까지 1-808-554-7788 택시 업체 번호</p><p>전화 또는 카카오톡 연락하시어 미팅 희망하시는 시간/장소 직접 말씀하시기 바랍니다.</p><p>(번호 연결이 안될 시 1-1808-554-7788로 검색)</p><p></p><p>※ 문의사항이 있으시거나 도움이 필요하실 경우 하단에 기재된 조인하와이 현지 연락처로 문의주시기 바랍니다.</p>',
       delivery_notes:
@@ -948,12 +951,14 @@ export const TOURS_OPTIONS: Record<TourCategory, TourOption[]> = {
       value: '[다이아몬드 헤드 하이킹]1~2명',
       label: '[다이아몬드 헤드 하이킹]1~2명',
       en_label: 'DIAMOND HEAD HIKING 1~2PAX',
+      confirmation_number: 'ROYAL',
       ...DIAMOND_HEAD_HIKING
     },
     {
       value: '[다이아몬드 헤드 하이킹]3~4명',
       label: '[다이아몬드 헤드 하이킹]3~4명',
       en_label: 'DIAMOND HEAD HIKING 3~4PAX',
+      confirmation_number: 'ROYAL',
       ...DIAMOND_HEAD_HIKING
     },
     {
