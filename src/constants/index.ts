@@ -29,7 +29,7 @@ export const TIME_ZONE = 'UTC';
 
 export const CUSTOM_LABEL = '직접입력';
 
-export const PER_PAGE = '10';
+export const PER_PAGE = '20';
 
 export const GENDER_TYPE = ['MR', 'MS', 'MSTR', 'MISS'] as const;
 export type Gender = (typeof GENDER_TYPE)[number] | (string & {});
