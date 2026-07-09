@@ -39,7 +39,7 @@ export default function SettlementClientContainer() {
       format: (item: AllProducts) => item.reservation_id
     },
     {
-      width: '120px',
+      width: '130px',
       key: 'created_at',
       header: '날짜',
       format: (item: AllProducts) =>
