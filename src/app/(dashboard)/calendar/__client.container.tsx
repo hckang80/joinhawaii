@@ -71,6 +71,7 @@ interface CalendarEvent {
   allDay?: boolean;
   resource: {
     type: CalendarEventType;
+    productId: number;
     reservationId: string;
     productName: string;
     clientLabel: string;
@@ -114,7 +115,13 @@ function toCalendarEvents(reservations: ReservationResponse[]): CalendarEvent[] 
         title: flight.flight_number,
         start,
         end,
-        resource: { type: 'flight', reservationId, productName: flight.flight_number, clientLabel }
+        resource: {
+          type: 'flight',
+          productId: flight.id,
+          reservationId,
+          productName: flight.flight_number,
+          clientLabel
+        }
       });
     }
 
@@ -128,7 +135,13 @@ function toCalendarEvents(reservations: ReservationResponse[]): CalendarEvent[] 
         start,
         end,
         allDay: true,
-        resource: { type: 'hotel', reservationId, productName: hotel.hotel_name, clientLabel }
+        resource: {
+          type: 'hotel',
+          productId: hotel.id,
+          reservationId,
+          productName: hotel.hotel_name,
+          clientLabel
+        }
       });
     }
 
@@ -142,7 +155,13 @@ function toCalendarEvents(reservations: ReservationResponse[]): CalendarEvent[] 
         start,
         end,
         allDay: true,
-        resource: { type: 'tour', reservationId, productName: tour.name, clientLabel }
+        resource: {
+          type: 'tour',
+          productId: tour.id,
+          reservationId,
+          productName: tour.name,
+          clientLabel
+        }
       });
     }
 
@@ -156,7 +175,13 @@ function toCalendarEvents(reservations: ReservationResponse[]): CalendarEvent[] 
         start,
         end,
         allDay: true,
-        resource: { type: 'rental_car', reservationId, productName: car.model, clientLabel }
+        resource: {
+          type: 'rental_car',
+          productId: car.id,
+          reservationId,
+          productName: car.model,
+          clientLabel
+        }
       });
     }
   }
@@ -183,7 +208,8 @@ export default function CalendarClientContainer() {
   });
 
   const handleSelectEvent = (event: CalendarEvent) => {
-    router.push(`/reservations/form?reservation_id=${event.resource.reservationId}`);
+    const { reservationId, type, productId } = event.resource;
+    router.push(`/reservations/form?reservation_id=${reservationId}#${type}-${productId}`);
   };
 
   return (
