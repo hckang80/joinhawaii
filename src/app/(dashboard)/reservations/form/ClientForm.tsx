@@ -500,7 +500,11 @@ export default function ClientForm({
                               {Object.entries(ProductStatus)
                                 .filter(([key]) => ['InProgress', 'Cancelled'].includes(key))
                                 .map(([key, label]) => (
-                                  <Select.Item key={key} value={key}>
+                                  <Select.Item
+                                    key={key}
+                                    value={key}
+                                    disabled={key === 'Cancelled' && !!clients[i]?.is_main_client}
+                                  >
                                     {label}
                                   </Select.Item>
                                 ))}
