@@ -34,7 +34,9 @@ function formatDate(value: string | null | undefined) {
 
 function formatClientTitle(data: ReservationResponse): ReactNode {
   const clients = data.clients ?? [];
-  const names = clients.map(client => client.korean_name?.trim()).filter(Boolean);
+  const names = clients
+    .filter(({ status }) => status !== 'Cancelled')
+    .map(client => client.korean_name?.trim());
 
   if (!names.length) return '-';
 
