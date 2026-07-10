@@ -167,6 +167,7 @@ export default function InsuranceForm({
                 {insurances.map((insurance, i) => (
                   <Table.Body
                     key={i}
+                    id={`insurance-${insurance.id}`}
                     className={clsx(
                       isRefunded(insurance.status, data.products.insurances[i]?.status) &&
                         'is-disabled'

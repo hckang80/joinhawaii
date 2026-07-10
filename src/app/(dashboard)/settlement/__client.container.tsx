@@ -65,7 +65,7 @@ export default function SettlementClientContainer() {
         <>
           <StyledLink asChild underline='always' weight='medium'>
             <Link
-              href={`/reservations/form?reservation_id=${item.reservation_id}&from=${pathname}#${item.type}`}
+              href={`/reservations/form?reservation_id=${item.reservation_id}&from=${pathname}#${item.type}-${item.id}`}
             >
               {item.product_name}
             </Link>

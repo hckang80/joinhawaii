@@ -164,6 +164,7 @@ export default function HotelForm({ data, mutation, handleAdditionalOptions }: P
                 {hotels.map((hotel, i) => (
                   <Table.Body
                     key={i}
+                    id={`hotel-${hotel.id}`}
                     className={clsx(
                       isRefunded(hotel.status, data.products.hotels[i]?.status) && 'is-disabled'
                     )}

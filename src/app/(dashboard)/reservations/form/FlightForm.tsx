@@ -123,6 +123,7 @@ export default function FlightForm({ data, mutation }: ProductFormProps) {
               {flights.map((flight, i) => (
                 <Table.Body
                   key={i}
+                  id={`flight-${flight.id}`}
                   className={clsx(
                     isRefunded(flight.status, data.products.flights[i]?.status) && 'is-disabled'
                   )}

@@ -156,6 +156,7 @@ export default function TourForm({ data, mutation, handleAdditionalOptions }: Pr
                 {tours.map((tour, i) => (
                   <Table.Body
                     key={i}
+                    id={`tour-${tour.id}`}
                     className={clsx(
                       isRefunded(tour.status, data.products.tours[i]?.status) && 'is-disabled'
                     )}

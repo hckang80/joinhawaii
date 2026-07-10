@@ -174,6 +174,7 @@ export default function RentalCarForm({
                 {rentalCars.map((car, i) => (
                   <Table.Body
                     key={i}
+                    id={`rental_car-${car.id}`}
                     className={clsx(
                       isRefunded(car.status, data.products.rental_cars[i]?.status) && 'is-disabled'
                     )}
