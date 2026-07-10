@@ -2,6 +2,9 @@
   scroll-margin-left: 130px;
   scroll-margin-inline-start: 130px;
 }
+.sticky-card:global(.rt-BaseCard) {
+  overflow: visible;
+}
 
 .form-field-group {
   padding: 5px;

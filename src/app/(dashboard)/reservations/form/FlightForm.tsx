@@ -36,6 +36,7 @@ import {
   useWatch
 } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import styles from './page.module.css';
 
 export default function FlightForm({ data, mutation }: ProductFormProps) {
   const searchParams = useSearchParams();
@@ -100,11 +101,13 @@ export default function FlightForm({ data, mutation }: ProductFormProps) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Card asChild size='3'>
+      <Card asChild size='3' className={styles['sticky-card']}>
         <Section id='flight'>
-          <Heading as='h3' mb='4'>
-            항공정보
-          </Heading>
+          <Box asChild position='sticky' top='0'>
+            <Heading as='h3' mb='4'>
+              항공정보
+            </Heading>
+          </Box>
 
           {!!flights.length && (
             <Table.Root size='1' layout='fixed'>

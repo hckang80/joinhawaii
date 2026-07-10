@@ -36,6 +36,7 @@ import {
   useWatch
 } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import styles from './page.module.css';
 import RefundAlertDialog from './RefundAlertDialog';
 
 function calcDays(start?: string | null, end?: string | null) {
@@ -139,11 +140,13 @@ export default function InsuranceForm({
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Card asChild size='3'>
+        <Card asChild size='3' className={styles['sticky-card']}>
           <Section id='insurance'>
-            <Heading as='h3' mb='4'>
-              보험사
-            </Heading>
+            <Box asChild position='sticky' top='0'>
+              <Heading as='h3' mb='4'>
+                보험사
+              </Heading>
+            </Box>
 
             {!!insurances.length && (
               <Table.Root size='1' layout='fixed'>
