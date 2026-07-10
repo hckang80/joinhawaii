@@ -2,6 +2,7 @@
 
 import { Link as StyledLink } from '@radix-ui/themes';
 import { CalendarRange, NotebookPen, Sigma } from 'lucide-react';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { createElement } from 'react';
 import styles from './navigation.module.css';
@@ -33,13 +34,15 @@ export default function Navigation() {
         {navigation.map(({ icon, label, href }) => (
           <li className={styles.li} key={href}>
             <StyledLink
+              asChild
               className={styles.link}
-              href={href}
               color='gray'
               highContrast
               weight={isActive(href) ? 'bold' : 'regular'}
             >
-              {createElement(icon)} {label}
+              <Link href={href}>
+                {createElement(icon)} {label}
+              </Link>
             </StyledLink>
           </li>
         ))}

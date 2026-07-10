@@ -67,12 +67,12 @@ export default function ReservationsClientContainer() {
       header: '상품명',
       format: (item: AllProducts) => (
         <>
-          <StyledLink
-            href={`/reservations/form?reservation_id=${item.reservation_id}&from=${pathname}#${item.type}`}
-            underline='always'
-            weight='medium'
-          >
-            {item.product_name}
+          <StyledLink asChild underline='always' weight='medium'>
+            <Link
+              href={`/reservations/form?reservation_id=${item.reservation_id}&from=${pathname}#${item.type}`}
+            >
+              {item.product_name}
+            </Link>
           </StyledLink>
           <Box mt='1'>
             <ProductOptionBadge items={item.additional_options} />
