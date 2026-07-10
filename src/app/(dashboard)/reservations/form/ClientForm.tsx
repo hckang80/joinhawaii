@@ -474,7 +474,7 @@ export default function ClientForm({
                         {...register(`clients.${i}.email`, {
                           setValueAs: value => (typeof value === 'string' ? value.trim() : value)
                         })}
-                        placeholder='joinhawaii@gmail.com'
+                        placeholder='joinhawaii@joinhawaii.com'
                       />
                     </Table.Cell>
                     <Table.Cell>
