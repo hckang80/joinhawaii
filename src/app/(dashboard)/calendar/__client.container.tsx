@@ -90,10 +90,10 @@ function parseLocalDate(dateStr: string): Date {
 }
 
 function buildClientLabel(res: ReservationResponse): string {
-  if (res.clients.length > 1) {
+  if (res.clients.length > 2) {
     return `${res.main_client_name} 외 ${res.clients.length - 1}명`;
   }
-  return res.main_client_name;
+  return res.clients.join(', ');
 }
 
 function toCalendarEvents(reservations: ReservationResponse[]): CalendarEvent[] {
